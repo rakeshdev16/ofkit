@@ -21,7 +21,7 @@
         @yield('section')
     
     </div>
-    <a href="#" class="right-bar-toggle layout-setting-btn d-none" id="right-bar-toggle">
+    <a href="#" class="right-bar-toggle layout-setting-btn" id="right-bar-toggle">
         <i class="icon-sm mb-2" data-feather="settings"></i> <span class="align-middle">Settings</span>
     </a>
     <div class="right-bar">
@@ -173,5 +173,8 @@
     <script src="{{ asset('assets/js/chartjs.js') }}"></script>
     <script src="{{ asset('assets/js/dashboard.init.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script>
+        sessionStorage.setItem("is_visited","layout-direction-rtl");
+    </script>
 </body>
 </html>
