@@ -1,8 +1,6 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8" />
     <title>Vertical | Symox - Admin & Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,17 +11,15 @@
     <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
 </head>
-
 <body data-layout="vertical" data-sidebar="dark">
-
     <div id="layout-wrapper">
-
+        
         @include('layout.header')
-
+        
         @include('layout.sidebar')
         
         @yield('section')
-
+    
     </div>
     <a href="#" class="right-bar-toggle layout-setting-btn d-none" id="right-bar-toggle">
         <i class="icon-sm mb-2" data-feather="settings"></i> <span class="align-middle">Settings</span>
@@ -169,7 +165,6 @@
         </div>
     </div>
     <div class="rightbar-overlay"></div>
-
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/metismenujs.min.js') }}"></script>
     <script src="{{ asset('assets/js/simplebar.min.js') }}"></script>
@@ -179,5 +174,4 @@
     <script src="{{ asset('assets/js/dashboard.init.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
 </body>
-
 </html>
