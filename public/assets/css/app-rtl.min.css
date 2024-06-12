@@ -198,7 +198,7 @@ body:not([data-sidebar-size=sm]) .app-search {
     border-color: #f5f6f8; }
 
 body[data-topbar="dark"] #page-topbar, body[data-topbar="dark"] .navbar-brand-box {
-  background-color: #003032; }
+  background-color: #273e74; }
 
 body[data-topbar="dark"] .navbar-header .dropdown.show .header-item {
   background-color: rgba(255, 255, 255, 0.05); }
@@ -221,8 +221,8 @@ body[data-topbar="dark"] .noti-icon i {
   color: #e9ecef; }
 
 body[data-topbar="dark"] .noti-icon .noti-dot {
-  -webkit-box-shadow: 0 0 0 3px #003032;
-          box-shadow: 0 0 0 3px #003032; }
+  -webkit-box-shadow: 0 0 0 3px #273e74;
+          box-shadow: 0 0 0 3px #273e74; }
 
 body[data-topbar="dark"] .logo-dark {
   display: none; }
@@ -241,7 +241,7 @@ body[data-topbar="dark"] .app-search input.form-control::-webkit-input-placehold
   color: rgba(255, 255, 255, 0.5); }
 
 body[data-sidebar="dark"] .navbar-brand-box {
-  background: #003032; }
+  background: #273e74; }
   body[data-sidebar="dark"] .navbar-brand-box .logo-dark {
     display: none; }
   body[data-sidebar="dark"] .navbar-brand-box .logo-light {
@@ -702,8 +702,8 @@ body[data-sidebar="dark"] .logo-txt {
   color: #fff !important; }
 
 body[data-sidebar="dark"] .vertical-menu {
-  background: #003032;
-  border-color: #003032; }
+  background: #273e74;
+  border-color: #273e74; }
   body[data-sidebar="dark"] .vertical-menu .vertical-menu-btn {
     color: #a8b0c5; }
 
@@ -712,9 +712,9 @@ body[data-sidebar="dark"] #sidebar-menu ul li a {
   body[data-sidebar="dark"] #sidebar-menu ul li a .nav-icon {
     color: #a8b0c5; }
   body[data-sidebar="dark"] #sidebar-menu ul li a:hover {
-    color: #d6e0fb; }
+    color: #00aea7; }
     body[data-sidebar="dark"] #sidebar-menu ul li a:hover .nav-icon {
-      color: #d6e0fb; }
+      color: #00aea7; }
 
 body[data-sidebar="dark"] #sidebar-menu ul li ul.sub-menu li a {
   color: #a8b0c5;
@@ -722,10 +722,10 @@ body[data-sidebar="dark"] #sidebar-menu ul li ul.sub-menu li a {
   body[data-sidebar="dark"] #sidebar-menu ul li ul.sub-menu li a:before {
     border-color: #a8b0c5; }
   body[data-sidebar="dark"] #sidebar-menu ul li ul.sub-menu li a:hover {
-    color: #d6e0fb; }
+    color: #00aea7; }
     body[data-sidebar="dark"] #sidebar-menu ul li ul.sub-menu li a:hover:before {
-      background-color: #d6e0fb;
-      border-color: #d6e0fb; }
+      background-color: #00aea7;
+      border-color: #00aea7; }
 
 body[data-sidebar="dark"] #sidebar-menu ul li.mm-active {
   color: #ffffff !important; }
@@ -744,15 +744,15 @@ body[data-sidebar="dark"][data-sidebar-size="sm"] {
   min-height: 1300px; }
   body[data-sidebar="dark"][data-sidebar-size="sm"] .vertical-menu #sidebar-menu > ul > li:hover > a {
     background: #003f41;
-    color: #d6e0fb; }
+    color: #00aea7; }
     body[data-sidebar="dark"][data-sidebar-size="sm"] .vertical-menu #sidebar-menu > ul > li:hover > a .nav-icon {
-      color: #d6e0fb; }
+      color: #00aea7; }
   body[data-sidebar="dark"][data-sidebar-size="sm"] .vertical-menu #sidebar-menu > ul > li:hover > ul a {
     color: #a8b0c5; }
     body[data-sidebar="dark"][data-sidebar-size="sm"] .vertical-menu #sidebar-menu > ul > li:hover > ul a:hover {
-      color: #d6e0fb; }
+      color: #00aea7; }
   body[data-sidebar="dark"][data-sidebar-size="sm"] .vertical-menu #sidebar-menu > ul ul {
-    background-color: #003032; }
+    background-color: #273e74; }
 
 body[data-sidebar="dark"] .menu-title {
   color: #a8b0c5; }
@@ -1108,9 +1108,9 @@ body[data-layout="horizontal"][data-sidebar-size=sm] .navbar-brand-box {
 body[data-topbar="dark"] .topnav .navbar-nav .nav-link {
   color: #a8b0c5; }
   body[data-topbar="dark"] .topnav .navbar-nav .nav-link:focus, body[data-topbar="dark"] .topnav .navbar-nav .nav-link:hover {
-    color: #d6e0fb; }
+    color: #00aea7; }
     body[data-topbar="dark"] .topnav .navbar-nav .nav-link:focus svg, body[data-topbar="dark"] .topnav .navbar-nav .nav-link:hover svg {
-      color: #d6e0fb; }
+      color: #00aea7; }
   @media (max-width: 991.98px) {
     body[data-topbar="dark"] .topnav .navbar-nav .nav-link {
       color: #7b8190; }
@@ -3995,7 +3995,7 @@ body[data-topbar="dark"] .auth-logo .logo-txt {
   .authentication-bg .auth-logo .auth-logo-dark {
     margin: 0px auto; }
   .authentication-bg .bg-overlay {
-    background-color: #003032; }
+    background-color: #273e74; }
   .authentication-bg .auth-cover-card .authentication-bg {
     -webkit-box-align: start;
         -ms-flex-align: start;

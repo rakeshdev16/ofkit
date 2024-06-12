@@ -7,6 +7,9 @@
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
+    <script>
+        sessionStorage.setItem("is_visited","layout-direction-rtl");
+    </script>
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
@@ -173,8 +176,6 @@
     <script src="{{ asset('assets/js/chartjs.js') }}"></script>
     <script src="{{ asset('assets/js/dashboard.init.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
-    <script>
-        sessionStorage.setItem("is_visited","layout-direction-rtl");
-    </script>
+    
 </body>
 </html>
