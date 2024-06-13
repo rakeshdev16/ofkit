@@ -2,7 +2,7 @@
 
 @section('content')
 @php
-    $lang = env('APP_URL') == 'http://localhost' ? 'en' : 'hb';
+    $lang = App\Models\Setting::where('key', 'environment')->pluck('value')->First() == 'local' ? 'en' : 'hb';
     App::setLocale($lang);
 @endphp
 <div class="card">
