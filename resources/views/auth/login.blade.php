@@ -8,7 +8,7 @@
             <p class="text-muted">Sign in to continue to Symox.</p>
         </div>
         <div class="p-2 mt-4">
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('login') }}" style="direction: rtl; text-align-last: right;">
                 @csrf
                 <div class="mb-3">
                     <label class="form-label" for="username">Email</label>
@@ -31,8 +31,8 @@
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                    <label class="form-check-label" for="remember">
+                    <input class="form-check-input" type="checkbox" name="remember" id="remember" style="float: right" {{ old('remember') ? 'checked' : '' }}>
+                    <label class="form-check-label" for="remember" style="margin-right: 20px">
                         {{ __('Remember Me') }}
                     </label>
                 </div>
