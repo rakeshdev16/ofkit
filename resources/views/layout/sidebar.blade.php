@@ -1,7 +1,8 @@
-<!-- ========== Left Sidebar Start ========== -->
 <div class="vertical-menu">
-
-    <!-- LOGO -->
+    @php
+        $route = Route::currentRouteName();
+        $user = Auth::user();
+    @endphp
     <div class="navbar-brand-box">
         <a href="{{ route('dashboard') }}" class="logo logo-dark">
             <span class="logo-sm">
@@ -12,33 +13,30 @@
                     class="logo-txt">Symox</span>
             </span>
         </a>
-
         <a href="{{ route('dashboard') }}" class="logo logo-light">
             <span class="logo-lg">
                 <img src="assets/images/4.png" alt="" height="70" width="95%">
-                {{-- <span class="logo-txt">Symox</span> --}}
             </span>
             <span class="logo-sm">
                 <img src="assets/images/logo-sm.svg" alt="" height="22">
             </span>
         </a>
     </div>
-
     <button type="button" class="btn btn-sm px-3 font-size-16 header-item vertical-menu-btn">
         <i class="fa fa-fw fa-bars"></i>
     </button>
-
     <div data-simplebar class="sidebar-menu-scroll">
         <div id="sidebar-menu">
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title" data-key="t-menu">Menu</li>
-                <li>
-                    <a href="{{ route('dashboard') }}">
-                        <i class="bx bx-tachometer icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-dashboards">Dashboard</span>
-                        {{-- <span class="badge rounded-pill bg-success">5+</span> --}}
-                    </a>
-                </li>
+                @if ($user->hasPermissionTo('dashboard'))
+                    <li>
+                        <a href="{{ route('dashboard') }}">
+                            <i class="bx bx-tachometer icon nav-icon"></i>
+                            <span class="menu-item" data-key="t-dashboards">Dashboard</span>
+                        </a>
+                    </li>
+                @endif
                 <li class="menu-title" data-key="t-applications">Applications</li>
                 <li>
                     <a href="#">
@@ -46,18 +44,22 @@
                         <span class="menu-item" data-key="t-calendar">Documentation</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('children.index') }}">
-                        <i class="fa fa-child icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-hot">Children</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('staff.index') }}">
-                        <i class="fa fa-users icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-hot">Staff</span>
-                    </a>
-                </li>
+                @if ($user->hasPermissionTo('children.index'))
+                    <li>
+                        <a href="{{ route('children.index') }}">
+                            <i class="fa fa-child icon nav-icon"></i>
+                            <span class="menu-item" data-key="t-hot">Children</span>
+                        </a>
+                    </li>
+                @endif
+                @if ($user->hasPermissionTo('staff.index'))
+                    <li>
+                        <a href="{{ route('staff.index') }}">
+                            <i class="fa fa-users icon nav-icon"></i>
+                            <span class="menu-item" data-key="t-hot">Staff</span>
+                        </a>
+                    </li>
+                @endif
                 <li>
                     <a href="#">
                         <i class="bx bx-chat icon nav-icon"></i>
@@ -90,7 +92,6 @@
                 </li>
             </ul>
         </div>
-        <!-- Sidebar -->
     </div>
 </div>
 <!-- Left Sidebar End -->

@@ -13,6 +13,8 @@
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+    @stack('customLink')
+    @livewireStyles
 </head>
 <body data-layout="vertical" data-sidebar="dark">
     <div id="layout-wrapper">
@@ -176,6 +178,7 @@
     <script src="{{ asset('assets/js/chartjs.js') }}"></script>
     <script src="{{ asset('assets/js/dashboard.init.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
-    
+    @stack('customScript')
+    @livewireScripts
 </body>
 </html>

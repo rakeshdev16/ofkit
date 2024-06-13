@@ -12,9 +12,14 @@ class RoleSeeder extends Seeder
 {
     public function run(): void
     {
-        $roles = ['admin', 'manager', 'therapist'];
-        foreach ($roles as $role) {
-            Role::firstOrCreate(['name' => $role]);
+        $roles = [
+            'admin' => ['dashboard', 'staff.index', 'children.index', 'children.create'],
+            'manager' => ['dashboard', 'staff.index', 'children.index', 'children.create'],
+            'therapist' => ['dashboard', 'staff.index', 'children.index', 'children.create']
+        ];
+        foreach ($roles as $name => $permission) {
+            $role = Role::firstOrCreate(['name' => $name]);
+            $role->givePermissionTo($permission);
         }
     }
 }

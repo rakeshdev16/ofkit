@@ -1,28 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+    $lang = env('APP_URL') == 'http://localhost' ? 'en' : 'hb';
+    App::setLocale($lang);
+@endphp
 <div class="card">
     <div class="card-body p-4"> 
         <div class="text-center mt-2">
-            <h5 class="text-primary">Welcome Back !</h5>
-            <p class="text-muted">Sign in to continue to Symox.</p>
+            <h5 class="text-primary">{{__('login.welcome')}}</h5>
+            <p class="text-muted">{{__('login.signInMsg')}}</p>
         </div>
         <div class="p-2 mt-4">
             <form method="POST" action="{{ route('login') }}" style="direction: rtl; text-align-last: right;">
                 @csrf
                 <div class="mb-3">
-                    <label class="form-label" for="username">Email</label>
-                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Enter email" required autocomplete="email" autofocus>
+                    <label class="form-label" for="username">{{__('login.email')}}</label>
+                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="{{__('login.emailPlaceholder')}}" required autocomplete="email" autofocus>
                     @error('email')
                         <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
+                            <strong>{{ __('login.validationMsg') }}</strong>
                         </span>
                     @enderror
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label" for="userpassword">Password</label>
-                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Enter password" required autocomplete="current-password">
+                    <label class="form-label" for="userpassword">{{__('login.password')}}</label>
+                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="{{__('login.passwordPlaceholder')}}" required autocomplete="current-password">
                     @error('password')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -32,13 +36,11 @@
 
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="remember" id="remember" style="float: right" {{ old('remember') ? 'checked' : '' }}>
-                    <label class="form-check-label" for="remember" style="margin-right: 20px">
-                        {{ __('Remember Me') }}
-                    </label>
+                    <label class="form-check-label" for="remember" style="margin-right: 20px">{{__('login.remember')}}</label>
                 </div>
                 
-                <div class="mt-3 text-end">
-                    <button type="submit" class="btn btn-primary w-sm waves-effect waves-light">{{ __('Log In') }}</button>
+                <div class="mt-3" style="text-align-last: center">
+                    <button type="submit" class="btn btn-primary w-sm waves-effect waves-light w-100 text-center">{{__('login.login')}}</button>
                 </div>
             </form>
         </div>
