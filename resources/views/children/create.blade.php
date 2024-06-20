@@ -1,125 +1,86 @@
 @extends('layout.master')
 @section('section')
-    <div class="main-content">
-
+    <div class="page-wrapper">
         <div class="page-content">
-            <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-6 mx-auto">
 
-                @include('components.bread-crumb', ['title' => 'Children', 'subTitle' => 'Add Children'])
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <h5 class="mb-4">Add detail</h5>
+                            <form class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="input1" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="input1" placeholder="First Name">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="input2" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="input2" placeholder="Last Name">
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="input3" class="form-label">Phone</label>
+                                    <input type="text" class="form-control" id="input3" placeholder="Phone">
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="input4" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="input4" placeholder="Email">
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="input5" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="input5" placeholder="Password">
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="input6" class="form-label">DOB</label>
+                                    <input type="date" class="form-control" id="input6" placeholder="Date of Birth">
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="input7" class="form-label">Country</label>
+                                    <select id="input7" class="form-select">
+                                        <option selected="">Choose...</option>
+                                        <option>One</option>
+                                        <option>Two</option>
+                                        <option>Three</option>
+                                    </select>
+                                </div>
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row mb-2">
-                                    <div class="col-lg-12">
-                                        <div class="mt-4 mt-xl-0">
-                                            <form wire:submit.prevent="save">
-                                                <div class="row">                                                            
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <label class="form-label" for="formrow-firstname-input">First Name</label>
-                                                            <input type="text" class="form-control" placeholder="Enter First Name" wire:model="name">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <label class="form-label" for="formrow-firstname-input">Family Name</label>
-                                                            <input type="text" class="form-control" placeholder="Enter Family Name" wire:model="family_name">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <label class="form-label" for="formrow-email-input">.I.D</label>
-                                                            <input type="text" class="form-control" placeholder="Enter .I.D" wire:model="child_id">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <label class="form-label" for="formrow-email-input">Gender</label>
-                                                            <select class="form-select" wire:model="gender">
-                                                                <option>Select</option>
-                                                                <option>Male</option>
-                                                                <option>Female</option>
-                                                            </select>                                                        
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <label class="form-label" for="formrow-password-input">Date of Birth</label>
-                                                            <input type="date" class="form-control" placeholder="Enter date of birth" wire:model="dob">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <label class="form-label" for="formrow-password-input">Age</label>
-                                                            <input type="text" class="form-control" placeholder="Enter age" wire:model="age">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="mb-3">
-                                                            <label class="form-label" for="formrow-password-input">Address</label>
-                                                            <input type="text" class="form-control" placeholder="Enter address" wire:model="address">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <label class="form-label" for="formrow-password-input">Kindergarten</label>
-                                                            <input type="file" class="form-control" wire:model="kindergarten">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <label class="form-label" for="formrow-email-input">Functioning</label>
-                                                            <select class="form-select">
-                                                                <option>Select</option>
-                                                                <option>High</option>
-                                                                <option>Others</option>
-                                                            </select>                                                        
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <label class="form-label" for="formrow-password-input">Diagnosis</label>
-                                                            <input type="file" class="form-control" id="formrow-password-input">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <label class="form-label" for="formrow-email-input">Status</label>
-                                                            <select class="form-select">
-                                                                <option>Select</option>
-                                                                <option>New</option>
-                                                                <option>Continuing</option>
-                                                            </select>                                                        
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <label class="form-label" for="formrow-password-input">Tabam Services star</label>
-                                                            <input type="date" class="form-control" placeholder="Enter age" id="formrow-password-input">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <label class="form-label" for="formrow-password-input">HMO</label>
-                                                            <input type="file" class="form-control" id="formrow-password-input">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="mt-4">
-                                                    <button type="submit" class="btn btn-primary w-md">Submit</button>
-                                                </div>
-                                            </form>
-                                        </div>
+                                <div class="col-md-6">
+                                    <label for="input8" class="form-label">City</label>
+                                    <input type="text" class="form-control" id="input8" placeholder="City">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="input9" class="form-label">State</label>
+                                    <select id="input9" class="form-select">
+                                        <option selected="">Choose...</option>
+                                        <option>One</option>
+                                        <option>Two</option>
+                                        <option>Three</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="input10" class="form-label">Zip</label>
+                                    <input type="text" class="form-control" id="input10" placeholder="Zip">
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="input11" class="form-label">Address</label>
+                                    <textarea class="form-control" id="input11" placeholder="Address ..." rows="3"></textarea>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="input12">
+                                        <label class="form-check-label" for="input12">Check me out</label>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="col-md-12">
+                                    <div class="d-md-flex d-grid align-items-center gap-3">
+                                        <button type="button" class="btn btn-primary px-4">Submit</button>
+                                        <button type="button" class="btn btn-light px-4">Reset</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        @include('layout.footer')
     </div>
 @endsection

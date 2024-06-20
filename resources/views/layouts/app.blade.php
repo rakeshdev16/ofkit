@@ -1,51 +1,68 @@
-
 <!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>Login | Symox - Admin & Dashboard Template</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-        <meta content="Themesbrand" name="author" />
-        <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
-        <link href="{{ asset('assets/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
-    </head>
-    <body data-layout="horizontal" data-topbar="dark">
-    <div class="authentication-bg min-vh-100">
-        <div class="bg-overlay"></div>
-        <div class="container">
-            <div class="d-flex flex-column min-vh-100 px-3 pt-4">
-                <div class="row justify-content-center my-auto">
-                    <div class="col-md-8 col-lg-6 col-xl-5">
-                       <div class="text-center mb-4">
-                            <a href="index.html">
-                                <img src="{{ asset('assets/images/4.png') }}" alt="" height="60" width="40%">
-                                {{-- <span class="logo-txt">Symox</span> --}}
-                            </a>
-                       </div>
-                       @yield('content')
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-center text-muted p-4">
-                            <p class="text-white-50">© <script>document.write(new Date().getFullYear())</script> Symox. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand</p>
-                        </div>
-                    </div>
-                </div>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--favicon-->
+    <link rel="icon" href="assets/images/favicon-32x32.png" type="image/png" />
+    <!--plugins-->
+    <link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+    <link href="assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
+    <link href="assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+    <!-- loader-->
+    <link href="assets/css/pace.min.css" rel="stylesheet" />
+    <script src="assets/js/pace.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/bootstrap-extended.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="assets/css/app.css" rel="stylesheet">
+    <link href="assets/css/icons.css" rel="stylesheet">
+    <title>Login Sleiman Ji - Therapist</title>
+    <style>
+        .form-switch .form-check-input{
+            margin-left: 0px !important;
+        }
+
+        .form-check .form-check-input {
+            margin-left: 0px !important;
+        }
+    </style>
+</head>
+
+<body class="">
+    <div class="wrapper">
+        <div class="section-authentication-signin d-flex align-items-center justify-content-center my-5 my-lg-0">
+            <div class="container">
+                @yield('content')
             </div>
         </div>
     </div>
-        <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-        <script src="{{ asset('assets/js/metismenujs.min.js') }}"></script>
-        <script src="{{ asset('assets/js/simplebar.min.js') }}"></script>
-        <script src="{{ asset('assets/js/feather.min.js') }}"></script>
-        <script>
-            sessionStorage.setItem("is_visited","layout-direction-rtl");
-        </script>
-    </body>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/plugins/simplebar/js/simplebar.min.js"></script>
+    <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
+    <script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#show_hide_password a").on('click', function(event) {
+                event.preventDefault();
+                if ($('#show_hide_password input').attr("type") == "text") {
+                    $('#show_hide_password input').attr('type', 'password');
+                    $('#show_hide_password i').addClass("bx-hide");
+                    $('#show_hide_password i').removeClass("bx-show");
+                } else if ($('#show_hide_password input').attr("type") == "password") {
+                    $('#show_hide_password input').attr('type', 'text');
+                    $('#show_hide_password i').removeClass("bx-hide");
+                    $('#show_hide_password i').addClass("bx-show");
+                }
+            });
+        });
+    </script>
+    <!--app JS-->
+    <script src="assets/js/app.js"></script>
+</body>
+
 </html>
 
 

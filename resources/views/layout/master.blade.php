@@ -1,184 +1,169 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="rtl">
+
 <head>
-    <meta charset="utf-8" />
-    <title>Vertical | Symox - Admin & Dashboard Template</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-    <meta content="Themesbrand" name="author" />
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
-    <script>
-        sessionStorage.setItem("is_visited","layout-direction-rtl");
-    </script>
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
-    @stack('customLink')
-    @livewireStyles
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--favicon-->
+    <link rel="icon" href="{{ asset('assets/images/favicon-32x32.png') }}" type="image/png" />
+    <!--plugins-->
+    <link href="{{ asset('assets/plugins/vectormap/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet" />
+    <!-- loader-->
+    <link href="{{ asset('assets/css/pace.min.css') }}" rel="stylesheet" />
+    <script src="{{ asset('assets/js/pace.min.js') }}"></script>
+    <!-- Bootstrap CSS -->
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/bootstrap-extended.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet">
+    <!-- Theme Style CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/dark-theme.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/semi-dark.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/header-colors.css') }}" />
+    <title>Sleiman Ji - Therapist</title>
+	@stack('customLink')
 </head>
-<body data-layout="vertical" data-sidebar="dark">
-    <div id="layout-wrapper">
+
+<body>
+    <!--wrapper-->
+    <div class="wrapper">
         
         @include('layout.header')
         
-        @include('layout.sidebar')
-        
         @yield('section')
-    
+
+        <!-- search modal -->
+        <div class="modal" id="SearchModal" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-md-down">
+			  <div class="modal-content">
+				<div class="modal-header gap-2">
+				  <div class="position-relative popup-search w-100">
+					<input class="form-control form-control-lg ps-5 border border-3 border-primary" type="search" placeholder="Search">
+					<span class="position-absolute top-50 search-show ms-3 translate-middle-y start-0 top-50 fs-4"><i class='bx bx-search'></i></span>
+				  </div>
+				  <button type="button" class="btn-close d-md-none" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="search-list">
+					   <p class="mb-1">Html Templates</p>
+					   <div class="list-group">
+						  <a href="javascript:;" class="list-group-item list-group-item-action active align-items-center d-flex gap-2 py-1"><i class='bx bxl-angular fs-4'></i>Best Html Templates</a>
+						  <a href="javascript:;" class="list-group-item list-group-item-action align-items-center d-flex gap-2 py-1"><i class='bx bxl-vuejs fs-4'></i>Html5 Templates</a>
+						  <a href="javascript:;" class="list-group-item list-group-item-action align-items-center d-flex gap-2 py-1"><i class='bx bxl-magento fs-4'></i>Responsive Html5 Templates</a>
+						  <a href="javascript:;" class="list-group-item list-group-item-action align-items-center d-flex gap-2 py-1"><i class='bx bxl-shopify fs-4'></i>eCommerce Html Templates</a>
+					   </div>
+					   <p class="mb-1 mt-3">Web Designe Company</p>
+					   <div class="list-group">
+						  <a href="javascript:;" class="list-group-item list-group-item-action align-items-center d-flex gap-2 py-1"><i class='bx bxl-windows fs-4'></i>Best Html Templates</a>
+						  <a href="javascript:;" class="list-group-item list-group-item-action align-items-center d-flex gap-2 py-1"><i class='bx bxl-dropbox fs-4' ></i>Html5 Templates</a>
+						  <a href="javascript:;" class="list-group-item list-group-item-action align-items-center d-flex gap-2 py-1"><i class='bx bxl-opera fs-4'></i>Responsive Html5 Templates</a>
+						  <a href="javascript:;" class="list-group-item list-group-item-action align-items-center d-flex gap-2 py-1"><i class='bx bxl-wordpress fs-4'></i>eCommerce Html Templates</a>
+					   </div>
+					   <p class="mb-1 mt-3">Software Development</p>
+					   <div class="list-group">
+						  <a href="javascript:;" class="list-group-item list-group-item-action align-items-center d-flex gap-2 py-1"><i class='bx bxl-mailchimp fs-4'></i>Best Html Templates</a>
+						  <a href="javascript:;" class="list-group-item list-group-item-action align-items-center d-flex gap-2 py-1"><i class='bx bxl-zoom fs-4'></i>Html5 Templates</a>
+						  <a href="javascript:;" class="list-group-item list-group-item-action align-items-center d-flex gap-2 py-1"><i class='bx bxl-sass fs-4'></i>Responsive Html5 Templates</a>
+						  <a href="javascript:;" class="list-group-item list-group-item-action align-items-center d-flex gap-2 py-1"><i class='bx bxl-vk fs-4'></i>eCommerce Html Templates</a>
+					   </div>
+					   <p class="mb-1 mt-3">Online Shoping Portals</p>
+					   <div class="list-group">
+						  <a href="javascript:;" class="list-group-item list-group-item-action align-items-center d-flex gap-2 py-1"><i class='bx bxl-slack fs-4'></i>Best Html Templates</a>
+						  <a href="javascript:;" class="list-group-item list-group-item-action align-items-center d-flex gap-2 py-1"><i class='bx bxl-skype fs-4'></i>Html5 Templates</a>
+						  <a href="javascript:;" class="list-group-item list-group-item-action align-items-center d-flex gap-2 py-1"><i class='bx bxl-twitter fs-4'></i>Responsive Html5 Templates</a>
+						  <a href="javascript:;" class="list-group-item list-group-item-action align-items-center d-flex gap-2 py-1"><i class='bx bxl-vimeo fs-4'></i>eCommerce Html Templates</a>
+					   </div>
+					</div>
+				</div>
+			  </div>
+			</div>
+		</div>
+        <!-- end search modal -->
+        
+        @include('layout.footer')
     </div>
-    <a href="#" class="right-bar-toggle layout-setting-btn d-none" id="right-bar-toggle">
-        <i class="icon-sm mb-2" data-feather="settings"></i> <span class="align-middle">Settings</span>
-    </a>
-    <div class="right-bar">
-        <div data-simplebar class="h-100">
-            <div class="rightbar-title d-flex align-items-center bg-primary p-3">
-
-                <h5 class="m-0 me-2 text-white">Settings</h5>
-
-                <a href="javascript:void(0);" class="right-bar-toggle-close ms-auto">
-                    <i class="mdi mdi-close noti-icon"></i>
-                </a>
-            </div>
-
-            <!-- Settings -->
-            <hr class="m-0" />
-
-            <div class="p-4">
-                <h6 class="mb-3">Choose Layout</h6>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout" id="layout-vertical"
-                        value="vertical">
-                    <label class="form-check-label" for="layout-vertical">Vertical</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout" id="layout-horizontal"
-                        value="horizontal">
-                    <label class="form-check-label" for="layout-horizontal">Horizontal</label>
-                </div>
-
-                <h6 class="mt-4 mb-3 pt-2">Theme Mode</h6>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout-mode" id="layout-mode-light"
-                        value="light">
-                    <label class="form-check-label" for="layout-mode-light">Light</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout-mode" id="layout-mode-dark"
-                        value="dark">
-                    <label class="form-check-label" for="layout-mode-dark">Dark</label>
-                </div>
-
-                <h6 class="mt-4 mb-3">Layout Width</h6>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout-width" id="layout-width-fluid"
-                        value="fluid" onchange="document.body.setAttribute('data-layout-size', 'fluid')">
-                    <label class="form-check-label" for="layout-width-fluid">Fluid</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout-width" id="layout-width-boxed"
-                        value="boxed" onchange="document.body.setAttribute('data-layout-size', 'boxed')">
-                    <label class="form-check-label" for="layout-width-boxed">Boxed</label>
-                </div>
-
-                <h6 class="mt-4 mb-3">Layout Position</h6>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout-position"
-                        id="layout-position-fixed" value="fixed"
-                        onchange="document.body.setAttribute('data-layout-scrollable', 'false')">
-                    <label class="form-check-label" for="layout-position-fixed">Fixed</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout-position"
-                        id="layout-position-scrollable" value="scrollable"
-                        onchange="document.body.setAttribute('data-layout-scrollable', 'true')">
-                    <label class="form-check-label" for="layout-position-scrollable">Scrollable</label>
-                </div>
-
-                <h6 class="mt-4 mb-3">Topbar Color</h6>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="topbar-color" id="topbar-color-light"
-                        value="light" onchange="document.body.setAttribute('data-topbar', 'light')">
-                    <label class="form-check-label" for="topbar-color-light">Light</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="topbar-color" id="topbar-color-dark"
-                        value="dark" onchange="document.body.setAttribute('data-topbar', 'dark')">
-                    <label class="form-check-label" for="topbar-color-dark">Dark</label>
-                </div>
-
-                <div id="sidebar-setting">
-                    <h6 class="mt-4 mb-3 sidebar-setting">Sidebar Size</h6>
-
-                    <div class="form-check sidebar-setting">
-                        <input class="form-check-input" type="radio" name="sidebar-size"
-                            id="sidebar-size-default" value="default"
-                            onchange="document.body.setAttribute('data-sidebar-size', 'lg')">
-                        <label class="form-check-label" for="sidebar-size-default">Default</label>
-                    </div>
-                    <div class="form-check sidebar-setting">
-                        <input class="form-check-input" type="radio" name="sidebar-size"
-                            id="sidebar-size-compact" value="compact"
-                            onchange="document.body.setAttribute('data-sidebar-size', 'md')">
-                        <label class="form-check-label" for="sidebar-size-compact">Compact</label>
-                    </div>
-                    <div class="form-check sidebar-setting">
-                        <input class="form-check-input" type="radio" name="sidebar-size"
-                            id="sidebar-size-small" value="small"
-                            onchange="document.body.setAttribute('data-sidebar-size', 'sm')">
-                        <label class="form-check-label" for="sidebar-size-small">Small (Icon View)</label>
-                    </div>
-
-                    <h6 class="mt-4 mb-3 sidebar-setting">Sidebar Color</h6>
-
-                    <div class="form-check sidebar-setting">
-                        <input class="form-check-input" type="radio" name="sidebar-color"
-                            id="sidebar-color-light" value="light"
-                            onchange="document.body.setAttribute('data-sidebar', 'light')">
-                        <label class="form-check-label" for="sidebar-color-light">Light</label>
-                    </div>
-                    <div class="form-check sidebar-setting">
-                        <input class="form-check-input" type="radio" name="sidebar-color"
-                            id="sidebar-color-dark" value="dark"
-                            onchange="document.body.setAttribute('data-sidebar', 'dark')">
-                        <label class="form-check-label" for="sidebar-color-dark">Dark</label>
-                    </div>
-                    <div class="form-check sidebar-setting">
-                        <input class="form-check-input" type="radio" name="sidebar-color"
-                            id="sidebar-color-brand" value="brand"
-                            onchange="document.body.setAttribute('data-sidebar', 'brand')">
-                        <label class="form-check-label" for="sidebar-color-brand">Brand</label>
-                    </div>
-                </div>
-
-                <h6 class="mt-4 mb-3">Direction</h6>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout-direction"
-                        id="layout-direction-ltr" value="ltr">
-                    <label class="form-check-label" for="layout-direction-ltr">LTR</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="layout-direction"
-                        id="layout-direction-rtl" value="rtl">
-                    <label class="form-check-label" for="layout-direction-rtl">RTL</label>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="rightbar-overlay"></div>
+    <!--end wrapper-->
+    <!--start switcher-->
+    <div class="switcher-wrapper">
+		<div class="switcher-btn"> <i class='bx bx-cog bx-spin'></i>
+		</div>
+		<div class="switcher-body">
+			<div class="d-flex align-items-center">
+				<h5 class="mb-0 text-uppercase">Theme Customizer</h5>
+				<button type="button" class="btn-close ms-auto close-switcher" aria-label="Close"></button>
+			</div>
+			<hr/>
+			<h6 class="mb-0">Theme Styles</h6>
+			<hr/>
+			<div class="d-flex align-items-center justify-content-between">
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="flexRadioDefault" id="lightmode" checked>
+					<label class="form-check-label" for="lightmode">Light</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="flexRadioDefault" id="darkmode">
+					<label class="form-check-label" for="darkmode">Dark</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="flexRadioDefault" id="semidark">
+					<label class="form-check-label" for="semidark">Semi Dark</label>
+				</div>
+			</div>
+			<hr/>
+			<div class="form-check">
+				<input class="form-check-input" type="radio" id="minimaltheme" name="flexRadioDefault">
+				<label class="form-check-label" for="minimaltheme">Minimal Theme</label>
+			</div>
+			<hr/>
+			<h6 class="mb-0">Header Colors</h6>
+			<hr/>
+			<div class="header-colors-indigators">
+				<div class="row row-cols-auto g-3">
+					<div class="col">
+						<div class="indigator headercolor1" id="headercolor1"></div>
+					</div>
+					<div class="col">
+						<div class="indigator headercolor2" id="headercolor2"></div>
+					</div>
+					<div class="col">
+						<div class="indigator headercolor3" id="headercolor3"></div>
+					</div>
+					<div class="col">
+						<div class="indigator headercolor4" id="headercolor4"></div>
+					</div>
+					<div class="col">
+						<div class="indigator headercolor5" id="headercolor5"></div>
+					</div>
+					<div class="col">
+						<div class="indigator headercolor6" id="headercolor6"></div>
+					</div>
+					<div class="col">
+						<div class="indigator headercolor7" id="headercolor7"></div>
+					</div>
+					<div class="col">
+						<div class="indigator headercolor8" id="headercolor8"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    <!--end switcher-->
+    <!-- Bootstrap JS -->
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/js/metismenujs.min.js') }}"></script>
-    <script src="{{ asset('assets/js/simplebar.min.js') }}"></script>
-    <script src="{{ asset('assets/js/feather.min.js') }}"></script>
-    <script src="{{ asset('assets/js/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('assets/js/chartjs.js') }}"></script>
-    <script src="{{ asset('assets/js/dashboard.init.js') }}"></script>
+    <!--plugins-->
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
+    <script src="{{ asset('assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
+    <script src="{{ asset('assets/plugins/chartjs/js/chart.js') }}"></script>
+    <script src="{{ asset('assets/js/index.js') }}"></script>
+    <!--app JS-->
     <script src="{{ asset('assets/js/app.js') }}"></script>
-    @stack('customScript')
-    @livewireScripts
+	@stack('customScript')
 </body>
 </html>

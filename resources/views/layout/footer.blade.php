@@ -1,18 +1,5 @@
-<footer class="footer">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-6">
-                <script>
-                    document.write(new Date().getFullYear())
-                </script> &copy; Symox.
-            </div>
-            <div class="col-sm-6">
-                <div class="text-sm-end d-none d-sm-block">
-                    Crafted with <i class="mdi mdi-heart text-danger"></i> by <a
-                        href="https://Themesbrand.com/" target="_blank"
-                        class="text-reset">Themesbrand</a>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="overlay toggle-icon"></div>
+<a href="#" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+<footer class="page-footer">
+    <p class="mb-0">Copyright © 2023. All right reserved.</p>
 </footer>
