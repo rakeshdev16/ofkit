@@ -8,7 +8,7 @@
         <div class="page-content">
             <div class="mb-4 d-flex justify-content-between">
                 <div>
-                    <h3 class="mb-0 text-uppercase">Staff (Admin)</h3>
+                    <h3 class="mb-0 text-uppercase">{{ __('staff.staff') }} ({{ __('staff.admin') }})</h3>
                     <select name="" class="select-filter">
                         <option value="">Kindergarten Name</option>
                         <option value="">One</option>
@@ -16,9 +16,9 @@
                     </select>
                 </div>
                 <div class="mt-5 pt-2">
-                    <a href="{{ route('staff.create') }}" class="btn button">Add New</a>
-                    <button class="btn button">Edit</button>
-                    <button class="btn button">Move to Archive</button>
+                    <a href="{{ route('staff.create') }}" class="btn button">{{ __('staff.addBtnText') }}</a>
+                    <button class="btn button">{{ __('staff.editBtnText') }}</button>
+                    <button class="btn button">{{ __('staff.moveBtnText') }}</button>
                 </div>
             </div>
             <div class="card">
@@ -27,15 +27,15 @@
                         <table id="example" class="table table-style table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Birth Date</th>
-                                    <th>Address</th>
-                                    <th>Telephone</th>
-                                    <th>Email</th>
-                                    <th>Profession</th>
-                                    <th>Licence Number</th>
-                                    <th>Role</th>
-                                    <th>Kindergarten</th>
+                                    <th>{{ __('staff.nameTh') }}</th>
+                                    <th>{{ __('staff.birthDateTh') }}</th>
+                                    <th>{{ __('staff.addressTh') }}</th>
+                                    <th>{{ __('staff.telephoneTh') }}</th>
+                                    <th>{{ __('staff.emailTh') }}</th>
+                                    <th>{{ __('staff.professionTh') }}</th>
+                                    <th>{{ __('staff.licenceNumberTh') }}</th>
+                                    <th>{{ __('staff.roleTh') }}</th>
+                                    <th>{{ __('staff.kindergartenTh') }}</th>
                                     {{-- <th class="left-top"><input type="checkbox" class="" name="" id=""></th> --}}
                                 </tr>
                             </thead>
