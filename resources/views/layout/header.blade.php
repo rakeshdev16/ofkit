@@ -171,6 +171,7 @@
                         ])
                         @include('components.menu', [
                             'name' => 'Staff',
+                            'style' => 'sub-menu',
                             'icon' => 'calendar-exclamation',
                             'options' => [
                                 ['icon' => 'table', 'name' => 'Professional Therapist', 'route' => route('staff.index')],

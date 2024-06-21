@@ -8,9 +8,9 @@
         @endisset
     </a>
     @isset($options)
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu @isset($style) {{ $style }} @endisset">
             @foreach ($options as $option)
-                <li><a class="dropdown-item" href="{{ $option['route'] }}"><i class="bx bx-{{ $option['icon'] }}"></i>{{ $option['name'] }}</a></li>
+                <li><a class="dropdown-item" href="{{ $option['route'] }}"><i class="bx bx-{{ $option['icon'] }}"></i>{{ @$option['name'] }}</a></li>
             @endforeach
         </ul>
     @endisset

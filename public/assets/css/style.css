@@ -39,3 +39,7 @@
     text-align-last: end !important;
     padding-right: 10px !important;
 }
+
+ul.dropdown-menu.sub-menu {
+    width: 250px !important;
+}
