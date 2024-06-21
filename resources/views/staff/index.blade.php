@@ -1,110 +1,84 @@
 @extends('layout.master')
+@push('customLink')
+    <link href="assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+    <link href="assets/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+@endpush
 @section('section')
-    <div class="main-content">
-
+    <div class="page-wrapper">
         <div class="page-content">
-            <div class="container-fluid">
-
-                @include('components.bread-crumb', ['title' => 'Staff', 'subTitle' => 'Members'])
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row mb-2">
-                                    <div class="col-sm-4">
-                                        <div class="search-box me-2 mb-2 d-inline-block">
-                                            <div class="position-relative">
-                                                <input type="text" class="form-control" placeholder="Search...">
-                                                <i class="bx bx-search-alt search-icon"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <div class="text-sm-end">
-                                            <button type="button" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2"><i class="mdi mdi-plus me-1"></i> Add New</button>
-                                            <button type="button" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2"><i class="mdi mdi-plus me-1"></i> Edit</button>
-                                            <button type="button" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2"><i class="mdi mdi-plus me-1"></i> Move to Archive</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="table-responsive">
-                                    <table class="table align-middle table-nowrap table-check">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th style="width: 20px;" class="align-middle">
-                                                    <div class="form-check font-size-16">
-                                                        <input class="form-check-input" type="checkbox" id="checkAll">
-                                                        <label class="form-check-label" for="checkAll"></label>
-                                                    </div>
-                                                </th>
-                                                <th class="align-middle">Kindergarten</th>
-                                                <th class="align-middle">Role</th>
-                                                <th class="align-middle">License Number</th>
-                                                <th class="align-middle">Profession</th>
-                                                <th class="align-middle">E-mail</th>
-                                                <th class="align-middle">Telephone</th>
-                                                <th class="align-middle">Address</th>
-                                                <th class="align-middle">Birth Date</th>
-                                                <th class="align-middle">Name</th>
-                                                <th class="align-middle">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check font-size-16">
-                                                        <input class="form-check-input" type="checkbox" id="orderidcheck01">
-                                                        <label class="form-check-label" for="orderidcheck01"></label>
-                                                    </div>
-                                                </td>
-                                                <td><a href="javascript: void(0);" class="text-body fw-bold">Hatsav</a></td>
-                                                <td>Professional Therapist</td>
-                                                <td>100-153</td>
-                                                <td>Physiotherapy</td>
-                                                <td><span class="badge badge-pill badge-soft-success font-size-12">jkdf@dfg</span></td>
-                                                <td>052-123-4567</td>
-                                                <td>Mi St., Haifa</td>
-                                                <td>15/06/1999</td>
-                                                <td>Aleen Mahmod</td>
-                                                <td>
-                                                    <div class="d-flex gap-3">
-                                                        <a href="javascript:void(0);" class="text-success"><i
-                                                                class="mdi mdi-pencil font-size-18"></i></a>
-                                                        <a href="javascript:void(0);" class="text-danger"><i
-                                                                class="mdi mdi-delete font-size-18"></i></a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <ul class="pagination pagination-rounded justify-content-end mb-2">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="javascript: void(0);" aria-label="Previous">
-                                            <i class="mdi mdi-chevron-left"></i>
-                                        </a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="javascript: void(0);">1</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="javascript: void(0);">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript: void(0);">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript: void(0);">4</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript: void(0);">5</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="javascript: void(0);" aria-label="Next">
-                                            <i class="mdi mdi-chevron-right"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+            <div class="mb-4 d-flex justify-content-between">
+                <div>
+                    <h3 class="mb-0 text-uppercase">Staff (Admin)</h3>
+                    <select name="" class="select-filter">
+                        <option value="">Kindergarten Name</option>
+                        <option value="">One</option>
+                        <option value="">Two</option>
+                    </select>
+                </div>
+                <div class="mt-5 pt-2">
+                    <a href="{{ route('staff.create') }}" class="btn button">Add New</a>
+                    <button class="btn button">Edit</button>
+                    <button class="btn button">Move to Archive</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example" class="table table-style table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Birth Date</th>
+                                    <th>Address</th>
+                                    <th>Telephone</th>
+                                    <th>Email</th>
+                                    <th>Profession</th>
+                                    <th>Licence Number</th>
+                                    <th>Role</th>
+                                    <th>Kindergarten</th>
+                                    {{-- <th class="left-top"><input type="checkbox" class="" name="" id=""></th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for ($i = 1; $i < 50; $i++)
+                                    <tr>
+                                        <td>Tiger Nixon {{$i}}</td>
+                                        <td>2011/04/25</td>
+                                        <td>Chandigarh</td>
+                                        <td>987456321{{$i}}</td>
+                                        <td>test@yopmail.com</td>
+                                        <td>Therapist</td>
+                                        <td>100-153</td>
+                                        <td>Professional Therapist</td>
+                                        <td>Hatsav</td>
+                                        {{-- <td><input type="checkbox" class="" name="" id=""></td> --}}
+                                    </tr>
+                                @endfor
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-        @include('layout.footer')
     </div>
 @endsection
+@push('customScript')
+    <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
+    <script src="assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+    <script src="assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+		$(document).ready(function() {
+			$('#example').DataTable();
+		  } );
+	</script>
+	<script>
+		$(document).ready(function() {
+			var table = $('#example2').DataTable( {
+				lengthChange: false,
+				buttons: [ 'copy', 'excel', 'pdf', 'print']
+			} );
+		 
+			table.buttons().container().appendTo( '#example2_wrapper .col-md-6:eq(0)' );
+		} );
+	</script>
+@endpush

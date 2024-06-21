@@ -18,6 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link href="assets/css/app.css" rel="stylesheet">
     <link href="assets/css/icons.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
     <title>Login Sleiman Ji - Therapist</title>
     <style>
         .form-switch .form-check-input{

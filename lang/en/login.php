@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'welcome' => 'Welcome back !',
+    'welcome' => 'Welcome back',
     'signInMsg' => 'Sign in to continue',
     'email' => 'Email',
     'emailPlaceholder' => 'Enter email',

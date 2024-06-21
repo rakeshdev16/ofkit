@@ -1,9 +1,9 @@
 $(function () {
 	"use strict";
 	/* perfect scrol bar */
-	new PerfectScrollbar(".scroll-menu");
-	new PerfectScrollbar(".app-container");
-	new PerfectScrollbar('.header-message-list');
+	// new PerfectScrollbar(".scroll-menu");
+	// new PerfectScrollbar(".app-container");
+	// new PerfectScrollbar('.header-message-list');
 	new PerfectScrollbar('.header-notifications-list');
 	// search bar
 	$(".mobile-search-icon").on("click", function () {
@@ -22,7 +22,7 @@ $(function () {
 	$(function() {
 		for (var e = window.location, o = $(".navbar-nav .dropdown-item").filter(function() {
 				return this.href == e
-			}).addClass("active").parent().addClass("active"); o.is("li");) o = o.parent("").addClass("").parent("").addClass("")
+			}).parent().addClass("active"); o.is("li");) o = o.parent("").addClass("").parent("").addClass("")
 	}),
 
 

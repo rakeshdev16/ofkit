@@ -1,0 +1,41 @@
+.button {
+    background-color: #FFD681;
+    border-color: #FFD681;
+    border-radius: 15px;
+}
+.button:hover {
+	background-color: #FFD681;
+	border-color: #FFD681;
+}
+
+.table-style thead tr th {
+    background-color: #095F59;
+    color: #fff;
+    padding: 15px;
+}
+
+.table-style tbody tr td {
+    padding: 15px;
+}
+
+.active>.page-link, .page-link.active {
+    background-color: #095F59 !important;
+    border-color: #095F59 !important;
+    color: #fff !important;
+}
+.page-link {
+    color: black !important;
+}
+.select-filter {
+    border-radius: 50px !important;
+    outline: none !important;
+    border: none !important;
+    margin-top: 20px;
+    padding: 12px 30px;
+    background-color: #fff;
+}
+
+.date-of-birth {
+    text-align-last: end !important;
+    padding-right: 10px !important;
+}

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'welcome' => 'ברוך שובך!',
+    'welcome' => 'ברוך שובך',
     'signInMsg' => 'היכנס כדי להמשיך',
     'email' => 'אימייל',
     'emailPlaceholder' => 'הזן אימייל',
