@@ -7,19 +7,19 @@
     <div class="header-wrapper">
     <div class="page-wrapper">
         <div class="page-content">
-            <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="page-breadcrumb d-sm-flex align-items-center mb-3">
                 <div class="breadcrumb-title pe-3">Add New</div>
-                <div class="ps-3">
+                <div class="">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
-                            <li class="breadcrumb-item"><a href="{{ route('staff.index') }}"><i class="bx bx-user"></i></a>
+                            <li class="breadcrumb-item"><a href="{{ route('staff.index') }}"><img class="p-1" src="{{ asset('assets/icons/fi_2887367.png') }}"/>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Staff</li>
                         </ol>
                     </nav>
                 </div>
                 <div class="ms-auto">
-                    <div class="btn-group">
+                    <div class="">
                         <a href="{{ route('staff.index') }}" class="btn button">Back</a>
                     </div>
                 </div>

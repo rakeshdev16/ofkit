@@ -128,8 +128,7 @@
                 <div class="offcanvas-header border-bottom">
                     <div class="d-flex align-items-center">
                         <div class="">
-                            <img src="{{ asset('assets/images/3.png') }}" width="100px" class=""
-                                alt="logo icon">
+                            <img src="{{ asset('assets/images/3.png') }}" width="100px" class="" alt="logo icon">
                         </div>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
@@ -139,58 +138,58 @@
                     <ul class="navbar-nav align-items-center flex-grow-1">
                         @include('components.menu', [
                             'name' => 'Tables',
-                            'icon' => 'grid-alt',
+                            'icon' => 'fi_2887367.png',
                             'options' => [
-                                ['icon' => 'table', 'name' => 'Basic Table', 'route' => ''],
-                                ['icon' => 'data', 'name' => 'Data Table', 'route' => '']
+                                ['icon' => 'fi_2887367.png', 'name' => 'Basic Table', 'route' => ''],
+                                ['icon' => 'fi_2887367.png', 'name' => 'Data Table', 'route' => '']
                             ],
                         ])
                         @include('components.menu', [
                             'name' => 'Kindergarten',
-                            'icon' => 'home-circle',
+                            'icon' => 'fi_4794795.png',
                             'options' => [
-                                ['icon' => 'table', 'name' => 'Basic Table', 'route' => ''],
-                                ['icon' => 'data', 'name' => 'Data Table', 'route' => '']
+                                ['icon' => 'fi_2887367.png', 'name' => 'Basic Table', 'route' => ''],
+                                ['icon' => 'fi_2887367.png', 'name' => 'Data Table', 'route' => '']
                             ],
                         ])
                         @include('components.menu', [
                             'name' => 'Clusters',
-                            'icon' => 'network-chart',
+                            'icon' => 'fi_4549612.png',
                             'options' => [
-                                ['icon' => 'table', 'name' => 'Basic Table', 'route' => ''],
-                                ['icon' => 'data', 'name' => 'Data Table', 'route' => '']
+                                ['icon' => 'fi_2887367.png', 'name' => 'Basic Table', 'route' => ''],
+                                ['icon' => 'fi_2887367.png', 'name' => 'Data Table', 'route' => '']
                             ],
                         ])
                         @include('components.menu', [
                             'name' => 'Therapy Schedule',
-                            'icon' => 'calendar-exclamation',
+                            'icon' => 'fi_16650601.png',
                             'options' => [
-                                ['icon' => 'table', 'name' => 'Basic Table', 'route' => ''],
-                                ['icon' => 'data', 'name' => 'Data Table', 'route' => '']
+                                ['icon' => 'fi_2887367.png', 'name' => 'Basic Table', 'route' => ''],
+                                ['icon' => 'fi_2887367.png', 'name' => 'Data Table', 'route' => '']
                             ],
                         ])
                         @include('components.menu', [
                             'name' => 'Staff',
-                            'style' => 'sub-menu',
-                            'icon' => 'calendar-exclamation',
+                            'width' => '250px',
+                            'icon' => 'fi_2887367.png',
                             'options' => [
-                                ['icon' => 'table', 'name' => 'Professional Therapist', 'route' => route('staff.index')],
-                                ['icon' => 'data', 'name' => 'Therapist Coordinator', 'route' => route('staff.index')],
-                                ['icon' => 'data', 'name' => 'Child Psychiatrist', 'route' => route('staff.index')]
+                                ['icon' => 'fi_1478254.png', 'name' => 'Professional Therapist', 'route' => route('staff.index')],
+                                ['icon' => 'fi_6212658.png', 'name' => 'Therapist Coordinator', 'route' => route('staff.index')],
+                                ['icon' => 'fi_9959428.png', 'name' => 'Child Psychiatrist', 'route' => route('staff.index')]
                             ],
                         ])
                         @include('components.menu', [
                             'name' => 'Children',
-                            'icon' => 'user-circle',
+                            'icon' => 'fi_9184264.png',
                             'options' => [
-                                ['icon' => 'table', 'name' => 'All Childrens', 'route' => route('children.index')],
-                                ['icon' => 'plus', 'name' => 'Add New Children', 'route' => route('children.create')],
+                                ['icon' => 'fi_2887367.png', 'name' => 'All Childrens', 'route' => route('children.index')],
+                                ['icon' => 'fi_2887367.png', 'name' => 'Add New Children', 'route' => route('children.create')],
                             ],
                         ])
                         @include('components.menu', [
                             'name' => 'Documentation',
                             'route' => route('dashboard'),
-                            'icon' => 'home-alt',
+                            'icon' => 'fi_2991112.png',
                         ])
                     </ul>
                 </div>

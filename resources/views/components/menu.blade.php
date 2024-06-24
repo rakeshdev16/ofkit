@@ -1,6 +1,6 @@
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="{{ $route ?? '#' }}" data-bs-toggle="{{ $route ?? 'dropdown' }}">
-        <div class="parent-icon"><i class="bx bx-{{ $icon }}"></i>
+        <div class="parent-icon"><img src="{{ asset('assets/icons') }}/{{ $icon }}" alt="">
         </div>
         <div class="menu-title d-flex align-items-center">{{ $name }}</div>
         @isset($options)
@@ -8,9 +8,13 @@
         @endisset
     </a>
     @isset($options)
-        <ul class="dropdown-menu @isset($style) {{ $style }} @endisset">
+        <ul class="dropdown-menu" style="width: @isset($width) {{ $width }} @endisset">
             @foreach ($options as $option)
-                <li><a class="dropdown-item" href="{{ $option['route'] }}"><i class="bx bx-{{ $option['icon'] }}"></i>{{ @$option['name'] }}</a></li>
+                <li>
+                    <a class="dropdown-item" href="{{ $option['route'] }}">
+                        <img class="p-1" src="{{ asset('assets/icons') }}/{{ $option['icon'] }}"/> {{ @$option['name'] }}
+                    </a>
+                </li>
             @endforeach
         </ul>
     @endisset

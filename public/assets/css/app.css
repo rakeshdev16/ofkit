@@ -5124,7 +5124,6 @@ input::placeholder {
 
 }
 
-
 /* Responsive */
 
 
@@ -5520,6 +5519,14 @@ input::placeholder {
 
 @media screen and (max-width: 767px) {
 
+	.lising {
+		display: block !important;
+	}
+
+	.table-responsive {
+		display: none !important;
+	}
+
 
 	.user-box .user-info {
 
@@ -5577,20 +5584,20 @@ input::placeholder {
 
 }
 
-
-@media screen and (max-width: 520px) {
-
-
-	.chat-footer-menu,
-
-
-	.chat-top-header-menu {
-
-
-		display: none;
-
-
+@media (min-width: 767px) {
+	.page-content .page-info {
+		display: flex;
+		justify-content: space-between;
 	}
 
+	.page-info .buttons {
+		margin-top: 50px !important;
+	}
+}
 
+@media screen and (max-width: 520px) {
+	.chat-footer-menu,
+	.chat-top-header-menu {
+		display: none;
+	}
 }
