@@ -60,7 +60,6 @@
 
                     <div class="lising d-none">
                         @include('components.listing')
-                        @include('components.pagination')
                     </div>
                 </div>
             </div>

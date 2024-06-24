@@ -3,6 +3,7 @@
 return [
 
     'staff' => 'צוות',
+    'back' => 'חזור',
     'admin' => 'מנהל מערכת',
     'moveBtnText' => 'העבר לארכיון',
     'editBtnText' => 'לַעֲרוֹך',
@@ -19,5 +20,6 @@ return [
     'licenceNumberTh' => 'מספר רישיון',
     'roleTh' => 'תַפְקִיד',
     'kindergartenTh' => 'גן ילדים',
+    'addStaffDetail' => 'הוסף פרטי צוות',
 
 ];

@@ -3,6 +3,7 @@
 return [
 
     'staff' => 'Staff',
+    'back' => 'Back',
     'admin' => 'Admin',
     'moveBtnText' => 'Move to Archive',
     'editBtnText' => 'Edit',
@@ -11,7 +12,7 @@ return [
     'leftLengthMenuLabel' => 'Show',
     'rightLengthMenuLabel' => 'entries',
     'nameTh' => 'Name',
-    'birthDateTh' => 'Birth Date',
+    'birthDateTh' => 'Birth of Date',
     'addressTh' => 'Address',
     'telephoneTh' => 'Telephone',
     'emailTh' => 'Email',
@@ -19,5 +20,6 @@ return [
     'licenceNumberTh' => 'Licence Number',
     'roleTh' => 'Role',
     'kindergartenTh' => 'Kindergarten',
+    'addStaffDetail' => 'Add Staff Detail',
 
 ];

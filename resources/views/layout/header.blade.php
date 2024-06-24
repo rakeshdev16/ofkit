@@ -138,7 +138,7 @@
                     <ul class="navbar-nav align-items-center flex-grow-1">
                         @include('components.menu', [
                             'name' => 'Tables',
-                            'icon' => 'fi_2887367.png',
+                            'icon' => 'fi_3602109.png',
                             'options' => [
                                 ['icon' => 'fi_2887367.png', 'name' => 'Basic Table', 'route' => ''],
                                 ['icon' => 'fi_2887367.png', 'name' => 'Data Table', 'route' => '']
