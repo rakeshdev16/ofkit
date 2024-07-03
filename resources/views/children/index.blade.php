@@ -10,8 +10,10 @@
                     <h3 class="mb-0 text-uppercase">{{ __('children.children') }} ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
                 </div>
                 <div class="">
-                    <a href="{{ route('children.create') }}" class="btn button">{{ __('children.addBtnText') }}</a>
-                    <button class="btn button moveToArchive">{{ __('children.moveBtnText') }}</button>
+                    @if (Auth::user()->hasRole('admin'))
+                        <a href="{{ route('children.create') }}" class="btn button">{{ __('children.addBtnText') }}</a>
+                        <button class="btn button moveToArchive">{{ __('children.moveBtnText') }}</button>
+                    @endif
                 </div>
             </div>
             <div class="card">

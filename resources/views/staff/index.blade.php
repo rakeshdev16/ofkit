@@ -18,8 +18,8 @@
                 <div class="mt-2 buttons">
                     @if (Auth::user()->hasRole('admin'))
                         <a href="{{ route('staff.create') }}" class="btn button">{{ __('staff.addBtnText') }}</a>
+                        <button class="btn button moveToArchive">{{ __('staff.moveBtnText') }}</button>
                     @endif
-                    <button class="btn button moveToArchive">{{ __('staff.moveBtnText') }}</button>
                 </div>
             </div>
             <div class="card">
