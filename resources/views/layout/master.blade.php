@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/dark-theme.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/semi-dark.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/header-colors.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/toastr.min.css') }}" />
     <title>Sleiman Ji - Therapist</title>
 	@stack('customLink')
 </head>
@@ -103,6 +104,7 @@
     <script src="{{ asset('assets/plugins/chartjs/js/chart.js') }}"></script>
     <script src="{{ asset('assets/js/index.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
+	<script src="{{ asset('assets/js/toastr.min.js') }}"></script>
 	@stack('customScript')
 </body>
 </html>

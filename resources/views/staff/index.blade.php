@@ -1,65 +1,34 @@
 @extends('layout.master')
 @push('customLink')
-    <link href="assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
-    <link href="assets/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    
 @endpush
 @section('section')
     <div class="page-wrapper">
         <div class="page-content">
             <div class="mb-4 page-info">
                 <div>
-                    <h3 class="mb-0 text-uppercase">{{ __('staff.staff') }} ({{ __('staff.admin') }})</h3>
+                    <h3 class="mb-0 text-uppercase">{{ __('staff.staff') }} ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
                     <select name="" class="select-filter">
-                        <option value="">Kindergarten Name</option>
-                        <option value="">One</option>
-                        <option value="">Two</option>
+                        <option value="">{{ __('staff.select') }}</option>
+                        @foreach ($kindergartens as $kindergarten)
+                            <option value="{{ $kindergarten['key'] }}">{{ $kindergarten['value'] }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="mt-2 buttons">
-                    <a href="{{ route('staff.create') }}" class="btn button">{{ __('staff.addBtnText') }}</a>
-                    <button class="btn button">{{ __('staff.editBtnText') }}</button>
-                    <button class="btn button">{{ __('staff.moveBtnText') }}</button>
+                    @if (Auth::user()->hasRole('admin'))
+                        <a href="{{ route('staff.create') }}" class="btn button">{{ __('staff.addBtnText') }}</a>
+                    @endif
+                    <button class="btn button moveToArchive">{{ __('staff.moveBtnText') }}</button>
                 </div>
             </div>
             <div class="card">
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="example" class="table table-style table-striped table-bordered" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>{{ __('staff.nameTh') }}</th>
-                                    <th>{{ __('staff.birthDateTh') }}</th>
-                                    <th>{{ __('staff.addressTh') }}</th>
-                                    <th>{{ __('staff.telephoneTh') }}</th>
-                                    <th>{{ __('staff.emailTh') }}</th>
-                                    <th>{{ __('staff.professionTh') }}</th>
-                                    <th>{{ __('staff.licenceNumberTh') }}</th>
-                                    <th>{{ __('staff.roleTh') }}</th>
-                                    <th>{{ __('staff.kindergartenTh') }}</th>
-                                    {{-- <th class="left-top"><input type="checkbox" class="" name="" id=""></th> --}}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for ($i = 1; $i < 50; $i++)
-                                    <tr>
-                                        <td>Tiger Nixon {{ $i }}</td>
-                                        <td>2011/04/25</td>
-                                        <td>Chandigarh</td>
-                                        <td>987456321{{ $i }}</td>
-                                        <td>test@yopmail.com</td>
-                                        <td>Therapist</td>
-                                        <td>100-153</td>
-                                        <td>Professional Therapist</td>
-                                        <td>Hatsav</td>
-                                        {{-- <td><input type="checkbox" class="" name="" id=""></td> --}}
-                                    </tr>
-                                @endfor
-                            </tbody>
-                        </table>
+                    <div class="table-responsive" id="dataTable">
+                        @include('staff.table', ['members' => $members])
                     </div>
-
-                    <div class="lising d-none">
-                        @include('components.listing')
+                    <div class="lising d-none" id="accordion">
+                        @include('staff.accordion', ['members' => $members])
                     </div>
                 </div>
             </div>
@@ -67,22 +36,56 @@
     </div>
 @endsection
 @push('customScript')
-    <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
-    <script src="assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
-    <script src="assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+    <script src="{{ asset('assets/js/custom-datatable.js') }}"></script>
+    <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
     <script>
-        $(document).ready(function() {
-            $('#example').DataTable();
+        $(document).on('change', '.select-filter', function () {
+            var kindergartenId = $(this).val();
+            var url = queryParam('kindergarten_id', kindergartenId);
+            filter(url);
         });
-    </script>
-    <script>
-        $(document).ready(function() {
-            var table = $('#example2').DataTable({
-                lengthChange: false,
-                buttons: ['copy', 'excel', 'pdf', 'print']
+        
+        $(document).on('click', '.moveToArchive', function() {
+            var ids = [];
+            $(".checkbox:checked").map(function(){
+                ids.push($(this).val());
             });
-
-            table.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+            if (ids.length == 0) {
+                toastr.warning("{{ __('staff.selectMsg') }}");
+                return false
+            }
+            var url = "{{ route('staff.destroy', ':ids') }}";
+            url = url.replace(':ids', ids);
+            Swal.fire({
+                title: "{{ __('staff.confirmTitle') }}",
+                text: "{{ __('staff.confirmText') }}",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                        },
+                        type: 'DELETE',
+                        url: url,
+                        processData: false,
+                        contentType: false,
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.status == true) {
+                                data.ids.map(function(id) {
+                                    $('.tr-'+id).remove();
+                                });
+                                toastr.success(data.message);
+                            }
+                        }
+                    });               
+                }
+            });
         });
     </script>
 @endpush

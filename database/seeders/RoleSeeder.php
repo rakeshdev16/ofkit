@@ -13,9 +13,11 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         $roles = [
-            'admin' => ['dashboard', 'staff.index', 'children.index', 'children.create'],
-            'manager' => ['dashboard', 'staff.index', 'children.index', 'children.create'],
-            'therapist' => ['dashboard', 'staff.index', 'children.index', 'children.create']
+            'admin' => [
+                'dashboard', 'staff.index', 'staff.create', 'staff.store', 'staff.show', 'staff.edit', 'staff.update', 'staff.destroy', 'cluster.index', 'cluster.create', 'cluster.store', 'cluster.show', 'cluster.edit', 'cluster.update', 'cluster.destroy', 'kindergarten.index', 'kindergarten.create', 'kindergarten.store', 'kindergarten.show', 'kindergarten.edit', 'kindergarten.update', 'kindergarten.destroy', 'children.index', 'children.create', 'children.store', 'children.show', 'children.edit', 'children.update', 'children.destroy', 'therapy-schedule.index', 'tables.index'
+            ],
+            'manager' => ['dashboard', 'staff.index', 'children.index', 'therapy-schedule.index'],
+            'therapist' => ['dashboard', 'staff.index', 'children.index', 'therapy-schedule.index']
         ];
         foreach ($roles as $name => $permission) {
             $role = Role::firstOrCreate(['name' => $name]);

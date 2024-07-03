@@ -13,11 +13,19 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('added_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('kindergarten_id')->nullable()->constrained('kindergartens')->onDelete('cascade');
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->uuid('identification')->nullable()->unique();
+            $table->string('address')->nullable();
+            $table->string('telephone')->nullable();
+            $table->string('licence_number')->nullable();
+            $table->string('profession')->nullable();
+            $table->date('dob')->nullable();
             $table->timestamps();
         });
     }

@@ -1,0 +1,37 @@
+<?php
+
+return [
+
+    'back' => 'חזור',
+    'admin' => 'מנהל מערכת',
+    'addNew' => 'הוסף חדש',
+    'addBtnText' => 'לְהוֹסִיף',
+    'updateBtnText' => 'עדכון',
+    'moveToArchine' => 'העבר לארכיון',
+    'kindergarten' => 'גן ילדים',
+    'addFormHeading' => 'הוסף פרטי גן ילדים',
+    'updateFormHeading' => 'עדכון פירוט הגן',
+    'telephoneTh' => 'טֵלֵפוֹן',
+    'addressTh' => 'כתובת',
+    'managerTh' => 'מנהל',
+    'clusterManagerTh' => 'מנהל אשכולות',
+    'clusterTh' => 'אֶשׁכּוֹל',
+    'typeTh' => 'סוּג',
+    'frameworkTh' => 'מִסגֶרֶת',
+    'symbolTh' => 'סֵמֶל',
+    'nameTh' => 'שֵׁם',
+    'selectMsg' => 'נא לבחור לפחות גן ילדים אחד',
+    'confirmTitle' => 'האם אתה בטוח?',
+    'confirmText' => "אתה לא תוכל להחזיר את זה!",
+    'deleteStaffMsg' => "גן הילדים נמחק",
+    'requiredCluster' => "נא בחר אשכול",
+    'requiredClusterManager' => "בחר מנהל אשכולות",
+    'requiredName' => "נא להזין שם",
+    'requiredSymbol' => "נא להזין סמל",
+    'requiredFramework' => "נא להיכנס למסגרת",
+    'requiredType' => "נא להזין סוג",
+    'requiredManager' => "נא להזין מנהל",
+    'requiredAddress' => "נא להזין כתובת",
+    'requiredTelephone' => "נא להזין טלפון",
+
+];

@@ -22,6 +22,13 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'kindergarten_id',
+        'address',
+        'telephone',
+        'licence_number',
+        'profession',
+        'dob',
+        'identification',
     ];
 
     /**
@@ -43,4 +50,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function userKindergarten()
+    {
+        return $this->hasOne(KindergartenUser::class, 'user_id', 'id');
+    }
+    
+    public function kindergarten()
+    {
+        return $this->hasOne(Kindergarten::class, 'id', 'kindergarten_id');
+    }
+
+    public function days()
+    {
+        return $this->hasMany(StaffSchedule::class);
+    }
 }

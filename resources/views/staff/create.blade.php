@@ -32,65 +32,87 @@
                     <div class="card">
                         <div class="card-body p-4">
                             <h5 class="mb-4">{{ __('staff.addStaffDetail') }}</h5>
-                            <form class="row g-3">
+                            <form class="row g-3" action="{{ route('staff.store') }}" method="POST">
+                                @csrf
                                 <div class="col-md-6">
-                                    <label for="input16" class="form-label">{{ __('staff.nameTh') }}</label>
-                                    <div class="position-relative input-icon">
-                                        <input type="text" class="form-control" id="input16" placeholder="{{ __('staff.nameTh') }}">
-                                        <span class="position-absolute top-50 translate-middle-y"><i class="bx bx-user"></i></span>
-                                    </div>
+                                    @include('components.text-input', ['label' => __('staff.nameTh'), 'name' => 'name', 'icon' => 'user'])
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="input15" class="form-label">{{ __('staff.nameTh') }}</label>
-                                    <div class="position-relative input-icon">
-                                        <input type="text" class="form-control" id="input15" placeholder="{{ __('staff.nameTh') }}">
-                                        <span class="position-absolute top-50 translate-middle-y"><i class="bx bx-microphone"></i></span>
-                                    </div>
+                                    @include('components.text-input', ['label' => __('staff.addressTh'), 'name' => 'address', 'icon' => 'current-location'])
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="input14" class="form-label">{{ __('staff.addressTh') }}</label>
-                                    <div class="position-relative input-icon">
-                                        <input type="text" class="form-control" id="input14" placeholder="{{ __('staff.addressTh') }}">
-                                        <span class="position-absolute top-50 translate-middle-y"><i class="bx bx-user"></i></span>
-                                    </div>
+                                    @include('components.text-input', ['label' => __('staff.emailTh'), 'name' => 'email', 'icon' => 'envelope'])
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="input13" class="form-label">{{ __('staff.emailTh') }}</label>
-                                    <div class="position-relative input-icon">
-                                        <input type="text" class="form-control" id="input13" placeholder="{{ __('staff.emailTh') }}">
-                                        <span class="position-absolute top-50 translate-middle-y"><i class="bx bx-envelope"></i></span>
-                                    </div>
+                                    @include('components.text-input', ['label' => __('staff.telephoneTh'), 'name' => 'telephone', 'icon' => 'phone'])
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="input18" class="form-label">{{ __('staff.licenceNumberTh') }}</label>
-                                    <div class="position-relative input-icon">
-                                        <input type="text" class="form-control" id="input18" placeholder="{{ __('staff.licenceNumberTh') }}">
-                                        <span class="position-absolute top-50 translate-middle-y"><i class="bx bx-calendar"></i></span>
-                                    </div>
+                                    @include('components.text-input', ['label' => __('staff.licenceNumberTh'), 'name' => 'licence_number', 'icon' => 'credit-card'])
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="input20" class="form-label">{{ __('staff.professionTh') }}</label>
-                                    <div class="position-relative input-icon">
-                                        <input type="text" class="form-control" id="input20" placeholder="{{ __('staff.professionTh') }}">
-                                        <span class="position-absolute top-50 translate-middle-y"><i class="bx bx-buildings"></i></span>
-                                    </div>
+                                    @include('components.text-input', ['label' => __('staff.professionTh'), 'name' => 'profession', 'icon' => 'user-circle'])
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="input20" class="form-label">{{ __('staff.birthDateTh') }}</label>
-                                    <div class="position-relative input-icon">
-                                        <input type="date" class="form-control date-of-birth" id="input20" placeholder="{{ __('staff.birthDateTh') }}">
-                                    </div>
+                                    @include('components.date-input', ['label' => __('staff.birthDateTh'), 'name' => 'dob'])
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="input20" class="form-label">{{ __('staff.roleTh') }}</label>
-                                    <div class="position-relative input-icon">
-                                        <input type="text" class="form-control" id="input20" placeholder="{{ __('staff.roleTh') }}">
-                                        <span class="position-absolute top-50 translate-middle-y"><i class="bx bx-buildings"></i></span>
+                                    @include('components.select-input', [
+                                        'label' => __('staff.roleTh'), 
+                                        'name' => 'role', 
+                                        'icon' => 'user-check', 
+                                        'options' => $roles
+                                    ])
+                                </div>
+                                <div class="col-md-12">
+                                    @include('components.select-input', [
+                                        'label' => __('staff.kindergartenTh'), 
+                                        'name' => 'kindergarten_id', 
+                                        'icon' => 'buildings', 
+                                        'options' => $kindergartens
+                                    ])
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="time-table">
+                                        <h4 class="text-center">{{ __('staff.scheduleHeading') }}</h4>
+                                        @php
+                                            $days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+                                        @endphp
+                                        <table class="table table-borderd">
+                                            <tr>
+                                                <th>{{ __('staff.day') }}</th>
+                                                <th>{{ __('staff.start') }}</th>
+                                                <th>{{ __('staff.end') }}</th>
+                                            </tr>
+                                            @foreach ($days as $day)
+                                                <tr>
+                                                    <td>
+                                                        <h6 class="pt-2">{{ __('staff.'.$day) }}</h6>
+                                                        <input type="hidden" name="schedule[{{$loop->index}}][day]" value="{{ $day }}">
+                                                    </td>
+                                                    <td>
+                                                        <input
+                                                            type="time"
+                                                            name="schedule[{{$loop->index}}][start_time]"
+                                                            class="form-control"
+                                                            placeholder="Enter Start Date"
+                                                        >
+                                                    </td>
+                                                    <td>
+                                                        <input
+                                                            type="time"
+                                                            name="schedule[{{$loop->index}}][end_time]"
+                                                            class="form-control"
+                                                            placeholder="Enter end Date"
+                                                        >
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </table>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="d-md-flex d-grid align-items-center gap-3">
-                                        <button type="button" class="btn button px-4">{{ __('staff.addBtnText') }}</button>
+                                        <button type="submit" class="btn button px-4">{{ __('staff.addBtnText') }}</button>
                                     </div>
                                 </div>
                             </form>

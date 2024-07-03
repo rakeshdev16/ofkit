@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\ChildrenController;
+use App\Http\Controllers\ClusterController;
+use App\Http\Controllers\KindergartenController;
+use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,16 +16,18 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-$lang = App\Models\Setting::where('key', 'environment')->pluck('value')->First() == 'local' ? 'en' : 'hb';
-App::setLocale($lang);
+// $lang = App\Models\Setting::where('key', 'environment')->pluck('value')->First() == 'local' ? 'en' : 'hb';
+// App::setLocale($lang);
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', fn() => view('dashboard.index'))->name('dashboard');
-    Route::get('staff', fn() => view('staff.index'))->name('staff.index');
-    Route::get('staff/create', fn() => view('staff.create'))->name('staff.create');
-    Route::get('children', fn() => view('children.index'))->name('children.index');
-    Route::get('children/create', fn() => view('children.create'))->name('children.create');
+    Route::get('therapy-schedule', fn() => view('dashboard.index'))->name('therapy-schedule.index');
+    Route::get('tables', fn() => view('dashboard.index'))->name('tables.index');
+    Route::resource('staff', StaffController::class);
+    Route::resource('cluster', ClusterController::class);
+    Route::resource('kindergarten', KindergartenController::class);
+    Route::resource('children', ChildrenController::class);
 });
 
 Route::get('seed',function(){ \Artisan::call("db:seed"); });

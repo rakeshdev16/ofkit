@@ -1,0 +1,115 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Cluster;
+use App\Models\Kindergarten;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Auth;
+
+class KindergartenController extends Controller
+{
+    public function index(Request $request)
+    {
+        $kindergartens = Kindergarten::query();
+        if (Auth::user()->hasRole(['manager', 'therapist'])) {
+            // $kindergartens->where('user_id', Auth::id());
+        }
+        if ($request->ajax()) {
+            if ($request->sort && $request->sorting) {
+                $kindergartens->orderBy($request->sort, $request->sorting);
+            }
+            if ($request->search) {
+                $kindergartens->where('name', 'like', '%'.$request->search.'%');
+            }
+            $kindergartens = $kindergartens->paginate(10);
+            return response()->json([
+                'table' => view('kindergarten.table', ['kindergartens' => $kindergartens])->render(),
+                'accordion' => view('kindergarten.accordion', ['kindergartens' => $kindergartens])->render()
+            ]);
+        }
+        $kindergartens = $kindergartens->paginate(10);
+        return view('kindergarten.index', compact('kindergartens'));
+    }
+    
+    public function create()
+    {
+        $clusters = Cluster::select('id as key', 'cluster as value')->get()->toArray();
+        $managers = User::role('manager')->select('id as key', 'name as value')->get();
+        return view('kindergarten.create', compact('clusters', 'managers'));
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'symbol' => 'required',
+            'framework' => 'required',
+            'type' => 'required',
+            'address' => 'required',
+            'telephone' => 'required',
+        ],[
+            'name.required' => __('kindergarten.requiredName'),
+            'symbol.required' => __('kindergarten.requiredSymbol'),
+            'framework.required' => __('kindergarten.requiredFramework'),
+            'type.required' => __('kindergarten.requiredType'),
+            'address.required' => __('kindergarten.requiredAddress'),
+            'telephone.required' => __('kindergarten.requiredTelephone'),
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $kindergarten = Kindergarten::create($request->all());
+        if (isset($request->manager_id)) {
+            $kindergarten->kindergartenUser()->create(['user_id' => $request->manager_id]);
+        }
+        return redirect()->route('kindergarten.index');
+    }
+
+    public function edit($id)
+    {
+        $kindergarten = Kindergarten::findOrFail($id);
+        $clusters = Cluster::select('id as key', 'cluster as value')->get()->toArray();
+        $managers = User::role('manager')->select('id as key', 'name as value')->get();
+        return view('kindergarten.edit', compact('kindergarten', 'clusters', 'managers'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'symbol' => 'required',
+            'framework' => 'required',
+            'type' => 'required',
+            'address' => 'required',
+            'telephone' => 'required',
+        ],[
+            'name.required' => __('kindergarten.requiredName'),
+            'symbol.required' => __('kindergarten.requiredSymbol'),
+            'framework.required' => __('kindergarten.requiredFramework'),
+            'type.required' => __('kindergarten.requiredType'),
+            'address.required' => __('kindergarten.requiredAddress'),
+            'telephone.required' => __('kindergarten.requiredTelephone'),
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        Kindergarten::where('id', $id)->update($request->except('_token', '_method', 'manager_id'));
+        if (isset($request->manager_id)) {
+            Kindergarten::findOrFail($id)->kindergartenUser()->update(['user_id' => $request->manager_id]);
+        }
+        return redirect()->route('kindergarten.index');
+    }
+
+    public function destroy($ids)
+    {
+        $ids = explode(',', $ids);
+        if (Kindergarten::whereIn('id', $ids)->delete()) {
+            return response()->json(['status' => true, 'message' => __('kindergarten.deleteStaffMsg'), 'ids' => $ids]);
+        }
+        return response()->json(['status' => false, 'ids' => $ids]);
+    }
+}

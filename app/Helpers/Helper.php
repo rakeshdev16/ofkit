@@ -1,5 +1,6 @@
 <?php 
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
@@ -19,4 +20,9 @@ function getAllRouteNames()
         }
     }
     return array_unique($routeNames);
+}
+
+function getUserNameById($id)
+{
+    return User::where('id', $id)->pluck('name')->first();
 }

@@ -8,14 +8,18 @@
 	border-color: #FFD681;
 }
 
+.table-style {
+    margin-bottom: 5px !important;
+}
+
 .table-style thead tr th {
     background-color: #095F59;
     color: #fff;
-    padding: 15px;
+    padding: 10px;
 }
 
 .table-style tbody tr td {
-    padding: 15px;
+    padding: 10px;
 }
 
 .active>.page-link, .page-link.active {
@@ -42,4 +46,53 @@
 
 ul.dropdown-menu.sub-menu {
     width: 250px !important;
+}
+
+.invalid-feedback {
+    display: block !important;
+}
+
+div#paginate {
+    float: left;
+}
+
+#paginate .page-link {
+    padding: 4px 8px;
+}
+
+.sortTable {
+    cursor: pointer;
+}
+
+.th-sorting {
+    line-height: 4px;
+    margin-top: 4px;
+}
+
+.th-sorting .disabled {
+    color: rgb(169, 169, 169) !important;
+}
+
+.table-search {
+    float: left;
+    margin-bottom: 12px;
+}
+
+.table-search input.search {
+    outline: none;
+    padding: 3px;
+    border: 2px solid #a59f9f;
+    border-radius: 4px;
+}
+
+.time-table {
+    border: 2px solid #80808030;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #80808014;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    background-color: #FFD681;
+    color: black;
 }

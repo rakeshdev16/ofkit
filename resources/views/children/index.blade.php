@@ -1,73 +1,26 @@
 @extends('layout.master')
 @push('customLink')
-    <link href="assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
-    <link href="assets/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    
 @endpush
 @section('section')
     <div class="page-wrapper">
         <div class="page-content">
-            <div class="d-flex justify-content-between">
-                <h6 class="mb-0 text-uppercase">CHILDRENS</h6>
+            <div class="mb-4 page-info">
                 <div>
-                    <a href="{{ route('children.create') }}" class="btn button">Add New</a>
-                    <button class="btn button">Edit</button>
-                    <button class="btn button">Move to Archive</button>
+                    <h3 class="mb-0 text-uppercase">{{ __('children.children') }} ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
+                </div>
+                <div class="">
+                    <a href="{{ route('children.create') }}" class="btn button">{{ __('children.addBtnText') }}</a>
+                    <button class="btn button moveToArchive">{{ __('children.moveBtnText') }}</button>
                 </div>
             </div>
-            <hr />
-            {{-- <table class="table table-style">
-                <thead>
-                    <tr>
-                        <th>Access Records</th>
-                        <th>Kindergarten</th>
-                        <th>Address</th>
-                        <th>Date of Birth</th>
-                        <th>I.D.</th>
-                        <th>Family Name</th>
-                        <th>First Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for ($i = 1; $i < 8; $i++)
-                        <tr>
-                            <td>System Architect {{$i}}</td>
-                            <td>Edinburgh {{$i}}</td>
-                            <td>Chandigarh</td>
-                            <td>2011/04/25</td>
-                            <td>${{100*$i}}</td>
-                            <td>Tiger {{$i}}</td>
-                            <td>Tiger Nixon {{$i}}</td>
-                        </tr>
-                    @endfor
-                </tbody>
-            </table> --}}
             <div class="card">
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="example" class="table table-style table-striped table-bordered" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Position</th>
-                                    <th>Office</th>
-                                    <th>Age</th>
-                                    <th>Start date</th>
-                                    <th>Salary</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for ($i = 1; $i < 50; $i++)
-                                    <tr>
-                                        <td>Tiger Nixon {{$i}}</td>
-                                        <td>System Architect {{$i}}</td>
-                                        <td>Edinburgh {{$i}}</td>
-                                        <td>{{20+$i}}</td>
-                                        <td>2011/04/25</td>
-                                        <td>${{100*$i}}</td>
-                                    </tr>
-                                @endfor
-                            </tbody>
-                        </table>
+                    <div class="table-responsive" id="dataTable">
+                        @include('children.table', ['childrens' => $childrens])
+                    </div>
+                    <div class="lising d-none" id="accordion">
+                        @include('children.accordion', ['childrens' => $childrens])
                     </div>
                 </div>
             </div>
@@ -75,22 +28,50 @@
     </div>
 @endsection
 @push('customScript')
-    <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
-    <script src="assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
-    <script src="assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+    <script src="{{ asset('assets/js/custom-datatable.js') }}"></script>
+    <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
     <script>
-		$(document).ready(function() {
-			$('#example').DataTable();
-		  } );
-	</script>
-	<script>
-		$(document).ready(function() {
-			var table = $('#example2').DataTable( {
-				lengthChange: false,
-				buttons: [ 'copy', 'excel', 'pdf', 'print']
-			} );
-		 
-			table.buttons().container().appendTo( '#example2_wrapper .col-md-6:eq(0)' );
-		} );
-	</script>
+        $(document).on('click', '.moveToArchive', function() {
+            var ids = [];
+            $(".checkbox:checked").map(function(){
+                ids.push($(this).val());
+            });
+            if (ids.length == 0) {
+                toastr.warning("{{ __('children.selectMsg') }}");
+                return false
+            }
+            var url = "{{ route('children.destroy', ':ids') }}";
+            url = url.replace(':ids', ids);
+            Swal.fire({
+                title: "{{ __('children.confirmTitle') }}",
+                text: "{{ __('children.confirmText') }}",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                        },
+                        type: 'DELETE',
+                        url: url,
+                        processData: false,
+                        contentType: false,
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.status == true) {
+                                data.ids.map(function(id) {
+                                    $('.tr-'+id).remove();
+                                });
+                                toastr.success(data.message);
+                            }
+                        }
+                    });               
+                }
+            });
+        });
+    </script>
 @endpush

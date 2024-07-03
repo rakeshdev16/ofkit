@@ -123,8 +123,7 @@
     </header>
     <div class="primary-menu">
         <nav class="navbar navbar-expand-lg align-items-center">
-            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
-                aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header border-bottom">
                     <div class="d-flex align-items-center">
                         <div class="">
@@ -136,61 +135,74 @@
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav align-items-center flex-grow-1">
-                        @include('components.menu', [
-                            'name' => 'Tables',
-                            'icon' => 'fi_3602109.png',
-                            'options' => [
-                                ['icon' => 'fi_2887367.png', 'name' => 'Basic Table', 'route' => ''],
-                                ['icon' => 'fi_2887367.png', 'name' => 'Data Table', 'route' => '']
-                            ],
-                        ])
-                        @include('components.menu', [
-                            'name' => 'Kindergarten',
-                            'icon' => 'fi_4794795.png',
-                            'options' => [
-                                ['icon' => 'fi_2887367.png', 'name' => 'Basic Table', 'route' => ''],
-                                ['icon' => 'fi_2887367.png', 'name' => 'Data Table', 'route' => '']
-                            ],
-                        ])
-                        @include('components.menu', [
-                            'name' => 'Clusters',
-                            'icon' => 'fi_4549612.png',
-                            'options' => [
-                                ['icon' => 'fi_2887367.png', 'name' => 'Basic Table', 'route' => ''],
-                                ['icon' => 'fi_2887367.png', 'name' => 'Data Table', 'route' => '']
-                            ],
-                        ])
-                        @include('components.menu', [
-                            'name' => 'Therapy Schedule',
-                            'icon' => 'fi_16650601.png',
-                            'options' => [
-                                ['icon' => 'fi_2887367.png', 'name' => 'Basic Table', 'route' => ''],
-                                ['icon' => 'fi_2887367.png', 'name' => 'Data Table', 'route' => '']
-                            ],
-                        ])
-                        @include('components.menu', [
-                            'name' => 'Staff',
-                            'width' => '250px',
-                            'icon' => 'fi_2887367.png',
-                            'options' => [
-                                ['icon' => 'fi_1478254.png', 'name' => 'Professional Therapist', 'route' => route('staff.index')],
-                                ['icon' => 'fi_6212658.png', 'name' => 'Therapist Coordinator', 'route' => route('staff.index')],
-                                ['icon' => 'fi_9959428.png', 'name' => 'Child Psychiatrist', 'route' => route('staff.index')]
-                            ],
-                        ])
-                        @include('components.menu', [
-                            'name' => 'Children',
-                            'icon' => 'fi_9184264.png',
-                            'options' => [
-                                ['icon' => 'fi_2887367.png', 'name' => 'All Childrens', 'route' => route('children.index')],
-                                ['icon' => 'fi_2887367.png', 'name' => 'Add New Children', 'route' => route('children.create')],
-                            ],
-                        ])
-                        @include('components.menu', [
-                            'name' => 'Documentation',
-                            'route' => route('dashboard'),
-                            'icon' => 'fi_2991112.png',
-                        ])
+                        @if ($user->hasAnyPermission(['tables.index']))
+                            @include('components.menu', [
+                                'name' => __('menu.tables'),
+                                'icon' => 'fi_3602109.png',
+                            ])
+                        @endif
+                        @if ($user->hasAnyPermission(['kindergarten.index', 'kindergarten.store']))
+                            @include('components.menu', [
+                                'name' => __('menu.kindergarten'),
+                                'icon' => 'fi_4794795.png',
+                                'options' => [
+                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.allKindergarten'), 'route' => route('kindergarten.index')],
+                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.addKindergarten'), 'route' => route('kindergarten.create')]
+                                ],
+                            ])
+                        @endif
+                        @if ($user->hasAnyPermission(['cluster.index', 'cluster.store']))
+                            @include('components.menu', [
+                                'name' => __('menu.clusters'),
+                                'width' => '180px',
+                                'icon' => 'fi_4549612.png',
+                                'options' => [
+                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.allClusters'), 'route' => route('cluster.index')],
+                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.addClusters'), 'route' => route('cluster.create')]
+                                ],
+                            ])
+                        @endif
+                        @if ($user->hasAnyPermission(['therapy-schedule.index']))
+                            @include('components.menu', [
+                                'name' => __('menu.therapySchedule'),
+                                'width' => '250px',
+                                'icon' => 'fi_16650601.png',
+                                'options' => [
+                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.allTherapySchedule'), 'route' => ''],
+                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.addTherapySchedule'), 'route' => '']
+                                ],
+                            ])
+                        @endif
+                        @if ($user->hasAnyPermission(['staff.index', 'staff.store']))
+                            @include('components.menu', [
+                                'name' => __('menu.staff'),
+                                'width' => '250px',
+                                'icon' => 'fi_2887367.png',
+                                'options' => [
+                                    ['icon' => 'fi_1478254.png', 'name' => __('menu.professionalTherapist'), 'route' => route('staff.index')],
+                                    ['icon' => 'fi_6212658.png', 'name' => __('menu.therapistCoordinator'), 'route' => route('staff.index')],
+                                    ['icon' => 'fi_9959428.png', 'name' => __('menu.childPsychiatrist'), 'route' => route('staff.index')]
+                                ],
+                            ])
+                        @endif
+                        @if ($user->hasAnyPermission(['children.index', 'children.store']))
+                            @include('components.menu', [
+                                'name' => __('menu.childrens'),
+                                'width' => '180px',
+                                'icon' => 'fi_9184264.png',
+                                'options' => [
+                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.allChildrens'), 'route' => route('children.index')],
+                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.addChildren'), 'route' => route('children.create')],
+                                ],
+                            ])
+                        @endif
+                        @if ($user->hasAnyPermission(['dashboard']))
+                            @include('components.menu', [
+                                'name' => __('menu.documentation'),
+                                'route' => route('dashboard'),
+                                'icon' => 'fi_2991112.png',
+                            ])
+                        @endif
                     </ul>
                 </div>
             </div>

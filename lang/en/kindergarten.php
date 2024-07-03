@@ -1,0 +1,37 @@
+<?php
+
+return [
+
+    'back' => 'Back',
+    'admin' => 'Admin',
+    'addNew' => 'Add New',
+    'addBtnText' => 'Add',
+    'updateBtnText' => 'Update',
+    'moveToArchine' => 'Move to Archive',
+    'kindergarten' => 'Kindergarten',
+    'addFormHeading' => 'Add Kindergarten Detail',
+    'updateFormHeading' => 'Update Kindergarten Detail',
+    'telephoneTh' => 'Telephone',
+    'addressTh' => 'Address',
+    'managerTh' => 'Manager',
+    'clusterManagerTh' => 'Cluster Manager',
+    'clusterTh' => 'Cluster',
+    'typeTh' => 'Type',
+    'frameworkTh' => 'Framework',
+    'symbolTh' => 'Symbol',
+    'nameTh' => 'Name',
+    'selectMsg' => 'Please select at least one kindergarten',
+    'confirmTitle' => 'Are you sure?',
+    'confirmText' => "You won't be able to revert this!",
+    'deleteStaffMsg' => "Kindergarten has been deleted",
+    'requiredCluster' => "Please select cluster",
+    'requiredClusterManager' => "Please select cluster manager",
+    'requiredName' => "Please enter name",
+    'requiredSymbol' => "Please enter symbol",
+    'requiredFramework' => "Please enter framework",
+    'requiredType' => "Please enter type",
+    'requiredManager' => "Please enter manager",
+    'requiredAddress' => "Please enter address",
+    'requiredTelephone' => "Please enter telephone",
+
+];
