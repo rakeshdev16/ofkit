@@ -40,6 +40,7 @@ class StaffController extends Controller
             ]);
         }
         $members = $members->paginate(10);
+        // echo '<pre>'; print_r($members); die;
         $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
         return view('staff.index', compact('members', 'kindergartens'));
     }
@@ -63,7 +64,7 @@ class StaffController extends Controller
             'profession' => 'required',
             'dob' => 'required',
             'role' => 'required',
-            'kindergarten_id' => 'required',
+            'member_photo' => 'required',
         ],[
             'name.required' => __('staff.requiredName'),
             'address.required' => __('staff.requiredAddress'),
@@ -75,13 +76,15 @@ class StaffController extends Controller
             'profession.required' => __('staff.requiredProfession'),
             'dob.required' => __('staff.requiredDOB'),
             'role.required' => __('staff.requiredRole'),
-            'kindergarten_id.required' => __('staff.requiredKindergarten'),
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $request['identification'] = Str::uuid();
         $request['password'] = rand();
+        if ($request->hasFile('member_photo')) {
+            $request['photo'] = uploadFile($request->member_photo, 'public/staff');
+        }
         $user = User::create($request->all());
         $user->assignRole($request->role);
         $user->notify(new AccountDetailNotification($user, $request['password']));
@@ -113,7 +116,6 @@ class StaffController extends Controller
             'profession' => 'required',
             'dob' => 'required',
             'role' => 'required',
-            'kindergarten_id' => 'required',
         ],[
             'name.required' => __('staff.requiredName'),
             'address.required' => __('staff.requiredAddress'),
@@ -122,12 +124,15 @@ class StaffController extends Controller
             'profession.required' => __('staff.requiredProfession'),
             'dob.required' => __('staff.requiredDOB'),
             'role.required' => __('staff.requiredRole'),
-            'kindergarten_id.required' => __('staff.requiredKindergarten'),
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $user = User::findOrFail($id);
+        if ($request->hasFile('member_photo')) {
+            $request['photo'] = uploadFile($request->member_photo, 'public/staff');
+            unset($request['member_photo']);
+        }
         $user->update($request->except('_token', '_method', 'kindergarten_id', 'schedule'));
         $user->syncRoles($request->role);
         if (isset($request->kindergarten_id)) {

@@ -32,7 +32,7 @@
                     <div class="card">
                         <div class="card-body p-4">
                             <h5 class="mb-4">{{ __('staff.addStaffDetail') }}</h5>
-                            <form class="row g-3" action="{{ route('staff.store') }}" method="POST">
+                            <form class="row g-3" action="{{ route('staff.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="col-md-6">
                                     @include('components.text-input', ['label' => __('staff.nameTh'), 'name' => 'name', 'icon' => 'user'])
@@ -63,12 +63,19 @@
                                         'options' => $roles
                                     ])
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     @include('components.select-input', [
                                         'label' => __('staff.kindergartenTh'), 
                                         'name' => 'kindergarten_id', 
                                         'icon' => 'buildings', 
                                         'options' => $kindergartens
+                                    ])
+                                </div>
+                                <div class="col-md-6">
+                                    @include('components.file-input', [
+                                        'label' => 'Upload Photo',
+                                        'name' => 'member_photo',
+                                        'icon' => 'buildings',
                                     ])
                                 </div>
                                 <div class="col-md-12">

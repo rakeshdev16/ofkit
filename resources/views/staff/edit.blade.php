@@ -32,7 +32,7 @@
                     <div class="card">
                         <div class="card-body p-4">
                             <h5 class="mb-4">{{ __('staff.editStaffDetail') }}</h5>
-                            <form class="row g-3" action="{{ route('staff.update', $staff->id) }}" method="POST">
+                            <form class="row g-3" action="{{ route('staff.update', $staff->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="col-md-6">
@@ -54,7 +54,7 @@
                                     @include('components.text-input', ['label' => __('staff.professionTh'), 'name' => 'profession', 'icon' => 'user-circle', 'value' => $staff->profession])
                                 </div>
                                 <div class="col-md-6">
-                                    @include('components.date-input', ['label' => __('staff.birthDateTh'), 'name' => 'dob', 'value' => $staff->dob])
+                                    @include('components.date-input', ['label' => __('staff.birthDateTh'), 'name' => 'dob', 'value' => date('Y-m-d', strtotime($staff->dob))])
                                 </div>
                                 <div class="col-md-6">
                                     @include('components.select-input', [
@@ -65,13 +65,21 @@
                                         'value' => $staff->getRoleNames()->first()
                                     ])
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     @include('components.select-input', [
                                         'label' => __('staff.kindergartenTh'), 
                                         'name' => 'kindergarten_id', 
                                         'icon' => 'buildings', 
                                         'options' => $kindergartens,
                                         'value' => $staff->kindergarten_id
+                                    ])
+                                </div>
+                                <div class="col-md-6">
+                                    @include('components.file-input', [
+                                        'label' => 'Upload Photo',
+                                        'name' => 'member_photo',
+                                        'icon' => 'buildings',
+                                        'value' => $staff->photo
                                     ])
                                 </div>
                                 <div class="col-md-12">

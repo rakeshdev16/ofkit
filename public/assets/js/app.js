@@ -1,3 +1,11 @@
+imgInp.onchange = evt => {
+	const [file] = imgInp.files
+	if (file) {
+		$('#previewImage').removeClass('d-none');
+		$('#previewImage').attr('src', URL.createObjectURL(file));
+	}
+}
+
 $(function () {
 	"use strict";
 	/* perfect scrol bar */

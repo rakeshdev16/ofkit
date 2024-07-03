@@ -26,3 +26,9 @@ function getUserNameById($id)
 {
     return User::where('id', $id)->pluck('name')->first();
 }
+
+function uploadFile($file, $path)
+{
+    $fileName = $file->store($path);
+    return explode('public/', $fileName)[1];
+}

@@ -29,6 +29,7 @@ class User extends Authenticatable
         'profession',
         'dob',
         'identification',
+        'photo',
     ];
 
     /**
@@ -64,5 +65,15 @@ class User extends Authenticatable
     public function days()
     {
         return $this->hasMany(StaffSchedule::class);
+    }
+
+    public function getDobAttribute($value)
+    {
+        return $value ? date('d M Y', strtotime($this->attributes['dob'])) : '-';
+    }
+
+    public function getPhotoAttribute($value)
+    {
+        return asset('storage/'.$this->attributes['photo']);
     }
 }
