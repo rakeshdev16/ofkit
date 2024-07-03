@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cluster;
 use App\Models\Kindergarten;
+use App\Models\KindergartenUser;
 use App\Models\Staff;
 use App\Models\User;
 use App\Notifications\AccountDetailNotification;
@@ -19,16 +20,21 @@ class StaffController extends Controller
     {
         $members = User::query();
         if (Auth::user()->hasRole(['manager', 'therapist'])) {
-            $clusterIds = Cluster::where('manager_id', Auth::id())->pluck('id')->toArray();
-            $kindergartenIds = Kindergarten::whereIn('cluster_id', $clusterIds)->pluck('id')->toArray();
-            $members->whereIn('kindergarten_id', $kindergartenIds);
+            $kindergartenIds = KindergartenUser::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
+            $userIds = KindergartenUser::whereIn('kindergarten_id', $kindergartenIds)->where('user_id', '!=', Auth::id())
+                ->pluck('user_id')->toArray();
+            $members->whereIn('id', $userIds)->where('id', '!=', Auth::id());
         }
         if ($request->ajax()) {
             if ($request->sort && $request->sorting) {
                 $members->orderBy($request->sort, $request->sorting);
             }
             if ($request->kindergarten_id) {
-                $members->where('kindergarten_id', $request->kindergarten_id);
+                $userIds = KindergartenUser::where('kindergarten_id', $request->kindergarten_id)
+                    ->where('user_id', '!=', Auth::id())
+                    >pluck('user_id')->toArray();
+
+                $members->where('id', $userIds);
             }
             if ($request->search) {
                 $members->where('name', 'like', '%'.$request->search.'%');
@@ -40,7 +46,6 @@ class StaffController extends Controller
             ]);
         }
         $members = $members->paginate(10);
-        // echo '<pre>'; print_r($members); die;
         $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
         return view('staff.index', compact('members', 'kindergartens'));
     }
@@ -136,7 +141,8 @@ class StaffController extends Controller
         $user->update($request->except('_token', '_method', 'kindergarten_id', 'schedule'));
         $user->syncRoles($request->role);
         if (isset($request->kindergarten_id)) {
-            $user->userKindergarten()->update(['kindergarten_id' => $request->kindergarten_id]);
+            $user->userKindergarten()->delete();
+            $user->userKindergarten()->create(['kindergarten_id' => $request->kindergarten_id]);
         }
         if (count($request->schedule)) {
             foreach ($request->schedule as $schedule) {

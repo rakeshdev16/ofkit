@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 // App::setLocale($lang);
 Auth::routes();
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'lang'])->group(function () {
     Route::get('/', fn() => view('dashboard.index'))->name('dashboard');
     Route::get('therapy-schedule', fn() => view('dashboard.index'))->name('therapy-schedule.index');
     Route::get('tables', fn() => view('dashboard.index'))->name('tables.index');
@@ -32,3 +32,4 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('seed',function(){ \Artisan::call("db:seed"); });
 Route::get('migrate',function(){ \Artisan::call("migrate"); });
+Route::get('migrate-fresh',function(){ \Artisan::call("migrate:fresh"); });

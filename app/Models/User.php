@@ -22,7 +22,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'kindergarten_id',
         'address',
         'telephone',
         'licence_number',

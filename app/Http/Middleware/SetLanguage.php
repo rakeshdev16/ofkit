@@ -16,8 +16,8 @@ class SetLanguage
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $lang = Setting::where('key', 'environment')->pluck('value')->First() == 'local' ? 'en' : 'hb';
-        App::setLocale($lang);
+        $lang = Setting::where('key', 'environment')->pluck('value')->first() == 'local' ? 'en' : 'hb';
+        \App::setLocale($lang);
         return $next($request);
     }
 }

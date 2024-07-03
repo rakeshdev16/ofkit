@@ -4,7 +4,9 @@
 <table id="staffTable" class="table table-style table-bordered" style="width:100%">
     <thead>
         <tr>
-            <th><input type="checkbox" class="mainCheckbox"></th>
+            @if (Auth::user()->hasRole('admin'))
+                <th><input type="checkbox" class="mainCheckbox"></th>
+            @endif
             @include('components.table-heading', ['label' => __('staff.nameTh'), 'key' => 'name'])
             @include('components.table-heading', ['label' => __('staff.birthDateTh'), 'key' => 'dob'])
             @include('components.table-heading', ['label' => __('staff.addressTh'), 'key' => 'address'])
@@ -20,7 +22,9 @@
     <tbody>
         @forelse ($members as $member)
             <tr class="tr-{{ $member->id }}">
-                <td><input type="checkbox" name="id[]" value="{{ $member->id }}" class="checkbox"></td>
+                @if (Auth::user()->hasRole('admin'))
+                    <td><input type="checkbox" name="id[]" value="{{ $member->id }}" class="checkbox"></td>
+                @endif
                 <td>{{ $member->name }}</td>
                 <td>{{ $member->dob }}</td>
                 <td>{{ $member->address }}</td>
@@ -29,7 +33,7 @@
                 <td>{{ $member->profession }}</td>
                 <td>{{ $member->licence_number }}</td>
                 <td>{{ $member->getRoleNames()->first() }}</td>
-                <td>{{ @$member->kindergarten->name ?? '-' }}</td>
+                <td>{{ @getKindergartenNameById($member->userKindergarten->kindergarten_id) ?? '-' }}</td>
                 <td>
                     <a href="{{ route('staff.edit', $member->id) }}" class=""><i class="bx bx-edit"></i></a>
                 </td>

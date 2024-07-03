@@ -1,5 +1,6 @@
 <?php 
 
+use App\Models\Kindergarten;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,11 @@ function getAllRouteNames()
 function getUserNameById($id)
 {
     return User::where('id', $id)->pluck('name')->first();
+}
+
+function getKindergartenNameById($id)
+{
+    return Kindergarten::where('id', $id)->pluck('name')->first();
 }
 
 function uploadFile($file, $path)
