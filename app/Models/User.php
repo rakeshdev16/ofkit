@@ -73,6 +73,6 @@ class User extends Authenticatable
 
     public function getPhotoAttribute($value)
     {
-        return asset('storage/'.$this->attributes['photo']);
+        return $this->attributes['photo'] ? asset('storage/'.$this->attributes['photo']) : '';
     }
 }
