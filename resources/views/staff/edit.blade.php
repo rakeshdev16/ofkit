@@ -71,7 +71,7 @@
                                         'name' => 'kindergarten_id', 
                                         'icon' => 'buildings', 
                                         'options' => $kindergartens,
-                                        'value' => $staff->userKindergarten->kindergarten_id
+                                        'value' => @$staff->userKindergarten->kindergarten_id
                                     ])
                                 </div>
                                 <div class="col-md-6">

@@ -68,7 +68,7 @@ class User extends Authenticatable
 
     public function getDobAttribute($value)
     {
-        return $value ? date('d M Y', strtotime($this->attributes['dob'])) : '-';
+        return date('d M Y', strtotime($this->attributes['dob']));
     }
 
     public function getPhotoAttribute($value)
