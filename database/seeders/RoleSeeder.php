@@ -14,7 +14,7 @@ class RoleSeeder extends Seeder
     {
         $roles = [
             'admin' => [
-                'dashboard', 'staff.index', 'staff.create', 'staff.store', 'staff.show', 'staff.edit', 'staff.update', 'staff.destroy', 'cluster.index', 'cluster.create', 'cluster.store', 'cluster.show', 'cluster.edit', 'cluster.update', 'cluster.destroy', 'kindergarten.index', 'kindergarten.create', 'kindergarten.store', 'kindergarten.show', 'kindergarten.edit', 'kindergarten.update', 'kindergarten.destroy', 'children.index', 'children.create', 'children.store', 'children.show', 'children.edit', 'children.update', 'children.destroy', 'therapy-schedule.index', 'tables.index'
+                'dashboard', 'staff.index', 'staff.create', 'staff.store', 'staff.show', 'staff.edit', 'staff.update', 'staff.destroy', 'cluster.index', 'cluster.create', 'cluster.store', 'cluster.show', 'cluster.edit', 'cluster.update', 'cluster.destroy', 'kindergarten.index', 'kindergarten.create', 'kindergarten.store', 'kindergarten.show', 'kindergarten.edit', 'kindergarten.update', 'kindergarten.destroy', 'children.index', 'children.create', 'children.store', 'children.show', 'children.edit', 'children.update', 'children.destroy', 'therapy-schedule.index', 'staff-table'
             ],
             'manager' => ['dashboard', 'staff.index', 'children.index', 'therapy-schedule.index'],
             'therapist' => ['dashboard', 'staff.index', 'children.index', 'therapy-schedule.index']

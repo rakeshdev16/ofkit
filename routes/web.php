@@ -28,7 +28,7 @@ Route::middleware(['auth', 'lang'])->group(function () {
     Route::resource('cluster', ClusterController::class);
     Route::resource('kindergarten', KindergartenController::class);
     Route::resource('children', ChildrenController::class);
-    Route::resource('staff-tables', StaffTableController::class);
+    Route::resource('staff-table', StaffTableController::class);
 
     Route::controller(StaffController::class)->group(function () {
         Route::get('selected-kindergarten', 'selectedKindergarten')->name('selected.kindergarten');
