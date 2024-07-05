@@ -36,6 +36,11 @@
                                 @csrf
                                 <div class="col-md-12 text-center upload-photo">
                                     <img src="https://placehold.co/150x150" id="previewImage" alt="">
+                                    @error('member_photo')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                                 <input type="file" style="visibility: hidden" name="member_photo" id="imgInp">
                                 <div class="col-md-6">
