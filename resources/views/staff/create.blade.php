@@ -36,6 +36,9 @@
                                 @csrf
                                 <div class="col-md-12 text-center upload-photo">
                                     <img src="https://placehold.co/150x150" id="previewImage" alt="">
+                                    <div class="cam-icom">
+                                        <i class="bx bx-camera"></i>
+                                    </div>
                                     @error('member_photo')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

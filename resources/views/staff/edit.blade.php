@@ -37,6 +37,9 @@
                                 @method('PUT')
                                 <div class="col-md-12 text-center upload-photo">
                                     <img src="{{ $staff->photo }}" id="previewImage" alt="">
+                                    <div class="cam-icom">
+                                        <i class="bx bx-camera"></i>
+                                    </div>
                                 </div>
                                 <input type="file" style="visibility: hidden" name="member_photo" id="imgInp">
                                 <div class="col-md-6">

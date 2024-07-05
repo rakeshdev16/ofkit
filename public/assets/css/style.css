@@ -120,6 +120,11 @@ div#paginate {
     height: 100px;
 }
 
+.upload-photo .cam-icom {
+    bottom: 25px;
+    position: relative;
+}
+
 .staff-profile {
     background-color: transparent !important;
     border: 1px solid #c7c8c9 !important;

@@ -75,10 +75,10 @@ class StaffController extends Controller
         $user = User::create($request->all());
         $user->assignRole($request->role);
         $user->notify(new AccountDetailNotification($user, $request['password']));
-        if (count($request->kindergarten)) {
+        if (isset($request->kindergarten) && count($request->kindergarten)) {
             $user->staffKindergartens()->createMany($request->kindergarten);
         }
-        if (count($request->schedule)) {
+        if (isset($request->schedule) && count($request->schedule)) {
             $user->days()->createMany($request->schedule);
         }
         return redirect()->route('staff.index');
