@@ -135,13 +135,13 @@
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav align-items-center flex-grow-1">
-                        @if ($user->hasAnyPermission(['tables.index']))
+                        @if ($user->hasAnyPermission(['staff-table.index']))
                             @include('components.menu', [
                                 'name' => __('menu.tables'),
                                 'icon' => 'fi_3602109.png',
                                 'options' => [
                                     ['icon' => 'fi_2887367.png', 'name' => 'Framework', 'route' => ''],
-                                    ['icon' => 'fi_2887367.png', 'name' => 'Staff', 'route' => ''],
+                                    ['icon' => 'fi_2887367.png', 'name' => 'Staff', 'route' => route('staff-table.index', ['type' => 'profession'])],
                                     ['icon' => 'fi_2887367.png', 'name' => 'Children', 'route' => ''],
                                     ['icon' => 'fi_2887367.png', 'name' => 'Intervention', 'route' => '']
                                 ],

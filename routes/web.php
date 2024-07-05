@@ -33,6 +33,9 @@ Route::middleware(['auth', 'lang'])->group(function () {
     Route::controller(StaffController::class)->group(function () {
         Route::get('selected-kindergarten', 'selectedKindergarten')->name('selected.kindergarten');
     });
+    Route::controller(StaffTableController::class)->group(function () {
+        Route::get('staff-table-tab', 'staffTableTab')->name('staff-table.tab');
+    });
 });
 
 Route::get('seed',function(){ \Artisan::call("db:seed"); });

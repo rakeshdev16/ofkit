@@ -1,0 +1,24 @@
+<div class="mb-4 page-info">
+    <div>
+        <h3 class="mb-0 text-uppercase">Saff Profession ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
+    </div>
+    <div class="">
+        <a href="{{ route('staff-table.create') }}?type=profession" class="btn button">Add New</a>
+        <button class="btn button moveToArchive" data-type="profession">Move to Archive</button>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive" id="dataTable">
+            @include('table.staff.profession.table', ['professions' => $professions])
+        </div>
+        <div class="lising d-none" id="accordion">
+            @include('table.staff.profession.accordion', ['professions' => $professions])
+        </div>
+    </div>
+</div>
+@push('customScript')
+    <script>
+
+    </script>
+@endpush
