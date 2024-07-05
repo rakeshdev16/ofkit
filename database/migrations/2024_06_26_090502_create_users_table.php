@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('telephone')->nullable();
             $table->string('licence_number')->nullable();
-            $table->string('profession')->nullable();
+            $table->foreignId('profession_id')->nullable()->constrained('professions')->onDelete('cascade');
             $table->date('dob')->nullable();
             $table->string('photo')->nullable();
             $table->timestamps();

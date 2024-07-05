@@ -1,6 +1,5 @@
 <div class="mx-3 p-1">
     <input type="checkbox" class="mainCheckbox">&nbsp;&nbsp;&nbsp;
-    {{-- <label for="">{{ __('cluster.mainCheckboxLabel') }}</label> --}}
 </div>
 @foreach ($clusters as $cluster)
     <div class="accordion accordion-flush tr-{{ $cluster->id }}" id="accordion{{ $loop->iteration }}">
@@ -9,8 +8,15 @@
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false"
                     aria-controls="flush-collapse{{ $loop->iteration }}">
-                    <input type="checkbox" value="{{ $cluster->id }}" class="checkbox">&nbsp;&nbsp;
-                    {{ @$cluster->manager->name ?? '-' }}
+                    <div class="row">
+                        <div class="col-2">
+                            <input type="checkbox" value="{{ $cluster->id }}" class="checkbox">&nbsp;&nbsp;
+                        </div>
+                        <div class="col-8">{{ @$cluster->manager->name ?? '-' }}</div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <a href="{{ route('cluster.edit', $cluster->id) }}" class=""><i class="bx bx-edit"></i></a>
+                        </div>
+                    </div>
                 </button>
             </h2>
             <div id="flush-collapse{{ $loop->iteration }}" class="accordion-collapse collapse"

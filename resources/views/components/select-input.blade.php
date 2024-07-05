@@ -1,9 +1,25 @@
-<label for="input16" class="form-label">{{ $label }}</label>
-<div class="position-relative input-icon">
-    <select name="{{ $name }}" class="form-control @error($name) is-invalid @enderror">
+@isset($label)
+    <label for="input16" class="form-label">{{ $label }}</label>
+@endisset
+<div class="position-relative input-icon @isset($multiple) multiple-selection @endisset">
+    <select
+        name="{{ $name }}"
+        class="form-control @error($name) is-invalid @enderror {{ @$class }}"
+        {{ @$multiple }}
+        {{ @$disabled }}
+    >
         <option value="">Select</option>
         @foreach ($options as $option)
-            <option {{ (old($name) ?? @$value) == $option['key'] ? 'selected' : '' }} value="{{ $option['key'] }}">{{ ucfirst($option['value']) }}</option>
+            <option
+                @if (@$multiple && @$value)
+                    {{ in_array($option['key'], @$value) ? 'selected' : '' }}
+                @else
+                    {{ (old($name) ?? @$value) == $option['key'] ? 'selected' : '' }}
+                @endif
+                value="{{ $option['key'] }}"
+            >
+                {{ ucfirst($option['value']) }}
+            </option>
         @endforeach
     </select>
     <span class="position-absolute top-50 translate-middle-y">

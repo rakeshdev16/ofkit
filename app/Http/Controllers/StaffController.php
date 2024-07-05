@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Cluster;
 use App\Models\Kindergarten;
 use App\Models\KindergartenUser;
+use App\Models\MemberRole;
+use App\Models\Profession;
 use App\Models\Staff;
+use App\Models\StaffKindergarten;
 use App\Models\User;
 use App\Notifications\AccountDetailNotification;
 use Illuminate\Http\Request;
@@ -18,34 +21,13 @@ class StaffController extends Controller
 {
     public function index(Request $request)
     {
-        $members = User::query();
-        if (Auth::user()->hasRole(['manager', 'therapist'])) {
-            $kindergartenIds = KindergartenUser::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
-            $userIds = KindergartenUser::whereIn('kindergarten_id', $kindergartenIds)->where('user_id', '!=', Auth::id())
-                ->pluck('user_id')->toArray();
-            $members->whereIn('id', $userIds)->where('id', '!=', Auth::id());
-        }
+        $members = User::whereNot('id', Auth::id())->filter()->paginate(10);
         if ($request->ajax()) {
-            if ($request->sort && $request->sorting) {
-                $members->orderBy($request->sort, $request->sorting);
-            }
-            if ($request->kindergarten_id) {
-                $userIds = KindergartenUser::where('kindergarten_id', $request->kindergarten_id)
-                    ->where('user_id', '!=', Auth::id())
-                    >pluck('user_id')->toArray();
-
-                $members->where('id', $userIds);
-            }
-            if ($request->search) {
-                $members->where('name', 'like', '%'.$request->search.'%');
-            }
-            $members = $members->paginate(10);
             return response()->json([
                 'table' => view('staff.table', ['members' => $members])->render(),
                 'accordion' => view('staff.accordion', ['members' => $members])->render()
             ]);
         }
-        $members = $members->paginate(10);
         $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
         return view('staff.index', compact('members', 'kindergartens'));
     }
@@ -55,7 +37,8 @@ class StaffController extends Controller
         $managers = User::select('id as key', 'name as value')->role('manager')->get()->toArray();
         $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
         $roles = Role::select('name as key', 'name as value')->where('name', '!=', 'admin')->get()->toArray();
-        return view('staff.create', compact('kindergartens', 'managers', 'roles'));
+        $professions = Profession::select('id as key', 'name as value')->get()->toArray();
+        return view('staff.create', compact('kindergartens', 'managers', 'roles', 'professions'));
     }
 
     public function store(Request $request)
@@ -66,7 +49,7 @@ class StaffController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'telephone' => 'required',
             'licence_number' => 'required',
-            'profession' => 'required',
+            'profession_id' => 'required',
             'dob' => 'required',
             'role' => 'required',
             'member_photo' => 'required',
@@ -78,7 +61,7 @@ class StaffController extends Controller
             'email.unique' => __('staff.existsEmail'),
             'telephone.required' => __('staff.requiredTelephone'),
             'licence_number.required' => __('staff.requiredLicence'),
-            'profession.required' => __('staff.requiredProfession'),
+            'profession_id.required' => __('staff.requiredProfession'),
             'dob.required' => __('staff.requiredDOB'),
             'role.required' => __('staff.requiredRole'),
         ]);
@@ -93,13 +76,24 @@ class StaffController extends Controller
         $user = User::create($request->all());
         $user->assignRole($request->role);
         $user->notify(new AccountDetailNotification($user, $request['password']));
-        if (isset($request->kindergarten_id)) {
-            $user->userKindergarten()->create(['kindergarten_id' => $request->kindergarten_id]);
+        if (count($request->kindergarten)) {
+            $user->staffKindergartens()->createMany($request->kindergarten);
         }
         if (count($request->schedule)) {
             $user->days()->createMany($request->schedule);
         }
         return redirect()->route('staff.index');
+    }
+
+    public function show($id)
+    {
+        $staff = User::findOrFail($id);
+        $managers = User::select('id as key', 'name as value')->role('manager')->get()->toArray();
+        $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
+        $roles = Role::select('name as key', 'name as value')->where('name', '!=', 'admin')->get()->toArray();
+        $memberRoles = MemberRole::select('id as key', 'name as value')->get()->toArray();
+        $professions = Profession::select('id as key', 'name as value')->get()->toArray();
+        return view('staff.show', compact('staff', 'kindergartens', 'managers', 'roles', 'memberRoles', 'professions'));
     }
 
     public function edit($id)
@@ -108,7 +102,9 @@ class StaffController extends Controller
         $managers = User::select('id as key', 'name as value')->role('manager')->get()->toArray();
         $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
         $roles = Role::select('name as key', 'name as value')->where('name', '!=', 'admin')->get()->toArray();
-        return view('staff.edit', compact('staff', 'kindergartens', 'managers', 'roles'));
+        $memberRoles = MemberRole::select('id as key', 'name as value')->get()->toArray();
+        $professions = Profession::select('id as key', 'name as value')->get()->toArray();
+        return view('staff.edit', compact('staff', 'kindergartens', 'managers', 'roles', 'memberRoles', 'professions'));
     }
 
     public function update(Request $request, $id)
@@ -118,7 +114,7 @@ class StaffController extends Controller
             'address' => 'required',
             'telephone' => 'required',
             'licence_number' => 'required',
-            'profession' => 'required',
+            'profession_id' => 'required',
             'dob' => 'required',
             'role' => 'required',
         ],[
@@ -126,7 +122,7 @@ class StaffController extends Controller
             'address.required' => __('staff.requiredAddress'),
             'telephone.required' => __('staff.requiredTelephone'),
             'licence_number.required' => __('staff.requiredLicence'),
-            'profession.required' => __('staff.requiredProfession'),
+            'profession_id.required' => __('staff.requiredProfession'),
             'dob.required' => __('staff.requiredDOB'),
             'role.required' => __('staff.requiredRole'),
         ]);
@@ -140,9 +136,9 @@ class StaffController extends Controller
         }
         $user->update($request->except('_token', '_method', 'kindergarten_id', 'schedule'));
         $user->syncRoles($request->role);
-        if (isset($request->kindergarten_id)) {
-            $user->userKindergarten()->delete();
-            $user->userKindergarten()->create(['kindergarten_id' => $request->kindergarten_id]);
+        if (count($request->kindergarten)) {
+            $user->staffKindergartens()->delete();
+            $user->staffKindergartens()->createMany($request->kindergarten);
         }
         if (count($request->schedule)) {
             foreach ($request->schedule as $schedule) {
@@ -159,5 +155,25 @@ class StaffController extends Controller
             return response()->json(['status' => true, 'message' => __('staff.staff.deleteStaffMsg'), 'ids' => $ids]);
         }
         return response()->json(['status' => false, 'ids' => $ids]);
+    }
+
+    public function selectedKindergarten(Request $request)
+    {
+        $tr = '';
+        $professions = Profession::select('id as key', 'name as value')->get()->toArray();
+        $roles = MemberRole::select('id as key', 'name as value')->get()->toArray();
+        $index = 0;
+        foreach ($request->ids as $id) {
+            $staffKindergarten = StaffKindergarten::where(['user_id' => $request->user_id, 'kindergarten_id' => $id])->first();
+            $tr .= view('components.kindergarten-tr', [
+                'id' => $id,
+                'index' => $index,
+                'professions' => $professions,
+                'roles' => $roles,
+                'data' => $staffKindergarten,
+            ])->render();
+            $index++;
+        }
+        return response()->json(['status' => true, 'data' => $tr]);
     }
 }

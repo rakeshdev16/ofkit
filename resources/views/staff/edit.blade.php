@@ -1,6 +1,6 @@
 @extends('layout.master')
 @push('customLink')
-    
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endpush
 @section('section')
 <div class="wrapper">
@@ -35,6 +35,10 @@
                             <form class="row g-3" action="{{ route('staff.update', $staff->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
+                                <div class="col-md-12 text-center upload-photo">
+                                    <img src="{{ $staff->photo ?? 'https://placehold.co/150x150' }}" id="previewImage" alt="">
+                                </div>
+                                <input type="file" style="visibility: hidden" name="member_photo" id="imgInp">
                                 <div class="col-md-6">
                                     @include('components.text-input', ['label' => __('staff.nameTh'), 'name' => 'name', 'icon' => 'user', 'value' => $staff->name])
                                 </div>
@@ -51,36 +55,63 @@
                                     @include('components.text-input', ['label' => __('staff.licenceNumberTh'), 'name' => 'licence_number', 'icon' => 'credit-card', 'value' => $staff->licence_number])
                                 </div>
                                 <div class="col-md-6">
-                                    @include('components.text-input', ['label' => __('staff.professionTh'), 'name' => 'profession', 'icon' => 'user-circle', 'value' => $staff->profession])
+                                    @include('components.select-input', [
+                                        'label' => __('staff.professionTh'),
+                                        'name' => 'profession_id',
+                                        'icon' => 'user-circle',
+                                        'options' => $professions,
+                                        'value' => $staff->profession_id
+                                    ])
                                 </div>
                                 <div class="col-md-6">
                                     @include('components.date-input', ['label' => __('staff.birthDateTh'), 'name' => 'dob', 'value' => date('Y-m-d', strtotime($staff->dob))])
                                 </div>
                                 <div class="col-md-6">
                                     @include('components.select-input', [
-                                        'label' => __('staff.roleTh'), 
-                                        'name' => 'role', 
-                                        'icon' => 'user-check', 
+                                        'label' => __('staff.roleTh'),
+                                        'name' => 'role',
+                                        'icon' => 'user-check',
                                         'options' => $roles,
                                         'value' => $staff->getRoleNames()->first()
                                     ])
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     @include('components.select-input', [
-                                        'label' => __('staff.kindergartenTh'), 
-                                        'name' => 'kindergarten_id', 
-                                        'icon' => 'buildings', 
+                                        'label' => __('staff.kindergartenTh'),
+                                        'name' => 'kindergarten_id',
+                                        'class' => 'kindergarten',
+                                        'icon' => 'buildings',
+                                        'multiple' => 'multiple',
                                         'options' => $kindergartens,
-                                        'value' => @$staff->userKindergarten->kindergarten_id
+                                        'value' => @$staff->staffKindergartens->pluck('kindergarten_id')->toArray()
                                     ])
                                 </div>
-                                <div class="col-md-6">
-                                    @include('components.file-input', [
-                                        'label' => 'Upload Photo',
-                                        'name' => 'member_photo',
-                                        'icon' => 'buildings',
-                                        'value' => $staff->photo
-                                    ])
+                                <div class="col-md-12 kindergarten-section" style="display: {{ count($staff->staffKindergartens) > 0 ? '' : 'none' }}">
+                                    <div class="time-table">
+                                        <h4 class="text-center">Kindergarten</h4>
+                                        <div class="table-responsive" style="display: block !important;">
+                                            <table class="table table-borderd" style="width:100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Role</th>
+                                                        <th>Profession</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="selected-kindergarten">
+                                                    @foreach ($staff->staffKindergartens as $kindergarten)
+                                                        @include('components.kindergarten-tr', [
+                                                            'id' => $kindergarten->kindergarten_id,
+                                                            'index' => $loop->index,
+                                                            'professions' => $professions,
+                                                            'roles' => $memberRoles,
+                                                            'data' => $kindergarten
+                                                        ])
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="time-table">
@@ -88,43 +119,45 @@
                                         @php
                                             $days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
                                         @endphp
-                                        <table class="table table-borderd">
-                                            <tr>
-                                                <th>{{ __('staff.day') }}</th>
-                                                <th>{{ __('staff.start') }}</th>
-                                                <th>{{ __('staff.end') }}</th>
-                                            </tr>
-                                            @foreach ($days as $day)
-                                                @php
-                                                    $data = @$staff->days[$loop->index];
-                                                @endphp
+                                        <div class="table-responsive" style="display: block !important;">
+                                            <table class="table table-borderd" style="width:100%;">
                                                 <tr>
-                                                    <td>
-                                                        <h6 class="pt-2">{{ __('staff.'.$day) }}</h6>
-                                                        <input type="hidden" name="schedule[{{$loop->index}}][id]" value="{{ @$data['id'] }}">
-                                                        <input type="hidden" name="schedule[{{$loop->index}}][day]" value="{{ $day }}">
-                                                    </td>
-                                                    <td>
-                                                        <input
-                                                            type="time"
-                                                            name="schedule[{{$loop->index}}][start_time]"
-                                                            class="form-control"
-                                                            placeholder="Enter Start Date",
-                                                            value="{{ @$data['start_time'] }}"
-                                                        >
-                                                    </td>
-                                                    <td>
-                                                        <input
-                                                            type="time"
-                                                            name="schedule[{{$loop->index}}][end_time]"
-                                                            class="form-control"
-                                                            placeholder="Enter end Date",
-                                                            value="{{ @$data['end_time'] }}"
-                                                        >
-                                                    </td>
+                                                    <th>{{ __('staff.day') }}</th>
+                                                    <th>{{ __('staff.start') }}</th>
+                                                    <th>{{ __('staff.end') }}</th>
                                                 </tr>
-                                            @endforeach
-                                        </table>
+                                                @foreach ($days as $day)
+                                                    @php
+                                                        $data = @$staff->days[$loop->index];
+                                                    @endphp
+                                                    <tr>
+                                                        <td>
+                                                            <h6 class="pt-2">{{ __('staff.'.$day) }}</h6>
+                                                            <input type="hidden" name="schedule[{{$loop->index}}][id]" value="{{ @$data['id'] }}">
+                                                            <input type="hidden" name="schedule[{{$loop->index}}][day]" value="{{ $day }}">
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                type="time"
+                                                                name="schedule[{{$loop->index}}][start_time]"
+                                                                class="form-control"
+                                                                placeholder="Enter Start Date",
+                                                                value="{{ @$data['start_time'] }}"
+                                                            >
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                type="time"
+                                                                name="schedule[{{$loop->index}}][end_time]"
+                                                                class="form-control"
+                                                                placeholder="Enter end Date",
+                                                                value="{{ @$data['end_time'] }}"
+                                                            >
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -142,5 +175,34 @@
 </div>
 @endsection
 @push('customScript')
-    
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.kindergarten').select2();
+        });
+
+        $(document).on('click', '#previewImage', function() {
+            $('#imgInp').click();
+        });
+
+        $(document).on('change', '.kindergarten', function() {
+            var ids = $(this).val();
+            var user_id = "{{ @request()->segment(2) }}";
+            $.ajax({
+                type : 'GET',
+                url : "{{ route('selected.kindergarten') }}",
+                data : {
+                    ids: ids,
+                    user_id: user_id,
+                },
+                success : function(data){
+                    if (data.status == true) {
+                        $('.selected-kindergarten').html('');
+                        $('.kindergarten-section').show();
+                        $('.selected-kindergarten').append(data.data);
+                    }
+                }
+            });
+        })
+    </script>
 @endpush

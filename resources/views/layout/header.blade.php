@@ -139,6 +139,12 @@
                             @include('components.menu', [
                                 'name' => __('menu.tables'),
                                 'icon' => 'fi_3602109.png',
+                                'options' => [
+                                    ['icon' => 'fi_2887367.png', 'name' => 'Framework', 'route' => ''],
+                                    ['icon' => 'fi_2887367.png', 'name' => 'Staff', 'route' => ''],
+                                    ['icon' => 'fi_2887367.png', 'name' => 'Children', 'route' => ''],
+                                    ['icon' => 'fi_2887367.png', 'name' => 'Intervention', 'route' => '']
+                                ],
                             ])
                         @endif
                         @if ($user->hasAnyPermission(['kindergarten.index', 'kindergarten.store']))
@@ -157,8 +163,8 @@
                                 'width' => '180px',
                                 'icon' => 'fi_4549612.png',
                                 'options' => [
-                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.allClusters'), 'route' => route('cluster.index')],
-                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.addClusters'), 'route' => route('cluster.create')]
+                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.clusterList'), 'route' => route('cluster.index')],
+                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.addCluster'), 'route' => route('cluster.create')]
                                 ],
                             ])
                         @endif
@@ -179,9 +185,9 @@
                                 'width' => '250px',
                                 'icon' => 'fi_2887367.png',
                                 'options' => [
-                                    ['icon' => 'fi_1478254.png', 'name' => __('menu.professionalTherapist'), 'route' => route('staff.index')],
-                                    ['icon' => 'fi_6212658.png', 'name' => __('menu.therapistCoordinator'), 'route' => route('staff.index')],
-                                    ['icon' => 'fi_9959428.png', 'name' => __('menu.childPsychiatrist'), 'route' => route('staff.index')]
+                                    ['icon' => 'fi_1478254.png', 'name' => __('menu.staffList'), 'route' => route('staff.index')],
+                                    ['icon' => 'fi_6212658.png', 'name' => __('menu.addStaff'), 'route' => route('staff.create')],
+                                    // ['icon' => 'fi_9959428.png', 'name' => __('menu.childPsychiatrist'), 'route' => route('staff.index')]
                                 ],
                             ])
                         @endif

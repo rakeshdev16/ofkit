@@ -30,12 +30,17 @@
                 <td>{{ $member->address }}</td>
                 <td>{{ $member->telephone }}</td>
                 <td>{{ $member->email }}</td>
-                <td>{{ $member->profession }}</td>
+                <td>{{ @$member->profession->name }}</td>
                 <td>{{ $member->licence_number }}</td>
                 <td>{{ $member->getRoleNames()->first() }}</td>
-                <td>{{ @getKindergartenNameById($member->userKindergarten->kindergarten_id) ?? '-' }}</td>
+                <td>
+                    @foreach ($member->staffKindergartens as $staffKindergarten)
+                        {{ @$staffKindergarten->kindergartens->name }} {{ !$loop->last ? ',' : '' }}
+                    @endforeach
+                </td>
                 <td>
                     <a href="{{ route('staff.edit', $member->id) }}" class=""><i class="bx bx-edit"></i></a>
+                    <a href="{{ route('staff.show', $member->id) }}" class=""><i class="bx bx-show"></i></a>
                 </td>
             </tr>
         @empty

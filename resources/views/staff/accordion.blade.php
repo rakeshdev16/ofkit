@@ -1,6 +1,5 @@
 <div class="mx-3 p-1">
     <input type="checkbox" class="mainCheckbox">&nbsp;&nbsp;&nbsp;
-    {{-- <label for="">{{ __('staff.mainCheckboxLabel') }}</label> --}}
 </div>
 @foreach ($members as $member)
     <div class="accordion accordion-flush tr-{{ $member->id }}" id="accordion{{ $loop->iteration }}">
@@ -9,8 +8,16 @@
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false"
                     aria-controls="flush-collapse{{ $loop->iteration }}">
-                    <input type="checkbox" value="{{ $member->id }}" class="checkbox">&nbsp;&nbsp;
-                    {{ @$member->kindergarten->name ?? '-' }}
+                    <div class="row">
+                        <div class="col-2">
+                            <input type="checkbox" value="{{ $member->id }}" class="checkbox">&nbsp;&nbsp;
+                        </div>
+                        <div class="col-8">{{ $member->name ?? '-' }}</div>
+                        <div class="col-2 d-flex justify-content-center">
+                            <a href="{{ route('staff.edit', $member->id) }}" class=""><i class="bx bx-edit"></i></a>
+                            <a href="{{ route('staff.show', $member->id) }}" class=""><i class="bx bx-show"></i></a>
+                        </div>
+                    </div>
                 </button>
             </h2>
             <div id="flush-collapse{{ $loop->iteration }}" class="accordion-collapse collapse"
@@ -39,7 +46,7 @@
                     </div>
                     <div class="d-flex">
                         <div class="w-50">{{ __('staff.professionTh') }}</div>
-                        <div class="w-50">{{ $member->profession }}</div>
+                        <div class="w-50">{{ @$member->profession->name }}</div>
                     </div>
                     <div class="d-flex">
                         <div class="w-50">{{ __('staff.licenceNumberTh') }}</div>
@@ -51,7 +58,11 @@
                     </div>
                     <div class="d-flex">
                         <div class="w-50">{{ __('staff.kindergartenTh') }}</div>
-                        <div class="w-50">{{ @$member->kindergarten->name ?? '-' }}</div>
+                        <div class="w-50">
+                            @foreach ($member->staffKindergartens as $staffKindergarten)
+                                {{ @$staffKindergarten->kindergartens->name }} {{ !$loop->last ? ',' : '' }}
+                            @endforeach 
+                        </div>
                     </div>
                 </div>
             </div>

@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -25,7 +26,7 @@ class User extends Authenticatable
         'address',
         'telephone',
         'licence_number',
-        'profession',
+        'profession_id',
         'dob',
         'identification',
         'photo',
@@ -51,19 +52,40 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function userKindergarten()
-    {
-        return $this->hasOne(KindergartenUser::class, 'user_id', 'id');
-    }
-    
-    public function kindergarten()
-    {
-        return $this->hasOne(Kindergarten::class, 'id', 'kindergarten_id');
-    }
-
     public function days()
     {
         return $this->hasMany(StaffSchedule::class);
+    }
+
+    public function profession()
+    {
+        return $this->hasOne(Profession::class, 'id', 'profession_id');
+    }
+    
+    public function staffKindergartens()
+    {
+        return $this->hasMany(StaffKindergarten::class);
+    }
+
+    public function scopeFilter($query)
+    {
+        if (request('sort') && request('sorting')) {
+            $query->orderBy(request('sort'), request('sorting'));
+        }
+        if (request('kindergarten_id')) {
+            $userIds = StaffKindergarten::where('kindergarten_id', request('kindergarten_id'))
+                ->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
+            $query->whereIn('id', $userIds);
+        }
+        if (request('search')) {
+            $query->where('name', 'like', '%'.request('search').'%');
+        }
+        if (Auth::user()->hasRole(['manager', 'therapist'])) {
+            $kindergartenIds = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
+            $userIds = StaffKindergarten::whereIn('kindergarten_id', $kindergartenIds)->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
+            $query->whereIn('id', $userIds);
+        }
+        return $query;
     }
 
     public function getDobAttribute($value)
