@@ -162,17 +162,21 @@ class StaffController extends Controller
         $professions = Profession::select('id as key', 'name as value')->get()->toArray();
         $roles = MemberRole::select('id as key', 'name as value')->get()->toArray();
         $index = 0;
-        foreach ($request->ids as $id) {
-            $staffKindergarten = StaffKindergarten::where(['user_id' => $request->user_id, 'kindergarten_id' => $id])->first();
-            $tr .= view('components.kindergarten-tr', [
-                'id' => $id,
-                'index' => $index,
-                'professions' => $professions,
-                'roles' => $roles,
-                'data' => $staffKindergarten,
-            ])->render();
-            $index++;
+        if (isset($request->ids) && count($request->ids) > 0) {
+            foreach ($request->ids as $id) {
+                $staffKindergarten = StaffKindergarten::where(['user_id' => $request->user_id, 'kindergarten_id' => $id])->first();
+                $tr .= view('components.kindergarten-tr', [
+                    'id' => $id,
+                    'index' => $index,
+                    'professions' => $professions,
+                    'roles' => $roles,
+                    'data' => $staffKindergarten,
+                ])->render();
+                $index++;
+            }
+            return response()->json(['status' => true, 'data' => $tr]);
+        } else {
+            return response()->json(['status' => false, 'data' => '']);
         }
-        return response()->json(['status' => true, 'data' => $tr]);
     }
 }

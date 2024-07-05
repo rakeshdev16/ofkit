@@ -186,6 +186,9 @@
                         $('.selected-kindergarten').html('');
                         $('.kindergarten-section').show();
                         $('.selected-kindergarten').append(data.data);
+                    } else {
+                        $('.selected-kindergarten').html('');
+                        $('.kindergarten-section').hide();
                     }
                 }
             });
