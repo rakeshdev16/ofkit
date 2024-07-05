@@ -47,7 +47,7 @@ class StaffController extends Controller
             'name' => 'required',
             'address' => 'required',
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'telephone' => 'required',
+            'telephone' => 'required|digits_between:8,14',
             'licence_number' => 'required',
             'profession_id' => 'required',
             'dob' => 'required',
@@ -111,7 +111,7 @@ class StaffController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'address' => 'required',
-            'telephone' => 'required',
+            'telephone' => 'required|digits_between:8,14',
             'licence_number' => 'required',
             'profession_id' => 'required',
             'dob' => 'required',
