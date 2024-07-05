@@ -7,6 +7,7 @@
         class="form-control @error($name) is-invalid @enderror {{ @$class }}"
         {{ @$multiple }}
         {{ @$disabled }}
+        {{ @$required }}
     >
         <option value="">Select</option>
         @foreach ($options as $option)

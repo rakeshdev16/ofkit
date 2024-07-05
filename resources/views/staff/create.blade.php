@@ -32,7 +32,7 @@
                     <div class="card">
                         <div class="card-body p-4">
                             <h5 class="mb-4">{{ __('staff.addStaffDetail') }}</h5>
-                            <form class="row g-3" action="{{ route('staff.store') }}" method="POST" enctype="multipart/form-data">
+                            <form class="row g-3" action="{{ route('staff.store') }}" method="POST" id="addStaffForm" enctype="multipart/form-data">
                                 @csrf
                                 <div class="col-md-12 text-center upload-photo">
                                     <img src="https://placehold.co/150x150" id="previewImage" alt="">
@@ -133,16 +133,24 @@
                                                                 type="time"
                                                                 name="schedule[{{$loop->index}}][start_time]"
                                                                 class="form-control"
-                                                                placeholder="Enter Start Date"
                                                             >
+                                                            @error("schedule[{{$loop->index}}][start_time]")
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                            @enderror
                                                         </td>
                                                         <td>
                                                             <input
                                                                 type="time"
                                                                 name="schedule[{{$loop->index}}][end_time]"
                                                                 class="form-control"
-                                                                placeholder="Enter end Date"
                                                             >
+                                                            @error("schedule[{{$loop->index}}][end_time]")
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                            @enderror
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -192,6 +200,6 @@
                     }
                 }
             });
-        })
+        }) 
     </script>
 @endpush

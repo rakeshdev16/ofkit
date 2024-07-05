@@ -9,7 +9,8 @@
             'icon' => 'buildings', 
             'options' => $roles,
             'value' => @$data->role_id,
-            'disabled' => Route::currentRouteName() == 'staff.show' ? 'disabled' : ''
+            'disabled' => Route::currentRouteName() == 'staff.show' ? 'disabled' : '',
+            'required' => 'required'
         ])
     </td>
     <td>
@@ -18,7 +19,8 @@
             'icon' => 'buildings', 
             'options' => $professions,
             'value' => @$data->profession_id,
-            'disabled' => Route::currentRouteName() == 'staff.show' ? 'disabled' : ''
+            'disabled' => Route::currentRouteName() == 'staff.show' ? 'disabled' : '',
+            'required' => 'required'
         ])
     </td>
 </tr>
