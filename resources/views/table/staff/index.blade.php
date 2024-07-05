@@ -4,30 +4,35 @@
 @section('section')
     <div class="page-wrapper">
         <div class="page-content">
-            <ul class="nav nav-fill nav-tabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="professionTab" data-bs-toggle="tab" href="#profession" role="tab"
-                        aria-controls="profession" aria-selected="true"> Profession </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="roleTab" data-bs-toggle="tab" href="#role" role="tab"
-                        aria-controls="role" aria-selected="false"> Role </a>
-                </li>
-                {{-- <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="associationTab" data-bs-toggle="tab" href="#association" role="tab"
-                        aria-controls="association" aria-selected="false"> Association </a>
-                </li> --}}
-            </ul>
-            <div class="tab-content pt-5" id="tab-content">
-                <div class="tab-pane active" id="profession" role="tabpanel" aria-labelledby="professionTab">
-                    @include('table.staff.profession.index', ['professions' => $professions])
+            <div class="card-body">
+                <ul class="nav nav-tabs nav-primary mb-0 tables" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" data-type="profession" data-bs-toggle="tab" href="#profession" role="tab" aria-selected="false" tabindex="-1">
+                            <div class="d-flex align-items-center">
+                                <div class="tab-icon"><i class="bx bx-comment-detail font-18 me-1"></i>
+                                </div>
+                                <div class="tab-title"> Profession </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-type="role" data-bs-toggle="tab" href="#role" role="tab" aria-selected="false" tabindex="-1">
+                            <div class="d-flex align-items-center">
+                                <div class="tab-icon"><i class="bx bx-bookmark-alt font-18 me-1"></i>
+                                </div>
+                                <div class="tab-title">Role</div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content pt-3">
+                    <div class="tab-pane fade active show" id="profession" role="tabpanel">
+                        @include('table.staff.profession.index', ['professions' => $professions])
+                    </div>
+                    <div class="tab-pane fade" id="role" role="tabpanel">
+                        @include('table.staff.role.index', ['roles' => $roles])
+                    </div>
                 </div>
-                <div class="tab-pane" id="role" role="tabpanel" aria-labelledby="roleTab">
-                    @include('table.staff.role.index', ['roles' => $roles])
-                </div>
-                {{-- <div class="tab-pane" id="association" role="tabpanel" aria-labelledby="associationTab">
-                    @include('table.staff.association.index')
-                </div> --}}
             </div>
         </div>
     </div>
@@ -37,8 +42,13 @@
     <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
     <script>
         $(document).on('click', '.nav-link', function() {
-            window.location.href.split('?')[0];
-            var type = $(this).attr('aria-controls');
+            var uri = window.location.toString();
+            
+            if (uri.indexOf("?") > 0) {
+                var clean_uri = uri.substring(0, uri.indexOf("?"));
+                window.history.replaceState({}, document.title, clean_uri);
+            }
+            var type = $(this).data('type');
             queryParam('type', type);
             $('#profession').html('');
             $('#role').html('');

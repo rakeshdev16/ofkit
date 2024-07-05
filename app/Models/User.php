@@ -95,6 +95,6 @@ class User extends Authenticatable
 
     public function getPhotoAttribute($value)
     {
-        return $this->attributes['photo'] ? asset('storage/'.$this->attributes['photo']) : '';
+        return isset($this->attributes['photo']) ? asset('storage/'.$this->attributes['photo']) : 'https://placehold.co/150x150';
     }
 }

@@ -52,7 +52,6 @@ class StaffController extends Controller
             'profession_id' => 'required',
             'dob' => 'required',
             'role' => 'required',
-            'member_photo' => 'required',
         ],[
             'name.required' => __('staff.requiredName'),
             'address.required' => __('staff.requiredAddress'),

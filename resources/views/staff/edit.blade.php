@@ -36,7 +36,7 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="col-md-12 text-center upload-photo">
-                                    <img src="{{ $staff->photo ?? 'https://placehold.co/150x150' }}" id="previewImage" alt="">
+                                    <img src="{{ $staff->photo }}" id="previewImage" alt="">
                                 </div>
                                 <input type="file" style="visibility: hidden" name="member_photo" id="imgInp">
                                 <div class="col-md-6">

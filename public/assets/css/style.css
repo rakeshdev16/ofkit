@@ -124,3 +124,10 @@ div#paginate {
     background-color: transparent !important;
     border: 1px solid #c7c8c9 !important;
 }
+.tables li a.nav-link {
+    color: #095F59 !important;
+}
+.tables.nav-primary.nav-tabs .nav-link.active {
+    color: #095F59 !important;
+    border-color: #095F59 #095F59 #fff !important;
+}
