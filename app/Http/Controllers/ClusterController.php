@@ -20,7 +20,7 @@ class ClusterController extends Controller
                 $clusters->orderBy($request->sort, $request->sorting);
             }
             if ($request->search) {
-                $clusters->where('name', 'like', '%'.$request->search.'%');
+                $clusters->where('cluster', 'like', '%'.$request->search.'%');
             }
             $clusters = $clusters->paginate(10);
             return response()->json([
