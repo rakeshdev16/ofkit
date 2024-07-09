@@ -21,7 +21,6 @@ class ClusterController extends Controller
                 'accordion' => view('cluster.accordion', ['clusters' => $clusters])->render()
             ]);
         }
-        $clusters = $clusters->paginate(10);
         return view('cluster.index', compact('clusters'));
     }
     
