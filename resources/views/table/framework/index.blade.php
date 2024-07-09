@@ -7,7 +7,7 @@
             <div class="card-body">
                 <ul class="nav nav-tabs nav-primary mb-0 tables" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {{ request()->type == 'kindergarten-type' ? 'active' : '' }}" data-type="kindergarten-type" data-bs-toggle="tab" href="#kindergartenType" role="tab" aria-selected="false" tabindex="-1">
+                        <a class="nav-link {{ request()->type == 'kindergarten-type' ? 'active' : '' }}" data-type="kindergarten-type" data-bs-toggle="tab" href="#kindergarten-type" role="tab" aria-selected="false" tabindex="-1">
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-comment-detail font-18 me-1"></i>
                                 </div>
@@ -16,7 +16,7 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {{ request()->type == 'framework-type' ? 'active' : '' }}" data-type="framework-type" data-bs-toggle="tab" href="#frameworkType" role="tab" aria-selected="false" tabindex="-1">
+                        <a class="nav-link {{ request()->type == 'framework-type' ? 'active' : '' }}" data-type="framework-type" data-bs-toggle="tab" href="#framework-type" role="tab" aria-selected="false" tabindex="-1">
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-bookmark-alt font-18 me-1"></i>
                                 </div>
@@ -26,10 +26,10 @@
                     </li>
                 </ul>
                 <div class="tab-content pt-3">
-                    <div class="tab-pane fade {{ request()->type == 'kindergarten-type' ? 'active show' : '' }}" id="kindergartenType" role="tabpanel">
+                    <div class="tab-pane fade {{ request()->type == 'kindergarten-type' ? 'active show' : '' }}" id="kindergarten-type" role="tabpanel">
                         @include('table.framework.kindergarten-type.index', ['kindergartenTypes' => $kindergartenTypes])
                     </div>
-                    <div class="tab-pane fade {{ request()->type == 'framework-type' ? 'active show' : '' }}" id="frameworkType" role="tabpanel">
+                    <div class="tab-pane fade {{ request()->type == 'framework-type' ? 'active show' : '' }}" id="framework-type" role="tabpanel">
                         @include('table.framework.framework-type.index', ['frameworkTypes' => $frameworkTypes])
                     </div>
                 </div>
@@ -50,8 +50,8 @@
             }
             var type = $(this).data('type');
             queryParam('type', type);
-            $('#profession').html('');
-            $('#role').html('');
+            $('#kindergarten-type').html('');
+            $('#framework-type').html('');
             $.ajax({
                 type : 'GET',
                 url : "{{ route('framework-table.tab') }}",

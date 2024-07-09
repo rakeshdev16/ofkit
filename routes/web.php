@@ -32,7 +32,7 @@ Route::middleware(['auth', 'lang'])->group(function () {
     Route::resource('staff-table', StaffTableController::class);
     Route::resource('framework-table', FrameworkTableController::class);
 
-    Route::controller(StaffTableController::class)->group(function () {
+    Route::controller(FrameworkTableController::class)->group(function () {
         Route::get('framework-table-tab', 'frameWorkTableTab')->name('framework-table.tab');
     });
     Route::controller(StaffController::class)->group(function () {

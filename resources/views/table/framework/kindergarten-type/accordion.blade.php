@@ -17,7 +17,7 @@
                 data-bs-parent="#accordion{{ $loop->iteration }}" style="">
                 <div class="accordion-body">
                     <div class="d-flex">
-                        <div class="w-50">{{ __('cluster.clusterTh') }}</div>
+                        <div class="w-50">Name</div>
                         <div class="w-50">{{ $kindergartenType->name }}</div>
                     </div>
                 </div>
