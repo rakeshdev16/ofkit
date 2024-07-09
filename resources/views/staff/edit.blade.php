@@ -40,6 +40,11 @@
                                     <div class="cam-icom">
                                         <i class="bx bx-camera"></i>
                                     </div>
+                                    @error('member_photo')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                                 <input type="file" style="visibility: hidden" name="member_photo" id="imgInp">
                                 <div class="col-md-6">

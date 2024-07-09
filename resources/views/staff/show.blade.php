@@ -81,8 +81,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
-                                                    <th>Role</th>
-                                                    <th>Profession</th>
+                                                    <th>Professional Role</th>
+                                                    <th>Association</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="selected-kindergarten">

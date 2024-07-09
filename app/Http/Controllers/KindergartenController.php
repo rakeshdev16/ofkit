@@ -42,7 +42,7 @@ class KindergartenController extends Controller
             'framework' => 'required',
             'type' => 'required',
             'address' => 'required',
-            'telephone' => 'required',
+            'telephone' => 'required|digits_between:8,14',
         ],[
             'name.required' => __('kindergarten.requiredName'),
             'symbol.required' => __('kindergarten.requiredSymbol'),
@@ -77,7 +77,7 @@ class KindergartenController extends Controller
             'framework' => 'required',
             'type' => 'required',
             'address' => 'required',
-            'telephone' => 'required',
+            'telephone' => 'required|digits_between:8,14',
         ],[
             'name.required' => __('kindergarten.requiredName'),
             'symbol.required' => __('kindergarten.requiredSymbol'),
@@ -89,9 +89,11 @@ class KindergartenController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        Kindergarten::where('id', $id)->update($request->except('_token', '_method', 'manager_id'));
+        $kindergarten = Kindergarten::findOrFail($id);
+        $kindergarten->update($request->except('_token', '_method', 'manager_id'));
         if (isset($request->manager_id)) {
-            Kindergarten::findOrFail($id)->kindergartenUser()->update(['user_id' => $request->manager_id]);
+            $kindergarten->kindergartenUser()->delete();
+            $kindergarten->kindergartenUser()->create(['user_id' => $request->manager_id]);
         }
         return redirect()->route('kindergarten.index');
     }
