@@ -91,8 +91,8 @@ class KindergartenController extends Controller
         }
         $kindergarten = Kindergarten::findOrFail($id);
         $kindergarten->update($request->except('_token', '_method', 'manager_id'));
+        $kindergarten->kindergartenUser()->delete();
         if (isset($request->manager_id)) {
-            $kindergarten->kindergartenUser()->delete();
             $kindergarten->kindergartenUser()->create(['user_id' => $request->manager_id]);
         }
         return redirect()->route('kindergarten.index');

@@ -7,7 +7,6 @@
             <th><input type="checkbox" class="mainCheckbox"></th>
             @include('components.table-heading', ['label' => __('kindergarten.telephoneTh'), 'key' => 'telephone'])
             @include('components.table-heading', ['label' => __('kindergarten.addressTh'), 'key' => 'address'])
-            @include('components.table-heading', ['label' => __('kindergarten.managerTh'), 'key' => 'manager'])
             @include('components.table-heading', ['label' => __('kindergarten.clusterManagerTh'), 'key' => 'cluster_manager'])
             @include('components.table-heading', ['label' => __('kindergarten.clusterTh'), 'key' => 'cluster'])
             @include('components.table-heading', ['label' => __('kindergarten.typeTh'), 'key' => 'type'])
@@ -23,8 +22,7 @@
                 <td><input type="checkbox" name="id[]" value="{{ $kindergarten->id }}" class="checkbox"></td>
                 <td>{{ $kindergarten->telephone }}</td>
                 <td>{{ $kindergarten->address }}</td>
-                <td>{{ @getUserNameById($kindergarten->kindergartenUser->user_id) }}</td>
-                <td>{{ @getUserNameById($kindergarten->cluster->manager_id) ?? '-' }}</td>
+                <td>{{ @getUserNameById($kindergarten->kindergartenUser->user_id) ?? '-' }}</td>
                 <td>{{ @$kindergarten->cluster->cluster ?? '-' }}</td>
                 <td>{{ $kindergarten->type }}</td>
                 <td>{{ $kindergarten->framework }}</td>
