@@ -28,11 +28,6 @@
                 </div>
             </div>
             <div class="row">
-                @php
-                    echo '<pre>';
-                        print_r(Session::get('errors'));
-                    echo '</pre>';
-                @endphp
                 <div class="col-xl-6 mx-auto">
                     <div class="card">
                         <div class="card-body p-4">
