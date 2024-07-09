@@ -136,3 +136,11 @@ div#paginate {
     color: #095F59 !important;
     border-color: #095F59 #095F59 #fff !important;
 }
+
+.error {
+    font-weight: 500;
+}
+
+.time-picker {
+    text-align: right !important;
+}

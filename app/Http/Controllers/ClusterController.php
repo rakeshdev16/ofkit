@@ -20,7 +20,8 @@ class ClusterController extends Controller
                 $clusters->orderBy($request->sort, $request->sorting);
             }
             if ($request->search) {
-                $clusters->where('cluster', 'like', '%'.$request->search.'%');
+                $memberId = User::where('name', 'like', '%'.$request->search.'%')->pluck('id')->toArray();
+                $clusters->whereIn('manager_id', $memberId);
             }
             $clusters = $clusters->paginate(10);
             return response()->json([

@@ -57,13 +57,13 @@
             var url = "{{ route('staff.destroy', ':ids') }}";
             url = url.replace(':ids', ids);
             Swal.fire({
-                title: "{{ __('staff.confirmTitle') }}",
-                text: "{{ __('staff.confirmText') }}",
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
+                confirmButtonText: "Yes, archive it!"
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({

@@ -13,7 +13,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('staff-table.index') }}">
+                                <a href="{{ route('staff-table.index') }}?type=profession">
                                     <img class="p-1" src="{{ asset('assets/icons/fi_2887367.png') }}"/>
                                 </a>
                             </li>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="ms-auto">
                     <div class="">
-                        <a href="{{ route('staff-table.index') }}" class="btn button">Back</a>
+                        <a href="{{ route('staff-table.index') }}?type=profession" class="btn button">Back</a>
                     </div>
                 </div>
             </div>

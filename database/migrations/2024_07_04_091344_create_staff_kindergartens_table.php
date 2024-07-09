@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('kindergarten_id')->constrained('kindergartens')->onDelete('cascade');
             $table->foreignId('role_id')->constrained('member_roles')->onDelete('cascade');
-            $table->foreignId('profession_id')->constrained('professions')->onDelete('cascade');
+            $table->foreignId('association_id')->constrained('associations')->onDelete('cascade');
             $table->timestamps();
         });
     }

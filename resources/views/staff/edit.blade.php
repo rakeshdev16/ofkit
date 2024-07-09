@@ -28,6 +28,11 @@
                 </div>
             </div>
             <div class="row">
+                @php
+                    echo '<pre>';
+                        print_r(Session::get('errors'));
+                    echo '</pre>';
+                @endphp
                 <div class="col-xl-6 mx-auto">
                     <div class="card">
                         <div class="card-body p-4">
@@ -81,7 +86,7 @@
                                 <div class="col-md-12">
                                     @include('components.select-input', [
                                         'label' => __('staff.kindergartenTh'),
-                                        'name' => 'kindergarten_id',
+                                        'name' => 'kindergarten_id[]',
                                         'class' => 'kindergarten',
                                         'icon' => 'buildings',
                                         'multiple' => 'multiple',
@@ -97,8 +102,8 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Name</th>
-                                                        <th>Role</th>
-                                                        <th>Profession</th>
+                                                        <th>Professional Role</th>
+                                                        <th>Association</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="selected-kindergarten">
@@ -107,7 +112,7 @@
                                                             'id' => $kindergarten->kindergarten_id,
                                                             'index' => $loop->index,
                                                             'professions' => $professions,
-                                                            'roles' => $memberRoles,
+                                                            'memberRoles' => $memberRoles,
                                                             'data' => $kindergarten
                                                         ])
                                                     @endforeach
@@ -132,6 +137,8 @@
                                                 @foreach ($days as $day)
                                                     @php
                                                         $data = @$staff->days[$loop->index];
+                                                        $startTime = 'schedule.'.$loop->index.'.start_time';
+                                                        $endTime = 'schedule.'.$loop->index.'.end_time';
                                                     @endphp
                                                     <tr>
                                                         <td>
@@ -143,19 +150,29 @@
                                                             <input
                                                                 type="time"
                                                                 name="schedule[{{$loop->index}}][start_time]"
-                                                                class="form-control"
+                                                                class="form-control time-picker"
                                                                 placeholder="Enter Start Date",
-                                                                value="{{ @$data['start_time'] }}"
+                                                                value="{{ old($startTime) ?? @$data['start_time'] }}"
                                                             >
+                                                            @error($startTime)
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                            @enderror
                                                         </td>
                                                         <td>
                                                             <input
                                                                 type="time"
                                                                 name="schedule[{{$loop->index}}][end_time]"
-                                                                class="form-control"
+                                                                class="form-control time-picker"
                                                                 placeholder="Enter end Date",
-                                                                value="{{ @$data['end_time'] }}"
+                                                                value="{{ old($endTime) ?? @$data['end_time'] }}"
                                                             >
+                                                            @error($endTime)
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                            @enderror
                                                         </td>
                                                     </tr>
                                                 @endforeach

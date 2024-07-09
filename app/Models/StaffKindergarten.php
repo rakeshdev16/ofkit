@@ -9,7 +9,7 @@ class StaffKindergarten extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'kindergarten_id', 'role_id', 'profession_id'];
+    protected $fillable = ['user_id', 'kindergarten_id', 'role_id', 'association_id'];
 
     public function kindergartens()
     {

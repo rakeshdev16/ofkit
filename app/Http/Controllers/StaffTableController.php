@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Association;
 use App\Models\Cluster;
 use App\Models\Kindergarten;
 use App\Models\MemberRole;
@@ -18,6 +19,7 @@ class StaffTableController extends Controller
     {
         $professions = Profession::filter()->paginate(10);
         $roles = MemberRole::filter()->paginate(10);
+        $associations = Association::filter()->paginate(10);
         if ($request->ajax()) {
             switch ($request->type) {
                 case 'profession':
@@ -32,6 +34,12 @@ class StaffTableController extends Controller
                         'accordion' => view('table.staff.role.accordion', ['roles' => $roles])->render()
                     ]);
                 break;
+                case 'association':
+                    return response()->json([
+                        'table' => view('table.staff.association.table', ['associations' => $associations])->render(),
+                        'accordion' => view('table.staff.association.accordion', ['associations' => $associations])->render()
+                    ]);
+                break;
                 default:
                     return response()->json([
                         'table' => view('table.staff.profession.table', ['professions' => $professions])->render(),
@@ -40,7 +48,7 @@ class StaffTableController extends Controller
                 break;
             }
         }
-        return view('table.staff.index', compact('professions', 'roles'));
+        return view('table.staff.index', compact('professions', 'roles', 'associations'));
     }
 
     public function create(Request $request)
@@ -51,6 +59,9 @@ class StaffTableController extends Controller
             break;
             case 'role':
                 return view('table.staff.role.create');
+            break;
+            case 'association':
+                return view('table.staff.association.create');
             break;
             default:
                 return view('table.staff.profession.create');
@@ -85,6 +96,18 @@ class StaffTableController extends Controller
                 MemberRole::create($request->all());
                 return redirect()->route('staff-table.index', ['type' => 'role']);
             break;
+            case 'association':
+                $validator = Validator::make($request->all(), [
+                    'name' => 'required',
+                ],[
+                    'name.required' => 'Please enter name',
+                ]);
+                if ($validator->fails()) {
+                    return redirect()->back()->withErrors($validator)->withInput();
+                }
+                Association::create($request->all());
+                return redirect()->route('staff-table.index', ['type' => 'association']);
+            break;
         }
     }
 
@@ -98,6 +121,10 @@ class StaffTableController extends Controller
             case 'role':
                 $role = MemberRole::findOrFail($id);
                 return view('table.staff.role.edit', compact('role'));
+            break;
+            case 'association':
+                $association = Association::findOrFail($id);
+                return view('table.staff.association.edit', compact('association'));
             break;
             default:
                 $profession = Profession::findOrFail($id);
@@ -133,6 +160,18 @@ class StaffTableController extends Controller
                 MemberRole::where('id', $id)->update($request->except('_token', '_method', 'type'));
                 return redirect()->route('staff-table.index', ['type' => 'role']);
             break;
+            case 'association':
+                $validator = Validator::make($request->all(), [
+                    'name' => 'required',
+                ],[
+                    'name.required' => 'Please enter name',
+                ]);
+                if ($validator->fails()) {
+                    return redirect()->back()->withErrors($validator)->withInput();
+                }
+                Association::where('id', $id)->update($request->except('_token', '_method', 'type'));
+                return redirect()->route('staff-table.index', ['type' => 'association']);
+            break;
         }
     }
 
@@ -147,6 +186,11 @@ class StaffTableController extends Controller
             case 'role':
                 $ids = explode(',', $ids);
                 MemberRole::whereIn('id', $ids)->delete();
+                return response()->json(['status' => true, 'ids' => $ids]);
+            break;
+            case 'association':
+                $ids = explode(',', $ids);
+                Association::whereIn('id', $ids)->delete();
                 return response()->json(['status' => true, 'ids' => $ids]);
             break;
         }

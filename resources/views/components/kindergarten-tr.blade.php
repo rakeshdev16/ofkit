@@ -1,4 +1,4 @@
-<tr>
+<tr class="tr-{{$id}}">
     <td>
         <h6 class="pt-2">{{ getKindergartenNameById($id) }}</h6>
         <input type="hidden" name="kindergarten[{{$index}}][kindergarten_id]" value="{{ $id }}">
@@ -7,20 +7,29 @@
         @include('components.select-input', [
             'name' => "kindergarten[$index][role_id]", 
             'icon' => 'buildings', 
-            'options' => $roles,
-            'value' => @$data->role_id,
+            'options' => $memberRoles,
             'disabled' => Route::currentRouteName() == 'staff.show' ? 'disabled' : '',
-            'required' => 'required'
+            'value' => old('kindergarten.'.$index.'.role_id') ?? @$data->role_id
         ])
+        @error('kindergarten.'.$index.'.role_id')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
     </td>
     <td>
         @include('components.select-input', [
-            'name' => "kindergarten[$index][profession_id]", 
+            'name' => "kindergarten[$index][association_id]", 
             'icon' => 'buildings', 
-            'options' => $professions,
-            'value' => @$data->profession_id,
+            'options' => $associations,
+            'value' => @$data->association_id,
             'disabled' => Route::currentRouteName() == 'staff.show' ? 'disabled' : '',
-            'required' => 'required'
+            'value' => old('kindergarten.'.$index.'.association_id') ?? @$data->association_id
         ])
+        @error('kindergarten.'.$index.'.association_id')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
     </td>
 </tr>

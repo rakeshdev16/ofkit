@@ -83,14 +83,15 @@
                                 <div class="col-md-12">
                                     @include('components.select-input', [
                                         'label' => __('staff.kindergartenTh'),
-                                        'name' => 'kindergarten_id',
+                                        'name' => 'kindergarten_id[]',
                                         'class' => 'kindergarten',
                                         'icon' => 'buildings',
                                         'multiple' => 'multiple',
-                                        'options' => $kindergartens
+                                        'options' => $kindergartens,
+                                        'value' => old('kindergarten_id')
                                     ])
                                 </div>
-                                <div class="col-md-12 kindergarten-section" style="display: none">
+                                <div class="col-md-12 kindergarten-section" style="display: {{ Session::get('kindergartenIds') > 0 ? 'block' : 'none' }}">
                                     <div class="time-table">
                                         <h4 class="text-center">Kindergarten</h4>
                                         <div class="table-responsive" style="display: block !important;">
@@ -98,12 +99,21 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Name</th>
-                                                        <th>Role</th>
-                                                        <th>Profession</th>
+                                                        <th>Professional Role</th>
+                                                        <th>Association</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="selected-kindergarten">
-
+                                                    @if (Session::get('kindergartenIds'))
+                                                        @for ($i = 0; $i < count(Session::get('kindergartenIds')); $i++)
+                                                            @include('components.kindergarten-tr', [
+                                                                'id' => @Session::get('kindergartenIds')[$i],
+                                                                'index' => $i,
+                                                                'professions' => $professions,
+                                                                'memberRoles' => $memberRoles,
+                                                            ])
+                                                        @endfor
+                                                    @endif
                                                 </tbody>
                                             </table>
                                         </div>
@@ -123,6 +133,11 @@
                                                     <th>{{ __('staff.end') }}</th>
                                                 </tr>
                                                 @foreach ($days as $day)
+                                                    @php
+                                                        $index = $loop->index;
+                                                        $startTime = 'schedule.'.$index.'.start_time';
+                                                        $endTime = 'schedule.'.$index.'.end_time';
+                                                    @endphp
                                                     <tr>
                                                         <td>
                                                             <h6 class="pt-2">{{ __('staff.'.$day) }}</h6>
@@ -132,9 +147,11 @@
                                                             <input
                                                                 type="time"
                                                                 name="schedule[{{$loop->index}}][start_time]"
-                                                                class="form-control"
+                                                                class="form-control time-picker startTime"
+                                                                data-index="{{$index}}"
+                                                                value="{{ old($startTime) }}"
                                                             >
-                                                            @error("schedule[{{$loop->index}}][start_time]")
+                                                            @error($startTime)
                                                                 <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
                                                                 </span>
@@ -144,9 +161,11 @@
                                                             <input
                                                                 type="time"
                                                                 name="schedule[{{$loop->index}}][end_time]"
-                                                                class="form-control"
+                                                                class="form-control time-picker endTime{{$index}}"
+                                                                data-index="{{$index}}"
+                                                                value="{{ old($endTime) }}"
                                                             >
-                                                            @error("schedule[{{$loop->index}}][end_time]")
+                                                            @error($endTime)
                                                                 <span class="invalid-feedback" role="alert">
                                                                     <strong>{{ $message }}</strong>
                                                                 </span>
@@ -174,6 +193,7 @@
 @endsection
 @push('customScript')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/jquery.validate.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('.kindergarten').select2();
@@ -200,6 +220,6 @@
                     }
                 }
             });
-        }) 
+        });
     </script>
 @endpush

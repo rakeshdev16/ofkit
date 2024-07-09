@@ -5,19 +5,17 @@
     <thead>
         <tr>
             <th><input type="checkbox" class="mainCheckbox"></th>
-            @include('components.table-heading', ['label' => __('cluster.clusterTh'), 'key' => 'cluster'])
-            @include('components.table-heading', ['label' => __('cluster.managerTh'), 'key' => 'manager'])
+            @include('components.table-heading', ['label' => 'Name', 'key' => 'name'])
             @include('components.table-heading', ['label' => 'Action'])
         </tr>
     </thead>
     <tbody>
-        @forelse ($clusters as $cluster)
-            <tr class="tr-{{ $cluster->id }}">
-                <td><input type="checkbox" name="id[]" value="{{ $cluster->id }}" class="checkbox"></td>
-                <td>{{ $cluster->cluster }}</td>
-                <td>{{ @$cluster->manager->name ?? '-' }}</td>
+        @forelse ($associations as $association)
+            <tr class="tr-{{ $association->id }}">
+                <td><input type="checkbox" name="id[]" value="{{ $association->id }}" class="checkbox"></td>
+                <td>{{ @$association->name ?? '-' }}</td>
                 <td>
-                    <a href="{{ route('cluster.edit', $cluster->id) }}" class=""><i class="bx bx-edit"></i></a>
+                    <a href="{{ route('staff-table.edit', $association->id) }}?type=association" class=""><i class="bx bx-edit"></i></a>
                 </td>
             </tr>
         @empty
@@ -28,5 +26,5 @@
     </tbody>
 </table>
 <div class="dataTables_paginate paging_simple_numbers mt-3" id="paginate">
-    @include('components.pagination', ['paginate' => $clusters])
+    @include('components.pagination', ['paginate' => $associations])
 </div>

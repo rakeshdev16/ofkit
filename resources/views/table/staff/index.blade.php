@@ -11,7 +11,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-comment-detail font-18 me-1"></i>
                                 </div>
-                                <div class="tab-title"> Profession </div>
+                                <div class="tab-title"> Academic Profession </div>
                             </div>
                         </a>
                     </li>
@@ -20,7 +20,16 @@
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-bookmark-alt font-18 me-1"></i>
                                 </div>
-                                <div class="tab-title">Role</div>
+                                <div class="tab-title"> Professional Role</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-type="association" data-bs-toggle="tab" href="#association" role="tab" aria-selected="false" tabindex="-1">
+                            <div class="d-flex align-items-center">
+                                <div class="tab-icon"><i class="bx bx-bookmark-alt font-18 me-1"></i>
+                                </div>
+                                <div class="tab-title"> Association</div>
                             </div>
                         </a>
                     </li>
@@ -30,7 +39,10 @@
                         @include('table.staff.profession.index', ['professions' => $professions])
                     </div>
                     <div class="tab-pane fade" id="role" role="tabpanel">
-                        @include('table.staff.role.index', ['roles' => $roles])
+                        @include('table.staff.association.index', ['roles' => $roles])
+                    </div>
+                    <div class="tab-pane fade" id="association" role="tabpanel">
+                        @include('table.staff.association.index', ['roles' => $roles])
                     </div>
                 </div>
             </div>
@@ -77,13 +89,13 @@
             var url = "{{ route('staff-table.destroy', ':ids') }}";
             url = url.replace(':ids', ids);
             Swal.fire({
-                title: "{{ __('staff-table.confirmTitle') }}",
-                text: "{{ __('staff-table.confirmText') }}",
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
+                confirmButtonText: "Yes, archive it!"
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
