@@ -39,7 +39,7 @@
                         @include('table.staff.profession.index', ['professions' => $professions])
                     </div>
                     <div class="tab-pane fade {{ request()->type == 'role' ? 'active show' : '' }}" id="role" role="tabpanel">
-                        @include('table.staff.association.index', ['roles' => $roles])
+                        @include('table.staff.role.index', ['roles' => $roles])
                     </div>
                     <div class="tab-pane fade {{ request()->type == 'association' ? 'active show' : '' }}" id="association" role="tabpanel">
                         @include('table.staff.association.index', ['roles' => $roles])
