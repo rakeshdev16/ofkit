@@ -14,24 +14,16 @@ class KindergartenController extends Controller
 {
     public function index(Request $request)
     {
-        $kindergartens = Kindergarten::query();
+        $kindergartens = Kindergarten::filter()->paginate(10);
         if (Auth::user()->hasRole(['manager', 'therapist'])) {
             // $kindergartens->where('user_id', Auth::id());
         }
         if ($request->ajax()) {
-            if ($request->sort && $request->sorting) {
-                $kindergartens->orderBy($request->sort, $request->sorting);
-            }
-            if ($request->search) {
-                $kindergartens->where('name', 'like', '%'.$request->search.'%');
-            }
-            $kindergartens = $kindergartens->paginate(10);
             return response()->json([
                 'table' => view('kindergarten.table', ['kindergartens' => $kindergartens])->render(),
                 'accordion' => view('kindergarten.accordion', ['kindergartens' => $kindergartens])->render()
             ]);
         }
-        $kindergartens = $kindergartens->paginate(10);
         return view('kindergarten.index', compact('kindergartens'));
     }
     

@@ -53,7 +53,7 @@
                                         'name' => 'cluster_id', 
                                         'icon' => 'network-chart', 
                                         'options' => $clusters,
-                                        'value' => $kindergarten->cluster_id
+                                        'value' => @$kindergarten->cluster_id
                                     ])
                                 </div>
                                 <div class="col-md-6">
@@ -62,7 +62,7 @@
                                         'name' => 'manager_id', 
                                         'icon' => 'user', 
                                         'options' => $managers,
-                                        'value' => $kindergarten->kindergartenUser->user_id
+                                        'value' => @$kindergarten->kindergartenUser->user_id
                                     ])
                                 </div>
                                 <div class="col-md-6">

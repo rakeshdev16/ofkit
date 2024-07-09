@@ -14,16 +14,8 @@ class ClusterController extends Controller
 {
     public function index(Request $request)
     {
-        $clusters = Cluster::query();
+        $clusters = Cluster::filter()->paginate(10);
         if ($request->ajax()) {
-            if ($request->sort && $request->sorting) {
-                $clusters->orderBy($request->sort, $request->sorting);
-            }
-            if ($request->search) {
-                $memberId = User::where('name', 'like', '%'.$request->search.'%')->pluck('id')->toArray();
-                $clusters->whereIn('manager_id', $memberId);
-            }
-            $clusters = $clusters->paginate(10);
             return response()->json([
                 'table' => view('cluster.table', ['clusters' => $clusters])->render(),
                 'accordion' => view('cluster.accordion', ['clusters' => $clusters])->render()
