@@ -6,6 +6,7 @@
         name="{{ $name }}"
         placeholder="{{ $label }}"
         value="{{ old($name) ? old($name) : @$value }}"
+        max="{{ @$max }}"
     >
 </div>
 @error($name)

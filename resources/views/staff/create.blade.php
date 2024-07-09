@@ -70,7 +70,11 @@
                                     ])
                                 </div>
                                 <div class="col-md-6">
-                                    @include('components.date-input', ['label' => __('staff.birthDateTh'), 'name' => 'dob'])
+                                    @include('components.date-input', [
+                                        'label' => __('staff.birthDateTh'),
+                                        'name' => 'dob',
+                                        'max' => date('Y-m-d')
+                                    ])
                                 </div>
                                 <div class="col-md-6">
                                     @include('components.select-input', [
