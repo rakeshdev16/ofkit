@@ -31,7 +31,7 @@
                 <div class="col-xl-6 mx-auto">
                     <div class="card">
                         <div class="card-body p-4">
-                            <h5 class="mb-4">{{ __('staff-table.addClusterDetail') }}</h5>
+                            <h5 class="mb-4">Add Association Detail</h5>
                             <form class="row g-3" action="{{ route('staff-table.store') }}" method="POST">
                                 @csrf
                                 <div class="col-md-12">
