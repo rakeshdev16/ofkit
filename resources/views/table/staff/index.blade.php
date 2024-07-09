@@ -7,7 +7,7 @@
             <div class="card-body">
                 <ul class="nav nav-tabs nav-primary mb-0 tables" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link active" data-type="profession" data-bs-toggle="tab" href="#profession" role="tab" aria-selected="false" tabindex="-1">
+                        <a class="nav-link {{ request()->type == 'profession' ? 'active' : '' }}" data-type="profession" data-bs-toggle="tab" href="#profession" role="tab" aria-selected="false" tabindex="-1">
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-comment-detail font-18 me-1"></i>
                                 </div>
@@ -16,7 +16,7 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-type="role" data-bs-toggle="tab" href="#role" role="tab" aria-selected="false" tabindex="-1">
+                        <a class="nav-link {{ request()->type == 'role' ? 'active' : '' }}" data-type="role" data-bs-toggle="tab" href="#role" role="tab" aria-selected="false" tabindex="-1">
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-bookmark-alt font-18 me-1"></i>
                                 </div>
@@ -25,7 +25,7 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-type="association" data-bs-toggle="tab" href="#association" role="tab" aria-selected="false" tabindex="-1">
+                        <a class="nav-link {{ request()->type == 'association' ? 'active' : '' }}" data-type="association" data-bs-toggle="tab" href="#association" role="tab" aria-selected="false" tabindex="-1">
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-bookmark-alt font-18 me-1"></i>
                                 </div>
@@ -35,13 +35,13 @@
                     </li>
                 </ul>
                 <div class="tab-content pt-3">
-                    <div class="tab-pane fade active show" id="profession" role="tabpanel">
+                    <div class="tab-pane fade {{ request()->type == 'profession' ? 'active show' : '' }}" id="profession" role="tabpanel">
                         @include('table.staff.profession.index', ['professions' => $professions])
                     </div>
-                    <div class="tab-pane fade" id="role" role="tabpanel">
+                    <div class="tab-pane fade {{ request()->type == 'role' ? 'active show' : '' }}" id="role" role="tabpanel">
                         @include('table.staff.association.index', ['roles' => $roles])
                     </div>
-                    <div class="tab-pane fade" id="association" role="tabpanel">
+                    <div class="tab-pane fade {{ request()->type == 'association' ? 'active show' : '' }}" id="association" role="tabpanel">
                         @include('table.staff.association.index', ['roles' => $roles])
                     </div>
                 </div>
