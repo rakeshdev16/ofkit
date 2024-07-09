@@ -140,7 +140,7 @@
                                 'name' => __('menu.tables'),
                                 'icon' => 'fi_3602109.png',
                                 'options' => [
-                                    ['icon' => 'fi_2887367.png', 'name' => 'Framework', 'route' => ''],
+                                    ['icon' => 'fi_2887367.png', 'name' => 'Framework', 'route' => route('framework-table.index', ['type' => 'kindergarten-type'])],
                                     ['icon' => 'fi_2887367.png', 'name' => 'Staff', 'route' => route('staff-table.index', ['type' => 'profession'])],
                                     ['icon' => 'fi_2887367.png', 'name' => 'Children', 'route' => ''],
                                     ['icon' => 'fi_2887367.png', 'name' => 'Intervention', 'route' => '']

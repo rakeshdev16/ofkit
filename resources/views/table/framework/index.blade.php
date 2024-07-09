@@ -7,42 +7,30 @@
             <div class="card-body">
                 <ul class="nav nav-tabs nav-primary mb-0 tables" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {{ request()->type == 'profession' ? 'active' : '' }}" data-type="profession" data-bs-toggle="tab" href="#profession" role="tab" aria-selected="false" tabindex="-1">
+                        <a class="nav-link {{ request()->type == 'kindergarten-type' ? 'active' : '' }}" data-type="kindergarten-type" data-bs-toggle="tab" href="#kindergartenType" role="tab" aria-selected="false" tabindex="-1">
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-comment-detail font-18 me-1"></i>
                                 </div>
-                                <div class="tab-title"> Academic Profession </div>
+                                <div class="tab-title"> Kindergarten Type </div>
                             </div>
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {{ request()->type == 'role' ? 'active' : '' }}" data-type="role" data-bs-toggle="tab" href="#role" role="tab" aria-selected="false" tabindex="-1">
+                        <a class="nav-link {{ request()->type == 'framework-type' ? 'active' : '' }}" data-type="framework-type" data-bs-toggle="tab" href="#frameworkType" role="tab" aria-selected="false" tabindex="-1">
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-bookmark-alt font-18 me-1"></i>
                                 </div>
-                                <div class="tab-title"> Professional Role</div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link {{ request()->type == 'association' ? 'active' : '' }}" data-type="association" data-bs-toggle="tab" href="#association" role="tab" aria-selected="false" tabindex="-1">
-                            <div class="d-flex align-items-center">
-                                <div class="tab-icon"><i class="bx bx-bookmark-alt font-18 me-1"></i>
-                                </div>
-                                <div class="tab-title"> Association</div>
+                                <div class="tab-title"> Framework Type</div>
                             </div>
                         </a>
                     </li>
                 </ul>
                 <div class="tab-content pt-3">
-                    <div class="tab-pane fade {{ request()->type == 'profession' ? 'active show' : '' }}" id="profession" role="tabpanel">
-                        @include('table.staff.profession.index', ['professions' => $professions])
+                    <div class="tab-pane fade {{ request()->type == 'kindergarten-type' ? 'active show' : '' }}" id="kindergartenType" role="tabpanel">
+                        @include('table.framework.kindergarten-type.index', ['kindergartenTypes' => $kindergartenTypes])
                     </div>
-                    <div class="tab-pane fade {{ request()->type == 'role' ? 'active show' : '' }}" id="role" role="tabpanel">
-                        @include('table.staff.role.index', ['roles' => $roles])
-                    </div>
-                    <div class="tab-pane fade {{ request()->type == 'association' ? 'active show' : '' }}" id="association" role="tabpanel">
-                        @include('table.staff.association.index', ['associations' => $associations])
+                    <div class="tab-pane fade {{ request()->type == 'framework-type' ? 'active show' : '' }}" id="frameworkType" role="tabpanel">
+                        @include('table.framework.framework-type.index', ['frameworkTypes' => $frameworkTypes])
                     </div>
                 </div>
             </div>
@@ -66,7 +54,7 @@
             $('#role').html('');
             $.ajax({
                 type : 'GET',
-                url : "{{ route('staff-table.tab') }}",
+                url : "{{ route('framework-table.tab') }}",
                 data : { type: type },
                 success : function(data){
                     if (data.status == true) {
@@ -83,10 +71,10 @@
                 ids.push($(this).val());
             });
             if (ids.length == 0) {
-                toastr.warning("Please select at least one profession");
+                toastr.warning("Please select at least one "+type);
                 return false
             }
-            var url = "{{ route('staff-table.destroy', ':ids') }}";
+            var url = "{{ route('framework-table.destroy', ':ids') }}";
             url = url.replace(':ids', ids);
             Swal.fire({
                 title: "Are you sure?",

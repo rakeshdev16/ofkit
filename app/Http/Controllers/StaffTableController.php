@@ -200,6 +200,7 @@ class StaffTableController extends Controller
     {
         $professions = Profession::filter()->paginate(10);
         $roles = MemberRole::filter()->paginate(10);
+        $associations = Association::filter()->paginate(10);
         switch ($request->type) {
             case 'profession':
                 return response()->json([
@@ -211,6 +212,12 @@ class StaffTableController extends Controller
                 return response()->json([
                     'status' => true,
                     'data' => view('table.staff.role.index', ['roles' => $roles])->render()
+                ]);
+            break;
+            case 'association':
+                return response()->json([
+                    'status' => true,
+                    'data' => view('table.staff.association.index', ['associations' => $associations])->render()
                 ]);
             break;
         }

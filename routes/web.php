@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChildrenController;
 use App\Http\Controllers\ClusterController;
+use App\Http\Controllers\FrameworkTableController;
 use App\Http\Controllers\KindergartenController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StaffTableController;
@@ -29,7 +30,11 @@ Route::middleware(['auth', 'lang'])->group(function () {
     Route::resource('kindergarten', KindergartenController::class);
     Route::resource('children', ChildrenController::class);
     Route::resource('staff-table', StaffTableController::class);
+    Route::resource('framework-table', FrameworkTableController::class);
 
+    Route::controller(StaffTableController::class)->group(function () {
+        Route::get('framework-table-tab', 'frameWorkTableTab')->name('framework-table.tab');
+    });
     Route::controller(StaffController::class)->group(function () {
         Route::get('selected-kindergarten', 'selectedKindergarten')->name('selected.kindergarten');
     });
