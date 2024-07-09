@@ -83,7 +83,7 @@
                 ids.push($(this).val());
             });
             if (ids.length == 0) {
-                toastr.warning("Please select at least one profession");
+                toastr.warning("Please select at least one "+type);
                 return false
             }
             var url = "{{ route('staff-table.destroy', ':ids') }}";
