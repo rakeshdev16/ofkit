@@ -15,7 +15,7 @@
                 <td><input type="checkbox" name="id[]" value="{{ $frameworkType->id }}" class="checkbox"></td>
                 <td>{{ @$frameworkType->name ?? '-' }}</td>
                 <td>
-                    <a href="{{ route('staff-table.edit', $frameworkType->id) }}?type=association" class=""><i class="bx bx-edit"></i></a>
+                    <a href="{{ route('framework-table.edit', $frameworkType->id) }}?type=framework-type" class=""><i class="bx bx-edit"></i></a>
                 </td>
             </tr>
         @empty
