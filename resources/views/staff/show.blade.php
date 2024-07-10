@@ -35,38 +35,38 @@
                                 <div class="card-body">
                                     <a href="{{ route('staff.edit', $staff->id) }}" class=""><i class="bx bx-edit"></i></a>
                                     <div class="d-flex flex-column align-items-center text-center">
-                                        <img src="{{ $staff->photo }}" alt="Admin" class="rounded-circle p-1 bg-primary staff-profile" width="110">
+                                        <img src="{{ @$staff->photo }}" alt="Admin" class="rounded-circle p-1 bg-primary staff-profile" width="110">
                                         <div class="mt-3">
-                                            <h4>{{ $staff->name }}</h4>
-                                            <p class="text-secondary mb-1">{{ $staff->profession->name }}</p>
-                                            <p class="text-muted font-size-sm">{{ $staff->address }}</p>
+                                            <h4>{{ @$staff->name }}</h4>
+                                            <p class="text-secondary mb-1">{{ @$staff->profession->name }}</p>
+                                            <p class="text-muted font-size-sm">{{ @$staff->address }}</p>
                                         </div>
                                     </div>
                                     <hr class="my-4">
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                             <h6 class="mb-0"><i class="bx bx-mail-send"></i> {{ __('staff.emailTh') }}</h6>
-                                            <span class="text-secondary">{{ $staff->email }}</span>
+                                            <span class="text-secondary">{{ @$staff->email }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                             <h6 class="mb-0"><i class="bx bx-phone-call"></i> {{ __('staff.telephoneTh') }}</h6>
-                                            <span class="text-secondary">{{ $staff->telephone }}</span>
+                                            <span class="text-secondary">{{ @$staff->telephone }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                             <h6 class="mb-0"><i class="bx bx-credit-card"></i> {{ __('staff.licenceNumberTh') }}</h6>
-                                            <span class="text-secondary">{{ $staff->licence_number }}</span>
+                                            <span class="text-secondary">{{ @$staff->licence_number }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                             <h6 class="mb-0"><i class="bx bx-user-circle"></i> {{ __('staff.professionTh') }}</h6>
-                                            <span class="text-secondary">{{ $staff->profession->name }}</span>
+                                            <span class="text-secondary">{{ @$staff->profession->name }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                             <h6 class="mb-0"><i class="bx bx-calendar-alt"></i> {{ __('staff.birthDateTh') }}</h6>
-                                            <span class="text-secondary">{{ $staff->dob }}</span>
+                                            <span class="text-secondary">{{ @$staff->dob }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                             <h6 class="mb-0"><i class="bx bx-user-check"></i> {{ __('staff.roleTh') }}</h6>
-                                            <span class="text-secondary">{{ $staff->getRoleNames()->first() }}</span>
+                                            <span class="text-secondary">{{ @$staff->getRoleNames()->first() }}</span>
                                         </li>
                                     </ul>
                                 </div>
