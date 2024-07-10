@@ -80,13 +80,15 @@
                                     ])
                                 </div>
                                 <div class="col-md-6">
-                                    @include('components.select-input', [
+                                    @include('components.text-input', ['label' => __('staff.roleTh'), 'name' => 'role', 'icon' => 'user-check', 'value' => $staff->getRoleNames()->first(), 'readonly' => true])
+
+                                    {{-- @include('components.select-input', [
                                         'label' => __('staff.roleTh'),
                                         'name' => 'role',
                                         'icon' => 'user-check',
                                         'options' => $roles,
-                                        'value' => $staff->getRoleNames()->first()
-                                    ])
+                                        'value' => $staff->getRoleNames()->first(),
+                                    ]) --}}
                                 </div>
                                 <div class="col-md-12">
                                     @include('components.multi-select-input', [

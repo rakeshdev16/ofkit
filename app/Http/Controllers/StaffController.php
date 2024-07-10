@@ -188,7 +188,7 @@ class StaffController extends Controller
                 unset($request['member_photo']);
             }
             $user->update($request->except('_token', '_method', 'kindergarten_id', 'schedule'));
-            $user->syncRoles($request->role);
+            // $user->syncRoles($request->role);
             $user->staffKindergartens()->delete();
             if (isset($request->kindergarten) && count($request->kindergarten)) {
                 $user->staffKindergartens()->createMany($request->kindergarten);
