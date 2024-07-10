@@ -9,8 +9,13 @@
 </div>
 <div class="card">
     <div class="card-body">
-        <div class="table-responsive" id="dataTable">
-            @include('table.framework.kindergarten-type.table', ['kindergartenTypes' => $kindergartenTypes])
+        <div class="table-responsive">
+            <div class="table-search">
+                <label>Search: <input type="search" class="search" value="{{ request()->search }}" placeholder=""></label>
+            </div>
+            <div id="dataTable">
+                @include('table.framework.kindergarten-type.table', ['kindergartenTypes' => $kindergartenTypes])
+            </div>
         </div>
         <div class="lising d-none" id="accordion">
             @include('table.framework.kindergarten-type.accordion', ['kindergartenTypes' => $kindergartenTypes])

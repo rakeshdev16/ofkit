@@ -17,8 +17,7 @@ class Cluster extends Model
             $query->orderBy(request('sort'), request('sorting'));
         }
         if (request('search')) {
-            $memberId = User::where('name', 'like', '%'.request('search').'%')->pluck('id')->toArray();
-            $query->whereIn('manager_id', $memberId);
+            $query->where('cluster', 'like', '%'.request('search').'%');
         }
         return $query;
     }

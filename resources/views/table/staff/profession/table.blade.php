@@ -1,6 +1,3 @@
-<div class="table-search">
-    <label>Search: <input type="search" class="search" value="{{ request()->search }}" placeholder=""></label>
-</div>
 <table id="staffTable" class="table table-style table-bordered" style="width:100%">
     <thead>
         <tr>

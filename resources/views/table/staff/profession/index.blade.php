@@ -9,8 +9,13 @@
 </div>
 <div class="card">
     <div class="card-body">
-        <div class="table-responsive" id="dataTable">
-            @include('table.staff.profession.table', ['professions' => $professions])
+        <div class="table-responsive">
+            <div class="table-search">
+                <label>Search: <input type="search" class="search" value="{{ request()->search }}" placeholder=""></label>
+            </div>
+            <div id="dataTable">
+                @include('table.staff.profession.table', ['professions' => $professions])
+            </div>
         </div>
         <div class="lising d-none" id="accordion">
             @include('table.staff.profession.accordion', ['professions' => $professions])
