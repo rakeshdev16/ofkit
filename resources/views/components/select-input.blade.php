@@ -8,7 +8,7 @@
         {{ @$disabled }}
         {{ @$required }}
     >
-        <option value="" disabled>Select</option>
+        <option value="" disabled selected>Select</option>
         @foreach ($options as $option)
             <option
                 {{ (old($name) ?? @$value) == $option['key'] ? 'selected' : '' }}
