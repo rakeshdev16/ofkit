@@ -9,7 +9,7 @@ class Kindergarten extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cluster_id', 'cluster_manager_id', 'name', 'symbol', 'framework_type_id', 'kindergarten_type_id', 'address', 'telephone'];
+    protected $fillable = ['cluster_id', 'name', 'symbol', 'framework_type_id', 'kindergarten_type_id', 'address', 'telephone'];
 
     protected $appends = ['framework_type', 'kindergarten_type'];
 

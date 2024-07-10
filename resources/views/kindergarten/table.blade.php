@@ -21,7 +21,7 @@
                 <td>{{ $kindergarten->telephone }}</td>
                 <td>{{ $kindergarten->address }}</td>
                 <td>{{ @getUserNameById($kindergarten->kindergartenUser->user_id) ?? '-' }}</td>
-                <td>{{ @getUserNameById($kindergarten->cluster_manager_id) ?? '-' }}</td>
+                <td>{{ @getUserNameById($kindergarten->cluster->manager_id) ?? '-' }}</td>
                 <td>{{ @$kindergarten->cluster->cluster ?? '-' }}</td>
                 <td>{{ $kindergarten->kindergarten_type }}</td>
                 <td>{{ $kindergarten->framework_type }}</td>

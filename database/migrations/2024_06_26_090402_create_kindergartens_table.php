@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('kindergartens', function (Blueprint $table) {
             $table->id();
             $table->integer('cluster_id')->nullable();
-            $table->integer('cluster_manager_id')->nullable();
             $table->string('name')->nullable();
             $table->string('symbol')->nullable();
             $table->foreignId('framework_type_id')->nullable()->constrained('framework_types')->onDelete('cascade');

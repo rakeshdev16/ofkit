@@ -31,7 +31,7 @@
                     </div>
                     <div class="d-flex">
                         <div class="w-50">{{ __('kindergarten.clusterManagerTh') }}</div>
-                        <div class="w-50">{{ @getUserNameById($kindergarten->cluster_manager_id) ?? '-' }}</div>
+                        <div class="w-50">{{ @getUserNameById($kindergarten->cluster->manager_id) ?? '-' }}</div>
                     </div>
                     <div class="d-flex">
                         <div class="w-50">{{ __('kindergarten.clusterTh') }}</div>

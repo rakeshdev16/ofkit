@@ -78,7 +78,6 @@
                                         'readonly' => true,
                                         'value' => @getUserNameById($kindergarten->cluster_manager_id)
                                     ])
-                                    <input type="hidden" name="cluster_manager_id" class="clusterManagerId" value="{{ @$kindergarten->cluster_manager_id }}">
                                 </div>
                                 <div class="col-md-6">
                                     @include('components.select-input', [
@@ -120,10 +119,8 @@
             success : function(data){
                 if (data.status == true) {
                     $('.clusterManager').val(data.data.name);
-                    $('.clusterManagerId').val(data.data.id);
                 } else {
                     $('.clusterManager').val('');
-                    $('.clusterManagerId').val('');
                 }
             }
         });
