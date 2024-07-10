@@ -38,7 +38,7 @@ function filter(url) {
                 searchInput.focus();
                 var searchValue = searchInput.val();
                 searchInput.val('').val(searchValue);
-            }, 10);
+            }, 5);
         }
     });
 }
