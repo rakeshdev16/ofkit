@@ -115,9 +115,9 @@ class KindergartenController extends Controller
     
     public function getClusterManager(Request $request)
     {
-        $manager = Cluster::where('id', $request->cluster_id)->first();
-        if ($manager) {
-            return response()->json(['status' => true, 'data' => $manager->manager]);
+        $cluster = Cluster::where('id', $request->cluster_id)->first();
+        if ($cluster->manager) {
+            return response()->json(['status' => true, 'data' => $cluster->manager]);
         }
         return response()->json(['status' => false]);
     }
