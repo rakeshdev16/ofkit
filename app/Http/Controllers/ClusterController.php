@@ -37,7 +37,7 @@ class ClusterController extends Controller
             'manager_id' => 'required',
         ],[
             'cluster.required' => __('cluster.requiredCluster'),
-            'manager_id.required' => 'Please chose manager',
+            'manager_id.required' => 'Please choose manager',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -60,7 +60,7 @@ class ClusterController extends Controller
             'manager_id' => 'required',
         ],[
             'cluster.required' => __('cluster.requiredCluster'),
-            'manager_id.required' => 'Please chose manager',
+            'manager_id.required' => 'Please choose manager',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
