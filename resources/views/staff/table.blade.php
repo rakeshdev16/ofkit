@@ -12,10 +12,10 @@
             @include('components.table-heading', ['label' => __('staff.addressTh'), 'key' => 'address'])
             @include('components.table-heading', ['label' => __('staff.telephoneTh'), 'key' => 'telephone'])
             @include('components.table-heading', ['label' => __('staff.emailTh'), 'key' => 'email'])
-            @include('components.table-heading', ['label' => __('staff.professionTh'), 'key' => 'profession'])
+            @include('components.table-heading', ['label' => __('staff.professionTh'), 'key' => 'profession_id'])
             @include('components.table-heading', ['label' => __('staff.licenceNumberTh'), 'key' => 'licence_number'])
             @include('components.table-heading', ['label' => __('staff.roleTh')])
-            @include('components.table-heading', ['label' => __('staff.kindergartenTh'), 'key' => 'kindergarten_id'])
+            @include('components.table-heading', ['label' => __('staff.kindergartenTh')])
             @include('components.table-heading', ['label' => 'Action'])
         </tr>
     </thead>

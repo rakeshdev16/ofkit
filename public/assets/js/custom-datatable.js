@@ -1,4 +1,4 @@
-$(document).on('change', '.search', function () {
+$(document).on('keyup', '.search', function () {
     var search = $(this).val();
     var url = queryParam('search', search);
     filter(url);
@@ -33,6 +33,12 @@ function filter(url) {
         success: function (data) {
             $('#dataTable').html(data.table);
             $('#accordion').html(data.accordion);
+            setTimeout(function() {
+                var searchInput = $('.search');
+                searchInput.focus();
+                var searchValue = searchInput.val();
+                searchInput.val('').val(searchValue);
+            }, 10);
         }
     });
 }
