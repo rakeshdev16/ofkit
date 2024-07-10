@@ -26,16 +26,12 @@
                         <div class="w-50">{{ $kindergarten->address }}</div>
                     </div>
                     <div class="d-flex">
-                        <div class="w-50">{{ __('kindergarten.telephoneTh') }}</div>
-                        <div class="w-50">{{ $kindergarten->telephone }}</div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="w-50">{{ __('kindergarten.managerTh') }}</div>
-                        <div class="w-50">{{ @getUserNameById($kindergarten->cluster->manager_id) ?? '-' }}</div>
+                        <div class="w-50">{{ __('kindergarten.kindergartenManagerTh') }}</div>
+                        <div class="w-50">{{ @getUserNameById($kindergarten->kindergartenUser->user_id) ?? '-' }}</div>
                     </div>
                     <div class="d-flex">
                         <div class="w-50">{{ __('kindergarten.clusterManagerTh') }}</div>
-                        <div class="w-50">{{ @getUserNameById($kindergarten->cluster->manager_id) ?? '-' }}</div>
+                        <div class="w-50">{{ @getUserNameById($kindergarten->cluster_manager_id) ?? '-' }}</div>
                     </div>
                     <div class="d-flex">
                         <div class="w-50">{{ __('kindergarten.clusterTh') }}</div>
@@ -43,11 +39,11 @@
                     </div>
                     <div class="d-flex">
                         <div class="w-50">{{ __('kindergarten.typeTh') }}</div>
-                        <div class="w-50">{{ $kindergarten->type }}</div>
+                        <div class="w-50">{{ $kindergarten->kindergarten_type }}</div>
                     </div>
                     <div class="d-flex">
                         <div class="w-50">{{ __('kindergarten.frameworkTh') }}</div>
-                        <div class="w-50">{{ $kindergarten->framework }}</div>
+                        <div class="w-50">{{ $kindergarten->framework_type }}</div>
                     </div>
                     <div class="d-flex">
                         <div class="w-50">{{ __('kindergarten.symbolTh') }}</div>

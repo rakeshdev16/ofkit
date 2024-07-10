@@ -15,6 +15,7 @@ return [
     'addressTh' => 'Address',
     'managerTh' => 'Manager',
     'clusterManagerTh' => 'Cluster Manager',
+    'kindergartenManagerTh' => 'Kindergarten Manager',
     'clusterTh' => 'Cluster',
     'typeTh' => 'Type',
     'frameworkTh' => 'Framework',

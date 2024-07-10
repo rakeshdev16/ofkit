@@ -2,7 +2,7 @@
 <div class="position-relative input-icon">
     <input
         type="text"
-        class="form-control @error($name) is-invalid @enderror"
+        class="form-control @error($name) is-invalid @enderror {{ @$class }}"
         name="{{ $name }}"
         placeholder="{{ $label }}"
         value="{{ old($name) ? old($name) : @$value }}"

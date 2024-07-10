@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Setting;
 use App\Models\Staff;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -16,6 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        Setting::firstOrCreate(['key' => 'environment', 'value' => 'local']);
         $this->call([
             PermissionSeeder::class,
             RoleSeeder::class,

@@ -9,7 +9,9 @@ class Kindergarten extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cluster_id', 'name', 'symbol', 'framework', 'type', 'manager', 'address', 'telephone'];
+    protected $fillable = ['cluster_id', 'cluster_manager_id', 'name', 'symbol', 'framework_type_id', 'kindergarten_type_id', 'address', 'telephone'];
+
+    protected $appends = ['framework_type', 'kindergarten_type'];
 
     public function scopeFilter($query)
     {
@@ -20,6 +22,16 @@ class Kindergarten extends Model
             $query->where('name', 'like', '%'.request('search').'%');
         }
         return $query;
+    }
+
+    public function getFrameworkTypeAttribute()
+    {
+        return FrameworkType::where('id', @$this->attributes['framework_type_id'])->pluck('name')->first();
+    }
+
+    public function getKindergartenTypeAttribute()
+    {
+        return KindergartenType::where('id', @$this->attributes['kindergarten_type_id'])->pluck('name')->first();
     }
 
     public function cluster()

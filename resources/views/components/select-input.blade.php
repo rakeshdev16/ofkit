@@ -9,7 +9,9 @@
         {{ @$disabled }}
         {{ @$required }}
     >
-        <option value="">Select</option>
+        @if (!@$multiple)
+            <option value="">Select</option>
+        @endif
         @foreach ($options as $option)
             <option
                 @if (@$multiple && @$value)

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cluster;
+use App\Models\FrameworkType;
 use App\Models\Kindergarten;
+use App\Models\KindergartenType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -29,9 +31,11 @@ class KindergartenController extends Controller
     
     public function create()
     {
-        $clusters = Cluster::select('id as key', 'cluster as value')->get()->toArray();
+        $clusters = Cluster::select('id as key', 'cluster as value')->get();
+        $frameworks = FrameworkType::select('id as key', 'name as value')->get();
+        $types = KindergartenType::select('id as key', 'name as value')->get();
         $managers = User::role('manager')->select('id as key', 'name as value')->get();
-        return view('kindergarten.create', compact('clusters', 'managers'));
+        return view('kindergarten.create', compact('clusters', 'managers', 'frameworks', 'types'));
     }
 
     public function store(Request $request)
@@ -39,15 +43,15 @@ class KindergartenController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'symbol' => 'required',
-            'framework' => 'required',
-            'type' => 'required',
+            'framework_type_id' => 'required',
+            'kindergarten_type_id' => 'required',
             'address' => 'required',
             'telephone' => 'required|digits_between:8,14',
         ],[
             'name.required' => __('kindergarten.requiredName'),
             'symbol.required' => __('kindergarten.requiredSymbol'),
-            'framework.required' => __('kindergarten.requiredFramework'),
-            'type.required' => __('kindergarten.requiredType'),
+            'framework_type_id.required' => __('kindergarten.requiredFramework'),
+            'kindergarten_type_id.required' => __('kindergarten.requiredType'),
             'address.required' => __('kindergarten.requiredAddress'),
             'telephone.required' => __('kindergarten.requiredTelephone'),
         ]);
@@ -66,7 +70,9 @@ class KindergartenController extends Controller
         $kindergarten = Kindergarten::findOrFail($id);
         $clusters = Cluster::select('id as key', 'cluster as value')->get()->toArray();
         $managers = User::role('manager')->select('id as key', 'name as value')->get();
-        return view('kindergarten.edit', compact('kindergarten', 'clusters', 'managers'));
+        $frameworks = FrameworkType::select('id as key', 'name as value')->get();
+        $types = KindergartenType::select('id as key', 'name as value')->get();
+        return view('kindergarten.edit', compact('kindergarten', 'clusters', 'managers', 'frameworks', 'types'));
     }
 
     public function update(Request $request, $id)
@@ -74,15 +80,15 @@ class KindergartenController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'symbol' => 'required',
-            'framework' => 'required',
-            'type' => 'required',
+            'framework_type_id' => 'required',
+            'kindergarten_type_id' => 'required',
             'address' => 'required',
             'telephone' => 'required|digits_between:8,14',
         ],[
             'name.required' => __('kindergarten.requiredName'),
             'symbol.required' => __('kindergarten.requiredSymbol'),
-            'framework.required' => __('kindergarten.requiredFramework'),
-            'type.required' => __('kindergarten.requiredType'),
+            'framework_type_id.required' => __('kindergarten.requiredFramework'),
+            'kindergarten_type_id.required' => __('kindergarten.requiredType'),
             'address.required' => __('kindergarten.requiredAddress'),
             'telephone.required' => __('kindergarten.requiredTelephone'),
         ]);
@@ -105,5 +111,14 @@ class KindergartenController extends Controller
             return response()->json(['status' => true, 'message' => __('kindergarten.deleteStaffMsg'), 'ids' => $ids]);
         }
         return response()->json(['status' => false, 'ids' => $ids]);
+    }
+    
+    public function getClusterManager(Request $request)
+    {
+        $manager = Cluster::where('id', $request->cluster_id)->first();
+        if ($manager) {
+            return response()->json(['status' => true, 'data' => $manager->manager]);
+        }
+        return response()->json(['status' => false]);
     }
 }

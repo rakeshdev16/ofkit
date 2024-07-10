@@ -96,10 +96,10 @@
                                         'icon' => 'buildings',
                                         'multiple' => 'multiple',
                                         'options' => $kindergartens,
-                                        'value' => @$staff->staffKindergartens->pluck('kindergarten_id')->toArray()
+                                        'value' => old('kindergarten_id') ?? @$staff->staffKindergartens->pluck('kindergarten_id')->toArray()
                                     ])
                                 </div>
-                                <div class="col-md-12 kindergarten-section" style="display: {{ count($staff->staffKindergartens) > 0 ? '' : 'none' }}">
+                                <div class="col-md-12 kindergarten-section" style="display: {{ old('kindergarten_id') || count($staff->staffKindergartens) > 0 ? '' : 'none' }}">
                                     <div class="time-table">
                                         <h4 class="text-center">Kindergarten</h4>
                                         <div class="table-responsive" style="display: block !important;">
@@ -112,15 +112,26 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody class="selected-kindergarten">
-                                                    @foreach ($staff->staffKindergartens as $kindergarten)
-                                                        @include('components.kindergarten-tr', [
-                                                            'id' => $kindergarten->kindergarten_id,
-                                                            'index' => $loop->index,
-                                                            'professions' => $professions,
-                                                            'memberRoles' => $memberRoles,
-                                                            'data' => $kindergarten
-                                                        ])
-                                                    @endforeach
+                                                    @if (Session::get('kindergartenIds'))
+                                                        @for ($i = 0; $i < count(Session::get('kindergartenIds')); $i++)
+                                                            @include('components.kindergarten-tr', [
+                                                                'id' => @Session::get('kindergartenIds')[$i],
+                                                                'index' => $i,
+                                                                'professions' => $professions,
+                                                                'memberRoles' => $memberRoles,
+                                                            ])
+                                                        @endfor
+                                                    @else
+                                                        @foreach ($staff->staffKindergartens as $kindergarten)
+                                                            @include('components.kindergarten-tr', [
+                                                                'id' => $kindergarten->kindergarten_id,
+                                                                'index' => $loop->index,
+                                                                'professions' => $professions,
+                                                                'memberRoles' => $memberRoles,
+                                                                'data' => $kindergarten
+                                                            ])
+                                                        @endforeach
+                                                    @endif
                                                 </tbody>
                                             </table>
                                         </div>

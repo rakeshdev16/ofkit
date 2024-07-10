@@ -86,7 +86,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="selected-kindergarten">
-                                                @foreach ($staff->staffKindergartens as $kindergarten)
+                                                @forelse ($staff->staffKindergartens as $kindergarten)
                                                     @include('components.kindergarten-tr', [
                                                         'id' => $kindergarten->kindergarten_id,
                                                         'index' => $loop->index,
@@ -94,7 +94,9 @@
                                                         'roles' => $memberRoles,
                                                         'data' => $kindergarten
                                                     ])
-                                                @endforeach
+                                                @empty
+                                                    <tr class="text-center"><td colspan="3">No data found!</td></tr>
+                                                @endforelse
                                             </tbody>
                                         </table>
                                     </div>

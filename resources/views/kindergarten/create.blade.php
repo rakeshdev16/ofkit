@@ -41,22 +41,43 @@
                                     @include('components.text-input', ['label' => __('kindergarten.symbolTh'), 'name' => 'symbol', 'icon' => 'border-none'])
                                 </div>
                                 <div class="col-md-6">
-                                    @include('components.text-input', ['label' => __('kindergarten.frameworkTh'), 'name' => 'framework', 'icon' => 'code'])
-                                </div>
-                                <div class="col-md-6">
-                                    @include('components.text-input', ['label' => __('kindergarten.typeTh'), 'name' => 'type', 'icon' => 'buildings'])
-                                </div>
-                                <div class="col-md-6">
                                     @include('components.select-input', [
-                                        'label' => __('kindergarten.clusterTh'), 
-                                        'name' => 'cluster_id', 
-                                        'icon' => 'network-chart', 
-                                        'options' => $clusters
+                                        'label' => __('kindergarten.frameworkTh'),
+                                        'name' => 'framework_type_id',
+                                        'icon' => 'code',
+                                        'options' => $frameworks
                                     ])
                                 </div>
                                 <div class="col-md-6">
                                     @include('components.select-input', [
-                                        'label' => __('kindergarten.managerTh'), 
+                                        'label' => __('kindergarten.typeTh'),
+                                        'name' => 'kindergarten_type_id',
+                                        'icon' => 'buildings',
+                                        'options' => $types
+                                    ])
+                                </div>
+                                <div class="col-md-6">
+                                    @include('components.select-input', [
+                                        'label' => __('kindergarten.clusterTh'),
+                                        'name' => 'cluster_id',
+                                        'class' => 'cluster',
+                                        'icon' => 'network-chart',
+                                        'options' => $clusters,
+                                    ])
+                                </div>
+                                <div class="col-md-6">
+                                    @include('components.text-input', [
+                                        'label' => __('kindergarten.clusterManagerTh'),
+                                        'name' => '',
+                                        'class' => 'clusterManager',
+                                        'icon' => 'user',
+                                        'readonly' => true
+                                    ])
+                                    <input type="hidden" name="cluster_manager_id" class="clusterManagerId">
+                                </div>
+                                <div class="col-md-6">
+                                    @include('components.select-input', [
+                                        'label' => __('kindergarten.kindergartenManagerTh'),
                                         'name' => 'manager_id', 
                                         'icon' => 'user', 
                                         'options' => $managers
@@ -65,7 +86,7 @@
                                 <div class="col-md-6">
                                     @include('components.text-input', ['label' => __('kindergarten.telephoneTh'), 'name' => 'telephone', 'icon' => 'phone'])
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     @include('components.text-input', ['label' => __('kindergarten.addressTh'), 'name' => 'address', 'icon' => 'current-location'])
                                 </div>
                                 <div class="col-md-12">
@@ -83,5 +104,23 @@
 </div>
 @endsection
 @push('customScript')
-    
+    <script>
+        $(document).on('change', '.cluster', function() {
+            var cluster_id = $(this).val();
+            $.ajax({
+                type : 'GET',
+                url : "{{ route('cluster-manager.name') }}",
+                data : { cluster_id: cluster_id },
+                success : function(data){
+                    if (data.status == true) {
+                        $('.clusterManager').val(data.data.name);
+                        $('.clusterManagerId').val(data.data.id);
+                    } else {
+                        $('.clusterManager').val('');
+                        $('.clusterManagerId').val('');
+                    }
+                }
+            });
+        });
+    </script>
 @endpush
