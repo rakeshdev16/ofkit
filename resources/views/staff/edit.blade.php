@@ -89,7 +89,7 @@
                                     ])
                                 </div>
                                 <div class="col-md-12">
-                                    @include('components.select-input', [
+                                    @include('components.multi-select-input', [
                                         'label' => __('staff.kindergartenTh'),
                                         'name' => 'kindergarten_id[]',
                                         'class' => 'kindergarten',
