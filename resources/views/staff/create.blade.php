@@ -90,7 +90,6 @@
                                         'name' => 'kindergarten_id[]',
                                         'class' => 'kindergarten',
                                         'icon' => 'buildings',
-                                        'multiple' => 'multiple',
                                         'options' => $kindergartens,
                                         'value' => old('kindergarten_id')
                                     ])

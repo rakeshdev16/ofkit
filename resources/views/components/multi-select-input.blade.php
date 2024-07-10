@@ -1,7 +1,7 @@
 @isset($label)
     <label for="input16" class="form-label">{{ $label }}</label>
 @endisset
-<div class="position-relative input-icon @isset($multiple) multiple-selection @endisset">
+<div class="position-relative input-icon multiple-selection">
     <select
         name="{{ $name }}"
         class="form-control @error($name) is-invalid @enderror {{ @$class }}"
