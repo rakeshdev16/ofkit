@@ -7,9 +7,7 @@
         name="{{ $name }}"
         placeholder="{{ $label }}"
     >
-    @if ($fileType = 'document')
-        <iframe class="pt-2 {{ @$value ? '' : 'd-none' }}" id="previewImage" src="{{ @$value }}" frameborder="0" width="100%" height="400px"></iframe>
-    @else
+    @if (@$fileType != 'document')
         <img class="pt-2 {{ @$value ? '' : 'd-none' }}" id="previewImage" src="{{ @$value }}" width="50px" height="50px" alt="">
     @endif
 </div>

@@ -35,6 +35,11 @@ function getKindergartenNameById($id)
 
 function uploadFile($file, $path)
 {
-    $fileName = $file->store($path);
-    return explode('public/', $fileName)[1];
+    // $fileName = $file->store($path);
+    // return explode('public/', $fileName)[1];
+
+    $extension = $file->getClientOriginalExtension();
+    $filename = Str::random(40) . '.' . $extension;
+    $filePath = $file->storeAs($path, $filename, 'public');
+    return $filePath;
 }
