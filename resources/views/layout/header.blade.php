@@ -1,7 +1,7 @@
 <div class="header-wrapper">
     @php
         $user = Auth::user();
-        $route = Route::currentRouteName();
+        $currentRoute = Route::currentRouteName();
     @endphp
     <header>
         <div class="topbar d-flex align-items-center">
@@ -140,7 +140,7 @@
                             @include('components.menu', [
                                 'name' => __('menu.tables'),
                                 'icon' => 'fi_3602109.png',
-                                'active' => in_array($route, ['framework-table.index', 'staff-table.index']) ? 'active-menu' : '',
+                                'active' => in_array($currentRoute, ['framework-table.index', 'staff-table.index']) ? 'active-menu' : '',
                                 'options' => [
                                     ['icon' => 'fi_4549612.png', 'name' => 'Framework', 'route' => route('framework-table.index', ['type' => 'kindergarten-type'])],
                                     ['icon' => 'fi_2887367.png', 'name' => 'Staff', 'route' => route('staff-table.index', ['type' => 'profession'])],
@@ -153,7 +153,7 @@
                             @include('components.menu', [
                                 'name' => __('menu.kindergarten'),
                                 'icon' => 'fi_4794795.png',
-                                'active' => in_array($route, ['kindergarten.index', 'kindergarten.create']) ? 'active-menu' : '',
+                                'active' => in_array($currentRoute, ['kindergarten.index', 'kindergarten.create']) ? 'active-menu' : '',
                                 'options' => [
                                     ['icon' => 'fi_4794795.png', 'name' => __('menu.allKindergarten'), 'route' => route('kindergarten.index')],
                                     ['icon' => 'fi_4794795.png', 'name' => __('menu.addKindergarten'), 'route' => route('kindergarten.create')]
@@ -165,7 +165,7 @@
                                 'name' => __('menu.clusters'),
                                 'width' => '180px',
                                 'icon' => 'fi_4549612.png',
-                                'active' => in_array($route, ['cluster.index', 'cluster.create']) ? 'active-menu' : '',
+                                'active' => in_array($currentRoute, ['cluster.index', 'cluster.create']) ? 'active-menu' : '',
                                 'options' => [
                                     ['icon' => 'fi_4549612.png', 'name' => __('menu.clusterList'), 'route' => route('cluster.index')],
                                     ['icon' => 'fi_4549612.png', 'name' => __('menu.addCluster'), 'route' => route('cluster.create')]
@@ -177,7 +177,7 @@
                                 'name' => __('menu.therapySchedule'),
                                 'width' => '250px',
                                 'icon' => 'fi_16650601.png',
-                                'active' => in_array($route, ['']) ? 'active-menu' : '',
+                                'active' => in_array($currentRoute, ['']) ? 'active-menu' : '',
                                 'options' => [
                                     ['icon' => 'fi_2887367.png', 'name' => __('menu.allTherapySchedule'), 'route' => ''],
                                     ['icon' => 'fi_2887367.png', 'name' => __('menu.addTherapySchedule'), 'route' => '']
@@ -189,7 +189,7 @@
                                 'name' => __('menu.staff'),
                                 'width' => '250px',
                                 'icon' => 'fi_2887367.png',
-                                'active' => in_array($route, ['staff.index', 'staff.create']) ? 'active-menu' : '',
+                                'active' => in_array($currentRoute, ['staff.index', 'staff.create']) ? 'active-menu' : '',
                                 'options' => [
                                     ['icon' => 'fi_1478254.png', 'name' => __('menu.staffList'), 'route' => route('staff.index')],
                                     ['icon' => 'fi_6212658.png', 'name' => __('menu.addStaff'), 'route' => route('staff.create')],
@@ -202,7 +202,7 @@
                                 'name' => __('menu.childrens'),
                                 'width' => '180px',
                                 'icon' => 'fi_9184264.png',
-                                'active' => in_array($route, ['children.index', 'children.create']) ? 'active-menu' : '',
+                                'active' => in_array($currentRoute, ['children.index', 'children.create']) ? 'active-menu' : '',
                                 'options' => [
                                     ['icon' => 'fi_2887367.png', 'name' => __('menu.allChildrens'), 'route' => route('children.index')],
                                     ['icon' => 'fi_2887367.png', 'name' => __('menu.addChildren'), 'route' => route('children.create')],
@@ -214,7 +214,7 @@
                                 'name' => __('menu.documentation'),
                                 'route' => route('dashboard'),
                                 'icon' => 'fi_2991112.png',
-                                'active' => $route == 'dashboard' ? 'active-menu' : '',
+                                'active' => $currentRoute == 'dashboard' ? 'active-menu' : '',
                             ])
                         @endif
                     </ul>

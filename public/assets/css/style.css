@@ -149,3 +149,8 @@ div#paginate {
     color: #32393f;
     background-color: #f5f6f7;
 }
+
+a.disable-menu {
+    pointer-events: none;
+    cursor: default;
+}
