@@ -17,7 +17,7 @@
                                     <img class="p-1" src="{{ asset('assets/icons/fi_2887367.png') }}"/>
                                 </a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Role</li>
+                            <li class="breadcrumb-item active" aria-current="page">Professional Role</li>
                         </ol>
                     </nav>
                 </div>
@@ -31,7 +31,7 @@
                 <div class="col-xl-6 mx-auto">
                     <div class="card">
                         <div class="card-body p-4">
-                            <h5 class="mb-4">Update Role Detail</h5>
+                            <h5 class="mb-4">Update Professional Role Detail</h5>
                             <form class="row g-3" action="{{ route('staff-table.update', $role->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')

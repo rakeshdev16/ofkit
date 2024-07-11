@@ -13,17 +13,17 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('staff-table.index') }}?type=framework-type">
+                                <a href="{{ route('framework-table.index') }}?type=framework-type">
                                     <img class="p-1" src="{{ asset('assets/icons/fi_2887367.png') }}"/>
                                 </a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Association</li>
+                            <li class="breadcrumb-item active" aria-current="page">Framework Type</li>
                         </ol>
                     </nav>
                 </div>
                 <div class="ms-auto">
                     <div class="">
-                        <a href="{{ route('staff-table.index') }}?type=association" class="btn button">Back</a>
+                        <a href="{{ route('framework-table.index') }}?type=framework-type" class="btn button">Back</a>
                     </div>
                 </div>
             </div>

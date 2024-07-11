@@ -13,11 +13,11 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('framework-table.index') }}?type=association">
+                                <a href="{{ route('framework-table.index') }}?type=framework-type">
                                     <img class="p-1" src="{{ asset('assets/icons/fi_2887367.png') }}"/>
                                 </a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Association</li>
+                            <li class="breadcrumb-item active" aria-current="page">Framework Type</li>
                         </ol>
                     </nav>
                 </div>
