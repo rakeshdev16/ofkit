@@ -4,7 +4,7 @@
     </div>
     <div class="">
         <a href="{{ route('staff-table.create') }}?type=role" class="btn button">{{ __('cluster.addBtnText') }}</a>
-        <button class="btn button moveToArchive" data-type="role">{{ __('cluster.moveBtnText') }}</button>
+        {{-- <button class="btn button moveToArchive" data-type="role">{{ __('cluster.moveBtnText') }}</button> --}}
     </div>
 </div>
 <div class="card">

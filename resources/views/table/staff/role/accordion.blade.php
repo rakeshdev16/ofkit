@@ -1,5 +1,5 @@
 <div class="mx-3 p-1">
-    <input type="checkbox" class="mainCheckbox">&nbsp;&nbsp;&nbsp;
+    {{-- <input type="checkbox" class="mainCheckbox">&nbsp;&nbsp;&nbsp; --}}
 </div>
 @foreach ($roles as $role)
     <div class="accordion accordion-flush tr-{{ $role->id }}" id="accordion{{ $loop->iteration }}">
@@ -8,16 +8,9 @@
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false"
                     aria-controls="flush-collapse{{ $loop->iteration }}">
-                    <div class="row">
-                        <div class="col-2">
-                            <input type="checkbox" value="{{ $role->id }}" class="checkbox">&nbsp;&nbsp;
-                        </div>
-                        <div class="col-8">{{ \Str::limit($role->name, 10, '...') ?? '-' }}</div>
-                        <div class="col-2 d-flex justify-content-center">
-                            <a href="{{ route('staff-table.edit', $role->id) }}?type=role" class=""><i class="bx bx-edit"></i></a>&nbsp;
-                            <a href="{{ route('staff-table.show', $role->id) }}?type=role" class=""><i class="bx bx-show"></i></a>
-                        </div>
-                    </div>
+                    {{-- <input type="checkbox" value="{{ $role->id }}" class="checkbox">&nbsp;&nbsp; --}}
+                    {{ \Str::limit($role->name, 10, '...') ?? '-' }}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{{ route('staff-table.edit', $role->id) }}?type=role" class=""><i class="bx bx-edit"></i></a>&nbsp;
                 </button>
             </h2>
             <div id="flush-collapse{{ $loop->iteration }}" class="accordion-collapse collapse"

@@ -4,7 +4,7 @@
     </div>
     <div class="">
         <a href="{{ route('staff-table.create') }}?type=profession" class="btn button">Add New</a>
-        <button class="btn button moveToArchive" data-type="profession">Move to Archive</button>
+        {{-- <button class="btn button moveToArchive" data-type="profession">Move to Archive</button> --}}
     </div>
 </div>
 <div class="card">

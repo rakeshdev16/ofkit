@@ -4,7 +4,7 @@
     </div>
     <div class="">
         <a href="{{ route('framework-table.create') }}?type=kindergarten-type" class="btn button">Add New</a>
-        <button class="btn button moveToArchive" data-type="kindergarten-type">Move to Archive</button>
+        {{-- <button class="btn button moveToArchive" data-type="kindergarten-type">Move to Archive</button> --}}
     </div>
 </div>
 <div class="card">

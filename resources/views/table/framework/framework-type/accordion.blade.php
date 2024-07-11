@@ -1,5 +1,5 @@
 <div class="mx-3 p-1">
-    <input type="checkbox" class="mainCheckbox">&nbsp;&nbsp;&nbsp;
+    {{-- <input type="checkbox" class="mainCheckbox">&nbsp;&nbsp;&nbsp; --}}
 </div>
 @foreach ($frameworkTypes as $frameworkType)
     <div class="accordion accordion-flush tr-{{ $frameworkType->id }}" id="accordion{{ $loop->iteration }}">
@@ -8,8 +8,9 @@
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false"
                     aria-controls="flush-collapse{{ $loop->iteration }}">
-                    <input type="checkbox" value="{{ $frameworkType->id }}" class="checkbox">&nbsp;&nbsp;
-                    {{ @$frameworkType->name ?? '-' }}
+                    {{-- <input type="checkbox" value="{{ $frameworkType->id }}" class="checkbox">&nbsp;&nbsp; --}}
+                    {{ @$frameworkType->name ?? '-' }}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{{ route('framework-table.edit', $frameworkType->id) }}?type=framework-type" class=""><i class="bx bx-edit"></i></a>
                 </button>
             </h2>
             <div id="flush-collapse{{ $loop->iteration }}" class="accordion-collapse collapse"

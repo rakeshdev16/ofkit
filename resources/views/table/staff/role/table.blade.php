@@ -1,7 +1,7 @@
 <table id="staffTable" class="table table-style table-bordered" style="width:100%">
     <thead>
         <tr>
-            <th><input type="checkbox" class="mainCheckbox"></th>
+            {{-- <th><input type="checkbox" class="mainCheckbox"></th> --}}
             @include('components.table-heading', ['label' => 'Name', 'key' => 'name'])
             @include('components.table-heading', ['label' => 'Action'])
         </tr>
@@ -9,7 +9,7 @@
     <tbody>
         @forelse ($roles as $role)
             <tr class="tr-{{ $role->id }}">
-                <td><input type="checkbox" name="id[]" value="{{ $role->id }}" class="checkbox"></td>
+                {{-- <td><input type="checkbox" name="id[]" value="{{ $role->id }}" class="checkbox"></td> --}}
                 <td>{{ $role->name }}</td>
                 <td>
                     <a href="{{ route('staff-table.edit', $role->id) }}?type=role" class=""><i class="bx bx-edit"></i></a>

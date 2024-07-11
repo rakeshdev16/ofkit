@@ -1,5 +1,5 @@
 <div class="mx-3 p-1">
-    <input type="checkbox" class="mainCheckbox">&nbsp;&nbsp;&nbsp;
+    {{-- <input type="checkbox" class="mainCheckbox">&nbsp;&nbsp;&nbsp; --}}
 </div>
 @foreach ($kindergartenTypes as $kindergartenType)
     <div class="accordion accordion-flush tr-{{ $kindergartenType->id }}" id="accordion{{ $loop->iteration }}">
@@ -8,8 +8,9 @@
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false"
                     aria-controls="flush-collapse{{ $loop->iteration }}">
-                    <input type="checkbox" value="{{ $kindergartenType->id }}" class="checkbox">&nbsp;&nbsp;
-                    {{ @$kindergartenType->name ?? '-' }}
+                    {{-- <input type="checkbox" value="{{ $kindergartenType->id }}" class="checkbox">&nbsp;&nbsp; --}}
+                    {{ @$kindergartenType->name ?? '-' }}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{{ route('framework-table.edit', $kindergartenType->id) }}" class=""><i class="bx bx-edit mr-4"></i></a>
                 </button>
             </h2>
             <div id="flush-collapse{{ $loop->iteration }}" class="accordion-collapse collapse"

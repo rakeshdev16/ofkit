@@ -6,6 +6,7 @@ use App\Http\Controllers\FrameworkTableController;
 use App\Http\Controllers\KindergartenController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StaffTableController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,6 +44,13 @@ Route::middleware(['auth', 'lang'])->group(function () {
     });
     Route::controller(StaffTableController::class)->group(function () {
         Route::get('staff-table-tab', 'staffTableTab')->name('staff-table.tab');
+    });
+    Route::controller(UserController::class)->group(function () {
+        Route::get('profile', 'index')->name('profile.index');
+        Route::get('edit-profile', 'edit')->name('profile.edit');
+        Route::post('profile', 'update')->name('profile.update');
+        Route::get('change-password', 'changePasswordView')->name('change-password.index');
+        Route::post('change-password', 'changePassword')->name('change-password.update');
     });
 });
 
