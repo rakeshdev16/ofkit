@@ -144,3 +144,8 @@ div#paginate {
 .time-picker {
     text-align: right !important;
 }
+
+.active-menu {
+    color: #32393f;
+    background-color: #f5f6f7;
+}

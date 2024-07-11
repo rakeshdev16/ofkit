@@ -1,7 +1,6 @@
-<li class="nav-item dropdown">
+<li class="nav-item dropdown {{ @$active }}">
     <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="{{ $route ?? '#' }}" data-bs-toggle="{{ $route ?? 'dropdown' }}">
-        <div class="parent-icon"><img src="{{ asset('assets/icons') }}/{{ $icon }}" alt="">
-        </div>
+        <div class="parent-icon"><img src="{{ asset('assets/icons') }}/{{ $icon }}" alt=""></div>
         <div class="menu-title d-flex align-items-center">{{ $name }}</div>
         @isset($options)
             <div class="ms-auto dropy-icon"><i class="bx bx-chevron-down"></i></div>
