@@ -142,10 +142,10 @@
                                 'icon' => 'fi_3602109.png',
                                 'active' => in_array($route, ['framework-table.index', 'staff-table.index']) ? 'active-menu' : '',
                                 'options' => [
-                                    ['icon' => 'fi_2887367.png', 'name' => 'Framework', 'route' => route('framework-table.index', ['type' => 'kindergarten-type'])],
+                                    ['icon' => 'fi_4549612.png', 'name' => 'Framework', 'route' => route('framework-table.index', ['type' => 'kindergarten-type'])],
                                     ['icon' => 'fi_2887367.png', 'name' => 'Staff', 'route' => route('staff-table.index', ['type' => 'profession'])],
-                                    ['icon' => 'fi_2887367.png', 'name' => 'Children', 'route' => ''],
-                                    ['icon' => 'fi_2887367.png', 'name' => 'Intervention', 'route' => '']
+                                    ['icon' => 'fi_9184264.png', 'name' => 'Children', 'route' => ''],
+                                    ['icon' => 'fi_3602109.png', 'name' => 'Intervention', 'route' => '']
                                 ],
                             ])
                         @endif
@@ -155,8 +155,8 @@
                                 'icon' => 'fi_4794795.png',
                                 'active' => in_array($route, ['kindergarten.index', 'kindergarten.create']) ? 'active-menu' : '',
                                 'options' => [
-                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.allKindergarten'), 'route' => route('kindergarten.index')],
-                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.addKindergarten'), 'route' => route('kindergarten.create')]
+                                    ['icon' => 'fi_4794795.png', 'name' => __('menu.allKindergarten'), 'route' => route('kindergarten.index')],
+                                    ['icon' => 'fi_4794795.png', 'name' => __('menu.addKindergarten'), 'route' => route('kindergarten.create')]
                                 ],
                             ])
                         @endif
@@ -167,8 +167,8 @@
                                 'icon' => 'fi_4549612.png',
                                 'active' => in_array($route, ['cluster.index', 'cluster.create']) ? 'active-menu' : '',
                                 'options' => [
-                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.clusterList'), 'route' => route('cluster.index')],
-                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.addCluster'), 'route' => route('cluster.create')]
+                                    ['icon' => 'fi_4549612.png', 'name' => __('menu.clusterList'), 'route' => route('cluster.index')],
+                                    ['icon' => 'fi_4549612.png', 'name' => __('menu.addCluster'), 'route' => route('cluster.create')]
                                 ],
                             ])
                         @endif
