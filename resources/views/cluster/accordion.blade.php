@@ -14,7 +14,7 @@
                         </div>
                         <div class="col-8">{{ @$cluster->manager->name ?? '-' }}</div>
                         <div class="col-2 d-flex justify-content-center">
-                            <a href="{{ route('cluster.edit', $cluster->id) }}" class=""><i class="bx bx-edit"></i></a>
+                            <a href="{{ route('cluster.edit', $cluster->id) }}" class=""><i class="bx bx-edit icon"></i></a>
                         </div>
                     </div>
                 </button>

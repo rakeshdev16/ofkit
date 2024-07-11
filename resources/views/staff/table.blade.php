@@ -36,8 +36,8 @@
                     @endforeach
                 </td>
                 <td>
-                    <a href="{{ route('staff.edit', $member->id) }}" class=""><i class="bx bx-edit"></i></a>
-                    <a href="{{ route('staff.show', $member->id) }}" class=""><i class="bx bx-show"></i></a>
+                    <a href="{{ route('staff.edit', $member->id) }}" class=""><i class="bx bx-edit icon"></i></a>
+                    <a href="{{ route('staff.show', $member->id) }}" class=""><i class="bx bx-show icon"></i></a>
                 </td>
             </tr>
         @empty

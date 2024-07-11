@@ -95,6 +95,9 @@ class StaffController extends Controller
             if ($request->hasFile('member_photo')) {
                 $request['photo'] = uploadFile($request->member_photo, 'public/staff');
             }
+            if ($request->hasFile('doc')) {
+                $request['document'] = uploadFile($request->doc, 'public/staff-document');
+            }
             $user = User::create($request->all());
             $user->assignRole($request->role);
             $user->notify(new AccountDetailNotification($user, $request['password']));
@@ -187,8 +190,11 @@ class StaffController extends Controller
                 $request['photo'] = uploadFile($request->member_photo, 'public/staff');
                 unset($request['member_photo']);
             }
+            if ($request->hasFile('doc')) {
+                $request['document'] = uploadFile($request->doc, 'public/staff-document');
+                unset($request['doc']);
+            }
             $user->update($request->except('_token', '_method', 'kindergarten_id', 'schedule'));
-            // $user->syncRoles($request->role);
             $user->staffKindergartens()->delete();
             if (isset($request->kindergarten) && count($request->kindergarten)) {
                 $user->staffKindergartens()->createMany($request->kindergarten);

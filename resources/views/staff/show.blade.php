@@ -33,7 +33,7 @@
                         <div class="col-lg-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <a href="{{ route('staff.edit', $staff->id) }}" class=""><i class="bx bx-edit"></i></a>
+                                    <a href="{{ route('staff.edit', $staff->id) }}" class=""><i class="bx bx-edit icon"></i></a>
                                     <div class="d-flex flex-column align-items-center text-center">
                                         <img src="{{ @$staff->photo }}" alt="Admin" class="rounded-circle p-1 bg-primary staff-profile" width="110">
                                         <div class="mt-3">
@@ -67,6 +67,10 @@
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                             <h6 class="mb-0"><i class="bx bx-user-check"></i> {{ __('staff.roleTh') }}</h6>
                                             <span class="text-secondary">{{ @$staff->getRoleNames()->first() }}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 class="mb-0"><i class="bx bx-file"></i> Document</h6>
+                                            <a href="{{ @$staff->document }}" target="_blank" rel="noopener noreferrer">Click Here</a>
                                         </li>
                                     </ul>
                                 </div>

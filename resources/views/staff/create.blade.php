@@ -35,7 +35,7 @@
                             <form class="row g-3" action="{{ route('staff.store') }}" method="POST" id="addStaffForm" enctype="multipart/form-data">
                                 @csrf
                                 <div class="col-md-12 text-center upload-photo">
-                                    <img src="https://placehold.co/150x150" id="previewImage" alt="">
+                                    <img src="https://placehold.co/150x150" id="previewStaffImage" alt="">
                                     <div class="cam-icom">
                                         <i class="bx bx-camera"></i>
                                     </div>
@@ -45,7 +45,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <input type="file" style="visibility: hidden" name="member_photo" id="imgInp">
+                                <input type="file" style="visibility: hidden" name="member_photo" id="staffProfileInp">
                                 <div class="col-md-6">
                                     @include('components.text-input', ['label' => __('staff.nameTh'), 'name' => 'name', 'icon' => 'user'])
                                 </div>
@@ -82,6 +82,15 @@
                                         'name' => 'role', 
                                         'icon' => 'user-check', 
                                         'options' => $roles
+                                    ])
+                                </div>
+                                <div class="col-md-12">
+                                    @include('components.file-input', [
+                                        'label' => 'Document',
+                                        'name' => 'doc',
+                                        'fileType' => 'document',
+                                        'icon' => 'file',
+                                        'value' => old('doc')
                                     ])
                                 </div>
                                 <div class="col-md-12">
@@ -200,10 +209,18 @@
     <script>
         $(document).ready(function() {
             $('.kindergarten').select2();
+
+            staffProfileInp.onchange = evt => {
+                const [file] = staffProfileInp.files
+                if (file) {
+                    $('#previewStaffImage').removeClass('d-none');
+                    $('#previewStaffImage').attr('src', URL.createObjectURL(file));
+                }
+            }
         });
 
-        $(document).on('click', '#previewImage', function() {
-            $('#imgInp').click();
+        $(document).on('click', '#previewStaffImage', function() {
+            $('#staffProfileInp').click();
         });
 
         $(document).on('change', '.kindergarten', function() {

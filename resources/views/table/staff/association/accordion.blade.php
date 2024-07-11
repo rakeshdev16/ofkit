@@ -10,7 +10,7 @@
                     aria-controls="flush-collapse{{ $loop->iteration }}">
                     {{-- <input type="checkbox" value="{{ $association->id }}" class="checkbox">&nbsp;&nbsp; --}}
                     {{ @$association->name ?? '-' }}&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="{{ route('staff-table.edit', $association->id) }}?type=association" class=""><i class="bx bx-edit"></i></a>
+                    <a href="{{ route('staff-table.edit', $association->id) }}?type=association" class=""><i class="bx bx-edit icon"></i></a>
                 </button>
             </h2>
             <div id="flush-collapse{{ $loop->iteration }}" class="accordion-collapse collapse"

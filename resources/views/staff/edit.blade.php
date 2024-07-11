@@ -36,7 +36,7 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="col-md-12 text-center upload-photo">
-                                    <img src="{{ $staff->photo }}" id="previewImage" alt="">
+                                    <img src="{{ $staff->photo }}" id="previewStaffImage" alt="">
                                     <div class="cam-icom">
                                         <i class="bx bx-camera"></i>
                                     </div>
@@ -46,7 +46,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <input type="file" style="visibility: hidden" name="member_photo" id="imgInp">
+                                <input type="file" style="visibility: hidden" name="member_photo" id="staffProfileInp">
                                 <div class="col-md-6">
                                     @include('components.text-input', ['label' => __('staff.nameTh'), 'name' => 'name', 'icon' => 'user', 'value' => $staff->name])
                                 </div>
@@ -89,6 +89,15 @@
                                         'options' => $roles,
                                         'value' => $staff->getRoleNames()->first(),
                                     ]) --}}
+                                </div>
+                                <div class="col-md-12">
+                                    @include('components.file-input', [
+                                        'label' => 'Document',
+                                        'name' => 'doc',
+                                        'fileType' => 'document',
+                                        'icon' => 'file',
+                                        'value' => old('doc') ?? @$staff->document
+                                    ])
                                 </div>
                                 <div class="col-md-12">
                                     @include('components.multi-select-input', [
@@ -216,10 +225,17 @@
     <script>
         $(document).ready(function() {
             $('.kindergarten').select2();
+            staffProfileInp.onchange = evt => {
+                const [file] = staffProfileInp.files
+                if (file) {
+                    $('#previewStaffImage').removeClass('d-none');
+                    $('#previewStaffImage').attr('src', URL.createObjectURL(file));
+                }
+            }
         });
 
-        $(document).on('click', '#previewImage', function() {
-            $('#imgInp').click();
+        $(document).on('click', '#previewStaffImage', function() {
+            $('#staffProfileInp').click();
         });
 
         $(document).on('change', '.kindergarten', function() {

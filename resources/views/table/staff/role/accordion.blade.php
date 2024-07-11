@@ -10,7 +10,7 @@
                     aria-controls="flush-collapse{{ $loop->iteration }}">
                     {{-- <input type="checkbox" value="{{ $role->id }}" class="checkbox">&nbsp;&nbsp; --}}
                     {{ \Str::limit($role->name, 10, '...') ?? '-' }}&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="{{ route('staff-table.edit', $role->id) }}?type=role" class=""><i class="bx bx-edit"></i></a>&nbsp;
+                    <a href="{{ route('staff-table.edit', $role->id) }}?type=role" class=""><i class="bx bx-edit icon"></i></a>&nbsp;
                 </button>
             </h2>
             <div id="flush-collapse{{ $loop->iteration }}" class="accordion-collapse collapse"

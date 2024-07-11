@@ -12,7 +12,7 @@
                 {{-- <td><input type="checkbox" name="id[]" value="{{ $kindergartenType->id }}" class="checkbox"></td> --}}
                 <td>{{ @$kindergartenType->name ?? '-' }}</td>
                 <td>
-                    <a href="{{ route('framework-table.edit', $kindergartenType->id) }}?type=kindergarten-type" class=""><i class="bx bx-edit"></i></a>
+                    <a href="{{ route('framework-table.edit', $kindergartenType->id) }}?type=kindergarten-type" class=""><i class="bx bx-edit icon"></i></a>
                 </td>
             </tr>
         @empty

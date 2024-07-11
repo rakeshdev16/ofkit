@@ -12,7 +12,7 @@
                 {{-- <td><input type="checkbox" name="id[]" value="{{ $role->id }}" class="checkbox"></td> --}}
                 <td>{{ $role->name }}</td>
                 <td>
-                    <a href="{{ route('staff-table.edit', $role->id) }}?type=role" class=""><i class="bx bx-edit"></i></a>
+                    <a href="{{ route('staff-table.edit', $role->id) }}?type=role" class=""><i class="bx bx-edit icon"></i></a>
                 </td>
             </tr>
         @empty

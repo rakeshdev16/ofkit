@@ -26,6 +26,7 @@ return new class extends Migration
             $table->foreignId('profession_id')->nullable()->constrained('professions')->onDelete('cascade');
             $table->date('dob')->nullable();
             $table->string('photo')->nullable();
+            $table->string('document')->nullable();
             $table->timestamps();
         });
     }

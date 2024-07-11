@@ -14,7 +14,7 @@
                 <td>{{ $cluster->cluster }}</td>
                 <td>{{ @$cluster->manager->name ?? '-' }}</td>
                 <td>
-                    <a href="{{ route('cluster.edit', $cluster->id) }}" class=""><i class="bx bx-edit"></i></a>
+                    <a href="{{ route('cluster.edit', $cluster->id) }}" class=""><i class="bx bx-edit icon"></i></a>
                 </td>
             </tr>
         @empty

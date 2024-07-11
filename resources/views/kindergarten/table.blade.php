@@ -28,7 +28,7 @@
                 <td>{{ $kindergarten->symbol }}</td>
                 <td>{{ $kindergarten->name }}</td>
                 <td>
-                    <a href="{{ route('kindergarten.edit', $kindergarten->id) }}" class=""><i class="bx bx-edit"></i></a>
+                    <a href="{{ route('kindergarten.edit', $kindergarten->id) }}" class=""><i class="bx bx-edit icon"></i></a>
                 </td>
             </tr>
         @empty

@@ -154,3 +154,6 @@ a.disable-menu {
     pointer-events: none;
     cursor: default;
 }
+.icon {
+    font-size: 20px;
+}

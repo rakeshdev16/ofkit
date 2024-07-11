@@ -30,6 +30,7 @@ class User extends Authenticatable
         'dob',
         'identification',
         'photo',
+        'document',
     ];
 
     /**
@@ -96,5 +97,10 @@ class User extends Authenticatable
     public function getPhotoAttribute($value)
     {
         return isset($this->attributes['photo']) ? asset('storage/'.$this->attributes['photo']) : 'https://placehold.co/150x150';
+    }
+
+    public function getDocumentAttribute($value)
+    {
+        return isset($this->attributes['document']) ? asset('storage/'.$this->attributes['document']) : '';
     }
 }

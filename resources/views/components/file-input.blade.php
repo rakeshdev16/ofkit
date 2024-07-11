@@ -7,7 +7,11 @@
         name="{{ $name }}"
         placeholder="{{ $label }}"
     >
-    <img class="pt-2 {{ @$value ? '' : 'd-none' }}" id="previewImage" src="{{ @$value }}" width="50px" height="50px" alt="">
+    @if ($fileType = 'document')
+        <iframe class="pt-2 {{ @$value ? '' : 'd-none' }}" id="previewImage" src="{{ @$value }}" frameborder="0" width="100%" height="400px"></iframe>
+    @else
+        <img class="pt-2 {{ @$value ? '' : 'd-none' }}" id="previewImage" src="{{ @$value }}" width="50px" height="50px" alt="">
+    @endif
 </div>
 @error($name)
     <span class="invalid-feedback" role="alert">
