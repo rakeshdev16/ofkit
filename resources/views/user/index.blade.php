@@ -32,7 +32,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center">
-                                <img src="{{ @$user->photo }}" alt="Admin" class="rounded-circle staff-profile" width="110" height="110">
+                                <img src="{{ @$user->photo }}" alt="Admin" class="rounded-circle p-1 bg-primary staff-profile" width="110" height="110">
                                 <div class="mt-3">
                                     <h4>{{ $user->name }}</h4>
                                     <p class="text-secondary mb-1">{{ @$user->email }}</p>
