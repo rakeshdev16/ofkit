@@ -2,45 +2,50 @@
     $(document).on('click', '.close', function() {
         $('#cropImageModal').modal('toggle');
     });
-    window.addEventListener('DOMContentLoaded', function () {
-        var avatar = document.getElementById('previewStaffImage');
-        var image = document.getElementById('imageForCrop');
-        var input = document.getElementById('staffProfileInp');
-        var cropBtn = document.getElementById('crop');
+    $(document).ready(function () {
+        var $avatar = $('#previewStaffImage');
+        var $image = $('#imageForCrop');
+        var $input = $('#staffProfileInp');
+        var $cropBtn = $('#crop');
         var $modal = $('#cropImageModal');
         var cropper;
+
         $('[data-toggle="tooltip"]').tooltip();
-        input.addEventListener('change', function (e) {
+
+        $input.on('change', function (e) {
             var files = e.target.files;
             var done = function (url) {
-                image.src = url;
+                $image.attr('src', url);
                 $modal.modal('show');
             };
             if (files && files.length > 0) {
-                let file = files[0];
-                reader = new FileReader();
+                var file = files[0];
+                var reader = new FileReader();
                 reader.onload = function (e) {
                     done(reader.result);
                 };
                 reader.readAsDataURL(file);
-                input.value = '';
+                $input.val('');
             }
         });
+
         $modal.on('shown.bs.modal', function () {
-            cropper = new Cropper(image, {
+            cropper = new Cropper($image[0], {
                 aspectRatio: 1,
                 viewMode: 3,
             });
         }).on('hidden.bs.modal', function () {
-            cropper.destroy();
-            cropper = null;
-            image.src = '';
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+                $image.attr('src', '');
+            }
         });
-        cropBtn.addEventListener('click', function () {
-            var canvas;
+
+        $cropBtn.on('click', function () {
             $modal.modal('hide');
             if (cropper) {
-                canvas = cropper.getCroppedCanvas({
+                var canvas = cropper.getCroppedCanvas({
                     width: 160,
                     height: 160,
                 });
@@ -52,16 +57,17 @@
                     formData.append('type', type);
                     formData.append('image', blob);
                     formData.append('extension', blob.type.replace("image/", " "));
-                    $.ajax("{{ route('uploadStaffProfile') }}", {
+                    $.ajax({
+                        url: "{{ route('uploadStaffProfile') }}",
                         headers: {
                             'X-CSRF-TOKEN': "{{ csrf_token() }}"
                         },
-                        method: 'POST',
+                        type: 'POST',
                         data: formData,
                         processData: false,
                         contentType: false,
                         success: function (data) {
-                            avatar.src = data.src;
+                            $avatar.attr('src', data.src);
                         },
                         error: function () {
                             console.error('Upload error');
