@@ -36,13 +36,19 @@
                 </ul>
                 <div class="tab-content pt-3">
                     <div class="tab-pane fade {{ request()->type == 'profession' ? 'active show' : '' }}" id="profession" role="tabpanel">
-                        @include('table.staff.profession.index', ['professions' => $professions])
+                        @if (request()->type == 'profession')
+                            @include('table.staff.profession.index', ['professions' => $professions])
+                        @endif
                     </div>
                     <div class="tab-pane fade {{ request()->type == 'role' ? 'active show' : '' }}" id="role" role="tabpanel">
-                        @include('table.staff.role.index', ['roles' => $roles])
+                        @if (request()->type == 'role')
+                            @include('table.staff.role.index', ['roles' => $roles])
+                        @endif
                     </div>
                     <div class="tab-pane fade {{ request()->type == 'association' ? 'active show' : '' }}" id="association" role="tabpanel">
-                        @include('table.staff.association.index', ['associations' => $associations])
+                        @if (request()->type == 'association')
+                            @include('table.staff.association.index', ['associations' => $associations])
+                        @endif
                     </div>
                 </div>
             </div>

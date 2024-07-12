@@ -54,19 +54,29 @@
                 </ul>
                 <div class="tab-content pt-3">
                     <div class="tab-pane fade {{ request()->type == 'parents-status' ? 'active show' : '' }}" id="parents-status" role="tabpanel">
-                        @include('table.children.parents-status.index', ['parentsStatus' => $parentsStatus])
+                        @if (request()->type == 'parents-status')
+                            @include('table.children.parents-status.index', ['parentsStatus' => $parentsStatus])
+                        @endif
                     </div>
                     <div class="tab-pane fade {{ request()->type == 'hmo' ? 'active show' : '' }}" id="hmo" role="tabpanel">
-                        @include('table.children.hmo.index', ['hmos' => $hmos])
+                        @if (request()->type == 'hmo')
+                            @include('table.children.hmo.index', ['hmos' => $hmos])
+                        @endif
                     </div>
                     <div class="tab-pane fade {{ request()->type == 'diagnosis' ? 'active show' : '' }}" id="diagnosis" role="tabpanel">
-                        @include('table.children.diagnosis.index', ['diagnosises' => $diagnosises])
+                        @if (request()->type == 'diagnosis')
+                            @include('table.children.diagnosis.index', ['diagnosises' => $diagnosises])
+                        @endif
                     </div>
                     <div class="tab-pane fade {{ request()->type == 'functionality' ? 'active show' : '' }}" id="functionality" role="tabpanel">
-                        @include('table.children.functionality.index', ['statuses' => $statuses])
+                        @if (request()->type == 'functionality')
+                            @include('table.children.functionality.index', ['statuses' => $statuses])
+                        @endif
                     </div>
                     <div class="tab-pane fade {{ request()->type == 'status' ? 'active show' : '' }}" id="status" role="tabpanel">
-                        @include('table.children.status.index', ['statuses' => $statuses])
+                        @if (request()->type == 'status')
+                            @include('table.children.status.index', ['statuses' => $statuses])
+                        @endif
                     </div>
                 </div>
             </div>
