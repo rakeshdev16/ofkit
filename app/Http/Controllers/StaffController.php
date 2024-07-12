@@ -223,9 +223,7 @@ class StaffController extends Controller
     public function uploadStaffProfile(Request $request)
     {
         if ($request->hasFile('image')) {
-            $file = $request->image;
-            $filename = Str::random(40) . '.' . $request->extension;
-            $photo = $file->storeAs('public/staff', $filename, 'public');
+            $photo = uploadFile($request->image, 'public/staff', $request->extension);
             if ($request->type == 'add') {
                 Session::put('staffPhoto', $photo);
             } else {

@@ -33,12 +33,12 @@ function getKindergartenNameById($id)
     return Kindergarten::where('id', $id)->pluck('name')->first();
 }
 
-function uploadFile($file, $path)
+function uploadFile($file, $path, $extension = null)
 {
     // $fileName = $file->store($path);
     // return explode('public/', $fileName)[1];
 
-    $extension = $file->getClientOriginalExtension();
+    $extension = isset($extension) ? $extension : $file->getClientOriginalExtension();
     $filename = Str::random(40) . '.' . $extension;
     $filePath = $file->storeAs($path, $filename, 'public');
     return $filePath;

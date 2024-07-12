@@ -4,24 +4,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
-    <style>
-        .label {
-            cursor: pointer;
-        }
-
-        .progress {
-            display: none;
-            margin-bottom: 1rem;
-        }
-
-        .alert {
-            display: none;
-        }
-
-        .img-container img {
-            max-width: 100%;
-        }
-    </style>
 @endpush
 @section('section')
     <div class="wrapper">
@@ -272,8 +254,8 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="hidden" name="user_id" id="userId"
-                                                value="{{ $staff->id }}">
+                                            <input type="hidden" name="user_id" id="userId" value="{{ $staff->id }}">
+                                            <input type="hidden" id="type" value="update">
                                             <div class="d-md-flex d-grid align-items-center gap-3">
                                                 <button type="submit"
                                                     class="btn button px-4">{{ __('staff.updateBtnText') }}</button>
@@ -306,88 +288,10 @@
     @endsection
     @push('customScript')
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        @include('staff.script')
         <script>
-            window.addEventListener('DOMContentLoaded', function () {
-                var avatar = document.getElementById('previewStaffImage');
-                var image = document.getElementById('imageForCrop');
-                var input = document.getElementById('staffProfileInp');
-                var cropBtn = document.getElementById('crop');
-                var $modal = $('#cropAvatarmodal');
-                var cropper;
-                $('[data-toggle="tooltip"]').tooltip();
-                input.addEventListener('change', function (e) {
-                    var files = e.target.files;
-                    var done = function (url) {
-                        image.src = url;
-                        $modal.modal('show');
-                    };
-                    if (files && files.length > 0) {
-                        let file = files[0];
-                        reader = new FileReader();
-                        reader.onload = function (e) {
-                            done(reader.result);
-                        };
-                        reader.readAsDataURL(file);
-                        input.value = '';
-                    }
-                });
-                $modal.on('shown.bs.modal', function () {
-                    cropper = new Cropper(image, {
-                        aspectRatio: 1,
-                        viewMode: 3,
-                    });
-                }).on('hidden.bs.modal', function () {
-                    cropper.destroy();
-                    cropper = null;
-                    image.src = '';
-                });
-                cropBtn.addEventListener('click', function () {
-                    var canvas;
-                    $modal.modal('hide');
-                    if (cropper) {
-                        canvas = cropper.getCroppedCanvas({
-                            width: 160,
-                            height: 160,
-                        });
-                        avatar.src = canvas.toDataURL();
-                        canvas.toBlob(function (blob) {
-                            var formData = new FormData();
-                            var user_id = $('#userId').val();
-                            formData.append('type', 'update');
-                            formData.append('image', blob);
-                            formData.append('user_id', user_id);
-                            formData.append('extension', blob.type.replace("image/", " "));
-                            $.ajax("{{ route('uploadStaffProfile') }}", {
-                                headers: {
-                                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                                },
-                                method: 'POST',
-                                data: formData,
-                                processData: false,
-                                contentType: false,
-                                success: function (data) {
-                                    avatar.src = data.src;
-                                },
-                                error: function () {
-                                    console.error('Upload error');
-                                },
-                            });
-                        });
-                    }
-                });
-            });
-
-
             $(document).on('click', '#previewStaffImage', function() {
                 $('#staffProfileInp').click();
-                // staffProfileInp.onchange = evt => {
-                //     const [file] = staffProfileInp.files
-                //     if (file) {
-                //         $('#previewStaffImage').removeClass('d-none');
-                //         $('#modal_image').attr('src', URL.createObjectURL(file));
-                //         // $('#previewStaffImage').attr('src', URL.createObjectURL(file));
-                //     }
-                // }
             });
 
             $(document).on('change', '.kindergarten', function() {

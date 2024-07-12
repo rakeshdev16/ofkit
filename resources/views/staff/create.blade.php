@@ -4,24 +4,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
-    <style>
-        .label {
-            cursor: pointer;
-        }
-
-        .progress {
-            display: none;
-            margin-bottom: 1rem;
-        }
-
-        .alert {
-            display: none;
-        }
-
-        .img-container img {
-            max-width: 100%;
-        }
-    </style>
 @endpush
 @section('section')
 <div class="wrapper">
@@ -211,6 +193,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
+                                    <input type="hidden" id="type" value="add">
                                     <div class="d-md-flex d-grid align-items-center gap-3">
                                         <button type="submit" class="btn button px-4">{{ __('staff.addBtnText') }}</button>
                                     </div>
@@ -274,84 +257,10 @@
     <script type="text/javascript" src="{{ asset('assets/js/jquery.validate.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" />
-
+    @include('staff.script')
     <script>
-        window.addEventListener('DOMContentLoaded', function () {
-            var avatar = document.getElementById('previewStaffImage');
-            var image = document.getElementById('imageForCrop');
-            var input = document.getElementById('staffProfileInp');
-            var cropBtn = document.getElementById('crop');
-            var $modal = $('#cropAvatarmodal');
-            var cropper;
-            $('[data-toggle="tooltip"]').tooltip();
-            input.addEventListener('change', function (e) {
-                var files = e.target.files;
-                var done = function (url) {
-                    image.src = url;
-                    $modal.modal('show');
-                };
-                if (files && files.length > 0) {
-                    let file = files[0];
-                    reader = new FileReader();
-                    reader.onload = function (e) {
-                        done(reader.result);
-                    };
-                    reader.readAsDataURL(file);
-                    input.value = '';
-                }
-            });
-            $modal.on('shown.bs.modal', function () {
-                cropper = new Cropper(image, {
-                    aspectRatio: 1,
-                    viewMode: 3,
-                });
-            }).on('hidden.bs.modal', function () {
-                cropper.destroy();
-                cropper = null;
-                image.src = '';
-            });
-            cropBtn.addEventListener('click', function () {
-                var canvas;
-                $modal.modal('hide');
-                if (cropper) {
-                    canvas = cropper.getCroppedCanvas({
-                        width: 160,
-                        height: 160,
-                    });
-                    canvas.toBlob(function (blob) {
-                        var formData = new FormData();
-                        formData.append('type', 'add');
-                        formData.append('image', blob);
-                        formData.append('extension', blob.type.replace("image/", " "));
-                        $.ajax("{{ route('uploadStaffProfile') }}", {
-                            headers: {
-                                'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                            },
-                            method: 'POST',
-                            data: formData,
-                            processData: false,
-                            contentType: false,
-                            success: function (data) {
-                                avatar.src = data.src;
-                            },
-                            error: function () {
-                                console.error('Upload error');
-                            },
-                        });
-                    });
-                }
-            });
-        });
-
         $(document).ready(function() {
             $('.kindergarten').select2();
-            staffProfileInp.onchange = evt => {
-                const [file] = staffProfileInp.files
-                if (file) {
-                    $('#previewStaffImage').removeClass('d-none');
-                    $('#previewStaffImage').attr('src', URL.createObjectURL(file));
-                }
-            }
         });
 
         $(document).on('click', '#previewStaffImage', function() {
