@@ -45,7 +45,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <input type="file" style="visibility: hidden" name="member_photo" id="imgInp">
+                                <input type="file" style="visibility: hidden" name="member_photo" id="imgInp" accept="image/png, image/gif, image/jpeg">
                                 <div class="col-md-6">
                                     @include('components.text-input', [
                                         'label' => __('staff.nameTh'),

@@ -33,14 +33,16 @@ class UserController extends Controller
             'telephone' => 'required|digits_between:8,14',
             'licence_number' => 'required',
             'dob' => 'required',
-            'member_photo' => 'max:2000',
-        ],[
+            'member_photo' => 'image|max:2000', // Add the 'image' rule
+        ], [
             'name.required' => __('staff.requiredName'),
             'address.required' => __('staff.requiredAddress'),
             'telephone.required' => __('staff.requiredTelephone'),
+            'telephone.digits_between' => __('staff.requiredTelephoneDigits'), // Adding custom message for digits_between rule
             'licence_number.required' => __('staff.requiredLicence'),
             'dob.required' => __('staff.requiredDOB'),
-            'member_photo.max' => 'The photo may not be greater than 2MB',
+            'member_photo.image' => 'Only images are allowed', // Add a custom message for the image rule
+            'member_photo.max' => 'The maxium file size is 2MB', // Modify the custom message to use localization
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
