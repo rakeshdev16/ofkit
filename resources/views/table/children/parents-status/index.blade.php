@@ -1,6 +1,6 @@
 <div class="mb-4 page-info">
     <div>
-        <h3 class="mb-0 text-uppercase">Children Parents’ Status ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
+        <h3 class="mb-0 text-uppercase">Children Parent's Status ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
     </div>
     <div class="">
         <a href="{{ route('children-table.create', 'parents-status') }}" class="btn button">{{ __('cluster.addBtnText') }}</a>
