@@ -1,10 +1,13 @@
 <script>
+    $(document).on('click', '.close', function() {
+        $('#cropImageModal').modal('toggle');
+    });
     window.addEventListener('DOMContentLoaded', function () {
         var avatar = document.getElementById('previewStaffImage');
         var image = document.getElementById('imageForCrop');
         var input = document.getElementById('staffProfileInp');
         var cropBtn = document.getElementById('crop');
-        var $modal = $('#cropAvatarmodal');
+        var $modal = $('#cropImageModal');
         var cropper;
         $('[data-toggle="tooltip"]').tooltip();
         input.addEventListener('change', function (e) {

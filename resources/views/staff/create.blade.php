@@ -206,37 +206,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Crop Profile Image</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <main class="page">
-                    <div class="box-2">
-                        <div class="result"></div>
-                    </div>
-                    <div class="box-2 img-result hide">
-                        <img class="cropped" src="" alt="">
-                    </div>
-                    <div class="box">
-                        <div class="options hide">
-                            <label> Width</label>
-                            <input type="number" class="img-w" value="300" min="100" max="1200" />
-                        </div>
-                    </div>
-                </main>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary save hide">Crop</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="cropAvatarmodal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade" id="cropImageModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-body">
@@ -245,7 +215,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="button text-dark btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="button text-dark btn btn-secondary close" data-dismiss="modal">Cancel</button>
                 <button type="button" class="button text-dark btn btn-primary" id="crop">Crop</button>
             </div>
         </div>
