@@ -1,4 +1,6 @@
-$('.button').attr('disbaled', true);
+$(document).on('click', '.button', function() {
+	$(this).attr('disbaled', true);
+});
 
 imgInp.onchange = evt => {
 	const [file] = imgInp.files
