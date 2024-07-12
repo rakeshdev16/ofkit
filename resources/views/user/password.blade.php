@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     @include('components.password-input', [
-                                        'label' => 'Password',
+                                        'label' => 'New Password',
                                         'name' => 'new_password',
                                         'icon' => 'key',
                                     ])
