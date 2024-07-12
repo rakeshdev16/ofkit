@@ -279,7 +279,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="button text-dark btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="button text-dark btn btn-secondary close" data-dismiss="modal">Cancel</button>
                         <button type="button" class="button text-dark btn btn-primary" id="crop">Crop</button>
                     </div>
                 </div>
