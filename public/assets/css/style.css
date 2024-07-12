@@ -8,6 +8,15 @@
 	border-color: #FFD681;
 }
 
+.button:active {
+	background-color: #FFD681;
+	border-color: #FFD681;
+}
+.button:focus-visible {
+	background-color: #FFD681;
+	border-color: #FFD681;
+}
+
 .table-style {
     margin-bottom: 5px !important;
 }
