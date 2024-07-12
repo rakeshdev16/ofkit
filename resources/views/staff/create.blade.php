@@ -4,6 +4,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <style>
+        .modal-lg {
+            max-width: 800px;
+        }
+
+        .img-container {
+            width: 100%;
+            height: 500px; /* Set the height you want */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #imageForCrop {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+        }
+    </style>
 @endpush
 @section('section')
 <div class="wrapper">
