@@ -42,6 +42,7 @@ Route::middleware(['auth', 'lang'])->group(function () {
         Route::get('framework-table-tab', 'frameWorkTableTab')->name('framework-table.tab');
     });
     Route::controller(StaffController::class)->group(function () {
+        Route::post('upload-staff-profile', 'uploadStaffProfile')->name('uploadStaffProfile');
         Route::get('selected-kindergarten', 'selectedKindergarten')->name('selected.kindergarten');
     });
     Route::controller(StaffTableController::class)->group(function () {

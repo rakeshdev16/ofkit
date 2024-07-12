@@ -1,0 +1,29 @@
+<div class="mb-4 page-info">
+    <div>
+        <h3 class="mb-0 text-uppercase">Children Parents’ Status ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
+    </div>
+    <div class="">
+        <a href="{{ route('children-table.create', 'parents-status') }}" class="btn button">{{ __('cluster.addBtnText') }}</a>
+        {{-- <button class="btn button moveToArchive" data-type="role">{{ __('cluster.moveBtnText') }}</button> --}}
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <div class="table-search">
+                <label>Search: <input type="search" class="search" value="{{ request()->search }}" placeholder=""></label>
+            </div>
+            <div id="dataTable">
+                @include('table.children.parents-status.table', ['parentsStatus' => $parentsStatus])
+            </div>
+        </div>
+        <div class="lising d-none" id="accordion">
+            @include('table.children.parents-status.accordion', ['parentsStatus' => $parentsStatus])
+        </div>
+    </div>
+</div>
+@push('customScript')
+    <script>
+        
+    </script>
+@endpush

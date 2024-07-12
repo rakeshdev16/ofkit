@@ -1,6 +1,27 @@
 @extends('layout.master')
 @push('customLink')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <style>
+        .label {
+            cursor: pointer;
+        }
+
+        .progress {
+            display: none;
+            margin-bottom: 1rem;
+        }
+
+        .alert {
+            display: none;
+        }
+
+        .img-container img {
+            max-width: 100%;
+        }
+    </style>
 @endpush
 @section('section')
 <div class="wrapper">
@@ -202,14 +223,128 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Crop Profile Image</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <main class="page">
+                    <div class="box-2">
+                        <div class="result"></div>
+                    </div>
+                    <div class="box-2 img-result hide">
+                        <img class="cropped" src="" alt="">
+                    </div>
+                    <div class="box">
+                        <div class="options hide">
+                            <label> Width</label>
+                            <input type="number" class="img-w" value="300" min="100" max="1200" />
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary save hide">Crop</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="cropAvatarmodal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="img-container">
+                    <img id="imageForCrop" src="https://avatars0.githubusercontent.com/u/3456749">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="button text-dark btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="button text-dark btn btn-primary" id="crop">Crop</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @push('customScript')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript" src="{{ asset('assets/js/jquery.validate.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" />
+
     <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            var avatar = document.getElementById('previewStaffImage');
+            var image = document.getElementById('imageForCrop');
+            var input = document.getElementById('staffProfileInp');
+            var cropBtn = document.getElementById('crop');
+            var $modal = $('#cropAvatarmodal');
+            var cropper;
+            $('[data-toggle="tooltip"]').tooltip();
+            input.addEventListener('change', function (e) {
+                var files = e.target.files;
+                var done = function (url) {
+                    image.src = url;
+                    $modal.modal('show');
+                };
+                if (files && files.length > 0) {
+                    let file = files[0];
+                    reader = new FileReader();
+                    reader.onload = function (e) {
+                        done(reader.result);
+                    };
+                    reader.readAsDataURL(file);
+                    input.value = '';
+                }
+            });
+            $modal.on('shown.bs.modal', function () {
+                cropper = new Cropper(image, {
+                    aspectRatio: 1,
+                    viewMode: 3,
+                });
+            }).on('hidden.bs.modal', function () {
+                cropper.destroy();
+                cropper = null;
+                image.src = '';
+            });
+            cropBtn.addEventListener('click', function () {
+                var canvas;
+                $modal.modal('hide');
+                if (cropper) {
+                    canvas = cropper.getCroppedCanvas({
+                        width: 160,
+                        height: 160,
+                    });
+                    canvas.toBlob(function (blob) {
+                        var formData = new FormData();
+                        formData.append('type', 'add');
+                        formData.append('image', blob);
+                        formData.append('extension', blob.type.replace("image/", " "));
+                        $.ajax("{{ route('uploadStaffProfile') }}", {
+                            headers: {
+                                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                            },
+                            method: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function (data) {
+                                avatar.src = data.src;
+                            },
+                            error: function () {
+                                console.error('Upload error');
+                            },
+                        });
+                    });
+                }
+            });
+        });
+
         $(document).ready(function() {
             $('.kindergarten').select2();
-
             staffProfileInp.onchange = evt => {
                 const [file] = staffProfileInp.files
                 if (file) {

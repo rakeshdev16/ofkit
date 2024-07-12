@@ -92,8 +92,8 @@ class StaffController extends Controller
             
             $request['identification'] = Str::uuid();
             $request['password'] = rand();
-            if ($request->hasFile('member_photo')) {
-                $request['photo'] = uploadFile($request->member_photo, 'public/staff');
+            if (Session::has('staffPhoto')) {
+                $request['photo'] = Session::get('staffPhoto');
             }
             if ($request->hasFile('doc')) {
                 $request['document'] = uploadFile($request->doc, 'public/staff-document');
@@ -186,10 +186,6 @@ class StaffController extends Controller
         try {
 
             $user = User::findOrFail($id);
-            if ($request->hasFile('member_photo')) {
-                $request['photo'] = uploadFile($request->member_photo, 'public/staff');
-                unset($request['member_photo']);
-            }
             if ($request->hasFile('doc')) {
                 $request['document'] = uploadFile($request->doc, 'public/staff-document');
                 unset($request['doc']);
@@ -222,6 +218,22 @@ class StaffController extends Controller
             return response()->json(['status' => true, 'message' => __('staff.staff.deleteStaffMsg'), 'ids' => $ids]);
         }
         return response()->json(['status' => false, 'ids' => $ids]);
+    }
+
+    public function uploadStaffProfile(Request $request)
+    {
+        if ($request->hasFile('image')) {
+            $file = $request->image;
+            $filename = Str::random(40) . '.' . $request->extension;
+            $photo = $file->storeAs('public/staff', $filename, 'public');
+            if ($request->type == 'add') {
+                Session::put('staffPhoto', $photo);
+            } else {
+                User::where('id', $request->user_id)->update(['photo' => $photo]);
+            }
+            return response()->json(['status' => true, 'message' => 'Profile has been uploaded', 'src' => asset('storage/'.$photo)]);
+        }
+        return response()->json(['status' => false]);
     }
 
     public function selectedKindergarten(Request $request)
