@@ -11,7 +11,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-comment-detail font-18 me-1"></i>
                                 </div>
-                                <div class="tab-title"> Parents Status </div>
+                                <div class="tab-title"> Parent's Status </div>
                             </div>
                         </a>
                     </li>

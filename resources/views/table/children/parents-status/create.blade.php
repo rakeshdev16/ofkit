@@ -17,7 +17,7 @@
                                     <img class="p-1" src="{{ asset('assets/icons/fi_2887367.png') }}"/>
                                 </a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Parents Status</li>
+                            <li class="breadcrumb-item active" aria-current="page">Parent's Status</li>
                         </ol>
                     </nav>
                 </div>
@@ -31,7 +31,7 @@
                 <div class="col-xl-6 mx-auto">
                     <div class="card">
                         <div class="card-body p-4">
-                            <h5 class="mb-4">Add Parents Status</h5>
+                            <h5 class="mb-4">Add Parent's Status</h5>
                             <form class="row g-3" action="{{ route('children-table.store') }}" method="POST">
                                 @csrf
                                 <div class="col-md-12">
