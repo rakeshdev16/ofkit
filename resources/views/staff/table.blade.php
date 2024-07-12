@@ -31,17 +31,11 @@
                 <td>{{ $member->licence_number }}</td>
                 <td>{{ $member->getRoleNames()->first() }}</td>
                 <td>
-                    @php
-                        $staffKindergartens = $member->staffKindergartens;
-                        $count = $staffKindergartens->count();
-                        $firstTwo = $staffKindergartens->take(2);
-                    @endphp
-
-                    @if ($count > 0)
-                        @foreach ($firstTwo as $staffKindergarten)
+                    @if ($member->staffKindergartens->count() > 0)
+                        @foreach ($member->staffKindergartens->take(1) as $staffKindergarten)
                             {{ $staffKindergarten->kindergartens->name }}@if (!$loop->last), @endif
                         @endforeach
-                        @if ($count > 2)
+                        @if ($member->staffKindergartens->count() > 2)
                             ...
                         @endif
                     @else
