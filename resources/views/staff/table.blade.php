@@ -31,9 +31,23 @@
                 <td>{{ $member->licence_number }}</td>
                 <td>{{ $member->getRoleNames()->first() }}</td>
                 <td>
-                    @foreach ($member->staffKindergartens as $staffKindergarten)
-                        {{ @$staffKindergarten->kindergartens->name }} {{ !$loop->last ? ',' : '' }}
-                    @endforeach
+                    @php
+                        $staffKindergartens = $member->staffKindergartens;
+                        $count = $staffKindergartens->count();
+                        $firstTwo = $staffKindergartens->take(2);
+                    @endphp
+
+                    @if ($count > 0)
+                        @foreach ($firstTwo as $staffKindergarten)
+                            {{ $staffKindergarten->kindergartens->name }}@if (!$loop->last), @endif
+                        @endforeach
+                        @if ($count > 2)
+                            ...
+                        @endif
+                    @else
+                        No kindergartens available
+                    @endif
+
                 </td>
                 <td>
                     <a href="{{ route('staff.edit', $member->id) }}" class=""><i class="bx bx-edit icon"></i></a>
