@@ -41,7 +41,6 @@
                     @else
                         No kindergartens available
                     @endif
-
                 </td>
                 <td>
                     <a href="{{ route('staff.edit', $member->id) }}" class=""><i class="bx bx-edit icon"></i></a>
