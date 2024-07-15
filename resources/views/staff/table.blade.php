@@ -39,7 +39,7 @@
                             ...
                         @endif
                     @else
-                        No kindergartens available
+                        <span class="light-gray">No kindergartens available</span>
                     @endif
                 </td>
                 <td>
