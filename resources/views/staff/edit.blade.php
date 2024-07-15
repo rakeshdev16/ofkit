@@ -147,9 +147,9 @@
                                                 'value' => old('doc'),
                                                 'multiple' => 'multiple'
                                             ])
-                                            <div class="mt-2 d-flex">
+                                            <div class="d-flex" style="flex-wrap: wrap;">
                                                 @foreach ($staff->documents as $document)
-                                                    <div class="document doc{{ $document->id }}">
+                                                    <div class="document mt-1 doc{{ $document->id }}">
                                                         <span class="">
                                                             <a href="{{ $document->name }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a> 
                                                             <i class="bx bx-x staffDocument" data-id="{{ $document->id }}"></i>
