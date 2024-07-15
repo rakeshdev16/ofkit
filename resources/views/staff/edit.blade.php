@@ -150,10 +150,10 @@
                                             <div class="d-flex" style="flex-wrap: wrap;">
                                                 @foreach ($staff->documents as $document)
                                                     <div class="document mt-1 doc{{ $document->id }}">
-                                                        <span class="">
-                                                            <a href="{{ $document->name }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a> 
-                                                            <i class="bx bx-x staffDocument" data-id="{{ $document->id }}"></i>
-                                                        </span>
+                                                        <a href="{{ $document->name }}" target="_blank" rel="noopener noreferrer">
+                                                            {{ $document->file_name }}
+                                                        </a>
+                                                        <i class="bx bx-x staffDocument" data-id="{{ $document->id }}"></i>
                                                     </div>
                                                 @endforeach
                                             </div>
