@@ -1,5 +1,6 @@
 $(document).on('click', '.button', function() {
-	$(this).attr('disbaled', true);
+	$(this).attr('disabled', true);
+	$(this).parent().parent().parent().submit();
 });
 
 imgInp.onchange = evt => {
