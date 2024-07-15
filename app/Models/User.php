@@ -30,7 +30,6 @@ class User extends Authenticatable
         'dob',
         'identification',
         'photo',
-        'document',
     ];
 
     /**
@@ -66,6 +65,11 @@ class User extends Authenticatable
     public function staffKindergartens()
     {
         return $this->hasMany(StaffKindergarten::class);
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(StaffDocument::class);
     }
 
     public function scopeFilter($query)

@@ -68,10 +68,12 @@
                                             <h6 class="mb-0"><i class="bx bx-user-check"></i> {{ __('staff.roleTh') }}</h6>
                                             <span class="text-secondary">{{ @$staff->getRoleNames()->first() }}</span>
                                         </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 class="mb-0"><i class="bx bx-file"></i> Document</h6>
-                                            <a href="{{ @$staff->document }}" target="_blank" rel="noopener noreferrer">Click Here</a>
-                                        </li>
+                                        @foreach ($staff->documents as $document)
+                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                <h6 class="mb-0"><i class="bx bx-file"></i> Document</h6>
+                                                <a href="{{ @$document->name }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>

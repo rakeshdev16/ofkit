@@ -37,9 +37,12 @@ function uploadFile($file, $path, $extension = null)
 {
     // $fileName = $file->store($path);
     // return explode('public/', $fileName)[1];
-
-    $extension = isset($extension) ? $extension : $file->getClientOriginalExtension();
-    $filename = Str::random(40) . '.' . $extension;
+    if (isset($extension)) {
+        $filename = Str::random(40) . '.' . $extension;
+    } else {
+        $filename = $file->getClientOriginalName();
+    }
+    // $filename = Str::random(40) . '.' . $extension;
     $filePath = $file->storeAs($path, $filename, 'public');
     return $filePath;
 }

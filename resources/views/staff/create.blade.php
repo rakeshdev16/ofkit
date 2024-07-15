@@ -110,10 +110,11 @@
                                 <div class="col-md-12">
                                     @include('components.file-input', [
                                         'label' => 'Document',
-                                        'name' => 'doc',
+                                        'name' => 'documents[]',
                                         'fileType' => 'document',
                                         'icon' => 'file',
-                                        'value' => old('doc')
+                                        'value' => old('doc'),
+                                        'multiple' => 'multiple'
                                     ])
                                 </div>
                                 <div class="col-md-12">

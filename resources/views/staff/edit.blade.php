@@ -141,11 +141,22 @@
                                         <div class="col-md-12">
                                             @include('components.file-input', [
                                                 'label' => 'Document',
-                                                'name' => 'doc',
+                                                'name' => 'documents[]',
                                                 'fileType' => 'document',
                                                 'icon' => 'file',
-                                                'value' => old('doc') ?? @$staff->document,
+                                                'value' => old('doc'),
+                                                'multiple' => 'multiple'
                                             ])
+                                            <div class="mt-2 d-flex">
+                                                @foreach ($staff->documents as $document)
+                                                    <div class="document doc{{ $document->id }}">
+                                                        <span class="">
+                                                            <a href="{{ $document->name }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a> 
+                                                            <i class="bx bx-x staffDocument" data-id="{{ $document->id }}"></i>
+                                                        </span>
+                                                    </div>
+                                                @endforeach
+                                            </div>
                                         </div>
                                         <div class="col-md-12">
                                             @include('components.multi-select-input', [
@@ -308,6 +319,7 @@
     @endsection
     @push('customScript')
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
         @include('staff.script')
         <script>
             $(document).ready(function() {
@@ -336,6 +348,36 @@
                             $('.selected-kindergarten').html('');
                             $('.kindergarten-section').hide();
                         }
+                    }
+                });
+            })
+
+            $(document).on('click', '.staffDocument', function() {
+                var id = $(this).data('id');
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                            },
+                            type: 'POST',
+                            url: "{{ route('document.delete') }}",
+                            data: {id: id},
+                            success: function(data) {
+                                if (data.status == true) {
+                                    $('.doc'+id).remove();
+                                    toastr.success(data.message);
+                                }
+                            }
+                        });            
                     }
                 });
             })

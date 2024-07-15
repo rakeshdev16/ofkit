@@ -9,6 +9,7 @@ use App\Models\KindergartenUser;
 use App\Models\MemberRole;
 use App\Models\Profession;
 use App\Models\Staff;
+use App\Models\StaffDocument;
 use App\Models\StaffKindergarten;
 use App\Models\User;
 use App\Notifications\AccountDetailNotification;
@@ -95,10 +96,13 @@ class StaffController extends Controller
             if (Session::has('staffPhoto')) {
                 $request['photo'] = Session::get('staffPhoto');
             }
-            if ($request->hasFile('doc')) {
-                $request['document'] = uploadFile($request->doc, 'public/staff-document');
-            }
             $user = User::create($request->all());
+            if (isset($request->documents) && count($request->documents) > 0) {
+                foreach ($request->documents as $document) {
+                    $name = uploadFile($document, 'public/staff-document');
+                    $user->documents()->create(['name' => $name]);
+                }
+            }
             $user->assignRole($request->role);
             $user->notify(new AccountDetailNotification($user, $request['password']));
             if (isset($request->kindergarten) && count($request->kindergarten)) {
@@ -186,11 +190,13 @@ class StaffController extends Controller
         try {
 
             $user = User::findOrFail($id);
-            if ($request->hasFile('doc')) {
-                $request['document'] = uploadFile($request->doc, 'public/staff-document');
-                unset($request['doc']);
-            }
             $user->update($request->except('_token', '_method', 'kindergarten_id', 'schedule'));
+            if (isset($request->documents) && count($request->documents) > 0) {
+                foreach ($request->documents as $document) {
+                    $name = uploadFile($document, 'public/staff-document');
+                    $user->documents()->create(['name' => $name]);
+                }
+            }
             $user->staffKindergartens()->delete();
             if (isset($request->kindergarten) && count($request->kindergarten)) {
                 $user->staffKindergartens()->createMany($request->kindergarten);
@@ -259,5 +265,13 @@ class StaffController extends Controller
             Session::forget('kindergartenIds');
             return response()->json(['status' => false, 'data' => '']);
         }
+    }
+
+    public function deleteDocument(Request $request)
+    {
+        if (StaffDocument::where('id', $request->id)->delete()) {
+            return response()->json(['status' => true, 'message' => 'Document has been deleted!']);
+        }
+        return response()->json(['status' => false, 'message' => 'Something went wrong please try again!']);
     }
 }

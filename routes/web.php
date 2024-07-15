@@ -44,6 +44,7 @@ Route::middleware(['auth', 'lang'])->group(function () {
     Route::controller(StaffController::class)->group(function () {
         Route::post('upload-staff-profile', 'uploadStaffProfile')->name('uploadStaffProfile');
         Route::get('selected-kindergarten', 'selectedKindergarten')->name('selected.kindergarten');
+        Route::post('delete-document', 'deleteDocument')->name('document.delete');
     });
     Route::controller(StaffTableController::class)->group(function () {
         Route::get('staff-table-tab', 'staffTableTab')->name('staff-table.tab');
