@@ -17,7 +17,7 @@
                                     <img class="p-1" src="{{ asset('assets/icons/fi_2887367.png') }}"/>
                                 </a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Intervention Type</li>
+                            <li class="breadcrumb-item active" aria-current="page">Occurrence/Intervention Type</li>
                         </ol>
                     </nav>
                 </div>
@@ -31,7 +31,7 @@
                 <div class="col-xl-6 mx-auto">
                     <div class="card">
                         <div class="card-body p-4">
-                            <h5 class="mb-4">Update Intervention Type Detail</h5>
+                            <h5 class="mb-4">Update Occurrence/Intervention Type Detail</h5>
                             <form class="row g-3" action="{{ route('intervention.update', $interventionType->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
