@@ -1,6 +1,6 @@
 <div class="mb-4 page-info">
     <div>
-        <h3 class="mb-0 text-uppercase">Intervention Types ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
+        <h3 class="mb-0 text-uppercase">Occurrence/Intervention Type ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
     </div>
     <div class="">
         <a href="{{ route('intervention.create') }}?type=intervention-type" class="btn button">Add New</a>
