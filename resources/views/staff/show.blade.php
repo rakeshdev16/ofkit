@@ -71,7 +71,9 @@
                                         @foreach ($staff->documents as $document)
                                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                                 <h6 class="mb-0"><i class="bx bx-file"></i> Document</h6>
-                                                <a href="{{ @$document->name }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a>
+                                                <a href="{{ @$document->name }}" target="_blank" rel="noopener noreferrer">
+                                                    {{ \Str::limit($document->file_name, 10, '...') ?? '-' }}
+                                                </a>
                                             </li>
                                         @endforeach
                                     </ul>
