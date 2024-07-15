@@ -70,5 +70,18 @@
 </div>
 @endsection
 @push('customScript')
-    
+    <script>
+        $(document).on('click', '.show-password', function() {
+            var input = $(this).parent().parent().find('input');
+            if (input.attr('type') == 'password') {
+                input.attr('type', 'text');
+                $(this).removeClass('fa-eye');
+                $(this).addClass('fa-eye-slash');
+            } else {
+                input.attr('type', 'password');
+                $(this).addClass('fa-eye');
+                $(this).removeClass('fa-eye-slash');
+            }
+        });
+    </script>
 @endpush
