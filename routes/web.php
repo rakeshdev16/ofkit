@@ -4,6 +4,7 @@ use App\Http\Controllers\ChildrenController;
 use App\Http\Controllers\ChildrenTableController;
 use App\Http\Controllers\ClusterController;
 use App\Http\Controllers\FrameworkTableController;
+use App\Http\Controllers\InterventionTableController;
 use App\Http\Controllers\KindergartenController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StaffTableController;
@@ -34,6 +35,7 @@ Route::middleware(['auth', 'lang'])->group(function () {
     Route::resource('staff-table', StaffTableController::class);
     Route::resource('framework-table', FrameworkTableController::class);
     Route::resource('children-table', ChildrenTableController::class);
+    Route::resource('intervention', InterventionTableController::class);
 
     Route::controller(KindergartenController::class)->group(function () {
         Route::get('get-cluster-manager', 'getClusterManager')->name('cluster-manager.name');
@@ -51,6 +53,9 @@ Route::middleware(['auth', 'lang'])->group(function () {
     });
     Route::controller(ChildrenTableController::class)->group(function () {
         Route::get('children-table-tab', 'childrenTableTab')->name('children-table.tab');
+    });
+    Route::controller(InterventionTableController::class)->group(function () {
+        Route::get('intervention-tab', 'interventionTableTab')->name('intervention.tab');
     });
     Route::controller(UserController::class)->group(function () {
         Route::get('profile', 'index')->name('profile.index');

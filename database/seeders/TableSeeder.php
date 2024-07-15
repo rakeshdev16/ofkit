@@ -4,9 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\Association;
 use App\Models\Diagnosis;
+use App\Models\DocumentAndApproval;
 use App\Models\FrameworkType;
 use App\Models\Functionality;
 use App\Models\Hmo;
+use App\Models\InterventionType;
 use App\Models\KindergartenType;
 use App\Models\MemberRole;
 use App\Models\ParentsStatus;
@@ -75,6 +77,14 @@ class TableSeeder extends Seeder
 
         foreach (['New', 'Continuing'] as $name) {
             Status::firstOrCreate(['name' => $name]);
+        }
+
+        foreach (['Individual', 'Parental Guidance', 'Group', 'Staff Meeting', 'Break', 'Guidance', 'Preparation', 'Other'] as $name) {
+            InterventionType::firstOrCreate(['name' => $name]);
+        }
+
+        foreach (['Initial Evaluation', 'Final Evaluation', 'Declaration of receipt of Tabam', 'Waiver of confidentiality'] as $name) {
+            DocumentAndApproval::firstOrCreate(['name' => $name]);
         }
     }
 }
