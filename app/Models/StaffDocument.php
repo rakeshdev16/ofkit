@@ -20,6 +20,6 @@ class StaffDocument extends Model
     
     public function getFileNameAttribute($value)
     {
-        return explode('staff-document/', @$this->attributes['name'])[1];
+        return @explode('staff-document/', $this->attributes['name'])[1];
     }
 }
