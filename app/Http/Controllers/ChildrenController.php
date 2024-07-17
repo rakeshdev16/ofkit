@@ -94,7 +94,7 @@ class ChildrenController extends Controller
             'medicine' => "Please chose medicine",
             'medicine_detail' => "Please enter the medicine detail",
             'medicine_name' => "Please enter the medicine name",
-            'type' => "Please enter the medicine type",
+            'type' => "Please chose the medicine type",
             'dosage_and_timing' => "Please enter the medicine dosage and timing",
             'where' => "Please chose option",
         ]);
@@ -227,7 +227,7 @@ class ChildrenController extends Controller
             'medicine' => "Please chose medicine",
             'medicine_detail' => "Please enter the medicine detail",
             'medicine_name' => "Please enter the medicine name",
-            'type' => "Please enter the medicine type",
+            'type' => "Please chose the medicine type",
             'dosage_and_timing' => "Please enter the medicine dosage and timing",
             'where' => "Please chose the option",
         ]);
