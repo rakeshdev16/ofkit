@@ -21,6 +21,7 @@
                 <td>{{ $children->address }}</td>
                 <td>
                     <a href="{{ route('children.edit', $children->id) }}" class=""><i class="bx bx-edit icon"></i></a>
+                    <a href="{{ route('children.show', $children->id) }}" class=""><i class="bx bx-show icon"></i></a>
                 </td>
             </tr>
         @empty

@@ -145,6 +145,18 @@ class ChildrenController extends Controller
         }
     }
 
+    public function show($id)
+    {
+        $children = Children::findOrFail($id);
+        $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
+        $functionalities = Functionality::select('id as key', 'name as value')->get()->toArray();
+        $dianioses = Diagnosis::select('id as key', 'name as value')->get()->toArray();
+        $statuses = Status::select('id as key', 'name as value')->get()->toArray();
+        $parentsStatus = ParentsStatus::select('id as key', 'name as value')->get()->toArray();
+        $hmos = Hmo::select('id as key', 'name as value')->get()->toArray();
+        return view('children.show', compact('children', 'kindergartens', 'functionalities', 'dianioses', 'statuses', 'hmos', 'parentsStatus'));
+    }
+
     public function edit($id)
     {
         $children = Children::findOrFail($id);

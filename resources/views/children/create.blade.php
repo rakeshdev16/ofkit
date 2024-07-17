@@ -74,8 +74,7 @@
                                         <div class="bs-stepper-content">
                                             <form action="{{ route('children.store') }}" method="POST">
                                                 @csrf
-                                                <div id="test-l-1" role="tabpanel" class="bs-stepper-pane"
-                                                    aria-labelledby="stepper1trigger1">
+                                                <div id="test-l-1" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper1trigger1">
                                                     <div class="row g-3">
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
@@ -313,7 +312,6 @@
                                                 </div>
                                             </form>
                                         </div>
-        
                                     </div>
                                 </div>
                             </div>
