@@ -76,7 +76,7 @@
                                         'class' => 'clusterManager',
                                         'icon' => 'user',
                                         'readonly' => true,
-                                        'value' => @getUserNameById($kindergarten->cluster_manager_id)
+                                        'value' => @getUserNameById($kindergarten->cluster->manager_id)
                                     ])
                                 </div>
                                 <div class="col-md-6">
