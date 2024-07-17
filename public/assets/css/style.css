@@ -2,19 +2,29 @@
     background-color: #FFD681;
     border-color: #FFD681;
     border-radius: 15px;
+    color: #000000;
 }
 .button:hover {
 	background-color: #FFD681;
 	border-color: #FFD681;
+    color: #000000;
 }
 
 .button:active {
 	background-color: #FFD681;
 	border-color: #FFD681;
+    color: #000000;
 }
 .button:focus-visible {
 	background-color: #FFD681;
 	border-color: #FFD681;
+    color: #000000;
+}
+
+.active .bs-stepper-circle {
+    background-color: #FFD681 !important;
+    border-color: #FFD681 !important;
+    color: #000000 !important;
 }
 
 .table-style {

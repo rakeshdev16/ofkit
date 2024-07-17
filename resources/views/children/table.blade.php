@@ -7,7 +7,6 @@
             @include('components.table-heading', ['label' => __('children.identificationTh'), 'key' => 'identification'])
             @include('components.table-heading', ['label' => __('children.dobTh'), 'key' => 'dob'])
             @include('components.table-heading', ['label' => __('children.addressTh'), 'key' => 'address'])
-            @include('components.table-heading', ['label' => __('children.accessRecordsTh'), 'key' => 'access_records'])
             @include('components.table-heading', ['label' => 'Action'])
         </tr>
     </thead>
@@ -20,7 +19,6 @@
                 <td>{{ $children->identification }}</td>
                 <td>{{ $children->dob }}</td>
                 <td>{{ $children->address }}</td>
-                <td>{{ $children->access_records }}</td>
                 <td>
                     <a href="{{ route('children.edit', $children->id) }}" class=""><i class="bx bx-edit icon"></i></a>
                 </td>
