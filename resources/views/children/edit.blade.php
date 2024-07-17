@@ -31,11 +31,6 @@
                     </div>
                     <div class="row">
                         <div class="col-xl-6 mx-auto">
-                            @php
-                                echo '<pre>';
-                                    print_r(Session::get('errors'));
-                                echo '</pre>';
-                            @endphp
                             <div id="stepper1" class="bs-stepper linear">
                                 <div class="card">
                                     <div class="card-header">
