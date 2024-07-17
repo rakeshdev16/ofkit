@@ -16,6 +16,8 @@ class ChildrenMedicalInformation extends Model
         'medicine',
         'medicine_detail',
         'medicine_name',
+        'type',
         'dosage_and_timing',
+        'where',
     ];
 }

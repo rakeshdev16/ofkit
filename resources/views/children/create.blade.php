@@ -281,9 +281,16 @@
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
-                                                            @include('components.select-input', [
+                                                            @include('components.text-input', [
                                                                 'label' => 'Medicine Name',
                                                                 'name' => 'medicine_name',
+                                                                'icon' => 'network-chart',
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @include('components.select-input', [
+                                                                'label' => 'Type',
+                                                                'name' => 'type',
                                                                 'icon' => 'buildings',
                                                                 'options' => [
                                                                     ['key' => 'sos', 'value' => 'SOS'],
@@ -296,6 +303,17 @@
                                                                 'label' => 'Dosage and Timing',
                                                                 'name' => 'dosage_and_timing',
                                                                 'icon' => 'network-chart',
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @include('components.select-input', [
+                                                                'label' => 'Where',
+                                                                'name' => 'where',
+                                                                'icon' => 'buildings',
+                                                                'options' => [
+                                                                    ['key' => 'kindergarten', 'value' => 'Kindergarten'],
+                                                                    ['key' => 'home', 'value' => 'Home']
+                                                                ],
                                                             ])
                                                         </div>
                                                         <div class="col-12">

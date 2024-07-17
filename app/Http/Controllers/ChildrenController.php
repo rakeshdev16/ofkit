@@ -68,7 +68,9 @@ class ChildrenController extends Controller
             'medicine' => "required",
             'medicine_detail' => "required_if:medicine,==,yes",
             'medicine_name' => "required",
+            'type' => "required",
             'dosage_and_timing' => "required",
+            'where' => "required",
         ],[
             'name' => 'Please enter name',
             'family_name' => 'Please enter family name',
@@ -92,7 +94,9 @@ class ChildrenController extends Controller
             'medicine' => "Please chose medicine",
             'medicine_detail' => "Please enter the medicine detail",
             'medicine_name' => "Please enter the medicine name",
+            'type' => "Please enter the medicine type",
             'dosage_and_timing' => "Please enter the medicine dosage and timing",
+            'where' => "Please chose option",
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -133,7 +137,9 @@ class ChildrenController extends Controller
                 'medicine' => $request->medicine == 'yes' ? 1 : 0,
                 'medicine_detail' => $request->medicine == 'yes' ? $request->medicine_detail : '',
                 'medicine_name' => $request->medicine_name,
+                'type' => $request->type,
                 'dosage_and_timing' => $request->dosage_and_timing,
+                'where' => $request->where,
             ]);
 
             DB::commit();
@@ -195,7 +201,9 @@ class ChildrenController extends Controller
             'medicine' => "required",
             'medicine_detail' => "required_if:medicine,==,yes",
             'medicine_name' => "required",
+            'type' => "required",
             'dosage_and_timing' => "required",
+            'where' => "required",
         ],[
             'name' => 'Please enter name',
             'family_name' => 'Please enter family name',
@@ -219,7 +227,9 @@ class ChildrenController extends Controller
             'medicine' => "Please chose medicine",
             'medicine_detail' => "Please enter the medicine detail",
             'medicine_name' => "Please enter the medicine name",
+            'type' => "Please enter the medicine type",
             'dosage_and_timing' => "Please enter the medicine dosage and timing",
+            'where' => "Please chose the option",
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -261,7 +271,9 @@ class ChildrenController extends Controller
                 'medicine' => $request->medicine == 'yes' ? 1 : 0,
                 'medicine_detail' => $request->medicine == 'yes' ? $request->medicine_detail : '',
                 'medicine_name' => $request->medicine_name,
+                'type' => $request->type,
                 'dosage_and_timing' => $request->dosage_and_timing,
+                'where' => $request->where,
             ]);
 
             DB::commit();

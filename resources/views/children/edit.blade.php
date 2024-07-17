@@ -316,15 +316,23 @@
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
-                                                            @include('components.select-input', [
+                                                            @include('components.text-input', [
                                                                 'label' => 'Medicine Name',
                                                                 'name' => 'medicine_name',
+                                                                'icon' => 'network-chart',
+                                                                'value' => @$medical->medicine_name
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @include('components.select-input', [
+                                                                'label' => 'Type',
+                                                                'name' => 'type',
                                                                 'icon' => 'buildings',
                                                                 'options' => [
                                                                     ['key' => 'sos', 'value' => 'SOS'],
                                                                     ['key' => 'regular', 'value' => 'Regular']
                                                                 ],
-                                                                'value' => @$medical->medicine_name
+                                                                'value' => @$medical->type
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -333,6 +341,18 @@
                                                                 'name' => 'dosage_and_timing',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$medical->dosage_and_timing
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @include('components.select-input', [
+                                                                'label' => 'Where',
+                                                                'name' => 'where',
+                                                                'icon' => 'buildings',
+                                                                'options' => [
+                                                                    ['key' => 'kindergarten', 'value' => 'Kindergarten'],
+                                                                    ['key' => 'home', 'value' => 'Home']
+                                                                ],
+                                                                'value' => @$medical->where
                                                             ])
                                                         </div>
                                                         <div class="col-12">

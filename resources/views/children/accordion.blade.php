@@ -45,7 +45,7 @@
                     </div>
                     <div class="d-flex">
                         <div class="w-50">Kindergarten</div>
-                        <div class="w-50">{{ $children->kindergarten_id }}</div>
+                        <div class="w-50">{{ @getKindergartenNameById($children->kindergarten_id) ?? '-' }}</div>
                     </div>
                 </div>
             </div>

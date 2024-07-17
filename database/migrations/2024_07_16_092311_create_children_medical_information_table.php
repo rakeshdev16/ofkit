@@ -19,7 +19,9 @@ return new class extends Migration
             $table->boolean('medicine')->nullable();
             $table->string('medicine_detail')->nullable();
             $table->string('medicine_name')->nullable();
+            $table->string('type')->nullable();
             $table->string('dosage_and_timing')->nullable();
+            $table->string('where')->nullable();
             $table->timestamps();
         });
     }

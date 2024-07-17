@@ -7,6 +7,7 @@
             @include('components.table-heading', ['label' => __('children.identificationTh'), 'key' => 'identification'])
             @include('components.table-heading', ['label' => __('children.dobTh'), 'key' => 'dob'])
             @include('components.table-heading', ['label' => __('children.addressTh'), 'key' => 'address'])
+            @include('components.table-heading', ['label' => 'Kindergarten', 'key' => 'address'])
             @include('components.table-heading', ['label' => 'Action'])
         </tr>
     </thead>
@@ -19,6 +20,7 @@
                 <td>{{ $children->identification }}</td>
                 <td>{{ $children->dob }}</td>
                 <td>{{ $children->address }}</td>
+                <td>{{ @getKindergartenNameById($children->kindergarten_id) ?? '-' }}</td>
                 <td>
                     <a href="{{ route('children.edit', $children->id) }}" class=""><i class="bx bx-edit icon"></i></a>
                     <a href="{{ route('children.show', $children->id) }}" class=""><i class="bx bx-show icon"></i></a>
