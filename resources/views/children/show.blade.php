@@ -260,7 +260,7 @@
                                                     <div class="col-md-12 allergieDetail"
                                                         style="display: {{ old('food_allergie') ?? (@$medical->food_allergie == 1 ? 'yes' : 'no') == 'yes' ? 'block' : 'none' }};"
                                                     >
-                                                        @include('components.text-input', [
+                                                        @include('components.textarea-input', [
                                                             'label' => 'Allergies Detail',
                                                             'name' => 'food_allergie_detail',
                                                             'icon' => 'network-chart',
@@ -285,8 +285,8 @@
                                                     <div class="col-md-12 medicineDetail"
                                                         style="display: {{ old('medicine') ?? (@$medical->medicine == 1 ? 'yes' : 'no') == 'yes' ? 'block' : 'none' }}"
                                                     >
-                                                        @include('components.text-input', [
-                                                            'label' => 'Add Medicine Detail',
+                                                        @include('components.textarea-input', [
+                                                            'label' => 'Medicine Detail',
                                                             'name' => 'medicine_detail',
                                                             'icon' => 'network-chart',
                                                             'value' => @$medical->medicine_detail,

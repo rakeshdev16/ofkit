@@ -255,7 +255,7 @@
                                                             ])
                                                         </div>
                                                         <div class="col-md-12 allergieDetail" style="display: {{ old('food_allergie') == 'yes' ? 'block' : 'none' }};">
-                                                            @include('components.text-input', [
+                                                            @include('components.textarea-input', [
                                                                 'label' => 'Allergies Detail',
                                                                 'name' => 'food_allergie_detail',
                                                                 'icon' => 'network-chart',
@@ -274,7 +274,7 @@
                                                             ])
                                                         </div>
                                                         <div class="col-md-12 medicineDetail" style="display: {{ old('medicine') == 'yes' ? 'block' : 'none' }}">
-                                                            @include('components.text-input', [
+                                                            @include('components.textarea-input', [
                                                                 'label' => 'Add Medicine Detail',
                                                                 'name' => 'medicine_detail',
                                                                 'icon' => 'network-chart',
