@@ -77,6 +77,7 @@
                                             @include('components.text-input', [
                                                 'label' => __('staff.telephoneTh'),
                                                 'name' => 'telephone',
+                                                'class' => 'numbers',
                                                 'icon' => 'phone',
                                                 'value' => $staff->telephone,
                                             ])

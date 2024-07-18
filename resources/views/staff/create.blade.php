@@ -56,7 +56,12 @@
                                     @include('components.text-input', ['label' => __('staff.emailTh'), 'name' => 'email', 'icon' => 'envelope'])
                                 </div>
                                 <div class="col-md-6">
-                                    @include('components.text-input', ['label' => __('staff.telephoneTh'), 'name' => 'telephone', 'icon' => 'phone'])
+                                    @include('components.text-input', [
+                                        'label' => __('staff.telephoneTh'),
+                                        'name' => 'telephone',
+                                        'class' => 'numbers',
+                                        'icon' => 'phone'
+                                    ])
                                 </div>
                                 <div class="col-md-6">
                                     @include('components.text-input', ['label' => __('staff.licenceNumberTh'), 'name' => 'licence_number', 'icon' => 'credit-card'])

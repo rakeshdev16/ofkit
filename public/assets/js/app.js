@@ -3,6 +3,11 @@ $(document).on('click', '.button', function() {
 	$(this).parent().parent().parent().submit();
 });
 
+$('.numbers').on('input', function () {
+	var value = $(this).val();
+	$(this).val(value.replace(/\s+/g, ''));
+});
+
 // imgInp.onchange = evt => {
 // 	const [file] = imgInp.files
 // 	if (file) {

@@ -210,6 +210,7 @@
                                                             @include('components.text-input', [
                                                                 'label' => 'Telephone',
                                                                 'name' => 'father_telephone',
+                                                                'class' => 'numbers',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$parent->father_telephone
                                                             ])
@@ -226,6 +227,7 @@
                                                             @include('components.text-input', [
                                                                 'label' => 'Telephone',
                                                                 'name' => 'mother_telephone',
+                                                                'class' => 'numbers',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$parent->mother_telephone
                                                             ])
@@ -260,6 +262,7 @@
                                                             @include('components.text-input', [
                                                                 'label' => 'Telephone',
                                                                 'name' => 'emergency_telephone',
+                                                                'class' => 'numbers',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$parent->telephone
                                                             ])

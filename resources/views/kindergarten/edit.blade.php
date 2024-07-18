@@ -89,7 +89,13 @@
                                     ])
                                 </div>
                                 <div class="col-md-6">
-                                    @include('components.text-input', ['label' => __('kindergarten.telephoneTh'), 'name' => 'telephone', 'icon' => 'phone', 'value' => $kindergarten->telephone])
+                                    @include('components.text-input', [
+                                        'label' => __('kindergarten.telephoneTh'),
+                                        'name' => 'telephone',
+                                        'class' => 'numbers',
+                                        'icon' => 'phone',
+                                        'value' => $kindergarten->telephone
+                                    ])
                                 </div>
                                 <div class="col-md-12">
                                     @include('components.text-input', ['label' => __('kindergarten.addressTh'), 'name' => 'address', 'icon' => 'current-location', 'value' => $kindergarten->address])

@@ -75,6 +75,7 @@
                                     @include('components.text-input', [
                                         'label' => __('staff.telephoneTh'),
                                         'name' => 'telephone',
+                                        'class' => 'numbers',
                                         'icon' => 'phone',
                                         'value' => $user->telephone,
                                     ])
@@ -83,6 +84,7 @@
                                     @include('components.text-input', [
                                         'label' => __('staff.licenceNumberTh'),
                                         'name' => 'licence_number',
+                                        'class' => 'numbers',
                                         'icon' => 'credit-card',
                                         'value' => $user->licence_number,
                                     ])

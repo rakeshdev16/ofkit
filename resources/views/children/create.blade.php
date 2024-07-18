@@ -193,6 +193,7 @@
                                                             @include('components.text-input', [
                                                                 'label' => 'Telephone',
                                                                 'name' => 'father_telephone',
+                                                                'class' => 'numbers',
                                                                 'icon' => 'network-chart',
                                                             ])
                                                         </div>
@@ -207,6 +208,7 @@
                                                             @include('components.text-input', [
                                                                 'label' => 'Telephone',
                                                                 'name' => 'mother_telephone',
+                                                                'class' => 'numbers',
                                                                 'icon' => 'network-chart',
                                                             ])
                                                         </div>
@@ -237,6 +239,7 @@
                                                             @include('components.text-input', [
                                                                 'label' => 'Telephone',
                                                                 'name' => 'emergency_telephone',
+                                                                'class' => 'numbers',
                                                                 'icon' => 'network-chart',
                                                             ])
                                                         </div>
