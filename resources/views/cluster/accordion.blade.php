@@ -8,15 +8,11 @@
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false"
                     aria-controls="flush-collapse{{ $loop->iteration }}">
-                    <div class="row">
-                        <div class="col-2">
-                            <input type="checkbox" value="{{ $cluster->id }}" class="checkbox">&nbsp;&nbsp;
-                        </div>
-                        <div class="col-8">{{ @$cluster->manager->name ?? '-' }}</div>
-                        <div class="col-2 d-flex justify-content-center">
-                            <a href="{{ route('cluster.edit', $cluster->id) }}" class=""><i class="bx bx-edit icon"></i></a>
-                        </div>
-                    </div>
+                    @include('components.accordion-label', [
+                        'id' => $cluster->id,
+                        'name' => @$cluster->manager->name,
+                        'edit' => route('cluster.edit', $cluster->id),
+                    ])
                 </button>
             </h2>
             <div id="flush-collapse{{ $loop->iteration }}" class="accordion-collapse collapse"
@@ -26,7 +22,7 @@
                     <div class="d-flex">
                         <div class="w-50">{{ __('cluster.clusterTh') }}</div>
                         <div class="w-50">{{ $cluster->cluster }}</div>
-                    </div>
+                    </div><hr>
                     <div class="d-flex">
                         <div class="w-50">{{ __('cluster.managerTh') }}</div>
                         <div class="w-50">{{ @$cluster->manager->name ?? '-' }}</div>

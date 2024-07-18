@@ -8,9 +8,11 @@
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false"
                     aria-controls="flush-collapse{{ $loop->iteration }}">
-                    {{-- <input type="checkbox" value="{{ $hmo->id }}" class="checkbox">&nbsp;&nbsp; --}}
-                    {{ \Str::limit($hmo->name, 10, '...') ?? '-' }}&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="{{ route('staff-table.edit', $hmo->id) }}?type=hmo" class=""><i class="bx bx-edit icon"></i></a>&nbsp;
+                    @include('components.accordion-label', [
+                        'id' => $hmo->id,
+                        'name' => $hmo->name,
+                        'edit' => route('children-table.edit', $hmo->id).'?type=hmo',
+                    ])
                 </button>
             </h2>
             <div id="flush-collapse{{ $loop->iteration }}" class="accordion-collapse collapse"

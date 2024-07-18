@@ -8,9 +8,11 @@
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false"
                     aria-controls="flush-collapse{{ $loop->iteration }}">
-                    {{-- <input type="checkbox" value="{{ $interventionType->id }}" class="checkbox">&nbsp;&nbsp; --}}
-                    {{ @$interventionType->name ?? '-' }}&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="{{ route('intervention.edit', $interventionType->id) }}?type=intervention-type" class=""><i class="bx bx-edit icon"></i></a>
+                    @include('components.accordion-label', [
+                        'id' => $interventionType->id,
+                        'name' => $interventionType->name,
+                        'edit' => route('intervention.edit', $interventionType->id).'?type=intervention-type',
+                    ])
                 </button>
             </h2>
             <div id="flush-collapse{{ $loop->iteration }}" class="accordion-collapse collapse"

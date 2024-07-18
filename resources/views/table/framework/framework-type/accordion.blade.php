@@ -8,9 +8,11 @@
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false"
                     aria-controls="flush-collapse{{ $loop->iteration }}">
-                    {{-- <input type="checkbox" value="{{ $frameworkType->id }}" class="checkbox">&nbsp;&nbsp; --}}
-                    {{ @$frameworkType->name ?? '-' }}&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="{{ route('framework-table.edit', $frameworkType->id) }}?type=framework-type" class=""><i class="bx bx-edit icon"></i></a>
+                    @include('components.accordion-label', [
+                        'id' => $frameworkType->id,
+                        'name' => $frameworkType->name,
+                        'edit' => route('framework-table.edit', $frameworkType->id).'?type=framework-type',
+                    ])
                 </button>
             </h2>
             <div id="flush-collapse{{ $loop->iteration }}" class="accordion-collapse collapse"

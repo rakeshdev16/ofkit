@@ -9,9 +9,9 @@
                 <div>
                     <h3 class="mb-0 text-uppercase">{{ __('kindergarten.kindergarten') }} ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
                 </div>
-                <div class="">
-                    <a href="{{ route('kindergarten.create') }}" class="btn button">{{ __('kindergarten.addNew') }}</a>
+                <div class="mt-2">
                     <button class="btn button moveToArchive">{{ __('kindergarten.moveToArchine') }}</button>
+                    <a href="{{ route('kindergarten.create') }}" class="btn button">{{ __('kindergarten.addNew') }} +</a>
                 </div>
             </div>
             <div class="card">
