@@ -18,40 +18,40 @@
                 data-bs-parent="#accordion{{ $loop->iteration }}" style="">
                 <div class="accordion-body">
                     <div class="d-flex">
-                        <div class="w-50">{{ __('kindergarten.telephoneTh') }}</div>
-                        <div class="w-50">{{ $kindergarten->telephone }}</div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="w-50">{{ __('kindergarten.addressTh') }}</div>
-                        <div class="w-50">{{ $kindergarten->address }}</div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="w-50">{{ __('kindergarten.kindergartenManagerTh') }}</div>
-                        <div class="w-50">{{ @getUserNameById($kindergarten->kindergartenUser->user_id) ?? '-' }}</div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="w-50">{{ __('kindergarten.clusterManagerTh') }}</div>
-                        <div class="w-50">{{ @getUserNameById($kindergarten->cluster->manager_id) ?? '-' }}</div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="w-50">{{ __('kindergarten.clusterTh') }}</div>
-                        <div class="w-50">{{ @$kindergarten->cluster->cluster ?? '-' }}</div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="w-50">{{ __('kindergarten.typeTh') }}</div>
-                        <div class="w-50">{{ $kindergarten->kindergarten_type }}</div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="w-50">{{ __('kindergarten.frameworkTh') }}</div>
-                        <div class="w-50">{{ $kindergarten->framework_type }}</div>
+                        <div class="w-50">{{ __('kindergarten.nameTh') }}</div>
+                        <div class="w-50">{{ $kindergarten->name }}</div>
                     </div>
                     <div class="d-flex">
                         <div class="w-50">{{ __('kindergarten.symbolTh') }}</div>
                         <div class="w-50">{{ $kindergarten->symbol }}</div>
                     </div>
                     <div class="d-flex">
-                        <div class="w-50">{{ __('kindergarten.nameTh') }}</div>
-                        <div class="w-50">{{ $kindergarten->name }}</div>
+                        <div class="w-50">{{ __('kindergarten.frameworkTh') }}</div>
+                        <div class="w-50">{{ $kindergarten->framework_type }}</div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="w-50">{{ __('kindergarten.typeTh') }}</div>
+                        <div class="w-50">{{ $kindergarten->kindergarten_type }}</div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="w-50">{{ __('kindergarten.clusterTh') }}</div>
+                        <div class="w-50">{{ @$kindergarten->cluster->cluster ?? '-' }}</div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="w-50">{{ __('kindergarten.clusterManagerTh') }}</div>
+                        <div class="w-50">{{ @getUserNameById($kindergarten->cluster->manager_id) ?? '-' }}</div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="w-50">{{ __('kindergarten.kindergartenManagerTh') }}</div>
+                        <div class="w-50">{{ @getUserNameById($kindergarten->kindergartenUser->user_id) ?? '-' }}</div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="w-50">{{ __('kindergarten.addressTh') }}</div>
+                        <div class="w-50">{{ $kindergarten->address }}</div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="w-50">{{ __('kindergarten.telephoneTh') }}</div>
+                        <div class="w-50">{{ $kindergarten->telephone }}</div>
                     </div>
                 </div>
             </div>
