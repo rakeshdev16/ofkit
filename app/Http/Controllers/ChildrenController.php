@@ -13,6 +13,7 @@ use App\Models\Kindergarten;
 use App\Models\ParentsStatus;
 use App\Models\Status;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Auth, DB;
@@ -105,6 +106,7 @@ class ChildrenController extends Controller
 
         try {
 
+            $photo = Session::has('childrenPhoto') ? Session::get('childrenPhoto') : NULL;
             $children = Children::create([
                 'user_id' => Auth::id(),
                 'kindergarten_id' => $request->kindergarten_id,
@@ -120,6 +122,7 @@ class ChildrenController extends Controller
                 'status_id' => $request->status_id,
                 'service_start_date' => $request->service_start_date,
                 'hmo_id' => $request->hmo_id,
+                'photo' => $photo,
             ]);
             $children->parent()->create([
                 'father_name' => $request->father_name,
@@ -292,5 +295,19 @@ class ChildrenController extends Controller
             return response()->json(['status' => true, 'message' => __('children.deleteStaffMsg'), 'ids' => $ids]);
         }
         return response()->json(['status' => false, 'ids' => $ids]);
+    }
+
+    public function uploadProfile(Request $request)
+    {
+        if ($request->hasFile('image')) {
+            $photo = uploadFile($request->image, 'public/children', $request->extension);
+            if ($request->type == 'add') {
+                Session::put('childrenPhoto', $photo);
+            } else {
+                Children::where('id', $request->user_id)->update(['photo' => $photo]);
+            }
+            return response()->json(['status' => true, 'message' => 'Profile has been uploaded', 'src' => asset('storage/'.$photo)]);
+        }
+        return response()->json(['status' => false]);
     }
 }

@@ -41,6 +41,9 @@
                                             </div>
                                             <div>
                                                 <div class="row g-3">
+                                                    <div class="col-md-12 mb-4 text-center upload-photo">
+                                                        <img src="{{ $children->photo }}" id="previewImage" alt="">
+                                                    </div>
                                                     <div class="col-md-6">
                                                         @include('components.text-input', [
                                                             'label' => 'First Name',

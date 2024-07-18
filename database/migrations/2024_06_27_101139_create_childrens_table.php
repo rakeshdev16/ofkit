@@ -27,6 +27,7 @@ return new class extends Migration
             $table->integer('status_id')->nullable();
             $table->integer('hmo_id')->nullable();
             $table->string('service_start_date')->nullable();
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }

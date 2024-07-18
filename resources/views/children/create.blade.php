@@ -76,6 +76,20 @@
                                                 @csrf
                                                 <div id="test-l-1" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper1trigger1">
                                                     <div class="row g-3">
+                                                        <div class="col-md-12 text-center upload-photo">
+                                                            <img src="https://placehold.co/150x150" id="previewImage" alt="">
+                                                            <div class="cam-icom">
+                                                                <i class="bx bx-camera"></i>
+                                                            </div>
+                                                            @error('photo')
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                            @enderror
+                                                        </div>
+                                                        <input type="file" style="visibility: hidden" name="photo" id="profileInp">
+                                                        <input type="hidden" id="type" value="add">
+                                                        <input type="hidden" id="url" value="{{ route('uploadChildrenProfile') }}">
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
                                                                 'label' => 'First Name',
@@ -338,11 +352,15 @@
                 </div>
             </div>
         </div>
+        @include('components.cropper-modal')
     @endsection
     @push('customScript')
         <script src="{{ asset('assets/js/bs-stepper.min.js') }}"></script>
         <script src="{{ asset('assets/js/main.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="{{ asset('assets/js/cropper.min.js') }}"></script>
+        <link rel="stylesheet" href="{{ asset('assets/css/cropper.min.css') }}" />
+        @include('components.cropper-script')
         <script>
             $(document).ready(function() {
                 $('.kindergarten').select2();

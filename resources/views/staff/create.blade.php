@@ -1,29 +1,6 @@
 @extends('layout.master')
 @push('customLink')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
-    <style>
-        .modal-lg {
-            max-width: 800px;
-        }
-
-        .img-container {
-            width: 100%;
-            height: 500px; /* Set the height you want */
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #imageForCrop {
-            max-width: 100%;
-            max-height: 100%;
-            display: block;
-        }
-    </style>
 @endpush
 @section('section')
 <div class="wrapper">
@@ -58,7 +35,7 @@
                             <form class="row g-3" action="{{ route('staff.store') }}" method="POST" id="addStaffForm" enctype="multipart/form-data">
                                 @csrf
                                 <div class="col-md-12 text-center upload-photo">
-                                    <img src="https://placehold.co/150x150" id="previewStaffImage" alt="">
+                                    <img src="https://placehold.co/150x150" id="previewImage" alt="">
                                     <div class="cam-icom">
                                         <i class="bx bx-camera"></i>
                                     </div>
@@ -68,7 +45,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <input type="file" style="visibility: hidden" name="member_photo" id="staffProfileInp">
+                                <input type="file" style="visibility: hidden" name="member_photo" id="profileInp">
                                 <div class="col-md-6">
                                     @include('components.text-input', ['label' => __('staff.nameTh'), 'name' => 'name', 'icon' => 'user'])
                                 </div>
@@ -215,6 +192,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <input type="hidden" id="type" value="add">
+                                    <input type="hidden" id="url" value="{{ route('uploadStaffProfile') }}">
                                     <div class="d-md-flex d-grid align-items-center gap-3">
                                         <button type="submit" class="btn button px-4">{{ __('staff.addBtnText') }}</button>
                                     </div>
@@ -227,35 +205,17 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="cropImageModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="img-container">
-                    <img id="imageForCrop" src="https://avatars0.githubusercontent.com/u/3456749">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="button text-dark btn btn-secondary close" data-dismiss="modal">Cancel</button>
-                <button type="button" class="button text-dark btn btn-primary" id="crop">Crop</button>
-            </div>
-        </div>
-    </div>
-</div>
+@include('components.cropper-modal')
 @endsection
 @push('customScript')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript" src="{{ asset('assets/js/jquery.validate.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" />
-    @include('staff.script')
+    <script src="{{ asset('assets/js/cropper.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('assets/css/cropper.min.css') }}" />
+    @include('components.cropper-script')
     <script>
         $(document).ready(function() {
             $('.kindergarten').select2();
-        });
-
-        $(document).on('click', '#previewStaffImage', function() {
-            $('#staffProfileInp').click();
         });
 
         $(document).on('change', '.kindergarten', function() {

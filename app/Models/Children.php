@@ -24,6 +24,7 @@ class Children extends Model
         'status_id',
         'service_start_date',
         'hmo_id',
+        'photo',
     ];
 
     public function scopeFilter($query)
@@ -40,6 +41,11 @@ class Children extends Model
     public function getDobAttribute($value)
     {
         return date('d F Y', strtotime($value));
+    }
+
+    public function getPhotoAttribute($value)
+    {
+        return isset($this->attributes['photo']) ? asset('storage/'.$this->attributes['photo']) : 'https://placehold.co/150x150';
     }
 
     public function parent()

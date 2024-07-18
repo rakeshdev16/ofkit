@@ -1,11 +1,14 @@
 <script>
+    $(document).on('click', '#previewImage', function() {
+        $('#profileInp').click();
+    });
     $(document).on('click', '.close', function() {
         $('#cropImageModal').modal('toggle');
     });
     $(document).ready(function () {
-        var $avatar = $('#previewStaffImage');
+        var $avatar = $('#previewImage');
         var $image = $('#imageForCrop');
-        var $input = $('#staffProfileInp');
+        var $input = $('#profileInp');
         var $cropBtn = $('#crop');
         var $modal = $('#cropImageModal');
         var cropper;
@@ -52,13 +55,14 @@
                 canvas.toBlob(function (blob) {
                     var formData = new FormData();
                     var type = $('#type').val();
+                    var url = $('#url').val();
                     var user_id = $('#userId').val();
                     formData.append('user_id', user_id);
                     formData.append('type', type);
                     formData.append('image', blob);
                     formData.append('extension', blob.type.replace("image/", " "));
                     $.ajax({
-                        url: "{{ route('uploadStaffProfile') }}",
+                        url: url,
                         headers: {
                             'X-CSRF-TOKEN': "{{ csrf_token() }}"
                         },
