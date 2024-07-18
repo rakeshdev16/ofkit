@@ -154,10 +154,11 @@
                                 'name' => __('menu.kindergarten'),
                                 'icon' => 'fi_4794795.png',
                                 'active' => in_array($currentRoute, ['kindergarten.index', 'kindergarten.create']) ? 'active-menu' : '',
-                                'options' => [
-                                    ['icon' => 'fi_4794795.png', 'name' => __('menu.allKindergarten'), 'route' => route('kindergarten.index')],
-                                    ['icon' => 'fi_4794795.png', 'name' => __('menu.addKindergarten'), 'route' => route('kindergarten.create')]
-                                ],
+                                'route' => route('kindergarten.index'),
+                                // 'options' => [
+                                //     ['icon' => 'fi_4794795.png', 'name' => __('menu.allKindergarten'), 'route' => route('kindergarten.index')],
+                                //     ['icon' => 'fi_4794795.png', 'name' => __('menu.addKindergarten'), 'route' => route('kindergarten.create')]
+                                // ],
                             ])
                         @endif
                         @if ($user->hasAnyPermission(['cluster.index', 'cluster.store']))
@@ -166,10 +167,11 @@
                                 'width' => '180px',
                                 'icon' => 'fi_4549612.png',
                                 'active' => in_array($currentRoute, ['cluster.index', 'cluster.create']) ? 'active-menu' : '',
-                                'options' => [
-                                    ['icon' => 'fi_4549612.png', 'name' => __('menu.clusterList'), 'route' => route('cluster.index')],
-                                    ['icon' => 'fi_4549612.png', 'name' => __('menu.addCluster'), 'route' => route('cluster.create')]
-                                ],
+                                'route' => route('cluster.index'),
+                                // 'options' => [
+                                //     ['icon' => 'fi_4549612.png', 'name' => __('menu.clusterList'), 'route' => route('cluster.index')],
+                                //     ['icon' => 'fi_4549612.png', 'name' => __('menu.addCluster'), 'route' => route('cluster.create')]
+                                // ],
                             ])
                         @endif
                         @if ($user->hasAnyPermission(['therapy-schedule.index']))
@@ -178,10 +180,11 @@
                                 'width' => '250px',
                                 'icon' => 'fi_16650601.png',
                                 'active' => in_array($currentRoute, ['']) ? 'active-menu' : '',
-                                'options' => [
-                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.allTherapySchedule'), 'route' => ''],
-                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.addTherapySchedule'), 'route' => '']
-                                ],
+                                'route' => '',
+                                // 'options' => [
+                                //     ['icon' => 'fi_2887367.png', 'name' => __('menu.allTherapySchedule'), 'route' => ''],
+                                //     ['icon' => 'fi_2887367.png', 'name' => __('menu.addTherapySchedule'), 'route' => '']
+                                // ],
                             ])
                         @endif
                         @if ($user->hasAnyPermission(['staff.index', 'staff.store']))
@@ -190,11 +193,12 @@
                                 'width' => '250px',
                                 'icon' => 'fi_2887367.png',
                                 'active' => in_array($currentRoute, ['staff.index', 'staff.create']) ? 'active-menu' : '',
-                                'options' => [
-                                    ['icon' => 'fi_1478254.png', 'name' => __('menu.staffList'), 'route' => route('staff.index')],
-                                    ['icon' => 'fi_6212658.png', 'name' => __('menu.addStaff'), 'route' => route('staff.create')],
-                                    // ['icon' => 'fi_9959428.png', 'name' => __('menu.childPsychiatrist'), 'route' => route('staff.index')]
-                                ],
+                                'route' => route('staff.index'),
+                                // 'options' => [
+                                //     ['icon' => 'fi_1478254.png', 'name' => __('menu.staffList'), 'route' => route('staff.index')],
+                                //     ['icon' => 'fi_6212658.png', 'name' => __('menu.addStaff'), 'route' => route('staff.create')],
+                                //     // ['icon' => 'fi_9959428.png', 'name' => __('menu.childPsychiatrist'), 'route' => route('staff.index')]
+                                // ],
                             ])
                         @endif
                         @if ($user->hasAnyPermission(['children.index', 'children.store']))
@@ -203,10 +207,11 @@
                                 'width' => '180px',
                                 'icon' => 'fi_9184264.png',
                                 'active' => in_array($currentRoute, ['children.index', 'children.create']) ? 'active-menu' : '',
-                                'options' => [
-                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.allChildrens'), 'route' => route('children.index')],
-                                    ['icon' => 'fi_2887367.png', 'name' => __('menu.addChildren'), 'route' => route('children.create')],
-                                ],
+                                'route' => route('children.index'),
+                                // 'options' => [
+                                //     ['icon' => 'fi_2887367.png', 'name' => __('menu.allChildrens'), 'route' => route('children.index')],
+                                //     ['icon' => 'fi_2887367.png', 'name' => __('menu.addChildren'), 'route' => route('children.create')],
+                                // ],
                             ])
                         @endif
                         @if ($user->hasAnyPermission(['dashboard']))

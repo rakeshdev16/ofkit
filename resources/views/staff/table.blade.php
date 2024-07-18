@@ -5,13 +5,9 @@
                 <th><input type="checkbox" class="mainCheckbox"></th>
             @endif
             @include('components.table-heading', ['label' => __('staff.nameTh'), 'key' => 'name'])
-            @include('components.table-heading', ['label' => __('staff.birthDateTh'), 'key' => 'dob'])
-            @include('components.table-heading', ['label' => __('staff.addressTh'), 'key' => 'address'])
             @include('components.table-heading', ['label' => __('staff.telephoneTh'), 'key' => 'telephone'])
             @include('components.table-heading', ['label' => __('staff.emailTh'), 'key' => 'email'])
             @include('components.table-heading', ['label' => __('staff.professionTh'), 'key' => 'profession_id'])
-            @include('components.table-heading', ['label' => __('staff.licenceNumberTh'), 'key' => 'licence_number'])
-            @include('components.table-heading', ['label' => __('staff.roleTh')])
             @include('components.table-heading', ['label' => __('staff.kindergartenTh')])
             @include('components.table-heading', ['label' => 'Action'])
         </tr>
@@ -22,14 +18,10 @@
                 @if (Auth::user()->hasRole('admin'))
                     <td><input type="checkbox" name="id[]" value="{{ $member->id }}" class="checkbox"></td>
                 @endif
-                <td>{{ $member->name }}</td>
-                <td>{{ $member->dob }}</td>
-                <td>{{ $member->address }}</td>
-                <td>{{ $member->telephone }}</td>
-                <td>{{ $member->email }}</td>
-                <td>{{ @$member->profession->name }}</td>
-                <td>{{ $member->licence_number }}</td>
-                <td>{{ $member->getRoleNames()->first() }}</td>
+                <td>{{ $member->name ?? '-' }}</td>
+                <td>{{ $member->telephone ?? '-' }}</td>
+                <td>{{ $member->email ?? '-' }}</td>
+                <td>{{ @$member->profession->name ?? '-' }}</td>
                 <td>
                     @if ($member->staffKindergartens->count() > 0)
                         @foreach ($member->staffKindergartens->take(1) as $staffKindergarten)

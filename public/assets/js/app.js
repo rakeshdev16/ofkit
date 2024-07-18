@@ -3,13 +3,13 @@ $(document).on('click', '.button', function() {
 	$(this).parent().parent().parent().submit();
 });
 
-imgInp.onchange = evt => {
-	const [file] = imgInp.files
-	if (file) {
-		$('#previewImage').removeClass('d-none');
-		$('#previewImage').attr('src', URL.createObjectURL(file));
-	}
-}
+// imgInp.onchange = evt => {
+// 	const [file] = imgInp.files
+// 	if (file) {
+// 		$('#previewImage').removeClass('d-none');
+// 		$('#previewImage').attr('src', URL.createObjectURL(file));
+// 	}
+// }
 
 $(function () {
 	"use strict";
