@@ -17,7 +17,7 @@
                                     <img class="p-1" src="{{ asset('assets/icons/fi_2887367.png') }}"/>
                                 </a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">{{ __('staff.staff') }}</li>
+                            <li class="breadcrumb-item active" aria-current="page">User</li>
                         </ol>
                     </nav>
                 </div>

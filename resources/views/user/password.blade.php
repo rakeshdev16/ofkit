@@ -13,11 +13,11 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('staff.index') }}">
+                                <a href="{{ route('profile.index') }}">
                                     <img class="p-1" src="{{ asset('assets/icons/fi_2887367.png') }}"/>
                                 </a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">{{ __('staff.staff') }}</li>
+                            <li class="breadcrumb-item active" aria-current="page">User</li>
                         </ol>
                     </nav>
                 </div>
