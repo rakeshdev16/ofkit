@@ -7,7 +7,7 @@
     <div class="header-wrapper">
     <div class="page-wrapper">
         <div class="page-content">
-            <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="page-breadcrumb d-flex align-items-center mb-3">
                 <div class="breadcrumb-title pe-3">Update</div>
                 <div class="ps-3">
                     <nav aria-label="breadcrumb">
