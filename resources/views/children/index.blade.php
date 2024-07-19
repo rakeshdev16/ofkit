@@ -11,8 +11,8 @@
                 </div>
                 <div class="mt-3">
                     @if (Auth::user()->hasRole('admin'))
-                        <button class="btn button moveToArchive">{{ __('children.moveBtnText') }}</button>
-                        <a href="{{ route('children.create') }}" class="btn button">{{ __('children.addBtnText') }} +</a>
+                        <button class="btn button moveToArchive">{{ __('comon.moveToArchive') }}</button>
+                        <a href="{{ route('children.create') }}" class="btn button">{{ __('comon.addNew') }} +</a>
                     @endif
                 </div>
             </div>
@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         <div class="table-search">
-                            <label>Search: <input type="search" class="search" value="{{ request()->search }}" placeholder=""></label>
+                            <label>{{ __('comon.searchLabel') }}: <input type="search" class="search" value="{{ request()->search }}" placeholder=""></label>
                         </div>
                         <div id="dataTable">
                             @include('children.table', ['childrens' => $childrens])
@@ -47,19 +47,19 @@
                 ids.push($(this).val());
             });
             if (ids.length == 0) {
-                toastr.warning("{{ __('validation.chose_at_least_one', ['attribute' => 'children']) }}");
+                toastr.warning("{{ __('children.chooseAtLeastOne') }}");
                 return false
             }
             var url = "{{ route('children.destroy', ':ids') }}";
             url = url.replace(':ids', ids);
             Swal.fire({
-                title: "Are you sure?",
+                title: "{{ __('comon.confirmTitle') }}",
                 // text: "You won't be able to revert this!",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, archive it!"
+                confirmButtonText: "{{ __('comon.confirmButtonText') }}"
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({

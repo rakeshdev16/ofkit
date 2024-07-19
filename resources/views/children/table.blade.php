@@ -2,12 +2,12 @@
     <thead>
         <tr>
             <th><input type="checkbox" class="mainCheckbox"></th>
-            @include('components.table-heading', ['label' => __('children.nameTh'), 'key' => 'name'])
-            @include('components.table-heading', ['label' => __('children.familyNameTh'), 'key' => 'family_name'])
-            @include('components.table-heading', ['label' => __('children.identificationTh'), 'key' => 'identification'])
-            @include('components.table-heading', ['label' => __('children.dobTh'), 'key' => 'dob'])
-            @include('components.table-heading', ['label' => __('children.addressTh'), 'key' => 'address'])
-            @include('components.table-heading', ['label' => 'Kindergarten', 'key' => 'address'])
+            @include('components.table-heading', ['label' => __('children.name'), 'key' => 'name'])
+            @include('components.table-heading', ['label' => __('children.familyName'), 'key' => 'family_name'])
+            @include('components.table-heading', ['label' => __('children.identification'), 'key' => 'identification'])
+            @include('components.table-heading', ['label' => __('children.dob'), 'key' => 'dob'])
+            @include('components.table-heading', ['label' => __('children.address'), 'key' => 'address'])
+            @include('components.table-heading', ['label' => __('children.kindergarten'), 'key' => 'address'])
             @include('components.table-heading', ['label' => 'Action'])
         </tr>
     </thead>

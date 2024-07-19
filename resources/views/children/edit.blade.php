@@ -9,7 +9,7 @@
             <div class="page-wrapper">
                 <div class="page-content">
                     <div class="page-breadcrumb d-flex align-items-center mb-3">
-                        <div class="breadcrumb-title pe-3">Edit</div>
+                        <div class="breadcrumb-title pe-3">{{ __('comon.edit') }}</div>
                         <div class="ps-3">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0 p-0">
@@ -25,7 +25,7 @@
                         </div>
                         <div class="ms-auto">
                             <div class="">
-                                <a href="{{ route('children.index') }}" class="btn button">{{ __('children.back') }}</a>
+                                <a href="{{ route('children.index') }}" class="btn button">{{ __('comon.back') }}</a>
                             </div>
                         </div>
                     </div>
@@ -41,8 +41,8 @@
                                                     aria-controls="test-l-1" aria-selected="false" disabled="disabled">
                                                     <div class="bs-stepper-circle">1</div>
                                                     <div class="">
-                                                        <h5 class="mb-0 steper-title">Personal Information</h5>
-                                                        <p class="mb-0 steper-sub-title">Enter Personal Details</p>
+                                                        <h5 class="mb-0 steper-title">{{ __('children.personalInfo') }}</h5>
+                                                        <p class="mb-0 steper-sub-title">{{ __('children.personalDetail') }}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -52,8 +52,8 @@
                                                     aria-controls="test-l-2" aria-selected="false" disabled="disabled">
                                                     <div class="bs-stepper-circle">2</div>
                                                     <div class="">
-                                                        <h5 class="mb-0 steper-title">Parents Detail</h5>
-                                                        <p class="mb-0 steper-sub-title">Enter Parents Details</p>
+                                                        <h5 class="mb-0 steper-title">{{ __('children.parentsDetail') }}</h5>
+                                                        <p class="mb-0 steper-sub-title">{{ __('children.enterParentsDetail') }}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -63,8 +63,8 @@
                                                     aria-controls="test-l-3" aria-selected="true">
                                                     <div class="bs-stepper-circle">3</div>
                                                     <div class="">
-                                                        <h5 class="mb-0 steper-title">Medical Information</h5>
-                                                        <p class="mb-0 steper-sub-title">Enter Medical Information Details</p>
+                                                        <h5 class="mb-0 steper-title">{{ __('children.medicalInfo') }}</h5>
+                                                        <p class="mb-0 steper-sub-title">{{ __('children.enterMedicalDetail') }}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -94,7 +94,7 @@
                                                         <input type="hidden" id="url" value="{{ route('uploadChildrenProfile') }}">
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' => 'First Name',
+                                                                'label' => __('children.name'),
                                                                 'name' => 'name',
                                                                 'icon' => 'network-chart',
                                                                 'value' => $children->name
@@ -102,7 +102,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' => 'Family Name',
+                                                                'label' => __('children.familyName'),
                                                                 'name' => 'family_name',
                                                                 'icon' => 'network-chart',
                                                                 'value' => $children->family_name
@@ -110,7 +110,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.select-input', [
-                                                                'label' => 'Gender', 
+                                                                'label' => __('children.gender'), 
                                                                 'name' => 'gender', 
                                                                 'icon' => 'buildings', 
                                                                 'options' => [['key' => 'male', 'value' => 'Male'],['key' => 'female', 'value' => 'Female']],
@@ -119,7 +119,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.date-input', [
-                                                                'label' => 'Date of Birth',
+                                                                'label' => __('children.dob'),
                                                                 'name' => 'dob',
                                                                 'max' => date('Y-m-d'),
                                                                 'value' => date('Y-m-d', strtotime($children->dob))
@@ -127,7 +127,7 @@
                                                         </div>
                                                         <div class="col-md-12">
                                                             @include('components.select-input', [
-                                                                'label' => __('staff.kindergartenTh'),
+                                                                'label' => __('children.kindergarten'),
                                                                 'name' => 'kindergarten_id',
                                                                 'icon' => 'buildings',
                                                                 'options' => $kindergartens,
@@ -136,7 +136,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' => 'Address',
+                                                                'label' => __('children.address'),
                                                                 'name' => 'address',
                                                                 'icon' => 'network-chart',
                                                                 'value' => $children->address
@@ -144,7 +144,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.select-input', [
-                                                                'label' => 'Functioning',
+                                                                'label' => __('children.functionality'),
                                                                 'name' => 'functionality_id',
                                                                 'icon' => 'buildings',
                                                                 'options' => $functionalities,
@@ -153,7 +153,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.select-input', [
-                                                                'label' => 'Diagnosis',
+                                                                'label' => __('children.diagnosis'),
                                                                 'name' => 'diagnosis_id',
                                                                 'icon' => 'buildings',
                                                                 'options' => $dianioses,
@@ -162,7 +162,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.select-input', [
-                                                                'label' => 'Status',
+                                                                'label' => __('children.status'),
                                                                 'name' => 'status_id',
                                                                 'icon' => 'buildings',
                                                                 'options' => $statuses,
@@ -171,14 +171,14 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.date-input', [
-                                                                'label' => 'Tabam Services start',
+                                                                'label' => __('children.tabamServicesStart'),
                                                                 'name' => 'service_start_date',
                                                                 'value' => $children->service_start_date
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.select-input', [
-                                                                'label' => 'HMO',
+                                                                'label' => __('children.hmo'),
                                                                 'name' => 'hmo_id',
                                                                 'icon' => 'buildings',
                                                                 'options' => $hmos,
@@ -186,7 +186,8 @@
                                                             ])
                                                         </div>
                                                         <div class="col-lg-12">
-                                                            <button type="button" class="btn button px-4" onclick="stepper1.next()">Next
+                                                            <button type="button" class="btn button px-4" onclick="stepper1.next()">
+                                                                {{ __('comon.next') }}
                                                                 <i class="bx bx-right-arrow-alt ms-2"></i>
                                                             </button>
                                                         </div>
@@ -200,7 +201,7 @@
                                                     <div class="row g-3">
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' => 'Father Name',
+                                                                'label' => __('children.fatherName'),
                                                                 'name' => 'father_name',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$parent->father_name
@@ -208,7 +209,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' => 'Telephone',
+                                                                'label' => __('children.fatherTelephone'),
                                                                 'name' => 'father_telephone',
                                                                 'class' => 'numbers',
                                                                 'icon' => 'network-chart',
@@ -217,7 +218,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' => 'Mother Name',
+                                                                'label' => __('children.motherName'),
                                                                 'name' => 'mother_name',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$parent->mother_name
@@ -225,7 +226,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' => 'Telephone',
+                                                                'label' => __('children.motherTelephone'),
                                                                 'name' => 'mother_telephone',
                                                                 'class' => 'numbers',
                                                                 'icon' => 'network-chart',
@@ -234,17 +235,17 @@
                                                         </div>
                                                         <div class="col-md-12">
                                                             @include('components.select-input', [
-                                                                'label' => 'Family Status',
+                                                                'label' => __('children.familyStatus'),
                                                                 'name' => 'family_status',
                                                                 'icon' => 'buildings',
                                                                 'options' => $parentsStatus,
                                                                 'value' => @$parent->family_status
                                                             ])
                                                         </div>
-                                                        <div class="col-md-12"><h4> Additional Contacts(For Emergencies)</h4></div>
+                                                        <div class="col-md-12"><h4> {{ __('children.additionalContacts') }}</h4></div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' => 'Name',
+                                                                'label' => __('children.emergencyName'),
                                                                 'name' => 'emergency_name',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$parent->name
@@ -252,7 +253,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' => 'Relationship',
+                                                                'label' => __('children.relationship'),
                                                                 'name' => 'emergency_relationship',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$parent->relationship
@@ -260,7 +261,7 @@
                                                         </div>
                                                         <div class="col-md-12">
                                                             @include('components.text-input', [
-                                                                'label' => 'Telephone',
+                                                                'label' => __('children.telephone'),
                                                                 'name' => 'emergency_telephone',
                                                                 'class' => 'numbers',
                                                                 'icon' => 'network-chart',
@@ -270,9 +271,10 @@
                                                         <div class="col-md-12">
                                                             <div class="d-flex align-items-center gap-3">
                                                                 <button type="button" class="btn btn-outline-secondary px-4" onclick="stepper1.previous()">
-                                                                    <i class="bx bx-left-arrow-alt me-2"></i>Previous
+                                                                    <i class="bx bx-left-arrow-alt me-2"></i>{{ __('comon.previous') }}
                                                                 </button>
-                                                                <button type="button" class="btn button px-4" onclick="stepper1.next()">Next
+                                                                <button type="button" class="btn button px-4" onclick="stepper1.next()">
+                                                                    {{ __('comon.next') }}
                                                                     <i class="bx bx-right-arrow-alt ms-2"></i>
                                                                 </button>
                                                             </div>
@@ -288,7 +290,7 @@
                                                     <div class="row g-3">
                                                         <div class="col-md-12">
                                                             @include('components.select-input', [
-                                                                'label' => 'Food Allergies',
+                                                                'label' => __('children.foodAllergie'),
                                                                 'name' => 'food_allergie',
                                                                 'class' => 'foodAllergie',
                                                                 'icon' => 'buildings',
@@ -303,7 +305,7 @@
                                                             style="display: {{ old('food_allergie') ?? (@$medical->food_allergie == 1 ? 'yes' : 'no') == 'yes' ? 'block' : 'none' }};"
                                                         >
                                                             @include('components.textarea-input', [
-                                                                'label' => 'Allergies Detail',
+                                                                'label' => __('children.foodAllergieDetail'),
                                                                 'name' => 'food_allergie_detail',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$medical->food_allergie_detail
@@ -311,7 +313,7 @@
                                                         </div>
                                                         <div class="col-md-12">
                                                             @include('components.select-input', [
-                                                                'label' => 'Medicine',
+                                                                'label' => __('children.medicine'),
                                                                 'name' => 'medicine',
                                                                 'class' => 'medicine',
                                                                 'icon' => 'buildings',
@@ -326,7 +328,7 @@
                                                             style="display: {{ old('medicine') ?? (@$medical->medicine == 1 ? 'yes' : 'no') == 'yes' ? 'block' : 'none' }}"
                                                         >
                                                             @include('components.textarea-input', [
-                                                                'label' => 'Add Medicine Detail',
+                                                                'label' => __('children.medicineDetail'),
                                                                 'name' => 'medicine_detail',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$medical->medicine_detail
@@ -334,7 +336,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' => 'Medicine Name',
+                                                                'label' => __('children.medicineName'),
                                                                 'name' => 'medicine_name',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$medical->medicine_name
@@ -342,7 +344,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.select-input', [
-                                                                'label' => 'Type',
+                                                                'label' => __('children.type'),
                                                                 'name' => 'type',
                                                                 'icon' => 'buildings',
                                                                 'options' => [
@@ -354,7 +356,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' => 'Dosage and Timing',
+                                                                'label' => __('children.dosageAndTiming'),
                                                                 'name' => 'dosage_and_timing',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$medical->dosage_and_timing
@@ -362,12 +364,12 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.select-input', [
-                                                                'label' => 'Where',
+                                                                'label' => __('children.where'),
                                                                 'name' => 'where',
                                                                 'icon' => 'buildings',
                                                                 'options' => [
-                                                                    ['key' => 'kindergarten', 'value' => 'Kindergarten'],
-                                                                    ['key' => 'home', 'value' => 'Home']
+                                                                    ['key' => 'kindergarten', 'value' => __('children.kindergarten')],
+                                                                    ['key' => 'home', 'value' => __('children.home')]
                                                                 ],
                                                                 'value' => @$medical->where
                                                             ])
@@ -375,9 +377,9 @@
                                                         <div class="col-12">
                                                             <div class="d-flex align-items-center gap-3">
                                                                 <button type="button" class="btn btn-outline-secondary px-4" onclick="stepper1.previous()">
-                                                                    <i class="bx bx-left-arrow-alt me-2"></i>Previous
+                                                                    <i class="bx bx-left-arrow-alt me-2"></i>{{ __('comon.previous') }}
                                                                 </button>
-                                                                <button type="submit" class="btn button px-4">Submit
+                                                                <button type="submit" class="btn button px-4">{{ __('comon.update') }}
                                                                     <i class="bx bx-right-arrow-alt ms-2"></i>
                                                                 </button>
                                                             </div>

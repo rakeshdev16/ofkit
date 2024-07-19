@@ -22,27 +22,27 @@
                 data-bs-parent="#accordion{{ $loop->iteration }}" style="">
                 <div class="accordion-body">
                     <div class="d-flex accordion-row">
-                        <div class="w-50 label">{{ __('children.nameTh') }}</div>
+                        <div class="w-50 label">{{ __('children.name') }}</div>
                         <div class="w-50">{{ $children->name }}</div>
                     </div><hr>
                     <div class="d-flex accordion-row">
-                        <div class="w-50 label">{{ __('children.familyNameTh') }}</div>
+                        <div class="w-50 label">{{ __('children.familyName') }}</div>
                         <div class="w-50">{{ $children->family_name }}</div>
                     </div><hr>
                     <div class="d-flex accordion-row">
-                        <div class="w-50 label">{{ __('children.identificationTh') }}</div>
+                        <div class="w-50 label">{{ __('children.identification') }}</div>
                         <div class="w-50">{{ $children->identification }}</div>
                     </div><hr>
                     <div class="d-flex accordion-row">
-                        <div class="w-50 label">{{ __('children.dobTh') }}</div>
+                        <div class="w-50 label">{{ __('children.dob') }}</div>
                         <div class="w-50">{{ $children->dob }}</div>
                     </div><hr>
                     <div class="d-flex accordion-row">
-                        <div class="w-50 label">{{ __('children.addressTh') }}</div>
+                        <div class="w-50 label">{{ __('children.address') }}</div>
                         <div class="w-50">{{ $children->address }}</div>
                     </div><hr>
                     <div class="d-flex accordion-row">
-                        <div class="w-50 label">Kindergarten</div>
+                        <div class="w-50 label">{{ __('children.kindergarten') }}</div>
                         <div class="w-50">{{ @getKindergartenNameById($children->kindergarten_id) ?? '-' }}</div>
                     </div>
                 </div>

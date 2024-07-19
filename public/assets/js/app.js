@@ -8,6 +8,30 @@ $('.numbers').on('input', function () {
 	$(this).val(value.replace(/\s+/g, ''));
 });
 
+$(document).ready(function() {
+    function adjustDateInput() {
+        $(".date-of-birth").each(function() {
+            if ($(window).width() < 768) {
+                $(this).css({
+                    "text-align": "right",
+                    "direction": "rtl"
+                });
+            } else {
+                $(this).css({
+                    "text-align": "",
+                    "direction": ""
+                });
+            }
+        });
+    }
+
+    adjustDateInput();
+    $(window).resize(function() {
+        adjustDateInput();
+    });
+});
+
+
 // imgInp.onchange = evt => {
 // 	const [file] = imgInp.files
 // 	if (file) {

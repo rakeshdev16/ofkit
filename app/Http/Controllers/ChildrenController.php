@@ -73,34 +73,35 @@ class ChildrenController extends Controller
             'dosage_and_timing' => "required",
             'where' => "required",
         ],[
-            'name.required' => __('validation.required'),
-            'family_name.required' => __('validation.required'),
-            'dob.required' => __('validation.required'),
-            'address.required' => __('validation.required'),
-            'functionality_id.required' => __('validation.required'),
-            'diagnosis_id.required' => __('validation.required'),
-            'status_id.required' => __('validation.required'),
-            'service_start_date.required' => __('validation.required'),
-            'hmo_id.required' => __('validation.required'),
-            'father_name.required' => __('validation.required'),
-            'father_telephone.required' => __('validation.required'),
-            'father_telephone.digits_between' => __('validation.digits_between'),
-            'mother_name.required' => __('validation.required'),
-            'mother_telephone.required' => __('validation.required'),
-            'mother_telephone.digits_between' => __('validation.digits_between'),
-            'family_status.required' => __('validation.required'),
-            'emergency_name.required' => __('validation.required'),
-            'emergency_relationship.required' => __('validation.required'),
-            'emergency_telephone.required' => __('validation.required'),
-            'emergency_telephone.digits_between' => __('validation.digits_between'),
-            'food_allergie.required' => __('validation.required'),
-            'food_allergie_detail.required' => __('validation.required'),
-            'medicine.required' => __('validation.required'),
-            'medicine_detail.required' => __('validation.required'),
-            'medicine_name.required' => __('validation.required'),
-            'type.required' => __('validation.required'),
-            'dosage_and_timing.required' => __('validation.required'),
-            'where.required' => __('validation.required'),
+            'name.required' => __('children.requiredName'),
+            'family_name.required' => __('children.requiredFamilyName'),
+            'gender.required' => __('children.requiRedgender'),
+            'dob.required' => __('children.requiredDOB'),
+            'address.required' => __('children.requiredAddress'),
+            'functionality_id.required' => __('children.requiredFunctionality'),
+            'diagnosis_id.required' => __('children.requiredDiagnosis'),
+            'status_id.required' => __('children.requiredStatus'),
+            'service_start_date.required' => __('children.requiredServiceStartDate'),
+            'hmo_id.required' => __('children.requiredHmo'),
+            'father_name.required' => __('children.requiredFatherName'),
+            'father_telephone.required' => __('children.requiredFatherTelephone'),
+            'father_telephone.digits_between' => __('children.digitsBetween'),
+            'mother_name.required' => __('children.requiredMotherName'),
+            'mother_telephone.required' => __('children.requiredMotherTelephone'),
+            'mother_telephone.digits_between' => __('children.digitsBetween'),
+            'family_status.required' => __('children.requiredFamilyStatus'),
+            'emergency_name.required' => __('children.requiredEmergencyName'),
+            'emergency_relationship.required' => __('children.requiredEmergencyRelationship'),
+            'emergency_telephone.required' => __('children.requiredEmergencyTelephone'),
+            'emergency_telephone.digits_between' => __('children.digitsBetween'),
+            'food_allergie.required' => __('children.requiredFoodAllergie'),
+            'food_allergie_detail.required' => __('children.requiredFoodAllergieDetail'),
+            'medicine.required' => __('children.requiredMedicine'),
+            'medicine_detail.required' => __('children.requiredMedicineDetail'),
+            'medicine_name.required' => __('children.requiredMedicineName'),
+            'type.required' => __('children.requiredType'),
+            'dosage_and_timing.required' => __('children.requiredDosageAndTiming'),
+            'where.required' => __('children.requiredWhere'),
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -298,7 +299,7 @@ class ChildrenController extends Controller
     {
         $ids = explode(',', $ids);
         if (Children::whereIn('id', $ids)->delete()) {
-            return response()->json(['status' => true, 'message' => __('validation.archived', ['attribute' => 'Children']), 'ids' => $ids]);
+            return response()->json(['status' => true, 'message' => __('children.archived'), 'ids' => $ids]);
         }
         return response()->json(['status' => false, 'ids' => $ids]);
     }
@@ -312,7 +313,7 @@ class ChildrenController extends Controller
             } else {
                 Children::where('id', $request->user_id)->update(['photo' => $photo]);
             }
-            return response()->json(['status' => true, 'message' => 'Profile has been uploaded', 'src' => asset('storage/'.$photo)]);
+            return response()->json(['status' => true, 'message' => __('children.uploadProfile'), 'src' => asset('storage/'.$photo)]);
         }
         return response()->json(['status' => false]);
     }
