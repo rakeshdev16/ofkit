@@ -2,8 +2,8 @@
     <div>
         <h3 class="mb-0 text-uppercase">Association ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
     </div>
-    <div class="">
-        <a href="{{ route('staff-table.create') }}?type=association" class="btn button">Add New</a>
+    <div class="mt-3">
+        <a href="{{ route('staff-table.create') }}?type=association" class="btn button">{{ __('cluster.addBtnText') }} +</a>
         {{-- <button class="btn button moveToArchive" data-type="association">Move to Archive</button> --}}
     </div>
 </div>

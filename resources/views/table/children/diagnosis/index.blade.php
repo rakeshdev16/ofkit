@@ -2,8 +2,8 @@
     <div>
         <h3 class="mb-0 text-uppercase">Children Diagnosis ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
     </div>
-    <div class="">
-        <a href="{{ route('children-table.create') }}?type=diagnosis" class="btn button">{{ __('cluster.addBtnText') }}</a>
+    <div class="mt-3">
+        <a href="{{ route('children-table.create') }}?type=diagnosis" class="btn button">{{ __('cluster.addBtnText') }} +</a>
         {{-- <button class="btn button moveToArchive" data-type="role">{{ __('cluster.moveBtnText') }}</button> --}}
     </div>
 </div>

@@ -9,9 +9,9 @@
                 <div>
                     <h3 class="mb-0 text-uppercase">{{ __('cluster.cluster') }} ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
                 </div>
-                <div class="">
-                    <a href="{{ route('cluster.create') }}" class="btn button">{{ __('cluster.addBtnText') }}</a>
+                <div class="mt-3">
                     <button class="btn button moveToArchive">{{ __('cluster.moveBtnText') }}</button>
+                    <a href="{{ route('cluster.create') }}" class="btn button">{{ __('cluster.addBtnText') }} +</a>
                 </div>
             </div>
             <div class="card">
@@ -36,13 +36,16 @@
     <script src="{{ asset('assets/js/custom-datatable.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
     <script>
+        $(document).on('click', '.button', function() {
+            $(this).attr('disabled', false);
+        });
         $(document).on('click', '.moveToArchive', function() {
             var ids = [];
             $(".checkbox:checked").map(function(){
                 ids.push($(this).val());
             });
             if (ids.length == 0) {
-                toastr.warning("{{ __('cluster.selectMsg') }}");
+                toastr.warning("{{ __('validation.chose_at_least_one', ['attribute' => 'cluster']) }}");
                 return false
             }
             var url = "{{ route('cluster.destroy', ':ids') }}";

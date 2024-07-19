@@ -174,6 +174,11 @@ return [
             'rule-name' => 'custom-message',
         ],
     ],
+    'chose_at_least_one' => 'Please chose at least one :attribute',
+    'created' => ':attribute has been successfully created',
+    'updated' => ':attribute has been successfully updated',
+    'deleted' => ':attribute has been successfully deleted',
+    'archived' => ':attribute has been successfully archived',
 
     /*
     |--------------------------------------------------------------------------

@@ -15,7 +15,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="mt-2 buttons">
+                <div class="mt-3 buttons">
                     @if (Auth::user()->hasRole('admin'))
                         <button class="btn button moveToArchive">{{ __('staff.moveBtnText') }}</button>
                         <a href="{{ route('staff.create') }}" class="btn button">{{ __('staff.addBtnText') }} +</a>
@@ -44,6 +44,10 @@
     <script src="{{ asset('assets/js/custom-datatable.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
     <script>
+        $(document).on('click', '.button', function() {
+            $(this).attr('disabled', false);
+        });
+        
         $(document).on('change', '.select-filter', function () {
             var kindergartenId = $(this).val();
             var url = queryParam('kindergarten_id', kindergartenId);
@@ -56,7 +60,7 @@
                 ids.push($(this).val());
             });
             if (ids.length == 0) {
-                toastr.warning("{{ __('staff.selectMsg') }}");
+                toastr.warning("{{ __('validation.chose_at_least_one', ['attribute' => 'staff member']) }}");
                 return false
             }
             var url = "{{ route('staff.destroy', ':ids') }}";

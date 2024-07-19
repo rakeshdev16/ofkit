@@ -19,8 +19,8 @@
                 aria-labelledby="staff-listing-{{ $loop->iteration }}"
                 data-bs-parent="#accordion{{ $loop->iteration }}" style="">
                 <div class="accordion-body">
-                    <div class="d-flex">
-                        <div class="w-50">Profession</div>
+                    <div class="d-flex accordion-row">
+                        <div class="w-50 label">Profession</div>
                         <div class="w-50">{{ $profession->name }}</div>
                     </div>
                 </div>

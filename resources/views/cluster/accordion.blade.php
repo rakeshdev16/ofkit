@@ -19,12 +19,12 @@
                 aria-labelledby="staff-listing-{{ $loop->iteration }}"
                 data-bs-parent="#accordion{{ $loop->iteration }}" style="">
                 <div class="accordion-body">
-                    <div class="d-flex">
-                        <div class="w-50">{{ __('cluster.clusterTh') }}</div>
+                    <div class="d-flex accordion-row">
+                        <div class="w-50 label">{{ __('cluster.clusterTh') }}</div>
                         <div class="w-50">{{ $cluster->cluster }}</div>
                     </div><hr>
-                    <div class="d-flex">
-                        <div class="w-50">{{ __('cluster.managerTh') }}</div>
+                    <div class="d-flex accordion-row">
+                        <div class="w-50 label">{{ __('cluster.managerTh') }}</div>
                         <div class="w-50">{{ @$cluster->manager->name ?? '-' }}</div>
                     </div>
                 </div>

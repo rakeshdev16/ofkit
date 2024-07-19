@@ -20,40 +20,40 @@
                 aria-labelledby="staff-listing-{{ $loop->iteration }}"
                 data-bs-parent="#accordion{{ $loop->iteration }}" style="">
                 <div class="accordion-body">
-                    <div class="d-flex">
-                        <div class="w-50">{{ __('staff.nameTh') }}</div>
+                    <div class="d-flex accordion-row">
+                        <div class="w-50 label">{{ __('staff.nameTh') }}</div>
                         <div class="w-50">{{ $member->name ?? '-' }}</div>
                     </div><hr>
-                    <div class="d-flex">
-                        <div class="w-50">{{ __('staff.birthDateTh') }}</div>
+                    <div class="d-flex accordion-row">
+                        <div class="w-50 label">{{ __('staff.birthDateTh') }}</div>
                         <div class="w-50">{{ $member->dob ?? '-' }}</div>
                     </div><hr>
-                    <div class="d-flex">
-                        <div class="w-50">{{ __('staff.addressTh') }}</div>
+                    <div class="d-flex accordion-row">
+                        <div class="w-50 label">{{ __('staff.addressTh') }}</div>
                         <div class="w-50">{{ $member->address ?? '-' }}</div>
                     </div><hr>
-                    <div class="d-flex">
-                        <div class="w-50">{{ __('staff.telephoneTh') }}</div>
+                    <div class="d-flex accordion-row">
+                        <div class="w-50 label">{{ __('staff.telephoneTh') }}</div>
                         <div class="w-50">{{ $member->telephone ?? '-' }}</div>
                     </div><hr>
-                    <div class="d-flex">
-                        <div class="w-50">{{ __('staff.emailTh') }}</div>
+                    <div class="d-flex accordion-row">
+                        <div class="w-50 label">{{ __('staff.emailTh') }}</div>
                         <div class="w-50">{{ $member->email ?? '-' }}</div>
                     </div><hr>
-                    <div class="d-flex">
-                        <div class="w-50">{{ __('staff.professionTh') }}</div>
+                    <div class="d-flex accordion-row">
+                        <div class="w-50 label">{{ __('staff.professionTh') }}</div>
                         <div class="w-50">{{ @$member->profession->name ?? '-' }}</div>
                     </div><hr>
-                    <div class="d-flex">
-                        <div class="w-50">{{ __('staff.licenceNumberTh') }}</div>
+                    <div class="d-flex accordion-row">
+                        <div class="w-50 label">{{ __('staff.licenceNumberTh') }}</div>
                         <div class="w-50">{{ $member->licence_number ?? '-' }}</div>
                     </div><hr>
-                    <div class="d-flex">
-                        <div class="w-50">{{ __('staff.roleTh') }}</div>
+                    <div class="d-flex accordion-row">
+                        <div class="w-50 label">{{ __('staff.roleTh') }}</div>
                         <div class="w-50">{{ $member->getRoleNames()->first() ?? '-' }}</div>
                     </div><hr>
-                    <div class="d-flex">
-                        <div class="w-50">{{ __('staff.kindergartenTh') }}</div>
+                    <div class="d-flex accordion-row">
+                        <div class="w-50 label">{{ __('staff.kindergartenTh') }}</div>
                         <div class="w-50">
                             @foreach ($member->staffKindergartens as $staffKindergarten)
                                 {{ @$staffKindergarten->kindergartens->name }} {{ !$loop->last ? ',' : '' }}

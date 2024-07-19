@@ -298,7 +298,7 @@ class ChildrenController extends Controller
     {
         $ids = explode(',', $ids);
         if (Children::whereIn('id', $ids)->delete()) {
-            return response()->json(['status' => true, 'message' => __('children.deleteStaffMsg'), 'ids' => $ids]);
+            return response()->json(['status' => true, 'message' => __('validation.archived', ['attribute' => 'Children']), 'ids' => $ids]);
         }
         return response()->json(['status' => false, 'ids' => $ids]);
     }

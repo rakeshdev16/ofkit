@@ -2,8 +2,8 @@
     <div>
         <h3 class="mb-0 text-uppercase">Documents And Approval ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
     </div>
-    <div class="">
-        <a href="{{ route('intervention.create') }}?type=documents-and-approval" class="btn button">Add New</a>
+    <div class="mt-3">
+        <a href="{{ route('intervention.create') }}?type=documents-and-approval" class="btn button">{{ __('cluster.addBtnText') }} +</a>
         {{-- <button class="btn button moveToArchive" data-type="documents-and-approval">Move to Archive</button> --}}
     </div>
 </div>
