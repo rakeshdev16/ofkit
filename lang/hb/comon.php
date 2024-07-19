@@ -18,5 +18,6 @@ return [
     'confirmTitle' => 'האם אתה בטוח?',
     'confirmText' => "אתה לא תוכל להחזיר את זה!",
     'confirmButtonText' => "כן, תעביר את זה לארכיון!",
+    'chose_at_least_one' => "Please choose at least one :attribute!",
 
 ];

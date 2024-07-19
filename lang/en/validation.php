@@ -174,6 +174,7 @@ return [
             'rule-name' => 'custom-message',
         ],
     ],
+    'chose_at_least_one' => "Please choose at least one :attribute!",
 
     /*
     |--------------------------------------------------------------------------

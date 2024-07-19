@@ -243,17 +243,3 @@ a.disable-menu {
 .accordion-row .label {
     color: #095F59;
 }
-
-/* General RTL styling for the date input */
-input[type="date"].date-of-birth {
-    direction: rtl;
-    text-align: right;
-}
-
-/* Specific styling for mobile devices */
-@media (max-width: 767px) {
-    input[type="date"].date-of-birth {
-        text-align: right;
-        direction: rtl;
-    }
-}
