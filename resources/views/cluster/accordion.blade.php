@@ -1,7 +1,7 @@
-<div class="mx-3 p-1">
+<div class="mx-3 p-1" style="display: {{ count($clusters) > 0 ? 'block' : 'none' }}">
     <input type="checkbox" class="mainCheckbox">&nbsp;&nbsp;&nbsp;
 </div>
-@foreach ($clusters as $cluster)
+@forelse ($clusters as $cluster)
     <div class="accordion accordion-flush tr-{{ $cluster->id }}" id="accordion{{ $loop->iteration }}">
         <div class="accordion-item">
             <h2 class="accordion-header" id="staff-listing-{{ $loop->iteration }}">
@@ -31,7 +31,9 @@
             </div>
         </div>
     </div>
-@endforeach
+@empty
+    <div class="text-center"> {{ __('comon.emptyTableMsg') }} </div>
+@endforelse
 <div class="dataTables_paginate paging_simple_numbers mt-2" id="paginate">
     @include('components.pagination', ['paginate' => $clusters])
 </div>

@@ -1,7 +1,7 @@
 <div class="mx-3 p-1">
     {{-- <input type="checkbox" class="mainCheckbox">&nbsp;&nbsp;&nbsp; --}}
 </div>
-@foreach ($documents as $document)
+@forelse ($documents as $document)
     <div class="accordion accordion-flush tr-{{ $document->id }}" id="accordion{{ $loop->iteration }}">
         <div class="accordion-item">
             <h2 class="accordion-header" id="staff-listing-{{ $loop->iteration }}">
@@ -27,7 +27,9 @@
             </div>
         </div>
     </div>
-@endforeach
+@empty
+    <div class="text-center"> {{ __('comon.emptyTableMsg') }} </div>
+@endforelse
 <div class="dataTables_paginate paging_simple_numbers mt-2" id="paginate">
     @include('components.pagination', ['paginate' => $documents])
 </div>
