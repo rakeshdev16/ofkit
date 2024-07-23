@@ -57,9 +57,9 @@ class StaffController extends Controller
             'dob' => 'required',
             'role' => 'required',
             'member_photo' => 'max:2000',
-            'schedule' => 'required|array',
-            'schedule.*.start_time' => 'required',
-            'schedule.*.end_time' => 'required|after:schedule.*.start_time',
+            // 'schedule' => 'required|array',
+            // 'schedule.*.start_time' => 'required',
+            // 'schedule.*.end_time' => 'required|after:schedule.*.start_time',
             'kindergarten.*.role_id' => 'required',
             'kindergarten.*.association_id' => 'required',
         ],[
@@ -75,12 +75,23 @@ class StaffController extends Controller
             'profession_id.required' => 'Please chose profession',
             'role.required' => __('staff.requiredRole'),
             'member_photo.max' => 'The photo may not be greater than 2MB',
-            'schedule.*.start_time.required' => 'Please enter start time',
-            'schedule.*.end_time.required' => 'Please enter end time',
-            'schedule.*.end_time.after' => 'End time must be after start time',
+            // 'schedule.*.start_time.required' => 'Please enter start time',
+            // 'schedule.*.end_time.required' => 'Please enter end time',
+            // 'schedule.*.end_time.after' => 'End time must be after start time',
             'kindergarten.*.role_id.required' => 'Please chose role',
             'kindergarten.*.association_id.required' => 'Please chose association',
         ]);
+        $validator->after(function ($validator) use ($request) {
+            if ($request->schedule && count($request->schedule) > 0) {
+                foreach ($request->schedule as $index => $schedule) {
+                    if (!empty($schedule['start_time']) && empty($schedule['end_time'])) {
+                        $validator->errors()->add("schedule.$index.end_time", 'Please enter end time');
+                    } elseif (!empty($schedule['start_time']) && !empty($schedule['end_time']) && $schedule['end_time'] <= $schedule['start_time']) {
+                        $validator->errors()->add("schedule.$index.end_time", 'End time must be after start time');
+                    }
+                }
+            }
+        });
         if ($validator->fails()) {
             if (isset($request->kindergarten_id) && isset($request->kindergarten)) {
                 Session::put('kindergartenIds', $request->kindergarten_id);
@@ -158,9 +169,9 @@ class StaffController extends Controller
             'dob' => 'required',
             'role' => 'required',
             'member_photo' => 'file|max:2000', 
-            'schedule' => 'required|array',
-            'schedule.*.start_time' => 'required',
-            'schedule.*.end_time' => 'required|after:schedule.*.start_time',
+            // 'schedule' => 'required|array',
+            // 'schedule.*.start_time' => 'required',
+            // 'schedule.*.end_time' => 'required|after:schedule.*.start_time',
             'kindergarten.*.role_id' => 'required',
             'kindergarten.*.association_id' => 'required',
         ],[
@@ -172,12 +183,23 @@ class StaffController extends Controller
             'dob.required' => __('staff.requiredDOB'),
             'role.required' => __('staff.requiredRole'),
             'member_photo.max' => 'The photo may not be greater than 2MB',
-            'schedule.*.start_time.required' => 'Please enter start time',
-            'schedule.*.end_time.required' => 'Please enter end time',
-            'schedule.*.end_time.after' => 'End time must be after start time',
+            // 'schedule.*.start_time.required' => 'Please enter start time',
+            // 'schedule.*.end_time.required' => 'Please enter end time',
+            // 'schedule.*.end_time.after' => 'End time must be after start time',
             'kindergarten.*.role_id.required' => 'Please chose role',
             'kindergarten.*.association_id.required' => 'Please chose profession',
         ]);
+        $validator->after(function ($validator) use ($request) {
+            if ($request->schedule && count($request->schedule) > 0) {
+                foreach ($request->schedule as $index => $schedule) {
+                    if (!empty($schedule['start_time']) && empty($schedule['end_time'])) {
+                        $validator->errors()->add("schedule.$index.end_time", 'Please enter end time');
+                    } elseif (!empty($schedule['start_time']) && !empty($schedule['end_time']) && $schedule['end_time'] <= $schedule['start_time']) {
+                        $validator->errors()->add("schedule.$index.end_time", 'End time must be after start time');
+                    }
+                }
+            }
+        });
         if ($validator->fails()) {
             if (isset($request->kindergarten_id) && isset($request->kindergarten)) {
                 Session::put('kindergartenIds', $request->kindergarten_id);
