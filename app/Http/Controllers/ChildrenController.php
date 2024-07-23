@@ -23,13 +23,14 @@ class ChildrenController extends Controller
     public function index(Request $request)
     {
         $childrens = Children::filter()->where('user_id', Auth::id())->paginate(10);
+        $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('children.table', ['childrens' => $childrens])->render(),
                 'accordion' => view('children.accordion', ['childrens' => $childrens])->render()
             ]);
         }
-        return view('children.index', compact('childrens'));
+        return view('children.index', compact('childrens', 'kindergartens'));
     }
     
     public function create()

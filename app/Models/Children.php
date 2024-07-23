@@ -33,7 +33,9 @@ class Children extends Model
             $query->orderBy(request('sort'), request('sorting'));
         }
         if (request('search')) {
-            $query->where('name', 'like', '%'.request('search').'%');
+            $search = request('search');
+            $query->where('name', 'like', '%'.$search.'%')
+                ->orWhereIn('kindergarten_id', Kindergarten::where('name', 'like', '%'.$search.'%')->pluck('id'));
         }
         return $query;
     }
