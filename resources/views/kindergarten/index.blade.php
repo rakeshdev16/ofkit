@@ -18,7 +18,7 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         <div class="table-search">
-                            <label>Search: <input type="search" class="search" value="{{ request()->search }}" placeholder=""></label>
+                            <label>Search: <input type="text" class="search" value="{{ request()->search }}" placeholder=""></label>
                         </div>
                         <div id="dataTable">
                             @include('kindergarten.table', ['kindergartens' => $kindergartens])
