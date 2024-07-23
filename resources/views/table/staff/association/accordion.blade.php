@@ -8,7 +8,7 @@
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false"
                     aria-controls="flush-collapse{{ $loop->iteration }}">
-                    @include('components.accordion-label', [
+                    @include('components.table-accordion-label', [
                         'id' => $association->id,
                         'name' => $association->name,
                         'edit' => route('staff-table.edit', $association->id).'?type=association',

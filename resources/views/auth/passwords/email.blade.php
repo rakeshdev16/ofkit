@@ -1,7 +1,59 @@
 @extends('layouts.app')
-
 @section('content')
-<div class="container">
+<style>
+    .alert {
+        display: block;
+    }
+</style>
+@php
+    $lang = App\Models\Setting::where('key', 'environment')->pluck('value')->First() == 'local' ? 'en' : 'hb';
+    App::setLocale($lang);
+@endphp
+<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
+    <div class="col mx-auto">
+        <div class="card mb-0">
+            <div class="card-body">
+                @if (Session::get('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ Session::get('status') }}
+                    </div>
+                @endif
+                <div class="p-4">
+                    <div class="mb-3 text-center">
+                        <img src="{{ asset('assets/images/3.png') }}" width="100" alt="" />
+                    </div>
+                    <div class="text-center mb-4">
+                        <h5 class="">{{ __('login.welcome') }}</h5>
+                        <h5 class="mb-0">Enter email to continue</h5>
+                    </div>
+                    <div class="form-body">
+                        <form class="row" method="POST" action="{{ route('password.email') }}">
+                            @csrf
+                            <div class="col-12">
+                                <label for="inputEmailAddress" class="form-label">{{ __('login.email') }}</label>
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Enter email" autofocus>
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-12 mt-2">
+                                <div class="d-grid">
+                                    <button type="submit" class="button btn btn-primary">
+                                        {{ __('Send Password Reset Link') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -43,5 +95,5 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 @endsection

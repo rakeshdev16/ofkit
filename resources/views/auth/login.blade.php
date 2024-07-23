@@ -17,7 +17,7 @@
                         <h5 class="mb-0">{{ __('login.signInMsg') }}</h5>
                     </div>
                     <div class="form-body">
-                        <form method="POST" action="{{ route('login') }}">
+                        <form class="row" method="POST" action="{{ route('login') }}">
                             @csrf
                             <div class="col-12">
                                 <label for="inputEmailAddress" class="form-label">{{ __('login.email') }}</label>
@@ -46,7 +46,12 @@
                                     <label class="form-check-label" for="flexSwitchCheckChecked">{{ __('login.remember') }}</label>
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <div class="col-md-6 mt-2">
+                                @if (Route::has('password.request'))
+                                    <a href="{{ route('password.request') }}">{{ __('Forgot Your Password?') }}</a>
+                                @endif
+                            </div>
+                            <div class="col-12 mt-2">
                                 <div class="d-grid">
                                     <button type="submit" class="btn button">{{ __('login.login') }}</button>
                                 </div>

@@ -10,7 +10,7 @@
     <tbody>
         @forelse ($clusters as $cluster)
             <tr class="tr-{{ $cluster->id }}">
-                <td><input type="checkbox" name="id[]" value="{{ $cluster->id }}" class="checkbox"></td>
+                <td><input type="checkbox" name="id[]" value="{{ $cluster->id }}" class="checkbox check-{{ $cluster->id }}" data-class="check-{{ $cluster->id }}"></td>
                 <td>{{ $cluster->cluster }}</td>
                 <td>{{ @$cluster->manager->name ?? '-' }}</td>
                 <td>

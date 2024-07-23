@@ -16,7 +16,7 @@
         @forelse ($members as $member)
             <tr class="tr-{{ $member->id }}">
                 @if (Auth::user()->hasRole('admin'))
-                    <td><input type="checkbox" name="id[]" value="{{ $member->id }}" class="checkbox"></td>
+                    <td><input type="checkbox" name="id[]" value="{{ $member->id }}" class="checkbox check-{{ $member->id }}" data-class="check-{{ $member->id }}"></td>
                 @endif
                 <td>{{ $member->name ?? '-' }}</td>
                 <td>{{ $member->telephone ?? '-' }}</td>

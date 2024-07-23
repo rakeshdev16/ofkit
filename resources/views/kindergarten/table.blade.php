@@ -17,7 +17,7 @@
     <tbody>
         @forelse ($kindergartens as $kindergarten)
             <tr class="tr-{{ $kindergarten->id }}">
-                <td><input type="checkbox" name="id[]" value="{{ $kindergarten->id }}" class="checkbox"></td>
+                <td><input type="checkbox" name="id[]" value="{{ $kindergarten->id }}" class="checkbox check-{{ $kindergarten->id }}" data-class="check-{{ $kindergarten->id }}"></td>
                 <td>{{ $kindergarten->name }}</td>
                 <td>{{ $kindergarten->symbol }}</td>
                 <td>{{ $kindergarten->framework_type }}</td>

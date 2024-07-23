@@ -53,3 +53,53 @@ $(document).on('change', '.mainCheckbox', function() {
         $('.checkbox').prop('checked', false);
     }
 });
+
+$(document).on('change', '.checkbox', function() {
+    var checkClass = $(this).data('class');
+    if ($(this).is(':checked') == true) {
+        $('.'+checkClass).prop('checked', true);
+    } else {
+        $('.'+checkClass).prop('checked', false);
+    }
+});
+
+function moveToArchive(url, msg)
+{
+    var ids = [];
+    $(".checkbox:checked").map(function(){
+        ids.push($(this).val());
+    });
+    $.unique(ids.sort());
+    if (ids.length == 0) {
+        toastr.warning(msg);
+        return false
+    }
+    url = url.replace(':ids', ids);
+    Swal.fire({
+        title: "Are you sure?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, archive it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                type: 'DELETE',
+                url: url,
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.status == true) {
+                        data.ids.map(function(id) {
+                            $('.tr-'+id).remove();
+                        });
+                        toastr.success(data.message);
+                    }
+                }
+            });               
+        }
+    });
+}

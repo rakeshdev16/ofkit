@@ -35,53 +35,16 @@
     </div>
 @endsection
 @push('customScript')
-    <script src="{{ asset('assets/js/custom-datatable.js') }}"></script>
-    <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
-    <script>
-        $(document).on('click', '.button', function() {
-            $(this).attr('disabled', false);
-        });
-        $(document).on('click', '.moveToArchive', function() {
-            var ids = [];
-            $(".checkbox:checked").map(function(){
-                ids.push($(this).val());
-            });
-            if (ids.length == 0) {
-                toastr.warning("{{ __('children.chooseAtLeastOne') }}");
-                return false
-            }
-            var url = "{{ route('children.destroy', ':ids') }}";
-            url = url.replace(':ids', ids);
-            Swal.fire({
-                title: "{{ __('comon.confirmTitle') }}",
-                // text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "{{ __('comon.confirmButtonText') }}"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                        },
-                        type: 'DELETE',
-                        url: url,
-                        processData: false,
-                        contentType: false,
-                        dataType: 'json',
-                        success: function (data) {
-                            if (data.status == true) {
-                                data.ids.map(function(id) {
-                                    $('.tr-'+id).remove();
-                                });
-                                toastr.success(data.message);
-                            }
-                        }
-                    });               
-                }
-            });
-        });
-    </script>
+<script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
+<script>
+    $(document).on('click', '.button', function() {
+        $(this).attr('disabled', false);
+    });
+    $(document).on('click', '.moveToArchive', function() {
+        var url = "{{ route('children.destroy', ':ids') }}";
+        var msg = "{{ __('children.chooseAtLeastOne') }}";
+        moveToArchive(url, msg);
+    });
+</script>
+<script src="{{ asset('assets/js/custom-datatable.js') }}"></script>
 @endpush
