@@ -42,7 +42,7 @@ class Children extends Model
 
     public function getDobAttribute($value)
     {
-        return date('d F Y', strtotime($value));
+        return date('d/m/Y', strtotime($value));
     }
 
     public function getPhotoAttribute($value)
