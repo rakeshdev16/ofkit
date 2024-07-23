@@ -86,6 +86,7 @@
                                             @include('components.text-input', [
                                                 'label' => __('staff.licenceNumberTh'),
                                                 'name' => 'licence_number',
+                                                'class' => 'numbers',
                                                 'icon' => 'credit-card',
                                                 'value' => $staff->licence_number,
                                             ])

@@ -64,7 +64,12 @@
                                     ])
                                 </div>
                                 <div class="col-md-6">
-                                    @include('components.text-input', ['label' => __('staff.licenceNumberTh'), 'name' => 'licence_number', 'icon' => 'credit-card'])
+                                    @include('components.text-input', [
+                                        'label' => __('staff.licenceNumberTh'),
+                                        'name' => 'licence_number',
+                                        'class' => 'numbers',
+                                        'icon' => 'credit-card'
+                                    ])
                                 </div>
                                 <div class="col-md-6">
                                     @include('components.select-input', [
