@@ -6,6 +6,7 @@ return [
     'admin' => 'Admin',
     'name' => "First Name",
     'familyName' => "Family Name",
+    'ID' => ".I.D",
     'gender' => "Gender",
     'identification' => "Identification",
     'dob' => "Date of Birth",

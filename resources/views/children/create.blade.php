@@ -94,17 +94,24 @@
                                                             @include('components.text-input', [
                                                                 'label' => __('children.name'),
                                                                 'name' => 'name',
-                                                                'icon' => 'network-chart',
+                                                                'icon' => 'id-card',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
                                                                 'label' =>  __('children.familyName'),
                                                                 'name' => 'family_name',
-                                                                'icon' => 'network-chart',
+                                                                'icon' => 'id-card',
                                                             ])
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
+                                                                'label' =>  __('children.ID'),
+                                                                'name' => 'identification',
+                                                                'icon' => 'search-alt',
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
                                                             @include('components.select-input', [
                                                                 'label' =>  __('children.gender'), 
                                                                 'name' => 'gender', 
@@ -112,14 +119,14 @@
                                                                 'options' => [['key' => 'male', 'value' => 'Male'],['key' => 'female', 'value' => 'Female']],
                                                             ])
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             @include('components.date-input', [
                                                                 'label' =>  __('children.dob'),
                                                                 'name' => 'dob',
                                                                 'max' => date('Y-m-d')
                                                             ])
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             @include('components.text-input', [
                                                                 'label' =>  'Age',
                                                                 'name' => 'age',
@@ -140,7 +147,7 @@
                                                             @include('components.textarea-input', [
                                                                 'label' =>  __('children.address'),
                                                                 'name' => 'address',
-                                                                'icon' => 'network-chart',
+                                                                'icon' => 'current-location',
                                                             ])
                                                         </div>
                                                         <div class="col-md-4">

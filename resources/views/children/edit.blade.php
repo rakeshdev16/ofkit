@@ -96,7 +96,7 @@
                                                             @include('components.text-input', [
                                                                 'label' => __('children.name'),
                                                                 'name' => 'name',
-                                                                'icon' => 'network-chart',
+                                                                'icon' => 'id-card',
                                                                 'value' => $children->name
                                                             ])
                                                         </div>
@@ -104,11 +104,19 @@
                                                             @include('components.text-input', [
                                                                 'label' => __('children.familyName'),
                                                                 'name' => 'family_name',
-                                                                'icon' => 'network-chart',
+                                                                'icon' => 'id-card',
                                                                 'value' => $children->family_name
                                                             ])
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
+                                                                'label' =>  __('children.ID'),
+                                                                'name' => 'identification',
+                                                                'icon' => 'search-alt',
+                                                                'value' => $children->identification
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
                                                             @include('components.select-input', [
                                                                 'label' => __('children.gender'), 
                                                                 'name' => 'gender', 
@@ -117,7 +125,7 @@
                                                                 'value' => $children->gender
                                                             ])
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             @include('components.date-input', [
                                                                 'label' => __('children.dob'),
                                                                 'name' => 'dob',
@@ -125,7 +133,7 @@
                                                                 'value' => $children->dob
                                                             ])
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             @include('components.text-input', [
                                                                 'label' =>  'Age',
                                                                 'name' => 'age',
