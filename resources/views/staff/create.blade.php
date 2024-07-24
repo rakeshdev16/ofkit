@@ -104,6 +104,7 @@
                                         'multiple' => 'multiple'
                                     ])
                                 </div>
+                                <div class="d-flex choosenDocument"></div>
                                 <div class="col-md-12">
                                     @include('components.multi-select-input', [
                                         'label' => __('staff.kindergartenTh'),

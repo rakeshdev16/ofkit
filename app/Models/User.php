@@ -32,6 +32,8 @@ class User extends Authenticatable
         'photo',
     ];
 
+    protected $appends = ['date_of_birth'];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -93,9 +95,9 @@ class User extends Authenticatable
         return $query;
     }
 
-    public function getDobAttribute($value)
+    public function getDateOfBirthAttribute()
     {
-        return date('d M Y', strtotime($this->attributes['dob']));
+        return @date('d/m/Y', strtotime($this->attributes['dob']));
     }
 
     public function getPhotoAttribute($value)
