@@ -108,7 +108,7 @@
                                                                 'value' => $children->family_name
                                                             ])
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-4">
                                                             @include('components.select-input', [
                                                                 'label' => __('children.gender'), 
                                                                 'name' => 'gender', 
@@ -117,12 +117,22 @@
                                                                 'value' => $children->gender
                                                             ])
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-4">
                                                             @include('components.date-input', [
                                                                 'label' => __('children.dob'),
                                                                 'name' => 'dob',
                                                                 'max' => date('Y-m-d'),
-                                                                'value' => date('Y-m-d', strtotime($children->dob))
+                                                                'value' => $children->dob
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            @include('components.text-input', [
+                                                                'label' =>  'Age',
+                                                                'name' => 'age',
+                                                                'class' => 'age',
+                                                                'icon' => 'buildings', 
+                                                                'readonly' => true,
+                                                                'value' => $children->age
                                                             ])
                                                         </div>
                                                         <div class="col-md-12">
@@ -404,6 +414,7 @@
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="{{ asset('assets/js/cropper.min.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('assets/css/cropper.min.css') }}" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         @include('components.cropper-script')
         <script>
             $(document).ready(function() {
@@ -411,6 +422,17 @@
             });
             $(document).on('click', '.button', function() {
                 $(this).attr('disabled', false);
+            });
+
+            $(document).on('change', '.date-of-birth', function() {
+                var start = moment(new Date($(this).val()));
+                var end = moment(new Date());
+                var years = end.diff(start, 'years');
+                start.add(years, 'years');
+                var months = end.diff(start, 'months');
+                start.add(months, 'months');
+                var age = 'Years ' + years + '.' + months;
+                $('.age').val(age);
             });
 
             $(document).on('change', '.foodAllergie', function() {

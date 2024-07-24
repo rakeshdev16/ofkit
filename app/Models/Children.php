@@ -27,6 +27,8 @@ class Children extends Model
         'photo',
     ];
 
+    protected $appends = ['date_of_birth'];
+
     public function scopeFilter($query)
     {
         if (request('sort') && request('sorting')) {
@@ -40,9 +42,9 @@ class Children extends Model
         return $query;
     }
 
-    public function getDobAttribute($value)
+    public function getDateOfBirthAttribute()
     {
-        return date('d/m/Y', strtotime($value));
+        return date('d/m/Y', strtotime($this->attributes['dob']));
     }
 
     public function getPhotoAttribute($value)

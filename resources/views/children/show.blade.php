@@ -62,7 +62,7 @@
                                                             'disabled' => 'disabled'
                                                         ])
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         @include('components.select-input', [
                                                             'label' => __('children.gender'), 
                                                             'name' => 'gender', 
@@ -72,13 +72,23 @@
                                                             'disabled' => 'disabled'
                                                         ])
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         @include('components.date-input', [
                                                             'label' => __('children.dob'),
                                                             'name' => 'dob',
                                                             'max' => date('Y-m-d'),
                                                             'value' => date('Y-m-d', strtotime($children->dob)),
-                                                            'disabled' => 'disabled'
+                                                            'disabled' => 'disabled',
+                                                        ])
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        @include('components.text-input', [
+                                                            'label' =>  'Age',
+                                                            'name' => 'age',
+                                                            'class' => 'age',
+                                                            'icon' => 'buildings', 
+                                                            'disabled' => 'disabled',
+                                                            'value' => $children->age,
                                                         ])
                                                     </div>
                                                     <div class="col-md-12">

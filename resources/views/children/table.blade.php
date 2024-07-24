@@ -18,7 +18,7 @@
                 <td>{{ $children->name }}</td>
                 <td>{{ $children->family_name }}</td>
                 <td>{{ $children->identification }}</td>
-                <td>{{ $children->dob }}</td>
+                <td>{{ $children->date_of_birth }}</td>
                 <td>{{ $children->address }}</td>
                 <td>{{ @getKindergartenNameById($children->kindergarten_id) ?? '-' }}</td>
                 <td>
