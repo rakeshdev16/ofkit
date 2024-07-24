@@ -19,7 +19,7 @@
                 <td>{{ $children->family_name }}</td>
                 <td>{{ $children->identification }}</td>
                 <td>{{ $children->date_of_birth }}</td>
-                <td>{{ $children->address }}</td>
+                <td>{{ \Str::limit($children->address, 20, '...') ?? '-' }}</td>
                 <td>{{ @getKindergartenNameById($children->kindergarten_id) ?? '-' }}</td>
                 <td>
                     <a href="{{ route('children.edit', $children->id) }}" class=""><i class="bx bx-edit icon"></i></a>

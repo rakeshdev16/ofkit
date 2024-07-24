@@ -5,7 +5,7 @@
         class="form-control  @error($name) is-invalid @enderror {{ @$class }}"
         placeholder="{{ $label }}"
         cols="30"
-        rows="10"
+        rows="2"
         {{ @$readonly == true ? 'readonly' : '' }}
         {{ @$disabled }}
     >

@@ -144,15 +144,15 @@
                                                                 'value' => $children->kindergarten_id
                                                             ])
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            @include('components.text-input', [
+                                                        <div class="col-md-12">
+                                                            @include('components.textarea-input', [
                                                                 'label' => __('children.address'),
                                                                 'name' => 'address',
                                                                 'icon' => 'network-chart',
                                                                 'value' => $children->address
                                                             ])
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-4">
                                                             @include('components.select-input', [
                                                                 'label' => __('children.functionality'),
                                                                 'name' => 'functionality_id',
@@ -161,7 +161,7 @@
                                                                 'value' => $children->functionality_id
                                                             ])
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-4">
                                                             @include('components.select-input', [
                                                                 'label' => __('children.diagnosis'),
                                                                 'name' => 'diagnosis_id',
@@ -170,7 +170,7 @@
                                                                 'value' => $children->diagnosis_id
                                                             ])
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-4">
                                                             @include('components.select-input', [
                                                                 'label' => __('children.status'),
                                                                 'name' => 'status_id',

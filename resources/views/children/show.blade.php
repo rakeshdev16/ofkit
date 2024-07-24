@@ -101,8 +101,8 @@
                                                             'disabled' => 'disabled'
                                                         ])
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        @include('components.text-input', [
+                                                    <div class="col-md-12">
+                                                        @include('components.textarea-input', [
                                                             'label' => __('children.address'),
                                                             'name' => 'address',
                                                             'icon' => 'network-chart',
@@ -110,7 +110,7 @@
                                                             'disabled' => 'disabled'
                                                         ])
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         @include('components.select-input', [
                                                             'label' => __('children.functionality'),
                                                             'name' => 'functionality_id',
@@ -120,7 +120,7 @@
                                                             'disabled' => 'disabled'
                                                         ])
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         @include('components.select-input', [
                                                             'label' => __('children.diagnosis'),
                                                             'name' => 'diagnosis_id',
@@ -130,7 +130,7 @@
                                                             'disabled' => 'disabled'
                                                         ])
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         @include('components.select-input', [
                                                             'label' => __('children.status'),
                                                             'name' => 'status_id',
