@@ -56,9 +56,17 @@
                     <div class="w-50 label">{{ __('staff.kindergartenTh') }}</div>
                     <div class="w-50">
                         @foreach ($member->staffKindergartens as $staffKindergarten)
-                            {{ @$staffKindergarten->kindergartens->name }} {{ !$loop->last ? ',' : '' }}
+                        {{ @$staffKindergarten->kindergartens->name }} {{ !$loop->last ? ',' : '' }}
                         @endforeach 
                     </div>
+                </div><hr>
+                <div class="d-flex accordion-row">
+                    <div class="w-50 label">{{ __('staff.createdAt') }}</div>
+                    <div class="w-50">{{ date('d/m/Y', strtotime($member->created_at)) }}</div>
+                </div>
+                <div class="d-flex accordion-row">
+                    <div class="w-50 label">{{ __('staff.updatedAt') }}</div>
+                    <div class="w-50">{{ date('d/m/Y', strtotime($member->updated_at)) }}</div>
                 </div>
             </div>
         </div>

@@ -9,6 +9,8 @@
             @include('components.table-heading', ['label' => __('staff.emailTh'), 'key' => 'email'])
             @include('components.table-heading', ['label' => __('staff.professionTh'), 'key' => 'profession_id'])
             @include('components.table-heading', ['label' => __('staff.kindergartenTh')])
+            @include('components.table-heading', ['label' => __('staff.createdAt'), 'key' => 'profession_id'])
+            @include('components.table-heading', ['label' => __('staff.updatedAt'), 'key' => 'profession_id'])
             @include('components.table-heading', ['label' => 'Action'])
         </tr>
     </thead>
@@ -34,6 +36,8 @@
                         <span class="light-gray">No kindergartens available</span>
                     @endif
                 </td>
+                <td>{{ date('d/m/Y', strtotime($member->created_at)) }}</td>
+                <td>{{ date('d/m/Y', strtotime($member->updated_at)) }}</td>
                 <td>
                     <a href="{{ route('staff.edit', $member->id) }}" class=""><i class="bx bx-edit icon"></i></a>
                     <a href="{{ route('staff.show', $member->id) }}" class=""><i class="bx bx-show icon"></i></a>

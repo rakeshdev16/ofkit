@@ -11,6 +11,8 @@
             @include('components.table-heading', ['label' => __('kindergarten.kindergartenManagerTh'), 'key' => 'cluster_manager'])
             @include('components.table-heading', ['label' => __('kindergarten.addressTh'), 'key' => 'address'])
             @include('components.table-heading', ['label' => __('kindergarten.telephoneTh'), 'key' => 'telephone'])
+            @include('components.table-heading', ['label' => __('kindergarten.createdAt'), 'key' => 'created_at'])
+            @include('components.table-heading', ['label' => __('kindergarten.updatedAt'), 'key' => 'updated_at'])
             @include('components.table-heading', ['label' => 'Action'])
         </tr>
     </thead>
@@ -27,6 +29,8 @@
                 <td>{{ @getUserNameById($kindergarten->kindergartenUser->user_id) ?? '-' }}</td>
                 <td>{{ $kindergarten->address }}</td>
                 <td>{{ $kindergarten->telephone }}</td>
+                <td>{{ date('d/m/Y', strtotime($kindergarten->created_at)) }}</td>
+                <td>{{ date('d/m/Y', strtotime($kindergarten->updated_at)) }}</td>
                 <td>
                     <a href="{{ route('kindergarten.edit', $kindergarten->id) }}" class=""><i class="bx bx-edit icon"></i></a>
                 </td>

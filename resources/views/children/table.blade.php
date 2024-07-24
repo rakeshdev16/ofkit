@@ -8,6 +8,8 @@
             @include('components.table-heading', ['label' => __('children.dob'), 'key' => 'dob'])
             @include('components.table-heading', ['label' => __('children.address'), 'key' => 'address'])
             @include('components.table-heading', ['label' => __('children.kindergarten'), 'key' => 'address'])
+            @include('components.table-heading', ['label' => __('children.createdAt'), 'key' => 'created_at'])
+            @include('components.table-heading', ['label' => __('children.updatedAt'), 'key' => 'updated_at'])
             @include('components.table-heading', ['label' => 'Action'])
         </tr>
     </thead>
@@ -21,6 +23,8 @@
                 <td>{{ $children->date_of_birth }}</td>
                 <td>{{ \Str::limit($children->address, 20, '...') ?? '-' }}</td>
                 <td>{{ @getKindergartenNameById($children->kindergarten_id) ?? '-' }}</td>
+                <td>{{ date('d/m/Y', strtotime($children->created_at)) }}</td>
+                <td>{{ date('d/m/Y', strtotime($children->updated_at)) }}</td>
                 <td>
                     <a href="{{ route('children.edit', $children->id) }}" class=""><i class="bx bx-edit icon"></i></a>
                     <a href="{{ route('children.show', $children->id) }}" class=""><i class="bx bx-show icon"></i></a>

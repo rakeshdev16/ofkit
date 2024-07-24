@@ -34,6 +34,8 @@ return [
     'dosageAndTiming' => "Dosage And Timing",
     'where' => "Where",
     'home' => "Home",
+    'createdAt' => "Created At",
+    'updatedAt' => "Updated At",
     'personalInfo' => "Personal Information",
     'personalDetail' => "Enter Personal Details",
     'parentsDetail' => "Parents Detail",

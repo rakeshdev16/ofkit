@@ -55,6 +55,14 @@
                         <div class="w-50 label">{{ __('kindergarten.telephoneTh') }}</div>
                         <div class="w-50">{{ $kindergarten->telephone }}</div>
                     </div>
+                    <div class="d-flex accordion-row">
+                        <div class="w-50 label">{{ __('kindergarten.createdAt') }}</div>
+                        <div class="w-50">{{ date('d/m/Y', strtotime($kindergarten->created_at)) }}</div>
+                    </div>
+                    <div class="d-flex accordion-row">
+                        <div class="w-50 label">{{ __('kindergarten.updatedAt') }}</div>
+                        <div class="w-50">{{ date('d/m/Y', strtotime($kindergarten->updated_at)) }}</div>
+                    </div>
                 </div>
             </div>
         </div>

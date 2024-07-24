@@ -21,6 +21,8 @@ return [
     'frameworkTh' => 'Framework Type',
     'symbolTh' => 'Symbol',
     'nameTh' => 'Name',
+    'createdAt' => 'Created At',
+    'updatedAt' => 'Updated At',
     'selectMsg' => 'Please select at least one kindergarten',
     'confirmTitle' => 'Are you sure?',
     'confirmText' => "You won't be able to revert this!",

@@ -43,6 +43,8 @@ return [
     'thursday' => "Thursday",
     'friday' => "Friday",
     'saturday' => "Saturday",
+    'createdAt' => 'Created At',
+    'updatedAt' => 'Updated At',
     'requiredManager' => 'Please select manager',
     'requiredName' => 'Please enter name',
     'requiredAddress' => 'Please enter address',
