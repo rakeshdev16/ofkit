@@ -9,7 +9,7 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link {{ request()->type == 'kindergarten-type' ? 'active' : '' }}" data-type="kindergarten-type" data-bs-toggle="tab" href="#kindergarten-type" role="tab" aria-selected="false" tabindex="-1">
                             <div class="d-flex align-items-center">
-                                <div class="tab-icon"><i class="bx bx-comment-detail font-18 me-1"></i>
+                                <div class="tab-icon"><i class="bx bx-building-house font-18 me-1"></i>
                                 </div>
                                 <div class="tab-title"> Kindergarten Type </div>
                             </div>
@@ -18,7 +18,7 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link {{ request()->type == 'framework-type' ? 'active' : '' }}" data-type="framework-type" data-bs-toggle="tab" href="#framework-type" role="tab" aria-selected="false" tabindex="-1">
                             <div class="d-flex align-items-center">
-                                <div class="tab-icon"><i class="bx bx-bookmark-alt font-18 me-1"></i>
+                                <div class="tab-icon"><i class="bx bx-code-block font-18 me-1"></i>
                                 </div>
                                 <div class="tab-title"> Framework Type</div>
                             </div>

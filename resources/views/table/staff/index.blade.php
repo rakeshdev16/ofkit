@@ -9,7 +9,7 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link {{ request()->type == 'profession' ? 'active' : '' }}" data-type="profession" data-bs-toggle="tab" href="#profession" role="tab" aria-selected="false" tabindex="-1">
                             <div class="d-flex align-items-center">
-                                <div class="tab-icon"><i class="bx bx-comment-detail font-18 me-1"></i>
+                                <div class="tab-icon"><i class="bx bx-building-house font-18 me-1"></i>
                                 </div>
                                 <div class="tab-title"> Academic Profession </div>
                             </div>
@@ -18,7 +18,7 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link {{ request()->type == 'role' ? 'active' : '' }}" data-type="role" data-bs-toggle="tab" href="#role" role="tab" aria-selected="false" tabindex="-1">
                             <div class="d-flex align-items-center">
-                                <div class="tab-icon"><i class="bx bx-bookmark-alt font-18 me-1"></i>
+                                <div class="tab-icon"><i class="bx bx-id-card font-18 me-1"></i>
                                 </div>
                                 <div class="tab-title"> Professional Role</div>
                             </div>
@@ -27,7 +27,7 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link {{ request()->type == 'association' ? 'active' : '' }}" data-type="association" data-bs-toggle="tab" href="#association" role="tab" aria-selected="false" tabindex="-1">
                             <div class="d-flex align-items-center">
-                                <div class="tab-icon"><i class="bx bx-bookmark-alt font-18 me-1"></i>
+                                <div class="tab-icon"><i class="bx bx-group font-18 me-1"></i>
                                 </div>
                                 <div class="tab-title"> Association</div>
                             </div>

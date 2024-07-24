@@ -27,7 +27,7 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link {{ request()->type == 'diagnosis' ? 'active' : '' }}" data-type="diagnosis" data-bs-toggle="tab" href="#diagnosis" role="tab" aria-selected="false" tabindex="-1">
                             <div class="d-flex align-items-center">
-                                <div class="tab-icon"><i class="bx bx-bookmark-alt font-18 me-1"></i>
+                                <div class="tab-icon"><i class="bx bx-notepad font-18 me-1"></i>
                                 </div>
                                 <div class="tab-title"> Diagnosis</div>
                             </div>
