@@ -330,48 +330,52 @@
                                                                 ],
                                                             ])
                                                         </div>
-                                                        <div class="col-md-12 medicineDetail" style="display: {{ old('medicine') == 'yes' ? 'block' : 'none' }}">
+                                                        {{-- <div class="col-md-12 medicineDetail" style="display: {{ old('medicine') == 'yes' ? 'block' : 'none' }}">
                                                             @include('components.textarea-input', [
                                                                 'label' => __('children.medicineDetail'),
                                                                 'name' => 'medicine_detail',
                                                                 'icon' => 'network-chart',
                                                             ])
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            @include('components.text-input', [
-                                                                'label' => __('children.medicineName'),
-                                                                'name' => 'medicine_name',
-                                                                'icon' => 'network-chart',
-                                                            ])
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            @include('components.select-input', [
-                                                                'label' => __('children.type'),
-                                                                'name' => 'type',
-                                                                'icon' => 'buildings',
-                                                                'options' => [
-                                                                    ['key' => 'sos', 'value' => 'SOS'],
-                                                                    ['key' => 'regular', 'value' => 'Regular']
-                                                                ],
-                                                            ])
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            @include('components.text-input', [
-                                                                'label' => __('children.dosageAndTiming'),
-                                                                'name' => 'dosage_and_timing',
-                                                                'icon' => 'network-chart',
-                                                            ])
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            @include('components.select-input', [
-                                                                'label' => __('children.where'),
-                                                                'name' => 'where',
-                                                                'icon' => 'buildings',
-                                                                'options' => [
-                                                                    ['key' => 'kindergarten', 'value' => __('children.kindergarten')],
-                                                                    ['key' => 'home', 'value' => __('children.home')]
-                                                                ],
-                                                            ])
+                                                        </div> --}}
+                                                        <div class="col-md-12 medicineDetail" style="display: {{ old('medicine') == 'yes' ? 'block' : 'none' }}">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    @include('components.text-input', [
+                                                                        'label' => __('children.medicineName'),
+                                                                        'name' => 'medicine_name',
+                                                                        'icon' => 'network-chart',
+                                                                    ])
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    @include('components.select-input', [
+                                                                        'label' => __('children.type'),
+                                                                        'name' => 'type',
+                                                                        'icon' => 'buildings',
+                                                                        'options' => [
+                                                                            ['key' => 'sos', 'value' => 'SOS'],
+                                                                            ['key' => 'regular', 'value' => 'Regular']
+                                                                        ],
+                                                                    ])
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    @include('components.text-input', [
+                                                                        'label' => __('children.dosageAndTiming'),
+                                                                        'name' => 'dosage_and_timing',
+                                                                        'icon' => 'network-chart',
+                                                                    ])
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    @include('components.select-input', [
+                                                                        'label' => __('children.where'),
+                                                                        'name' => 'where',
+                                                                        'icon' => 'buildings',
+                                                                        'options' => [
+                                                                            ['key' => 'kindergarten', 'value' => __('children.kindergarten')],
+                                                                            ['key' => 'home', 'value' => __('children.home')]
+                                                                        ],
+                                                                    ])
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="d-flex align-items-center gap-3">

@@ -363,7 +363,7 @@
                                                                 'value' => @$medical->medicine == 1 ? 'yes' : 'no'
                                                             ])
                                                         </div>
-                                                        <div class="col-md-12 medicineDetail"
+                                                        {{-- <div class="col-md-12 medicineDetail"
                                                             style="display: {{ old('medicine') ?? (@$medical->medicine == 1 ? 'yes' : 'no') == 'yes' ? 'block' : 'none' }}"
                                                         >
                                                             @include('components.textarea-input', [
@@ -372,46 +372,50 @@
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$medical->medicine_detail
                                                             ])
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            @include('components.text-input', [
-                                                                'label' => __('children.medicineName'),
-                                                                'name' => 'medicine_name',
-                                                                'icon' => 'network-chart',
-                                                                'value' => @$medical->medicine_name
-                                                            ])
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            @include('components.select-input', [
-                                                                'label' => __('children.type'),
-                                                                'name' => 'type',
-                                                                'icon' => 'buildings',
-                                                                'options' => [
-                                                                    ['key' => 'sos', 'value' => 'SOS'],
-                                                                    ['key' => 'regular', 'value' => 'Regular']
-                                                                ],
-                                                                'value' => @$medical->type
-                                                            ])
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            @include('components.text-input', [
-                                                                'label' => __('children.dosageAndTiming'),
-                                                                'name' => 'dosage_and_timing',
-                                                                'icon' => 'network-chart',
-                                                                'value' => @$medical->dosage_and_timing
-                                                            ])
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            @include('components.select-input', [
-                                                                'label' => __('children.where'),
-                                                                'name' => 'where',
-                                                                'icon' => 'buildings',
-                                                                'options' => [
-                                                                    ['key' => 'kindergarten', 'value' => __('children.kindergarten')],
-                                                                    ['key' => 'home', 'value' => __('children.home')]
-                                                                ],
-                                                                'value' => @$medical->where
-                                                            ])
+                                                        </div> --}}
+                                                        <div class="col-md-12 medicineDetail" style="display: {{ old('medicine') ?? (@$medical->medicine == 1 ? 'yes' : 'no') == 'yes' ? 'block' : 'none' }}">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    @include('components.text-input', [
+                                                                        'label' => __('children.medicineName'),
+                                                                        'name' => 'medicine_name',
+                                                                        'icon' => 'network-chart',
+                                                                        'value' => @$medical->medicine_name
+                                                                    ])
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    @include('components.select-input', [
+                                                                        'label' => __('children.type'),
+                                                                        'name' => 'type',
+                                                                        'icon' => 'buildings',
+                                                                        'options' => [
+                                                                            ['key' => 'sos', 'value' => 'SOS'],
+                                                                            ['key' => 'regular', 'value' => 'Regular']
+                                                                        ],
+                                                                        'value' => @$medical->type
+                                                                    ])
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    @include('components.text-input', [
+                                                                        'label' => __('children.dosageAndTiming'),
+                                                                        'name' => 'dosage_and_timing',
+                                                                        'icon' => 'network-chart',
+                                                                        'value' => @$medical->dosage_and_timing
+                                                                    ])
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    @include('components.select-input', [
+                                                                        'label' => __('children.where'),
+                                                                        'name' => 'where',
+                                                                        'icon' => 'buildings',
+                                                                        'options' => [
+                                                                            ['key' => 'kindergarten', 'value' => __('children.kindergarten')],
+                                                                            ['key' => 'home', 'value' => __('children.home')]
+                                                                        ],
+                                                                        'value' => @$medical->where
+                                                                    ])
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="d-flex align-items-center gap-3">
