@@ -17,11 +17,11 @@ return new class extends Migration
             $table->foreignId('kindergarten_id')->nullable()->constrained('kindergartens')->onDelete('cascade');
             $table->string('name')->nullable();
             $table->string('family_name')->nullable();
-            $table->string('identification')->unique();
+            $table->string('identification')->unique()->nullable();
             $table->string('gender')->nullable();
             $table->date('dob');
             $table->string('age')->nullable();
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->integer('functionality_id')->nullable();
             $table->integer('diagnosis_id')->nullable();
             $table->integer('status_id')->nullable();
