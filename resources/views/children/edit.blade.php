@@ -36,7 +36,7 @@
                                     <div class="card-header">
                                         <div class="d-lg-flex flex-lg-row align-items-lg-center justify-content-lg-between"
                                             role="tablist">
-                                            <div class="step" data-target="#test-l-1">
+                                            <div class="step active" data-target="#test-l-1">
                                                 <div class="step-trigger" role="tab" id="stepper1trigger1"
                                                     aria-controls="test-l-1" aria-selected="false" disabled="disabled">
                                                     <div class="bs-stepper-circle">1</div>
@@ -46,8 +46,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="bs-stepper-line"></div>
-                                            <div class="step" data-target="#test-l-2">
+                                            {{-- <div class="bs-stepper-line"></div>
+                                            <div class="step active" data-target="#test-l-2">
                                                 <div class="step-trigger" role="tab" id="stepper1trigger2"
                                                     aria-controls="test-l-2" aria-selected="false" disabled="disabled">
                                                     <div class="bs-stepper-circle">2</div>
@@ -67,7 +67,7 @@
                                                         <p class="mb-0 steper-sub-title">{{ __('children.enterMedicalDetail') }}</p>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -75,7 +75,7 @@
                                             <form action="{{ route('children.update', $children->id) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
-                                                <div id="test-l-1" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper1trigger1">
+                                                <div id="test-l-1" role="tabpanel" class="bs-stepper-pane active" aria-labelledby="stepper1trigger1">
                                                     <div class="row g-3">
                                                         <div class="col-md-12 text-center upload-photo">
                                                             <img src="{{ $children->photo }}" id="previewImage" alt="">
@@ -203,16 +203,27 @@
                                                                 'value' => $children->hmo_id
                                                             ])
                                                         </div>
-                                                        <div class="col-lg-12">
+                                                        {{-- <div class="col-lg-12">
                                                             <button type="button" class="btn button px-4" onclick="stepper1.next()">
                                                                 {{ __('comon.next') }}
                                                                 <i class="bx bx-right-arrow-alt ms-2"></i>
                                                             </button>
+                                                        </div> --}}
+                                                    </div>
+                                                </div>
+                                                <div class="step active mt-4" data-target="#test-l-2">
+                                                    <div class="step-trigger" role="tab" id="stepper1trigger2"
+                                                        aria-controls="test-l-2" aria-selected="false" disabled="disabled">
+                                                        <div class="bs-stepper-circle">2</div>
+                                                        <div class="">
+                                                            <h5 class="mb-0 steper-title">{{ __('children.parentsDetail') }}</h5>
+                                                            <p class="mb-0 steper-sub-title">{{ __('children.enterParentsDetail') }}</p>
                                                         </div>
                                                     </div>
                                                 </div>
-        
-                                                <div id="test-l-2" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper1trigger2">
+                                                <hr>
+                                                {{-- <div id="test-l-2" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper1trigger2"> --}}
+                                                <div class="bs-stepper-pane active" aria-labelledby="stepper1trigger2">
                                                     @php
                                                         $parent = $children->parent;
                                                     @endphp
@@ -286,7 +297,7 @@
                                                                 'value' => @$parent->telephone
                                                             ])
                                                         </div>
-                                                        <div class="col-md-12">
+                                                        {{-- <div class="col-md-12">
                                                             <div class="d-flex align-items-center gap-3">
                                                                 <button type="button" class="btn btn-outline-secondary px-4" onclick="stepper1.previous()">
                                                                     <i class="bx bx-left-arrow-alt me-2"></i>{{ __('comon.previous') }}
@@ -296,11 +307,21 @@
                                                                     <i class="bx bx-right-arrow-alt ms-2"></i>
                                                                 </button>
                                                             </div>
+                                                        </div> --}}
+                                                    </div>
+                                                </div>
+                                                <div class="step active mt-4" data-target="#test-l-3">
+                                                    <div class="step-trigger" role="tab" id="stepper1trigger3"
+                                                        aria-controls="test-l-3" aria-selected="true">
+                                                        <div class="bs-stepper-circle">3</div>
+                                                        <div class="">
+                                                            <h5 class="mb-0 steper-title">{{ __('children.medicalInfo') }}</h5>
+                                                            <p class="mb-0 steper-sub-title">{{ __('children.enterMedicalDetail') }}</p>
                                                         </div>
                                                     </div>
                                                 </div>
-        
-                                                <div id="test-l-3" role="tabpanel" class="bs-stepper-pane active dstepper-block"
+                                                <hr>
+                                                <div class="bs-stepper-pane active dstepper-block"
                                                     aria-labelledby="stepper1trigger3">
                                                     @php
                                                         $medical = $children->medicalInformation;
@@ -394,9 +415,9 @@
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="d-flex align-items-center gap-3">
-                                                                <button type="button" class="btn btn-outline-secondary px-4" onclick="stepper1.previous()">
+                                                                {{-- <button type="button" class="btn btn-outline-secondary px-4" onclick="stepper1.previous()">
                                                                     <i class="bx bx-left-arrow-alt me-2"></i>{{ __('comon.previous') }}
-                                                                </button>
+                                                                </button> --}}
                                                                 <button type="submit" class="btn button px-4">{{ __('comon.update') }}
                                                                     <i class="bx bx-right-arrow-alt ms-2"></i>
                                                                 </button>
