@@ -42,18 +42,20 @@ class KindergartenController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'symbol' => 'required',
-            'framework_type_id' => 'required',
-            'kindergarten_type_id' => 'required',
-            'address' => 'required',
-            'telephone' => 'required|digits_between:8,14',
+            'cluster_id' => 'required',
+            // 'symbol' => 'required',
+            // 'framework_type_id' => 'required',
+            // 'kindergarten_type_id' => 'required',
+            // 'address' => 'required',
+            // 'telephone' => 'required|digits_between:8,14',
         ],[
             'name.required' => __('kindergarten.requiredName'),
-            'symbol.required' => __('kindergarten.requiredSymbol'),
-            'framework_type_id.required' => __('kindergarten.requiredFramework'),
-            'kindergarten_type_id.required' => __('kindergarten.requiredType'),
-            'address.required' => __('kindergarten.requiredAddress'),
-            'telephone.required' => __('kindergarten.requiredTelephone'),
+            'cluster_id.required' => __('kindergarten.requiredCluster'),
+            // 'symbol.required' => __('kindergarten.requiredSymbol'),
+            // 'framework_type_id.required' => __('kindergarten.requiredFramework'),
+            // 'kindergarten_type_id.required' => __('kindergarten.requiredType'),
+            // 'address.required' => __('kindergarten.requiredAddress'),
+            // 'telephone.required' => __('kindergarten.requiredTelephone'),
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
