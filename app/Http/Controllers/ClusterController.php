@@ -34,10 +34,10 @@ class ClusterController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'cluster' => 'required',
-            'manager_id' => 'required',
+            // 'manager_id' => 'required',
         ],[
             'cluster.required' => __('cluster.requiredCluster'),
-            'manager_id.required' => 'Please choose manager',
+            // 'manager_id.required' => 'Please choose manager',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -57,10 +57,10 @@ class ClusterController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'cluster' => 'required',
-            'manager_id' => 'required',
+            // 'manager_id' => 'required',
         ],[
             'cluster.required' => __('cluster.requiredCluster'),
-            'manager_id.required' => 'Please choose manager',
+            // 'manager_id.required' => 'Please choose manager',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
