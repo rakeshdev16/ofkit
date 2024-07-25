@@ -36,7 +36,7 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link {{ request()->type == 'functionality' ? 'active' : '' }}" data-type="functionality" data-bs-toggle="tab" href="#functionality" role="tab" aria-selected="false" tabindex="-1">
                             <div class="d-flex align-items-center">
-                                <div class="tab-icon"><i class="bx bx-bookmark-alt font-18 me-1"></i>
+                                <div class="tab-icon"><i class="lni lni-offer font-18 me-1"></i>
                                 </div>
                                 <div class="tab-title"> Functionality</div>
                             </div>
@@ -45,7 +45,7 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link {{ request()->type == 'status' ? 'active' : '' }}" data-type="status" data-bs-toggle="tab" href="#status" role="tab" aria-selected="false" tabindex="-1">
                             <div class="d-flex align-items-center">
-                                <div class="tab-icon"><i class="bx bx-bookmark-alt font-18 me-1"></i>
+                                <div class="tab-icon"><i class="bx bx-check-circle font-18 me-1"></i>
                                 </div>
                                 <div class="tab-title"> Status</div>
                             </div>

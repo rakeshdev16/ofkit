@@ -102,7 +102,7 @@
                                         'id' => 'documents',
                                         'fileType' => 'document',
                                         'icon' => 'file',
-                                        'value' => old('doc'),
+                                        'value' => old('documents'),
                                         'multiple' => 'multiple'
                                     ])
                                     <div class="d-flex mt-2 choosenDocument" style="flex-wrap: wrap;"></div>
