@@ -2,9 +2,15 @@
     $(document).on('click', '#previewImage', function() {
         $('#profileInp').click();
     });
+
     $(document).on('click', '.close', function() {
         $('#cropImageModal').modal('toggle');
     });
+
+    $(document).on('click', '.remobeDisable', function() {
+        $(this).attr('disabled', false);
+    });
+
     $(document).ready(function () {
         var $avatar = $('#previewImage');
         var $image = $('#imageForCrop');
@@ -35,7 +41,10 @@
         $modal.on('shown.bs.modal', function () {
             cropper = new Cropper($image[0], {
                 aspectRatio: 1,
-                viewMode: 3,
+                viewMode: 1, // Change viewMode to 1 or 2
+                responsive: true, // Ensure the cropper is responsive
+                background: false, // Optional: Hide the background of the cropper canvas
+                autoCropArea: 1, // Ensure the entire image is visible within the cropper canvas
             });
         }).on('hidden.bs.modal', function () {
             if (cropper) {
@@ -81,4 +90,6 @@
             }
         });
     });
+
+
 </script>
