@@ -160,7 +160,6 @@ class StaffController extends Controller
 
     public function update(Request $request, $id)
     {
-        echo '<pre>'; print_r($request->kindergarten); die;
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             // 'address' => 'required',
