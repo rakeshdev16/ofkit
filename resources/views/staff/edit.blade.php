@@ -121,18 +121,20 @@
                                             @include('components.file-input', [
                                                 'label' => 'Document',
                                                 'name' => 'documents[]',
+                                                'class' => 'documents',
+                                                'id' => 'documents',
                                                 'fileType' => 'document',
                                                 'icon' => 'file',
                                                 'value' => old('doc'),
                                                 'multiple' => 'multiple'
                                             ])
-                                            <div class="d-flex" style="flex-wrap: wrap;">
+                                            <div class="d-flex choosenDocument" style="flex-wrap: wrap;">
                                                 @foreach ($staff->documents as $document)
                                                     <div class="document mt-1 doc{{ $document->id }}">
                                                         <a href="{{ $document->name }}" target="_blank" rel="noopener noreferrer">
                                                             {{ $document->file_name }}
                                                         </a>
-                                                        <i class="bx bx-x staffDocument" data-id="{{ $document->id }}"></i>
+                                                        <i class="bx bx-x removeStaffDocument" data-id="{{ $document->id }}"></i>
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -288,34 +290,10 @@
         <script src="{{ asset('assets/js/cropper.min.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('assets/css/cropper.min.css') }}" />
         @include('components.cropper-script')
+        @include('staff.script')
         <script>
-            $(document).ready(function() {
-                $('.kindergarten').select2();
-            });
 
-            $(document).on('change', '.kindergarten', function() {
-                var ids = $(this).val();
-                $.ajax({
-                    type: 'GET',
-                    url: "{{ route('selected.kindergarten') }}",
-                    data: { ids: ids },
-                    success: function(data) {
-                        if (data.status == true) {
-                            data.data.forEach(function(row, index) {
-                                if ($('.tr-' + ids[index]).length == 0) {
-                                    $('.selected-kindergarten').append(row);
-                                }
-                            });
-                            $('.kindergarten-section').show();
-                        } else {
-                            $('.selected-kindergarten').html('');
-                            $('.kindergarten-section').hide();
-                        }
-                    }
-                });
-            });
-
-            $(document).on('click', '.staffDocument', function() {
+            $(document).on('click', '.removeStaffDocument', function() {
                 var id = $(this).data('id');
                 Swal.fire({
                     title: "Are you sure?",
