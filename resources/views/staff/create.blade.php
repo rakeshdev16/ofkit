@@ -232,14 +232,17 @@
         $(document).on('change', '.kindergarten', function() {
             var ids = $(this).val();
             $.ajax({
-                type : 'GET',
-                url : "{{ route('selected.kindergarten') }}",
-                data : { ids: ids },
-                success : function(data){
+                type: 'GET',
+                url: "{{ route('selected.kindergarten') }}",
+                data: { ids: ids },
+                success: function(data) {
                     if (data.status == true) {
-                        $('.selected-kindergarten').html('');
+                        data.data.forEach(function(row, index) {
+                            if ($('.tr-' + ids[index]).length == 0) {
+                                $('.selected-kindergarten').append(row);
+                            }
+                        });
                         $('.kindergarten-section').show();
-                        $('.selected-kindergarten').append(data.data);
                     } else {
                         $('.selected-kindergarten').html('');
                         $('.kindergarten-section').hide();
@@ -247,5 +250,6 @@
                 }
             });
         });
+
     </script>
 @endpush

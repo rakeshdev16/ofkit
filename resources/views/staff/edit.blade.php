@@ -295,26 +295,25 @@
 
             $(document).on('change', '.kindergarten', function() {
                 var ids = $(this).val();
-                var user_id = "{{ @request()->segment(2) }}";
                 $.ajax({
                     type: 'GET',
                     url: "{{ route('selected.kindergarten') }}",
-                    data: {
-                        ids: ids,
-                        user_id: user_id,
-                    },
+                    data: { ids: ids },
                     success: function(data) {
                         if (data.status == true) {
-                            $('.selected-kindergarten').html('');
+                            data.data.forEach(function(row, index) {
+                                if ($('.tr-' + ids[index]).length == 0) {
+                                    $('.selected-kindergarten').append(row);
+                                }
+                            });
                             $('.kindergarten-section').show();
-                            $('.selected-kindergarten').append(data.data);
                         } else {
                             $('.selected-kindergarten').html('');
                             $('.kindergarten-section').hide();
                         }
                     }
                 });
-            })
+            });
 
             $(document).on('click', '.staffDocument', function() {
                 var id = $(this).data('id');

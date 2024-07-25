@@ -265,29 +265,30 @@ class StaffController extends Controller
     public function selectedKindergarten(Request $request)
     {
         Session::forget('kindergartenIds');
-        $tr = '';
+        $rows = [];
         $associations = Association::select('id as key', 'name as value')->get()->toArray();
         $memberRoles = MemberRole::select('id as key', 'name as value')->get()->toArray();
         $index = 0;
         if (isset($request->ids) && count($request->ids) > 0) {
             foreach ($request->ids as $id) {
-                // $id = $request->ids[array_key_last($request->ids)];
                 $staffKindergarten = StaffKindergarten::where(['user_id' => $request->user_id, 'kindergarten_id' => $id])->first();
-                $tr .= view('components.kindergarten-tr', [
+                $row = view('components.kindergarten-tr', [
                     'id' => $id,
                     'index' => $index,
                     'associations' => $associations,
                     'memberRoles' => $memberRoles,
                     'data' => $staffKindergarten,
                 ])->render();
+                $rows[] = $row;
                 $index++;
             }
-            return response()->json(['status' => true, 'data' => $tr]);
+            return response()->json(['status' => true, 'data' => $rows]);
         } else {
             Session::forget('kindergartenIds');
             return response()->json(['status' => false, 'data' => '']);
         }
     }
+
 
     public function deleteDocument(Request $request)
     {
