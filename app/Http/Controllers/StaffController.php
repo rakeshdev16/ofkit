@@ -160,34 +160,35 @@ class StaffController extends Controller
 
     public function update(Request $request, $id)
     {
+        echo '<pre>'; print_r($request->kindergarten); die;
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'address' => 'required',
+            // 'address' => 'required',
             'telephone' => 'required|digits_between:8,14',
-            'licence_number' => 'required',
-            'profession_id' => 'required',
-            'dob' => 'required',
+            // 'licence_number' => 'required',
+            // 'profession_id' => 'required',
+            // 'dob' => 'required',
             'role' => 'required',
-            'member_photo' => 'file|max:2000', 
+            // 'member_photo' => 'file|max:2000', 
             // 'schedule' => 'required|array',
             // 'schedule.*.start_time' => 'required',
             // 'schedule.*.end_time' => 'required|after:schedule.*.start_time',
-            'kindergarten.*.role_id' => 'required',
-            'kindergarten.*.association_id' => 'required',
+            // 'kindergarten.*.role_id' => 'required',
+            // 'kindergarten.*.association_id' => 'required',
         ],[
             'name.required' => __('staff.requiredName'),
-            'address.required' => __('staff.requiredAddress'),            
+            // 'address.required' => __('staff.requiredAddress'),            
             'telephone.required' => __('staff.requiredTelephone'),
-            'licence_number.required' => __('staff.requiredLicence'),
-            'profession_id.required' => 'Please chose profession',
-            'dob.required' => __('staff.requiredDOB'),
+            // 'licence_number.required' => __('staff.requiredLicence'),
+            // 'profession_id.required' => 'Please chose profession',
+            // 'dob.required' => __('staff.requiredDOB'),
             'role.required' => __('staff.requiredRole'),
-            'member_photo.max' => 'The photo may not be greater than 2MB',
+            // 'member_photo.max' => 'The photo may not be greater than 2MB',
             // 'schedule.*.start_time.required' => 'Please enter start time',
             // 'schedule.*.end_time.required' => 'Please enter end time',
             // 'schedule.*.end_time.after' => 'End time must be after start time',
-            'kindergarten.*.role_id.required' => 'Please chose role',
-            'kindergarten.*.association_id.required' => 'Please chose profession',
+            // 'kindergarten.*.role_id.required' => 'Please chose role',
+            // 'kindergarten.*.association_id.required' => 'Please chose profession',
         ]);
         $validator->after(function ($validator) use ($request) {
             if ($request->schedule && count($request->schedule) > 0) {
@@ -268,25 +269,35 @@ class StaffController extends Controller
         $rows = [];
         $associations = Association::select('id as key', 'name as value')->get()->toArray();
         $memberRoles = MemberRole::select('id as key', 'name as value')->get()->toArray();
-        $index = 0;
-        if (isset($request->ids) && count($request->ids) > 0) {
-            foreach ($request->ids as $id) {
-                $staffKindergarten = StaffKindergarten::where(['user_id' => $request->user_id, 'kindergarten_id' => $id])->first();
-                $row = view('components.kindergarten-tr', [
-                    'id' => $id,
-                    'index' => $index,
-                    'associations' => $associations,
-                    'memberRoles' => $memberRoles,
-                    'data' => $staffKindergarten,
-                ])->render();
-                $rows[] = $row;
-                $index++;
-            }
-            return response()->json(['status' => true, 'data' => $rows]);
-        } else {
-            Session::forget('kindergartenIds');
-            return response()->json(['status' => false, 'data' => '']);
-        }
+
+        $staffKindergarten = StaffKindergarten::where(['user_id' => $request->user_id, 'kindergarten_id' => $request->id])->first();
+        $row = view('components.kindergarten-tr', [
+            'id' => $request->id,
+            'index' => $request->index,
+            'associations' => $associations,
+            'memberRoles' => $memberRoles,
+            'data' => $staffKindergarten,
+        ])->render();
+        return response()->json(['status' => true, 'data' => $row]);
+
+        // if (isset($request->ids) && count($request->ids) > 0) {
+        //     foreach ($request->ids as $id) {
+        //         $staffKindergarten = StaffKindergarten::where(['user_id' => $request->user_id, 'kindergarten_id' => $id])->first();
+        //         $row = view('components.kindergarten-tr', [
+        //             'id' => $id,
+        //             'index' => $index,
+        //             'associations' => $associations,
+        //             'memberRoles' => $memberRoles,
+        //             'data' => $staffKindergarten,
+        //         ])->render();
+        //         $rows[] = $row;
+        //         $index++;
+        //     }
+        //     return response()->json(['status' => true, 'data' => $rows]);
+        // } else {
+        //     Session::forget('kindergartenIds');
+        //     return response()->json(['status' => false, 'data' => '']);
+        // }
     }
 
 

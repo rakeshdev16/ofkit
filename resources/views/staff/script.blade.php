@@ -34,19 +34,18 @@
         }
     });
 
-    $(document).on('change', '.kindergarten', function() {
-        var ids = $(this).val();
+    $('.kindergarten').on('select2:select', function(e) {
+        var id = e.params.data.id;
+        var index = $('.selected-kindergarten tr').length;
         $.ajax({
             type: 'GET',
             url: "{{ route('selected.kindergarten') }}",
-            data: { ids: ids },
+            data: { id: id, index: index },
             success: function(data) {
                 if (data.status == true) {
-                    data.data.forEach(function(row, index) {
-                        if ($('.tr-' + ids[index]).length == 0) {
-                            $('.selected-kindergarten').append(row);
-                        }
-                    });
+                    if ($('.tr-' + id).length == 0) {
+                        $('.selected-kindergarten').append(data.data);
+                    }
                     $('.kindergarten-section').show();
                 } else {
                     $('.selected-kindergarten').html('');
@@ -55,4 +54,32 @@
             }
         });
     });
+
+    $('.kindergarten').on('select2:unselect', function(e) {
+        var id = e.params.data.id;
+        $('.tr-' + id).remove();
+    });
+
+    // $(document).on('change', '.kindergarten', function() {
+    //     var ids = $(this).val();
+    //     console.log(ids);
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: "{{ route('selected.kindergarten') }}",
+    //         data: { ids: ids },
+    //         success: function(data) {
+    //             if (data.status == true) {
+    //                 data.data.forEach(function(row, index) {
+    //                     if ($('.tr-' + ids[index]).length == 0) {
+    //                         $('.selected-kindergarten').append(row);
+    //                     }
+    //                 });
+    //                 $('.kindergarten-section').show();
+    //             } else {
+    //                 $('.selected-kindergarten').html('');
+    //                 $('.kindergarten-section').hide();
+    //             }
+    //         }
+    //     });
+    // });
 </script>
