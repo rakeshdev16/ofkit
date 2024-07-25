@@ -105,4 +105,16 @@ class UserController extends Controller
             return redirect()->back();
         }
     }
+
+    public function uploadUserProfile(Request $request)
+    {
+        if ($request->hasFile('image')) {
+            $photo = uploadFile($request->image, 'public/staff', $request->extension);
+            if ($request->type == 'update') {
+                User::where('id', $request->user_id)->update(['photo' => $photo]);
+            }
+            return response()->json(['status' => true, 'message' => 'Profile has been uploaded', 'src' => asset('storage/'.$photo)]);
+        }
+        return response()->json(['status' => false]);
+    }
 }

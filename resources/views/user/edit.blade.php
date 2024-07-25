@@ -45,7 +45,10 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <input type="file" style="visibility: hidden" name="member_photo" id="imgInp" accept="image/png, image/gif, image/jpeg">
+                                <input type="hidden" name="user_id" id="userId" value="{{ $user->id }}">
+                                <input type="hidden" id="type" value="update">
+                                <input type="hidden" id="url" value="{{ route('userProfile.update') }}">
+                                <input type="file" style="visibility: hidden" name="member_photo" id="profileInp" accept="image/png, image/gif, image/jpeg">
                                 <div class="col-md-6">
                                     @include('components.text-input', [
                                         'label' => __('staff.nameTh'),
@@ -110,10 +113,14 @@
         </div>
     </div>
 </div>
+@include('components.cropper-modal')
 @endsection
 @push('customScript')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript" src="{{ asset('assets/js/jquery.validate.js') }}"></script>
+    <script src="{{ asset('assets/js/cropper.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('assets/css/cropper.min.css') }}" />
+    @include('components.cropper-script')
     <script>
         $(document).on('click', '#previewImage', function() {
             $('#imgInp').click();
