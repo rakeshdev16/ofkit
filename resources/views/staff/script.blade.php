@@ -11,7 +11,14 @@
             }
             let fileList = $('.choosenDocument');
             $.each(allFiles, function(index, file) {
-                fileList.append('<div class="document mt-1"><a href="#" target="_blank" rel="noopener noreferrer">'+ file.name +'</a><i class="bx bx-x staffDocument" data-file-name="' + file.name + '"></i></div>');
+                var extensionArr = ['jpeg', 'jpg', 'png', 'jfif', 'pjpeg', 'pjp', 'gif', 'svg', 'pdf', 'docx', 'doc'];
+                var validFile = extensionArr.includes(file.name.split('.').pop());
+                if (validFile) {
+                    fileList.append('<div class="document mt-1"><a href="#" target="_blank" rel="noopener noreferrer">'+ file.name +'</a><i class="bx bx-x staffDocument" data-file-name="' + file.name + '"></i></div>');
+                } else {
+                    allFiles = allFiles.filter(doc => doc.name !== file.name);
+                    toastr.error(file.name, ' is not supported');
+                }
             });
             event.target.value = '';
             updateFileInput(allFiles);

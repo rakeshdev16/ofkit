@@ -43,7 +43,7 @@
                                         </div>
                                     </div>
                                     <hr class="my-4">
-                                    <ul class="list-group list-group-flush">
+                                    <ul class="list-group list-group-flush profile-detail">
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                             <h6 class="mb-0"><i class="bx bx-mail-send"></i> {{ __('staff.emailTh') }}</h6>
                                             <span class="text-secondary">{{ @$staff->email }}</span>
