@@ -24,7 +24,7 @@
         $input.on('change', function (e) {
             var file = e.target.files;
 
-            var extensionArr = ['jpeg', 'jpg', 'png'];
+            var extensionArr = ['jpeg', 'jpg', 'png', 'jfif', 'pjpeg', 'pjp', 'gif', 'svg'];
             var image = extensionArr.includes(file[0].name.split('.').pop());
             $('.cropperImageError').hide();
             if (!image) {
