@@ -41,11 +41,9 @@
                                             <div class="cam-icom">
                                                 <i class="bx bx-camera"></i>
                                             </div>
-                                            @error('member_photo')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
+                                            <span class="text-danger cropperImageError" role="alert" style="display: none !important;">
+                                                <strong>Invalid image format</strong>
+                                            </span>
                                         </div>
                                         <input type="file" style="visibility: hidden" name="member_photo" id="profileInp" accept="image/*">
                                         <div class="col-md-6">

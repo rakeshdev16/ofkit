@@ -22,13 +22,22 @@
         $('[data-toggle="tooltip"]').tooltip();
 
         $input.on('change', function (e) {
-            var files = e.target.files;
+            var file = e.target.files;
+
+            var extensionArr = ['jpeg', 'jpg', 'png'];
+            var image = extensionArr.includes(file[0].name.split('.').pop());
+            $('.cropperImageError').hide();
+            if (!image) {
+                $('.cropperImageError').show();
+                return false;
+            }
+
             var done = function (url) {
                 $image.attr('src', url);
                 $modal.modal('show');
             };
-            if (files && files.length > 0) {
-                var file = files[0];
+            if (file && file.length > 0) {
+                var file = file[0];
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     done(reader.result);

@@ -39,11 +39,9 @@
                                     <div class="cam-icom">
                                         <i class="bx bx-camera"></i>
                                     </div>
-                                    @error('member_photo')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                    <span class="text-danger cropperImageError" role="alert" style="display: none !important;">
+                                        <strong>Invalid image format</strong>
+                                    </span>
                                 </div>
                                 <input type="hidden" name="user_id" id="userId" value="{{ $user->id }}">
                                 <input type="hidden" id="type" value="update">

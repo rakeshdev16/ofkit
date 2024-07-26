@@ -47,14 +47,6 @@ class TableSeeder extends Seeder
             FrameworkType::firstOrCreate(['name' => $name]);
         }
 
-        foreach (['Kindergarten Teacher', 'Special Education Teacher', 'Art therapist', 'Bibliotherapist', 'Drama Therapist', 'Creativity and Expression', 'Music therapist', 'Movement therapist', 'Behaviour Analyst', 'Occupational Therapist', 'Children Neurologist', 'Assistant', 'Social Worker', 'Physiotherapist', 'Clinical Psychologist', 'Developmental Psychologist', 'Educational Psychologist', 'Children development doctor', 'Children doctor', 'Speech therapist', 'Children development doctor', 'Children doctor'] as $name) {
-            Profession::firstOrCreate(['name' => $name]);
-        }
-
-        foreach (['Professional Therapist', 'External Professional Guide', 'Internal Professional Guide', 'Kindergarten Manager', 'Cluster Manager', 'ABA Therapist', 'FT Therapist', 'Social Skills Therapist', 'DIR Guide'] as $name) {
-            MemberRole::firstOrCreate(['name' => $name]);
-        }
-
         foreach (['Tabam', 'Matia'] as $name) {
             Association::firstOrCreate(['name' => $name]);
         }
