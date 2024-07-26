@@ -151,6 +151,9 @@
                                                     @$staff->staffKindergartens->pluck('kindergarten_id')->toArray(),
                                             ])
                                         </div>
+                                        @php
+                                            $kindergartenCount = count(old('kindergarten_id', []));
+                                        @endphp
                                         <div class="col-md-12 kindergarten-section"
                                             style="display: {{ old('kindergarten_id') || count($staff->staffKindergartens) > 0 ? '' : 'none' }}">
                                             <div class="time-table">
@@ -165,32 +168,24 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody class="selected-kindergarten">
-                                                            @if (Session::get('kindergartenIds'))
-                                                                @for ($i = 0; $i < count(Session::get('kindergartenIds')); $i++)
-                                                                    @include(
-                                                                        'components.kindergarten-tr',
-                                                                        [
-                                                                            'id' => @Session::get(
-                                                                                'kindergartenIds')[$i],
-                                                                            'index' => $i,
-                                                                            'professions' => $professions,
-                                                                            'memberRoles' => $memberRoles,
-                                                                        ]
-                                                                    )
+                                                            @if ($kindergartenCount > 0)
+                                                                @for ($i = 0; $i < $kindergartenCount; $i++)
+                                                                    @include('components.kindergarten-tr',[
+                                                                        'id' => @old('kindergarten_id', [])[$i],
+                                                                        'index' => $i,
+                                                                        'professions' => $professions,
+                                                                        'memberRoles' => $memberRoles,
+                                                                    ])
                                                                 @endfor
                                                             @else
                                                                 @foreach ($staff->staffKindergartens as $kindergarten)
-                                                                    @include(
-                                                                        'components.kindergarten-tr',
-                                                                        [
-                                                                            'id' =>
-                                                                                $kindergarten->kindergarten_id,
-                                                                            'index' => $loop->index,
-                                                                            'professions' => $professions,
-                                                                            'memberRoles' => $memberRoles,
-                                                                            'data' => $kindergarten,
-                                                                        ]
-                                                                    )
+                                                                    @include('components.kindergarten-tr', [
+                                                                        'id' => $kindergarten->kindergarten_id,
+                                                                        'index' => $loop->index,
+                                                                        'professions' => $professions,
+                                                                        'memberRoles' => $memberRoles,
+                                                                        'data' => $kindergarten,
+                                                                    ])
                                                                 @endforeach
                                                             @endif
                                                         </tbody>

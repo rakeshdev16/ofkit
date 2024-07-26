@@ -117,7 +117,10 @@
                                         'value' => old('kindergarten_id')
                                     ])
                                 </div>
-                                <div class="col-md-12 kindergarten-section" style="display: {{ Session::get('kindergartenIds') > 0 ? 'block' : 'none' }}">
+                                @php
+                                    $kindergartenCount = count(old('kindergarten_id', []));
+                                @endphp
+                                <div class="col-md-12 kindergarten-section" style="display: {{ @$kindergartenCount > 0 ? 'block' : 'none' }}">
                                     <div class="time-table">
                                         <h4 class="text-center">Kindergarten</h4>
                                         <div class="table-responsive" style="display: block !important;">
@@ -130,10 +133,10 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody class="selected-kindergarten">
-                                                    @if (Session::get('kindergartenIds'))
-                                                        @for ($i = 0; $i < count(Session::get('kindergartenIds')); $i++)
+                                                    @if ($kindergartenCount > 0)
+                                                        @for ($i = 0; $i < $kindergartenCount; $i++)
                                                             @include('components.kindergarten-tr', [
-                                                                'id' => @Session::get('kindergartenIds')[$i],
+                                                                'id' => @old('kindergarten_id', [])[$i],
                                                                 'index' => $i,
                                                                 'professions' => $professions,
                                                                 'memberRoles' => $memberRoles,

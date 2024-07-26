@@ -82,6 +82,16 @@ class StaffController extends Controller
             // 'kindergarten.*.association_id.required' => 'Please chose association',
         ]);
         $validator->after(function ($validator) use ($request) {
+            if ($request->kindergarten_id && count($request->kindergarten_id) > 0) {
+                foreach ($request->kindergarten as $index => $kindergarten) {
+                    if (empty($kindergarten['role_id'])) {
+                        $validator->errors()->add("kindergarten.$index.role_id", 'Please choose role');
+                    }
+                    if (empty($kindergarten['association_id'])) {
+                        $validator->errors()->add("kindergarten.$index.association_id", 'Please choose association');
+                    }
+                }
+            }
             if ($request->schedule && count($request->schedule) > 0) {
                 foreach ($request->schedule as $index => $schedule) {
                     if (!empty($schedule['start_time']) && empty($schedule['end_time'])) {
@@ -93,9 +103,6 @@ class StaffController extends Controller
             }
         });
         if ($validator->fails()) {
-            if (isset($request->kindergarten_id) && isset($request->kindergarten)) {
-                Session::put('kindergartenIds', $request->kindergarten_id);
-            }
             return redirect()->back()->withErrors($validator)->withInput();
         }
         DB::beginTransaction();
@@ -190,6 +197,16 @@ class StaffController extends Controller
             // 'kindergarten.*.association_id.required' => 'Please chose profession',
         ]);
         $validator->after(function ($validator) use ($request) {
+            if ($request->kindergarten_id && count($request->kindergarten_id) > 0) {
+                foreach ($request->kindergarten as $index => $kindergarten) {
+                    if (empty($kindergarten['role_id'])) {
+                        $validator->errors()->add("kindergarten.$index.role_id", 'Please choose role');
+                    }
+                    if (empty($kindergarten['association_id'])) {
+                        $validator->errors()->add("kindergarten.$index.association_id", 'Please choose association');
+                    }
+                }
+            }
             if ($request->schedule && count($request->schedule) > 0) {
                 foreach ($request->schedule as $index => $schedule) {
                     if (!empty($schedule['start_time']) && empty($schedule['end_time'])) {
@@ -201,9 +218,6 @@ class StaffController extends Controller
             }
         });
         if ($validator->fails()) {
-            if (isset($request->kindergarten_id) && isset($request->kindergarten)) {
-                Session::put('kindergartenIds', $request->kindergarten_id);
-            }
             return redirect()->back()->withErrors($validator)->withInput();
         }
 

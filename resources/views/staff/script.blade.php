@@ -58,6 +58,10 @@
     $('.kindergarten').on('select2:unselect', function(e) {
         var id = e.params.data.id;
         $('.tr-' + id).remove();
+        var length = $('.selected-kindergarten tr').length;
+        if (length == 0) {
+            $('.kindergarten-section').hide();
+        }
     });
 
     // $(document).on('change', '.kindergarten', function() {
