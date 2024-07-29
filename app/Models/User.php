@@ -97,7 +97,7 @@ class User extends Authenticatable
 
     public function getDateOfBirthAttribute()
     {
-        return @date('d/m/Y', strtotime($this->attributes['dob']));
+        return isset($this->attributes['dob']) ?? @date('d/m/Y', strtotime($this->attributes['dob']));
     }
 
     public function getPhotoAttribute($value)

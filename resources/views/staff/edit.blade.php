@@ -103,7 +103,7 @@
                                                 'label' => __('staff.birthDateTh'),
                                                 'name' => 'dob',
                                                 'max' => date('Y-m-d'),
-                                                'value' => date('Y-m-d', strtotime($staff->dob)),
+                                                'value' => $staff->dob ? date('Y-m-d', strtotime($staff->dob)) : '',
                                             ])
                                         </div>
                                         <div class="col-md-6">
