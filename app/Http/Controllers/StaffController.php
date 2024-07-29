@@ -23,7 +23,7 @@ class StaffController extends Controller
 {
     public function index(Request $request)
     {
-        $members = User::whereNot('id', Auth::id())->filter()->paginate(10);
+        $members = User::whereNot('id', Auth::id())->filter()->orderBy('id', 'DESC')->paginate(10);
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('staff.table', ['members' => $members])->render(),
