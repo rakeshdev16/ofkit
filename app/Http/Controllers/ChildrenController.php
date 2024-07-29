@@ -288,7 +288,7 @@ class ChildrenController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route('children.index');
+            return redirect()->route('children.show', $id);
 
         } catch (\Exception $e) {
             DB::rollback();

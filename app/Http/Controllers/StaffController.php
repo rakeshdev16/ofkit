@@ -245,7 +245,7 @@ class StaffController extends Controller
             Session::forget('kindergartenIds');
 
             DB::commit();
-            return redirect()->route('staff.index');
+            return redirect()->route('staff.show', $id);
 
         } catch (\Exception $e) {
             DB::rollback();
