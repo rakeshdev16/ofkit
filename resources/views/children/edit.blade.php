@@ -464,7 +464,8 @@
                 start.add(years, 'years');
                 var months = end.diff(start, 'months');
                 start.add(months, 'months');
-                var age = 'Years ' + years + '.' + months;
+                // var age = 'Years ' + years + '.' + months;
+                var age = years;
                 $('.age').val(age);
             });
 
