@@ -25,9 +25,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive" >
-                        <div class="table-search">
-                            <label>Search: <input type="text" class="search" value="{{ request()->search }}" placeholder=""></label>
-                        </div>
+                        @include('components.table-search')
                         <div id="dataTable">
                             @include('staff.table', ['members' => $members])
                         </div>

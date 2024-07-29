@@ -1,5 +1,11 @@
-$(document).on('keyup', '.search', function () {
-    var search = $(this).val();
+// $(document).on('keyup', '.search', function () {
+//     var search = $(this).val();
+//     var url = queryParam('search', search);
+//     filter(url);
+// });
+$(document).on('click', '.search-button', function () {
+    var search = $(this).siblings('.search').val();
+    console.log(search);
     var url = queryParam('search', search);
     filter(url);
 });
