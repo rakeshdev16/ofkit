@@ -22,6 +22,6 @@
         @endforelse
     </tbody>
 </table>
-<div class="dataTables_paginate paging_simple_numbers mt-3" id="paginate">
+{{-- <div class="dataTables_paginate paging_simple_numbers mt-3" id="paginate">
     @include('components.pagination', ['paginate' => $associations])
-</div>
+</div> --}}

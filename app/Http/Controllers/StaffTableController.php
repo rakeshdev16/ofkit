@@ -17,9 +17,9 @@ class StaffTableController extends Controller
 {
     public function index(Request $request)
     {
-        $professions = Profession::filter()->paginate(10);
-        $roles = MemberRole::filter()->paginate(10);
-        $associations = Association::filter()->paginate(10);
+        $professions = Profession::filter()->get();
+        $roles = MemberRole::filter()->get();
+        $associations = Association::filter()->get();
         if ($request->ajax()) {
             switch ($request->type) {
                 case 'profession':
@@ -198,9 +198,9 @@ class StaffTableController extends Controller
 
     public function staffTableTab(Request $request)
     {
-        $professions = Profession::filter()->paginate(10);
-        $roles = MemberRole::filter()->paginate(10);
-        $associations = Association::filter()->paginate(10);
+        $professions = Profession::filter()->get();
+        $roles = MemberRole::filter()->get();
+        $associations = Association::filter()->get();
         switch ($request->type) {
             case 'profession':
                 return response()->json([

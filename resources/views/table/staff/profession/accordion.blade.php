@@ -30,6 +30,6 @@
 @empty
     <div class="text-center"> {{ __('comon.emptyTableMsg') }} </div>
 @endforelse
-<div class="dataTables_paginate paging_simple_numbers mt-2" id="paginate">
+{{-- <div class="dataTables_paginate paging_simple_numbers mt-2" id="paginate">
     @include('components.pagination', ['paginate' => $professions])
-</div>
+</div> --}}
