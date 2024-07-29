@@ -5,7 +5,7 @@
             @include('components.table-heading', ['label' => __('kindergarten.nameTh'), 'key' => 'name'])
             @include('components.table-heading', ['label' => __('kindergarten.symbolTh'), 'key' => 'symbol'])
             @include('components.table-heading', ['label' => __('kindergarten.frameworkTh'), 'key' => 'framework'])
-            @include('components.table-heading', ['label' => __('kindergarten.typeTh'), 'key' => 'type'])
+            {{-- @include('components.table-heading', ['label' => __('kindergarten.typeTh'), 'key' => 'type']) --}}
             @include('components.table-heading', ['label' => __('kindergarten.clusterTh'), 'key' => 'cluster'])
             @include('components.table-heading', ['label' => __('kindergarten.clusterManagerTh'), 'key' => 'cluster'])
             @include('components.table-heading', ['label' => __('kindergarten.kindergartenManagerTh'), 'key' => 'cluster_manager'])
@@ -23,7 +23,7 @@
                 <td>{{ $kindergarten->name }}</td>
                 <td>{{ $kindergarten->symbol }}</td>
                 <td>{{ $kindergarten->framework_type }}</td>
-                <td>{{ $kindergarten->kindergarten_type }}</td>
+                {{-- <td>{{ $kindergarten->kindergarten_type }}</td> --}}
                 <td>{{ @$kindergarten->cluster->cluster ?? '-' }}</td>
                 <td>{{ @getUserNameById($kindergarten->cluster->manager_id) ?? '-' }}</td>
                 <td>{{ @getUserNameById($kindergarten->kindergartenUser->user_id) ?? '-' }}</td>

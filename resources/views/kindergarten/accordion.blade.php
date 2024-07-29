@@ -31,10 +31,10 @@
                         <div class="w-50 label">{{ __('kindergarten.frameworkTh') }}</div>
                         <div class="w-50">{{ $kindergarten->framework_type }}</div>
                     </div><hr>
-                    <div class="d-flex accordion-row">
+                    {{-- <div class="d-flex accordion-row">
                         <div class="w-50 label">{{ __('kindergarten.typeTh') }}</div>
                         <div class="w-50">{{ $kindergarten->kindergarten_type }}</div>
-                    </div><hr>
+                    </div><hr> --}}
                     <div class="d-flex accordion-row">
                         <div class="w-50 label">{{ __('kindergarten.clusterTh') }}</div>
                         <div class="w-50">{{ @$kindergarten->cluster->cluster ?? '-' }}</div>
