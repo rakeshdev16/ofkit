@@ -33,7 +33,7 @@
                         <div class="col-xl-6 mx-auto">
                             <div id="stepper1" class="bs-stepper linear">
                                 <div class="card">
-                                    <div class="card-header">
+                                    {{-- <div class="card-header">
                                         <div class="d-lg-flex flex-lg-row align-items-lg-center justify-content-lg-between"
                                             role="tablist">
                                             <div class="step active" data-target="#test-l-1">
@@ -46,7 +46,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            {{-- <div class="bs-stepper-line"></div>
+                                            <div class="bs-stepper-line"></div>
                                             <div class="step active" data-target="#test-l-2">
                                                 <div class="step-trigger" role="tab" id="stepper1trigger2"
                                                     aria-controls="test-l-2" aria-selected="false" disabled="disabled">
@@ -67,9 +67,9 @@
                                                         <p class="mb-0 steper-sub-title">{{ __('children.enterMedicalDetail') }}</p>
                                                     </div>
                                                 </div>
-                                            </div> --}}
+                                            </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="card-body">
                                         <div class="bs-stepper-content">
                                             <form action="{{ route('children.update', $children->id) }}" method="POST">
@@ -211,7 +211,7 @@
                                                         </div> --}}
                                                     </div>
                                                 </div>
-                                                <div class="step active mt-4" data-target="#test-l-2">
+                                                {{-- <div class="step active mt-4" data-target="#test-l-2">
                                                     <div class="step-trigger" role="tab" id="stepper1trigger2"
                                                         aria-controls="test-l-2" aria-selected="false" disabled="disabled">
                                                         <div class="bs-stepper-circle">2</div>
@@ -221,7 +221,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <hr>
+                                                <hr> --}}
                                                 {{-- <div id="test-l-2" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper1trigger2"> --}}
                                                 <div class="bs-stepper-pane active" aria-labelledby="stepper1trigger2">
                                                     @php
@@ -310,7 +310,7 @@
                                                         </div> --}}
                                                     </div>
                                                 </div>
-                                                <div class="step active mt-4" data-target="#test-l-3">
+                                                {{-- <div class="step active mt-4" data-target="#test-l-3">
                                                     <div class="step-trigger" role="tab" id="stepper1trigger3"
                                                         aria-controls="test-l-3" aria-selected="true">
                                                         <div class="bs-stepper-circle">3</div>
@@ -320,7 +320,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <hr>
+                                                <hr> --}}
                                                 <div class="bs-stepper-pane active dstepper-block"
                                                     aria-labelledby="stepper1trigger3">
                                                     @php
