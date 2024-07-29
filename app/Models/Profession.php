@@ -11,6 +11,8 @@ class Profession extends Model
 
     protected $fillable = ['name'];
 
+    protected $appends = ['is_assign'];
+
     public function scopeFilter($query)
     {
         if (request('sort') && request('sorting')) {
@@ -20,5 +22,10 @@ class Profession extends Model
             $query->where('name', 'like', '%'.request('search').'%');
         }
         return $query;
+    }
+
+    public function getIsAssignAttribute()
+    {
+        return User::where('profession_id', @$this->attributes['id'])->exists();
     }
 }
