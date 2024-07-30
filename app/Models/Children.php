@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class Children extends Model
 {
@@ -38,6 +39,11 @@ class Children extends Model
             $search = request('search');
             $query->where('name', 'like', '%'.$search.'%')
                 ->orWhereIn('kindergarten_id', Kindergarten::where('name', 'like', '%'.$search.'%')->pluck('id'));
+        }
+
+        if (Auth::user()->hasRole(['manager', 'therapist'])) {
+            $kindergartenIds = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
+            $query->whereIn('kindergarten_id', $kindergartenIds);
         }
         return $query;
     }
