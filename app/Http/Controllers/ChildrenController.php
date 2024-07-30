@@ -9,6 +9,8 @@ use App\Models\Cluster;
 use App\Models\Diagnosis;
 use App\Models\Functionality;
 use App\Models\Hmo;
+use App\Models\Individual;
+use App\Models\IndividualGroup;
 use App\Models\Kindergarten;
 use App\Models\ParentsStatus;
 use App\Models\Status;
@@ -22,7 +24,7 @@ class ChildrenController extends Controller
 {
     public function index(Request $request)
     {
-        $childrens = Children::filter()->where('user_id', Auth::id())->paginate(10);
+        $childrens = Children::filter()->paginate(10);
         $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
         if ($request->ajax()) {
             return response()->json([
@@ -317,5 +319,67 @@ class ChildrenController extends Controller
             return response()->json(['status' => true, 'message' => __('children.uploadProfile'), 'src' => asset('storage/'.$photo)]);
         }
         return response()->json(['status' => false]);
+    }
+
+    public function documentation(Request $request, $type, $id)
+    {
+        $children = Children::findOrFail($id);
+        $childrens = Children::where('id', '!=', $id)->select('id', 'name')->get();
+        switch ($type) {
+            case 'individual':
+                return view('children.individual', compact('children'));
+            break;
+            case 'group':
+                return view('children.group', compact('children'));
+            break;
+            case 'parental-guidance':
+                return view('children.parental-guidance', compact('children'));
+            break;
+            case 'staff-meeting':
+                return view('children.staff-meeting', compact('children'));
+            break;
+            case 'initial-evaluation':
+                return view('children.initial-evaluation', compact('children'));
+            break;
+            case 'final-evaluation':
+                return view('children.final-evaluation', compact('children'));
+            break;
+            default:
+                return view('children.individual', compact('children'));
+            break;
+        }
+    }
+    public function saveDocumentation(Request $request, $type, $id)
+    {
+        switch ($type) {
+            case 'individual':
+                if ($request->has('child_file')) {
+                    $request['file'] = uploadFile($request->child_file, 'public/child-document');
+                }
+                $request['children_id'] = $id;
+                Individual::create($request->all());
+            break;
+            case 'group':
+                
+            break;
+            case 'parental-guidance':
+                
+            break;
+            case 'staff-meeting':
+                
+            break;
+            case 'initial-evaluation':
+                
+            break;
+            case 'final-evaluation':
+                
+            break;
+            default:
+                
+            break;
+        }
+
+        return redirect()->route('children.show', $id);
+
     }
 }
