@@ -371,7 +371,7 @@ class ChildrenController extends Controller
             case 'group':
                 $document = ChildrenDocumentation::create($request->all());
                 foreach ($request->participated as $participated) {
-                    if ($participated['child_file']) {
+                    if (isset($participated['child_file'])) {
                         $participated['file'] = uploadFile($participated['child_file'], 'public/child-document');
                     }
                     $participated['children_id'] = $id;
