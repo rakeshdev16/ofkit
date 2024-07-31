@@ -331,52 +331,9 @@
                                                         <div class="col-md-12 medicineDetail"
                                                             style="display: {{ old('medicine') ?? (@$medical->medicine == 1 ? 'yes' : 'no') == 'yes' ? 'block' : 'none' }}"
                                                         >
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    @include('components.text-input', [
-                                                                        'label' => __('children.medicineName'),
-                                                                        'name' => 'medicine_name',
-                                                                        'icon' => 'network-chart',
-                                                                        'value' => @$medical->medicine_name,
-                                                                        'disabled' => 'disabled'
-                                                                    ])
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    @include('components.select-input', [
-                                                                        'label' => __('children.type'),
-                                                                        'name' => 'type',
-                                                                        'icon' => 'buildings',
-                                                                        'options' => [
-                                                                            ['key' => 'sos', 'value' => 'SOS'],
-                                                                            ['key' => 'regular', 'value' => 'Regular']
-                                                                        ],
-                                                                        'value' => @$medical->type,
-                                                                        'disabled' => 'disabled'
-                                                                    ])
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    @include('components.text-input', [
-                                                                        'label' => __('children.dosageAndTiming'),
-                                                                        'name' => 'dosage_and_timing',
-                                                                        'icon' => 'network-chart',
-                                                                        'value' => @$medical->dosage_and_timing,
-                                                                        'disabled' => 'disabled'
-                                                                    ])
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    @include('components.select-input', [
-                                                                        'label' => __('children.where'),
-                                                                        'name' => 'where',
-                                                                        'icon' => 'buildings',
-                                                                        'options' => [
-                                                                            ['key' => 'kindergarten', 'value' => 'Kindergarten'],
-                                                                            ['key' => 'home', 'value' => 'Home']
-                                                                        ],
-                                                                        'value' => @$medical->where,
-                                                                        'disabled' => 'disabled'
-                                                                    ])
-                                                                </div>
-                                                            </div>
+                                                            @foreach ($children->medicine as $medicine)
+                                                                @include('components.medicine-detail', ['index' => $loop->iteration, 'data' => $medicine, 'disabled' => 'disabled'])
+                                                            @endforeach
                                                         </div>
                                                     </div>
                                                 </div>

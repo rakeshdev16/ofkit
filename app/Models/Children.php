@@ -67,4 +67,9 @@ class Children extends Model
     {
         return $this->hasOne(ChildrenMedicalInformation::class);
     }
+
+    public function medicine()
+    {
+        return $this->hasMany(ChildrenMedicine::class);
+    }
 }

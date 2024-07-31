@@ -33,43 +33,6 @@
                         <div class="col-xl-6 mx-auto">
                             <div id="stepper1" class="bs-stepper linear">
                                 <div class="card">
-                                    {{-- <div class="card-header">
-                                        <div class="d-lg-flex flex-lg-row align-items-lg-center justify-content-lg-between"
-                                            role="tablist">
-                                            <div class="step active" data-target="#test-l-1">
-                                                <div class="step-trigger" role="tab" id="stepper1trigger1"
-                                                    aria-controls="test-l-1" aria-selected="false" disabled="disabled">
-                                                    <div class="bs-stepper-circle">1</div>
-                                                    <div class="">
-                                                        <h5 class="mb-0 steper-title">{{ __('children.personalInfo') }}</h5>
-                                                        <p class="mb-0 steper-sub-title">{{ __('children.personalDetail') }}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="bs-stepper-line"></div>
-                                            <div class="step active" data-target="#test-l-2">
-                                                <div class="step-trigger" role="tab" id="stepper1trigger2"
-                                                    aria-controls="test-l-2" aria-selected="false" disabled="disabled">
-                                                    <div class="bs-stepper-circle">2</div>
-                                                    <div class="">
-                                                        <h5 class="mb-0 steper-title">{{ __('children.parentsDetail') }}</h5>
-                                                        <p class="mb-0 steper-sub-title">{{ __('children.enterParentsDetail') }}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="bs-stepper-line"></div>
-                                            <div class="step active" data-target="#test-l-3">
-                                                <div class="step-trigger" role="tab" id="stepper1trigger3"
-                                                    aria-controls="test-l-3" aria-selected="true">
-                                                    <div class="bs-stepper-circle">3</div>
-                                                    <div class="">
-                                                        <h5 class="mb-0 steper-title">{{ __('children.medicalInfo') }}</h5>
-                                                        <p class="mb-0 steper-sub-title">{{ __('children.enterMedicalDetail') }}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
                                     <div class="card-body">
                                         <div class="bs-stepper-content">
                                             <form action="{{ route('children.update', $children->id) }}" method="POST">
@@ -203,26 +166,8 @@
                                                                 'value' => $children->hmo_id
                                                             ])
                                                         </div>
-                                                        {{-- <div class="col-lg-12">
-                                                            <button type="button" class="btn button px-4" onclick="stepper1.next()">
-                                                                {{ __('comon.next') }}
-                                                                <i class="bx bx-right-arrow-alt ms-2"></i>
-                                                            </button>
-                                                        </div> --}}
                                                     </div>
                                                 </div>
-                                                {{-- <div class="step active mt-4" data-target="#test-l-2">
-                                                    <div class="step-trigger" role="tab" id="stepper1trigger2"
-                                                        aria-controls="test-l-2" aria-selected="false" disabled="disabled">
-                                                        <div class="bs-stepper-circle">2</div>
-                                                        <div class="">
-                                                            <h5 class="mb-0 steper-title">{{ __('children.parentsDetail') }}</h5>
-                                                            <p class="mb-0 steper-sub-title">{{ __('children.enterParentsDetail') }}</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <hr> --}}
-                                                {{-- <div id="test-l-2" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper1trigger2"> --}}
                                                 <div class="bs-stepper-pane active" aria-labelledby="stepper1trigger2">
                                                     @php
                                                         $parent = $children->parent;
@@ -297,30 +242,8 @@
                                                                 'value' => @$parent->telephone
                                                             ])
                                                         </div>
-                                                        {{-- <div class="col-md-12">
-                                                            <div class="d-flex align-items-center gap-3">
-                                                                <button type="button" class="btn btn-outline-secondary px-4" onclick="stepper1.previous()">
-                                                                    <i class="bx bx-left-arrow-alt me-2"></i>{{ __('comon.previous') }}
-                                                                </button>
-                                                                <button type="button" class="btn button px-4" onclick="stepper1.next()">
-                                                                    {{ __('comon.next') }}
-                                                                    <i class="bx bx-right-arrow-alt ms-2"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div> --}}
                                                     </div>
                                                 </div>
-                                                {{-- <div class="step active mt-4" data-target="#test-l-3">
-                                                    <div class="step-trigger" role="tab" id="stepper1trigger3"
-                                                        aria-controls="test-l-3" aria-selected="true">
-                                                        <div class="bs-stepper-circle">3</div>
-                                                        <div class="">
-                                                            <h5 class="mb-0 steper-title">{{ __('children.medicalInfo') }}</h5>
-                                                            <p class="mb-0 steper-sub-title">{{ __('children.enterMedicalDetail') }}</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <hr> --}}
                                                 <div class="bs-stepper-pane active dstepper-block"
                                                     aria-labelledby="stepper1trigger3">
                                                     @php
@@ -363,65 +286,24 @@
                                                                 'value' => @$medical->medicine == 1 ? 'yes' : 'no'
                                                             ])
                                                         </div>
-                                                        {{-- <div class="col-md-12 medicineDetail"
-                                                            style="display: {{ old('medicine') ?? (@$medical->medicine == 1 ? 'yes' : 'no') == 'yes' ? 'block' : 'none' }}"
-                                                        >
-                                                            @include('components.textarea-input', [
-                                                                'label' => __('children.medicineDetail'),
-                                                                'name' => 'medicine_detail',
-                                                                'icon' => 'network-chart',
-                                                                'value' => @$medical->medicine_detail
-                                                            ])
-                                                        </div> --}}
                                                         <div class="col-md-12 medicineDetail" style="display: {{ old('medicine') ?? (@$medical->medicine == 1 ? 'yes' : 'no') == 'yes' ? 'block' : 'none' }}">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    @include('components.text-input', [
-                                                                        'label' => __('children.medicineName'),
-                                                                        'name' => 'medicine_name',
-                                                                        'icon' => 'network-chart',
-                                                                        'value' => @$medical->medicine_name
-                                                                    ])
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    @include('components.select-input', [
-                                                                        'label' => __('children.type'),
-                                                                        'name' => 'type',
-                                                                        'icon' => 'buildings',
-                                                                        'options' => [
-                                                                            ['key' => 'sos', 'value' => 'SOS'],
-                                                                            ['key' => 'regular', 'value' => 'Regular']
-                                                                        ],
-                                                                        'value' => @$medical->type
-                                                                    ])
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    @include('components.text-input', [
-                                                                        'label' => __('children.dosageAndTiming'),
-                                                                        'name' => 'dosage_and_timing',
-                                                                        'icon' => 'network-chart',
-                                                                        'value' => @$medical->dosage_and_timing
-                                                                    ])
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    @include('components.select-input', [
-                                                                        'label' => __('children.where'),
-                                                                        'name' => 'where',
-                                                                        'icon' => 'buildings',
-                                                                        'options' => [
-                                                                            ['key' => 'kindergarten', 'value' => __('children.kindergarten')],
-                                                                            ['key' => 'home', 'value' => __('children.home')]
-                                                                        ],
-                                                                        'value' => @$medical->where
-                                                                    ])
+                                                            <div class="row mt-1">
+                                                                <div class="col-md-12 d-flex justify-content-between">
+                                                                    <button type="button" class="btn button addMoreMedicine">+</button>
                                                                 </div>
                                                             </div>
+                                                            @foreach ($children->medicine as $medicine)
+                                                                @include('components.medicine-detail', ['index' => $loop->iteration, 'data' => $medicine])
+                                                            @endforeach
+                                                            @php
+                                                                $indexes = Session::get('medicineDosageKey') ?? [];
+                                                            @endphp
+                                                            @foreach ($indexes as $index)
+                                                                @include('components.medicine-detail', ['index' => $index])
+                                                            @endforeach
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="d-flex align-items-center gap-3">
-                                                                {{-- <button type="button" class="btn btn-outline-secondary px-4" onclick="stepper1.previous()">
-                                                                    <i class="bx bx-left-arrow-alt me-2"></i>{{ __('comon.previous') }}
-                                                                </button> --}}
                                                                 <button type="submit" class="btn button px-4">{{ __('comon.update') }}
                                                                     <i class="bx bx-right-arrow-alt ms-2"></i>
                                                                 </button>
@@ -478,9 +360,29 @@
             });
             $(document).on('change', '.medicine', function() {
                 if ($(this).val() == 'yes') {
+                    var index = parseInt($('.medicineRow').length);
+                    index = index + 1;
+                    $('.medicineDetail').append(`@include('components.medicine-detail', ['index' => '${index}'])`);
                     $('.medicineDetail').show();
                 } else {
                     $('.medicineDetail').hide();
+                    $('.medicineRow').remove();
+                }
+            });
+
+            $(document).on('click', '.addMoreMedicine', function() {
+                var index = $('.medicineRow').length;
+                index = index + 1;
+                $('.medicineDetail').append(`@include('components.medicine-detail', ['index' => '${index}'])`);
+            });
+
+            $(document).on('click', '.removeMedicine', function() {
+                $(this).parent().parent().parent().remove();
+                var index = $('.medicineRow').length;
+                if (index == 0) {
+                    $('.medicineDetail').hide();
+                    $('.medicineRow').remove();
+                    $('.medicine').val('no');
                 }
             });
         </script>

@@ -289,3 +289,11 @@ span.child-tab {
 .child-menu li h6 a {
     color: #32393f;
 }
+
+.medicine-detail {
+    border: 1px solid #8080801f;
+    border-radius: 5px;
+    padding: 25px 15px;
+    margin: 10px 4px;
+    background: #80808017;
+}

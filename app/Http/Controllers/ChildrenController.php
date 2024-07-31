@@ -59,25 +59,33 @@ class ChildrenController extends Controller
             'mother_telephone' => 'nullable|digits_between:8,14',
             'emergency_telephone' => 'nullable|digits_between:8,14',
             'food_allergie_detail' => "required_if:food_allergie,==,yes",
-            'medicine_name' => "required_if:medicine,==,yes",
-            'type' => "required_if:medicine,==,yes",
-            'dosage_and_timing' => "required_if:medicine,==,yes",
-            'where' => "required_if:medicine,==,yes",
+            'medicine_dosage.*.name' => "required_if:medicine,==,yes",
+            'medicine_dosage.*.type' => "required_if:medicine,==,yes",
+            'medicine_dosage.*.dosage_and_timing' => "required_if:medicine,==,yes",
+            'medicine_dosage.*.where' => "required_if:medicine,==,yes",
         ],[
-            'name.required' => __('children.requiredName'),
-            'family_name.required' => __('children.requiredFamilyName'),
-            'dob.required' => __('children.requiredDOB'),
+            'name.required' => __('validation.required'),
+            'family_name.required' => __('validation.required'),
+            'dob.required' => __('validation.required'),
             'father_telephone.digits_between' => __('children.digitsBetween'),
             'mother_telephone.digits_between' => __('children.digitsBetween'),
             'emergency_telephone.digits_between' => __('children.digitsBetween'),
-            'food_allergie_detail.required' => __('children.requiredFoodAllergieDetail'),
-            'medicine_name.required_if' => __('children.requiredMedicineName'),
-            'type.required_if' => __('children.requiredType'),
-            'dosage_and_timing.required_if' => __('children.requiredDosageAndTiming'),
-            'where.required_if' => __('children.requiredWhere'),
+            'food_allergie_detail.required_if' => __('children.requiredFoodAllergieDetail'),
+            'medicine_dosage.*.name' => "Please enter name",
+            'medicine_dosage.*.type' => "Please choose type",
+            'medicine_dosage.*.dosage_and_timing' => "Please enter dosage and timing",
+            'medicine_dosage.*.where' => "Please choose where",
         ]);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            $errorKeys = array_keys($validator->errors()->toArray());
+            $medicineDosageKey = [];
+            foreach ($errorKeys as $key) {
+                if (preg_match('/medicine_dosage\.(\d+)\./', $key, $matches)) {
+                    $medicineDosageKey[] = $matches[1];
+                }
+            }
+            $medicineDosageKey = array_unique($medicineDosageKey);
+            return redirect()->back()->withErrors($validator)->withInput()->with('medicineDosageKey', $medicineDosageKey);
         }
         DB::beginTransaction();
 
@@ -116,11 +124,11 @@ class ChildrenController extends Controller
                 'food_allergie_detail' => $request->food_allergie == 'yes' ? $request->food_allergie_detail : '',
                 'medicine' => $request->medicine == 'yes' ? 1 : 0,
                 'medicine_detail' => $request->medicine == 'yes' ? $request->medicine_detail : '',
-                'medicine_name' => $request->medicine == 'yes' ? $request->medicine_name : '',
-                'type' => $request->medicine == 'yes' ? $request->type : '',
-                'dosage_and_timing' => $request->medicine == 'yes' ? $request->dosage_and_timing : '',
-                'where' => $request->medicine == 'yes' ? $request->where : '',
             ]);
+            
+            if ($request->medicine == 'yes') {
+                $children->medicine()->createMany($request->medicine_dosage);
+            }
 
             DB::commit();
             return redirect()->route('children.index');
@@ -160,62 +168,38 @@ class ChildrenController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'family_name' => 'required',
-            // 'gender' => 'required',
             'dob' => 'required',
-            // 'address' => 'required',
-            // 'functionality_id' => 'required',
-            // 'diagnosis_id' => 'required',
-            // 'status_id' => 'required',
-            // 'service_start_date' => 'required',
-            // 'hmo_id' => 'required',
-            // 'father_name' => 'required',
             'father_telephone' => 'nullable|digits_between:8,14',
-            // 'mother_name' => 'required',
             'mother_telephone' => 'nullable|digits_between:8,14',
-            // 'family_status' => 'required',
-            // 'emergency_name' => 'required',
-            // 'emergency_relationship' => 'required',
             'emergency_telephone' => 'nullable|digits_between:8,14',
-            // 'food_allergie' => 'required',
             'food_allergie_detail' => "required_if:food_allergie,==,yes",
-            // 'medicine' => "required",
-            // 'medicine_detail' => "required_if:medicine,==,yes",
-            'medicine_name' => "required_if:medicine,==,yes",
-            'type' => "required_if:medicine,==,yes",
-            'dosage_and_timing' => "required_if:medicine,==,yes",
-            'where' => "required_if:medicine,==,yes",
+            'medicine_dosage.*.name' => "required_if:medicine,==,yes",
+            'medicine_dosage.*.type' => "required_if:medicine,==,yes",
+            'medicine_dosage.*.dosage_and_timing' => "required_if:medicine,==,yes",
+            'medicine_dosage.*.where' => "required_if:medicine,==,yes",
         ],[
             'name.required' => __('validation.required'),
             'family_name.required' => __('validation.required'),
             'dob.required' => __('validation.required'),
-            // 'address.required' => __('validation.required'),
-            // 'functionality_id.required' => __('validation.required'),
-            // 'diagnosis_id.required' => __('validation.required'),
-            // 'status_id.required' => __('validation.required'),
-            // 'service_start_date.required' => __('validation.required'),
-            // 'hmo_id.required' => __('validation.required'),
-            // 'father_name.required' => __('validation.required'),
-            // 'father_telephone.required' => __('validation.required'),
             'father_telephone.digits_between' => __('children.digitsBetween'),
-            // 'mother_name.required' => __('validation.required'),
-            // 'mother_telephone.required' => __('validation.required'),
             'mother_telephone.digits_between' => __('children.digitsBetween'),
-            // 'family_status.required' => __('validation.required'),
-            // 'emergency_name.required' => __('validation.required'),
-            // 'emergency_relationship.required' => __('validation.required'),
-            // 'emergency_telephone.required' => __('validation.required'),
             'emergency_telephone.digits_between' => __('children.digitsBetween'),
-            // 'food_allergie.required' => __('validation.required'),
             'food_allergie_detail.required_if' => __('children.requiredFoodAllergieDetail'),
-            // 'medicine.required' => __('validation.required'),
-            // 'medicine_detail.required' => __('validation.required'),
-            'medicine_name.required_if' => __('children.requiredMedicineName'),
-            'type.required_if' => __('children.requiredType'),
-            'dosage_and_timing.required_if' => __('children.requiredDosageAndTiming'),
-            'where.required_if' => __('children.requiredWhere'),
+            'medicine_dosage.*.name' => "Please enter name",
+            'medicine_dosage.*.type' => "Please choose type",
+            'medicine_dosage.*.dosage_and_timing' => "Please enter dosage and timing",
+            'medicine_dosage.*.where' => "Please choose where",
         ]);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            $errorKeys = array_keys($validator->errors()->toArray());
+            $medicineDosageKey = [];
+            foreach ($errorKeys as $key) {
+                if (preg_match('/medicine_dosage\.(\d+)\./', $key, $matches)) {
+                    $medicineDosageKey[] = $matches[1];
+                }
+            }
+            $medicineDosageKey = array_unique($medicineDosageKey);
+            return redirect()->back()->withErrors($validator)->withInput()->with('medicineDosageKey', $medicineDosageKey);
         }
         DB::beginTransaction();
 
@@ -253,11 +237,12 @@ class ChildrenController extends Controller
                 'food_allergie_detail' => $request->food_allergie == 'yes' ? $request->food_allergie_detail : '',
                 'medicine' => $request->medicine == 'yes' ? 1 : 0,
                 'medicine_detail' => $request->medicine == 'yes' ? $request->medicine_detail : '',
-                'medicine_name' => $request->medicine == 'yes' ? $request->medicine_name : '',
-                'type' => $request->medicine == 'yes' ? $request->type : '',
-                'dosage_and_timing' => $request->medicine == 'yes' ? $request->dosage_and_timing : '',
-                'where' => $request->medicine == 'yes' ? $request->where : '',
             ]);
+
+            if ($request->medicine == 'yes') {
+                $children->medicine()->delete();
+                $children->medicine()->createMany($request->medicine_dosage);
+            }
 
             DB::commit();
             return redirect()->route('children.show', $id);
