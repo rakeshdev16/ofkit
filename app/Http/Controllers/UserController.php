@@ -32,7 +32,7 @@ class UserController extends Controller
             'address' => 'required',
             'telephone' => 'required|digits_between:8,14',
             'licence_number' => 'required',
-            'dob' => 'required',
+            // 'dob' => 'required',
             'member_photo' => 'image|max:2000',
         ], [
             'name.required' => __('validation.required'),
@@ -40,7 +40,7 @@ class UserController extends Controller
             'telephone.required' => __('validation.required'),
             'telephone.digits_between' => __('validation.digits_between'),
             'licence_number.required' => __('validation.required'),
-            'dob.required' => __('validation.required'),
+            // 'dob.required' => __('validation.required'),
             'member_photo.image' => __('validation.image'),
             'member_photo.max' => __('validation.max'),
         ]);
@@ -54,7 +54,13 @@ class UserController extends Controller
             if ($request->hasFile('member_photo')) {
                 $request['photo'] = uploadFile($request->member_photo, 'public/staff');
             }
-            User::where('id', Auth::id())->update($request->except('_token', 'member_photo'));
+            User::where('id', Auth::id())->update([
+                'name' => $request->name,
+                'address' => $request->address,
+                'telephone' => $request->telephone,
+                'licence_number' => $request->licence_number,
+                'dob' => $request->dob,
+            ]);
             DB::commit();
             return redirect()->route('profile.index');
 
