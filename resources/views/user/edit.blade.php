@@ -36,7 +36,10 @@
                                 @csrf
                                 <div class="col-md-12 text-center upload-photo">
                                     <img src="{{ @$user->photo }}" id="previewImage" alt="">
-                                    <div class="cam-icom">
+                                    <div class="cam-icom" style="cursor: pointer">
+                                        @if (!empty($user->photo))
+                                            <i class="bx bx-trash deletePhoto" data-url="{{ route('delete.user-photo') }}"></i>
+                                        @endif
                                         <i class="bx bx-camera"></i>
                                     </div>
                                     <span class="text-danger cropperImageError" role="alert" style="display: none !important;">
@@ -118,10 +121,41 @@
     <script type="text/javascript" src="{{ asset('assets/js/jquery.validate.js') }}"></script>
     <script src="{{ asset('assets/js/cropper.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('assets/css/cropper.min.css') }}" />
+    <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
+
     @include('components.cropper-script')
     <script>
         $(document).on('click', '#previewImage', function() {
             $('#imgInp').click();
+        });
+
+        $(document).on('click', '.deletePhoto', function() {
+            var url = $(this).data('url');
+            Swal.fire({
+                title: "Are you sure?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, archive it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                        type: 'POST',
+                        url: url,
+                        processData: false,
+                        contentType: false,
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.status == true) {
+                                $('#previewImage').attr('src', data.src);
+                                toastr.success(data.message);
+                            }
+                        }
+                    });               
+                }
+            });
         });
     </script>
 @endpush
