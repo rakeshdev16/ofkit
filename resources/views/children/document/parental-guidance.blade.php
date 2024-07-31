@@ -33,11 +33,6 @@
                             <div id="" class="">
                                 <div class="card">
                                     <div class="card-body">
-                                        @php
-                                            echo '<pre>';
-                                                print_r(Session::get('errors'));
-                                            echo '</pre>';
-                                        @endphp
                                         <div class="bs-stepper-content">
                                             <div class="d-flex justify-content-between">
                                                 <h5 class="mb-4 steper-title">{{ ucfirst(str_replace('-', ' ', Request::segment(2))) }}</h5>
