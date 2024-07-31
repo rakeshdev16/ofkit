@@ -1,7 +1,7 @@
 <table id="staffTable" class="table table-style table-bordered" style="width:100%">
     <thead>
         <tr>
-            {{-- <th><input type="checkbox" class="mainCheckbox"></th> --}}
+            <th><input type="checkbox" class="mainCheckbox"></th>
             @include('components.table-heading', ['label' => 'Name', 'key' => 'name'])
             @include('components.table-heading', ['label' => 'Action'])
         </tr>
@@ -9,7 +9,15 @@
     <tbody>
         @forelse ($kindergartenTypes as $kindergartenType)
             <tr class="tr-{{ $kindergartenType->id }}">
-                {{-- <td><input type="checkbox" name="id[]" value="{{ $kindergartenType->id }}" class="checkbox"></td> --}}
+                <td>
+                    <input
+                        type="checkbox"
+                        name="id[]"
+                        value="{{ $kindergartenType->id }}"
+                        class="checkbox"
+                        data-name="{{ $kindergartenType->is_assign ? $kindergartenType->name.' has assigned to kindergarten' : '' }}"
+                    >
+                </td>
                 <td>{{ @$kindergartenType->name ?? '-' }}</td>
                 <td>
                     <a href="{{ route('framework-table.edit', $kindergartenType->id) }}?type=kindergarten-type" class=""><i class="bx bx-edit icon"></i></a>

@@ -1,7 +1,7 @@
 <table id="staffTable" class="table table-style table-bordered" style="width:100%">
     <thead>
         <tr>
-            {{-- <th><input type="checkbox" class="mainCheckbox"></th> --}}
+            <th><input type="checkbox" class="mainCheckbox"></th>
             @include('components.table-heading', ['label' => 'Name', 'key' => 'name'])
             @include('components.table-heading', ['label' => 'Action'])
         </tr>
@@ -9,7 +9,15 @@
     <tbody>
         @forelse ($roles as $role)
             <tr class="tr-{{ $role->id }}">
-                {{-- <td><input type="checkbox" name="id[]" value="{{ $role->id }}" class="checkbox"></td> --}}
+                <td>
+                    <input
+                        type="checkbox"
+                        name="id[]"
+                        value="{{ $role->id }}"
+                        class="checkbox"
+                        data-name="{{ $role->is_assign ? $role->name.' has assigned to staff members' : '' }}"
+                    >
+                </td>
                 <td>{{ $role->name }}</td>
                 <td>
                     <a href="{{ route('staff-table.edit', $role->id) }}?type=role" class=""><i class="bx bx-edit icon"></i></a>
@@ -17,7 +25,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="4" class="text-center">{{ __('comon.emptyTableMsg') }}</td>
+                <td colspan="5" class="text-center">{{ __('comon.emptyTableMsg') }}</td>
             </tr>
         @endforelse
     </tbody>

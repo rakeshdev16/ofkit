@@ -1,5 +1,5 @@
 <div class="mx-3 p-1">
-    {{-- <input type="checkbox" class="mainCheckbox">&nbsp;&nbsp;&nbsp; --}}
+    <input type="checkbox" class="mainAccordionCheckbox">&nbsp;&nbsp;&nbsp;
 </div>
 @forelse ($documents as $document)
     <div class="accordion accordion-flush tr-{{ $document->id }}" id="accordion{{ $loop->iteration }}">
@@ -8,10 +8,11 @@
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false"
                     aria-controls="flush-collapse{{ $loop->iteration }}">
-                    @include('components.table-accordion-label', [
+                    @include('components.accordion-label', [
                         'id' => $document->id,
                         'name' => $document->name,
                         'edit' => route('intervention.edit', $document->id).'?type=documents-and-approval',
+                        'dataName' => $document->is_assign ? $document->name.' has assigned to children document' : ''
                     ])
                 </button>
             </h2>

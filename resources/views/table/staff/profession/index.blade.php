@@ -4,7 +4,7 @@
     </div>
     <div class="mt-3">
         <a href="{{ route('staff-table.create') }}?type=profession" class="btn button">{{ __('cluster.addBtnText') }} +</a>
-        {{-- <button class="btn button moveToArchive" data-type="profession">Move to Archive</button> --}}
+        <button class="btn button moveToArchive" data-type="profession">Move to Archive</button>
     </div>
 </div>
 <div class="card">

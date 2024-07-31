@@ -1,6 +1,13 @@
 <div class="row w-100 align-items-center" style="margin-left: 4px;">
     <div class="col-2 d-flex justify-content-center">
-        <input type="checkbox" value="{{ @$id }}" class="checkbox check-{{ $id }}" data-class="check-{{ $id }}">&nbsp;&nbsp;
+        <input
+            type="checkbox"
+            name="id[]"
+            value="{{ @$id }}"
+            class="accordionCheckbox"
+            data-name="{{ @$dataName }}"
+        >&nbsp;&nbsp;
+        {{-- <input type="checkbox" value="{{ @$id }}" class="accordionCheckbox check-{{ $id }}" data-class="check-{{ $id }}">&nbsp;&nbsp; --}}
     </div>
     <div class="col-8">{{ \Str::limit($name, 10, '...') ?? '-' }}</div>
     <div class="col-2 d-flex justify-content-center">

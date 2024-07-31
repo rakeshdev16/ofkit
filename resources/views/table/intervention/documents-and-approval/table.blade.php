@@ -1,7 +1,7 @@
 <table id="staffTable" class="table table-style table-bordered" style="width:100%">
     <thead>
         <tr>
-            {{-- <th><input type="checkbox" class="mainCheckbox"></th> --}}
+            <th><input type="checkbox" class="mainCheckbox"></th>
             @include('components.table-heading', ['label' => 'Name', 'key' => 'name'])
             @include('components.table-heading', ['label' => 'Action'])
         </tr>
@@ -9,7 +9,15 @@
     <tbody>
         @forelse ($documents as $document)
             <tr class="tr-{{ $document->id }}">
-                {{-- <td><input type="checkbox" name="id[]" value="{{ $document->id }}" class="checkbox"></td> --}}
+                <td>
+                    <input
+                        type="checkbox"
+                        name="id[]"
+                        value="{{ $document->id }}"
+                        class="checkbox"
+                        data-name="{{ $document->is_assign ? $document->name.' has assigned to children document' : '' }}"
+                    >
+                </td>
                 <td>{{ @$document->name ?? '-' }}</td>
                 <td>
                     <a href="{{ route('intervention.edit', $document->id) }}?type=documents-and-approval" class=""><i class="bx bx-edit icon"></i></a>

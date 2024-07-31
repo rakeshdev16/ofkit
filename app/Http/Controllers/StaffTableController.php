@@ -177,23 +177,19 @@ class StaffTableController extends Controller
 
     public function destroy(Request $request, $ids)
     {
+        $ids = explode(',', $ids);
         switch ($request->type) {
             case 'profession':
-                $ids = explode(',', $ids);
                 Profession::whereIn('id', $ids)->delete();
-                return response()->json(['status' => true, 'ids' => $ids]);
             break;
             case 'role':
-                $ids = explode(',', $ids);
                 MemberRole::whereIn('id', $ids)->delete();
-                return response()->json(['status' => true, 'ids' => $ids]);
             break;
             case 'association':
-                $ids = explode(',', $ids);
                 Association::whereIn('id', $ids)->delete();
-                return response()->json(['status' => true, 'ids' => $ids]);
             break;
         }
+        return response()->json(['status' => true, 'ids' => $ids]);
     }
 
     public function staffTableTab(Request $request)

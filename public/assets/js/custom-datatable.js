@@ -53,19 +53,61 @@ function queryParam(name, value) {
 
 $(document).on('change', '.mainCheckbox', function() {
     if ($(this).is(':checked') == true) {
-        $('.checkbox').prop('checked', true);
+        $('.checkbox').each(function() {
+            var name = $(this).data('name');
+            if (name && name.trim() != '') {
+                $(this).prop('checked', false);
+                toastr.warning(name, null, { timeOut: 5000, extendedTimeOut: 5000 });
+            } else {
+                $(this).prop('checked', true);
+            }
+        });
     } else {
         $('.checkbox').prop('checked', false);
     }
 });
 
 $(document).on('change', '.checkbox', function() {
-    var checkClass = $(this).data('class');
-    var assign = $(this).data('assign');
-    if ($(this).is(':checked') == true) {
-        $('.'+checkClass).prop('checked', true);
+    var name = $(this).data('name');
+    if (name && name.trim() != '') {
+        $(this).prop('checked', false);
+        toastr.warning(name, null, { timeOut: 5000, extendedTimeOut: 5000 });
     } else {
-        $('.'+checkClass).prop('checked', false);
+        if ($(this).is(':checked') == true) {
+            $(this).prop('checked', true);
+        } else {
+            $(this).prop('checked', false);
+        }
+    }
+});
+
+$(document).on('change', '.mainAccordionCheckbox', function() {
+    if ($(this).is(':checked') == true) {
+        $('.accordionCheckbox').each(function() {
+            var name = $(this).data('name');
+            if (name && name.trim() != '') {
+                $(this).prop('checked', false);
+                toastr.warning(name, null, { timeOut: 5000, extendedTimeOut: 5000 });
+            } else {
+                $(this).prop('checked', true);
+            }
+        });
+    } else {
+        $('.accordionCheckbox').prop('checked', false);
+    }
+});
+
+$(document).on('change', '.accordionCheckbox', function() {
+    var name = $(this).data('name');
+    if (name && name.trim() != '') {
+        $(this).prop('checked', false);
+        toastr.warning(name, null, { timeOut: 5000, extendedTimeOut: 5000 });
+    } else {
+        if ($(this).is(':checked') == true) {
+            $(this).prop('checked', true);
+        } else {
+            $(this).prop('checked', false);
+        }
     }
 });
 

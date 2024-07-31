@@ -11,6 +11,8 @@ class Functionality extends Model
 
     protected $fillable = ['name'];
 
+    protected $appends = ['is_assign'];
+
     public function scopeFilter($query)
     {
         if (request('sort') && request('sorting')) {
@@ -20,5 +22,10 @@ class Functionality extends Model
             $query->where('name', 'like', '%'.request('search').'%');
         }
         return $query;
+    }
+
+    public function getIsAssignAttribute()
+    {
+        return Children::where('functionality_id', @$this->attributes['id'])->exists();
     }
 }

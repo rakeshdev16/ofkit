@@ -4,7 +4,7 @@
     </div>
     <div class="mt-3">
         <a href="{{ route('intervention.create') }}?type=documents-and-approval" class="btn button">{{ __('cluster.addBtnText') }} +</a>
-        {{-- <button class="btn button moveToArchive" data-type="documents-and-approval">Move to Archive</button> --}}
+        <button class="btn button moveToArchive" data-type="documents-and-approval">Move to Archive</button>
     </div>
 </div>
 <div class="card">
