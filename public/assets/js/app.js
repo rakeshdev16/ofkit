@@ -3,6 +3,10 @@ $(document).on('click', '.button', function() {
 	$(this).parent().parent().parent().submit();
 });
 
+$(document).on('click', '.moveToArchive', function() {
+	$(this).attr('disabled', false);
+});
+
 $('.numbers').on('input', function () {
 	var value = $(this).val();
 	$(this).val(value.replace(/\s+/g, ''));

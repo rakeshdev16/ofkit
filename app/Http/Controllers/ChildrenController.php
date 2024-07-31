@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Children;
+use App\Models\ChildrenDocumentation;
 use App\Models\ChildrenMedicalInformation;
 use App\Models\ChildrenParent;
 use App\Models\Cluster;
@@ -13,7 +14,9 @@ use App\Models\Individual;
 use App\Models\IndividualGroup;
 use App\Models\Kindergarten;
 use App\Models\ParentsStatus;
+use App\Models\StaffKindergarten;
 use App\Models\Status;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -52,25 +55,10 @@ class ChildrenController extends Controller
             'name' => 'required',
             'family_name' => 'required',
             'dob' => 'required',
-            // 'gender' => 'required',
-            // 'address' => 'required',
-            // 'functionality_id' => 'required',
-            // 'diagnosis_id' => 'required',
-            // 'status_id' => 'required',
-            // 'service_start_date' => 'required',
-            // 'hmo_id' => 'required',
-            // 'father_name' => 'required',
             'father_telephone' => 'nullable|digits_between:8,14',
-            // 'mother_name' => 'required',
             'mother_telephone' => 'nullable|digits_between:8,14',
-            // 'family_status' => 'required',
-            // 'emergency_name' => 'required',
-            // 'emergency_relationship' => 'required',
             'emergency_telephone' => 'nullable|digits_between:8,14',
-            // 'food_allergie' => 'required',
             'food_allergie_detail' => "required_if:food_allergie,==,yes",
-            // 'medicine' => "required",
-            // 'medicine_detail' => "required_if:medicine,==,yes",
             'medicine_name' => "required_if:medicine,==,yes",
             'type' => "required_if:medicine,==,yes",
             'dosage_and_timing' => "required_if:medicine,==,yes",
@@ -79,28 +67,10 @@ class ChildrenController extends Controller
             'name.required' => __('children.requiredName'),
             'family_name.required' => __('children.requiredFamilyName'),
             'dob.required' => __('children.requiredDOB'),
-            // 'gender.required' => __('children.requiRedgender'),
-            // 'address.required' => __('children.requiredAddress'),
-            // 'functionality_id.required' => __('children.requiredFunctionality'),
-            // 'diagnosis_id.required' => __('children.requiredDiagnosis'),
-            // 'status_id.required' => __('children.requiredStatus'),
-            // 'service_start_date.required' => __('children.requiredServiceStartDate'),
-            // 'hmo_id.required' => __('children.requiredHmo'),
-            // 'father_name.required' => __('children.requiredFatherName'),
-            // 'father_telephone.required' => __('children.requiredFatherTelephone'),
             'father_telephone.digits_between' => __('children.digitsBetween'),
-            // 'mother_name.required' => __('children.requiredMotherName'),
-            // 'mother_telephone.required' => __('children.requiredMotherTelephone'),
             'mother_telephone.digits_between' => __('children.digitsBetween'),
-            // 'family_status.required' => __('children.requiredFamilyStatus'),
-            // 'emergency_name.required' => __('children.requiredEmergencyName'),
-            // 'emergency_relationship.required' => __('children.requiredEmergencyRelationship'),
-            // 'emergency_telephone.required' => __('children.requiredEmergencyTelephone'),
             'emergency_telephone.digits_between' => __('children.digitsBetween'),
-            // 'food_allergie.required' => __('children.requiredFoodAllergie'),
             'food_allergie_detail.required' => __('children.requiredFoodAllergieDetail'),
-            // 'medicine.required' => __('children.requiredMedicine'),
-            // 'medicine_detail.required' => __('children.requiredMedicineDetail'),
             'medicine_name.required_if' => __('children.requiredMedicineName'),
             'type.required_if' => __('children.requiredType'),
             'dosage_and_timing.required_if' => __('children.requiredDosageAndTiming'),
@@ -321,52 +291,121 @@ class ChildrenController extends Controller
         return response()->json(['status' => false]);
     }
 
+    public function documentations(Request $request, $id)
+    {
+        $documentations = ChildrenDocumentation::where('children_id', $id)->filter()->paginate(10);
+        if ($request->ajax()) {
+            return response()->json([
+                'table' => view('children.document.documentation-table', ['documentations' => $documentations])->render(),
+                'accordion' => view('children.document.documentation-accordion', ['documentations' => $documentations])->render()
+            ]);
+        }
+        return view('children.document.documentation', compact('documentations'));
+    }
+
+    public function documentationDetail($childId, $id)
+    {
+        $children = Children::findOrFail($childId);
+        $document = ChildrenDocumentation::findOrFail($id);
+        return view('children.document.documentation-detail', compact('document', 'children'));
+    }
+
     public function documentation(Request $request, $type, $id)
     {
         $children = Children::findOrFail($id);
-        $childrens = Children::where('id', '!=', $id)->select('id', 'name')->get();
+        $childrens = Children::where('id', '!=', $id)->select('id as key', 'name as value')->get();
         switch ($type) {
             case 'individual':
-                return view('children.individual', compact('children'));
+                return view('children.document.individual', compact('children'));
             break;
             case 'group':
-                return view('children.group', compact('children'));
+                return view('children.document.group', compact('children', 'childrens'));
             break;
             case 'parental-guidance':
-                return view('children.parental-guidance', compact('children'));
+                $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
+                $kindergartens = User::where('id', '!=', $id)->whereIn('id', $userIds)->select('id as key', 'name as value')->get();
+                return view('children.document.parental-guidance', compact('children', 'childrens', 'kindergartens'));
             break;
             case 'staff-meeting':
-                return view('children.staff-meeting', compact('children'));
+                $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
+                $therapist = User::where('id', '!=', $id)->whereIn('id', $userIds)->role('therapist')->select('id as key', 'name as value')->get();
+                return view('children.document.staff-meeting', compact('children', 'childrens', 'therapist'));
             break;
             case 'initial-evaluation':
-                return view('children.initial-evaluation', compact('children'));
+                $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
+                $therapist = User::where('id', '!=', $id)->whereIn('id', $userIds)->role('therapist')->select('id as key', 'name as value')->get();
+                return view('children.document.initial-evaluation', compact('children', 'childrens', 'therapist'));
             break;
             case 'final-evaluation':
-                return view('children.final-evaluation', compact('children'));
+                return view('children.document.final-evaluation', compact('children'));
             break;
             default:
-                return view('children.individual', compact('children'));
+                return view('children.document.individual', compact('children'));
             break;
         }
     }
     public function saveDocumentation(Request $request, $type, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'date' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'occured' => 'required',
+            'occured_description' => 'required',
+            'occured_reason' => "required_if:occured,==,0",
+            'child_file' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $request['children_id'] = $id;
+        $request['type'] = $type;
+        if ($request->has('child_file')) {
+            $request['file'] = uploadFile($request->child_file, 'public/child-document');
+        }
         switch ($type) {
-            case 'individual':
-                if ($request->has('child_file')) {
-                    $request['file'] = uploadFile($request->child_file, 'public/child-document');
-                }
-                $request['children_id'] = $id;
-                Individual::create($request->all());
-            break;
             case 'group':
-                
+                $document = ChildrenDocumentation::create($request->except('kindergarten_id'));
+                foreach ($request->participated as $participated) {
+                    if ($participated['child_file']) {
+                        $participated['file'] = uploadFile($participated['child_file'], 'public/child-document');
+                    }
+                    $participated['children_id'] = $id;
+                    $document->groupChildrens()->create($participated);
+                }
             break;
             case 'parental-guidance':
-                
+                $document = ChildrenDocumentation::create($request->all());
+                if (isset($request->children_ids) && count($request->children_ids) > 0) {
+                    foreach ($request->children_ids as $childrenId) {
+                        $document->parentalGuidanceChildren()->create(['children_id' => $childrenId]);
+                    }
+                }
+                if (isset($request->kindergarten_ids) && count($request->kindergarten_ids) > 0) {
+                    foreach ($request->kindergarten_ids as $kindergartenId) {
+                        $document->parentalGuidanceKindergarten()->create(['kindergarten_id' => $kindergartenId]);
+                    }
+                }
             break;
             case 'staff-meeting':
-                
+                $document = ChildrenDocumentation::create($request->all());
+                $document->staffMeeting()->create([
+                    'children_id' => $id,
+                    'topic' => $request->topic,
+                    'discussion' => $request->discussion,
+                    'decisions' => $request->decisions,
+                ]);
+                if (isset($request->children_ids) && count($request->children_ids) > 0) {
+                    foreach ($request->children_ids as $childrenId) {
+                        $document->staffMeetingChildren()->create(['children_id' => $childrenId]);
+                    }
+                }
+                if (isset($request->therapist_id) && count($request->therapist_id) > 0) {
+                    foreach ($request->therapist_id as $therapistId) {
+                        $document->staffMeetingTherapist()->create(['therapist_id' => $therapistId]);
+                    }
+                }
             break;
             case 'initial-evaluation':
                 
@@ -378,7 +417,6 @@ class ChildrenController extends Controller
                 
             break;
         }
-
         return redirect()->route('children.show', $id);
 
     }

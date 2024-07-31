@@ -5,7 +5,6 @@
 // });
 $(document).on('click', '.search-button', function () {
     var search = $(this).siblings('.search').val();
-    console.log(search);
     var url = queryParam('search', search);
     filter(url);
 });
@@ -62,6 +61,7 @@ $(document).on('change', '.mainCheckbox', function() {
 
 $(document).on('change', '.checkbox', function() {
     var checkClass = $(this).data('class');
+    var assign = $(this).data('assign');
     if ($(this).is(':checked') == true) {
         $('.'+checkClass).prop('checked', true);
     } else {

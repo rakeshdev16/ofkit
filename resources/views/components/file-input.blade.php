@@ -7,6 +7,7 @@
         name="{{ @$name }}"
         placeholder="{{ $label }}"
         {{ @$multiple }}
+        {{ @$onchange }}
     >
     @if (@$fileType != 'document')
         <img class="pt-2 {{ @$value ? '' : 'd-none' }}" id="previewImage" src="{{ @$value }}" width="50px" height="50px" alt="">

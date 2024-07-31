@@ -50,6 +50,8 @@ Route::middleware(['auth', 'lang'])->group(function () {
     });
     Route::controller(ChildrenController::class)->group(function () {
         Route::post('upload-children-profile', 'uploadProfile')->name('uploadChildrenProfile');
+        Route::get('children-documentations/{id}', 'documentations')->name('children-documentations.get');
+        Route::get('children-documentation-detail/{childId}/{id}', 'documentationDetail')->name('children-documentation.show');
         Route::get('children-documentation/{type}/{id}', 'documentation')->name('children-documentation.get');
         Route::post('children-documentation/{type}/{id}', 'saveDocumentation')->name('children-documentation.store');
     });

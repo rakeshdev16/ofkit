@@ -273,3 +273,19 @@ a.disable-menu {
     padding: 5px 10px;
     font-size: 12px;
 }
+
+span.child-tab {
+    border: 1px solid #e9ecef;
+    padding: 8px 14px;
+    cursor: pointer;
+}
+
+.child-menu li {
+    border: 1px solid #8080804a !important;
+    margin: 10px 0px;
+    cursor: pointer;
+}
+
+.child-menu li h6 a {
+    color: #32393f;
+}
