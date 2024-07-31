@@ -105,7 +105,7 @@
                                                                 'disabled' => 'disabled'
                                                             ])
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-4">
                                                             @include('components.date-input', [
                                                                 'label' => __('children.dob'),
                                                                 'name' => 'dob',
@@ -114,7 +114,7 @@
                                                                 'disabled' => 'disabled',
                                                             ])
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-4">
                                                             @include('components.text-input', [
                                                                 'label' =>  'Age',
                                                                 'name' => 'age',
@@ -122,6 +122,16 @@
                                                                 'icon' => 'buildings', 
                                                                 'disabled' => 'disabled',
                                                                 'value' => $children->age,
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            @include('components.text-input', [
+                                                                'label' =>  'Created At',
+                                                                'name' => 'age',
+                                                                'class' => 'age',
+                                                                'icon' => 'calendar', 
+                                                                'disabled' => 'disabled',
+                                                                'value' => date('d/m/Y', strtotime($children->created_at)),
                                                             ])
                                                         </div>
                                                         <div class="col-md-12">

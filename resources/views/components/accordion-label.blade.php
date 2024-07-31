@@ -12,10 +12,10 @@
     <div class="col-8">{{ \Str::limit($name, 10, '...') ?? '-' }}</div>
     <div class="col-2 d-flex justify-content-center">
         @isset($edit)
-            <a href="{{ $edit }}" class="me-2"><i class="bx bx-edit icon"></i></a>
+            <a href="{{ $edit }}" class="me-3"><i class="bx bx-edit icon"></i></a>
         @endisset
         @isset($show)
-            <a href="{{ $show }}" class="me-2"><i class="bx bx-show icon"></i></a>
+            <a href="{{ $show }}" class="me-4"><i class="bx bx-show icon"></i></a>
         @endisset
     </div>
 </div>
