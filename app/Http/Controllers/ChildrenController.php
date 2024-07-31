@@ -337,7 +337,9 @@ class ChildrenController extends Controller
                 return view('children.document.initial-evaluation', compact('children', 'childrens', 'therapist'));
             break;
             case 'final-evaluation':
-                return view('children.document.final-evaluation', compact('children'));
+                $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
+                $therapist = User::where('id', '!=', $id)->whereIn('id', $userIds)->role('therapist')->select('id as key', 'name as value')->get();
+                return view('children.document.final-evaluation', compact('children', 'childrens', 'therapist'));
             break;
             default:
                 return view('children.document.individual', compact('children'));
