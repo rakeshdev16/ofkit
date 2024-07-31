@@ -369,7 +369,7 @@ class ChildrenController extends Controller
                 $document = ChildrenDocumentation::create($request->all());
             break;
             case 'group':
-                $document = ChildrenDocumentation::create($request->except('kindergarten_id'));
+                $document = ChildrenDocumentation::create($request->all());
                 foreach ($request->participated as $participated) {
                     if ($participated['child_file']) {
                         $participated['file'] = uploadFile($participated['child_file'], 'public/child-document');
