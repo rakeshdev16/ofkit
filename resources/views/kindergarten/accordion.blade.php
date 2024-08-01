@@ -1,5 +1,5 @@
 <div class="mx-3 p-1" style="display: {{ count($kindergartens) > 0 ? 'block' : 'none' }}">
-    <input type="checkbox" class="mainCheckbox">&nbsp;&nbsp;&nbsp;
+    <input type="checkbox" class="mainAccordionCheckbox">&nbsp;&nbsp;&nbsp;
 </div>
 @forelse ($kindergartens as $kindergarten)
     <div class="accordion accordion-flush tr-{{ $kindergarten->id }}" id="accordion{{ $loop->iteration }}">
