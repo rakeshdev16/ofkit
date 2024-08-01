@@ -39,20 +39,14 @@
                                                 @csrf
                                                 <div class="bs-stepper-pane active" aria-labelledby="stepper1trigger1">
                                                     <div class="row g-3">
-                                                        <div class="col-md-12 text-center upload-photo">
-                                                            <img src="https://placehold.co/150x150" id="previewImage" alt="">
-                                                            <div class="cam-icom">
-                                                                <i class="bx bx-camera"></i>
-                                                            </div>
-                                                            @error('photo')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                        <input type="file" style="visibility: hidden" name="photo" id="profileInp">
-                                                        <input type="hidden" id="type" value="add">
-                                                        <input type="hidden" id="url" value="{{ route('uploadChildrenProfile') }}">
+                                                        @include('components.upload-profile', [
+                                                            'src' => 'https://placehold.co/150x150',
+                                                            'is_uploaded' => '',
+                                                            'type' => 'add',
+                                                            'updateUrl' => route('uploadChildrenProfile'),
+                                                            'deleteUrl' => route('deleteChildrenProfile'),
+                                                        ])
+
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
                                                                 'label' => __('children.name'),
@@ -292,6 +286,7 @@
         <script src="{{ asset('assets/js/cropper.min.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('assets/css/cropper.min.css') }}" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
         @include('components.cropper-script')
         <script>
             $(document).ready(function() {

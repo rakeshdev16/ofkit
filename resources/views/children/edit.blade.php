@@ -40,21 +40,14 @@
                                                 @method('PUT')
                                                 <div id="test-l-1" role="tabpanel" class="bs-stepper-pane active" aria-labelledby="stepper1trigger1">
                                                     <div class="row g-3">
-                                                        <div class="col-md-12 text-center upload-photo">
-                                                            <img src="{{ $children->photo }}" id="previewImage" alt="">
-                                                            <div class="cam-icom">
-                                                                <i class="bx bx-camera"></i>
-                                                            </div>
-                                                            @error('photo')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                        <input type="file" style="visibility: hidden" name="photo" id="profileInp">
-                                                        <input type="hidden" name="user_id" id="userId" value="{{ $children->id }}">
-                                                        <input type="hidden" id="type" value="update">
-                                                        <input type="hidden" id="url" value="{{ route('uploadChildrenProfile') }}">
+                                                        @include('components.upload-profile', [
+                                                            'src' => @$children->profile,
+                                                            'is_uploaded' => @$children->photo,
+                                                            'userId' => @$children->id,
+                                                            'type' => 'update',
+                                                            'updateUrl' => route('uploadChildrenProfile'),
+                                                            'deleteUrl' => route('deleteChildrenProfile'),
+                                                        ])
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
                                                                 'label' => __('children.name'),
@@ -330,6 +323,7 @@
         <script src="{{ asset('assets/js/cropper.min.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('assets/css/cropper.min.css') }}" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
         @include('components.cropper-script')
         <script>
             $(document).ready(function() {

@@ -90,6 +90,7 @@
                         contentType: false,
                         success: function (data) {
                             $avatar.attr('src', data.src);
+                            $('.deletePhoto').prop('hidden', false);
                         },
                         error: function () {
                             console.error('Upload error');
@@ -99,6 +100,35 @@
             }
         });
     });
-
+    $(document).on('click', '.deletePhoto', function() {
+        var url = $(this).data('url');
+        var id = $('#userId').val();
+        Swal.fire({
+            title: "Are you sure?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, archive it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'POST',
+                    url: url,
+                    data: { id: id },
+                    success: function(data) {
+                        if (data.status == true) {
+                            $('#previewImage').attr('src', data.src);
+                            $('.deletePhoto').prop('hidden', true);
+                            toastr.success(data.message);
+                        }
+                    }
+                });
+            }
+        });
+    });
 
 </script>

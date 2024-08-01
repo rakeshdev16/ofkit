@@ -36,16 +36,15 @@
                                         enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
-                                        <div class="col-md-12 text-center upload-photo">
-                                            <img src="{{ $staff->photo }}" id="previewImage" alt="">
-                                            <div class="cam-icom">
-                                                <i class="bx bx-camera"></i>
-                                            </div>
-                                            <span class="text-danger cropperImageError" role="alert" style="display: none !important;">
-                                                <strong>Invalid image format</strong>
-                                            </span>
-                                        </div>
-                                        <input type="file" style="visibility: hidden" name="member_photo" id="profileInp" accept="image/*">
+                                        @include('components.upload-profile', [
+                                            'src' => @$staff->profile,
+                                            'is_uploaded' => @$staff->photo,
+                                            'userId' => @$staff->id,
+                                            'type' => 'update',
+                                            'updateUrl' => route('uploadStaffProfile'),
+                                            'deleteUrl' => route('delete.user-photo'),
+                                        ])
+
                                         <div class="col-md-6">
                                             @include('components.text-input', [
                                                 'label' => __('staff.nameTh'),
@@ -259,12 +258,8 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="hidden" name="user_id" id="userId" value="{{ $staff->id }}">
-                                            <input type="hidden" id="type" value="update">
-                                            <input type="hidden" id="url" value="{{ route('uploadStaffProfile') }}">
                                             <div class="d-md-flex d-grid align-items-center gap-3">
-                                                <button type="submit"
-                                                    class="btn button px-4">{{ __('staff.updateBtnText') }}</button>
+                                                <button type="submit" class="btn button px-4">{{ __('staff.updateBtnText') }}</button>
                                             </div>
                                         </div>
                                     </form>

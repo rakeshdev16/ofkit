@@ -35,7 +35,7 @@
                                 <div class="card-body">
                                     <a href="{{ route('staff.edit', $staff->id) }}" class=""><i class="bx bx-edit icon"></i></a>
                                     <div class="d-flex flex-column align-items-center text-center">
-                                        <img src="{{ @$staff->photo }}" alt="Admin" class="rounded-circle p-1 bg-primary staff-profile" width="110">
+                                        <img src="{{ @$staff->profile }}" alt="Admin" class="rounded-circle p-1 bg-primary staff-profile" width="110">
                                         <div class="mt-3">
                                             <h4>{{ @$staff->name }}</h4>
                                             <p class="text-secondary mb-1">{{ @$staff->profession->name }}</p>

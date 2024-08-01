@@ -32,7 +32,7 @@ class User extends Authenticatable
         'photo',
     ];
 
-    protected $appends = ['date_of_birth'];
+    protected $appends = ['date_of_birth', 'profile'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -100,7 +100,7 @@ class User extends Authenticatable
         return isset($this->attributes['dob']) ?? @date('d/m/Y', strtotime($this->attributes['dob']));
     }
 
-    public function getPhotoAttribute($value)
+    public function getProfileAttribute($value)
     {
         return isset($this->attributes['photo']) ? asset('storage/'.$this->attributes['photo']) : 'https://placehold.co/150x150';
     }

@@ -34,16 +34,13 @@
                             <h5 class="mb-4">{{ __('staff.addStaffDetail') }}</h5>
                             <form class="row g-3" action="{{ route('staff.store') }}" method="POST" id="addStaffForm" enctype="multipart/form-data">
                                 @csrf
-                                <div class="col-md-12 text-center upload-photo">
-                                    <img src="https://placehold.co/150x150" id="previewImage" alt="">
-                                    <div class="cam-icom">
-                                        <i class="bx bx-camera"></i>
-                                    </div>
-                                    <span class="text-danger cropperImageError" role="alert" style="display: none !important;">
-                                        <strong>Invalid image format</strong>
-                                    </span>
-                                </div>
-                                <input type="file" style="visibility: hidden" name="member_photo" id="profileInp">
+                                @include('components.upload-profile', [
+                                    'src' => 'https://placehold.co/150x150',
+                                    'is_uploaded' => '',
+                                    'type' => 'add',
+                                    'updateUrl' => route('uploadStaffProfile'),
+                                    'deleteUrl' => route('delete.user-photo'),
+                                ])
                                 <div class="col-md-6">
                                     @include('components.text-input', ['label' => __('staff.nameTh'), 'name' => 'name', 'icon' => 'user'])
                                 </div>
@@ -205,8 +202,6 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="hidden" id="type" value="add">
-                                    <input type="hidden" id="url" value="{{ route('uploadStaffProfile') }}">
                                     <div class="d-md-flex d-grid align-items-center gap-3">
                                         <button type="submit" class="btn button px-4">{{ __('staff.addBtnText') }}</button>
                                     </div>

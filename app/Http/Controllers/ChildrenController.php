@@ -408,6 +408,13 @@ class ChildrenController extends Controller
             break;
         }
         return redirect()->route('children.show', $id);
+    }
 
+    public function deleteProfile(Request $request)
+    {
+        if (Children::where('id', $request->id)->update(['photo' => NULL])) {
+            return response()->json(['status' => true, 'message' => 'Profile has been deleted', 'src' => 'https://placehold.co/150x150']);
+        }
+        return response()->json(['status' => true, 'message' => 'Profile has been deleted', 'src' => 'https://placehold.co/150x150']);
     }
 }

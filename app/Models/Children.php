@@ -28,7 +28,7 @@ class Children extends Model
         'photo',
     ];
 
-    protected $appends = ['date_of_birth'];
+    protected $appends = ['date_of_birth', 'profile'];
 
     public function scopeFilter($query)
     {
@@ -53,7 +53,7 @@ class Children extends Model
         return date('d/m/Y', strtotime($this->attributes['dob']));
     }
 
-    public function getPhotoAttribute($value)
+    public function getProfileAttribute($value)
     {
         return isset($this->attributes['photo']) ? asset('storage/'.$this->attributes['photo']) : 'https://placehold.co/150x150';
     }
