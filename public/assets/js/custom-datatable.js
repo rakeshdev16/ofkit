@@ -68,6 +68,11 @@ $(document).on('change', '.mainCheckbox', function() {
 });
 
 $(document).on('change', '.checkbox', function() {
+    if ($('.checkbox').length != $('.checkbox:checked').length) {
+        $('.mainCheckbox').prop('checked', false);
+    } else {
+        $('.mainCheckbox').prop('checked', true);
+    }
     var name = $(this).data('name');
     if (name && name.trim() != '') {
         $(this).prop('checked', false);
@@ -98,6 +103,11 @@ $(document).on('change', '.mainAccordionCheckbox', function() {
 });
 
 $(document).on('change', '.accordionCheckbox', function() {
+    if ($('.accordionCheckbox').length != $('.accordionCheckbox:checked').length) {
+        $('.mainAccordionCheckbox').prop('checked', false);
+    } else {
+        $('.mainAccordionCheckbox').prop('checked', true);
+    }
     var name = $(this).data('name');
     if (name && name.trim() != '') {
         $(this).prop('checked', false);
