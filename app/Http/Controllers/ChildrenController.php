@@ -130,7 +130,7 @@ class ChildrenController extends Controller
                 'medicine_detail' => $request->medicine == 'yes' ? $request->medicine_detail : '',
             ]);
             
-            if ($request->medicine == 'yes') {
+            if ($request->medicine == 'yes' && count($request->medicine_dosage) > 0) {
                 $children->medicine()->createMany($request->medicine_dosage);
             }
 
@@ -246,7 +246,7 @@ class ChildrenController extends Controller
                 'medicine_detail' => $request->medicine == 'yes' ? $request->medicine_detail : '',
             ]);
 
-            if ($request->medicine == 'yes') {
+            if ($request->medicine == 'yes' && count($request->medicine_dosage) > 0) {
                 $children->medicine()->delete();
                 $children->medicine()->createMany($request->medicine_dosage);
             }
