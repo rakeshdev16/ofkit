@@ -7,14 +7,18 @@
         $('.documents').change(function(event) {
             const files = event.target.files;
             for (let i = 0; i < files.length; i++) {
-                allFiles.push(files[i]);
+                if (documentExists(files[i].name) == false) {
+                    allFiles.push(files[i]);
+                }
             }
             let fileList = $('.choosenDocument');
             $.each(allFiles, function(index, file) {
                 var extensionArr = ['jpeg', 'jpg', 'png', 'jfif', 'pjpeg', 'pjp', 'gif', 'svg', 'pdf', 'docx', 'doc'];
                 var validFile = extensionArr.includes(file.name.split('.').pop());
                 if (validFile) {
-                    fileList.append('<div class="document mt-1">'+ file.name +'<i class="bx bx-x staffDocument" data-file-name="' + file.name + '"></i></div>');
+                    if (documentExists(file.name) == false) {
+                        fileList.append('<div class="document mt-1">'+ file.name +'<i class="bx bx-x staffDocument" data-file-name="' + file.name + '"></i></div>');
+                    }
                 } else {
                     allFiles = allFiles.filter(doc => doc.name !== file.name);
                     toastr.error(file.name, ' is not supported');
@@ -23,6 +27,17 @@
             event.target.value = '';
             updateFileInput(allFiles);
         });
+
+        function documentExists(fileName) {
+            const documents = document.querySelectorAll('.choosenDocument .document');
+            for (const document of documents) {
+                const fileElement = document.querySelector('i.staffDocument');
+                if (fileElement && fileElement.getAttribute('data-file-name') === fileName) {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         $(document).on('click', '.staffDocument', function() {
             let parentDiv = $(this).parent();
