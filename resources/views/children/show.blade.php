@@ -9,7 +9,7 @@
             <div class="page-wrapper">
                 <div class="page-content">
                     <div class="page-breadcrumb d-flex align-items-center mb-3">
-                        <div class="breadcrumb-title pe-3">{{ __('comon.edit') }}</div>
+                        <div class="breadcrumb-title pe-3">Detail</div>
                         <div class="ps-3">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0 p-0">
