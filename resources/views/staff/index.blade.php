@@ -11,7 +11,7 @@
                     <select name="" class="select-filter">
                         <option value="">All Kindergartens</option>
                         @foreach ($kindergartens as $kindergarten)
-                            <option value="{{ $kindergarten['key'] }}">{{ $kindergarten['value'] }}</option>
+                            <option {{ request()->kindergarten_id == $kindergarten['key'] ? 'selected' : '' }} value="{{ $kindergarten['key'] }}">{{ $kindergarten['value'] }}</option>
                         @endforeach
                     </select>
                 </div>
