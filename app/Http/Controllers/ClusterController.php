@@ -87,7 +87,7 @@ class ClusterController extends Controller
     {
         $ids = explode(',', $ids);
         if (Cluster::whereIn('id', $ids)->delete()) {
-            return response()->json(['status' => true, 'message' => __('validation.archived', ['attribute' => 'Cluster']), 'ids' => $ids]);
+            return response()->json(['status' => true, 'message' => 'Cluster has been successfully deleted', 'ids' => $ids]);
         }
         return response()->json(['status' => false, 'ids' => $ids]);
     }

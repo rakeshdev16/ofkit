@@ -257,10 +257,10 @@ a.disable-menu {
     color: #095F59;
 }
 
-.profile-detail {
+/* .profile-detail {
     height: 500px;
     overflow-y: scroll;
-}
+} */
 
 .search-button {
     background: #ffd681;
