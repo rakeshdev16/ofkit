@@ -14,6 +14,7 @@ use App\Models\Hmo;
 use App\Models\Individual;
 use App\Models\IndividualGroup;
 use App\Models\Kindergarten;
+use App\Models\KindergartenUser;
 use App\Models\ParentsStatus;
 use App\Models\StaffKindergarten;
 use App\Models\Status;
@@ -431,5 +432,14 @@ class ChildrenController extends Controller
             return response()->json(['status' => true]);
         }
         return response()->json(['status' => false]);
+    }
+
+    public function getKindergartenManager(Request $request)
+    {
+        $managerId = KindergartenUser::where('kindergarten_id', $request->kindergarten_id)->pluck('user_id')->first();
+        return response()->json([
+            'status' => !empty($managerId) ? true : false,
+            'name' => getUserNameById($managerId)
+        ]);
     }
 }

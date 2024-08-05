@@ -146,13 +146,23 @@
                                                                 'value' => date('d/m/Y', strtotime($children->updated_at)),
                                                             ])
                                                         </div>
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-6">
                                                             @include('components.select-input', [
                                                                 'label' => __('children.kindergarten'),
                                                                 'name' => 'kindergarten_id',
+                                                                'class' => 'selectedKindergarten',
                                                                 'icon' => 'buildings',
                                                                 'options' => $kindergartens,
                                                                 'value' => $children->kindergarten_id,
+                                                                'disabled' => 'disabled'
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
+                                                                'label' => 'Kindergarten Manager',
+                                                                'name' => '',
+                                                                'class' => 'kindergartenManager',
+                                                                'icon' => 'user',
                                                                 'disabled' => 'disabled'
                                                             ])
                                                         </div>
@@ -391,8 +401,7 @@
         </div>
     @endsection
     @push('customScript')
-        {{-- <script src="{{ asset('assets/js/bs-stepper.min.js') }}"></script>
-        <script src="{{ asset('assets/js/main.js') }}"></script> --}}
+        @include('children.script')
         <script>
             $(document).on('click', '.button', function() {
                 $(this).attr('disabled', false);

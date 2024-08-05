@@ -95,12 +95,22 @@
                                                                 'readonly' => true,
                                                             ])
                                                         </div>
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-6">
                                                             @include('components.select-input', [
                                                                 'label' =>  __('children.kindergarten'),
                                                                 'name' => 'kindergarten_id',
+                                                                'class' => 'selectedKindergarten',
                                                                 'icon' => 'buildings',
                                                                 'options' => $kindergartens,
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
+                                                                'label' => 'Kindergarten Manager',
+                                                                'name' => '',
+                                                                'class' => 'kindergartenManager',
+                                                                'icon' => 'user',
+                                                                'readonly' => true
                                                             ])
                                                         </div>
                                                         <div class="col-md-12">
@@ -297,6 +307,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
         @include('components.cropper-script')
+        @include('children.script')
         <script>
             $(document).ready(function() {
                 $('.kindergarten').select2();
