@@ -380,13 +380,47 @@
             });
 
             $(document).on('click', '.removeMedicine', function() {
-                $(this).parent().parent().parent().remove();
-                var index = $('.medicineRow').length;
-                if (index == 0) {
-                    $('.medicineDetail').hide();
-                    $('.medicineRow').remove();
-                    $('.medicine').val('no');
+                var el = $(this);
+                var id = $(this).data('id');
+                if (id) {
+                    Swal.fire({
+                        title: "Are you sure?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, delete it!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                                type: 'POST',
+                                url: "{{ route('childrenMedicine.delete') }}",
+                                data: { id: id },
+                                success: function (data) {
+                                    if (data.status == true) {
+                                        el.parent().parent().parent().remove();
+                                        var index = $('.medicineRow').length;
+                                        if (index == 0) {
+                                            $('.medicineDetail').hide();
+                                            $('.medicineRow').remove();
+                                            $('.medicine').val('no');
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    el.parent().parent().parent().remove();
+                    var index = $('.medicineRow').length;
+                    if (index == 0) {
+                        $('.medicineDetail').hide();
+                        $('.medicineRow').remove();
+                        $('.medicine').val('no');
+                    }
                 }
+                
             });
         </script>
     @endpush

@@ -55,6 +55,7 @@ Route::middleware(['auth', 'lang'])->group(function () {
         Route::get('children-documentation-detail/{childId}/{id}', 'documentationDetail')->name('children-documentation.show');
         Route::get('children-documentation/{type}/{id}', 'documentation')->name('children-documentation.get');
         Route::post('children-documentation/{type}/{id}', 'saveDocumentation')->name('children-documentation.store');
+        Route::post('delete-children-medicine', 'deleteChildrenMedicine')->name('childrenMedicine.delete');
     });
     Route::controller(StaffTableController::class)->group(function () {
         Route::get('staff-table-tab', 'staffTableTab')->name('staff-table.tab');

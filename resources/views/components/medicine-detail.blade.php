@@ -3,7 +3,7 @@
         <div>Medicine #{{ @$index }}</div>
         <div>
             @if (!@$disabled)
-                <button type="button" class="btn button removeMedicine"><i class="fadeIn animated bx bx-trash"></i></button>
+                <button type="button" class="btn button removeMedicine" data-id="{{ @$data['id'] }}"><i class="fadeIn animated bx bx-trash"></i></button>
             @endif
         </div>
     </div>

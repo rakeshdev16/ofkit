@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Children;
 use App\Models\ChildrenDocumentation;
 use App\Models\ChildrenMedicalInformation;
+use App\Models\ChildrenMedicine;
 use App\Models\ChildrenParent;
 use App\Models\Cluster;
 use App\Models\Diagnosis;
@@ -420,5 +421,13 @@ class ChildrenController extends Controller
             return response()->json(['status' => true, 'message' => 'Profile has been deleted', 'src' => 'https://placehold.co/150x150']);
         }
         return response()->json(['status' => true, 'message' => 'Profile has been deleted', 'src' => 'https://placehold.co/150x150']);
+    }
+
+    public function deleteChildrenMedicine(Request $request)
+    {
+        if (ChildrenMedicine::where('id', $request->id)->delete()) {
+            return response()->json(['status' => true]);
+        }
+        return response()->json(['status' => false]);
     }
 }
