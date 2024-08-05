@@ -102,7 +102,7 @@ class User extends Authenticatable
 
     public function getProfileAttribute($value)
     {
-        return isset($this->attributes['photo']) ? asset('storage/'.$this->attributes['photo']) : 'https://placehold.co/150x150';
+        return isset($this->attributes['photo']) ? asset('storage/'.$this->attributes['photo']) : asset('assets/images/avatars/dummy-image.webp');
     }
 
     public function getDocumentAttribute($value)

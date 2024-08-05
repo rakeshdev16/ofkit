@@ -127,8 +127,8 @@ class UserController extends Controller
     public function deletePhoto(Request $request)
     {
         if (User::where('id', $request->id)->update(['photo' => NULL])) {
-            return response()->json(['status' => true, 'message' => 'Profile image has been deleted', 'src' => 'https://placehold.co/150x150']);
+            return response()->json(['status' => true, 'message' => 'Profile image has been deleted', 'src' => asset('assets/images/avatars/dummy-image.webp')]);
         }
-        return response()->json(['status' => true, 'message' => 'Profile image has been deleted', 'src' => 'https://placehold.co/150x150']);
+        return response()->json(['status' => true, 'message' => 'Profile image has been deleted', 'src' => asset('assets/images/avatars/dummy-image.webp')]);
     }
 }

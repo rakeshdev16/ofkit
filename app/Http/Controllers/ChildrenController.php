@@ -421,9 +421,9 @@ class ChildrenController extends Controller
     public function deleteProfile(Request $request)
     {
         if (Children::where('id', $request->id)->update(['photo' => NULL])) {
-            return response()->json(['status' => true, 'message' => 'Profile image has been deleted', 'src' => 'https://placehold.co/150x150']);
+            return response()->json(['status' => true, 'message' => 'Profile image has been deleted', 'src' => asset('assets/images/avatars/dummy-image.webp')]);
         }
-        return response()->json(['status' => true, 'message' => 'Profile image has been deleted', 'src' => 'https://placehold.co/150x150']);
+        return response()->json(['status' => true, 'message' => 'Profile image has been deleted', 'src' => asset('assets/images/avatars/dummy-image.webp')]);
     }
 
     public function deleteChildrenMedicine(Request $request)

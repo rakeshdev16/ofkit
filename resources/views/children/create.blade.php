@@ -43,7 +43,7 @@
                                                 <div class="bs-stepper-pane active" aria-labelledby="stepper1trigger1">
                                                     <div class="row g-3">
                                                         @include('components.upload-profile', [
-                                                            'src' => 'https://placehold.co/150x150',
+                                                            'src' => asset('assets/images/avatars/dummy-image.webp'),
                                                             'is_uploaded' => '',
                                                             'type' => 'add',
                                                             'updateUrl' => route('uploadChildrenProfile'),

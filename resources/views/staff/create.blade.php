@@ -35,7 +35,7 @@
                             <form class="row g-3" action="{{ route('staff.store') }}" method="POST" id="addStaffForm" enctype="multipart/form-data">
                                 @csrf
                                 @include('components.upload-profile', [
-                                    'src' => 'https://placehold.co/150x150',
+                                    'src' => asset('assets/images/avatars/dummy-image.webp'),
                                     'is_uploaded' => '',
                                     'type' => 'add',
                                     'updateUrl' => route('uploadStaffProfile'),
