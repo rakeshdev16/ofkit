@@ -34,10 +34,10 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {{ request()->type == 'functionality' ? 'active' : '' }}" data-type="functionality" data-bs-toggle="tab" href="#functionality" role="tab" aria-selected="false" tabindex="-1">
+                        <a class="nav-link mt-1 {{ request()->type == 'functionality' ? 'active' : '' }}" data-type="functionality" data-bs-toggle="tab" href="#functionality" role="tab" aria-selected="false" tabindex="-1">
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="lni lni-offer font-18 me-1"></i></div>
-                                <div class="tab-title pt-1"> Functionality</div>
+                                <div class="tab-title"> Functionality</div>
                             </div>
                         </a>
                     </li>

@@ -74,8 +74,8 @@ class ClusterController extends Controller
         }
         $cluster = Cluster::findOrFail($id);
         $cluster->update($request->except('_token', '_method', 'kindergarten_id'));
+        $cluster->kindergartens()->delete();
         if (isset($request->kindergarten_id) && count($request->kindergarten_id) > 0) {
-            $cluster->kindergartens()->delete();
             foreach ($request->kindergarten_id as $kindergartenId) {
                 $cluster->kindergartens()->create(['kindergarten_id' => $kindergartenId]);
             }
