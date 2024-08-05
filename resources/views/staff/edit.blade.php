@@ -166,13 +166,16 @@
                                                         </thead>
                                                         <tbody class="selected-kindergarten">
                                                             @if ($kindergartenCount > 0)
-                                                                @foreach (old('kindergarten_id', []) as $id)
+                                                                @foreach (old('kindergarten', []) as $data)
+                                                                    {{-- @php
+                                                                        echo '<pre>'; print_r($id); echo '</pre>';
+                                                                    @endphp --}}
                                                                     @include('components.kindergarten-tr',[
-                                                                        'id' => @$id,
+                                                                        'id' => @$data['kindergarten_id'],
                                                                         'index' => $loop->index,
                                                                         'professions' => $professions,
                                                                         'memberRoles' => $memberRoles,
-                                                                        'data' => getStaffKindergarten($staff->id, $id),
+                                                                        'data' => getStaffKindergarten($staff->id, $data['kindergarten_id']),
                                                                     ])
                                                                 @endforeach
                                                             @else

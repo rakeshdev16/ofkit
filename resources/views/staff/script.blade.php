@@ -1,7 +1,5 @@
 <script>
     $(document).ready(function() {
-        var selectedOrder = [];
-
         $('.kindergarten').select2();
 
         var allFiles = [];
@@ -56,68 +54,38 @@
             });
             document.getElementById('documents').files = dataTransfer.files;
         }
+    });
 
-        function updateSelect2Order() {
-            var currentValues = $('.kindergarten').val() || [];
-            selectedOrder = currentValues.filter(value => selectedOrder.includes(value)).concat(currentValues.filter(value => !selectedOrder.includes(value)));
-            $('.kindergarten').val(selectedOrder).trigger('change');
-        }
-
-        $('.kindergarten').on('select2:select', function(e) {
-            var id = e.params.data.id;
-
-            var selectedValues = $(this).val() || [];
-            selectedValues = selectedValues.filter(function(value) {
-                return value !== id;
-            });
-            selectedValues.unshift(id);
-            $(this).val(selectedValues).trigger('change');
-            updateSelect2Order();
-            var user_id = $('#userId').val();
-            var index = $('.selected-kindergarten tr').length;
-            $.ajax({
-                type: 'GET',
-                url: "{{ route('selected.kindergarten') }}",
-                data: { id: id, user_id: user_id, index: index },
-                success: function(data) {
-                    if (data.status == true) {
-                        if ($('.tr-' + id).length == 0) {
-                            $('.selected-kindergarten').append(data.data);
-                        }
-                        $('.kindergarten-section').show();
-                    } else {
-                        $('.selected-kindergarten').html('');
-                        $('.kindergarten-section').hide();
+    $('.kindergarten').on('select2:select', function(e) {
+        var id = e.params.data.id;
+        var user_id = $('#userId').val();
+        var index = $('.selected-kindergarten tr').length;
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('selected.kindergarten') }}",
+            data: { id: id, user_id: user_id, index: index },
+            success: function(data) {
+                if (data.status == true) {
+                    if ($('.tr-' + id).length == 0) {
+                        $('.selected-kindergarten').append(data.data);
                     }
+                    $('.kindergarten-section').show();
+                } else {
+                    $('.selected-kindergarten').html('');
+                    $('.kindergarten-section').hide();
                 }
-            });
-        });
-
-        $('.kindergarten').on('select2:unselect', function(e) {
-            var id = e.params.data.id;
-
-            var selectedValue = e.params.data.id;
-            if (e.type === 'select2:select') {
-                selectedOrder = [id].concat(selectedOrder.filter(value => value !== id));
-            } else {
-                selectedOrder = selectedOrder.filter(value => value !== id);
-            }
-            updateSelect2Order();
-
-            $('.tr-' + id).remove();
-            var length = $('.selected-kindergarten tr').length;
-            if (length == 0) {
-                $('.kindergarten-section').hide();
             }
         });
     });
 
-    var oldValues = @json(old('kindergarten_id', []));
-    if (oldValues.length > 0) {
-        selectedOrder = oldValues;
-        $('.kindergarten').val(oldValues).trigger('change');
-    }
-
+    $('.kindergarten').on('select2:unselect', function(e) {
+        var id = e.params.data.id;
+        $('.tr-' + id).remove();
+        var length = $('.selected-kindergarten tr').length;
+        if (length == 0) {
+            $('.kindergarten-section').hide();
+        }
+    });
 
     // $(document).on('change', '.kindergarten', function() {
     //     var ids = $(this).val();
