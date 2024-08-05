@@ -1,6 +1,7 @@
 <?php 
 
 use App\Models\Kindergarten;
+use App\Models\StaffKindergarten;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -45,4 +46,9 @@ function uploadFile($file, $path, $extension = null)
     // $filename = Str::random(40) . '.' . $extension;
     $filePath = $file->storeAs($path, $filename, 'public');
     return $filePath;
+}
+
+function getStaffKindergarten($userId, $kindergartenId)
+{
+    return StaffKindergarten::where(['user_id' => $userId, 'kindergarten_id' => $kindergartenId])->first();
 }

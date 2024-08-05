@@ -282,14 +282,12 @@ class StaffController extends Controller
         $rows = [];
         $associations = Association::select('id as key', 'name as value')->get()->toArray();
         $memberRoles = MemberRole::select('id as key', 'name as value')->get()->toArray();
-
-        $staffKindergarten = StaffKindergarten::where(['user_id' => $request->user_id, 'kindergarten_id' => $request->id])->first();
         $row = view('components.kindergarten-tr', [
             'id' => $request->id,
             'index' => $request->index,
             'associations' => $associations,
             'memberRoles' => $memberRoles,
-            'data' => $staffKindergarten,
+            'data' => getStaffKindergarten($request->user_id, $request->id),
         ])->render();
         return response()->json(['status' => true, 'data' => $row]);
 

@@ -166,14 +166,23 @@
                                                         </thead>
                                                         <tbody class="selected-kindergarten">
                                                             @if ($kindergartenCount > 0)
-                                                                @for ($i = 0; $i < $kindergartenCount; $i++)
+                                                                @foreach (old('kindergarten_id', []) as $id)
+                                                                    @include('components.kindergarten-tr',[
+                                                                        'id' => @$id,
+                                                                        'index' => $loop->index,
+                                                                        'professions' => $professions,
+                                                                        'memberRoles' => $memberRoles,
+                                                                        'data' => getStaffKindergarten($staff->id, $id),
+                                                                    ])
+                                                                @endforeach
+                                                                {{-- @for ($i = 0; $i < $kindergartenCount; $i++)
                                                                     @include('components.kindergarten-tr',[
                                                                         'id' => @old('kindergarten_id', [])[$i],
                                                                         'index' => $i,
                                                                         'professions' => $professions,
                                                                         'memberRoles' => $memberRoles,
                                                                     ])
-                                                                @endfor
+                                                                @endfor --}}
                                                             @else
                                                                 @foreach ($staff->staffKindergartens as $kindergarten)
                                                                     @include('components.kindergarten-tr', [
