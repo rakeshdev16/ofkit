@@ -58,11 +58,12 @@
 
     $('.kindergarten').on('select2:select', function(e) {
         var id = e.params.data.id;
+        var user_id = $('#userId').val();
         var index = $('.selected-kindergarten tr').length;
         $.ajax({
             type: 'GET',
             url: "{{ route('selected.kindergarten') }}",
-            data: { id: id, index: index },
+            data: { id: id, user_id: user_id, index: index },
             success: function(data) {
                 if (data.status == true) {
                     if ($('.tr-' + id).length == 0) {

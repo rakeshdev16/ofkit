@@ -168,7 +168,7 @@
                                                             @if ($kindergartenCount > 0)
                                                                 @for ($i = 0; $i < $kindergartenCount; $i++)
                                                                     @include('components.kindergarten-tr',[
-                                                                        'id' => @array_reverse(old('kindergarten_id', []))[$i],
+                                                                        'id' => @old('kindergarten_id', [])[$i],
                                                                         'index' => $i,
                                                                         'professions' => $professions,
                                                                         'memberRoles' => $memberRoles,
