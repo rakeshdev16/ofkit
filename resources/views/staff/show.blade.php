@@ -33,7 +33,7 @@
                         <div class="col-lg-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <a href="{{ route('staff.edit', $staff->id) }}" class=""><i class="bx bx-edit icon"></i></a>
+                                    <a href="{{ route('staff.edit', $staff->id) }}" class="btn button">Edit</a>
                                     <div class="d-flex flex-column align-items-center text-center">
                                         <img src="{{ @$staff->profile }}" alt="Admin" class="rounded-circle p-1 bg-primary staff-profile" width="110">
                                         <div class="mt-3">

@@ -61,7 +61,9 @@
                                             <div class="bs-stepper-content">
                                                 <div class="d-flex justify-content-between">
                                                     <h5 class="mb-4 steper-title">{{ __('children.personalInfo') }}</h5>
-                                                    <a href="{{ route('children.edit', $children->id) }}" class=""><i class="bx bx-edit icon"></i></a>
+                                                    <div>
+                                                        <a href="{{ route('children.edit', $children->id) }}" class="btn button">Edit</a>
+                                                    </div>
                                                 </div>
                                                 <div>
                                                     <div class="row g-3">
