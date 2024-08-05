@@ -39,6 +39,9 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <div id="test-l-1" role="tabpanel" class="bs-stepper-pane active" aria-labelledby="stepper1trigger1">
+                                                    <div class="d-flex justify-content-between">
+                                                        <h5 class="mb-4 steper-title">{{ __('children.personalInfo') }}</h5>
+                                                    </div>
                                                     <div class="row g-3">
                                                         @include('components.upload-profile', [
                                                             'src' => @$children->profile,
@@ -162,6 +165,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="bs-stepper-pane active" aria-labelledby="stepper1trigger2">
+                                                    <div class="">
+                                                        <h5 class="my-3 steper-title">{{ __('children.parentsDetail') }}</h5>
+                                                    </div>
                                                     @php
                                                         $parent = $children->parent;
                                                     @endphp
@@ -239,6 +245,9 @@
                                                 </div>
                                                 <div class="bs-stepper-pane active dstepper-block"
                                                     aria-labelledby="stepper1trigger3">
+                                                    <div class="">
+                                                        <h5 class="my-3 steper-title">{{ __('children.medicalInfo') }}</h5>
+                                                    </div>
                                                     @php
                                                         $medical = $children->medicalInformation;
                                                     @endphp
