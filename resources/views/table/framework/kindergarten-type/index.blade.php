@@ -4,7 +4,7 @@
     </div>
     <div class="mt-3">
         <a href="{{ route('framework-table.create') }}?type=kindergarten-type" class="btn button">{{ __('cluster.addBtnText') }} +</a>
-        {{-- <button class="btn button moveToArchive" data-type="kindergarten-type">Move to Archive</button> --}}
+        <button class="btn button moveToArchive" data-type="kindergarten-type">Move to Archive</button>
     </div>
 </div>
 <div class="card">
