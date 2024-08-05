@@ -148,9 +148,6 @@
                                                     @$staff->staffKindergartens->pluck('kindergarten_id')->toArray(),
                                             ])
                                         </div>
-                                        @php
-                                            $kindergartenCount = count(old('kindergarten_id', []));
-                                        @endphp
                                         <div class="col-md-12 kindergarten-section"
                                             style="display: {{ old('kindergarten_id') || count($staff->staffKindergartens) > 0 ? '' : 'none' }}">
                                             <div class="time-table">
@@ -165,11 +162,8 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody class="selected-kindergarten">
-                                                            @if ($kindergartenCount > 0)
+                                                            @if (count(old('kindergarten_id', [])) > 0)
                                                                 @foreach (old('kindergarten', []) as $data)
-                                                                    {{-- @php
-                                                                        echo '<pre>'; print_r($id); echo '</pre>';
-                                                                    @endphp --}}
                                                                     @include('components.kindergarten-tr',[
                                                                         'id' => @$data['kindergarten_id'],
                                                                         'index' => $loop->index,
