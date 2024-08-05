@@ -1,14 +1,23 @@
-// $(document).on('keyup', '.search', function () {
-//     var search = $(this).val();
-//     var url = queryParam('search', search);
-//     filter(url);
-// });
+var previousValue = '';
+$(document).on('input', '.search', function () {
+    var currentValue = $(this).val();
+    if (previousValue !== '' && currentValue === '') {
+        var search = $(this).val();
+        var url = queryParam('search', search);
+        filter(url);
+    }
+    previousValue = currentValue;
+});
+$(document).on('change', '.search', function () {
+    var search = $(this).val();
+    var url = queryParam('search', search);
+    filter(url);
+});
 $(document).on('click', '.search-button', function () {
     var search = $(this).siblings('.search').val();
     var url = queryParam('search', search);
     filter(url);
 });
-
 $(document).on('click', '.sortTable', function () {
     var key = $(this).data('key');
     var value = $(this).data('value') == 'desc' ? 'asc' : 'desc';
