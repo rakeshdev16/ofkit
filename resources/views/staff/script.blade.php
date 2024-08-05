@@ -58,6 +58,14 @@
 
     $('.kindergarten').on('select2:select', function(e) {
         var id = e.params.data.id;
+
+        var selectedValues = $(this).val() || [];
+        selectedValues = selectedValues.filter(function(value) {
+            return value !== id;
+        });
+        selectedValues.unshift(id);
+        $(this).val(selectedValues).trigger('change');
+
         var user_id = $('#userId').val();
         var index = $('.selected-kindergarten tr').length;
         $.ajax({
