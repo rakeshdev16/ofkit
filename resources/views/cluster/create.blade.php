@@ -1,6 +1,6 @@
 @extends('layout.master')
 @push('customLink')
-    
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endpush
 @section('section')
 <div class="wrapper">
@@ -45,6 +45,16 @@
                                         'options' => $managers
                                     ])
                                 </div>
+                                <div class="col-md-12">
+                                    @include('components.multi-select-input', [
+                                        'label' => __('staff.kindergartenTh'),
+                                        'name' => 'kindergarten_id[]',
+                                        'class' => 'kindergarten',
+                                        'icon' => 'buildings',
+                                        'options' => $kindergartens,
+                                        'value' => old('kindergarten_id')
+                                    ])
+                                </div>
                                 <div class="col-md-6">
                                     <div class="d-md-flex d-grid align-items-center gap-3">
                                         <button type="submit" class="btn button px-4">{{ __('cluster.addBtnText') }}</button>
@@ -60,5 +70,10 @@
 </div>
 @endsection
 @push('customScript')
-    
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+            $(document).ready(function() {
+                $('.kindergarten').select2();
+            });
+    </script>
 @endpush

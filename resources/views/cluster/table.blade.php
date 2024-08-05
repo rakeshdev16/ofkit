@@ -3,6 +3,7 @@
         <tr>
             <th><input type="checkbox" class="mainCheckbox"></th>
             @include('components.table-heading', ['label' => __('cluster.clusterTh'), 'key' => 'cluster'])
+            @include('components.table-heading', ['label' => 'Kindergartens'])
             @include('components.table-heading', ['label' => __('cluster.managerTh'), 'key' => 'manager'])
             @include('components.table-heading', ['label' => 'Action'])
         </tr>
@@ -12,6 +13,14 @@
             <tr class="tr-{{ $cluster->id }}">
                 <td><input type="checkbox" name="id[]" value="{{ $cluster->id }}" class="checkbox check-{{ $cluster->id }}" data-class="check-{{ $cluster->id }}"></td>
                 <td>{{ $cluster->cluster }}</td>
+                <td>
+                    @forelse ($cluster->kindergartens->take(2) as $kindergarten)
+                        {{ getKindergartenNameById($kindergarten->kindergarten_id) }}{{ !$loop->last ? ', ' : '' }}
+                    @empty
+                        -
+                    @endforelse
+                    {{ count($cluster->kindergartens) > 2 ? '...' : '' }}
+                </td>
                 <td>{{ @$cluster->manager->name ?? '-' }}</td>
                 <td>
                     <a href="{{ route('cluster.edit', $cluster->id) }}" class=""><i class="bx bx-edit icon"></i></a>

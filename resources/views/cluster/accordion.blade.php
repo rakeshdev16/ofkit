@@ -24,6 +24,17 @@
                         <div class="w-50">{{ $cluster->cluster }}</div>
                     </div><hr>
                     <div class="d-flex accordion-row">
+                        <div class="w-50 label">Kindergartens</div>
+                        <div class="w-50">
+                            @forelse ($cluster->kindergartens->take(2) as $kindergarten)
+                                {{ getKindergartenNameById($kindergarten->kindergarten_id) }}{{ !$loop->last ? ', ' : '' }}
+                            @empty
+                                -
+                            @endforelse
+                            {{ count($cluster->kindergartens) > 2 ? '...' : '' }}
+                        </div>
+                    </div><hr>
+                    <div class="d-flex accordion-row">
                         <div class="w-50 label">{{ __('cluster.managerTh') }}</div>
                         <div class="w-50">{{ @$cluster->manager->name ?? '-' }}</div>
                     </div>

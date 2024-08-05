@@ -26,4 +26,9 @@ class Cluster extends Model
     {
         return $this->hasOne(User::class, 'id', 'manager_id');
     }
+
+    public function kindergartens()
+    {
+        return $this->hasMany(ClusterKindergarten::class);
+    }
 }

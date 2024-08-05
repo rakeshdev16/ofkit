@@ -27,7 +27,8 @@ class ClusterController extends Controller
     public function create()
     {
         $managers = User::role('manager')->select('id as key', 'name as value')->get();
-        return view('cluster.create', compact('managers'));
+        $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
+        return view('cluster.create', compact('managers', 'kindergartens'));
     }
 
     public function store(Request $request)
@@ -42,15 +43,21 @@ class ClusterController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        Cluster::create($request->all());
+        $cluster = Cluster::create($request->all());
+        if (isset($request->kindergarten_id) && count($request->kindergarten_id) > 0) {
+            foreach ($request->kindergarten_id as $kindergartenId) {
+                $cluster->kindergartens()->create(['kindergarten_id' => $kindergartenId]);
+            }
+        }
         return redirect()->route('cluster.index');
     }
 
     public function edit($id)
     {
-        $member = Cluster::findOrFail($id);
+        $cluster = Cluster::findOrFail($id);
         $managers = User::role('manager')->select('id as key', 'name as value')->get();
-        return view('cluster.edit', compact('member', 'managers'));
+        $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
+        return view('cluster.edit', compact('cluster', 'managers', 'kindergartens'));
     }
 
     public function update(Request $request, $id)
@@ -65,7 +72,14 @@ class ClusterController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        Cluster::where('id', $id)->update($request->except('_token', '_method'));
+        $cluster = Cluster::findOrFail($id);
+        $cluster->update($request->except('_token', '_method', 'kindergarten_id'));
+        if (isset($request->kindergarten_id) && count($request->kindergarten_id) > 0) {
+            $cluster->kindergartens()->delete();
+            foreach ($request->kindergarten_id as $kindergartenId) {
+                $cluster->kindergartens()->create(['kindergarten_id' => $kindergartenId]);
+            }
+        }
         return redirect()->route('cluster.index');
     }
 
