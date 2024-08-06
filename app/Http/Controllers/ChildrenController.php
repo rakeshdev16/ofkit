@@ -271,9 +271,11 @@ class ChildrenController extends Controller
             }
             $children->parent()->update([
                 'father_name' => $request->father_name,
+                'father_email' => $request->father_email,
                 'father_telephone' => $request->father_telephone,
                 'father_work' => $request->father_work,
                 'mother_name' => $request->mother_name,
+                'mother_email' => $request->mother_email,
                 'mother_telephone' => $request->mother_telephone,
                 'mother_work' => $request->mother_work,
                 'family_status' => $request->family_status,

@@ -60,6 +60,19 @@
         var id = e.params.data.id;
         var user_id = $('#userId').val();
         var index = $('.selected-kindergarten tr').length;
+        getKindergaternRow(id, user_id, index);
+    });
+
+    $('.kindergarten').on('select2:unselect', function(e) {
+        var id = e.params.data.id;
+        $('.tr-' + id).remove();
+        var length = $('.selected-kindergarten tr').length;
+        if (length == 0) {
+            $('.kindergarten-section').hide();
+        }
+    });
+
+    function getKindergaternRow(id, user_id, index) {
         $.ajax({
             type: 'GET',
             url: "{{ route('selected.kindergarten') }}",
@@ -76,17 +89,7 @@
                 }
             }
         });
-    });
-
-    $('.kindergarten').on('select2:unselect', function(e) {
-        var id = e.params.data.id;
-        $('.tr-' + id).remove();
-        var length = $('.selected-kindergarten tr').length;
-        if (length == 0) {
-            $('.kindergarten-section').hide();
-        }
-    });
-
+    }
     // $(document).on('change', '.kindergarten', function() {
     //     var ids = $(this).val();
     //     console.log(ids);
