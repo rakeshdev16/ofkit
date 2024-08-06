@@ -279,18 +279,23 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @php
-                                                                $parentLanguages = $parent->language()->pluck('language')->map(function ($item) {
-                                                                    return ['key' => $item, 'value' => $item];
-                                                                })->toArray();
+                                                                $parentLanguages = [];
+                                                                if ($parent) {
+                                                                    $parentLanguages = $parent->language()->pluck('language')->map(function ($item) {
+                                                                        return ['key' => $item, 'value' => $item];
+                                                                    })->toArray();
+                                                                }
+                                                                $selectedLanguages = $parent ? $parent->language()->pluck('language')->toArray() : [];
                                                             @endphp
                                                             @include('components.multi-select-input', [
                                                                 'label' => 'Spoken languages in the family',
                                                                 'name' => 'spoken_language[]',
                                                                 'class' => 'spkoenLanguages',
                                                                 'icon' => 'notepad',
-                                                                'value' => @$parent->language()->pluck('language')->toArray(),
-                                                                'options' => @$parentLanguages
+                                                                'value' => $selectedLanguages,
+                                                                'options' => $parentLanguages
                                                             ])
+
                                                         </div>
                                                         <div class="col-md-12"><h4> {{ __('children.additionalContacts') }}</h4></div>
                                                         <div class="col-md-6">
