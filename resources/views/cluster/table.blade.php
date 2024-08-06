@@ -1,7 +1,7 @@
 <table id="staffTable" class="table table-style table-bordered" style="width:100%">
     <thead>
         <tr>
-            <th style="width: 2%;"><input type="checkbox" class="mainCheckbox"></th>
+            <th style="width: 5%;"><input type="checkbox" class="mainCheckbox"></th>
             @include('components.table-heading', ['label' => __('cluster.clusterTh'), 'key' => 'cluster', 'width' => '30%'])
             @include('components.table-heading', ['label' => 'Kindergartens', 'width' => '30%'])
             @include('components.table-heading', ['label' => __('cluster.managerTh'), 'key' => 'manager', 'width' => '30%'])
@@ -14,12 +14,16 @@
                 <td><input type="checkbox" name="id[]" value="{{ $cluster->id }}" class="checkbox check-{{ $cluster->id }}" data-class="check-{{ $cluster->id }}"></td>
                 <td>{{ $cluster->cluster }}</td>
                 <td>
-                    @forelse ($cluster->kindergartens->take(2) as $kindergarten)
+                    @php
+                        $kindergartens = getKindergartenNamesById($cluster->kindergartens->pluck('kindergarten_id')->toArray());
+                    @endphp
+                    {{ \Str::limit(implode(', ', $kindergartens), 90, '...') ?? '-' }}
+                    {{-- @forelse ($cluster->kindergartens->take(2) as $kindergarten)
                         {{ getKindergartenNameById($kindergarten->kindergarten_id) }}{{ !$loop->last ? ', ' : '' }}
                     @empty
                         -
                     @endforelse
-                    {{ count($cluster->kindergartens) > 2 ? '...' : '' }}
+                    {{ count($cluster->kindergartens) > 2 ? '...' : '' }} --}}
                 </td>
                 <td>{{ @$cluster->manager->name ?? '-' }}</td>
                 <td>

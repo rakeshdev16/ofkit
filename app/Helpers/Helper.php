@@ -34,6 +34,11 @@ function getKindergartenNameById($id)
     return Kindergarten::where('id', $id)->pluck('name')->first();
 }
 
+function getKindergartenNamesById($ids)
+{
+    return Kindergarten::whereIn('id', $ids)->pluck('name')->toArray();
+}
+
 function uploadFile($file, $path, $extension = null)
 {
     // $fileName = $file->store($path);

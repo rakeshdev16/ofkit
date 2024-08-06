@@ -1,19 +1,18 @@
 <table id="staffTable" class="table table-style table-bordered" style="width:100%">
     <thead>
         <tr>
-            <th><input type="checkbox" class="mainCheckbox"></th>
-            @include('components.table-heading', ['label' => __('kindergarten.nameTh'), 'key' => 'name'])
-            @include('components.table-heading', ['label' => __('kindergarten.symbolTh'), 'key' => 'symbol'])
-            @include('components.table-heading', ['label' => __('kindergarten.frameworkTh'), 'key' => 'framework'])
-            {{-- @include('components.table-heading', ['label' => __('kindergarten.typeTh'), 'key' => 'type']) --}}
-            @include('components.table-heading', ['label' => __('kindergarten.clusterTh'), 'key' => 'cluster'])
-            @include('components.table-heading', ['label' => __('kindergarten.clusterManagerTh'), 'key' => 'cluster'])
-            @include('components.table-heading', ['label' => __('kindergarten.kindergartenManagerTh'), 'key' => 'cluster_manager'])
-            @include('components.table-heading', ['label' => __('kindergarten.addressTh'), 'key' => 'address'])
-            @include('components.table-heading', ['label' => __('kindergarten.telephoneTh'), 'key' => 'telephone'])
-            @include('components.table-heading', ['label' => __('kindergarten.createdAt'), 'key' => 'created_at'])
-            @include('components.table-heading', ['label' => __('kindergarten.updatedAt'), 'key' => 'updated_at'])
-            @include('components.table-heading', ['label' => 'Action'])
+            <th style="width: 2%"><input type="checkbox" class="mainCheckbox"></th>
+            @include('components.table-heading', ['label' => __('kindergarten.nameTh'), 'key' => 'name', 'width' => '9.4%'])
+            @include('components.table-heading', ['label' => __('kindergarten.symbolTh'), 'key' => 'symbol', 'width' => '9.4%'])
+            @include('components.table-heading', ['label' => __('kindergarten.frameworkTh'), 'key' => 'framework', 'width' => '9.4%'])
+            @include('components.table-heading', ['label' => __('kindergarten.clusterTh'), 'key' => 'cluster', 'width' => '9.4%'])
+            @include('components.table-heading', ['label' => __('kindergarten.clusterManagerTh'), 'key' => 'cluster', 'width' => '9.4%'])
+            @include('components.table-heading', ['label' => __('kindergarten.kindergartenManagerTh'), 'key' => 'cluster_manager', 'width' => '9.4%'])
+            @include('components.table-heading', ['label' => __('kindergarten.addressTh'), 'key' => 'address', 'width' => '9.4%'])
+            @include('components.table-heading', ['label' => __('kindergarten.telephoneTh'), 'key' => 'telephone', 'width' => '9.4%'])
+            @include('components.table-heading', ['label' => __('kindergarten.createdAt'), 'key' => 'created_at', 'width' => '9.4%'])
+            @include('components.table-heading', ['label' => __('kindergarten.updatedAt'), 'key' => 'updated_at', 'width' => '9.4%'])
+            @include('components.table-heading', ['label' => 'Action', 'width' => '4%'])
         </tr>
     </thead>
     <tbody>
@@ -23,11 +22,10 @@
                 <td>{{ $kindergarten->name }}</td>
                 <td>{{ $kindergarten->symbol }}</td>
                 <td>{{ $kindergarten->framework_type }}</td>
-                {{-- <td>{{ $kindergarten->kindergarten_type }}</td> --}}
                 <td>{{ @$kindergarten->cluster->cluster ?? '-' }}</td>
                 <td>{{ @getUserNameById($kindergarten->cluster->manager_id) ?? '-' }}</td>
                 <td>{{ @getUserNameById($kindergarten->kindergartenUser->user_id) ?? '-' }}</td>
-                <td>{{ $kindergarten->address }}</td>
+                <td>{{ \Str::limit($kindergarten->address, 20, '...') ?? '-' }}</td>
                 <td>{{ $kindergarten->telephone }}</td>
                 <td>{{ date('d/m/Y', strtotime($kindergarten->created_at)) }}</td>
                 <td>{{ date('d/m/Y', strtotime($kindergarten->updated_at)) }}</td>

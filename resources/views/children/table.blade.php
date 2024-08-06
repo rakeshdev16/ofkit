@@ -1,16 +1,16 @@
 <table id="staffTable" class="table table-style table-bordered" style="width:100%">
     <thead>
         <tr>
-            <th><input type="checkbox" class="mainCheckbox"></th>
-            @include('components.table-heading', ['label' => __('children.name'), 'key' => 'name'])
-            @include('components.table-heading', ['label' => __('children.familyName'), 'key' => 'family_name'])
-            @include('components.table-heading', ['label' => __('children.identification'), 'key' => 'identification'])
-            @include('components.table-heading', ['label' => __('children.dob'), 'key' => 'dob'])
-            @include('components.table-heading', ['label' => __('children.address'), 'key' => 'address'])
-            @include('components.table-heading', ['label' => __('children.kindergarten'), 'key' => 'address'])
-            @include('components.table-heading', ['label' => __('children.createdAt'), 'key' => 'created_at'])
-            @include('components.table-heading', ['label' => __('children.updatedAt'), 'key' => 'updated_at'])
-            @include('components.table-heading', ['label' => 'Action'])
+            <th style="width: 2%"><input type="checkbox" class="mainCheckbox"></th>
+            @include('components.table-heading', ['label' => __('children.name'), 'key' => 'name', 'width' => '11.75%'])
+            @include('components.table-heading', ['label' => __('children.familyName'), 'key' => 'family_name', 'width' => '11.75%'])
+            @include('components.table-heading', ['label' => __('children.identification'), 'key' => 'identification', 'width' => '11.75%'])
+            @include('components.table-heading', ['label' => __('children.dob'), 'key' => 'dob', 'width' => '11.75%'])
+            @include('components.table-heading', ['label' => __('children.address'), 'key' => 'address', 'width' => '11.75%'])
+            @include('components.table-heading', ['label' => __('children.kindergarten'), 'key' => 'address', 'width' => '11.75%'])
+            @include('components.table-heading', ['label' => __('children.createdAt'), 'key' => 'created_at', 'width' => '11.75%'])
+            @include('components.table-heading', ['label' => __('children.updatedAt'), 'key' => 'updated_at', 'width' => '11.75%'])
+            @include('components.table-heading', ['label' => 'Action', 'width' => '4%'])
         </tr>
     </thead>
     <tbody>
