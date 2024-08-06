@@ -414,5 +414,6 @@
                     $('.medicine').val('no');
                 }
             });
+            
         </script>
     @endpush

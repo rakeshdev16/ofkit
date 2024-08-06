@@ -313,9 +313,7 @@ class StaffController extends Controller
 
     public function deleteStaffKindergarten(Request $request)
     {
-        if (StaffKindergarten::where(['user_id' => $request->user_id, 'kindergarten_id' => $request->id])->delete()) {
-            return response()->json(['status' => true]);
-        }
-        return response()->json(['status' => false]);
+        StaffKindergarten::where(['user_id' => $request->user_id, 'kindergarten_id' => $request->id])->delete();
+        return response()->json(['status' => true]);
     }
 }
