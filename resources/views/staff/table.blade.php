@@ -26,7 +26,7 @@
                 <td>{{ @$member->profession->name ?? '-' }}</td>
                 <td>
                     @if ($member->staffKindergartens->count() > 0)
-                        @foreach ($member->staffKindergartens->take(1) as $staffKindergarten)
+                        @foreach ($member->staffKindergartens->take(2) as $staffKindergarten)
                             {{ $staffKindergarten->kindergartens->name }}@if (!$loop->last), @endif
                         @endforeach
                         @if ($member->staffKindergartens->count() > 2)
