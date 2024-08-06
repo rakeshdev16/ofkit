@@ -84,6 +84,9 @@
 
     $('.kindergarten').on('select2:unselect', function(e) {
         var id = e.params.data.id;
+        var user_id = $('#userId').val();
+        console.log(id);
+        
         // $('.tr-' + id).remove();
         var index = $('.selected-kindergarten tr').length;
         // if (index == 0) {
@@ -105,7 +108,7 @@
                     },
                     type: 'POST',
                     url: "{{ route('deleteStaffKindergarten') }}",
-                    data: {id: id},
+                    data: {id: id, user_id: user_id },
                     success: function(data) {
                         if (data.status == true) {
                             window.location.reload();
