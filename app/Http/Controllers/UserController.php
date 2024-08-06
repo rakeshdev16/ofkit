@@ -30,23 +30,26 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'address' => 'required',
-            'telephone' => 'required|digits_between:8,14',
+            'telephone' => [
+                'required',
+                'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
+            ],
             'licence_number' => 'required',
-            // 'dob' => 'required',
             'member_photo' => 'image|max:2000',
         ], [
             'name.required' => __('validation.required'),
             'address.required' => __('validation.required'),
             'telephone.required' => __('validation.required'),
-            'telephone.digits_between' => __('validation.digits_between'),
+            'telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
             'licence_number.required' => __('validation.required'),
-            // 'dob.required' => __('validation.required'),
             'member_photo.image' => __('validation.image'),
             'member_photo.max' => __('validation.max'),
         ]);
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
         DB::beginTransaction();
 
         try {

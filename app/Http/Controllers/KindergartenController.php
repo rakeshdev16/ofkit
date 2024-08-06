@@ -44,18 +44,16 @@ class KindergartenController extends Controller
             'name' => 'required',
             'cluster_id' => 'required',
             'symbol' => 'nullable|numeric',
-            // 'framework_type_id' => 'required',
-            // 'kindergarten_type_id' => 'required',
-            // 'address' => 'required',
-            // 'telephone' => 'required|digits_between:8,14',
+            'telephone' => [
+                'required',
+                'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
+            ],
         ],[
             'name.required' => __('kindergarten.requiredName'),
             'cluster_id.required' => __('kindergarten.requiredCluster'),
             'symbol.numeric' => 'Please enter numbers only',
-            // 'framework_type_id.required' => __('kindergarten.requiredFramework'),
-            // 'kindergarten_type_id.required' => __('kindergarten.requiredType'),
-            // 'address.required' => __('kindergarten.requiredAddress'),
-            // 'telephone.required' => __('kindergarten.requiredTelephone'),
+            'telephone.required' => 'Please enter telephone number',
+            'telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -82,17 +80,15 @@ class KindergartenController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'symbol' => 'nullable|numeric',
-            // 'framework_type_id' => 'required',
-            // 'kindergarten_type_id' => 'required',
-            // 'address' => 'required',
-            // 'telephone' => 'required|digits_between:8,14',
+            'telephone' => [
+                'required',
+                'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
+            ],
         ],[
             'name.required' => __('kindergarten.requiredName'),
             'symbol.numeric' => 'Please enter numbers only',
-            // 'framework_type_id.required' => __('kindergarten.requiredFramework'),
-            // 'kindergarten_type_id.required' => __('kindergarten.requiredType'),
-            // 'address.required' => __('kindergarten.requiredAddress'),
-            // 'telephone.required' => __('kindergarten.requiredTelephone'),
+            'telephone.required' => 'Please enter telephone number',
+            'telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();

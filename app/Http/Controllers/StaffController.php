@@ -49,12 +49,11 @@ class StaffController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            // 'address' => 'required',
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'telephone' => 'required|digits_between:8,14',
-            // 'licence_number' => 'required',
-            // 'profession_id' => 'required',
-            // 'dob' => 'required',
+            'telephone' => [
+                'required',
+                'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
+            ],
             'role' => 'required',
             // 'member_photo' => 'max:2000',
             // 'schedule' => 'required|array',
@@ -64,15 +63,11 @@ class StaffController extends Controller
             // 'kindergarten.*.association_id' => 'required',
         ],[
             'name.required' => __('staff.requiredName'),
-            // 'address.required' => __('staff.requiredAddress'),
             'email.required' => __('staff.requiredEmail'),
             'email.email' => __('staff.validEmail'),
             'email.unique' => __('staff.existsEmail'),
-            // 'telephone.required' => __('staff.requiredTelephone'),
-            // 'licence_number.required' => __('staff.requiredLicence'),
-            // 'association_id.required' => __('staff.requiredProfession'),
-            // 'dob.required' => __('staff.requiredDOB'),
-            // 'profession_id.required' => 'Please chose profession',
+            'telephone.required' => __('validation.required'),
+            'telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
             'role.required' => __('staff.requiredRole'),
             // 'member_photo.max' => 'The photo may not be greater than 2MB',
             // 'schedule.*.start_time.required' => 'Please enter start time',
@@ -169,11 +164,10 @@ class StaffController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            // 'address' => 'required',
-            'telephone' => 'required|digits_between:8,14',
-            // 'licence_number' => 'required',
-            // 'profession_id' => 'required',
-            // 'dob' => 'required',
+            'telephone' => [
+                'required',
+                'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
+            ],
             'role' => 'required',
             // 'member_photo' => 'file|max:2000', 
             // 'schedule' => 'required|array',
@@ -183,11 +177,8 @@ class StaffController extends Controller
             // 'kindergarten.*.association_id' => 'required',
         ],[
             'name.required' => __('staff.requiredName'),
-            // 'address.required' => __('staff.requiredAddress'),            
-            'telephone.required' => __('staff.requiredTelephone'),
-            // 'licence_number.required' => __('staff.requiredLicence'),
-            // 'profession_id.required' => 'Please chose profession',
-            // 'dob.required' => __('staff.requiredDOB'),
+            'telephone.required' => __('validation.required'),
+            'telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
             'role.required' => __('staff.requiredRole'),
             // 'member_photo.max' => 'The photo may not be greater than 2MB',
             // 'schedule.*.start_time.required' => 'Please enter start time',

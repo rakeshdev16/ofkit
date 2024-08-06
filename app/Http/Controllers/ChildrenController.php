@@ -58,8 +58,14 @@ class ChildrenController extends Controller
             'family_name' => 'required',
             'dob' => 'required',
             'identification' => 'nullable|numeric|regex:/^\d{8,}$/',
-            'father_telephone' => 'nullable|digits_between:8,14',
-            'mother_telephone' => 'nullable|digits_between:8,14',
+            'father_telephone' => [
+                'nullable',
+                'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
+            ],
+            'mother_telephone' => [
+                'nullable',
+                'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
+            ],
             'emergency_telephone' => 'nullable|digits_between:8,14',
             'food_allergie_detail' => "required_if:food_allergie,==,yes",
             'medicine_dosage.*.name' => "required_if:medicine,==,yes",
@@ -72,8 +78,8 @@ class ChildrenController extends Controller
             'dob.required' => __('validation.required'),
             'identification.numeric' => 'Please enter numbers only',
             'identification.regex' => 'Please enter at least 8 numbers',
-            'father_telephone.digits_between' => __('children.digitsBetween'),
-            'mother_telephone.digits_between' => __('children.digitsBetween'),
+            'father_telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
+            'mother_telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
             'emergency_telephone.digits_between' => __('children.digitsBetween'),
             'food_allergie_detail.required_if' => __('children.requiredFoodAllergieDetail'),
             'medicine_dosage.*.name' => "Please enter name",
@@ -175,8 +181,14 @@ class ChildrenController extends Controller
             'family_name' => 'required',
             'dob' => 'required',
             'identification' => 'nullable|numeric|regex:/^\d{8,}$/',
-            'father_telephone' => 'nullable|digits_between:8,14',
-            'mother_telephone' => 'nullable|digits_between:8,14',
+            'father_telephone' => [
+                'nullable',
+                'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
+            ],
+            'mother_telephone' => [
+                'nullable',
+                'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
+            ],
             'emergency_telephone' => 'nullable|digits_between:8,14',
             'food_allergie_detail' => "required_if:food_allergie,==,yes",
             'medicine_dosage.*.name' => "required_if:medicine,==,yes",
@@ -189,8 +201,8 @@ class ChildrenController extends Controller
             'dob.required' => __('validation.required'),
             'identification.numeric' => 'Please enter numbers only',
             'identification.regex' => 'Please enter at least 8 numbers',
-            'father_telephone.digits_between' => __('children.digitsBetween'),
-            'mother_telephone.digits_between' => __('children.digitsBetween'),
+            'father_telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
+            'mother_telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
             'emergency_telephone.digits_between' => __('children.digitsBetween'),
             'food_allergie_detail.required_if' => __('children.requiredFoodAllergieDetail'),
             'medicine_dosage.*.name' => "Please enter name",
