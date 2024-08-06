@@ -196,7 +196,6 @@
                                                                 'label' => 'Father Email',
                                                                 'name' => 'father_email',
                                                                 'icon' => 'envelope',
-                                                                'readonly' => true,
                                                                 'value' => @$parent->father_email
                                                             ])
                                                         </div>
@@ -230,7 +229,6 @@
                                                                 'label' => 'Mother Email',
                                                                 'name' => 'mother_email',
                                                                 'icon' => 'envelope',
-                                                                'readonly' => true,
                                                                 'value' => @$parent->mother_email
                                                             ])
                                                         </div>

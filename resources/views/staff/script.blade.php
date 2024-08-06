@@ -60,6 +60,10 @@
         var id = e.params.data.id;
         var user_id = $('#userId').val();
         var index = $('.selected-kindergarten tr').length;
+        if (index == 1) {
+            index = $('.selected-kindergarten tr').data('index')+1;
+        }
+
         $.ajax({
             type: 'GET',
             url: "{{ route('selected.kindergarten') }}",
@@ -80,11 +84,38 @@
 
     $('.kindergarten').on('select2:unselect', function(e) {
         var id = e.params.data.id;
-        $('.tr-' + id).remove();
-        var length = $('.selected-kindergarten tr').length;
-        if (length == 0) {
-            $('.kindergarten-section').hide();
-        }
+        // $('.tr-' + id).remove();
+        var index = $('.selected-kindergarten tr').length;
+        // if (index == 0) {
+        //     $('.kindergarten-section').hide();
+        // }
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    type: 'POST',
+                    url: "{{ route('deleteStaffKindergarten') }}",
+                    data: {id: id},
+                    success: function(data) {
+                        if (data.status == true) {
+                            window.location.reload();
+                        }
+                    }
+                });            
+            } else {
+                window.location.reload();
+            }
+        });
     });
 
     // $(document).on('change', '.kindergarten', function() {

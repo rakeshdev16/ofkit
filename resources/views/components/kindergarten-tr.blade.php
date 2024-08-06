@@ -1,4 +1,4 @@
-<tr class="tr-{{$id}}">
+<tr class="tr-{{$id}}" data-index="{{$index}}">
     <td>
         <h6 class="pt-2">{{ getKindergartenNameById($id) }}</h6>
         <input type="hidden" name="kindergarten[{{$index}}][kindergarten_id]" value="{{ $id }}">

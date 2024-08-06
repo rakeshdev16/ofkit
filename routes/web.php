@@ -47,6 +47,7 @@ Route::middleware(['auth', 'lang'])->group(function () {
         Route::post('upload-staff-profile', 'uploadStaffProfile')->name('uploadStaffProfile');
         Route::get('selected-kindergarten', 'selectedKindergarten')->name('selected.kindergarten');
         Route::post('delete-document', 'deleteDocument')->name('document.delete');
+        Route::post('delete-staff-kindergarten', 'deleteStaffKindergarten')->name('deleteStaffKindergarten');
     });
     Route::controller(ChildrenController::class)->group(function () {
         Route::post('upload-children-profile', 'uploadProfile')->name('uploadChildrenProfile');

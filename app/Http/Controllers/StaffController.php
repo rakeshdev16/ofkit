@@ -310,4 +310,12 @@ class StaffController extends Controller
         }
         return response()->json(['status' => false, 'message' => 'Something went wrong please try again!']);
     }
+
+    public function deleteStaffKindergarten(Request $request)
+    {
+        if (StaffKindergarten::where('id', $request->id)->delete()) {
+            return response()->json(['status' => true]);
+        }
+        return response()->json(['status' => false]);
+    }
 }
