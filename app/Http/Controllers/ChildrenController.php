@@ -117,12 +117,16 @@ class ChildrenController extends Controller
                 'age' => $request->age,
                 'address' => $request->address,
                 'functionality_id' => $request->functionality_id,
-                'diagnosis_id' => $request->diagnosis_id,
                 'status_id' => $request->status_id,
                 'service_start_date' => $request->service_start_date,
                 'hmo_id' => $request->hmo_id,
                 'photo' => $photo,
             ]);
+            if (isset($request->diagnosis_id) && count($request->diagnosis_id) > 0) {
+                foreach ($request->diagnosis_id as $diagnosisId) {
+                    $children->diagnosis()->create(['diagnosis_id' => $diagnosisId]);
+                }
+            }
             $parent = $children->parent()->create([
                 'father_name' => $request->father_name,
                 'father_email' => $request->father_email,
@@ -253,11 +257,16 @@ class ChildrenController extends Controller
                 'age' => $request->age,
                 'address' => $request->address,
                 'functionality_id' => $request->functionality_id,
-                'diagnosis_id' => $request->diagnosis_id,
                 'status_id' => $request->status_id,
                 'service_start_date' => $request->service_start_date,
                 'hmo_id' => $request->hmo_id,
             ]);
+            $children->diagnosis()->delete();
+            if (isset($request->diagnosis_id) && count($request->diagnosis_id) > 0) {
+                foreach ($request->diagnosis_id as $diagnosisId) {
+                    $children->diagnosis()->create(['diagnosis_id' => $diagnosisId]);
+                }
+            }
             $children->parent()->update([
                 'father_name' => $request->father_name,
                 'father_telephone' => $request->father_telephone,

@@ -129,7 +129,7 @@
                                                                 'value' => $children->address
                                                             ])
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             @include('components.select-input', [
                                                                 'label' => __('children.functionality'),
                                                                 'name' => 'functionality_id',
@@ -138,22 +138,23 @@
                                                                 'value' => $children->functionality_id
                                                             ])
                                                         </div>
-                                                        <div class="col-md-4">
-                                                            @include('components.select-input', [
-                                                                'label' => __('children.diagnosis'),
-                                                                'name' => 'diagnosis_id',
-                                                                'icon' => 'buildings',
-                                                                'options' => $dianioses,
-                                                                'value' => $children->diagnosis_id
-                                                            ])
-                                                        </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             @include('components.select-input', [
                                                                 'label' => __('children.status'),
                                                                 'name' => 'status_id',
                                                                 'icon' => 'buildings',
                                                                 'options' => $statuses,
                                                                 'value' => $children->status_id
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            @include('components.multi-select-input', [
+                                                                'label' =>  __('children.diagnosis'),
+                                                                'name' => 'diagnosis_id[]',
+                                                                'class' => 'diagnosis',
+                                                                'icon' => 'buildings',
+                                                                'options' => $dianioses,
+                                                                'value' => @$children->diagnosis()->pluck('diagnosis_id')->toArray()
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
