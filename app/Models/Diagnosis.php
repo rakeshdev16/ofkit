@@ -26,6 +26,6 @@ class Diagnosis extends Model
 
     public function getIsAssignAttribute()
     {
-        return Children::where('diagnosis_id', @$this->attributes['id'])->exists();
+        return ChildrenDiagnosis::where('diagnosis_id', @$this->attributes['id'])->exists();
     }
 }
