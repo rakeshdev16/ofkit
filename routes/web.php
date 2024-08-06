@@ -81,3 +81,22 @@ Route::middleware(['auth', 'lang'])->group(function () {
 Route::get('seed',function(){ \Artisan::call("db:seed"); });
 Route::get('migrate',function(){ \Artisan::call("migrate"); });
 Route::get('migrate-fresh',function(){ \Artisan::call("migrate:fresh"); });
+
+Route::get('migrate-refresh', function (\Illuminate\Http\Request $request) {
+    $migrationName = $request->query('migration');
+    if (!$migrationName) {
+        return response()->json(['message' => 'Migration name is required.']);
+    }
+    $migrationPath = 'database/migrations/' . $migrationName . '.php';
+    if (!file_exists(database_path('migrations/' . $migrationName . '.php'))) {
+        return response()->json(['message' => 'Migration file does not exist.']);
+    }
+    Artisan::call('migrate:refresh', [
+        '--path' => $migrationPath,
+    ]);
+    $output = Artisan::output();
+    return response()->json([
+        'message' => 'Migration refreshed successfully!',
+        'output' => $output,
+    ]);
+});

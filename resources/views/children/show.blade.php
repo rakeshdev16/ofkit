@@ -246,10 +246,28 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
+                                                                'label' => 'Father Email',
+                                                                'name' => 'father_email',
+                                                                'icon' => 'envelope',
+                                                                'disabled' => 'disabled',
+                                                                'value' => @$parent->father_email
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
                                                                 'label' => __('children.fatherTelephone'),
                                                                 'name' => 'father_telephone',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$parent->father_telephone,
+                                                                'disabled' => 'disabled'
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
+                                                                'label' => 'Father Work',
+                                                                'name' => 'father_work',
+                                                                'icon' => 'briefcase',
+                                                                'value' => @$parent->father_work,
                                                                 'disabled' => 'disabled'
                                                             ])
                                                         </div>
@@ -264,6 +282,16 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
+                                                                'label' => 'Mother Email',
+                                                                'name' => 'mother_email',
+                                                                'icon' => 'envelope',
+                                                                'readonly' => true,
+                                                                'disabled' => 'disabled',
+                                                                'value' => @$parent->mother_email
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
                                                                 'label' => __('children.motherTelephone'),
                                                                 'name' => 'mother_telephone',
                                                                 'icon' => 'network-chart',
@@ -271,7 +299,16 @@
                                                                 'disabled' => 'disabled'
                                                             ])
                                                         </div>
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
+                                                                'label' => 'Mother Work',
+                                                                'name' => 'mother_work',
+                                                                'icon' => 'briefcase',
+                                                                'disabled' => 'disabled',
+                                                                'value' => @$parent->mother_work
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
                                                             @include('components.select-input', [
                                                                 'label' => __('children.familyStatus'),
                                                                 'name' => 'family_status',
@@ -279,6 +316,41 @@
                                                                 'options' => $parentsStatus,
                                                                 'value' => @$parent->family_status,
                                                                 'disabled' => 'disabled'
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
+                                                                'label' => 'Number of siblings',
+                                                                'name' => 'siblings',
+                                                                'class' => 'numbers',
+                                                                'icon' => 'user',
+                                                                'disabled' => 'disabled',
+                                                                'value' => @$parent->siblings
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
+                                                                'label' => 'Other disabilities in family',
+                                                                'name' => 'disabilities',
+                                                                'icon' => 'user',
+                                                                'disabled' => 'disabled',
+                                                                'value' => @$parent->disabilities
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @php
+                                                                $parentLanguages = $parent->language()->pluck('language')->map(function ($item) {
+                                                                    return ['key' => $item, 'value' => $item];
+                                                                })->toArray();
+                                                            @endphp
+                                                            @include('components.multi-select-input', [
+                                                                'label' => 'Spoken languages in the family',
+                                                                'name' => 'spoken_language[]',
+                                                                'class' => 'spkoenLanguages',
+                                                                'icon' => 'notepad',
+                                                                'disabled' => 'disabled',
+                                                                'value' => @$parent->language()->pluck('language')->toArray(),
+                                                                'options' => @$parentLanguages
                                                             ])
                                                         </div>
                                                         <div class="col-md-12"><h4> {{ __('children.additionalContacts') }}</h4></div>
@@ -401,6 +473,7 @@
         </div>
     @endsection
     @push('customScript')
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         @include('children.script')
         <script>
             $(document).on('click', '.button', function() {

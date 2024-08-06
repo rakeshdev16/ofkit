@@ -9,6 +9,7 @@ use App\Models\ChildrenMedicine;
 use App\Models\ChildrenParent;
 use App\Models\Cluster;
 use App\Models\Diagnosis;
+use App\Models\FamilyLanguage;
 use App\Models\Functionality;
 use App\Models\Hmo;
 use App\Models\Individual;
@@ -58,10 +59,12 @@ class ChildrenController extends Controller
             'family_name' => 'required',
             'dob' => 'required',
             'identification' => 'nullable|numeric|regex:/^\d{8,}$/',
+            'father_email' => ['nullable', 'string', 'email', 'max:255', 'unique:children_parents'],
             'father_telephone' => [
                 'nullable',
                 'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
             ],
+            'mother_email' => ['nullable', 'string', 'email', 'max:255', 'unique:children_parents'],
             'mother_telephone' => [
                 'nullable',
                 'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
@@ -120,16 +123,29 @@ class ChildrenController extends Controller
                 'hmo_id' => $request->hmo_id,
                 'photo' => $photo,
             ]);
-            $children->parent()->create([
+            $parent = $children->parent()->create([
                 'father_name' => $request->father_name,
+                'father_email' => $request->father_email,
                 'father_telephone' => $request->father_telephone,
+                'father_work' => $request->father_work,
                 'mother_name' => $request->mother_name,
+                'mother_email' => $request->mother_email,
                 'mother_telephone' => $request->mother_telephone,
+                'mother_work' => $request->mother_work,
                 'family_status' => $request->family_status,
+                'siblings' => $request->siblings,
+                'disabilities' => $request->disabilities,
                 'name' => $request->emergency_name,
                 'relationship' => $request->emergency_relationship,
                 'telephone' => $request->emergency_telephone,
             ]);
+
+            if (isset($request->spoken_language) && count($request->spoken_language) > 0) {
+                foreach ($request->spoken_language as $language) {
+                    $parent->language()->create(['language' => $language]);
+                }
+            }
+
             $children->medicalInformation()->create([
                 'food_allergie' => $request->food_allergie == 'yes' ? 1 : 0,
                 'food_allergie_detail' => $request->food_allergie == 'yes' ? $request->food_allergie_detail : '',
@@ -245,13 +261,24 @@ class ChildrenController extends Controller
             $children->parent()->update([
                 'father_name' => $request->father_name,
                 'father_telephone' => $request->father_telephone,
+                'father_work' => $request->father_work,
                 'mother_name' => $request->mother_name,
                 'mother_telephone' => $request->mother_telephone,
+                'mother_work' => $request->mother_work,
                 'family_status' => $request->family_status,
+                'siblings' => $request->siblings,
+                'disabilities' => $request->disabilities,
                 'name' => $request->emergency_name,
                 'relationship' => $request->emergency_relationship,
                 'telephone' => $request->emergency_telephone,
             ]);
+            $parent = ChildrenParent::where('children_id', $id)->first();
+            $parent->language()->delete();
+            if (isset($request->spoken_language) && count($request->spoken_language) > 0) {
+                foreach ($request->spoken_language as $language) {
+                    $parent->language()->create(['language' => $language]);
+                }
+            }
             $children->medicalInformation()->update([
                 'food_allergie' => $request->food_allergie == 'yes' ? 1 : 0,
                 'food_allergie_detail' => $request->food_allergie == 'yes' ? $request->food_allergie_detail : '',

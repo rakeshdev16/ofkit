@@ -169,7 +169,14 @@
                                                             @include('components.text-input', [
                                                                 'label' => __('children.fatherName'),
                                                                 'name' => 'father_name',
-                                                                'icon' => 'network-chart',
+                                                                'icon' => 'user',
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
+                                                                'label' => 'Father Email',
+                                                                'name' => 'father_email',
+                                                                'icon' => 'envelope',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -177,7 +184,14 @@
                                                                 'label' => __('children.fatherTelephone'),
                                                                 'name' => 'father_telephone',
                                                                 'class' => 'numbers',
-                                                                'icon' => 'network-chart',
+                                                                'icon' => 'phone',
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
+                                                                'label' => 'Father Work',
+                                                                'name' => 'father_work',
+                                                                'icon' => 'briefcase',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -189,18 +203,55 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
+                                                                'label' => 'Mother Email',
+                                                                'name' => 'mother_email',
+                                                                'icon' => 'envelope',
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
                                                                 'label' => __('children.motherTelephone'),
                                                                 'name' => 'mother_telephone',
                                                                 'class' => 'numbers',
-                                                                'icon' => 'network-chart',
+                                                                'icon' => 'phone',
                                                             ])
                                                         </div>
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
+                                                                'label' => 'Mother Work',
+                                                                'name' => 'mother_work',
+                                                                'icon' => 'briefcase',
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
                                                             @include('components.select-input', [
                                                                 'label' => __('children.familyStatus'),
                                                                 'name' => 'family_status',
                                                                 'icon' => 'buildings',
                                                                 'options' => $parentsStatus,
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
+                                                                'label' => 'Number of siblings',
+                                                                'name' => 'siblings',
+                                                                'class' => 'numbers',
+                                                                'icon' => 'user',
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
+                                                                'label' => 'Other disabilities in family',
+                                                                'name' => 'disabilities',
+                                                                'icon' => 'user',
+                                                            ])
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @include('components.multi-select-input', [
+                                                                'label' => 'Spoken languages in the family',
+                                                                'name' => 'spoken_language[]',
+                                                                'class' => 'spkoenLanguages',
+                                                                'icon' => 'notepad',
                                                             ])
                                                         </div>
                                                         <div class="col-md-12"><h4> {{ __('children.additionalContacts') }}</h4></div>

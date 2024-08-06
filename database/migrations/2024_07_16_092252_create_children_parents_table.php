@@ -15,10 +15,16 @@ return new class extends Migration
             $table->id();
             $table->foreignId('children_id')->constrained('childrens')->onDelete('cascade');
             $table->string('father_name')->nullable();
+            $table->string('father_email')->unique()->nullable();
             $table->string('father_telephone')->nullable();
+            $table->string('father_work')->nullable();
             $table->string('mother_name')->nullable();
+            $table->string('mother_email')->unique()->nullable();
             $table->string('mother_telephone')->nullable();
+            $table->string('mother_work')->nullable();
             $table->string('family_status')->nullable();
+            $table->string('siblings')->nullable();
+            $table->string('disabilities')->nullable();
             $table->string('name')->nullable();
             $table->string('relationship')->nullable();
             $table->string('telephone')->nullable();

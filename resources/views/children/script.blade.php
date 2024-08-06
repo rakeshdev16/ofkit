@@ -1,4 +1,9 @@
 <script>
+    $(".spkoenLanguages").select2({
+        tags: true,
+        tokenSeparators: [',', ' ']
+    })
+
     const kindergarten_id = $('.selectedKindergarten').val();            
     getKindergartenManager(kindergarten_id);
 

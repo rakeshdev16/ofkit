@@ -9,16 +9,18 @@
         {{ @$disabled }}
         {{ @$required }}
     >
-    @foreach ($options as $option)
-        <option
-            @if (@$value && count(@$value) > 0)
-                {{ in_array($option['key'], @$value) ? 'selected' : '' }}
-            @endif
-            value="{{ $option['key'] }}"
-        >
-            {{ ucfirst($option['value']) }}
-        </option>
-    @endforeach
+    @if (isset($options))
+        @foreach ($options as $option)
+            <option
+                @if (@$value && count(@$value) > 0)
+                    {{ in_array($option['key'], @$value) ? 'selected' : '' }}
+                @endif
+                value="{{ $option['key'] }}"
+            >
+                {{ ucfirst($option['value']) }}
+            </option>
+        @endforeach
+    @endif
     </select>
     <span class="position-absolute top-50 translate-middle-y">
         <i class="bx bx-{{ $icon }}"></i>

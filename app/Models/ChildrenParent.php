@@ -12,12 +12,23 @@ class ChildrenParent extends Model
     protected $fillable = [
         'children_id',
         'father_name',
+        'father_email',
         'father_telephone',
+        'father_work',
         'mother_name',
+        'mother_email',
         'mother_telephone',
+        'mother_work',
         'family_status',
+        'siblings',
+        'disabilities',
         'name',
         'relationship',
         'telephone',
     ];
+
+    public function language()
+    {
+        return $this->hasMany(FamilyLanguage::class);
+    }
 }
