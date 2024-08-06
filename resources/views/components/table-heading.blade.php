@@ -2,6 +2,7 @@
     class="{{ isset($key) ? 'sortTable' : '' }}"
     data-key="{{ @$key }}"
     data-value="{{ request()->sort == @$key ? request()->sorting : 'desc' }}"
+    style="width: {{ @$width }}"
 >
     <div class="d-flex justify-content-between">
         {{ $label }}

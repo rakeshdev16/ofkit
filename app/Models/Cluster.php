@@ -17,7 +17,9 @@ class Cluster extends Model
             $query->orderBy(request('sort'), request('sorting'));
         }
         if (request('search')) {
-            $query->where('cluster', 'like', '%'.request('search').'%');
+            $search = request('search');
+            $clusterIds = ClusterKindergarten::whereIn('kindergarten_id', Kindergarten::where('name', 'like', '%'.$search.'%')->pluck('id'))->pluck('cluster_id');
+            $query->where('cluster', 'like', '%'.$search.'%')->orWhereIn('id', $clusterIds);
         }
         return $query;
     }

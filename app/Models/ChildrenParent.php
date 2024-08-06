@@ -26,9 +26,4 @@ class ChildrenParent extends Model
         'relationship',
         'telephone',
     ];
-
-    public function language()
-    {
-        return $this->hasMany(FamilyLanguage::class);
-    }
 }

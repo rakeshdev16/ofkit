@@ -77,4 +77,9 @@ class Children extends Model
     {
         return $this->hasMany(ChildrenDiagnosis::class);
     }
+
+    public function language()
+    {
+        return $this->hasMany(FamilyLanguage::class);
+    }
 }

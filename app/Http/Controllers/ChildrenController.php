@@ -127,7 +127,7 @@ class ChildrenController extends Controller
                     $children->diagnosis()->create(['diagnosis_id' => $diagnosisId]);
                 }
             }
-            $parent = $children->parent()->create([
+            $children->parent()->create([
                 'father_name' => $request->father_name,
                 'father_email' => $request->father_email,
                 'father_telephone' => $request->father_telephone,
@@ -146,7 +146,7 @@ class ChildrenController extends Controller
 
             if (isset($request->spoken_language) && count($request->spoken_language) > 0) {
                 foreach ($request->spoken_language as $language) {
-                    $parent->language()->create(['language' => $language]);
+                    $children->language()->create(['language' => $language]);
                 }
             }
 
@@ -281,11 +281,10 @@ class ChildrenController extends Controller
                 'relationship' => $request->emergency_relationship,
                 'telephone' => $request->emergency_telephone,
             ]);
-            $parent = ChildrenParent::where('children_id', $id)->first();
-            $parent->language()->delete();
+            $children->language()->delete();
             if (isset($request->spoken_language) && count($request->spoken_language) > 0) {
                 foreach ($request->spoken_language as $language) {
-                    $parent->language()->create(['language' => $language]);
+                    $children->language()->create(['language' => $language]);
                 }
             }
             $children->medicalInformation()->update([

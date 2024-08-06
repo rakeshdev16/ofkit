@@ -280,12 +280,11 @@
                                                         <div class="col-md-6">
                                                             @php
                                                                 $parentLanguages = [];
-                                                                if ($parent) {
-                                                                    $parentLanguages = $parent->language()->pluck('language')->map(function ($item) {
-                                                                        return ['key' => $item, 'value' => $item];
-                                                                    })->toArray();
-                                                                }
-                                                                $selectedLanguages = $parent ? $parent->language()->pluck('language')->toArray() : [];
+                                                                $parentLanguages = [];
+                                                                $parentLanguages = $children->language()->pluck('language')->map(function ($item) {
+                                                                    return ['key' => $item, 'value' => $item];
+                                                                })->toArray();
+                                                                $selectedLanguages = $children ? $children->language()->pluck('language')->toArray() : [];
                                                             @endphp
                                                             @include('components.multi-select-input', [
                                                                 'label' => 'Spoken languages in the family',

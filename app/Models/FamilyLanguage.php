@@ -9,5 +9,5 @@ class FamilyLanguage extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['children_parent_id', 'language'];
+    protected $fillable = ['children_id', 'language'];
 }

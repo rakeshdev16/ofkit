@@ -1,11 +1,11 @@
 <table id="staffTable" class="table table-style table-bordered" style="width:100%">
     <thead>
         <tr>
-            <th><input type="checkbox" class="mainCheckbox"></th>
-            @include('components.table-heading', ['label' => __('cluster.clusterTh'), 'key' => 'cluster'])
-            @include('components.table-heading', ['label' => 'Kindergartens'])
-            @include('components.table-heading', ['label' => __('cluster.managerTh'), 'key' => 'manager'])
-            @include('components.table-heading', ['label' => 'Action'])
+            <th style="width: 2%;"><input type="checkbox" class="mainCheckbox"></th>
+            @include('components.table-heading', ['label' => __('cluster.clusterTh'), 'key' => 'cluster', 'width' => '30%'])
+            @include('components.table-heading', ['label' => 'Kindergartens', 'width' => '30%'])
+            @include('components.table-heading', ['label' => __('cluster.managerTh'), 'key' => 'manager', 'width' => '30%'])
+            @include('components.table-heading', ['label' => 'Action', 'width' => '5%'])
         </tr>
     </thead>
     <tbody>
