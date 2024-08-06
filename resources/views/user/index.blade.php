@@ -23,7 +23,7 @@
                 </div>
                 <div class="ms-auto">
                     <div class="">
-                        <a href="{!! URL::previous() !!}" class="btn button">{{ __('staff.back') }}</a>
+                        <a href="{{ route('dashboard') }}" class="btn button">{{ __('staff.back') }}</a>
                     </div>
                 </div>
             </div>
