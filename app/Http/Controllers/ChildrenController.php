@@ -201,10 +201,12 @@ class ChildrenController extends Controller
             'family_name' => 'required',
             'dob' => 'required',
             'identification' => 'nullable|numeric|regex:/^\d{8,}$/',
+            'father_email' => ['nullable', 'string', 'email', 'max:255', 'unique:children_parents'],
             'father_telephone' => [
                 'nullable',
                 'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
             ],
+            'mother_email' => ['nullable', 'string', 'email', 'max:255', 'unique:children_parents'],
             'mother_telephone' => [
                 'nullable',
                 'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
