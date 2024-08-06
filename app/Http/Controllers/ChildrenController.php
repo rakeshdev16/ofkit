@@ -30,7 +30,7 @@ class ChildrenController extends Controller
 {
     public function index(Request $request)
     {
-        $childrens = Children::filter()->paginate(10);
+        $childrens = Children::filter()->orderBy('id', 'DESC')->paginate(10);
         $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
         if ($request->ajax()) {
             return response()->json([

@@ -19,8 +19,8 @@ class FrameworkTableController extends Controller
 {
     public function index(Request $request)
     {
-        $kindergartenTypes = KindergartenType::filter()->paginate(10);
-        $frameworkTypes = FrameworkType::filter()->paginate(10);
+        $kindergartenTypes = KindergartenType::filter()->orderBy('id', 'DESC')->paginate(10);
+        $frameworkTypes = FrameworkType::filter()->orderBy('id', 'DESC')->paginate(10);
         if ($request->ajax()) {
             switch ($request->type) {
                 case 'kindergarten-type':

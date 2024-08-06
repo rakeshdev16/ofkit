@@ -21,8 +21,8 @@ class InterventionTableController extends Controller
 {
     public function index(Request $request)
     {
-        $documents = DocumentAndApproval::filter()->paginate(10);
-        $interventionTypes = InterventionType::filter()->paginate(10);
+        $documents = DocumentAndApproval::filter()->orderBy('id', 'DESC')->paginate(10);
+        $interventionTypes = InterventionType::filter()->orderBy('id', 'DESC')->paginate(10);
         if ($request->ajax()) {
             switch ($request->type) {
                 case 'documents-and-approval':

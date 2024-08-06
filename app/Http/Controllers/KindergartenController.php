@@ -16,7 +16,7 @@ class KindergartenController extends Controller
 {
     public function index(Request $request)
     {
-        $kindergartens = Kindergarten::filter()->paginate(10);
+        $kindergartens = Kindergarten::filter()->orderBy('id', 'DESC')->paginate(10);
         if (Auth::user()->hasRole(['manager', 'therapist'])) {
             // $kindergartens->where('user_id', Auth::id());
         }

@@ -39,18 +39,29 @@
                                     </span>
                                 @enderror
                             </div>
-                            <div class="col-12">
-                                <label for="inputEmailAddress" class="form-label">Password</label>
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                            <div class="col-12 mt-2">
+                                <label for="inputChoosePassword" class="form-label">{{ __('login.password') }}</label>
+                                <div class="input-group" id="show_hide_pass">
+                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Enter Password" name="password" required autocomplete="current-password">
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                    <a href="javascript:void(0);" class="input-group-text bg-transparent passwordEye" data-id="show_hide_pass"><i class='bx bx-hide'></i></a>
+                                </div>
                             </div>
-                            <div class="col-12">
-                                <label for="password-confirm" class="col-form-label text-md-end">{{ __('Confirm Password') }}</label>
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            <div class="col-12 mt-2">
+                                <label for="password-confirm" class="form-label">{{ __('Confirm Password') }}</label>
+                                <div class="input-group" id="show_hide_confirm_password">
+                                    <input id="confirm_password" type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Enter Confirm Password" name="password_confirmation" required autocomplete="current-password">
+                                    @error('password_confirmation')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                    <a href="javascript:void(0);" class="input-group-text bg-transparent passwordEye" data-id="show_hide_confirm_password"><i class='bx bx-hide'></i></a>
+                                </div>
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="d-grid">

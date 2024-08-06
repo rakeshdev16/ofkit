@@ -24,11 +24,11 @@ class ChildrenTableController extends Controller
 {
     public function index(Request $request)
     {
-        $parentsStatus = ParentsStatus::filter()->paginate(10);
-        $hmos = Hmo::filter()->paginate(10);
-        $diagnosises = Diagnosis::filter()->paginate(10);
-        $functionalities = Functionality::filter()->paginate(10);
-        $statuses = Status::filter()->paginate(10);
+        $parentsStatus = ParentsStatus::filter()->orderBy('id', 'DESC')->paginate(10);
+        $hmos = Hmo::filter()->orderBy('id', 'DESC')->paginate(10);
+        $diagnosises = Diagnosis::filter()->orderBy('id', 'DESC')->paginate(10);
+        $functionalities = Functionality::filter()->orderBy('id', 'DESC')->paginate(10);
+        $statuses = Status::filter()->orderBy('id', 'DESC')->paginate(10);
         if ($request->ajax()) {
             switch ($request->type) {
                 case 'parents-status':

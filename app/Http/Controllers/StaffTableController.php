@@ -17,9 +17,9 @@ class StaffTableController extends Controller
 {
     public function index(Request $request)
     {
-        $professions = Profession::filter()->get();
-        $roles = MemberRole::filter()->get();
-        $associations = Association::filter()->get();
+        $professions = Profession::filter()->orderBy('id', 'DESC')->get();
+        $roles = MemberRole::filter()->orderBy('id', 'DESC')->get();
+        $associations = Association::filter()->orderBy('id', 'DESC')->get();
         if ($request->ajax()) {
             switch ($request->type) {
                 case 'profession':

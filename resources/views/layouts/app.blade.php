@@ -58,6 +58,19 @@
                     $('#show_hide_password i').addClass("bx-show");
                 }
             });
+
+            $(document).on('click', '.passwordEye', function() {
+                var passwordId = $(this).data('id');
+                if ($('#'+passwordId+' input').attr("type") == "text") {
+                    $('#'+passwordId+' input').attr('type', 'password');
+                    $('#'+passwordId+' i').addClass("bx-hide");
+                    $('#'+passwordId+' i').removeClass("bx-show");
+                } else if ($('#'+passwordId+' input').attr("type") == "password") {
+                    $('#'+passwordId+' input').attr('type', 'text');
+                    $('#'+passwordId+' i').removeClass("bx-hide");
+                    $('#'+passwordId+' i').addClass("bx-show");
+                }
+            });
         });
     </script>
     <!--app JS-->

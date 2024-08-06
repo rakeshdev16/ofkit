@@ -98,11 +98,10 @@
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
-                                                            @include('components.select-input', [
-                                                                'label' => __('children.gender'), 
-                                                                'name' => 'gender', 
-                                                                'icon' => 'buildings', 
-                                                                'options' => [['key' => 'male', 'value' => 'Male'],['key' => 'female', 'value' => 'Female']],
+                                                            @include('components.text-input', [
+                                                                'label' =>  __('children.gender'),
+                                                                'name' => 'gender',
+                                                                'icon' => 'buildings',
                                                                 'value' => $children->gender,
                                                                 'disabled' => 'disabled'
                                                             ])
@@ -147,14 +146,12 @@
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
-                                                            @include('components.select-input', [
-                                                                'label' => __('children.kindergarten'),
+                                                            @include('components.text-input', [
+                                                                'label' =>  __('children.kindergarten'),
                                                                 'name' => 'kindergarten_id',
-                                                                'class' => 'selectedKindergarten',
-                                                                'icon' => 'buildings',
-                                                                'options' => $kindergartens,
-                                                                'value' => $children->kindergarten_id,
-                                                                'disabled' => 'disabled'
+                                                                'icon' => 'buildings', 
+                                                                'disabled' => 'disabled',
+                                                                'value' => getKindergartenNameById($children->kindergarten_id),
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -163,7 +160,7 @@
                                                                 'name' => '',
                                                                 'class' => 'kindergartenManager',
                                                                 'icon' => 'user',
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-12">
