@@ -13,7 +13,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
                             <li class="breadcrumb-item">
-                                <a href="{!! URL::previous() !!}">
+                                <a href="{{ route('kindergarten.index') }}">
                                     <img class="p-1" src="{{ asset('assets/icons/fi_2887367.png') }}"/>
                                 </a>
                             </li>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="ms-auto">
                     <div class="">
-                        <a href="{!! URL::previous() !!}" class="btn button">{{ __('kindergarten.back') }}</a>
+                        <a href="{{ route('kindergarten.index') }}" class="btn button">{{ __('kindergarten.back') }}</a>
                     </div>
                 </div>
             </div>
