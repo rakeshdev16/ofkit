@@ -29,7 +29,7 @@
             </div>
             <div class="row">
                 <div class="col-xl-6 mx-auto">
-                    <div class="card">
+                    <div class="card small-table">
                         <div class="card-body p-4">
                             <h5 class="mb-4">Update Hmo Detail</h5>
                             <form class="row g-3" action="{{ route('children-table.update', $hmos->id) }}" method="POST">

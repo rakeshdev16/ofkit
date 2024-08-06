@@ -7,7 +7,7 @@
         <button class="btn button moveToArchive" data-type="kindergarten-type">Move to Archive</button>
     </div>
 </div>
-<div class="card">
+<div class="card small-table">
     <div class="card-body">
         <div class="table-responsive">
             @include('components.table-search')

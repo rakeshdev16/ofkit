@@ -435,3 +435,8 @@ span.child-tab {
         opacity: 0;
     }
 }
+
+.small-table {
+    width: 50%;
+    margin: auto;
+}
