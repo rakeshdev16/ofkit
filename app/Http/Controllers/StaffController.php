@@ -65,8 +65,8 @@ class StaffController extends Controller
             'telephone.required' => __('validation.required'),
             'telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
             'role.required' => __('staff.requiredRole'),
-            'kindergarten.*.role_id.required' => 'Role ID is required',
-            'kindergarten.*.association_id.required' => 'Association ID is required',
+            'kindergarten.*.role_id.required' => 'Please choose role',
+            'kindergarten.*.association_id.required' => 'Please choose association',
         ]);
         $validator->after(function ($validator) use ($request) {
             // if ($request->kindergarten_id && count($request->kindergarten_id) > 0) {
@@ -168,8 +168,8 @@ class StaffController extends Controller
             'telephone.required' => __('validation.required'),
             'telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
             'role.required' => __('staff.requiredRole'),
-            'kindergarten.*.role_id.required' => 'Role ID is required',
-            'kindergarten.*.association_id.required' => 'Association ID is required',
+            'kindergarten.*.role_id.required' => 'Please choose role',
+            'kindergarten.*.association_id.required' => 'Please choose association',
         ]);
         $validator->after(function ($validator) use ($request) {
             // if ($request->kindergarten_id && count($request->kindergarten_id) > 0) {
