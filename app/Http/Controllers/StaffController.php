@@ -55,12 +55,8 @@ class StaffController extends Controller
                 'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
             ],
             'role' => 'required',
-            // 'member_photo' => 'max:2000',
-            // 'schedule' => 'required|array',
-            // 'schedule.*.start_time' => 'required',
-            // 'schedule.*.end_time' => 'required|after:schedule.*.start_time',
-            // 'kindergarten.*.role_id' => 'required',
-            // 'kindergarten.*.association_id' => 'required',
+            'kindergarten.*.role_id' => 'required',
+            'kindergarten.*.association_id' => 'required',
         ],[
             'name.required' => __('staff.requiredName'),
             'email.required' => __('staff.requiredEmail'),
@@ -69,24 +65,20 @@ class StaffController extends Controller
             'telephone.required' => __('validation.required'),
             'telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
             'role.required' => __('staff.requiredRole'),
-            // 'member_photo.max' => 'The photo may not be greater than 2MB',
-            // 'schedule.*.start_time.required' => 'Please enter start time',
-            // 'schedule.*.end_time.required' => 'Please enter end time',
-            // 'schedule.*.end_time.after' => 'End time must be after start time',
-            // 'kindergarten.*.role_id.required' => 'Please chose role',
-            // 'kindergarten.*.association_id.required' => 'Please chose association',
+            'kindergarten.*.role_id.required' => 'Role ID is required',
+            'kindergarten.*.association_id.required' => 'Association ID is required',
         ]);
         $validator->after(function ($validator) use ($request) {
-            if ($request->kindergarten_id && count($request->kindergarten_id) > 0) {
-                foreach ($request->kindergarten as $index => $kindergarten) {
-                    if (empty($kindergarten['role_id'])) {
-                        $validator->errors()->add("kindergarten.$index.role_id", 'Please choose role');
-                    }
-                    if (empty($kindergarten['association_id'])) {
-                        $validator->errors()->add("kindergarten.$index.association_id", 'Please choose association');
-                    }
-                }
-            }
+            // if ($request->kindergarten_id && count($request->kindergarten_id) > 0) {
+            //     foreach ($request->kindergarten as $index => $kindergarten) {
+            //         if (empty($kindergarten['role_id'])) {
+            //             $validator->errors()->add("kindergarten.$index.role_id", 'Please choose role');
+            //         }
+            //         if (empty($kindergarten['association_id'])) {
+            //             $validator->errors()->add("kindergarten.$index.association_id", 'Please choose association');
+            //         }
+            //     }
+            // }
             if ($request->schedule && count($request->schedule) > 0) {
                 foreach ($request->schedule as $index => $schedule) {
                     if (!empty($schedule['start_time']) && empty($schedule['end_time'])) {
@@ -169,35 +161,27 @@ class StaffController extends Controller
                 'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
             ],
             'role' => 'required',
-            // 'member_photo' => 'file|max:2000', 
-            // 'schedule' => 'required|array',
-            // 'schedule.*.start_time' => 'required',
-            // 'schedule.*.end_time' => 'required|after:schedule.*.start_time',
-            // 'kindergarten.*.role_id' => 'required',
-            // 'kindergarten.*.association_id' => 'required',
+            'kindergarten.*.role_id' => 'required',
+            'kindergarten.*.association_id' => 'required',
         ],[
             'name.required' => __('staff.requiredName'),
             'telephone.required' => __('validation.required'),
             'telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
             'role.required' => __('staff.requiredRole'),
-            // 'member_photo.max' => 'The photo may not be greater than 2MB',
-            // 'schedule.*.start_time.required' => 'Please enter start time',
-            // 'schedule.*.end_time.required' => 'Please enter end time',
-            // 'schedule.*.end_time.after' => 'End time must be after start time',
-            // 'kindergarten.*.role_id.required' => 'Please chose role',
-            // 'kindergarten.*.association_id.required' => 'Please chose profession',
+            'kindergarten.*.role_id.required' => 'Role ID is required',
+            'kindergarten.*.association_id.required' => 'Association ID is required',
         ]);
         $validator->after(function ($validator) use ($request) {
-            if ($request->kindergarten_id && count($request->kindergarten_id) > 0) {
-                foreach ($request->kindergarten as $index => $kindergarten) {
-                    if (empty($kindergarten['role_id'])) {
-                        $validator->errors()->add("kindergarten.$index.role_id", 'Please choose role');
-                    }
-                    if (empty($kindergarten['association_id'])) {
-                        $validator->errors()->add("kindergarten.$index.association_id", 'Please choose association');
-                    }
-                }
-            }
+            // if ($request->kindergarten_id && count($request->kindergarten_id) > 0) {
+            //     foreach ($request->kindergarten as $index => $kindergarten) {
+            //         if (empty($kindergarten['role_id'])) {
+            //             $validator->errors()->add("kindergarten.$index.role_id", 'Please choose role');
+            //         }
+            //         if (empty($kindergarten['association_id'])) {
+            //             $validator->errors()->add("kindergarten.$index.association_id", 'Please choose association');
+            //         }
+            //     }
+            // }
             if ($request->schedule && count($request->schedule) > 0) {
                 foreach ($request->schedule as $index => $schedule) {
                     if (!empty($schedule['start_time']) && empty($schedule['end_time'])) {

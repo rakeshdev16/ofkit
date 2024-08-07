@@ -66,6 +66,7 @@
     $('.kindergarten').on('select2:unselect', function(e) {
         var id = e.params.data.id;
         $('.tr-' + id).remove();
+        updateIndexes();
         var length = $('.selected-kindergarten tr').length;
         if (length == 0) {
             $('.kindergarten-section').hide();
@@ -81,6 +82,7 @@
                 if (data.status == true) {
                     if ($('.tr-' + id).length == 0) {
                         $('.selected-kindergarten').append(data.data);
+                        updateIndexes();
                     }
                     $('.kindergarten-section').show();
                 } else {
@@ -90,6 +92,20 @@
             }
         });
     }
+
+    function updateIndexes() {
+        $('.selected-kindergarten tr').each(function(index, element) {
+            $(this).find('input[name^="kindergarten"]').each(function() {
+                var name = $(this).attr('name').replace(/\[\d+\]/, '[' + index + ']');
+                $(this).attr('name', name);
+            });
+            $(this).find('select[name^="kindergarten"]').each(function() {
+                var name = $(this).attr('name').replace(/\[\d+\]/, '[' + index + ']');
+                $(this).attr('name', name);
+            });
+        });
+    }
+
     // $(document).on('change', '.kindergarten', function() {
     //     var ids = $(this).val();
     //     console.log(ids);
