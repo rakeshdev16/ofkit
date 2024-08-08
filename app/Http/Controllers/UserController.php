@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cluster;
 use App\Models\Kindergarten;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -135,14 +136,7 @@ class UserController extends Controller
 
     public function setPreviousRoute(Request $request)
     {
-        // \Session::put('last_url', url()->previous());
-        \Cache::put('last_url', url()->previous());
-        return response()->json(['status' => true]);
-    }
-
-    public function unsetPreviousRoute(Request $request)
-    {
-        \Cache::forget('last_url');
+        Setting::updateOrCreate(['key' => 'profile_last_url_'.Auth::id()], ['key' => 'profile_last_url_'.Auth::id(), 'value' => url()->previous()]);
         return response()->json(['status' => true]);
     }
 }

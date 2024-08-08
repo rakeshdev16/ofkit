@@ -95,10 +95,14 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
-                            <a class="dropdown-item d-flex align-items-center previousRoute" href="{{ route('profile.index') }}">
+                            <button class="dropdown-item d-flex align-items-center previousRoute" data-url="{{ route('profile.index') }}">
                                 <i class="bx bx-user fs-5"></i>
                                 <span>Profile</span>
-                            </a>
+                            </button>
+                            {{-- <a class="dropdown-item d-flex align-items-center previousRoute" href="{{ route('profile.index') }}">
+                                <i class="bx bx-user fs-5"></i>
+                                <span>Profile</span>
+                            </a> --}}
                         </li>
                         <li>
                             <div class="dropdown-divider mb-0"></div>
