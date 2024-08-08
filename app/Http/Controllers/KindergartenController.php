@@ -75,6 +75,16 @@ class KindergartenController extends Controller
         return view('kindergarten.edit', compact('kindergarten', 'clusters', 'managers', 'frameworks', 'types'));
     }
 
+    public function show($id)
+    {
+        $kindergarten = Kindergarten::findOrFail($id);
+        $clusters = Cluster::select('id as key', 'cluster as value')->get()->toArray();
+        $managers = User::role('manager')->select('id as key', 'name as value')->get();
+        $frameworks = FrameworkType::select('id as key', 'name as value')->get();
+        $types = KindergartenType::select('id as key', 'name as value')->get();
+        return view('kindergarten.show', compact('kindergarten', 'clusters', 'managers', 'frameworks', 'types'));
+    }
+
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -99,7 +109,7 @@ class KindergartenController extends Controller
         if (isset($request->manager_id)) {
             $kindergarten->kindergartenUser()->create(['user_id' => $request->manager_id]);
         }
-        return redirect()->route('kindergarten.index');
+        return redirect()->route('kindergarten.show', $id);
     }
 
     public function destroy($ids)

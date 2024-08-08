@@ -31,6 +31,7 @@
                 <td>{{ date('d/m/Y', strtotime($kindergarten->updated_at)) }}</td>
                 <td>
                     <a href="{{ route('kindergarten.edit', $kindergarten->id) }}" class=""><i class="bx bx-edit icon"></i></a>
+                    <a href="{{ route('kindergarten.show', $kindergarten->id) }}" class=""><i class="bx bx-show icon"></i></a>
                 </td>
             </tr>
         @empty
