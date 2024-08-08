@@ -44,16 +44,13 @@ class KindergartenController extends Controller
             'name' => 'required',
             'cluster_id' => 'required',
             'symbol' => 'nullable|numeric',
-            'telephone' => [
-                'required',
-                'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
-            ],
+            'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
         ],[
             'name.required' => __('kindergarten.requiredName'),
             'cluster_id.required' => __('kindergarten.requiredCluster'),
             'symbol.numeric' => 'Please enter numbers only',
             'telephone.required' => 'Please enter telephone number',
-            'telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
+            'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -90,15 +87,12 @@ class KindergartenController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'symbol' => 'nullable|numeric',
-            'telephone' => [
-                'required',
-                'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
-            ],
+            'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
         ],[
             'name.required' => __('kindergarten.requiredName'),
             'symbol.numeric' => 'Please enter numbers only',
             'telephone.required' => 'Please enter telephone number',
-            'telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
+            'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();

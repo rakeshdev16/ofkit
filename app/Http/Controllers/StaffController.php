@@ -50,10 +50,7 @@ class StaffController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'telephone' => [
-                'required',
-                'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
-            ],
+            'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
             'role' => 'required',
             'kindergarten.*.role_id' => 'required',
             'kindergarten.*.association_id' => 'required',
@@ -63,7 +60,7 @@ class StaffController extends Controller
             'email.email' => __('staff.validEmail'),
             'email.unique' => __('staff.existsEmail'),
             'telephone.required' => __('validation.required'),
-            'telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
+            'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
             'role.required' => __('staff.requiredRole'),
             'kindergarten.*.role_id.required' => 'Please choose role',
             'kindergarten.*.association_id.required' => 'Please choose association',
@@ -156,17 +153,14 @@ class StaffController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'telephone' => [
-                'required',
-                'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
-            ],
+            'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
             'role' => 'required',
             'kindergarten.*.role_id' => 'required',
             'kindergarten.*.association_id' => 'required',
         ],[
             'name.required' => __('staff.requiredName'),
             'telephone.required' => __('validation.required'),
-            'telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
+            'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
             'role.required' => __('staff.requiredRole'),
             'kindergarten.*.role_id.required' => 'Please choose role',
             'kindergarten.*.association_id.required' => 'Please choose association',

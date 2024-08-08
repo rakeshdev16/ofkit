@@ -30,17 +30,14 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'address' => 'required',
-            'telephone' => [
-                'required',
-                'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
-            ],
+            'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
             'licence_number' => 'required|regex:/^[0-9-]+$/',
             'member_photo' => 'image|max:2000',
         ], [
             'name.required' => __('validation.required'),
             'address.required' => __('validation.required'),
             'telephone.required' => __('validation.required'),
-            'telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
+            'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
             'licence_number.required' => __('validation.required'),
             'licence_number.regex' => 'Only digits are allowed with hyphens',
             'member_photo.image' => __('validation.image'),
