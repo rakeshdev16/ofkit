@@ -43,8 +43,8 @@
                 <td>{{ date('d/m/Y', strtotime($member->created_at)) }}</td>
                 <td>{{ date('d/m/Y', strtotime($member->updated_at)) }}</td>
                 <td>
-                    <a href="{{ route('staff.edit', $member->id) }}" class=""><i class="bx bx-edit icon"></i></a>
-                    <a href="{{ route('staff.show', $member->id) }}" class=""><i class="bx bx-show icon"></i></a>
+                    <a href="{{ route('staff.edit', $member->id) }}?kindergarten_id={{ request()->kindergarten_id }}" class=""><i class="bx bx-edit icon"></i></a>
+                    <a href="{{ route('staff.show', $member->id) }}?kindergarten_id={{ request()->kindergarten_id }}" class=""><i class="bx bx-show icon"></i></a>
                 </td>
             </tr>
         @empty

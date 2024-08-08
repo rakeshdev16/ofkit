@@ -127,7 +127,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' =>  'Created At',
+                                                                'label' =>  __('children.createdAt'),
                                                                 'name' => 'created_at',
                                                                 'class' => 'created_at',
                                                                 'icon' => 'calendar', 
@@ -137,7 +137,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' =>  'Updated At',
+                                                                'label' =>  __('children.updatedAt'),
                                                                 'name' => 'updated_at',
                                                                 'class' => 'updated_at',
                                                                 'icon' => 'calendar', 
@@ -153,6 +153,7 @@
                                                                 'disabled' => 'disabled',
                                                                 'value' => getKindergartenNameById($children->kindergarten_id),
                                                             ])
+                                                            <input type="hidden" class="selectedKindergarten" value="{{$children->kindergarten_id}}">
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [

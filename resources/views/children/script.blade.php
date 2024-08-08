@@ -5,7 +5,7 @@
         tokenSeparators: [',', ' ']
     });
 
-    const kindergarten_id = $('.selectedKindergarten').val();            
+    const kindergarten_id = $('.selectedKindergarten').val();
     getKindergartenManager(kindergarten_id);
 
     $(document).on('change', '.selectedKindergarten', function() {

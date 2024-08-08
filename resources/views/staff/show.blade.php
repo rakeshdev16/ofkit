@@ -13,7 +13,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('staff.index') }}">
+                                <a href="{{ route('staff.index') }}?kindergarten_id={{ request()->kindergarten_id }}">
                                     <img class="p-1" src="{{ asset('assets/icons/fi_2887367.png') }}"/>
                                 </a>
                             </li>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="ms-auto">
                     <div class="">
-                        <a href="{{ route('staff.index') }}" class="btn button">{{ __('staff.back') }}</a>
+                        <a href="{{ route('staff.index') }}?kindergarten_id={{ request()->kindergarten_id }}" class="btn button">{{ __('staff.back') }}</a>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                         <div class="col-lg-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <a href="{{ route('staff.edit', $staff->id) }}" class="btn button">Edit</a>
+                                    <a href="{{ route('staff.edit', $staff->id) }}?kindergarten_id={{ request()->kindergarten_id }}" class="btn button">Edit</a>
                                     <div class="d-flex flex-column align-items-center text-center">
                                         <img src="{{ @$staff->profile }}" alt="Admin" class="rounded-circle p-1 bg-primary staff-profile" width="110">
                                         <div class="mt-3">
@@ -69,11 +69,11 @@
                                             <span class="text-secondary">{{ @$staff->getRoleNames()->first() }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 class="mb-0"><i class="bx bx-calendar"></i> Created At</h6>
+                                            <h6 class="mb-0"><i class="bx bx-calendar"></i> Created On</h6>
                                             <span class="text-secondary">{{ date('d/m/Y', strtotime($staff->created_at)) }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 class="mb-0"><i class="bx bx-calendar"></i> Updated At</h6>
+                                            <h6 class="mb-0"><i class="bx bx-calendar"></i> Updated On</h6>
                                             <span class="text-secondary">{{ date('d/m/Y', strtotime($staff->updated_at)) }}</span>
                                         </li>
                                         @foreach ($staff->documents as $document)
