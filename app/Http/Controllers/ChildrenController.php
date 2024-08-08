@@ -91,15 +91,16 @@ class ChildrenController extends Controller
             'medicine_dosage.*.where' => "Please choose where",
         ]);
         if ($validator->fails()) {
-            $errorKeys = array_keys($validator->errors()->toArray());
-            $medicineDosageKey = [];
-            foreach ($errorKeys as $key) {
-                if (preg_match('/medicine_dosage\.(\d+)\./', $key, $matches)) {
-                    $medicineDosageKey[] = $matches[1];
-                }
-            }
-            $medicineDosageKey = array_unique($medicineDosageKey);
-            return redirect()->back()->withErrors($validator)->withInput()->with('medicineDosageKey', $medicineDosageKey);
+            // $errorKeys = array_keys($validator->errors()->toArray());
+            // $medicineDosageKey = [];
+            // foreach ($errorKeys as $key) {
+            //     if (preg_match('/medicine_dosage\.(\d+)\./', $key, $matches)) {
+            //         $medicineDosageKey[] = $matches[1];
+            //     }
+            // }
+            // $medicineDosageKey = array_unique($medicineDosageKey);
+            // return redirect()->back()->withErrors($validator)->withInput()->with('medicineDosageKey', $medicineDosageKey);
+            return redirect()->back()->withErrors($validator)->withInput();
         }
         DB::beginTransaction();
 
@@ -233,15 +234,16 @@ class ChildrenController extends Controller
             'medicine_dosage.*.where' => "Please choose where",
         ]);
         if ($validator->fails()) {
-            $errorKeys = array_keys($validator->errors()->toArray());
-            $medicineDosageKey = [];
-            foreach ($errorKeys as $key) {
-                if (preg_match('/medicine_dosage\.(\d+)\./', $key, $matches)) {
-                    $medicineDosageKey[] = $matches[1];
-                }
-            }
-            $medicineDosageKey = array_unique($medicineDosageKey);
-            return redirect()->back()->withErrors($validator)->withInput()->with('medicineDosageKey', $medicineDosageKey);
+            // $errorKeys = array_keys($validator->errors()->toArray());
+            // $medicineDosageKey = [];
+            // foreach ($errorKeys as $key) {
+            //     if (preg_match('/medicine_dosage\.(\d+)\./', $key, $matches)) {
+            //         $medicineDosageKey[] = $matches[1];
+            //     }
+            // }
+            // $medicineDosageKey = array_unique($medicineDosageKey);
+            // return redirect()->back()->withErrors($validator)->withInput()->with('medicineDosageKey', $medicineDosageKey);
+            return redirect()->back()->withErrors($validator)->withInput();
         }
         DB::beginTransaction();
 
