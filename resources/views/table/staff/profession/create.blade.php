@@ -40,7 +40,7 @@
                                 <div class="col-md-6">
                                     <div class="d-md-flex d-grid align-items-center gap-3">
                                         <input type="hidden" name="type" value="profession">
-                                        <button type="submit" class="btn button px-4">Add</button>
+                                        <button type="submit" class="btn button submitBtn px-4">Add</button>
                                     </div>
                                 </div>
                             </form>

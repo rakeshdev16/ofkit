@@ -44,6 +44,52 @@
     <script src="{{ asset('assets/js/index.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
 	<script src="{{ asset('assets/js/toastr.min.js') }}"></script>
+    <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
 	@stack('customScript')
+
+    <script>
+        $(document).on('click', '.previousRoute', function(e) {
+            $.ajax({
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                type: 'POST',
+                url: "{{ route('setPreviousRoute') }}",
+                success: function (data) {
+                    if (data.status == true) {
+                        
+                    }
+                }
+            });      
+        });
+        $(document).ready(function() {
+            let formChanged = false;
+            $('form :input').on('change input', function() {
+                formChanged = true;
+            });
+            $('.exit').on('click', function(e) {
+                $(this).attr('disabled', false);
+                if (formChanged) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: "Unsaved changes",
+                        text: "You have unsaved changes. Are you sure you want to leave this page?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, leave it!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = $(this).data('url');            
+                        }
+                    });
+                } else {
+                    window.location.href = $(this).data('url');
+                }
+            });
+            $('form').on('submit', function() {
+                formChanged = false;
+            });
+        });
+    </script>
 </body>
 </html>

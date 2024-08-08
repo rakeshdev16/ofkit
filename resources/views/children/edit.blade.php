@@ -25,7 +25,7 @@
                         </div>
                         <div class="ms-auto">
                             <div class="">
-                                <a href="{{ route('children.index') }}" class="btn button">{{ __('comon.back') }}</a>
+                                <button data-url="{{ route('children.show', $children->id) }}" class="btn button exit">{{ __('comon.back') }}</button>
                             </div>
                         </div>
                     </div>
@@ -385,7 +385,7 @@
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="d-flex align-items-center gap-3">
-                                                                <button type="submit" class="btn button px-4">{{ __('comon.update') }}
+                                                                <button type="submit" class="btn button submitBtn px-4">{{ __('comon.update') }}
                                                                     <i class="bx bx-right-arrow-alt ms-2"></i>
                                                                 </button>
                                                             </div>

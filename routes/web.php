@@ -76,6 +76,7 @@ Route::middleware(['auth', 'lang'])->group(function () {
         Route::post('change-password', 'changePassword')->name('change-password.update');
         Route::post('upload-user-profile', 'uploadUserProfile')->name('userProfile.update');
         Route::post('delete-user-photo', 'deletePhoto')->name('delete.user-photo');
+        Route::post('set-previous-route', 'setPreviousRoute')->name('setPreviousRoute');
     });
 });
 

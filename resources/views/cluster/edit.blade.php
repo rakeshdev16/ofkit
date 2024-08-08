@@ -23,7 +23,7 @@
                 </div>
                 <div class="ms-auto">
                     <div class="">
-                        <a href="{{ route('cluster.index') }}" class="btn button">{{ __('cluster.back') }}</a>
+                        <button data-url="{{ route('cluster.index') }}" class="btn button exit">{{ __('cluster.back') }}</button>
                     </div>
                 </div>
             </div>
@@ -36,7 +36,12 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="col-md-6">
-                                    @include('components.text-input', ['label' => __('cluster.clusterTh'), 'name' => 'cluster', 'icon' => 'network-chart', 'value' => $cluster->cluster])
+                                    @include('components.text-input', [
+                                        'label' => __('cluster.clusterTh'),
+                                        'name' => 'cluster',
+                                        'icon' => 'network-chart',
+                                        'value' => $cluster->cluster
+                                    ])
                                 </div>
                                 <div class="col-md-6">
                                     @include('components.select-input', [
@@ -49,7 +54,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="d-md-flex d-grid align-items-center gap-3">
-                                        <button type="submit" class="btn button px-4">{{ __('cluster.editBtnText') }}</button>
+                                        <button type="submit" class="btn button submitBtn px-4">{{ __('cluster.editBtnText') }}</button>
                                     </div>
                                 </div>
                             </form>

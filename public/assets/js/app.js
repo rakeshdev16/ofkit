@@ -1,4 +1,4 @@
-$(document).on('click', '.button', function() {
+$(document).on('click', '.submitBtn', function() {
 	$(this).attr('disabled', true);
 	$(this).parent().parent().parent().submit();
 });

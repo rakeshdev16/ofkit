@@ -23,7 +23,7 @@
                 </div>
                 <div class="ms-auto">
                     <div class="">
-                        <a href="{{ route('intervention.index') }}?type=intervention-type" class="btn button">Back</a>
+                        <button data-url="{{ route('intervention.index') }}?type=intervention-type" class="btn button exit">{{ __('comon.back') }}</button>
                     </div>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                                 <div class="col-md-12">
                                     <div class="d-md-flex d-grid align-items-center gap-3">
                                         <input type="hidden" name="type" value="intervention-type">
-                                        <button type="submit" class="btn button px-4">Update</button>
+                                        <button type="submit" class="btn button submitBtn px-4">Update</button>
                                     </div>
                                 </div>
                             </form>

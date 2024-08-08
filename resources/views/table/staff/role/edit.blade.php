@@ -23,7 +23,7 @@
                 </div>
                 <div class="ms-auto">
                     <div class="">
-                        <a href="{{ route('staff-table.index') }}?type=role" class="btn button">{{ __('cluster.back') }}</a>
+                        <button data-url="{{ route('staff-table.index') }}?type=role" class="btn button exit">{{ __('comon.back') }}</button>
                     </div>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                                 <div class="col-md-12">
                                     <div class="d-md-flex d-grid align-items-center gap-3">
                                         <input type="hidden" name="type" value="role">
-                                        <button type="submit" class="btn button px-4">{{ __('cluster.editBtnText') }}</button>
+                                        <button type="submit" class="btn button submitBtn px-4">{{ __('cluster.editBtnText') }}</button>
                                     </div>
                                 </div>
                             </form>

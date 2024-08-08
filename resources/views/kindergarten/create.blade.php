@@ -95,7 +95,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="d-md-flex d-grid align-items-center gap-3">
-                                        <button type="submit" class="btn button px-4">{{ __('kindergarten.addBtnText') }}</button>
+                                        <button type="submit" class="btn button submitBtn px-4">{{ __('kindergarten.addBtnText') }}</button>
                                     </div>
                                 </div>
                             </form>

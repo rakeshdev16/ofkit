@@ -334,7 +334,7 @@
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="d-flex align-items-center gap-3">
-                                                                <button type="submit" class="btn button px-4">{{ __('comon.submit') }}
+                                                                <button type="submit" class="btn button submitBtn px-4">{{ __('comon.submit') }}
                                                                     <i class="bx bx-right-arrow-alt ms-2"></i>
                                                                 </button>
                                                             </div>

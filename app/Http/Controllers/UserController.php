@@ -132,4 +132,11 @@ class UserController extends Controller
         }
         return response()->json(['status' => true, 'message' => 'Profile image has been deleted', 'src' => asset('assets/images/avatars/dummy-image.webp')]);
     }
+
+    public function setPreviousRoute(Request $request)
+    {
+        \Session::put('last_url', url()->previous());
+
+        return response()->json(['status' => true]);
+    }
 }

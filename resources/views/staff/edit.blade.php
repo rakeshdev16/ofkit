@@ -23,7 +23,7 @@
                         </div>
                         <div class="ms-auto">
                             <div class="">
-                                <a href="{{ route('staff.index') }}?kindergarten_id={{ request()->kindergarten_id }}" class="btn button">{{ __('staff.back') }}</a>
+                                <button data-url="{{ route('staff.show', $staff->id) }}" class="btn button exit">{{ __('comon.back') }}</button>
                             </div>
                         </div>
                     </div>
@@ -257,7 +257,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="d-md-flex d-grid align-items-center gap-3">
-                                                <button type="submit" class="btn button px-4">{{ __('staff.updateBtnText') }}</button>
+                                                <button type="submit" class="btn button submitBtn px-4">{{ __('staff.updateBtnText') }}</button>
                                             </div>
                                         </div>
                                     </form>

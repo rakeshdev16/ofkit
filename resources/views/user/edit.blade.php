@@ -23,7 +23,7 @@
                         </div>
                         <div class="ms-auto">
                             <div class="">
-                                <a href="{{ route('profile.index') }}" class="btn button">{{ __('staff.back') }}</a>
+                                <button data-url="{{ route('profile.index') }}" class="btn button exit">{{ __('comon.back') }}</button>
                             </div>
                         </div>
                     </div>
