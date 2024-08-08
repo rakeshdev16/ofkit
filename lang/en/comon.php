@@ -8,7 +8,7 @@ return [
     'submit' => 'Submit',
     'moveToArchive' => 'Move To Archive',
     'searchLabel' => 'Search',
-    'back' => "Back",
+    'back' => "Exit",
     'emptyTableMsg' => 'No Data Found!',
     'previous' => 'Prev',
     'next' => 'Next',
