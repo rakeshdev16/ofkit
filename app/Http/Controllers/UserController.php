@@ -34,7 +34,7 @@ class UserController extends Controller
                 'required',
                 'regex:/^(?=.*\d)(?=(?:.{8,14}|.{0,7}-|.{0,3}-{0,3}-{4}|.{3}-{4}-{4})$)\d{1,3}-?\d{1,3}-?\d{4}$/'
             ],
-            'licence_number' => 'required',
+            'licence_number' => 'required|regex:/^[0-9-]+$/',
             'member_photo' => 'image|max:2000',
         ], [
             'name.required' => __('validation.required'),
@@ -42,6 +42,7 @@ class UserController extends Controller
             'telephone.required' => __('validation.required'),
             'telephone.regex' => 'The phone number format is invalid. It should be a sequence of digits or digits separated by hyphens like (123-456-7890)',
             'licence_number.required' => __('validation.required'),
+            'licence_number.regex' => 'Only digits are allowed with hyphens',
             'member_photo.image' => __('validation.image'),
             'member_photo.max' => __('validation.max'),
         ]);
