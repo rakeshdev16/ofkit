@@ -135,8 +135,8 @@ class UserController extends Controller
 
     public function setPreviousRoute(Request $request)
     {
-        \Session::put('last_url', url()->previous());
-
+        // \Session::put('last_url', url()->previous());
+        \Cache::put('last_url', url()->previous());
         return response()->json(['status' => true]);
     }
 }

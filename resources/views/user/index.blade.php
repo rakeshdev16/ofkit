@@ -23,7 +23,7 @@
                 </div>
                 <div class="ms-auto">
                     <div class="">
-                        <a href="{{ Session::get('last_url') }}" class="btn button">{{ __('staff.back') }}</a>
+                        <a href="{{ Cache::pull('last_url') }}" class="btn button">{{ __('staff.back') }}</a>
                     </div>
                 </div>
             </div>
