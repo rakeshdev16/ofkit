@@ -44,11 +44,6 @@ class ClusterController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $cluster = Cluster::create($request->all());
-        if (isset($request->kindergarten_id) && count($request->kindergarten_id) > 0) {
-            foreach ($request->kindergarten_id as $kindergartenId) {
-                $cluster->kindergartens()->create(['kindergarten_id' => $kindergartenId]);
-            }
-        }
         return redirect()->route('cluster.index');
     }
 
@@ -74,12 +69,6 @@ class ClusterController extends Controller
         }
         $cluster = Cluster::findOrFail($id);
         $cluster->update($request->except('_token', '_method', 'kindergarten_id'));
-        $cluster->kindergartens()->delete();
-        if (isset($request->kindergarten_id) && count($request->kindergarten_id) > 0) {
-            foreach ($request->kindergarten_id as $kindergartenId) {
-                $cluster->kindergartens()->create(['kindergarten_id' => $kindergartenId]);
-            }
-        }
         return redirect()->route('cluster.index');
     }
 

@@ -31,6 +31,6 @@ class Cluster extends Model
 
     public function kindergartens()
     {
-        return $this->hasMany(ClusterKindergarten::class);
+        return $this->hasMany(Kindergarten::class, 'cluster_id', 'id');
     }
 }

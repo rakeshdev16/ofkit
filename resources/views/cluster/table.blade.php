@@ -15,15 +15,11 @@
                 <td>{{ $cluster->cluster }}</td>
                 <td>
                     @php
-                        $kindergartens = getKindergartenNamesById($cluster->kindergartens->pluck('kindergarten_id')->toArray());
+                        $kindergartens = $cluster->kindergartens->pluck('name')->toArray();
                     @endphp
-                    {{ \Str::limit(implode(', ', $kindergartens), 90, '...') ?? '-' }}
-                    {{-- @forelse ($cluster->kindergartens->take(2) as $kindergarten)
-                        {{ getKindergartenNameById($kindergarten->kindergarten_id) }}{{ !$loop->last ? ', ' : '' }}
-                    @empty
-                        -
-                    @endforelse
-                    {{ count($cluster->kindergartens) > 2 ? '...' : '' }} --}}
+                    <span data-toggle="tooltip" data-placement="bottom" title="{{ implode(', ', $kindergartens) }}" style="cursor: default">
+                        {{ \Str::limit(implode(', ', $kindergartens), 90, '...') ?? '-' }}
+                    </span>
                 </td>
                 <td>{{ @$cluster->manager->name ?? '-' }}</td>
                 <td>
