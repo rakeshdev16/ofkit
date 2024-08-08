@@ -139,4 +139,10 @@ class UserController extends Controller
         \Cache::put('last_url', url()->previous());
         return response()->json(['status' => true]);
     }
+
+    public function unsetPreviousRoute(Request $request)
+    {
+        \Cache::forget('last_url');
+        return response()->json(['status' => true]);
+    }
 }

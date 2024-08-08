@@ -60,6 +60,19 @@
                 }
             });      
         });
+
+        $(document).on('click', '.profileExitBtn', function(e) {
+            $.ajax({
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                type: 'POST',
+                url: "{{ route('unsetPreviousRoute') }}",
+                success: function (data) {
+                    if (data.status == true) {
+
+                    }
+                }
+            });
+        });
         $(document).ready(function() {
             let formChanged = false;
             $('form :input').on('change input', function() {

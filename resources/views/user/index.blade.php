@@ -23,7 +23,7 @@
                 </div>
                 <div class="ms-auto">
                     <div class="">
-                        <a href="{{ Cache::pull('last_url') }}" class="btn button">{{ __('staff.back') }}</a>
+                        <a href="{{ Cache::pull('last_url') }}" class="btn button profileExitBtn">{{ __('staff.back') }}</a>
                     </div>
                 </div>
             </div>
