@@ -45,12 +45,6 @@
         $(this).attr('disabled', false);
     });
     
-    $(document).on('change', '.select-filter', function () {
-        var kindergartenId = $(this).val();
-        var url = queryParam('kindergarten_id', kindergartenId);
-        filter(url);
-    });
-    
     $(document).on('click', '.moveToArchive', function() {
         var url = "{{ route('staff.destroy', ':ids') }}";
         var msg = "{{ __('validation.chose_at_least_one', ['attribute' => 'staff member']) }}";

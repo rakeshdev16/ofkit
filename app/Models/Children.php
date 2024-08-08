@@ -37,8 +37,11 @@ class Children extends Model
         }
         if (request('search')) {
             $search = request('search');
-            $query->where('name', 'like', '%'.$search.'%')->orWhere('family_name', 'like', '%'.$search.'%')
-                ->orWhereIn('kindergarten_id', Kindergarten::where('name', 'like', '%'.$search.'%')->pluck('id'));
+            $query->where('name', 'like', '%'.$search.'%')->orWhere('family_name', 'like', '%'.$search.'%');
+        }
+
+        if (request('kindergarten_id')) {
+            $query->where('kindergarten_id', request('kindergarten_id'));
         }
 
         if (Auth::user()->hasRole(['manager', 'therapist'])) {

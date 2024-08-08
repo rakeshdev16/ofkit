@@ -18,6 +18,13 @@ $(document).on('click', '.search-button', function () {
     var url = queryParam('search', search);
     filter(url);
 });
+
+$(document).on('change', '.select-filter', function () {
+    var kindergartenId = $(this).val();
+    var url = queryParam('kindergarten_id', kindergartenId);
+    filter(url);
+});
+
 $(document).on('click', '.sortTable', function () {
     var key = $(this).data('key');
     var value = $(this).data('value') == 'desc' ? 'asc' : 'desc';

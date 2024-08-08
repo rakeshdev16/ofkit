@@ -8,6 +8,12 @@
             <div class="mb-4 page-info">
                 <div>
                     <h3 class="mb-0 text-uppercase">{{ __('children.children') }} ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
+                    <select name="" class="select-filter">
+                        <option value="">All Kindergartens</option>
+                        @foreach ($kindergartens as $kindergarten)
+                            <option {{ request()->kindergarten_id == $kindergarten['key'] ? 'selected' : '' }} value="{{ $kindergarten['key'] }}">{{ $kindergarten['value'] }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="mt-3">
                     @if (Auth::user()->hasRole('admin'))
