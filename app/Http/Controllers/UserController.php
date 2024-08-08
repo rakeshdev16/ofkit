@@ -136,7 +136,10 @@ class UserController extends Controller
 
     public function setPreviousRoute(Request $request)
     {
-        Setting::updateOrCreate(['key' => 'profile_last_url_'.Auth::id()], ['key' => 'profile_last_url_'.Auth::id(), 'value' => url()->previous()]);
+        Setting::updateOrCreate(
+            ['key' => 'profile_last_url_'.Auth::id()],
+            ['key' => 'profile_last_url_'.Auth::id(), 'value' => url()->previous()]
+        );
         return response()->json(['status' => true]);
     }
 }
