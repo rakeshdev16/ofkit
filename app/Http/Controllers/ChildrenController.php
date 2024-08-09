@@ -24,6 +24,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Auth, DB;
 
 class ChildrenController extends Controller
@@ -195,7 +196,7 @@ class ChildrenController extends Controller
             'name' => 'required',
             'family_name' => 'required',
             'dob' => 'required',
-            'identification' => 'nullable|numeric|digits:9|unique:childrens',
+            'identification' => ['nullable', 'numeric', 'digits:9', Rule::unique('childrens')->ignore($id)],
             'father_email' => ['nullable', 'string', 'email', 'max:255', 'unique:children_parents'],
             'father_telephone' => ['nullable', 'regex:/^[0-9-]{8,14}$/'],
             'mother_email' => ['nullable', 'string', 'email', 'max:255', 'unique:children_parents'],
