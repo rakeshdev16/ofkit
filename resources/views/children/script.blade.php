@@ -51,10 +51,14 @@
         var index = $('.medicineRow').length;
         var no = index + 1;
         $('.medicineDetail').append(`@include('components.medicine-detail', ['no' => '${no}','index' => '${index}'])`);
+        updateIndexes();
     });
 
     function updateIndexes() {
         $('.medicine-detail').each(function(index, element) {
+            $(this).find('.medicine-number').each(function() {
+                $(this).val(index+1);
+            });
             $(this).find('input[name^="medicine_dosage"]').each(function() {
                 var name = $(this).attr('name').replace(/\[\d+\]/, '[' + index + ']');
                 $(this).attr('name', name);

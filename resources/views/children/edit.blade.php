@@ -457,9 +457,6 @@
                                         el.parent().parent().parent().remove();
                                         updateIndexes();
                                         var index = $('.medicineRow').length;
-                                        if (index == 1) {
-                                            $('.medicine-number').val('1');
-                                        }
                                         if (index == 0) {
                                             $('.medicineDetail').hide();
                                             $('.medicineRow').remove();
@@ -474,9 +471,6 @@
                     el.parent().parent().parent().remove();
                     updateIndexes();
                     var index = $('.medicineRow').length;
-                    if (index == 1) {
-                        $('.medicine-number').val('1');
-                    }
                     if (index == 0) {
                         $('.medicineDetail').hide();
                         $('.medicineRow').remove();
