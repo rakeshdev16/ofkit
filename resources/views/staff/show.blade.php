@@ -23,7 +23,7 @@
                 </div>
                 <div class="ms-auto">
                     <div class="">
-                        <a href="{{ route('staff.index') }}?kindergarten_id={{ request()->kindergarten_id }}" class="btn button">{{ __('staff.back') }}</a>
+                        <a href="{{ route('staff.index') }}?kindergarten_id={{ request()->kindergarten_id }}" class="btn button">{{ __('comon.back') }}</a>
                     </div>
                 </div>
             </div>
