@@ -253,6 +253,7 @@ class ChildrenController extends Controller
                 'status_id' => $request->status_id,
                 'service_start_date' => $request->service_start_date,
                 'hmo_id' => $request->hmo_id,
+                'updated_at' => now(),
             ]);
             $children->diagnosis()->delete();
             if (isset($request->diagnosis_id) && count($request->diagnosis_id) > 0) {
