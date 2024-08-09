@@ -383,31 +383,6 @@
                 $('.age').val(age);
             });
 
-            $(document).on('change', '.foodAllergie', function() {
-                if ($(this).val() == 'yes') {
-                    $('.allergieDetail').show();
-                } else {
-                    $('.allergieDetail').hide();
-                }
-            });
-            $(document).on('change', '.medicine', function() {
-                if ($(this).val() == 'yes') {
-                    var index = parseInt($('.medicineRow').length);
-                    index = index + 1;
-                    $('.medicineDetail').append(`@include('components.medicine-detail', ['index' => '${index}'])`);
-                    $('.medicineDetail').show();
-                } else {
-                    $('.medicineDetail').hide();
-                    $('.medicineRow').remove();
-                }
-            });
-
-            $(document).on('click', '.addMoreMedicine', function() {
-                var index = $('.medicineRow').length;
-                index = index + 1;
-                $('.medicineDetail').append(`@include('components.medicine-detail', ['index' => '${index}'])`);
-            });
-
             $(document).on('click', '.removeMedicine', function() {
                 $(this).parent().parent().parent().remove();
                 var index = $('.medicineRow').length;

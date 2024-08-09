@@ -440,3 +440,9 @@ span.child-tab {
     width: 50%;
     margin: auto;
 }
+
+input.medicine-number {
+    background: transparent;
+    border: none;
+    outline: none;
+}

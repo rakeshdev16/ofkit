@@ -374,7 +374,7 @@
                                                                 </div>
                                                             </div>
                                                             @foreach (old('medicine_dosage') ?? $children->medicine as $medicine)
-                                                                @include('components.medicine-detail', ['index' => $loop->iteration, 'data' => $medicine])
+                                                                @include('components.medicine-detail', ['no' => $loop->iteration, 'index' => $loop->index, 'data' => $medicine])
                                                             @endforeach
                                                             {{-- @php
                                                                 $indexes = Session::get('medicineDosageKey') ?? [];
@@ -434,31 +434,6 @@
                 $('.age').val(age);
             });
 
-            $(document).on('change', '.foodAllergie', function() {
-                if ($(this).val() == 'yes') {
-                    $('.allergieDetail').show();
-                } else {
-                    $('.allergieDetail').hide();
-                }
-            });
-            $(document).on('change', '.medicine', function() {
-                if ($(this).val() == 'yes') {
-                    var index = parseInt($('.medicineRow').length);
-                    index = index + 1;
-                    $('.medicineDetail').append(`@include('components.medicine-detail', ['index' => '${index}'])`);
-                    $('.medicineDetail').show();
-                } else {
-                    $('.medicineDetail').hide();
-                    $('.medicineRow').remove();
-                }
-            });
-
-            $(document).on('click', '.addMoreMedicine', function() {
-                var index = $('.medicineRow').length;
-                index = index + 1;
-                $('.medicineDetail').append(`@include('components.medicine-detail', ['index' => '${index}'])`);
-            });
-
             $(document).on('click', '.removeMedicine', function() {
                 var el = $(this);
                 var id = $(this).data('id');
@@ -480,7 +455,11 @@
                                 success: function (data) {
                                     if (data.status == true) {
                                         el.parent().parent().parent().remove();
+                                        updateIndexes();
                                         var index = $('.medicineRow').length;
+                                        if (index == 1) {
+                                            $('.medicine-number').val('1');
+                                        }
                                         if (index == 0) {
                                             $('.medicineDetail').hide();
                                             $('.medicineRow').remove();
@@ -493,7 +472,11 @@
                     });
                 } else {
                     el.parent().parent().parent().remove();
+                    updateIndexes();
                     var index = $('.medicineRow').length;
+                    if (index == 1) {
+                        $('.medicine-number').val('1');
+                    }
                     if (index == 0) {
                         $('.medicineDetail').hide();
                         $('.medicineRow').remove();
