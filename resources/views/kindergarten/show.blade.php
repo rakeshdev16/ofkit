@@ -126,6 +126,26 @@
                                         'value' => $kindergarten->address
                                     ])
                                 </div>
+                                <div class="col-md-6">
+                                    @include('components.text-input', [
+                                        'label' =>  __('children.createdAt'),
+                                        'name' => 'created_at',
+                                        'class' => 'created_at',
+                                        'icon' => 'calendar', 
+                                        'disabled' => 'disabled',
+                                        'value' => date('d/m/Y', strtotime($kindergarten->created_at)),
+                                    ])
+                                </div>
+                                <div class="col-md-6">
+                                    @include('components.text-input', [
+                                        'label' =>  __('children.updatedAt'),
+                                        'name' => 'updated_at',
+                                        'class' => 'updated_at',
+                                        'icon' => 'calendar', 
+                                        'disabled' => 'disabled',
+                                        'value' => date('d/m/Y', strtotime($kindergarten->updated_at)),
+                                    ])
+                                </div>
                             </div>
                         </div>
                     </div>
