@@ -376,12 +376,6 @@
                                                             @foreach (old('medicine_dosage') ?? $children->medicine as $medicine)
                                                                 @include('components.medicine-detail', ['no' => $loop->iteration, 'index' => $loop->index, 'data' => $medicine])
                                                             @endforeach
-                                                            {{-- @php
-                                                                $indexes = Session::get('medicineDosageKey') ?? [];
-                                                            @endphp
-                                                            @foreach ($indexes as $index)
-                                                                @include('components.medicine-detail', ['index' => $index])
-                                                            @endforeach --}}
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="d-flex align-items-center gap-3">
