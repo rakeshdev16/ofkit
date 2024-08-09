@@ -49,7 +49,7 @@ class StaffController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'first_name' => 'required',
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'identification' => 'nullable|numeric|digits:9|unique:users',
             'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
@@ -57,12 +57,12 @@ class StaffController extends Controller
             'kindergarten.*.role_id' => 'required',
             'kindergarten.*.association_id' => 'required',
         ],[
-            'name.required' => __('staff.requiredName'),
+            'first_name.required' => __('staff.requiredName'),
             'email.required' => __('staff.requiredEmail'),
             'email.email' => __('staff.validEmail'),
             'email.unique' => __('staff.existsEmail'),
             'identification.numeric' => 'Please enter numbers only',
-            'identification.digits' => 'Please enter at least 9 digits',
+            'identification.digits' => 'Enter 9 digits only',
             'telephone.required' => __('validation.required'),
             'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
             'role.required' => __('staff.requiredRole'),
@@ -101,6 +101,7 @@ class StaffController extends Controller
             if (Session::has('staffPhoto')) {
                 $request['photo'] = Session::get('staffPhoto');
             }
+            $request['name'] = $request->first_name.' '.$request->family_name;
             $user = User::create($request->all());
             if (isset($request->documents) && count($request->documents) > 0) {
                 foreach ($request->documents as $document) {
@@ -155,16 +156,16 @@ class StaffController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'first_name' => 'required',
             'identification' => ['nullable', 'numeric', 'digits:9', Rule::unique('users')->ignore($id)],
             'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
             'role' => 'required',
             'kindergarten.*.role_id' => 'required',
             'kindergarten.*.association_id' => 'required',
         ],[
-            'name.required' => __('staff.requiredName'),
+            'first_name.required' => __('staff.requiredName'),
             'identification.numeric' => 'Please enter numbers only',
-            'identification.digits' => 'Please enter at least 9 digits',
+            'identification.digits' => 'Enter 9 digits only',
             'telephone.required' => __('validation.required'),
             'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
             'role.required' => __('staff.requiredRole'),
@@ -200,6 +201,7 @@ class StaffController extends Controller
 
         try {
 
+            $request['name'] = $request->first_name.' '.$request->family_name;
             $user = User::findOrFail($id);
             $user->update($request->except('_token', '_method', 'kindergarten_id', 'schedule'));
             if (isset($request->documents) && count($request->documents) > 0) {

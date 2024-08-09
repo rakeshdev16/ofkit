@@ -5,6 +5,7 @@
                 <th style="width: 2%"><input type="checkbox" class="mainCheckbox"></th>
             @endif
             @include('components.table-heading', ['label' => __('staff.nameTh'), 'key' => 'name', 'width' => '13.44%'])
+            @include('components.table-heading', ['label' => 'Family Name', 'key' => 'name', 'width' => '13.44%'])
             @include('components.table-heading', ['label' => __('staff.telephoneTh'), 'key' => 'telephone', 'width' => '13.44%'])
             @include('components.table-heading', ['label' => __('staff.emailTh'), 'key' => 'email', 'width' => '13.44%'])
             @include('components.table-heading', ['label' => __('staff.professionTh'), 'key' => 'profession_id', 'width' => '13.44%'])
@@ -20,7 +21,8 @@
                 @if (Auth::user()->hasRole('admin'))
                     <td><input type="checkbox" name="id[]" value="{{ $member->id }}" class="checkbox check-{{ $member->id }}" data-class="check-{{ $member->id }}"></td>
                 @endif
-                <td>{{ $member->name ?? '-' }}</td>
+                <td>{{ $member->first_name ?? '-' }}</td>
+                <td>{{ $member->family_name ?? '-' }}</td>
                 <td>{{ $member->telephone ?? '-' }}</td>
                 <td>{{ $member->email ?? '-' }}</td>
                 <td>{{ @$member->profession->name ?? '-' }}</td>

@@ -42,7 +42,18 @@
                                     'deleteUrl' => route('delete.user-photo'),
                                 ])
                                 <div class="col-md-6">
-                                    @include('components.text-input', ['label' => __('staff.nameTh'), 'name' => 'name', 'icon' => 'user'])
+                                    @include('components.text-input', [
+                                        'label' => 'First Name',
+                                        'name' => 'first_name',
+                                        'icon' => 'user',
+                                    ])
+                                </div>
+                                <div class="col-md-6">
+                                    @include('components.text-input', [
+                                        'label' => 'Family Name',
+                                        'name' => 'family_name',
+                                        'icon' => 'user',
+                                    ])
                                 </div>
                                 <div class="col-md-6">
                                     @include('components.text-input', ['label' => __('staff.addressTh'), 'name' => 'address', 'icon' => 'current-location'])
@@ -73,7 +84,7 @@
                                         'icon' => 'credit-card'
                                     ])
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     @include('components.select-input', [
                                         'label' => __('staff.professionTh'),
                                         'name' => 'profession_id',
@@ -81,14 +92,14 @@
                                         'options' => $professions
                                     ])
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     @include('components.date-input', [
                                         'label' => __('staff.birthDateTh'),
                                         'name' => 'dob',
                                         'max' => date('Y-m-d')
                                     ])
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     @include('components.select-input', [
                                         'label' => __('staff.roleTh'), 
                                         'name' => 'role', 
