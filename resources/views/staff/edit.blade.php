@@ -72,6 +72,14 @@
                                         </div>
                                         <div class="col-md-6">
                                             @include('components.text-input', [
+                                                'label' =>  'ID',
+                                                'name' => 'identification',
+                                                'icon' => 'search-alt',
+                                                'value' => $staff->identification,
+                                            ])
+                                        </div>
+                                        <div class="col-md-6">
+                                            @include('components.text-input', [
                                                 'label' => __('staff.telephoneTh'),
                                                 'name' => 'telephone',
                                                 'class' => 'numbers',
@@ -88,7 +96,7 @@
                                                 'value' => $staff->licence_number,
                                             ])
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             @include('components.select-input', [
                                                 'label' => __('staff.professionTh'),
                                                 'name' => 'profession_id',
@@ -97,7 +105,7 @@
                                                 'value' => $staff->profession_id,
                                             ])
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             @include('components.date-input', [
                                                 'label' => __('staff.birthDateTh'),
                                                 'name' => 'dob',
@@ -105,7 +113,7 @@
                                                 'value' => $staff->dob ? date('Y-m-d', strtotime($staff->dob)) : '',
                                             ])
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             @include('components.text-input', [
                                                 'label' => __('staff.roleTh'),
                                                 'name' => 'role',

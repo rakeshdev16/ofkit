@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Auth, Session, DB;
 use Spatie\Permission\Models\Role;
+use Illuminate\Validation\Rule;
 
 class StaffController extends Controller
 {
@@ -50,6 +51,7 @@ class StaffController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'identification' => 'nullable|numeric|digits:9|unique:users',
             'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
             'role' => 'required',
             'kindergarten.*.role_id' => 'required',
@@ -59,6 +61,8 @@ class StaffController extends Controller
             'email.required' => __('staff.requiredEmail'),
             'email.email' => __('staff.validEmail'),
             'email.unique' => __('staff.existsEmail'),
+            'identification.numeric' => 'Please enter numbers only',
+            'identification.digits' => 'Please enter at least 9 digits',
             'telephone.required' => __('validation.required'),
             'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
             'role.required' => __('staff.requiredRole'),
@@ -93,7 +97,6 @@ class StaffController extends Controller
 
         try {
             
-            $request['identification'] = Str::uuid();
             $request['password'] = rand();
             if (Session::has('staffPhoto')) {
                 $request['photo'] = Session::get('staffPhoto');
@@ -153,12 +156,15 @@ class StaffController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
+            'identification' => ['nullable', 'numeric', 'digits:9', Rule::unique('users')->ignore($id)],
             'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
             'role' => 'required',
             'kindergarten.*.role_id' => 'required',
             'kindergarten.*.association_id' => 'required',
         ],[
             'name.required' => __('staff.requiredName'),
+            'identification.numeric' => 'Please enter numbers only',
+            'identification.digits' => 'Please enter at least 9 digits',
             'telephone.required' => __('validation.required'),
             'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
             'role.required' => __('staff.requiredRole'),

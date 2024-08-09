@@ -52,6 +52,13 @@
                                 </div>
                                 <div class="col-md-6">
                                     @include('components.text-input', [
+                                        'label' =>  'ID',
+                                        'name' => 'identification',
+                                        'icon' => 'search-alt',
+                                    ])
+                                </div>
+                                <div class="col-md-6">
+                                    @include('components.text-input', [
                                         'label' => __('staff.telephoneTh'),
                                         'name' => 'telephone',
                                         'class' => 'numbers',
@@ -66,7 +73,7 @@
                                         'icon' => 'credit-card'
                                     ])
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     @include('components.select-input', [
                                         'label' => __('staff.professionTh'),
                                         'name' => 'profession_id',
@@ -74,14 +81,14 @@
                                         'options' => $professions
                                     ])
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     @include('components.date-input', [
                                         'label' => __('staff.birthDateTh'),
                                         'name' => 'dob',
                                         'max' => date('Y-m-d')
                                     ])
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     @include('components.select-input', [
                                         'label' => __('staff.roleTh'), 
                                         'name' => 'role', 

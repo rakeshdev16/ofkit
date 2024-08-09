@@ -49,6 +49,10 @@
                                             <span class="text-secondary">{{ @$staff->email }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 class="mb-0"><i class="bx bx-search-alt"></i> I.D.</h6>
+                                            <span class="text-secondary">{{ @$staff->identification }}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                             <h6 class="mb-0"><i class="bx bx-phone-call"></i> {{ __('staff.telephoneTh') }}</h6>
                                             <span class="text-secondary">{{ @$staff->telephone }}</span>
                                         </li>
