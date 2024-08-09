@@ -23,7 +23,7 @@
                 </div>
                 <div class="ms-auto">
                     <div class="">
-                        <a href="{{ App\Models\Setting::where('key', 'profile_last_url_'.Auth::id())->pluck('value')->first() }}" class="btn button">{{ __('staff.back') }}</a>
+                        <a href="{{ App\Models\Setting::where('key', 'profile_last_url_'.Auth::id())->pluck('value')->first() }}" class="btn button">{{ __('comon.back') }}</a>
                     </div>
                 </div>
             </div>

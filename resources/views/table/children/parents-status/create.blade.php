@@ -23,7 +23,7 @@
                 </div>
                 <div class="ms-auto">
                     <div class="">
-                        <a href="{{ route('children-table.index') }}?type=parents-status" class="btn button">{{ __('cluster.back') }}</a>
+                        <a href="{{ route('children-table.index') }}?type=parents-status" class="btn button">{{ __('comon.back') }}</a>
                     </div>
                 </div>
             </div>

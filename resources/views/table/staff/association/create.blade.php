@@ -23,7 +23,7 @@
                 </div>
                 <div class="ms-auto">
                     <div class="">
-                        <a href="{{ route('staff-table.index') }}?type=association" class="btn button">Back</a>
+                        <a href="{{ route('staff-table.index') }}?type=association" class="btn button">{{ __('comon.back') }}</a>
                     </div>
                 </div>
             </div>

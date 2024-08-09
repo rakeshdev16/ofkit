@@ -23,7 +23,7 @@
                 </div>
                 <div class="ms-auto">
                     <div class="">
-                        <button data-url="{{ route('cluster.index') }}" class="btn button exit">{{ __('cluster.back') }}</button>
+                        <button data-url="{{ route('cluster.index') }}" class="btn button exit">{{ __('comon.back') }}</button>
                     </div>
                 </div>
             </div>
