@@ -15,7 +15,7 @@ return [
     'searchLabel' => 'Search',
     'leftLengthMenuLabel' => 'Show',
     'rightLengthMenuLabel' => 'entries',
-    'nameTh' => 'Name',
+    'nameTh' => 'First Name',
     'idTh' => 'I.D',
     'birthDateTh' => 'Birth of Date',
     'addressTh' => 'Address',
