@@ -234,7 +234,7 @@ class StaffController extends Controller
     {
         $ids = explode(',', $ids);
         if (User::whereIn('id', $ids)->delete()) {
-            return response()->json(['status' => true, 'message' => __('validation.archived', ['attribute' => 'Staff member']), 'ids' => $ids]);
+            return response()->json(['status' => true, 'message' => 'Staff member has been successfully archived!', 'ids' => $ids]);
         }
         return response()->json(['status' => false, 'ids' => $ids]);
     }
