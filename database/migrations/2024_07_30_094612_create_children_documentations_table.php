@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('date')->nullable();
             $table->time('start_time')->nullable();
             $table->time('end_time')->nullable();
-            $table->foreignId('kindergarten_id')->constrained('kindergartens')->onDelete('cascade');
+            $table->foreignId('kindergarten_id')->nullable()->constrained('kindergartens')->onDelete('cascade');
             $table->boolean('occured')->nullable();
             $table->longText('occured_description')->nullable();
             $table->string('occured_reason')->nullable();

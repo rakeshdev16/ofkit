@@ -37,7 +37,7 @@
                                             <div class="d-flex justify-content-between">
                                                 <h5 class="mb-4 steper-title">{{ ucfirst(str_replace('-', ' ', Request::segment(2))) }}</h5>
                                             </div>
-                                            <form action="{{ route('children-documentation.store', ['staff-meeting', $children->id]) }}" method="POST" enctype="multipart/form-data">
+                                            <form action="{{ route('children-documentation.store', ['initial-evaluation', $children->id]) }}" method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="row g-3">
                                                     <div class="col-md-6">
@@ -58,7 +58,7 @@
                                                             'name' => 'end_time',
                                                         ])
                                                     </div>
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-4">
                                                         @include('components.text-input', [
                                                             'label' => 'Kindergarten',
                                                             'name' => 'Kindergarten',
@@ -67,16 +67,23 @@
                                                             'disabled' => 'disabled'
                                                         ])
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        @include('components.multi-select-input', [
-                                                                'label' => 'Add Therapist',
-                                                                'name' => 'therapist_id[]',
-                                                                'class' => 'therapists',
-                                                                'icon' => 'user',
-                                                                'options' => $therapist
-                                                            ])
+                                                    <div class="col-md-4">
+                                                        @include('components.text-input', [
+                                                            'label' => "Child's Name",
+                                                            'name' => 'name',
+                                                            'icon' => 'user',
+                                                            'value' => $children->name,
+                                                            'disabled' => 'disabled'
+                                                        ])
                                                     </div>
-                                                    <div class="col-md-12 therapistTabSec" style="display:flex; flex-wrap: wrap;">
+                                                    <div class="col-md-4">
+                                                        @include('components.text-input', [
+                                                            'label' => "Child's Family Name",
+                                                            'name' => 'family_name',
+                                                            'icon' => 'user',
+                                                            'value' => $children->family_name,
+                                                            'disabled' => 'disabled'
+                                                        ])
                                                     </div>
                                                     <div class="col-md-12">
                                                         @include('components.radio-input', [
@@ -107,39 +114,6 @@
                                                         ])
                                                     </div>
                                                     <div class="col-md-12">
-                                                        @include('components.multi-select-input', [
-                                                                'label' => 'Add Another Child',
-                                                                'name' => 'children_ids[]',
-                                                                'class' => 'childrens',
-                                                                'icon' => 'user',
-                                                                'options' => $childrens
-                                                            ])
-                                                    </div>
-                                                    <div class="col-md-12 childrenTabSec" style="display:flex; flex-wrap: wrap;">
-                                                        <span class="child-tab mx-1">{{ $children->name }}</span>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        @include('components.textarea-input', [
-                                                            'label' =>  'Add Topic',
-                                                            'name' => 'topic',
-                                                            'icon' => 'notepad',
-                                                        ])
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        @include('components.textarea-input', [
-                                                            'label' =>  'Add Discussion',
-                                                            'name' => 'discussion',
-                                                            'icon' => 'group',
-                                                        ])
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        @include('components.textarea-input', [
-                                                            'label' =>  'Add Decisions',
-                                                            'name' => 'decisions',
-                                                            'icon' => 'user-check',
-                                                        ])
-                                                    </div>
-                                                    <div class="col-md-12">
                                                         @include('components.file-input', [
                                                             'label' => 'File',
                                                             'name' => 'child_file',
@@ -148,6 +122,7 @@
                                                             'icon' => 'file',
                                                             'value' => old('file'),
                                                         ])
+                                                        <div class="d-flex mt-2 choosenFile" style="flex-wrap: wrap;"></div>
                                                     </div>
                                                     <input type="hidden" name="kindergarten_id" value="{{ $children->kindergarten_id }}">
                                                     <div class="col-12">
@@ -168,12 +143,7 @@
         </div>
     @endsection
     @push('customScript')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script>
-            $(document).ready(function() {
-                $('.childrens').select2();
-                $('.therapists').select2();
-            });
             $(document).on('click', '.button', function() {
                 $(this).attr('disabled', false);
             });
@@ -187,26 +157,13 @@
                 }
             });
 
-            $('.childrens').on('select2:select', function(e) {
-                var id = e.params.data.id;
-                var name = e.params.data.text;
-                $('.childrenTabSec').append('<span class="child-tab childTab'+id+' mx-1">'+name+'</span>');
+            $('.file').change(function(event) {
+                const file = event.target.files[0];
+                $('.choosenFile').append('<div class="document mt-1"><a href="#" target="_blank" rel="noopener noreferrer">'+ file.name +'</a><i class="bx bx-x childDocument" data-file-name="' + file.name + '"></i></div>');
             });
 
-            $('.childrens').on('select2:unselect', function(e) {
-                var id = e.params.data.id;
-                $('.childTab' + id).remove();
-            });
-            
-            $('.therapists').on('select2:select', function(e) {
-                var id = e.params.data.id;
-                var name = e.params.data.text;
-                $('.therapistTabSec').append('<span class="child-tab therapistTab'+id+' mx-1">'+name+'</span>');
-            });
-
-            $('.therapists').on('select2:unselect', function(e) {
-                var id = e.params.data.id;
-                $('.therapistTab' + id).remove();
-            });
+            $(document).on('click', '.childDocument', function() {
+                $(this).parent().remove();
+            })
         </script>
     @endpush

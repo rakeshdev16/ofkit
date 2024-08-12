@@ -22,7 +22,13 @@
                 <td>{{ $documentation->occured == 1 ? 'Yes' : 'No' }}</td>
                 <td>{{ \Str::limit($documentation->occured_description, 20, '...') ?? '-' }}</td>
                 <td>{{ @getKindergartenNameById($documentation->kindergarten_id) ?? '-' }}</td>
-                <td><a href="{{ $documentation->file }}" target="_blank"><i class="bx bx-file"></i></a></td>
+                <td>
+                    @if ($documentation->file)
+                        <a href="{{ $documentation->file }}" target="_blank"><i class="bx bx-file"></i></a>
+                    @else
+                        -
+                    @endif
+                </td>
                 <td>
                     {{-- <a href="{{ route('children.edit', $documentation->id) }}" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a> --}}
                     <a href="{{ route('children-documentation.show', [$documentation->children_id, $documentation->id]) }}" data-toggle="tooltip" data-placement="bottom" title="View"><i class="bx bx-show icon"></i></a>

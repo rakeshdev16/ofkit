@@ -58,17 +58,32 @@
                                                             'name' => 'end_time',
                                                         ])
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        @include('components.multi-select-input', [
-                                                            'label' => 'Add Another Kindergarten',
-                                                            'name' => 'kindergarten_ids[]',
-                                                            'class' => 'kindergartens',
+                                                    <div class="col-md-4">
+                                                        @include('components.text-input', [
+                                                            'label' => 'Kindergarten',
+                                                            'name' => 'Kindergarten',
                                                             'icon' => 'user',
-                                                            'options' => $kindergartens
+                                                            'value' => getKindergartenNameById($children->kindergarten_id),
+                                                            'disabled' => 'disabled'
                                                         ])
                                                     </div>
-                                                    <div class="col-md-12 kindergartenTabSec" style="display:flex; flex-wrap: wrap;">
-                                                        <span class="child-tab mx-1">{{ getKindergartenNameById($children->kindergarten_id) }}</span>
+                                                    <div class="col-md-4">
+                                                        @include('components.text-input', [
+                                                            'label' => "Child's Name",
+                                                            'name' => 'name',
+                                                            'icon' => 'user',
+                                                            'value' => $children->name,
+                                                            'disabled' => 'disabled'
+                                                        ])
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        @include('components.text-input', [
+                                                            'label' => "Child's Family Name",
+                                                            'name' => 'family_name',
+                                                            'icon' => 'user',
+                                                            'value' => $children->family_name,
+                                                            'disabled' => 'disabled'
+                                                        ])
                                                     </div>
                                                     <div class="col-md-12">
                                                         @include('components.radio-input', [
@@ -78,7 +93,7 @@
                                                             'icon' => 'user',
                                                         ])
                                                     </div>
-                                                    <div class="col-md-12 occuredReason" style="display: none;">
+                                                    <div class="col-md-12 occuredReason" style="display: {{ old('occured') == '0' ? 'block' : 'none' }};">
                                                         @include('components.select-input', [
                                                             'label' => 'Reason',
                                                             'name' => 'occured_reason',
@@ -91,24 +106,12 @@
                                                             ]
                                                         ])
                                                     </div>
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-12 occuredDescription" style="display: {{ old('occured') == '1' ? 'block' : 'none' }};">
                                                         @include('components.textarea-input', [
                                                             'label' => 'Description',
                                                             'name' => 'occured_description',
                                                             'icon' => 'network-chart',
                                                         ])
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        @include('components.multi-select-input', [
-                                                            'label' => 'Add Another Child',
-                                                            'name' => 'children_ids[]',
-                                                            'class' => 'childrens',
-                                                            'icon' => 'user',
-                                                            'options' => $childrens
-                                                        ])
-                                                    </div>
-                                                    <div class="col-md-12 childrenTabSec" style="display:flex; flex-wrap: wrap;">
-                                                        <span class="child-tab mx-1">{{ $children->name }}</span>
                                                     </div>
                                                     <div class="col-md-12">
                                                         @include('components.file-input', [
@@ -119,6 +122,7 @@
                                                             'icon' => 'file',
                                                             'value' => old('file'),
                                                         ])
+                                                        <div class="d-flex mt-2 choosenFile" style="flex-wrap: wrap;"></div>
                                                     </div>
                                                     <input type="hidden" name="kindergarten_id" value="{{ $children->kindergarten_id }}">
                                                     <div class="col-12">
@@ -139,12 +143,7 @@
         </div>
     @endsection
     @push('customScript')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script>
-            $(document).ready(function() {
-                $('.childrens').select2();
-                $('.kindergartens').select2();
-            });
             $(document).on('click', '.button', function() {
                 $(this).attr('disabled', false);
             });
@@ -152,12 +151,13 @@
             $(document).on('change', '.occured', function() {
                 var value = $(this).val();
                 if (value == 0) {
+                    $('.occuredDescription').hide();
                     $('.occuredReason').show();
                 } else {
                     $('.occuredReason').hide();
+                    $('.occuredDescription').show();
                 }
             });
-
 
             $('.file').change(function(event) {
                 const file = event.target.files[0];
@@ -167,27 +167,5 @@
             $(document).on('click', '.childDocument', function() {
                 $(this).parent().remove();
             })
-
-            $('.childrens').on('select2:select', function(e) {
-                var id = e.params.data.id;
-                var name = e.params.data.text;
-                $('.childrenTabSec').append('<span class="child-tab childTab'+id+' mx-1">'+name+'</span>');
-            });
-
-            $('.childrens').on('select2:unselect', function(e) {
-                var id = e.params.data.id;
-                $('.childTab' + id).remove();
-            });
-            
-            $('.kindergartens').on('select2:select', function(e) {
-                var id = e.params.data.id;
-                var name = e.params.data.text;
-                $('.kindergartenTabSec').append('<span class="child-tab kindergartenTab'+id+' mx-1">'+name+'</span>');
-            });
-
-            $('.kindergartens').on('select2:unselect', function(e) {
-                var id = e.params.data.id;
-                $('.kindergartenTab' + id).remove();
-            });
         </script>
     @endpush

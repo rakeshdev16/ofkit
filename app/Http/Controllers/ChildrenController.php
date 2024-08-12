@@ -366,7 +366,115 @@ class ChildrenController extends Controller
     }
     public function saveDocumentation(Request $request, $type, $id)
     {
-        $validator = Validator::make($request->all(), [
+        $request['children_id'] = $id;
+        $request['type'] = $type;
+        if ($request->has('child_file')) {
+            $request['file'] = uploadFile($request->child_file, 'public/child-document');
+        }
+        switch ($type) {
+            case 'individual':
+                return $this->individual($request->all(), $id);
+            break;
+            case 'group':
+                return $this->group($request->all(), $id);
+            break;
+            case 'parental-guidance':
+                return $this->parentalGuidance($request->all(), $id);
+            break;
+            case 'staff-meeting':
+                return $this->staffMeeting($request->all(), $id);
+            break;
+            case 'initial-evaluation':
+                return $this->initialEvaluation($request->all(), $id);
+            break;
+            case 'final-evaluation':
+                return $this->finalEvaluation($request->all(), $id);
+            break;
+        }
+    }
+
+    public function individual(array $data, $id)
+    {
+        $validator = Validator::make($data, [
+            'date' => 'required',
+            'occured' => 'required',
+            'occured_description' => 'required_if:occured,==,1',
+            'occured_reason' => "required_if:occured,==,0",
+        ],[
+            'occured_description.required_if' => 'Please enter description',
+            'occured_reason.required_if' => 'Please enter reason',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        ChildrenDocumentation::create($data);
+
+        return redirect()->route('children.show', $id);
+    }
+    
+    public function group(array $data, $id)
+    {
+        // echo '<pre>'; print_r($data); die;
+        $validator = Validator::make($data, [
+            'date' => 'required',
+            'occured' => 'required',
+            'occured_description' => 'required_if:occured,==,1',
+            'occured_reason' => "required_if:occured,==,0",
+            'children_ids' => 'required|array|min:1',
+        ],[
+            'occured_description.required_if' => 'Please enter description',
+            'occured_reason.required_if' => 'Please enter reason',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $document = ChildrenDocumentation::create($data);
+        foreach ($data['participated'] as $participated) {
+            if (isset($participated['child_file'])) {
+                $participated['file'] = uploadFile($participated['child_file'], 'public/child-document');
+            }
+            $participated['children_id'] = $id;
+            $document->groupChildrens()->create($participated);
+        }
+
+        return redirect()->route('children.show', $id);
+    }
+    
+    public function parentalGuidance(array $data, $id)
+    {
+        $validator = Validator::make($data, [
+            'date' => 'required',
+            'occured' => 'required',
+            'occured_description' => 'required_if:occured,==,1',
+            'occured_reason' => "required_if:occured,==,0",
+        ],[
+            'occured_description.required_if' => 'Please enter description',
+            'occured_reason.required_if' => 'Please enter reason',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $document = ChildrenDocumentation::create($data);
+        // if (isset($request->children_ids) && count($request->children_ids) > 0) {
+        //     foreach ($request->children_ids as $childrenId) {
+        //         $document->parentalGuidanceChildren()->create(['children_id' => $childrenId]);
+        //     }
+        // }
+        // if (isset($request->kindergarten_ids) && count($request->kindergarten_ids) > 0) {
+        //     foreach ($request->kindergarten_ids as $kindergartenId) {
+        //         $document->parentalGuidanceKindergarten()->create(['kindergarten_id' => $kindergartenId]);
+        //     }
+        // }
+
+        return redirect()->route('children.show', $id);
+    }
+    
+    public function staffMeeting(array $data, $id)
+    {
+        $validator = Validator::make($data, [
             'date' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
@@ -379,67 +487,64 @@ class ChildrenController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $request['children_id'] = $id;
-        $request['type'] = $type;
-        if ($request->has('child_file')) {
-            $request['file'] = uploadFile($request->child_file, 'public/child-document');
+        $document = ChildrenDocumentation::create($data);
+        $document->staffMeeting()->create([
+            'children_id' => $id,
+            'topic' => $data['topic'],
+            'discussion' => $data['discussion'],
+            'decisions' => $data['decisions'],
+        ]);
+        if (isset($data['children_ids']) && count($data['children_ids']) > 0) {
+            foreach ($data['children_ids'] as $childrenId) {
+                $document->staffMeetingChildren()->create(['children_id' => $childrenId]);
+            }
         }
-        switch ($type) {
-            case 'individual':
-                $document = ChildrenDocumentation::create($request->all());
-            break;
-            case 'group':
-                $document = ChildrenDocumentation::create($request->all());
-                foreach ($request->participated as $participated) {
-                    if (isset($participated['child_file'])) {
-                        $participated['file'] = uploadFile($participated['child_file'], 'public/child-document');
-                    }
-                    $participated['children_id'] = $id;
-                    $document->groupChildrens()->create($participated);
-                }
-            break;
-            case 'parental-guidance':
-                $document = ChildrenDocumentation::create($request->all());
-                if (isset($request->children_ids) && count($request->children_ids) > 0) {
-                    foreach ($request->children_ids as $childrenId) {
-                        $document->parentalGuidanceChildren()->create(['children_id' => $childrenId]);
-                    }
-                }
-                if (isset($request->kindergarten_ids) && count($request->kindergarten_ids) > 0) {
-                    foreach ($request->kindergarten_ids as $kindergartenId) {
-                        $document->parentalGuidanceKindergarten()->create(['kindergarten_id' => $kindergartenId]);
-                    }
-                }
-            break;
-            case 'staff-meeting':
-                $document = ChildrenDocumentation::create($request->all());
-                $document->staffMeeting()->create([
-                    'children_id' => $id,
-                    'topic' => $request->topic,
-                    'discussion' => $request->discussion,
-                    'decisions' => $request->decisions,
-                ]);
-                if (isset($request->children_ids) && count($request->children_ids) > 0) {
-                    foreach ($request->children_ids as $childrenId) {
-                        $document->staffMeetingChildren()->create(['children_id' => $childrenId]);
-                    }
-                }
-                if (isset($request->therapist_id) && count($request->therapist_id) > 0) {
-                    foreach ($request->therapist_id as $therapistId) {
-                        $document->staffMeetingTherapist()->create(['therapist_id' => $therapistId]);
-                    }
-                }
-            break;
-            case 'initial-evaluation':
-                
-            break;
-            case 'final-evaluation':
-                
-            break;
-            default:
-                
-            break;
+        if (isset($data['therapist_id']) && count($data['therapist_id']) > 0) {
+            foreach ($data['therapist_id'] as $therapistId) {
+                $document->staffMeetingTherapist()->create(['therapist_id' => $therapistId]);
+            }
         }
+
+        return redirect()->route('children.show', $id);
+    }
+
+    public function initialEvaluation(array $data, $id)
+    {
+        $validator = Validator::make($data, [
+            'date' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'occured' => 'required',
+            'occured_description' => 'required',
+            'occured_reason' => "required_if:occured,==,0",
+            'child_file' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        ChildrenDocumentation::create($data);
+
+        return redirect()->route('children.show', $id);
+    }
+    
+    public function finalEvaluation(array $data, $id)
+    {
+        $validator = Validator::make($data, [
+            'date' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'occured' => 'required',
+            'occured_description' => 'required',
+            'occured_reason' => "required_if:occured,==,0",
+            'child_file' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        ChildrenDocumentation::create($data);
+
         return redirect()->route('children.show', $id);
     }
 

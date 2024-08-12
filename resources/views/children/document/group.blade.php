@@ -98,7 +98,7 @@
                                                     <div class="col-md-12">
                                                         @include('components.multi-select-input', [
                                                                 'label' => 'Add Another Child',
-                                                                'name' => 'children_id[]',
+                                                                'name' => 'children_ids[]',
                                                                 'class' => 'childrens',
                                                                 'icon' => 'user',
                                                                 'options' => $childrens

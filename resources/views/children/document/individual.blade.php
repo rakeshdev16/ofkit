@@ -93,7 +93,7 @@
                                                             'icon' => 'user',
                                                         ])
                                                     </div>
-                                                    <div class="col-md-12 occuredReason" style="display: none;">
+                                                    <div class="col-md-12 occuredReason" style="display: {{ old('occured') == '0' ? 'block' : 'none' }};">
                                                         @include('components.select-input', [
                                                             'label' => 'Reason',
                                                             'name' => 'occured_reason',
@@ -106,7 +106,7 @@
                                                             ]
                                                         ])
                                                     </div>
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-12 occuredDescription" style="display: {{ old('occured') == '1' ? 'block' : 'none' }};">
                                                         @include('components.textarea-input', [
                                                             'label' => 'Description',
                                                             'name' => 'occured_description',
@@ -151,9 +151,11 @@
             $(document).on('change', '.occured', function() {
                 var value = $(this).val();
                 if (value == 0) {
+                    $('.occuredDescription').hide();
                     $('.occuredReason').show();
                 } else {
                     $('.occuredReason').hide();
+                    $('.occuredDescription').show();
                 }
             });
 
