@@ -4,14 +4,14 @@
             @if (Auth::user()->hasRole('admin'))
                 <th style="width: 2%"><input type="checkbox" class="mainCheckbox"></th>
             @endif
-            @include('components.table-heading', ['label' => __('staff.nameTh'), 'key' => 'name', 'width' => '13.44%'])
-            @include('components.table-heading', ['label' => 'Family Name', 'key' => 'name', 'width' => '13.44%'])
+            @include('components.table-heading', ['label' => __('staff.nameTh'), 'key' => 'first_name', 'width' => '13.44%'])
+            @include('components.table-heading', ['label' => 'Family Name', 'key' => 'family_name', 'width' => '13.44%'])
             @include('components.table-heading', ['label' => __('staff.telephoneTh'), 'key' => 'telephone', 'width' => '13.44%'])
             @include('components.table-heading', ['label' => __('staff.emailTh'), 'key' => 'email', 'width' => '13.44%'])
             @include('components.table-heading', ['label' => __('staff.professionTh'), 'key' => 'profession_id', 'width' => '13.44%'])
             @include('components.table-heading', ['label' => __('staff.kindergartenTh'), 'width' => '13.44%'])
-            @include('components.table-heading', ['label' => __('staff.createdAt'), 'key' => 'profession_id', 'width' => '13.44%'])
-            @include('components.table-heading', ['label' => __('staff.updatedAt'), 'key' => 'profession_id', 'width' => '13.44%'])
+            @include('components.table-heading', ['label' => __('staff.createdAt'), 'key' => 'created_at', 'width' => '13.44%'])
+            @include('components.table-heading', ['label' => __('staff.updatedAt'), 'key' => 'updated_at', 'width' => '13.44%'])
             @include('components.table-heading', ['label' => 'Action', 'width' => '4%'])
         </tr>
     </thead>
@@ -45,8 +45,22 @@
                 <td>{{ date('d/m/Y', strtotime($member->created_at)) }}</td>
                 <td>{{ date('d/m/Y', strtotime($member->updated_at)) }}</td>
                 <td>
-                    <a href="{{ route('staff.edit', $member->id) }}?kindergarten_id={{ request()->kindergarten_id }}" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a>
-                    <a href="{{ route('staff.show', $member->id) }}?kindergarten_id={{ request()->kindergarten_id }}" data-toggle="tooltip" data-placement="bottom" title="View"><i class="bx bx-show icon"></i></a>
+                    <a
+                        href="{{ route('staff.edit', $member->id) }}?kindergarten_id={{ request()->kindergarten_id }}"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Edit"
+                    >
+                        <i class="bx bx-edit icon"></i>
+                    </a>
+                    <a
+                        href="{{ route('staff.show', $member->id) }}?kindergarten_id={{ request()->kindergarten_id }}"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="View"
+                    >
+                        <i class="bx bx-show icon"></i>
+                    </a>
                 </td>
             </tr>
         @empty
