@@ -11,6 +11,9 @@ class Cluster extends Model
 
     protected $fillable = ['manager_id', 'cluster'];
 
+    protected $appends = ['is_assign'];
+
+
     public function scopeFilter($query)
     {
         if (request('sort') && request('sorting')) {
@@ -22,6 +25,11 @@ class Cluster extends Model
             $query->where('cluster', 'like', '%'.$search.'%')->orWhereIn('id', $clusterIds);
         }
         return $query;
+    }
+
+    public function getIsAssignAttribute()
+    {
+        return Kindergarten::where('cluster_id', @$this->attributes['id'])->exists();
     }
 
     public function manager()

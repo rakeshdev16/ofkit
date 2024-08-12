@@ -11,7 +11,16 @@
     <tbody>
         @forelse ($clusters as $cluster)
             <tr class="tr-{{ $cluster->id }}">
-                <td><input type="checkbox" name="id[]" value="{{ $cluster->id }}" class="checkbox check-{{ $cluster->id }}" data-class="check-{{ $cluster->id }}"></td>
+                <td>
+                    <input
+                        type="checkbox"
+                        name="id[]"
+                        value="{{ $cluster->id }}"
+                        class="checkbox check-{{ $cluster->id }}"
+                        data-class="check-{{ $cluster->id }}"
+                        data-name="{{ $cluster->is_assign ? $cluster->cluster.' has assigned to kindergarten' : '' }}"
+                    >
+                </td>
                 <td>{{ $cluster->cluster }}</td>
                 <td>
                     @php
