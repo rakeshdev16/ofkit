@@ -75,7 +75,6 @@
                                                 'name' => 'email',
                                                 'icon' => 'envelope',
                                                 'value' => $staff->email,
-                                                'readonly' => true,
                                             ])
                                         </div>
                                         <div class="col-md-6">

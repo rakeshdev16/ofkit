@@ -157,6 +157,7 @@ class StaffController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'first_name' => 'required',
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($id)],
             'identification' => ['nullable', 'numeric', 'digits:9', Rule::unique('users')->ignore($id)],
             'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
             'role' => 'required',
@@ -164,6 +165,9 @@ class StaffController extends Controller
             'kindergarten.*.association_id' => 'required',
         ],[
             'first_name.required' => __('staff.requiredName'),
+            'email.required' => __('staff.requiredEmail'),
+            'email.email' => __('staff.validEmail'),
+            'email.unique' => __('staff.existsEmail'),
             'identification.numeric' => 'Please enter numbers only',
             'identification.digits' => 'Enter 9 digits only',
             'telephone.required' => __('validation.required'),
