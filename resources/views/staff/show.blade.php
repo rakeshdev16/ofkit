@@ -1,6 +1,16 @@
 @extends('layout.master')
 @push('customLink')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .document {
+            background: #fff;
+        }
+        .choosenDocument {
+            background: #fff;
+            border-radius: 5px;
+            padding: 5px;
+        }
+    </style>
 @endpush
 @section('section')
 <div class="wrapper">
@@ -84,14 +94,14 @@
                                             <h6 class="mb-0"><i class="bx bx-calendar"></i> Updated On</h6>
                                             <span class="text-secondary">{{ date('d/m/Y', strtotime($staff->updated_at)) ?? '-' }}</span>
                                         </li>
-                                        @foreach ($staff->documents as $document)
+                                        {{-- @foreach ($staff->documents as $document)
                                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                                 <h6 class="mb-0"><i class="bx bx-file"></i> Document</h6>
                                                 <a href="{{ @$document->name }}" target="_blank" rel="noopener noreferrer">
                                                     {{ \Str::limit($document->file_name, 10, '...') ?? '-' }}
                                                 </a>
                                             </li>
-                                        @endforeach
+                                        @endforeach --}}
                                     </ul>
                                 </div>
                             </div>
@@ -175,7 +185,25 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>                                
+                                </div> 
+                                @if (isset($staff->documents) && count($staff->documents) > 0)
+                                <div class="col-md-12">
+                                    <div class="time-table">
+                                        <h4 class="text-center">Documents</h4>
+                                        <div class="table-responsive" style="display: block !important;">
+                                            <div class="d-flex choosenDocument" style="flex-wrap: wrap;">
+                                                @foreach ($staff->documents as $document)
+                                                    <div class="document mt-1 doc{{ $document->id }}">
+                                                        <a href="{{ $document->name }}" target="_blank" rel="noopener noreferrer">
+                                                            {{ $document->file_name }}
+                                                        </a>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>   
+                                @endif                             
                             </div>
                         </div>
                     </div>
