@@ -20,7 +20,7 @@
                 </td>
                 <td>{{ @$profession->name ?? '-' }}</td>
                 <td>
-                    <a href="{{ route('staff-table.edit', $profession->id) }}?type=profession" class=""><i class="bx bx-edit icon"></i></a>
+                    <a href="{{ route('staff-table.edit', $profession->id) }}?type=profession" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a>
                 </td>
             </tr>
         @empty

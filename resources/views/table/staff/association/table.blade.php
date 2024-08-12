@@ -20,7 +20,7 @@
                 </td>
                 <td>{{ @$association->name ?? '-' }}</td>
                 <td>
-                    <a href="{{ route('staff-table.edit', $association->id) }}?type=association" class=""><i class="bx bx-edit icon"></i></a>
+                    <a href="{{ route('staff-table.edit', $association->id) }}?type=association" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a>
                 </td>
             </tr>
         @empty

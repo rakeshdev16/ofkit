@@ -20,7 +20,7 @@
                 </td>
                 <td>{{ $hmo->name }}</td>
                 <td>
-                    <a href="{{ route('children-table.edit', $hmo->id) }}?type=hmo" class=""><i class="bx bx-edit icon"></i></a>
+                    <a href="{{ route('children-table.edit', $hmo->id) }}?type=hmo" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a>
                 </td>
             </tr>
         @empty

@@ -26,8 +26,8 @@
                 <td>{{ date('d/m/Y', strtotime($children->created_at)) }}</td>
                 <td>{{ date('d/m/Y', strtotime($children->updated_at)) }}</td>
                 <td>
-                    <a href="{{ route('children.edit', $children->id) }}" class=""><i class="bx bx-edit icon"></i></a>
-                    <a href="{{ route('children.show', $children->id) }}" class=""><i class="bx bx-show icon"></i></a>
+                    <a href="{{ route('children.edit', $children->id) }}" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a>
+                    <a href="{{ route('children.show', $children->id) }}" data-toggle="tooltip" data-placement="bottom" title="View"><i class="bx bx-show icon"></i></a>
                 </td>
             </tr>
         @empty

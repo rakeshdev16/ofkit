@@ -20,7 +20,7 @@
                 </td>
                 <td>{{ @$document->name ?? '-' }}</td>
                 <td>
-                    <a href="{{ route('intervention.edit', $document->id) }}?type=documents-and-approval" class=""><i class="bx bx-edit icon"></i></a>
+                    <a href="{{ route('intervention.edit', $document->id) }}?type=documents-and-approval" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a>
                 </td>
             </tr>
         @empty

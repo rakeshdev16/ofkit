@@ -24,8 +24,8 @@
                 <td>{{ @getKindergartenNameById($documentation->kindergarten_id) ?? '-' }}</td>
                 <td><a href="{{ $documentation->file }}" target="_blank"><i class="bx bx-file"></i></a></td>
                 <td>
-                    {{-- <a href="{{ route('children.edit', $documentation->id) }}" class=""><i class="bx bx-edit icon"></i></a> --}}
-                    <a href="{{ route('children-documentation.show', [$documentation->children_id, $documentation->id]) }}" class=""><i class="bx bx-show icon"></i></a>
+                    {{-- <a href="{{ route('children.edit', $documentation->id) }}" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a> --}}
+                    <a href="{{ route('children-documentation.show', [$documentation->children_id, $documentation->id]) }}" data-toggle="tooltip" data-placement="bottom" title="View"><i class="bx bx-show icon"></i></a>
                 </td>
             </tr>
         @empty

@@ -20,7 +20,7 @@
                 </td>
                 <td>{{ @$frameworkType->name ?? '-' }}</td>
                 <td>
-                    <a href="{{ route('framework-table.edit', $frameworkType->id) }}?type=framework-type" class=""><i class="bx bx-edit icon"></i></a>
+                    <a href="{{ route('framework-table.edit', $frameworkType->id) }}?type=framework-type" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a>
                 </td>
             </tr>
         @empty

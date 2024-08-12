@@ -20,7 +20,7 @@
                 </td>
                 <td>{{ @$interventionType->name ?? '-' }}</td>
                 <td>
-                    <a href="{{ route('intervention.edit', $interventionType->id) }}?type=intervention-type" class=""><i class="bx bx-edit icon"></i></a>
+                    <a href="{{ route('intervention.edit', $interventionType->id) }}?type=intervention-type" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a>
                 </td>
             </tr>
         @empty
