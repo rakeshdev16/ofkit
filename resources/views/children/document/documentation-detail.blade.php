@@ -32,9 +32,8 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center">
-                                <img src="{{ Storage::url('public/' . $children->photo) }}" alt="Admin" class="rounded-circle p-1 bg-primary staff-profile" width="110" height="110">
                                 <div class="mt-3">
-                                    <h4>{{ $document->formatted_type }} :{{ $children->name }}</h4>
+                                    <h4>{{ $document->formatted_type }} ({{$children->name}})</h4>
                                 </div>
                             </div>
                             <hr class="my-4">
