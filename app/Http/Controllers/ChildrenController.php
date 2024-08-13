@@ -445,7 +445,10 @@ class ChildrenController extends Controller
             'participated.*.child_file.required' => 'Please choose file',
         ];
         
-        $validator = Validator::make($data, $rules, $messages);        
+        $validator = Validator::make($data, $rules, $messages);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         if (isset($data['children_ids']) && count($data['children_ids']) > 0) {
             array_unshift($data['children_ids'], $data['children_id']);
