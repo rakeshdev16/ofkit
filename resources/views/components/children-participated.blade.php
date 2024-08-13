@@ -77,6 +77,8 @@
                             'icon' => 'file',
                             'value' => old('participated.'.$index.'.child_file') ?? @$file,
                         ])
+                        <input type="hidden" name="participated[{{$index}}][old_file]" value="{{ @$data['file'] }}">
+                        <input type="hidden" name="participated[{{$index}}][children_id]" value="{{ @$child_id }}">
                         @error('participated.'.$index.'.child_file')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

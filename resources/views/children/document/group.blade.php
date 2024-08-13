@@ -139,10 +139,17 @@
                                                             ])
                                                         @endif
                                                         @if (old('children_ids'))
-                                                            @foreach (old('children_ids') as $id)
+                                                            @php
+                                                                $oldChildrenIds = old('children_ids');
+                                                                if (!is_array($oldChildrenIds)) {
+                                                                    $oldChildrenIds = [];
+                                                                }
+                                                                array_unshift($oldChildrenIds, $children->id);
+                                                                $selectedChildrenIds = $oldChildrenIds;
+                                                            @endphp
+                                                            @foreach ($selectedChildrenIds as $id)
                                                                 @include('components.children-participated', [
-                                                                    'index' => !Request::segment(4) ? $loop->iteration : $loop->index,
-                                                                    'id' => $id,
+                                                                    'index' => $loop->index,
                                                                     'name' => @getChildrenNameById($id),
                                                                     'child_id' => $id,
                                                                 ])
@@ -150,7 +157,7 @@
                                                         @else
                                                             @foreach ($document->groupChildrens ?? [] as $data)
                                                                 @include('components.children-participated', [
-                                                                    'index' => !Request::segment(4) ? $loop->iteration : $loop->index,
+                                                                    'index' => $loop->index,
                                                                     'name' => @getChildrenNameById($data['children_id']),
                                                                     'id' => $data['id'],
                                                                     'data' => $data,
@@ -223,11 +230,6 @@
                     reasonDiv.style.display = 'block';
                 }
             }
-            document.addEventListener('DOMContentLoaded', function () {
-                document.querySelectorAll('.participated3').forEach(function (element) {
-                    childParticipated(element);
-                });
-            });
 
             $('.file').change(function(event) {
                 const file = event.target.files[0];
@@ -243,11 +245,15 @@
                 var name = e.params.data.text;                
                 var index = $('.childrenSec .accordion').length;
                 $('.childrenTabSec').append('<span class="child-tab childTab'+id+' mx-1">'+name+'</span>');
-                $('.childrenSec').append(`@include('components.children-participated', [
+                var html = `@include('components.children-participated', [
                     'index' => '${index}',
                     'name' => '${name}',
-                    'id' => '${id}'
-                ])`);
+                    'id' => '${id}',
+                    'child_id' => '${id}'
+                ])`;
+                var $component = $(html);
+                setInputsValEmpty($component);
+                $('.childrenSec').append($component);
             });
 
             $('.childrens').on('select2:unselect', function(e) {
@@ -273,6 +279,14 @@
                         $(this).attr('name', name);
                     });
                 });
+            }
+
+            function setInputsValEmpty($component) {
+                $component.find('input:radio').prop('checked', false);
+                $component.find('input:file').val('');
+                $component.find('textarea').val('');
+                $component.find('select').val('');
+                $component.find('#previewImage').remove();
             }
         </script>
     @endpush

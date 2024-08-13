@@ -337,7 +337,7 @@ class ChildrenController extends Controller
             $document = ChildrenDocumentation::findOrFail($id);
         }
         $children = Children::findOrFail($childId);
-        $childrens = Children::select('id as key', 'name as value')->get();
+        $childrens = Children::where('id', '!=', $childId)->select('id as key', 'name as value')->get();
         switch ($type) {
             case 'individual':
                 return view('children.document.individual', compact('children', 'document'));
@@ -429,12 +429,8 @@ class ChildrenController extends Controller
             'participated.*.participated' => 'required',
             'participated.*.reason' => "required_if:participated.*.participated,==,0",
             'participated.*.description' => "required_if:participated.*.participated,==,1",
+            'participated.*.child_file' => "nullable",
         ];
-        
-        // Check if this is a create operation
-        if ($data['doc_id'] == null || $data['doc_id'] == '') {
-            $rules['participated.*.child_file'] = 'required';
-        }
         
         $messages = [
             'occured_description.required_if' => 'Please enter description',
@@ -450,21 +446,15 @@ class ChildrenController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        if (isset($data['children_ids']) && count($data['children_ids']) > 0) {
-            array_unshift($data['children_ids'], $data['children_id']);
-        }
         $document = ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
-        $index = 0;
-        if (isset($data['children_ids']) && count($data['children_ids']) > 0) {
-            $document->groupChildrens()->delete();
-            foreach ($data['participated'] as $participated) {
-                if (isset($participated['child_file'])) {
-                    $participated['file'] = uploadFile($participated['child_file'], 'public/child-document');
-                }
-                $participated['children_id'] = $data['children_ids'][$index];
-                $document->groupChildrens()->create($participated);
-                $index++;
+        $document->groupChildrens()->delete();
+        foreach ($data['participated'] as $participated) {
+            if (isset($participated['child_file'])) {
+                $participated['file'] = uploadFile($participated['child_file'], 'public/child-document');
+            } else {
+                $participated['file'] = $participated['old_file'];
             }
+            $document->groupChildrens()->create($participated);
         }
 
         return redirect()->route('children.show', $id);
