@@ -12,7 +12,7 @@
             {{ @$disabled }}
             {{ @$required }}
             {{ @$onchange }}
-            {{ old($name) == '1' ? 'checked' : '' }}
+            {{ (old($name) ?? @$value) == '1' ? 'checked' : '' }}
         >
         <label class="form-check-label" for="{{ $class }}1">Yes</label>
     </div>
@@ -26,7 +26,7 @@
             {{ @$disabled }}
             {{ @$required }}
             {{ @$onchange }}
-            {{ old($name) == '0' ? 'checked' : '' }}
+            {{ (old($name) ?? @$value) == '0' ? 'checked' : '' }}
         >
         <label class="form-check-label" for="{{ $class }}2">No</label>
     </div>

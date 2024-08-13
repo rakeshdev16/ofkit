@@ -40,22 +40,30 @@
                                             <form action="{{ route('children-documentation.store', ['group', $children->id]) }}" method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="row g-3">
+                                                    @php
+                                                        echo '<pre>';
+                                                            print_r(Session::get('errors'));
+                                                        echo '</pre>';
+                                                    @endphp
                                                     <div class="col-md-6">
                                                         @include('components.date-input', [
                                                             'label' => 'Date',
                                                             'name' => 'date',
+                                                            'value' => @$document->date,
                                                         ])
                                                     </div>
                                                     <div class="col-md-3">
                                                         @include('components.time-input', [
                                                             'label' => 'Start Time',
                                                             'name' => 'start_time',
+                                                            'value' => @$document->start_time,
                                                         ])
                                                     </div>
                                                     <div class="col-md-3">
                                                         @include('components.time-input', [
                                                             'label' => 'End Time',
                                                             'name' => 'end_time',
+                                                            'value' => @$document->end_time,
                                                         ])
                                                     </div>
                                                     <div class="col-md-12">
@@ -73,13 +81,15 @@
                                                             'name' => 'occured',
                                                             'class' => 'occured',
                                                             'icon' => 'user',
+                                                            'value' => @$document->occured,
                                                         ])
                                                     </div>
-                                                    <div class="col-md-12 occuredReason" style="display: none;">
+                                                    <div class="col-md-12 occuredReason" style="display: {{ (old('occured') ?? @$document->occured) == '0' ? 'block' : 'none' }};">
                                                         @include('components.select-input', [
                                                             'label' => 'Reason',
                                                             'name' => 'occured_reason',
                                                             'icon' => 'buildings',
+                                                            'value' => @$document->occured_reason,
                                                             'options' => [
                                                                 ['key' => 'Child absent', 'value' => 'Child absent'],
                                                                 ['key' => 'Therapist absent', 'value' => 'Therapist absent'],
@@ -88,27 +98,71 @@
                                                             ]
                                                         ])
                                                     </div>
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-12 occuredDescription" style="display: {{ (old('occured') ?? @$document->occured) == '1' ? 'block' : 'none' }};">
                                                         @include('components.textarea-input', [
                                                             'label' => 'Description',
                                                             'name' => 'occured_description',
                                                             'icon' => 'network-chart',
+                                                            'value' => @$document->occured_description,
                                                         ])
                                                     </div>
                                                     <div class="col-md-12">
+                                                        @php
+                                                            if (isset($document->groupChildrens) && count($document->groupChildrens) > 0) {
+                                                                $groupChildrens = $document->groupChildrens->pluck('children_id')->toArray();
+                                                            } else {
+                                                                $groupChildrens = [];
+                                                            }
+                                                            
+                                                        @endphp
                                                         @include('components.multi-select-input', [
-                                                                'label' => 'Add Another Child',
-                                                                'name' => 'children_ids[]',
-                                                                'class' => 'childrens',
-                                                                'icon' => 'user',
-                                                                'options' => $childrens
-                                                            ])
+                                                            'label' => 'Add Another Child',
+                                                            'name' => 'children_ids[]',
+                                                            'class' => 'childrens',
+                                                            'icon' => 'user',
+                                                            'value' => old('children_ids') ?? $groupChildrens,
+                                                            'options' => $childrens,
+                                                        ])
                                                     </div>
                                                     <div class="col-md-12 childrenTabSec" style="display:flex; flex-wrap: wrap;">
-                                                        <span class="child-tab mx-1">{{ $children->name }}</span>
+                                                        @if (!Request::segment(4))
+                                                            <span class="child-tab mx-1 childTab">
+                                                                {{ @getChildrenNameById($children->id) }}
+                                                            </span>
+                                                        @endif
+                                                        @foreach ($groupChildrens as $id)
+                                                            <span class="child-tab mx-1 childTab{{ @$id }}">{{ @getChildrenNameById($id) }}</span>
+                                                        @endforeach
                                                     </div>
                                                     <div class="col-md-12 childrenSec">
-                                                        @include('components.children-participated', ['index' => 0, 'name' => $children->name])
+                                                        @if (!Request::segment(4))
+                                                            @include('components.children-participated', [
+                                                                'index' => 0,
+                                                                'name' => @getChildrenNameById($children->id),
+                                                                'data' => $groupChildrens,
+                                                                'child_id' => $children->id,
+                                                            ])
+                                                        @endif
+                                                        @if (old('children_ids'))
+                                                            @foreach (old('children_ids') as $id)
+                                                                @include('components.children-participated', [
+                                                                    'index' => !Request::segment(4) ? $loop->iteration : $loop->index,
+                                                                    'id' => $id,
+                                                                    'name' => @getChildrenNameById($id),
+                                                                    'child_id' => $id,
+                                                                ])
+                                                            @endforeach
+                                                        @else
+                                                            @foreach ($document->groupChildrens ?? [] as $data)
+                                                                @include('components.children-participated', [
+                                                                    'index' => !Request::segment(4) ? $loop->iteration : $loop->index,
+                                                                    'name' => @getChildrenNameById($data['children_id']),
+                                                                    'id' => $data['id'],
+                                                                    'data' => $data,
+                                                                    'child_id' => $data['children_id'],
+                                                                ])
+                                                            @endforeach
+                                                        @endif
                                                     </div>
                                                     <div class="col-md-12">
                                                         @include('components.file-input', [
@@ -121,6 +175,8 @@
                                                         ])
                                                     </div>
                                                     <input type="hidden" name="kindergarten_id" value="{{ $children->kindergarten_id }}">
+                                                    <input type="hidden" name="id" value="{{ @$document->id }}">
+                                                    <input type="hidden" name="doc_id" value="{{ Request::segment(4) }}">
                                                     <div class="col-12">
                                                         <div class="d-flex align-items-center gap-3">
                                                             <button type="submit" class="btn button px-4">Submit</button>
@@ -151,22 +207,32 @@
             $(document).on('change', '.occured', function() {
                 var value = $(this).val();
                 if (value == 0) {
+                    $('.occuredDescription').hide();
                     $('.occuredReason').show();
                 } else {
                     $('.occuredReason').hide();
+                    $('.occuredDescription').show();
                 }
             });
 
-            function childParticipated(radio) {
-                var documentDiv = radio.closest('.document');
-                var participatedReasonDiv = documentDiv.querySelector('.participatedReason');
-                if (radio.value === '0') {
-                    participatedReasonDiv.style.display = 'block';
+            function childParticipated(element) {
+                var value = element.value;
+                var row = element.closest('.row');
+                var reasonDiv = row.querySelector('.participatedReason');
+                var descriptionDiv = row.querySelector('.participatedDescription');
+                if (value == '1') {
+                    descriptionDiv.style.display = 'block';
+                    reasonDiv.style.display = 'none';
                 } else {
-                    participatedReasonDiv.style.display = 'none';
+                    descriptionDiv.style.display = 'none';
+                    reasonDiv.style.display = 'block';
                 }
             }
-
+            document.addEventListener('DOMContentLoaded', function () {
+                document.querySelectorAll('.participated3').forEach(function (element) {
+                    childParticipated(element);
+                });
+            });
 
             $('.file').change(function(event) {
                 const file = event.target.files[0];
@@ -179,16 +245,39 @@
 
             $('.childrens').on('select2:select', function(e) {
                 var id = e.params.data.id;
-                var name = e.params.data.text;
+                var name = e.params.data.text;                
                 var index = $('.childrenSec .accordion').length;
                 $('.childrenTabSec').append('<span class="child-tab childTab'+id+' mx-1">'+name+'</span>');
-                $('.childrenSec').append(`@include('components.children-participated', ['index' => '${index}', 'name' => '${name}', 'id' => '${id}'])`);
+                $('.childrenSec').append(`@include('components.children-participated', [
+                    'index' => '${index}',
+                    'name' => '${name}',
+                    'id' => '${id}'
+                ])`);
             });
 
             $('.childrens').on('select2:unselect', function(e) {
-                var id = e.params.data.id;
+                var id = e.params.data.id;                
+                var index = $('.childrenSec .accordion').length;
                 $('.childTab' + id).remove();
                 $('.fileSec' + id).remove();
+                updateIndexes();
             });
+
+            function updateIndexes() {
+                $('.childrenSec .accordion').each(function(index, element) {
+                    $(this).find('input[name^="participated"]').each(function() {
+                        var name = $(this).attr('name').replace(/\[\d+\]/, '[' + index + ']');
+                        $(this).attr('name', name);
+                    });
+                    $(this).find('select[name^="participated"]').each(function() {
+                        var name = $(this).attr('name').replace(/\[\d+\]/, '[' + index + ']');
+                        $(this).attr('name', name);
+                    });
+                    $(this).find('textarea[name^="participated"]').each(function() {
+                        var name = $(this).attr('name').replace(/\[\d+\]/, '[' + index + ']');
+                        $(this).attr('name', name);
+                    });
+                });
+            }
         </script>
     @endpush

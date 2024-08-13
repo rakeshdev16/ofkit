@@ -54,7 +54,7 @@ Route::middleware(['auth', 'lang'])->group(function () {
         Route::post('delete-children-profile', 'deleteProfile')->name('deleteChildrenProfile');
         Route::get('children-documentations/{id}', 'documentations')->name('children-documentations.get');
         Route::get('children-documentation-detail/{childId}/{id}', 'documentationDetail')->name('children-documentation.show');
-        Route::get('children-documentation/{type}/{id}', 'documentation')->name('children-documentation.get');
+        Route::get('children-documentation/{type}/{childId}/{id?}', 'documentation')->name('children-documentation.get');
         Route::post('children-documentation/{type}/{id}', 'saveDocumentation')->name('children-documentation.store');
         Route::post('delete-children-medicine', 'deleteChildrenMedicine')->name('childrenMedicine.delete');
         Route::get('get-kindergarten-manager', 'getKindergartenManager')->name('kindergarten-manager.get');

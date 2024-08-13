@@ -271,7 +271,9 @@ class ChildrenController extends Controller
                 'medicine' => $request->medicine == 'yes' ? 1 : 0,
                 'medicine_detail' => $request->medicine == 'yes' ? $request->medicine_detail : '',
             ]);
-
+            if ($request->medicine == 'no') {
+                $children->medicine()->delete();
+            }
             if ($request->medicine == 'yes' && isset($request->medicine_dosage) && count($request->medicine_dosage) > 0) {
                 $children->medicine()->delete();
                 $children->medicine()->createMany($request->medicine_dosage);
@@ -328,39 +330,43 @@ class ChildrenController extends Controller
         return view('children.document.documentation-detail', compact('document', 'children'));
     }
 
-    public function documentation(Request $request, $type, $id)
+    public function documentation(Request $request, $type, $childId, $id=null)
     {
-        $children = Children::findOrFail($id);
-        $childrens = Children::where('id', '!=', $id)->select('id as key', 'name as value')->get();
+        $document = '';
+        if ($id) {
+            $document = ChildrenDocumentation::findOrFail($id);
+        }
+        $children = Children::findOrFail($childId);
+        $childrens = Children::select('id as key', 'name as value')->get();
         switch ($type) {
             case 'individual':
-                return view('children.document.individual', compact('children'));
+                return view('children.document.individual', compact('children', 'document'));
             break;
             case 'group':
-                return view('children.document.group', compact('children', 'childrens'));
+                return view('children.document.group', compact('children', 'document', 'childrens'));
             break;
             case 'parental-guidance':
                 $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
-                $kindergartens = User::where('id', '!=', $id)->whereIn('id', $userIds)->select('id as key', 'name as value')->get();
-                return view('children.document.parental-guidance', compact('children', 'childrens', 'kindergartens'));
+                $kindergartens = User::where('id', '!=', $childId)->whereIn('id', $userIds)->select('id as key', 'name as value')->get();
+                return view('children.document.parental-guidance', compact('children', 'document', 'childrens', 'kindergartens'));
             break;
             case 'staff-meeting':
                 $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
-                $therapist = User::where('id', '!=', $id)->whereIn('id', $userIds)->role('therapist')->select('id as key', 'name as value')->get();
-                return view('children.document.staff-meeting', compact('children', 'childrens', 'therapist'));
+                $therapist = User::where('id', '!=', $childId)->whereIn('id', $userIds)->role('therapist')->select('id as key', 'name as value')->get();
+                return view('children.document.staff-meeting', compact('children', 'document', 'childrens', 'therapist'));
             break;
             case 'initial-evaluation':
                 $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
-                $therapist = User::where('id', '!=', $id)->whereIn('id', $userIds)->role('therapist')->select('id as key', 'name as value')->get();
-                return view('children.document.initial-evaluation', compact('children', 'childrens', 'therapist'));
+                $therapist = User::where('id', '!=', $childId)->whereIn('id', $userIds)->role('therapist')->select('id as key', 'name as value')->get();
+                return view('children.document.initial-evaluation', compact('children', 'document', 'childrens', 'therapist'));
             break;
             case 'final-evaluation':
                 $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
-                $therapist = User::where('id', '!=', $id)->whereIn('id', $userIds)->role('therapist')->select('id as key', 'name as value')->get();
-                return view('children.document.final-evaluation', compact('children', 'childrens', 'therapist'));
+                $therapist = User::where('id', '!=', $childId)->whereIn('id', $userIds)->role('therapist')->select('id as key', 'name as value')->get();
+                return view('children.document.final-evaluation', compact('children', 'document', 'childrens', 'therapist'));
             break;
             default:
-                return view('children.document.individual', compact('children'));
+                return view('children.document.individual', compact('children', 'document'));
             break;
         }
     }
@@ -408,35 +414,52 @@ class ChildrenController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        ChildrenDocumentation::create($data);
+        ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
 
         return redirect()->route('children.show', $id);
     }
     
     public function group(array $data, $id)
-    {
-        // echo '<pre>'; print_r($data); die;
-        $validator = Validator::make($data, [
+    {        
+        $rules = [
             'date' => 'required',
             'occured' => 'required',
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
-            'children_ids' => 'required|array|min:1',
-        ],[
+            'participated.*.participated' => 'required',
+            'participated.*.reason' => "required_if:participated.*.participated,==,0",
+            'participated.*.description' => "required_if:participated.*.participated,==,1",
+        ];
+        
+        // Check if this is a create operation
+        if ($data['doc_id'] == null || $data['doc_id'] == '') {
+            $rules['participated.*.child_file'] = 'required';
+        }
+        
+        $messages = [
             'occured_description.required_if' => 'Please enter description',
             'occured_reason.required_if' => 'Please enter reason',
-        ]);
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+            'participated.*.participated.required' => 'Please choose participated',
+            'participated.*.reason.required_if' => 'Please enter reason',
+            'participated.*.description.required_if' => 'Please enter description',
+            'participated.*.child_file.required' => 'Please choose file',
+        ];
+        
+        $validator = Validator::make($data, $rules, $messages);        
 
-        $document = ChildrenDocumentation::create($data);
+        if (isset($data['children_ids']) && count($data['children_ids']) > 0) {
+            array_unshift($data['children_ids'], $data['children_id']);
+        }
+        $document = ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
+        $index = 0;
+        $document->groupChildrens()->delete();
         foreach ($data['participated'] as $participated) {
             if (isset($participated['child_file'])) {
                 $participated['file'] = uploadFile($participated['child_file'], 'public/child-document');
             }
-            $participated['children_id'] = $id;
+            $participated['children_id'] = $data['children_ids'][$index];
             $document->groupChildrens()->create($participated);
+            $index++;
         }
 
         return redirect()->route('children.show', $id);
@@ -457,7 +480,7 @@ class ChildrenController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $document = ChildrenDocumentation::create($data);
+        $document = ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
         // if (isset($request->children_ids) && count($request->children_ids) > 0) {
         //     foreach ($request->children_ids as $childrenId) {
         //         $document->parentalGuidanceChildren()->create(['children_id' => $childrenId]);
@@ -476,12 +499,13 @@ class ChildrenController extends Controller
     {
         $validator = Validator::make($data, [
             'date' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
             'occured' => 'required',
-            'occured_description' => 'required',
+            'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
-            'child_file' => 'required',
+            'children_ids' => 'required|array|min:1',
+        ],[
+            'occured_description.required_if' => 'Please enter description',
+            'occured_reason.required_if' => 'Please enter reason',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -512,18 +536,18 @@ class ChildrenController extends Controller
     {
         $validator = Validator::make($data, [
             'date' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
             'occured' => 'required',
-            'occured_description' => 'required',
+            'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
-            'child_file' => 'required',
+        ],[
+            'occured_description.required_if' => 'Please enter description',
+            'occured_reason.required_if' => 'Please enter reason',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        ChildrenDocumentation::create($data);
+        ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
 
         return redirect()->route('children.show', $id);
     }
@@ -532,18 +556,18 @@ class ChildrenController extends Controller
     {
         $validator = Validator::make($data, [
             'date' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
             'occured' => 'required',
-            'occured_description' => 'required',
+            'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
-            'child_file' => 'required',
+        ],[
+            'occured_description.required_if' => 'Please enter description',
+            'occured_reason.required_if' => 'Please enter reason',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        ChildrenDocumentation::create($data);
+        ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
 
         return redirect()->route('children.show', $id);
     }

@@ -1,5 +1,6 @@
 <?php 
 
+use App\Models\Children;
 use App\Models\Kindergarten;
 use App\Models\StaffKindergarten;
 use App\Models\User;
@@ -27,6 +28,11 @@ function getAllRouteNames()
 function getUserNameById($id)
 {
     return User::where('id', $id)->pluck('name')->first();
+}
+
+function getChildrenNameById($id)
+{
+    return Children::where('id', $id)->pluck('name')->first();
 }
 
 function getKindergartenNameById($id)

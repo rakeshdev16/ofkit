@@ -30,8 +30,8 @@
                     @endif
                 </td>
                 <td>
-                    {{-- <a href="{{ route('children.edit', $documentation->id) }}" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a> --}}
                     <a href="{{ route('children-documentation.show', [$documentation->children_id, $documentation->id]) }}" data-toggle="tooltip" data-placement="bottom" title="View"><i class="bx bx-show icon"></i></a>
+                    <a href="{{ route('children-documentation.get', [$documentation->type, Request::segment(2), $documentation->id]) }}" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a>
                 </td>
             </tr>
         @empty

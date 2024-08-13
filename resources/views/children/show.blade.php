@@ -460,12 +460,12 @@
                         </div>
                         <div class="modal-body">
                             <ul style="list-style: none; margin-right: -26px;">
-                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['individual', Request::segment(2)]) }}">Individual</a></li>
-                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['group', Request::segment(2)]) }}">Group</a></li>
-                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['parental-guidance', Request::segment(2)]) }}">Parental Guidance</a></li>
-                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['staff-meeting', Request::segment(2)]) }}">Staff Meeting</a></li>
-                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['initial-evaluation', Request::segment(2)]) }}">Initial Evaluation</a></li>
-                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['final-evaluation', Request::segment(2)]) }}">Final Evaluation</a></li>
+                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['individual', Request::segment(2), '']) }}">Individual</a></li>
+                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['group', Request::segment(2), '']) }}">Group</a></li>
+                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['parental-guidance', Request::segment(2), '']) }}">Parental Guidance</a></li>
+                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['staff-meeting', Request::segment(2), '']) }}">Staff Meeting</a></li>
+                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['initial-evaluation', Request::segment(2), '']) }}">Initial Evaluation</a></li>
+                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['final-evaluation', Request::segment(2), '']) }}">Final Evaluation</a></li>
                             </ul>
                         </div>
                     </div>
