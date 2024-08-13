@@ -148,14 +148,10 @@
                                                         @else
                                                             @foreach($document->staffMeetingChildren as $child)
                                                                 <div class="document mt-1 doc14">
-                                                                    <a href="#" target="_blank" rel="noopener noreferrer">
                                                                         {{ $child->child->name }}
-                                                                    </a>
                                                                 </div>
                                                             @endforeach
-                                                        @endif  
-
-                                                        
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -165,17 +161,15 @@
                                                 <h4 class="text-center">Therapists</h4>
                                                 <div class="table-responsive" style="display: block !important;">
                                                     <div class="d-flex choosenDocument" style="flex-wrap: wrap;">
-                                                        @if($document->staffMeetingTherapist->isEmpty())
+                                                        @forelse ($document->staffMeetingTherapist as $therapist)
+                                                            <div class="document mt-1 doc14">
+                                                                <a href="{{ route('staff.show',$therapist->therapist_id)}}" target="_blank" rel="noopener noreferrer">
+                                                                    {{ @$therapist->therapist }}
+                                                                </a>
+                                                            </div>
+                                                        @empty
                                                             No therapists found!
-                                                        @else
-                                                            @foreach($document->staffMeetingTherapist as $therapist)
-                                                                <div class="document mt-1 doc14">
-                                                                    <a href="{{ route('staff.show',$therapist->therapist_id)}}" target="_blank" rel="noopener noreferrer">
-                                                                        {{ $therapist->therapist->name }}
-                                                                    </a>
-                                                                </div>
-                                                            @endforeach
-                                                        @endif  
+                                                        @endforelse
 
                                                         
                                                     </div>

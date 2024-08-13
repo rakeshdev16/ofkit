@@ -326,16 +326,7 @@ class ChildrenController extends Controller
     public function documentationDetail($childId, $id)
     {
         $children = Children::findOrFail($childId);
-
-        $document = ChildrenDocumentation::with([
-            'groupChildrens.child',
-            'parentalGuidanceChildren',
-            'parentalGuidanceKindergarten',
-            'staffMeeting',
-            'staffMeetingChildren.child',
-            'staffMeetingTherapist.therapist'
-        ])->findOrFail($id);
-
+        $document = ChildrenDocumentation::findOrFail($id);
 
         return view('children.document.documentation-detail', compact('document', 'children'));
     }
