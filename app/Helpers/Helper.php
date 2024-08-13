@@ -1,6 +1,7 @@
 <?php 
 
 use App\Models\Children;
+use App\Models\GroupChildren;
 use App\Models\Kindergarten;
 use App\Models\StaffKindergarten;
 use App\Models\User;
@@ -62,4 +63,9 @@ function uploadFile($file, $path, $extension = null)
 function getStaffKindergarten($userId, $kindergartenId)
 {
     return StaffKindergarten::where(['user_id' => $userId, 'kindergarten_id' => $kindergartenId])->first();
+}
+
+function getGroupChildrens($docId, $childId)
+{
+    return GroupChildren::where(['children_documentation_id' => $docId, 'children_id' => $childId])->first();
 }
