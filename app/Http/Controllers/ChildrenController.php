@@ -455,7 +455,7 @@ class ChildrenController extends Controller
         }
         $document = ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
         $index = 0;
-        $document->groupChildrens()->delete();
+        // $document->groupChildrens()->delete();
         if (isset($data['children_ids']) && count($data['children_ids']) > 0) {
             foreach ($data['participated'] as $participated) {
                 if (isset($participated['child_file'])) {
