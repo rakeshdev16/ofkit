@@ -40,11 +40,6 @@
                                             <form action="{{ route('children-documentation.store', ['group', $children->id]) }}" method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="row g-3">
-                                                    @php
-                                                        echo '<pre>';
-                                                            print_r(Session::get('errors'));
-                                                        echo '</pre>';
-                                                    @endphp
                                                     <div class="col-md-6">
                                                         @include('components.date-input', [
                                                             'label' => 'Date',
