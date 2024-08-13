@@ -130,7 +130,7 @@
                                                         @endforeach
                                                     </div>
                                                     <div class="col-md-12 childrenSec">
-                                                        @if (!Request::segment(4))
+                                                        @if (!Request::segment(4) && count(old('children_ids')) == 0)
                                                             @include('components.children-participated', [
                                                                 'index' => 0,
                                                                 'name' => @getChildrenNameById($children->id),
