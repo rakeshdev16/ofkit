@@ -111,4 +111,8 @@ class User extends Authenticatable
     {
         return isset($this->attributes['document']) ? asset('storage/'.$this->attributes['document']) : '';
     }
+    public function staffMeetingTherapists()
+    {
+        return $this->hasMany(StaffMeetingTherapist::class, 'therapist_id');
+    }
 }
