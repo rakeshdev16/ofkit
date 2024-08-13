@@ -462,7 +462,7 @@ class ChildrenController extends Controller
                     $participated['file'] = uploadFile($participated['child_file'], 'public/child-document');
                 }
                 $participated['children_id'] = $data['children_ids'][$index];
-                $document->groupChildrens()->create($participated);
+                $document->groupChildrens()->updateOrCreate(['id' => $data['id']], $participated);
                 $index++;
             }
         }
