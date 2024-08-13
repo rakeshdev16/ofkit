@@ -56,4 +56,8 @@ class ChildrenDocumentation extends Model
     {
         return $this->hasMany(StaffMeetingTherapist::class, 'children_doc_id', 'id');
     }
+    public function getFormattedTypeAttribute()
+    {
+        return ucwords(str_replace('-', ' ', $this->type));
+    }
 }

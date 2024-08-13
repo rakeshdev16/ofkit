@@ -60,6 +60,14 @@ class Children extends Model
     {
         return isset($this->attributes['photo']) ? asset('storage/'.$this->attributes['photo']) : asset('assets/images/avatars/dummy-image.webp');
     }
+    public function documentation()
+    {
+        return $this->hasMany(ChildrenDocumentation::class, 'children_id');
+    }
+    public function staffMeetingChildren()
+    {
+        return $this->hasMany(StaffMeetingChildren::class, 'children_id');
+    }
 
     public function parent()
     {

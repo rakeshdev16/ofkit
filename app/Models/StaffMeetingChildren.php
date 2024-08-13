@@ -10,5 +10,9 @@ class StaffMeetingChildren extends Model
     use HasFactory;
 
     protected $fillable = ['children_doc_id', 'children_id'];
+    public function child()
+    {
+        return $this->belongsTo(Children::class, 'children_id');
+    }
 
 }
