@@ -11,4 +11,11 @@ class StaffMeetingTherapist extends Model
 
     protected $fillable = ['children_doc_id', 'therapist_id'];
 
+    protected $appends = ['therapist'];
+
+    public function getTherapistAttribute()
+    {
+        return User::where('id', $this->attributes['therapist_id'])->pluck('name')->first();
+    }
+
 }

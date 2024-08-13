@@ -11,4 +11,11 @@ class StaffMeetingChildren extends Model
 
     protected $fillable = ['children_doc_id', 'children_id'];
 
+    protected $appends = ['children'];
+
+    public function getChildrenAttribute()
+    {
+        return Children::where('id', $this->attributes['children_id'])->pluck('name')->first();
+    }
+
 }

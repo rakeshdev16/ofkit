@@ -497,7 +497,11 @@ class ChildrenController extends Controller
             'occured' => 'required',
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
+            'therapist_id' => 'required|array|min:1',
             'children_ids' => 'required|array|min:1',
+            'topic' => 'required',
+            'discussion' => 'required',
+            'decisions' => 'required',
         ],[
             'occured_description.required_if' => 'Please enter description',
             'occured_reason.required_if' => 'Please enter reason',
@@ -506,18 +510,21 @@ class ChildrenController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $document = ChildrenDocumentation::create($data);
+        $document = ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
+        $document->staffMeeting()->delete();
         $document->staffMeeting()->create([
             'children_id' => $id,
             'topic' => $data['topic'],
             'discussion' => $data['discussion'],
             'decisions' => $data['decisions'],
         ]);
+        $document->staffMeetingChildren()->delete();
         if (isset($data['children_ids']) && count($data['children_ids']) > 0) {
             foreach ($data['children_ids'] as $childrenId) {
                 $document->staffMeetingChildren()->create(['children_id' => $childrenId]);
             }
         }
+        $document->staffMeetingTherapist()->delete();
         if (isset($data['therapist_id']) && count($data['therapist_id']) > 0) {
             foreach ($data['therapist_id'] as $therapistId) {
                 $document->staffMeetingTherapist()->create(['therapist_id' => $therapistId]);
