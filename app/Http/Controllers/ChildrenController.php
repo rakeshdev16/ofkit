@@ -271,11 +271,8 @@ class ChildrenController extends Controller
                 'medicine' => $request->medicine == 'yes' ? 1 : 0,
                 'medicine_detail' => $request->medicine == 'yes' ? $request->medicine_detail : '',
             ]);
-            if ($request->medicine == 'no') {
-                $children->medicine()->delete();
-            }
+            $children->medicine()->delete();
             if ($request->medicine == 'yes' && isset($request->medicine_dosage) && count($request->medicine_dosage) > 0) {
-                $children->medicine()->delete();
                 $children->medicine()->createMany($request->medicine_dosage);
             }
 

@@ -146,7 +146,7 @@
                                                         <a href="{{ $document->name }}" target="_blank" rel="noopener noreferrer">
                                                             {{ $document->file_name }}
                                                         </a>
-                                                        <i class="bx bx-x staffDocument removeStaffDocument" data-file-name="{{ $document->file_name }}" data-id="{{ $document->id }}"></i>
+                                                        <i class="bx bx-x removeStaffDocument" data-file-name="{{ $document->file_name }}" data-id="{{ $document->id }}"></i>
                                                     </div>
                                                 @endforeach
                                             </div>

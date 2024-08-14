@@ -145,12 +145,12 @@ class FrameworkTableController extends Controller
             case 'kindergarten-type':
                 $ids = explode(',', $ids);
                 KindergartenType::whereIn('id', $ids)->delete();
-                return response()->json(['status' => true, 'ids' => $ids, 'message' => 'Kindergarten Type has been successfully deleted!']);
+                return response()->json(['status' => true, 'ids' => $ids, 'message' => 'Kindergarten Type has been successfully archived!']);
             break;
             case 'framework-type':
                 $ids = explode(',', $ids);
                 FrameworkType::whereIn('id', $ids)->delete();
-                return response()->json(['status' => true, 'ids' => $ids, 'message' => 'Framework Type has been successfully deleted!']);
+                return response()->json(['status' => true, 'ids' => $ids, 'message' => 'Framework Type has been successfully archived!']);
             break;
         }
     }

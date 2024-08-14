@@ -11,7 +11,7 @@ class Kindergarten extends Model
 
     protected $fillable = ['cluster_id', 'name', 'symbol', 'framework_type_id', 'kindergarten_type_id', 'address', 'telephone'];
 
-    protected $appends = ['framework_type', 'kindergarten_type'];
+    protected $appends = ['framework_type', 'kindergarten_type', 'is_assign'];
 
     public function scopeFilter($query)
     {
@@ -22,6 +22,11 @@ class Kindergarten extends Model
             $query->where('name', 'like', '%'.request('search').'%');
         }
         return $query;
+    }
+
+    public function getIsAssignAttribute()
+    {
+        return Children::where('kindergarten_id', @$this->attributes['id'])->exists() || StaffKindergarten::where('kindergarten_id', @$this->attributes['id'])->exists();
     }
 
     public function getFrameworkTypeAttribute()

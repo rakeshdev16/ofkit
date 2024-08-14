@@ -110,7 +110,7 @@ class KindergartenController extends Controller
     {
         $ids = explode(',', $ids);
         if (Kindergarten::whereIn('id', $ids)->delete()) {
-            return response()->json(['status' => true, 'message' => __('validation.archived', ['attribute' => 'Kindergarten']), 'ids' => $ids]);
+            return response()->json(['status' => true, 'message' => 'Kindergarten has been successfully archived', 'ids' => $ids]);
         }
         return response()->json(['status' => false, 'ids' => $ids]);
     }

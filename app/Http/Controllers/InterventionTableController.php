@@ -147,12 +147,12 @@ class InterventionTableController extends Controller
             case 'documents-and-approval':
                 $ids = explode(',', $ids);
                 DocumentAndApproval::whereIn('id', $ids)->delete();
-                return response()->json(['status' => true, 'ids' => $ids, 'message' => 'Kindergarten Type has been successfully deleted!']);
+                return response()->json(['status' => true, 'ids' => $ids, 'message' => 'Kindergarten Type has been successfully archived!']);
             break;
             case 'intervention-type':
                 $ids = explode(',', $ids);
                 InterventionType::whereIn('id', $ids)->delete();
-                return response()->json(['status' => true, 'ids' => $ids, 'message' => 'Framework Type has been successfully deleted!']);
+                return response()->json(['status' => true, 'ids' => $ids, 'message' => 'Framework Type has been successfully archived!']);
             break;
         }
     }

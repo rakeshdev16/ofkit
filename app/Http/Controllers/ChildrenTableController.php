@@ -200,12 +200,12 @@ class ChildrenTableController extends Controller
             case 'parents-status':
                 $ids = explode(',', $ids);
                 ParentsStatus::whereIn('id', $ids)->delete();
-                return response()->json(['status' => true, 'ids' => $ids, 'message' => 'Kindergarten Type has been successfully deleted!']);
+                return response()->json(['status' => true, 'ids' => $ids, 'message' => 'Kindergarten Type has been successfully archived!']);
             break;
             case 'hmo':
                 $ids = explode(',', $ids);
                 Hmo::whereIn('id', $ids)->delete();
-                return response()->json(['status' => true, 'ids' => $ids, 'message' => 'Framework Type has been successfully deleted!']);
+                return response()->json(['status' => true, 'ids' => $ids, 'message' => 'Framework Type has been successfully archived!']);
             break;
         }
     }
