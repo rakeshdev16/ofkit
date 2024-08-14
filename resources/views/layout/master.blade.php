@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/header-colors.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/toastr.min.css') }}" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Sleiman Ji - Therapist</title>
+    <title>אופקית - טיפול ויעוץ</title>
 	@stack('customLink')
 </head>
 <body class="pace-done" style="background-color: #FFFCF1">

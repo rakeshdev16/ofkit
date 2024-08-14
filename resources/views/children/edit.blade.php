@@ -367,7 +367,7 @@
                                                                 'value' => @$medical->medicine == 1 ? 'yes' : 'no'
                                                             ])
                                                         </div>
-                                                        <div class="col-md-12 medicineDetail" style="display: {{ old('medicine') ?? (@$medical->medicine == 1 ? 'yes' : 'no') == 'yes' ? 'block' : 'none' }}">
+                                                        <div class="col-md-12 medicineDetail" style="display: {{ (old('medicine') ?? @$medical->medicine) == 'yes' ? 'block' : 'none' }}">
                                                             <div class="row mt-1">
                                                                 <div class="col-md-12 d-flex justify-content-between">
                                                                     <button type="button" class="btn button addMoreMedicine">+</button>
@@ -377,6 +377,7 @@
                                                                 @include('components.medicine-detail', ['no' => $loop->iteration, 'index' => $loop->index, 'data' => $medicine])
                                                             @endforeach
                                                         </div>
+                                                        <input type="hidden" name="deleted_medicine" value="{{ old('deleted_medicine') }}" id="deletedMedicine">
                                                         <div class="col-12">
                                                             <div class="d-flex align-items-center gap-3">
                                                                 <button type="submit" class="btn button submitBtn px-4">{{ __('comon.update') }}
@@ -431,46 +432,60 @@
             $(document).on('click', '.removeMedicine', function() {
                 var el = $(this);
                 var id = $(this).data('id');
+                el.parent().parent().parent().remove();
+                updateIndexes();
+                var index = parseInt($('.medicineRow').length);
                 if (id) {
-                    Swal.fire({
-                        title: "Are you sure?",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "Yes, delete it!"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                                type: 'POST',
-                                url: "{{ route('childrenMedicine.delete') }}",
-                                data: { id: id },
-                                success: function (data) {
-                                    if (data.status == true) {
-                                        el.parent().parent().parent().remove();
-                                        updateIndexes();
-                                        var index = $('.medicineRow').length;
-                                        if (index == 0) {
-                                            $('.medicineDetail').hide();
-                                            $('.medicineRow').remove();
-                                            $('.medicine').val('no');
-                                        }
-                                    }
-                                }
-                            });
-                        }
-                    });
-                } else {
-                    el.parent().parent().parent().remove();
-                    updateIndexes();
-                    var index = $('.medicineRow').length;
-                    if (index == 0) {
-                        $('.medicineDetail').hide();
-                        $('.medicineRow').remove();
-                        $('.medicine').val('no');
-                    }
+                    var deletedMedicines = $('#deletedMedicine').val();
+                    var medicineArray = deletedMedicines ? JSON.parse(deletedMedicines) : [];
+                    medicineArray.push(id);
+                    $('#deletedMedicine').val(JSON.stringify(medicineArray));
                 }
+                if (index == 0) {
+                    $('.medicineDetail').hide();
+                    $('.medicineRow').remove();
+                    $('.medicine').val('no');
+                }
+                // if (id) {
+                //     Swal.fire({
+                //         title: "Are you sure?",
+                //         icon: "warning",
+                //         showCancelButton: true,
+                //         confirmButtonColor: "#3085d6",
+                //         cancelButtonColor: "#d33",
+                //         confirmButtonText: "Yes, delete it!"
+                //     }).then((result) => {
+                //         if (result.isConfirmed) {
+                //             $.ajax({
+                //                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                //                 type: 'POST',
+                //                 url: "{{ route('childrenMedicine.delete') }}",
+                //                 data: { id: id },
+                //                 success: function (data) {
+                //                     if (data.status == true) {
+                //                         el.parent().parent().parent().remove();
+                //                         updateIndexes();
+                //                         var index = $('.medicineRow').length;
+                //                         if (index == 0) {
+                //                             $('.medicineDetail').hide();
+                //                             $('.medicineRow').remove();
+                //                             $('.medicine').val('no');
+                //                         }
+                //                     }
+                //                 }
+                //             });
+                //         }
+                //     });
+                // } else {
+                //     el.parent().parent().parent().remove();
+                //     updateIndexes();
+                //     var index = $('.medicineRow').length;
+                //     if (index == 0) {
+                //         $('.medicineDetail').hide();
+                //         $('.medicineRow').remove();
+                //         $('.medicine').val('no');
+                //     }
+                // }
                 
             });
         </script>
