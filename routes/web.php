@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::middleware(['auth', 'lang'])->group(function () {
-    Route::get('/', fn() => view('dashboard.index'))->name('dashboard');
+    Route::get('/', fn() => redirect()->route('children.index'))->name('dashboard');
     Route::get('therapy-schedule', fn() => view('dashboard.index'))->name('therapy-schedule.index');
     Route::resource('staff', StaffController::class);
     Route::resource('cluster', ClusterController::class);

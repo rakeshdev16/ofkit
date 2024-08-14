@@ -15,7 +15,7 @@
                     <i class='bx bx-menu'></i>
                 </div>
                 <div class="top-menu ms-auto">
-                    <ul class="navbar-nav align-items-center gap-1">
+                    {{-- <ul class="navbar-nav align-items-center gap-1">
                         <li class="nav-item dropdown dropdown-large">
                             <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#"
                                 data-bs-toggle="dropdown"><span class="alert-count">7</span>
@@ -81,7 +81,7 @@
                                 </a>
                             </div>
                         </li>
-                    </ul>
+                    </ul> --}}
                 </div>
                 <div class="user-box dropdown px-3">
                     <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret"

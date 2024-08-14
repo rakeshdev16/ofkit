@@ -14,7 +14,7 @@
                     <a href="{{ route('cluster.create') }}" class="btn button">{{ __('cluster.addBtnText') }} +</a>
                 </div>
             </div>
-            <div class="card">
+            <div class="card small-table">
                 <div class="card-body">
                     <div class="table-responsive">
                         @include('components.table-search')

@@ -67,6 +67,9 @@
             $('form :input').on('change input', function() {
                 formChanged = true;
             });
+            $(document).on('click', '.removeMedicine', function() {
+                formChanged = true;
+            });
             $('.exit').on('click', function(e) {
                 $(this).attr('disabled', false);
                 if (formChanged) {
