@@ -375,6 +375,12 @@ class ChildrenController extends Controller
     {
         $request['children_id'] = $id;
         $request['type'] = $type;
+        if ($request['occured'] == 0) {
+            $request['occured_description'] = '';
+        }
+        if ($request['occured'] == 1) {
+            $request['occured_reason'] = '';
+        }
         if ($request->has('child_file')) {
             $request['file'] = uploadFile($request->child_file, 'public/child-document');
         }
@@ -407,9 +413,11 @@ class ChildrenController extends Controller
             'occured' => 'required',
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
+            'end_time' => 'required_with:start_time',
         ],[
             'occured_description.required_if' => 'Please enter description',
             'occured_reason.required_if' => 'Please enter reason',
+            // 'end_time.required_if' => 'Please enter end time',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -431,6 +439,7 @@ class ChildrenController extends Controller
             'participated.*.reason' => "required_if:participated.*.participated,==,0",
             'participated.*.description' => "required_if:participated.*.participated,==,1",
             'participated.*.child_file' => "nullable",
+            'end_time' => 'required_with:start_time',
         ];
         
         $messages = [
@@ -468,6 +477,7 @@ class ChildrenController extends Controller
             'occured' => 'required',
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
+            'end_time' => 'required_with:start_time',
         ],[
             'occured_description.required_if' => 'Please enter description',
             'occured_reason.required_if' => 'Please enter reason',
@@ -498,6 +508,7 @@ class ChildrenController extends Controller
             'occured' => 'required',
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
+            'end_time' => 'required_with:start_time',
             'therapist_id' => 'required|array|min:1',
             'children_ids' => 'required|array|min:1',
             'topic' => 'required',
@@ -542,6 +553,7 @@ class ChildrenController extends Controller
             'occured' => 'required',
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
+            'end_time' => 'required_with:start_time',
         ],[
             'occured_description.required_if' => 'Please enter description',
             'occured_reason.required_if' => 'Please enter reason',
@@ -562,6 +574,7 @@ class ChildrenController extends Controller
             'occured' => 'required',
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
+            'end_time' => 'required_with:start_time',
         ],[
             'occured_description.required_if' => 'Please enter description',
             'occured_reason.required_if' => 'Please enter reason',

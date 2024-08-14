@@ -51,6 +51,7 @@
                                                         @include('components.time-input', [
                                                             'label' => 'Start Time',
                                                             'name' => 'start_time',
+                                                            'class' => 'startTime',
                                                             'value' => @$document->start_time,
                                                         ])
                                                     </div>
@@ -58,6 +59,7 @@
                                                         @include('components.time-input', [
                                                             'label' => 'End Time',
                                                             'name' => 'end_time',
+                                                            'class' => 'endTime',
                                                             'value' => @$document->end_time,
                                                         ])
                                                     </div>
@@ -150,29 +152,8 @@
         </div>
     @endsection
     @push('customScript')
+        @include('children.document.script')
         <script>
-            $(document).on('click', '.button', function() {
-                $(this).attr('disabled', false);
-            });
             
-            $(document).on('change', '.occured', function() {
-                var value = $(this).val();
-                if (value == 0) {
-                    $('.occuredDescription').hide();
-                    $('.occuredReason').show();
-                } else {
-                    $('.occuredReason').hide();
-                    $('.occuredDescription').show();
-                }
-            });
-
-            $('.file').change(function(event) {
-                const file = event.target.files[0];
-                $('.choosenFile').append('<div class="document mt-1"><a href="#" target="_blank" rel="noopener noreferrer">'+ file.name +'</a><i class="bx bx-x childDocument" data-file-name="' + file.name + '"></i></div>');
-            });
-
-            $(document).on('click', '.childDocument', function() {
-                $(this).parent().remove();
-            })
         </script>
     @endpush

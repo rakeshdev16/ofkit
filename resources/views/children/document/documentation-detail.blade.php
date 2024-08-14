@@ -52,7 +52,7 @@
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 class="mb-0">Kindergarten</h6>
-                                    <span class="text-secondary">{{ @getKindergartenNameById($document->kindergarten_id) ?? '-' }}</span>
+                                    <span class="text-secondary">{{ @getKindergartenNameById($children->kindergarten_id) ?? '-' }}</span>
                                 </li>
                                 
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">

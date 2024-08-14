@@ -63,6 +63,7 @@
                                                         @include('components.time-input', [
                                                             'label' => 'Start Time',
                                                             'name' => 'start_time',
+                                                            'class' => 'startTime',
                                                             'value' => @$document->start_time,
                                                         ])
                                                     </div>
@@ -70,6 +71,7 @@
                                                         @include('components.time-input', [
                                                             'label' => 'End Time',
                                                             'name' => 'end_time',
+                                                            'class' => 'endTime',
                                                             'value' => @$document->end_time,
                                                         ])
                                                     </div>
@@ -205,24 +207,11 @@
     @endsection
     @push('customScript')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        @include('children.document.script')
         <script>
             $(document).ready(function() {
                 $('.childrens').select2();
                 $('.therapists').select2();
-            });
-            $(document).on('click', '.button', function() {
-                $(this).attr('disabled', false);
-            });
-            
-            $(document).on('change', '.occured', function() {
-                var value = $(this).val();
-                if (value == 0) {
-                    $('.occuredDescription').hide();
-                    $('.occuredReason').show();
-                } else {
-                    $('.occuredReason').hide();
-                    $('.occuredDescription').show();
-                }
             });
 
             $('.childrens').on('select2:select', function(e) {
