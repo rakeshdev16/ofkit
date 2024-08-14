@@ -10,8 +10,8 @@
             @include('components.table-heading', ['label' => __('kindergarten.kindergartenManagerTh'), 'key' => 'cluster_manager', 'width' => '9.4%'])
             @include('components.table-heading', ['label' => __('kindergarten.addressTh'), 'key' => 'address', 'width' => '9.4%'])
             @include('components.table-heading', ['label' => __('kindergarten.telephoneTh'), 'key' => 'telephone', 'width' => '9.4%'])
-            @include('components.table-heading', ['label' => __('kindergarten.createdAt'), 'key' => 'created_at', 'width' => '9.4%'])
-            @include('components.table-heading', ['label' => __('kindergarten.updatedAt'), 'key' => 'updated_at', 'width' => '9.4%'])
+            {{-- @include('components.table-heading', ['label' => __('kindergarten.createdAt'), 'key' => 'created_at', 'width' => '9.4%'])
+            @include('components.table-heading', ['label' => __('kindergarten.updatedAt'), 'key' => 'updated_at', 'width' => '9.4%']) --}}
             @include('components.table-heading', ['label' => 'Action', 'width' => '4%'])
         </tr>
     </thead>
@@ -36,8 +36,8 @@
                 <td>{{ @getUserNameById($kindergarten->kindergartenUser->user_id) ?? '-' }}</td>
                 <td>{{ \Str::limit($kindergarten->address, 20, '...') ?? '-' }}</td>
                 <td>{{ $kindergarten->telephone }}</td>
-                <td>{{ date('d/m/Y', strtotime($kindergarten->created_at)) }}</td>
-                <td>{{ date('d/m/Y', strtotime($kindergarten->updated_at)) }}</td>
+                {{-- <td>{{ date('d/m/Y', strtotime($kindergarten->created_at)) }}</td>
+                <td>{{ date('d/m/Y', strtotime($kindergarten->updated_at)) }}</td> --}}
                 <td>
                     <a href="{{ route('kindergarten.edit', $kindergarten->id) }}" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a>
                     <a href="{{ route('kindergarten.show', $kindergarten->id) }}" data-toggle="tooltip" data-placement="bottom" title="View"><i class="bx bx-show icon"></i></a>
@@ -45,7 +45,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="11" class="text-center">{{ __('comon.emptyTableMsg') }}</td>
+                <td colspan="10" class="text-center">{{ __('comon.emptyTableMsg') }}</td>
             </tr>
         @endforelse
     </tbody>

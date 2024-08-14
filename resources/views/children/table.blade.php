@@ -8,8 +8,8 @@
             @include('components.table-heading', ['label' => __('children.dob'), 'key' => 'dob', 'width' => '11.75%'])
             @include('components.table-heading', ['label' => __('children.address'), 'key' => 'address', 'width' => '11.75%'])
             @include('components.table-heading', ['label' => __('children.kindergarten'), 'key' => 'address', 'width' => '11.75%'])
-            @include('components.table-heading', ['label' => __('children.createdAt'), 'key' => 'created_at', 'width' => '11.75%'])
-            @include('components.table-heading', ['label' => __('children.updatedAt'), 'key' => 'updated_at', 'width' => '11.75%'])
+            {{-- @include('components.table-heading', ['label' => __('children.createdAt'), 'key' => 'created_at', 'width' => '11.75%'])
+            @include('components.table-heading', ['label' => __('children.updatedAt'), 'key' => 'updated_at', 'width' => '11.75%']) --}}
             @include('components.table-heading', ['label' => 'Action', 'width' => '4%'])
         </tr>
     </thead>
@@ -23,8 +23,8 @@
                 <td>{{ $children->date_of_birth }}</td>
                 <td>{{ \Str::limit($children->address, 20, '...') ?? '-' }}</td>
                 <td>{{ @getKindergartenNameById($children->kindergarten_id) ?? '-' }}</td>
-                <td>{{ date('d/m/Y', strtotime($children->created_at)) }}</td>
-                <td>{{ date('d/m/Y', strtotime($children->updated_at)) }}</td>
+                {{-- <td>{{ date('d/m/Y', strtotime($children->created_at)) }}</td>
+                <td>{{ date('d/m/Y', strtotime($children->updated_at)) }}</td> --}}
                 <td>
                     <a href="{{ route('children.edit', $children->id) }}" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a>
                     <a href="{{ route('children.show', $children->id) }}" data-toggle="tooltip" data-placement="bottom" title="View"><i class="bx bx-show icon"></i></a>
@@ -32,7 +32,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="10" class="text-center">{{ __('comon.emptyTableMsg') }}</td>
+                <td colspan="8" class="text-center">{{ __('comon.emptyTableMsg') }}</td>
             </tr>
         @endforelse
     </tbody>

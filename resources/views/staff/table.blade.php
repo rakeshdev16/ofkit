@@ -10,8 +10,8 @@
             @include('components.table-heading', ['label' => __('staff.emailTh'), 'key' => 'email', 'width' => '13.44%'])
             @include('components.table-heading', ['label' => __('staff.professionTh'), 'key' => 'profession_id', 'width' => '13.44%'])
             @include('components.table-heading', ['label' => __('staff.kindergartenTh'), 'width' => '13.44%'])
-            @include('components.table-heading', ['label' => __('staff.createdAt'), 'key' => 'created_at', 'width' => '13.44%'])
-            @include('components.table-heading', ['label' => __('staff.updatedAt'), 'key' => 'updated_at', 'width' => '13.44%'])
+            {{-- @include('components.table-heading', ['label' => __('staff.createdAt'), 'key' => 'created_at', 'width' => '13.44%'])
+            @include('components.table-heading', ['label' => __('staff.updatedAt'), 'key' => 'updated_at', 'width' => '13.44%']) --}}
             @include('components.table-heading', ['label' => 'Action', 'width' => '4%'])
         </tr>
     </thead>
@@ -32,18 +32,12 @@
                             $kindergartens = getKindergartenNamesById($member->staffKindergartens->pluck('kindergarten_id')->toArray());
                         @endphp
                         {{ \Str::limit(implode(', ', $kindergartens), 35, '...') ?? '-' }}
-                        {{-- @foreach ($member->staffKindergartens->take(2) as $staffKindergarten)
-                            {{ $staffKindergarten->kindergartens->name }}@if (!$loop->last), @endif
-                        @endforeach
-                        @if ($member->staffKindergartens->count() > 2)
-                            ...
-                        @endif --}}
                     @else
                         <span class="light-gray">No kindergartens available</span>
                     @endif
                 </td>
-                <td>{{ date('d/m/Y', strtotime($member->created_at)) }}</td>
-                <td>{{ date('d/m/Y', strtotime($member->updated_at)) }}</td>
+                {{-- <td>{{ date('d/m/Y', strtotime($member->created_at)) }}</td>
+                <td>{{ date('d/m/Y', strtotime($member->updated_at)) }}</td> --}}
                 <td>
                     <a
                         href="{{ route('staff.edit', $member->id) }}?kindergarten_id={{ request()->kindergarten_id }}"
@@ -65,7 +59,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="11" class="text-center">{{ __('comon.emptyTableMsg') }}</td>
+                <td colspan="8" class="text-center">{{ __('comon.emptyTableMsg') }}</td>
             </tr>
         @endforelse
     </tbody>
