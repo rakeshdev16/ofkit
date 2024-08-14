@@ -367,7 +367,7 @@
                                                                 'value' => @$medical->medicine == 1 ? 'yes' : 'no'
                                                             ])
                                                         </div>
-                                                        <div class="col-md-12 medicineDetail" style="display: {{ (old('medicine') ?? @$medical->medicine) == 'yes' ? 'block' : 'none' }}">
+                                                        <div class="col-md-12 medicineDetail" style="display: {{ old('medicine') ?? (@$medical->medicine == 1 ? 'yes' : 'no') == 'yes' ? 'block' : 'none' }}">
                                                             <div class="row mt-1">
                                                                 <div class="col-md-12 d-flex justify-content-between">
                                                                     <button type="button" class="btn button addMoreMedicine">+</button>
