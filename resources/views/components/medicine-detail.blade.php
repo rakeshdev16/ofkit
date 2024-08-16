@@ -1,6 +1,6 @@
 <div class="row medicineRow medicine-detail mt-4">
     <div class="col-md-12 d-flex justify-content-between">
-        <div>Medicine # <input type="text" class="medicine-number" value="{{ @$no }}" disabled></div>
+        <div>{{ __('children.medicine') }} # <input type="text" class="medicine-number" value="{{ @$no }}" disabled></div>
         <div>
             @if (!@$disabled)
                 <button type="button" class="btn button removeMedicine" data-id="{{ @$data['id'] }}"><i class="fadeIn animated bx bx-trash"></i></button>

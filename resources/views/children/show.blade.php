@@ -40,7 +40,10 @@
                                                     <h6 class="mb-0">Weekly Therapy Schedule</h6>
                                                 </li>
                                                 <li class="list-group-item text-center">
-                                                    <h6 class="mb-0"><a href="{{ route('children-documentations.get', $children->id) }}">View Documentation of intervation</a></h6>
+                                                    <h6 class="mb-0">
+                                                        <a href="{{ route('children-documentations.get', $children->id) }}">View Documentation of intervation</a>
+                                                        {{-- <a href="#">View Documentation of intervation</a> --}}
+                                                    </h6>
                                                 </li>
                                                 <li class="list-group-item text-center">
                                                     <h6 class="mb-0">Professional / Staff Meeting Discussion</h6>
@@ -50,6 +53,7 @@
                                                 </li>
                                                 <li class="list-group-item text-center">
                                                     <h6 class="mb-0" data-bs-toggle="modal" data-bs-target="#exampleSmallModal">New Documantation</h6>
+                                                    {{-- <h6 class="mb-0">New Documantation</h6> --}}
                                                 </li>
                                             </ul>
                                         </div>

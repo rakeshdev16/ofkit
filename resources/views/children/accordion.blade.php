@@ -45,14 +45,6 @@
                         <div class="w-50 label">{{ __('children.kindergarten') }}</div>
                         <div class="w-50">{{ @getKindergartenNameById($children->kindergarten_id) ?? '-' }}</div>
                     </div>
-                    <div class="d-flex accordion-row">
-                        <div class="w-50 label">{{ __('children.createdAt') }}</div>
-                        <div class="w-50">{{ date('d/m/Y', strtotime($children->created_at)) }}</div>
-                    </div>
-                    <div class="d-flex accordion-row">
-                        <div class="w-50 label">{{ __('children.updatedAt') }}</div>
-                        <div class="w-50">{{ date('d/m/Y', strtotime($children->updated_at)) }}</div>
-                    </div>
                 </div>
             </div>
         </div>

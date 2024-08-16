@@ -42,14 +42,14 @@
                                                 <div class="row g-3">
                                                     <div class="col-md-6">
                                                         @include('components.date-input', [
-                                                            'label' => 'Date',
+                                                            'label' =>__('children.date'),
                                                             'name' => 'date',
                                                             'value' => @$document->date,
                                                         ])
                                                     </div>
                                                     <div class="col-md-3">
                                                         @include('components.time-input', [
-                                                            'label' => 'Start Time',
+                                                            'label' => __('children.startTime'),
                                                             'name' => 'start_time',
                                                             'class' => 'startTime',
                                                             'value' => @$document->start_time,
@@ -57,7 +57,7 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         @include('components.time-input', [
-                                                            'label' => 'End Time',
+                                                            'label' => __('children.endTime'),
                                                             'name' => 'end_time',
                                                             'class' => 'endTime',
                                                             'value' => @$document->end_time,
@@ -65,7 +65,7 @@
                                                     </div>
                                                     <div class="col-md-12">
                                                         @include('components.text-input', [
-                                                            'label' => 'Kindergarten',
+                                                            'label' => __('children.kindergarten'),
                                                             'name' => 'Kindergarten',
                                                             'icon' => 'user',
                                                             'value' => getKindergartenNameById($children->kindergarten_id),
@@ -74,7 +74,7 @@
                                                     </div>
                                                     <div class="col-md-12">
                                                         @include('components.radio-input', [
-                                                            'label' => "Occured",
+                                                            'label' => __('children.occured'),
                                                             'name' => 'occured',
                                                             'class' => 'occured',
                                                             'icon' => 'user',
@@ -83,7 +83,7 @@
                                                     </div>
                                                     <div class="col-md-12 occuredReason" style="display: {{ (old('occured') ?? @$document->occured) == '0' ? 'block' : 'none' }};">
                                                         @include('components.select-input', [
-                                                            'label' => 'Reason',
+                                                            'label' => __('children.occuredReason'),
                                                             'name' => 'occured_reason',
                                                             'icon' => 'buildings',
                                                             'value' => @$document->occured_reason,
@@ -97,7 +97,7 @@
                                                     </div>
                                                     <div class="col-md-12 occuredDescription" style="display: {{ (old('occured') ?? @$document->occured) == '1' ? 'block' : 'none' }};">
                                                         @include('components.textarea-input', [
-                                                            'label' => 'Description',
+                                                            'label' => __('children.occuredDescription'),
                                                             'name' => 'occured_description',
                                                             'icon' => 'network-chart',
                                                             'value' => @$document->occured_description,
@@ -113,7 +113,7 @@
                                                             
                                                         @endphp
                                                         @include('components.multi-select-input', [
-                                                            'label' => 'Add Another Child',
+                                                            'label' => __('children.addAnotherChild'),
                                                             'name' => 'children_ids[]',
                                                             'class' => 'childrens',
                                                             'icon' => 'user',
@@ -171,7 +171,7 @@
                                                     </div>
                                                     <div class="col-md-12">
                                                         @include('components.file-input', [
-                                                            'label' => 'File',
+                                                            'label' => __('children.file'),
                                                             'name' => 'child_file',
                                                             'class' => 'file',
                                                             'id' => 'file',
@@ -184,7 +184,7 @@
                                                     <input type="hidden" name="doc_id" value="{{ Request::segment(4) }}">
                                                     <div class="col-12">
                                                         <div class="d-flex align-items-center gap-3">
-                                                            <button type="submit" class="btn button px-4">Submit</button>
+                                                            <button type="submit" class="btn button px-4">{{ __('comon.submit') }}</button>
                                                         </div>
                                                     </div>
                                                 </div>

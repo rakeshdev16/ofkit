@@ -2,11 +2,11 @@
     <thead>
         <tr>
             {{-- <th><input type="checkbox" class="mainCheckbox"></th> --}}
-            @include('components.table-heading', ['label' => 'Date', 'key' => 'created_at'])
+            @include('components.table-heading', ['label' =>__('children.date'), 'key' => 'created_at'])
             @include('components.table-heading', ['label' => 'Profession'])
             @include('components.table-heading', ['label' => 'Intervention', 'key' => 'type'])
             @include('components.table-heading', ['label' => 'Occurred', 'key' => 'occured'])
-            @include('components.table-heading', ['label' => 'Description', 'key' => 'occured_description'])
+            @include('components.table-heading', ['label' => __('children.occuredDescription'), 'key' => 'occured_description'])
             @include('components.table-heading', ['label' => 'Therapist', 'key' => 'kindergarten_id'])
             @include('components.table-heading', ['label' => 'Attacted File'])
             @include('components.table-heading', ['label' => 'Action'])

@@ -23,7 +23,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         @include('components.radio-input', [
-                            'label' => "Participated",
+                            'label' => __('children.participated'),
                             'name' => "participated[$index][participated]",
                             'class' => "participated$index",
                             'icon' => 'user',
@@ -38,7 +38,7 @@
                     </div>
                     <div class="col-md-12 participatedReason" style="display: {{ (old('participated.'.$index.'.participated') ?? @$data['participated']) == '0' ? 'block' : 'none' }};">
                         @include('components.select-input', [
-                            'label' => 'Reason',
+                            'label' => __('children.reason'),
                             'name' => "participated[$index][reason]",
                             'icon' => 'buildings',
                             'value' => old('participated.'.$index.'.reason') ?? @$data['reason'],
@@ -57,7 +57,7 @@
                     </div>
                     <div class="col-md-12 participatedDescription" style="display: {{ (old('participated.'.$index.'.participated') ?? @$data['participated']) == '1' ? 'block' : 'none' }};">
                         @include('components.textarea-input', [
-                            'label' => 'Description',
+                            'label' => __('children.description'),
                             'name' => "participated[$index][description]",
                             'icon' => 'network-chart',
                             'value' => old('participated.'.$index.'.description') ?? @$data['description'],
@@ -70,7 +70,7 @@
                     </div>
                     <div class="col-md-12 mt-2">
                         @include('components.file-input', [
-                            'label' => 'File',
+                            'label' => __('children.file'),
                             'name' => "participated[$index][child_file]",
                             'class' => 'file',
                             'id' => 'file',

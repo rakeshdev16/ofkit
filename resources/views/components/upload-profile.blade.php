@@ -10,7 +10,7 @@
             </div>
         </label>
         <span class="text-danger cropperImageError" role="alert" style="display: none !important;">
-            <strong>Invalid image format</strong>
+            <strong>{{ __('comon.invalidImageFormat') }}</strong>
         </span>
     </div>
 </div>

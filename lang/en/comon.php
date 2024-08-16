@@ -18,5 +18,6 @@ return [
     'confirmTitle' => 'Are You Sure?',
     'confirmText' => "You won't be able to revert this!",
     'confirmButtonText' => "Yes, archive it!",
-
+    'allKindergartens' => "All Kindergartens",
+    'invalidImageFormat' => 'Invalid image format',
 ];

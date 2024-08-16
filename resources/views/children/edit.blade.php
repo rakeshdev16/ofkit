@@ -94,7 +94,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' =>  'Age',
+                                                                'label' =>  __('children.age'),
                                                                 'name' => 'age',
                                                                 'class' => 'age',
                                                                 'icon' => 'buildings', 
@@ -114,7 +114,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' => 'Kindergarten Manager',
+                                                                'label' =>  __('children.kindergartenManager'),
                                                                 'name' => '',
                                                                 'class' => 'kindergartenManager',
                                                                 'icon' => 'user',
