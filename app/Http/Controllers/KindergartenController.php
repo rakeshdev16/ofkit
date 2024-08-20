@@ -44,12 +44,12 @@ class KindergartenController extends Controller
             'name' => 'required',
             'cluster_id' => 'required',
             'symbol' => 'nullable|numeric',
-            'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
+            'telephone' => ['nullable', 'regex:/^[0-9-]{8,14}$/'],
         ],[
             'name.required' => __('kindergarten.requiredName'),
             'cluster_id.required' => __('kindergarten.requiredCluster'),
             'symbol.numeric' => 'Please enter numbers only',
-            'telephone.required' => 'Please enter telephone number',
+            // 'telephone.required' => 'Please enter telephone number',
             'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
         ]);
         if ($validator->fails()) {
@@ -87,11 +87,11 @@ class KindergartenController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'symbol' => 'nullable|numeric',
-            'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
+            'telephone' => ['nullable', 'regex:/^[0-9-]{8,14}$/'],
         ],[
             'name.required' => __('kindergarten.requiredName'),
             'symbol.numeric' => 'Please enter numbers only',
-            'telephone.required' => 'Please enter telephone number',
+            // 'telephone.required' => 'Please enter telephone number',
             'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
         ]);
         if ($validator->fails()) {

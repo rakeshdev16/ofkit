@@ -24,7 +24,7 @@
                 <td>
                     <a href="{{ route('children.show', $children->id) }}" data-toggle="tooltip" data-placement="bottom" title="View">
                         {{-- <i class="bx bx-show icon"></i> --}}
-                        <img src="{{ asset('assets/icons/child-icon.png') }}" width="30px" alt="">
+                        <img src="{{ asset('assets/icons/child-icon-new.png') }}" width="30px" alt="">
                     </a>
                 </td>
             </tr>

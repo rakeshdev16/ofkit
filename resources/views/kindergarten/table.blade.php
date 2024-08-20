@@ -4,7 +4,7 @@
             <th style="width: 2%"><input type="checkbox" class="mainCheckbox"></th>
             @include('components.table-heading', ['label' => __('kindergarten.nameTh'), 'key' => 'name', 'width' => '9.4%'])
             @include('components.table-heading', ['label' => __('kindergarten.symbolTh'), 'key' => 'symbol', 'width' => '9.4%'])
-            @include('components.table-heading', ['label' => __('kindergarten.frameworkTh'), 'key' => 'framework', 'width' => '9.4%'])
+            {{-- @include('components.table-heading', ['label' => __('kindergarten.frameworkTh'), 'key' => 'framework', 'width' => '9.4%']) --}}
             @include('components.table-heading', ['label' => __('kindergarten.clusterTh'), 'key' => 'cluster', 'width' => '9.4%'])
             @include('components.table-heading', ['label' => __('kindergarten.clusterManagerTh'), 'key' => 'cluster', 'width' => '9.4%'])
             @include('components.table-heading', ['label' => __('kindergarten.kindergartenManagerTh'), 'key' => 'cluster_manager', 'width' => '9.4%'])
@@ -30,7 +30,7 @@
                 </td>
                 <td>{{ $kindergarten->name }}</td>
                 <td>{{ $kindergarten->symbol }}</td>
-                <td>{{ $kindergarten->framework_type }}</td>
+                {{-- <td>{{ $kindergarten->framework_type }}</td> --}}
                 <td>{{ @$kindergarten->cluster->cluster ?? '-' }}</td>
                 <td>{{ @getUserNameById($kindergarten->cluster->manager_id) ?? '-' }}</td>
                 <td>{{ @getUserNameById($kindergarten->kindergartenUser->user_id) ?? '-' }}</td>
@@ -39,7 +39,7 @@
                 {{-- <td>{{ date('d/m/Y', strtotime($kindergarten->created_at)) }}</td>
                 <td>{{ date('d/m/Y', strtotime($kindergarten->updated_at)) }}</td> --}}
                 <td>
-                    <a href="{{ route('kindergarten.edit', $kindergarten->id) }}" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a>
+                    {{-- <a href="{{ route('kindergarten.edit', $kindergarten->id) }}" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a> --}}
                     <a href="{{ route('kindergarten.show', $kindergarten->id) }}" data-toggle="tooltip" data-placement="bottom" title="View"><i class="bx bx-show icon"></i></a>
                 </td>
             </tr>

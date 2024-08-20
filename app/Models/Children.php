@@ -37,7 +37,10 @@ class Children extends Model
         }
         if (request('search')) {
             $search = request('search');
-            $query->where('name', 'like', '%'.$search.'%')->orWhere('family_name', 'like', '%'.$search.'%');
+            $query->where('name', 'like', '%'.$search.'%')
+                ->orWhere('family_name', 'like', '%'.$search.'%')
+                ->orWhere('identification', 'like', '%'.$search.'%')
+                ->orWhere('address', 'like', '%'.$search.'%');
         }
 
         if (request('kindergarten_id')) {
