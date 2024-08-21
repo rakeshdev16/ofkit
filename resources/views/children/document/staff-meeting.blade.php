@@ -117,8 +117,8 @@
                                                             @endforeach
                                                         @else
                                                             @if (isset($therapistIds) && count($therapistIds) > 0)
-                                                                @foreach ($document->staffMeetingTherapist as $therapist)
-                                                                    <span class="child-tab therapistTab{{$therapist->therapist_id}} mx-1">{{ $therapist->therapist }}</span>
+                                                                @foreach ($therapistIds as $therapistId)
+                                                                    <span class="child-tab therapistTab{{$therapistId}} mx-1">{{ getUserNameById($therapistId) }}</span>
                                                                 @endforeach
                                                             @endif
                                                         @endif
@@ -172,8 +172,8 @@
                                                             @endforeach
                                                         @else
                                                             @if (isset($childrenIds) && count($childrenIds) > 0)
-                                                                @foreach ($childrenIds as $children)
-                                                                    <span class="child-tab childTab{{$children->children_id}} mx-1">{{ $children->children }}</span>
+                                                                @foreach ($childrenIds as $childrenId)
+                                                                    <span class="child-tab childTab{{ $childrenId }} mx-1">{{ @getChildrenNameById($childrenId) }}</span>
                                                                 @endforeach
                                                             @endif
                                                         @endif
