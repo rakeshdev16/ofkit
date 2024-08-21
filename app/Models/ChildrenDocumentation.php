@@ -24,6 +24,16 @@ class ChildrenDocumentation extends Model
         return $query;
     }
 
+    public function getStartTimeAttribute($value)
+    {
+        return isset($value) ? date('H:i', strtotime($value)) : '-';
+    }
+
+    public function getEndTimeAttribute($value)
+    {
+        return isset($value) ? date('H:i', strtotime($value)) : '-';
+    }
+
     public function getFileAttribute($value)
     {
         return isset($this->attributes['file']) ? asset('storage/'.$this->attributes['file']) : '';
