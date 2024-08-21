@@ -9,7 +9,7 @@ class ChildrenDocumentation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['children_id', 'date', 'start_time', 'end_time', 'kindergarten_id', 'occured', 'occured_description', 'occured_reason', 'file', 'type'];
+    protected $fillable = ['children_id', 'date', 'start_time', 'end_time', 'kindergarten_id', 'occured', 'occured_description', 'group_name', 'occured_reason', 'file', 'type'];
 
     protected $appends = ['file_name'];
 

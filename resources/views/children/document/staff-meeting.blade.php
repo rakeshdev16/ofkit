@@ -116,7 +116,7 @@
                                                                 <span class="child-tab therapistTab{{$therapistId}} mx-1">{{ getUserNameById($therapistId) }}</span>
                                                             @endforeach
                                                         @else
-                                                            @if (count($therapistIds) > 0)
+                                                            @if (isset($therapistIds) && count($therapistIds) > 0)
                                                                 @foreach ($document->staffMeetingTherapist as $therapist)
                                                                     <span class="child-tab therapistTab{{$therapist->therapist_id}} mx-1">{{ $therapist->therapist }}</span>
                                                                 @endforeach
@@ -171,7 +171,7 @@
                                                                 <span class="child-tab childTab{{$childrenId}} mx-1">{{ getChildrenNameById($childrenId) }}</span>
                                                             @endforeach
                                                         @else
-                                                            @if (count($childrenIds) > 0)
+                                                            @if (isset($childrenIds) && count($childrenIds) > 0)
                                                                 @foreach ($childrenIds as $children)
                                                                     <span class="child-tab childTab{{$children->children_id}} mx-1">{{ $children->children }}</span>
                                                                 @endforeach
@@ -224,6 +224,7 @@
                                                     <input type="hidden" name="staff_meeting_id" value="{{ @$document->staffMeeting->id }}">
                                                     <input type="hidden" name="kindergarten_id" value="{{ @$children->kindergarten_id }}">
                                                     <input type="hidden" name="id" value="{{ @$document->id }}">
+                                                    <input type="hidden" name="delete_file" class="deleteFile">
                                                     <div class="col-12">
                                                         <div class="d-flex align-items-center gap-3">
                                                             <button type="submit" class="btn button px-4">{{ __('comon.submit') }}</button>

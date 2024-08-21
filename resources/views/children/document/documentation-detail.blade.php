@@ -75,7 +75,7 @@
                                         @if(!empty($document->file))
                                             <a href="{{ $document->file }}" target="_blank"><i class="bx bx-file"></i></a>
                                         @else
-                                            No file available
+                                            -
                                         @endif
                                     </span>
                                 </li>

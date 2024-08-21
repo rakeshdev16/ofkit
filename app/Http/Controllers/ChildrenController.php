@@ -382,6 +382,9 @@ class ChildrenController extends Controller
         if ($request->has('child_file')) {
             $request['file'] = uploadFile($request->child_file, 'public/child-document');
         }
+        if ($request->has('delete_file') && $request->delete_file == 1) {
+            $request['file'] = NULL;
+        }
         switch ($type) {
             case 'individual':
                 return $this->individual($request->all(), $id);

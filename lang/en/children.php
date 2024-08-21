@@ -98,6 +98,7 @@ return [
     'childFamilyName' => "Child's Family Name",
     'occured' => "Occured",
     'occuredReason' => "Occured Reason",
+    'groupName' => "Group Name",
     'occuredDescription' => "Occured Description",
     'file' => "File",
     'addAnotherChild' => "Add Another Child",

@@ -105,12 +105,22 @@
                                                         ])
                                                     </div>
                                                     <div class="col-md-12 occuredDescription" style="display: {{ (old('occured') ?? @$document->occured) == '1' ? 'block' : 'none' }};">
-                                                        @include('components.textarea-input', [
-                                                            'label' => __('children.occuredDescription'),
-                                                            'name' => 'occured_description',
-                                                            'icon' => 'network-chart',
-                                                            'value' => @$document->occured_description,
-                                                        ])
+                                                        <div>
+                                                            @include('components.text-input', [
+                                                                'label' => __('children.groupName'),
+                                                                'name' => 'group_name',
+                                                                'icon' => 'network-chart',
+                                                                'value' => @$document->group_name,
+                                                            ])
+                                                        </div>
+                                                        <div class="mt-3">
+                                                            @include('components.textarea-input', [
+                                                                'label' => __('children.occuredDescription'),
+                                                                'name' => 'occured_description',
+                                                                'icon' => 'network-chart',
+                                                                'value' => @$document->occured_description,
+                                                            ])
+                                                        </div>
                                                     </div>
                                                     <hr>
                                                     <div class="col-md-12">
@@ -205,6 +215,7 @@
                                                     <input type="hidden" name="kindergarten_id" value="{{ $children->kindergarten_id }}">
                                                     <input type="hidden" name="id" value="{{ @$document->id }}">
                                                     <input type="hidden" name="doc_id" value="{{ Request::segment(4) }}">
+                                                    <input type="hidden" name="delete_file" class="deleteFile">
                                                     <div class="col-12">
                                                         <div class="d-flex align-items-center gap-3">
                                                             <button type="submit" class="btn button px-4">{{ __('comon.submit') }}</button>

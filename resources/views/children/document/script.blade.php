@@ -55,6 +55,7 @@
 
     $(document).on('click', '.childDocument', function() {
         $('.file').val('');
+        $('.deleteFile').val('1');
         $(this).parent().remove();
     })
 </script>

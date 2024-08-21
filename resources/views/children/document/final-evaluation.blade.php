@@ -142,6 +142,7 @@
                                                     </div>
                                                     <input type="hidden" name="kindergarten_id" value="{{ $children->kindergarten_id }}">
                                                     <input type="hidden" name="id" value="{{ @$document->id }}">
+                                                    <input type="hidden" name="delete_file" class="deleteFile">
                                                     <div class="col-12">
                                                         <div class="d-flex align-items-center gap-3">
                                                             <button type="submit" class="btn button px-4">{{ __('comon.submit') }}</button>
