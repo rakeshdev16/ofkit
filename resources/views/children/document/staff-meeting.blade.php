@@ -212,6 +212,14 @@
                                                             'value' => old('file'),
                                                             'value' => @$document->file,
                                                         ])
+                                                        <div class="d-flex mt-2 choosenFile" style="flex-wrap: wrap;">
+                                                            @if (isset($document->file) && $document->file != NULL)
+                                                                <div class="document mt-1">
+                                                                    <a href="{{ $document->file }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a>
+                                                                    <i class="bx bx-x childDocument" data-file-name="{{ $document->file }}"></i>
+                                                                </div>
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                     <input type="hidden" name="staff_meeting_id" value="{{ @$document->staffMeeting->id }}">
                                                     <input type="hidden" name="kindergarten_id" value="{{ @$children->kindergarten_id }}">

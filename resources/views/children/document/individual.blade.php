@@ -135,7 +135,7 @@
                                                         <div class="d-flex mt-2 choosenFile" style="flex-wrap: wrap;">
                                                             @if (isset($document->file) && $document->file != NULL)
                                                                 <div class="document mt-1">
-                                                                    <a href="#" target="_blank" rel="noopener noreferrer">{{ $document->file }}</a>
+                                                                    <a href="{{ $document->file }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a>
                                                                     <i class="bx bx-x childDocument" data-file-name="{{ $document->file }}"></i>
                                                                 </div>
                                                             @endif

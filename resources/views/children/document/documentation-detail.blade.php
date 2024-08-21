@@ -61,12 +61,12 @@
                                 
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 class="mb-0">Description</h6>
-                                    <span class="text-secondary">{{ @$document->occured_description }}</span>
+                                    <span class="text-secondary">{{ @$document->occured_description ? $document->occured_description : '-' }}</span>
                                 </li>
                                 @if(!$document->occured)
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 class="mb-0">Occured Reason</h6>
-                                    <span class="text-secondary">{{ @$document->occured_reason }}</span>
+                                    <span class="text-secondary">{{ @$document->occured_reason ?? '-' }}</span>
                                 </li>
                                 @endif
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
@@ -91,6 +91,7 @@
                                                     <th>Name</th>
                                                     <th>Participated</th>
                                                     <th>Description</th>
+                                                    <th>Reason</th>
                                                     <th>File</th>
                                                 </tr>
                                             </thead>
@@ -102,12 +103,14 @@
                                                         <tr">                                            
                                                             <td>{{ $child->child->name }}</td>
                                                             <td>{{ $child->participated == 1 ? 'Yes' : 'No' }}</td>
-                                                            <td>{{ $child->description }}</td>
+                                                            <td>{{ $child->description ?? '-' }}</td>
+                                                            <td>{{ $child->reason ?? '-' }}</td>
                                                             <td>
-                                                                    @if(!empty($child->file))
-                                                                        <a href="{{ asset('storage/' . $child->file) }}" target="_blank"><i class="bx bx-file"></i></a>
-                                                                    
-                                                                    @endif
+                                                                @if(!empty($child->file))
+                                                                    <a href="{{ asset('storage/' . $child->file) }}" target="_blank"><i class="bx bx-file"></i></a>
+                                                                @else
+                                                                    -
+                                                                @endif
                                                             </td>
                                                         </tr>
                                                     @endforeach

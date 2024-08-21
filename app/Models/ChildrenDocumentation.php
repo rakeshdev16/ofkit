@@ -11,6 +11,8 @@ class ChildrenDocumentation extends Model
 
     protected $fillable = ['children_id', 'date', 'start_time', 'end_time', 'kindergarten_id', 'occured', 'occured_description', 'occured_reason', 'file', 'type'];
 
+    protected $appends = ['file_name'];
+
     public function scopeFilter($query)
     {
         if (request('sort') && request('sorting')) {
@@ -25,6 +27,11 @@ class ChildrenDocumentation extends Model
     public function getFileAttribute($value)
     {
         return isset($this->attributes['file']) ? asset('storage/'.$this->attributes['file']) : '';
+    }
+
+    public function getFileNameAttribute()
+    {
+        return isset($this->attributes['file']) ? explode('child-document/', $this->attributes['file'])[1] : '';
     }
 
     public function groupChildrens()

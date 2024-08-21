@@ -11,8 +11,8 @@
                     @include('components.accordion-label', [
                         'id' => $documentation->id,
                         'name' => $documentation->name,
-                        'edit' => route('children.edit', $documentation->id),
-                        'show' => route('children.show', $documentation->id),
+                        'edit' => route('children-documentation.get', [$documentation->type, Request::segment(2), $documentation->id]),
+                        'show' => route('children-documentation.show', [$documentation->children_id, $documentation->id]),
                     ])
                 </button>
             </h2>
