@@ -2,6 +2,21 @@
 @push('customLink')
     <link rel="stylesheet" href="{{ asset('assets/css/bs-stepper.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    @error('therapist_id')
+        <style>
+            .therapists-select2 .select2-selection.select2-selection--multiple {
+                border-color: #fd3550 !important;
+            }
+        </style>
+    @enderror
+    @error('children_ids')
+        <style>
+            .childrens-select2 .select2-selection.select2-selection--multiple {
+                border-color: #fd3550 !important;
+            }
+        </style>
+    @enderror
+    
 @endpush
 @section('section')
     <div class="wrapper">
@@ -57,6 +72,7 @@
                                                             'label' =>__('children.date'),
                                                             'name' => 'date',
                                                             'value' => @$document->date,
+                                                            'max' => date('Y-m-d')
                                                         ])
                                                     </div>
                                                     <div class="col-md-3">
@@ -91,14 +107,20 @@
                                                             'class' => 'therapists',
                                                             'icon' => 'user',
                                                             'options' => $therapist,
-                                                            'value' => @$therapistIds,
+                                                            'value' => old('therapist_id') ?? $therapistIds,
                                                         ])
                                                     </div>
                                                     <div class="col-md-12 therapistTabSec" style="display:flex; flex-wrap: wrap;">
-                                                        @if (count($therapistIds) > 0)
+                                                        @if (old('therapist_id') && count(old('therapist_id')) > 0)
+                                                            @foreach (old('therapist_id') as $therapistId)
+                                                                <span class="child-tab therapistTab{{$therapistId}} mx-1">{{ getUserNameById($therapistId) }}</span>
+                                                            @endforeach
+                                                        @else
+                                                            @if (count($therapistIds) > 0)
                                                                 @foreach ($document->staffMeetingTherapist as $therapist)
                                                                     <span class="child-tab therapistTab{{$therapist->therapist_id}} mx-1">{{ $therapist->therapist }}</span>
                                                                 @endforeach
+                                                            @endif
                                                         @endif
                                                     </div>
                                                     <div class="col-md-12">
@@ -139,15 +161,21 @@
                                                                 'class' => 'childrens',
                                                                 'icon' => 'user',
                                                                 'options' => $childrens,
-                                                                'value' => @$childrenIds,
+                                                                'value' => old('children_ids') ?? $childrenIds,
                                                             ])
                                                     </div>
                                                     <div class="col-md-12 childrenTabSec" style="display:flex; flex-wrap: wrap;">
                                                         <span class="child-tab mx-1">{{ $children->name }}</span>
-                                                        @if (count($childrenIds) > 0)
-                                                            @foreach ($document->staffMeetingChildren as $children)
-                                                                <span class="child-tab childTab{{$children->children_id}} mx-1">{{ $children->children }}</span>
+                                                        @if (old('children_ids') && count(old('children_ids')) > 0)
+                                                            @foreach (old('children_ids') as $childrenId)
+                                                                <span class="child-tab childTab{{$childrenId}} mx-1">{{ getChildrenNameById($childrenId) }}</span>
                                                             @endforeach
+                                                        @else
+                                                            @if (count($childrenIds) > 0)
+                                                                @foreach ($childrenIds as $children)
+                                                                    <span class="child-tab childTab{{$children->children_id}} mx-1">{{ $children->children }}</span>
+                                                                @endforeach
+                                                            @endif
                                                         @endif
                                                     </div>
                                                     <div class="col-md-12">
@@ -186,7 +214,7 @@
                                                         ])
                                                     </div>
                                                     <input type="hidden" name="staff_meeting_id" value="{{ @$document->staffMeeting->id }}">
-                                                    <input type="hidden" name="kindergarten_id" value="{{ $children->kindergarten_id }}">
+                                                    <input type="hidden" name="kindergarten_id" value="{{ @$children->kindergarten_id }}">
                                                     <input type="hidden" name="id" value="{{ @$document->id }}">
                                                     <div class="col-12">
                                                         <div class="d-flex align-items-center gap-3">
@@ -212,6 +240,9 @@
             $(document).ready(function() {
                 $('.childrens').select2();
                 $('.therapists').select2();
+
+                $('.childrens').next('.select2-container').addClass('childrens-select2');
+                $('.therapists').next('.select2-container').addClass('therapists-select2');
             });
 
             $('.childrens').on('select2:select', function(e) {

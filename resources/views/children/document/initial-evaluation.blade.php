@@ -45,6 +45,7 @@
                                                             'label' => __('children.date'),
                                                             'name' => 'date',
                                                             'value' => @$document->date,
+                                                            'max' => date('Y-m-d')
                                                         ])
                                                     </div>
                                                     <div class="col-md-3">

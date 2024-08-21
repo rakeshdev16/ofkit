@@ -2,6 +2,14 @@
 @push('customLink')
     <link rel="stylesheet" href="{{ asset('assets/css/bs-stepper.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    @error('children_ids')
+        <style>
+            span.select2-selection.select2-selection--multiple {
+                border-color: #fd3550 !important;
+            }
+        </style>
+    @enderror
+    
 @endpush
 @section('section')
     <div class="wrapper">
@@ -45,6 +53,7 @@
                                                             'label' =>__('children.date'),
                                                             'name' => 'date',
                                                             'value' => @$document->date,
+                                                            'max' => date('Y-m-d')
                                                         ])
                                                     </div>
                                                     <div class="col-md-3">
@@ -126,6 +135,11 @@
                                                             <span class="child-tab mx-1 childTab">
                                                                 {{ @getChildrenNameById($children->id) }}
                                                             </span>
+                                                        @endif
+                                                        @if (old('children_ids'))
+                                                            @foreach (old('children_ids') as $id)
+                                                                <span class="child-tab mx-1 childTab{{ @$id }}">{{ @getChildrenNameById($id) }}</span>
+                                                            @endforeach
                                                         @endif
                                                         @foreach ($groupChildrens as $id)
                                                             <span class="child-tab mx-1 childTab{{ @$id }}">{{ @getChildrenNameById($id) }}</span>

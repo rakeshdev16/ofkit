@@ -432,6 +432,7 @@ class ChildrenController extends Controller
             'occured' => 'required',
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
+            'children_ids' => "required",
             'participated.*.participated' => 'required',
             'participated.*.reason' => "required_if:participated.*.participated,==,0",
             'participated.*.description' => "required_if:participated.*.participated,==,1",
@@ -551,6 +552,7 @@ class ChildrenController extends Controller
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
             'end_time' => 'required_with:start_time',
+            'child_file' => 'required',
         ],[
             'occured_description.required_if' => 'Please enter description',
             'occured_reason.required_if' => 'Please enter reason',
