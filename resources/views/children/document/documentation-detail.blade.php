@@ -31,10 +31,9 @@
                 <div class="col-xl-6 mx-auto">
                     <div class="card">
                         <div class="card-body">
-                            <div class="d-flex flex-column align-items-center text-center">
-                                <div class="mt-3">
-                                    <h4>{{ $document->formatted_type }} ({{$children->name}})</h4>
-                                </div>
+                            <div class="mt-2 d-flex justify-content-between">
+                                <h4>{{ $document->formatted_type }} ({{$children->name}})</h4>
+                                <a href="{{ route('children-documentation.get', [$document->type, Request::segment(2), $document->id]) }}" class="btn button">Edit</a>
                             </div>
                             <hr class="my-4">
                             <ul class="list-group list-group-flush">
