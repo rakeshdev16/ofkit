@@ -310,7 +310,7 @@ class ChildrenController extends Controller
 
     public function documentations(Request $request, $id)
     {
-        $documentations = ChildrenDocumentation::where('children_id', $id)->filter()->paginate(10);
+        $documentations = ChildrenDocumentation::where('children_id', $id)->filter()->orderBy('id', 'DESC')->paginate(10);
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('children.document.documentation-table', ['documentations' => $documentations])->render(),

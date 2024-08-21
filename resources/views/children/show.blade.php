@@ -41,8 +41,8 @@
                                                 </li>
                                                 <li class="list-group-item text-center">
                                                     <h6 class="mb-0">
-                                                        <a href="{{ route('children-documentations.get', $children->id) }}">View Documentation of intervation</a>
-                                                        {{-- <a href="#">View Documentation of intervation</a> --}}
+                                                        <a href="{{ route('children-documentations.get', $children->id) }}">View Documentation of Intervention</a>
+                                                        {{-- <a href="#">View Documentation of Intervention</a> --}}
                                                     </h6>
                                                 </li>
                                                 <li class="list-group-item text-center">
