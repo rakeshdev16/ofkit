@@ -335,7 +335,7 @@ class ChildrenController extends Controller
             $document = ChildrenDocumentation::findOrFail($id);
         }
         $children = Children::findOrFail($childId);
-        $childrens = Children::where('id', '!=', $childId)->select('id as key', 'name as value')->get();
+        $childrens = Children::where('id', '!=', $childId)->where('kindergarten_id', $children->kindergarten_id)->select('id as key', 'name as value')->get();
         $user = Auth::user();
         switch ($type) {
             case 'individual':
@@ -434,10 +434,11 @@ class ChildrenController extends Controller
         $rules = [
             'date' => 'required',
             'occured' => 'required',
+            'group_name' => 'required_if:occured,==,1',
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
-            'children_ids' => "required",
-            'participated.*.participated' => 'required',
+            'children_ids' => "required_if:occured,==,1",
+            'participated.*.participated' => 'required_if:occured,==,1',
             'participated.*.reason' => "required_if:participated.*.participated,==,0",
             'participated.*.description' => "required_if:participated.*.participated,==,1",
             'participated.*.child_file' => "nullable",
@@ -445,9 +446,11 @@ class ChildrenController extends Controller
         ];
         
         $messages = [
+            'group_name.required_if' => 'Please enter group name',
             'occured_description.required_if' => 'Please enter description',
             'occured_reason.required_if' => 'Please enter reason',
-            'participated.*.participated.required' => 'Please choose participated',
+            'children_ids.required_if' => 'Please choose children',
+            'participated.*.participated.required_if' => 'Please choose participated',
             'participated.*.reason.required_if' => 'Please enter reason',
             'participated.*.description.required_if' => 'Please enter description',
             'participated.*.child_file.required' => 'Please choose file',
@@ -460,13 +463,15 @@ class ChildrenController extends Controller
 
         $document = ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
         $document->groupChildrens()->delete();
-        foreach ($data['participated'] as $participated) {
-            if (isset($participated['child_file'])) {
-                $participated['file'] = uploadFile($participated['child_file'], 'public/child-document');
-            } else {
-                $participated['file'] = $participated['old_file'];
+        if (isset($data['participated']) && count($data['participated']) > 0) {
+            foreach ($data['participated'] as $participated) {
+                if (isset($participated['child_file'])) {
+                    $participated['file'] = uploadFile($participated['child_file'], 'public/child-document');
+                } else {
+                    $participated['file'] = $participated['old_file'];
+                }
+                $document->groupChildrens()->create($participated);
             }
-            $document->groupChildrens()->create($participated);
         }
 
         return redirect()->route('children.show', $id);

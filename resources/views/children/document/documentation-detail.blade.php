@@ -73,7 +73,9 @@
                                     <h6 class="mb-0">File</h6>
                                     <span class="text-secondary">
                                         @if(!empty($document->file))
-                                            <a href="{{ $document->file }}" target="_blank"><i class="bx bx-file"></i></a>
+                                            <a href="{{ $document->file }}" target="_blank">
+                                                <h4><i class="bx bx-file"></i></h4>
+                                            </a>
                                         @else
                                             -
                                         @endif

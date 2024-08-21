@@ -115,7 +115,7 @@
                                                         </div>
                                                         <div class="mt-3">
                                                             @include('components.textarea-input', [
-                                                                'label' => __('children.occuredDescription'),
+                                                                'label' => __('children.description'),
                                                                 'name' => 'occured_description',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$document->occured_description,
@@ -239,7 +239,39 @@
         <script>
             $(document).ready(function() {
                 $('.childrens').select2();
+                $('.childrens').next('.select2-container').addClass('childrens-select2');
+                var value = "{{ old('occured') ?? @$document->occured }}";
+                setChildDisabled(value)
             });
+
+            $(document).on('change', '.occured', function() {
+                var value = $(this).val();
+                setChildDisabled(value);
+            });
+
+            function setChildDisabled(value) {
+                if (value == 0) {
+                    $('.childrens').attr('disabled', true).val(null).trigger('change');
+                    $('.file').attr('disabled', true);
+                    $('.child-tab').not(':first').remove();
+                    $('.accordion').not(':first').remove();
+                    $('.accordion').find('input, select, textarea').attr('disabled', true);
+                } else {
+                    if ($('.childrenTabSec > .childTab').length == 0) {
+                        $('.childrenTabSec').append(`<span class="child-tab mx-1 childTab">{{ @getChildrenNameById($children->id) }}</span>`);
+                    }
+                    if ($('.childrenSec > .accordion').length == 0) {
+                        $('.childrenSec').append(`@include('components.children-participated', [
+                            'index' => 0,
+                            'name' => @getChildrenNameById($children->id),
+                            'child_id' => $children->id,
+                        ])`);
+                    }
+                    $('.childrens').attr('disabled', false);
+                    $('.accordion').find('input, select, textarea').attr('disabled', false);
+                    $('.file').attr('disabled', false);
+                }
+            }
 
             function childParticipated(element) {
                 var value = element.value;
