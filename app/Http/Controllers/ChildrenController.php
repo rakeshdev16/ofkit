@@ -336,35 +336,36 @@ class ChildrenController extends Controller
         }
         $children = Children::findOrFail($childId);
         $childrens = Children::where('id', '!=', $childId)->select('id as key', 'name as value')->get();
+        $user = Auth::user();
         switch ($type) {
             case 'individual':
-                return view('children.document.individual', compact('children', 'document'));
+                return view('children.document.individual', compact('children', 'user', 'document'));
             break;
             case 'group':
-                return view('children.document.group', compact('children', 'document', 'childrens'));
+                return view('children.document.group', compact('children', 'user', 'document', 'childrens'));
             break;
             case 'parental-guidance':
                 $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
                 $kindergartens = User::where('id', '!=', $childId)->whereIn('id', $userIds)->select('id as key', 'name as value')->get();
-                return view('children.document.parental-guidance', compact('children', 'document', 'childrens', 'kindergartens'));
+                return view('children.document.parental-guidance', compact('children', 'user', 'document', 'childrens', 'kindergartens'));
             break;
             case 'staff-meeting':
                 $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
                 $therapist = User::where('id', '!=', $childId)->whereIn('id', $userIds)->role('therapist')->select('id as key', 'name as value')->get();
-                return view('children.document.staff-meeting', compact('children', 'document', 'childrens', 'therapist'));
+                return view('children.document.staff-meeting', compact('children', 'user', 'document', 'childrens', 'therapist'));
             break;
             case 'initial-evaluation':
                 $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
                 $therapist = User::where('id', '!=', $childId)->whereIn('id', $userIds)->role('therapist')->select('id as key', 'name as value')->get();
-                return view('children.document.initial-evaluation', compact('children', 'document', 'childrens', 'therapist'));
+                return view('children.document.initial-evaluation', compact('children', 'user', 'document', 'childrens', 'therapist'));
             break;
             case 'final-evaluation':
                 $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
                 $therapist = User::where('id', '!=', $childId)->whereIn('id', $userIds)->role('therapist')->select('id as key', 'name as value')->get();
-                return view('children.document.final-evaluation', compact('children', 'document', 'childrens', 'therapist'));
+                return view('children.document.final-evaluation', compact('children', 'user', 'document', 'childrens', 'therapist'));
             break;
             default:
-                return view('children.document.individual', compact('children', 'document'));
+                return view('children.document.individual', compact('children', 'user', 'document'));
             break;
         }
     }

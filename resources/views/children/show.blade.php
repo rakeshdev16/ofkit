@@ -25,7 +25,7 @@
                         </div>
                         <div class="ms-auto">
                             <div class="">
-                                <a href="{{ route('children.index') }}" class="btn button">{{ __('comon.back') }}</a>
+                                <a href="{{ route('children.index') }}?kindergarten_id={{ request()->kindergarten_id }}" class="btn button">{{ __('comon.back') }}</a>
                             </div>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                                                 <div class="d-flex justify-content-between">
                                                     <h5 class="mb-4 steper-title">{{ __('children.personalInfo') }}</h5>
                                                     <div>
-                                                        <a href="{{ route('children.edit', $children->id) }}" class="btn button">Edit</a>
+                                                        <a href="{{ route('children.edit', $children->id) }}?kindergarten_id={{ request()->kindergarten_id }}" class="btn button">Edit</a>
                                                     </div>
                                                 </div>
                                                 <div>

@@ -112,6 +112,7 @@
                                                             'value' => @$document->occured_description,
                                                         ])
                                                     </div>
+                                                    <hr>
                                                     <div class="col-md-12">
                                                         @php
                                                             if (isset($document->groupChildrens) && count($document->groupChildrens) > 0) {

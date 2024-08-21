@@ -25,7 +25,7 @@
                         </div>
                         <div class="ms-auto">
                             <div class="">
-                                <button data-url="{{ route('children.show', $children->id) }}" class="btn button exit">{{ __('comon.back') }}</button>
+                                <button data-url="{{ route('children.show', $children->id) }}?kindergarten_id={{ request()->kindergarten_id }}" class="btn button exit">{{ __('comon.back') }}</button>
                             </div>
                         </div>
                     </div>

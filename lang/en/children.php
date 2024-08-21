@@ -4,8 +4,11 @@ return [
 
     'children' => 'Children',
     'admin' => 'Admin',
+    'therapist' => 'Therapist',
     'name' => "First Name",
+    'firstName' => "First Name",
     'familyName' => "Family Name",
+    'profession' => "Profession",
     'ID' => ".I.D",
     'gender' => "Gender",
     'identification' => "Identification",

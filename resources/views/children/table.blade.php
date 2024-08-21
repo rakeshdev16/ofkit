@@ -7,7 +7,7 @@
             @include('components.table-heading', ['label' => __('children.identification'), 'key' => 'identification', 'width' => '11.75%'])
             @include('components.table-heading', ['label' => __('children.dob'), 'key' => 'dob', 'width' => '11.75%'])
             @include('components.table-heading', ['label' => __('children.address'), 'key' => 'address', 'width' => '11.75%'])
-            @include('components.table-heading', ['label' => __('children.kindergarten'), 'key' => 'address', 'width' => '11.75%'])
+            @include('components.table-heading', ['label' => __('children.kindergarten'), 'key' => 'kindergarten_id', 'width' => '11.75%'])
             @include('components.table-heading', ['label' => 'Action', 'width' => '4%'])
         </tr>
     </thead>
@@ -22,7 +22,7 @@
                 <td>{{ \Str::limit($children->address, 20, '...') ?? '-' }}</td>
                 <td>{{ @getKindergartenNameById($children->kindergarten_id) ?? '-' }}</td>
                 <td>
-                    <a href="{{ route('children.show', $children->id) }}" data-toggle="tooltip" data-placement="bottom" title="View">
+                    <a href="{{ route('children.show', $children->id) }}?kindergarten_id={{ request()->kindergarten_id }}" data-toggle="tooltip" data-placement="bottom" title="View">
                         {{-- <i class="bx bx-show icon"></i> --}}
                         <img src="{{ asset('assets/icons/child-icon-new.png') }}" width="30px" alt="">
                     </a>

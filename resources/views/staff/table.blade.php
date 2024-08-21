@@ -33,7 +33,7 @@
                         @endphp
                         {{ \Str::limit(implode(', ', $kindergartens), 35, '...') ?? '-' }}
                     @else
-                        <span class="light-gray">No kindergartens available</span>
+                        -
                     @endif
                 </td>
                 {{-- <td>{{ date('d/m/Y', strtotime($member->created_at)) }}</td>
