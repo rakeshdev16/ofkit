@@ -457,3 +457,7 @@ input.medicine-number {
     word-wrap: break-word;
     white-space: normal;
 }
+
+.doc-desc {
+    text-align: left;
+}

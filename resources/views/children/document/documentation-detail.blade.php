@@ -67,7 +67,7 @@
                                 @endif
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 class="mb-0">Description</h6>
-                                    <span class="text-secondary {{ @$document->occured == 1 ? 'w-75' : '' }}">{{ @$document->occured_description ? $document->occured_description : $document->occured_reason }}</span>
+                                    <span class="text-secondary doc-desc {{ @$document->occured == 1 ? 'w-75' : '' }}">{{ @$document->occured_description ? $document->occured_description : $document->occured_reason }}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 class="mb-0">File</h6>
