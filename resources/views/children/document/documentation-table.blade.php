@@ -21,7 +21,7 @@
                 <td>-</td>
                 <td>{{ ucfirst(str_replace('-', ' ', $documentation->type)) }}</td>
                 <td>{{ $documentation->occured == 1 ? 'Yes' : 'No' }}</td>
-                <td>{{ \Str::limit($documentation->occured_description, 20, '...') ?? $documentation->occured_reason }}</td>
+                <td>{{ $documentation->occured == 1 ? \Str::limit($documentation->occured_description, 20, '...') : $documentation->occured_reason }}</td>
                 <td>
                     @if ($documentation->file)
                         <a href="{{ $documentation->file }}" target="_blank"><h4><i class="bx bx-file"></i></h4></a>
