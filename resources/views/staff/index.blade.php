@@ -25,8 +25,8 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive" >
-                        @include('components.table-search')
-                        <div id="dataTable">
+                        @include('components.table-search', ['label' => 'Staff', 'count' => $count])
+                    <div id="dataTable">
                             @include('staff.table', ['members' => $members])
                         </div>
                     </div>

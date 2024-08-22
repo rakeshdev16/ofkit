@@ -32,6 +32,7 @@ class ChildrenController extends Controller
     public function index(Request $request)
     {
         $childrens = Children::filter()->orderBy('id', 'DESC')->paginate(10);
+        $count = Children::count();
         $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
         if ($request->ajax()) {
             return response()->json([
@@ -39,7 +40,7 @@ class ChildrenController extends Controller
                 'accordion' => view('children.accordion', ['childrens' => $childrens])->render()
             ]);
         }
-        return view('children.index', compact('childrens', 'kindergartens'));
+        return view('children.index', compact('childrens', 'kindergartens', 'count'));
     }
     
     public function create()
@@ -311,13 +312,14 @@ class ChildrenController extends Controller
     public function documentations(Request $request, $id)
     {
         $documentations = ChildrenDocumentation::where('children_id', $id)->filter()->orderBy('id', 'DESC')->paginate(10);
+        $documentationCount = ChildrenDocumentation::where('children_id', $id)->count();
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('children.document.documentation-table', ['documentations' => $documentations])->render(),
                 'accordion' => view('children.document.documentation-accordion', ['documentations' => $documentations])->render()
             ]);
         }
-        return view('children.document.documentation', compact('documentations'));
+        return view('children.document.documentation', compact('documentations', 'documentationCount'));
     }
 
     public function documentationDetail($childId, $id)

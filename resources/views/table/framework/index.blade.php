@@ -28,12 +28,12 @@
                 <div class="tab-content pt-3">
                     <div class="tab-pane fade {{ request()->type == 'kindergarten-type' ? 'active show' : '' }}" id="kindergarten-type" role="tabpanel">
                         @if (request()->type == 'kindergarten-type')
-                            @include('table.framework.kindergarten-type.index', ['kindergartenTypes' => $kindergartenTypes])
+                            @include('table.framework.kindergarten-type.index', ['kindergartenTypes' => $kindergartenTypes, 'count' => $kindergartenTypeCount])
                         @endif
                     </div>
                     <div class="tab-pane fade {{ request()->type == 'framework-type' ? 'active show' : '' }}" id="framework-type" role="tabpanel">
                         @if (request()->type == 'framework-type')
-                            @include('table.framework.framework-type.index', ['frameworkTypes' => $frameworkTypes])
+                            @include('table.framework.framework-type.index', ['frameworkTypes' => $frameworkTypes, 'count' => $frameworkTypeCount])
                         @endif
                     </div>
                 </div>

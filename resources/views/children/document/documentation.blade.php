@@ -19,7 +19,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        @include('components.table-search')
+                        @include('components.table-search', ['label' => "Children Documents", 'count' => @$documentationCount])
                         <div id="dataTable">
                             @include('children.document.documentation-table', ['documentations' => $documentations])
                         </div>

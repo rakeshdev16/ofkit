@@ -21,29 +21,31 @@ class FrameworkTableController extends Controller
     {
         $kindergartenTypes = KindergartenType::filter()->orderBy('id', 'DESC')->paginate(10);
         $frameworkTypes = FrameworkType::filter()->orderBy('id', 'DESC')->paginate(10);
+        $kindergartenTypeCount = KindergartenType::count();
+        $frameworkTypeCount = FrameworkType::count();
         if ($request->ajax()) {
             switch ($request->type) {
                 case 'kindergarten-type':
                     return response()->json([
                         'table' => view('table.framework.kindergarten-type.table', ['kindergartenTypes' => $kindergartenTypes])->render(),
-                        'accordion' => view('table.framework.kindergarten-type.accordion', ['kindergartenTypes' => $kindergartenTypes])->render()
+                        'accordion' => view('table.framework.kindergarten-type.accordion', ['kindergartenTypes' => $kindergartenTypes])->render(),
                     ]);
                 break;
                 case 'framework-type':
                     return response()->json([
                         'table' => view('table.framework.framework-type.table', ['frameworkTypes' => $frameworkTypes])->render(),
-                        'accordion' => view('table.framework.framework-type.accordion', ['frameworkTypes' => $frameworkTypes])->render()
+                        'accordion' => view('table.framework.framework-type.accordion', ['frameworkTypes' => $frameworkTypes])->render(),
                     ]);
                 break;
                 default:
                     return response()->json([
                         'table' => view('table.framework.kindergarten-type.table', ['kindergartenTypes' => $kindergartenTypes])->render(),
-                        'accordion' => view('table.framework.kindergarten-type.accordion', ['kindergartenTypes' => $kindergartenTypes])->render()
+                        'accordion' => view('table.framework.kindergarten-type.accordion', ['kindergartenTypes' => $kindergartenTypes])->render(),
                     ]);
                 break;
             }
         }
-        return view('table.framework.index', compact('kindergartenTypes', 'frameworkTypes'));
+        return view('table.framework.index', compact('kindergartenTypes', 'frameworkTypes', 'kindergartenTypeCount', 'frameworkTypeCount'));
     }
 
     public function create(Request $request)
@@ -159,17 +161,19 @@ class FrameworkTableController extends Controller
     {
         $kindergartenTypes = KindergartenType::filter()->paginate(10);
         $frameworkTypes = FrameworkType::filter()->paginate(10);
+        $kindergartenTypeCount = KindergartenType::count();
+        $frameworkTypeCount = FrameworkType::count();
         switch ($request->type) {
             case 'kindergarten-type':
                 return response()->json([
                     'status' => true,
-                    'data' => view('table.framework.kindergarten-type.index', ['kindergartenTypes' => $kindergartenTypes])->render()
+                    'data' => view('table.framework.kindergarten-type.index', ['kindergartenTypes' => $kindergartenTypes, 'count' => $kindergartenTypeCount])->render()
                 ]);
             break;
             case 'framework-type':
                 return response()->json([
                     'status' => true,
-                    'data' => view('table.framework.framework-type.index', ['frameworkTypes' => $frameworkTypes])->render()
+                    'data' => view('table.framework.framework-type.index', ['frameworkTypes' => $frameworkTypes, 'count' => $frameworkTypeCount])->render()
                 ]);
             break;
         }

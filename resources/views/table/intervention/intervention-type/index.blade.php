@@ -10,7 +10,7 @@
 <div class="card small-table">
     <div class="card-body">
         <div class="table-responsive">
-            @include('components.table-search')
+            @include('components.table-search', ['label' => "Occurrence/Intervention Type", 'count' => @$interventionCount])
             <div id="dataTable">
                 @include('table.intervention.intervention-type.table', ['interventionTypes' => $interventionTypes])
             </div>

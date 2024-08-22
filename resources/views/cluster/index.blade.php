@@ -17,7 +17,7 @@
             <div class="card small-table">
                 <div class="card-body">
                     <div class="table-responsive">
-                        @include('components.table-search')
+                        @include('components.table-search', ['label' => 'Clusters', 'count' => $count])
                         <div id="dataTable">
                             @include('cluster.table', ['clusters' => $clusters])
                         </div>

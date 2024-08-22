@@ -29,6 +29,11 @@ class ChildrenTableController extends Controller
         $diagnosises = Diagnosis::filter()->orderBy('id', 'DESC')->paginate(10);
         $functionalities = Functionality::filter()->orderBy('id', 'DESC')->paginate(10);
         $statuses = Status::filter()->orderBy('id', 'DESC')->paginate(10);
+        $parentsStatusCount = ParentsStatus::count();
+        $hmoCount = Hmo::count();
+        $diagnosisCount = Diagnosis::count();
+        $functionalityCount = Functionality::count();
+        $statusCount = Status::count();
         if ($request->ajax()) {
             switch ($request->type) {
                 case 'parents-status':
@@ -69,7 +74,7 @@ class ChildrenTableController extends Controller
                 break;
             }
         }
-        return view('table.children.index', compact('parentsStatus', 'hmos', 'diagnosises', 'functionalities', 'statuses'));
+        return view('table.children.index', compact('parentsStatus', 'hmos', 'diagnosises', 'functionalities', 'statuses', 'parentsStatusCount', 'hmoCount', 'diagnosisCount', 'functionalityCount', 'statusCount'));
     }
 
     public function create(Request $request)
@@ -217,35 +222,40 @@ class ChildrenTableController extends Controller
         $diagnosises = Diagnosis::filter()->paginate(10);
         $functionalities = Functionality::filter()->paginate(10);
         $statuses = Status::filter()->paginate(10);
+        $parentsStatusCount = ParentsStatus::count();
+        $hmoCount = Hmo::count();
+        $diagnosisCount = Diagnosis::count();
+        $functionalityCount = Functionality::count();
+        $statusCount = Status::count();
         switch ($request->type) {
             case 'parents-status':
                 return response()->json([
                     'status' => true,
-                    'data' => view('table.children.parents-status.index', ['parentsStatus' => $parentsStatus])->render()
+                    'data' => view('table.children.parents-status.index', ['parentsStatus' => $parentsStatus, 'parentsStatusCount' => $parentsStatusCount])->render()
                 ]);
             break;
             case 'hmo':
                 return response()->json([
                     'status' => true,
-                    'data' => view('table.children.hmo.index', ['hmos' => $hmos])->render()
+                    'data' => view('table.children.hmo.index', ['hmos' => $hmos, 'hmoCount' => $hmoCount])->render()
                 ]);
             break;
             case 'diagnosis':
                 return response()->json([
                     'status' => true,
-                    'data' => view('table.children.diagnosis.index', ['diagnosises' => $diagnosises])->render()
+                    'data' => view('table.children.diagnosis.index', ['diagnosises' => $diagnosises, 'diagnosisCount' => $diagnosisCount])->render()
                 ]);
             break;
             case 'functionality':
                 return response()->json([
                     'status' => true,
-                    'data' => view('table.children.functionality.index', ['functionalities' => $functionalities])->render()
+                    'data' => view('table.children.functionality.index', ['functionalities' => $functionalities, 'functionalityCount' => $functionalityCount])->render()
                 ]);
             break;
             case 'status':
                 return response()->json([
                     'status' => true,
-                    'data' => view('table.children.status.index', ['statuses' => $statuses])->render()
+                    'data' => view('table.children.status.index', ['statuses' => $statuses, 'statusCount' => $statusCount])->render()
                 ]);
             break;
         }

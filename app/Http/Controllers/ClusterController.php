@@ -15,13 +15,14 @@ class ClusterController extends Controller
     public function index(Request $request)
     {
         $clusters = Cluster::filter()->orderBy('id', 'DESC')->paginate(10);
+        $count = Cluster::count();
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('cluster.table', ['clusters' => $clusters])->render(),
                 'accordion' => view('cluster.accordion', ['clusters' => $clusters])->render()
             ]);
         }
-        return view('cluster.index', compact('clusters'));
+        return view('cluster.index', compact('clusters', 'count'));
     }
     
     public function create()

@@ -17,6 +17,7 @@ class KindergartenController extends Controller
     public function index(Request $request)
     {
         $kindergartens = Kindergarten::filter()->orderBy('id', 'DESC')->paginate(10);
+        $count = Kindergarten::count();
         if (Auth::user()->hasRole(['manager', 'therapist'])) {
             // $kindergartens->where('user_id', Auth::id());
         }
@@ -26,7 +27,7 @@ class KindergartenController extends Controller
                 'accordion' => view('kindergarten.accordion', ['kindergartens' => $kindergartens])->render()
             ]);
         }
-        return view('kindergarten.index', compact('kindergartens'));
+        return view('kindergarten.index', compact('kindergartens', 'count'));
     }
     
     public function create()

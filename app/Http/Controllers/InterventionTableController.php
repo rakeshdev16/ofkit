@@ -23,6 +23,8 @@ class InterventionTableController extends Controller
     {
         $documents = DocumentAndApproval::filter()->orderBy('id', 'DESC')->paginate(10);
         $interventionTypes = InterventionType::filter()->orderBy('id', 'DESC')->paginate(10);
+        $documentCount = DocumentAndApproval::count();
+        $interventionCount = InterventionType::count();
         if ($request->ajax()) {
             switch ($request->type) {
                 case 'documents-and-approval':
@@ -45,7 +47,7 @@ class InterventionTableController extends Controller
                 break;
             }
         }
-        return view('table.intervention.index', compact('documents', 'interventionTypes'));
+        return view('table.intervention.index', compact('documents', 'interventionTypes', 'documentCount', 'interventionCount'));
     }
 
     public function create(Request $request)
@@ -159,19 +161,21 @@ class InterventionTableController extends Controller
 
     public function interventionTableTab(Request $request)
     {
-        $documents = DocumentAndApproval::filter()->paginate(10);
-        $interventionTypes = InterventionType::filter()->paginate(10);
+        $documents = DocumentAndApproval::filter()->orderBy('id', 'DESC')->paginate(10);
+        $interventionTypes = InterventionType::filter()->orderBy('id', 'DESC')->paginate(10);
+        $documentCount = DocumentAndApproval::count();
+        $interventionCount = InterventionType::count();
         switch ($request->type) {
             case 'documents-and-approval':
                 return response()->json([
                     'status' => true,
-                    'data' => view('table.intervention.documents-and-approval.index', ['documents' => $documents])->render()
+                    'data' => view('table.intervention.documents-and-approval.index', ['documents' => $documents, 'documentCount' => $documentCount])->render()
                 ]);
             break;
             case 'intervention-type':
                 return response()->json([
                     'status' => true,
-                    'data' => view('table.intervention.intervention-type.index', ['interventionTypes' => $interventionTypes])->render()
+                    'data' => view('table.intervention.intervention-type.index', ['interventionTypes' => $interventionTypes, 'interventionCount' => $interventionCount])->render()
                 ]);
             break;
         }

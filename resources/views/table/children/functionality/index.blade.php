@@ -10,7 +10,7 @@
 <div class="card small-table">
     <div class="card-body">
         <div class="table-responsive">
-            @include('components.table-search')
+            @include('components.table-search', ['label' => "Children Functionality", 'count' => @$functionalityCount])
             <div id="dataTable">
                 @include('table.children.functionality.table', ['functionalities' => $functionalities])
             </div>

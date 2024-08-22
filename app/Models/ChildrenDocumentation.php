@@ -19,7 +19,7 @@ class ChildrenDocumentation extends Model
             $query->orderBy(request('sort'), request('sorting'));
         }
         if (request('search')) {
-            $query->where('cluster', 'like', '%'.request('search').'%');
+            $query->where('type', 'like', '%'.request('search').'%');
         }
         return $query;
     }
