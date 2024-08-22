@@ -52,6 +52,7 @@ function filter(url) {
         contentType: false,
         dataType: 'json',
         success: function (data) {
+            $('#totalCount').html(data.count);
             $('#dataTable').html(data.table);
             $('#accordion').html(data.accordion);
         }

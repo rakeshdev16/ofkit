@@ -29,7 +29,8 @@ class StaffController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('staff.table', ['members' => $members])->render(),
-                'accordion' => view('staff.accordion', ['members' => $members])->render()
+                'accordion' => view('staff.accordion', ['members' => $members])->render(),
+                'count' => $count
             ]);
         }
         return view('staff.index', compact('members', 'count'));

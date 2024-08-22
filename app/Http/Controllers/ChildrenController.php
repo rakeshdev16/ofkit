@@ -36,7 +36,8 @@ class ChildrenController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('children.table', ['childrens' => $childrens])->render(),
-                'accordion' => view('children.accordion', ['childrens' => $childrens])->render()
+                'accordion' => view('children.accordion', ['childrens' => $childrens])->render(),
+                'count' => $count
             ]);
         }
         return view('children.index', compact('childrens', 'count'));
