@@ -54,15 +54,6 @@ class Children extends Model
         return $query;
     }
 
-    public function scopeCounts($query)
-    {
-        if (Auth::user()->hasRole(['manager', 'therapist'])) {
-            $kindergartenIds = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
-            $query->whereIn('kindergarten_id', $kindergartenIds);
-        }
-        return $query;
-    }
-
     public function getDateOfBirthAttribute()
     {
         return date('d/m/Y', strtotime($this->attributes['dob']));

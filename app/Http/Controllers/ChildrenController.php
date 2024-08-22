@@ -32,7 +32,7 @@ class ChildrenController extends Controller
     public function index(Request $request)
     {
         $childrens = Children::filter()->orderBy('id', 'DESC')->paginate(10);
-        $count = Children::counts()->count();
+        $count = Children::filter()->count();
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('children.table', ['childrens' => $childrens])->render(),
