@@ -69,3 +69,9 @@ function getGroupChildrens($docId, $childId)
 {
     return GroupChildren::where(['children_documentation_id' => $docId, 'children_id' => $childId])->first();
 }
+
+function authKindergartens()
+{
+    $kindergartenIds = Auth::user()->staffKindergartens->pluck('kindergarten_id')->toArray();
+    return Kindergarten::whereIn('id', $kindergartenIds)->select('id as key', 'name as value')->get()->toArray();
+}

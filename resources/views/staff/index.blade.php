@@ -10,7 +10,7 @@
                     <h3 class="mb-0 text-uppercase">{{ __('staff.staff') }} ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
                     <select name="" class="select-filter">
                         <option value="">All Kindergartens</option>
-                        @foreach ($kindergartens as $kindergarten)
+                        @foreach (authKindergartens() as $kindergarten)
                             <option {{ request()->kindergarten_id == $kindergarten['key'] ? 'selected' : '' }} value="{{ $kindergarten['key'] }}">{{ $kindergarten['value'] }}</option>
                         @endforeach
                     </select>

@@ -33,14 +33,13 @@ class ChildrenController extends Controller
     {
         $childrens = Children::filter()->orderBy('id', 'DESC')->paginate(10);
         $count = Children::count();
-        $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('children.table', ['childrens' => $childrens])->render(),
                 'accordion' => view('children.accordion', ['childrens' => $childrens])->render()
             ]);
         }
-        return view('children.index', compact('childrens', 'kindergartens', 'count'));
+        return view('children.index', compact('childrens', 'count'));
     }
     
     public function create()

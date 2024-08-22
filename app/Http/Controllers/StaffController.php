@@ -32,8 +32,7 @@ class StaffController extends Controller
                 'accordion' => view('staff.accordion', ['members' => $members])->render()
             ]);
         }
-        $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
-        return view('staff.index', compact('members', 'kindergartens', 'count'));
+        return view('staff.index', compact('members', 'count'));
     }
     
     public function create()
