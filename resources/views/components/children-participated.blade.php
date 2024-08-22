@@ -72,7 +72,6 @@
                         @include('components.file-input', [
                             'label' => __('children.file'),
                             'name' => "participated[$index][child_file]",
-                            'class' => 'file',
                             'id' => 'file',
                             'icon' => 'file',
                             'value' => old('participated.'.$index.'.child_file') ?? @$file,
