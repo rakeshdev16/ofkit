@@ -13,17 +13,21 @@
     </thead>
     <tbody>
         @forelse ($childrens as $children)
+            @php
+                $truncatedAddress = \Str::limit($children->address, 90, '...');
+            @endphp
             <tr class="tr-{{ $children->id }}">
                 <td><input type="checkbox" name="id[]" value="{{ $children->id }}" class="checkbox check-{{ $children->id }}" data-class="check-{{ $children->id }}"></td>
                 <td>{{ $children->name }}</td>
                 <td>{{ $children->family_name }}</td>
                 <td>{{ $children->identification }}</td>
                 <td>{{ $children->date_of_birth }}</td>
-                <td>{{ \Str::limit($children->address, 20, '...') ?? '-' }}</td>
+                <td class="address-column">
+                    <span data-toggle="tooltip" data-placement="bottom" title="{{ $children->address }}">{{ $truncatedAddress }}</span>
+                </td>
                 <td>{{ @getKindergartenNameById($children->kindergarten_id) ?? '-' }}</td>
                 <td>
                     <a href="{{ route('children.show', $children->id) }}?kindergarten_id={{ request()->kindergarten_id }}" data-toggle="tooltip" data-placement="bottom" title="View">
-                        {{-- <i class="bx bx-show icon"></i> --}}
                         <img src="{{ asset('assets/icons/child-icon-new.png') }}" width="30px" alt="">
                     </a>
                 </td>

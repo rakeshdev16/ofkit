@@ -447,3 +447,13 @@ input.medicine-number {
     border: none;
     outline: none;
 }
+
+.fullAddress {
+    width: 90% !important;
+    text-wrap: wrap;
+}
+.address-column {
+    max-width: 200px;
+    word-wrap: break-word;
+    white-space: normal;
+}
