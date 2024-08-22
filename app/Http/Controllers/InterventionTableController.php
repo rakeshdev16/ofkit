@@ -23,8 +23,8 @@ class InterventionTableController extends Controller
     {
         $documents = DocumentAndApproval::filter()->orderBy('id', 'DESC')->paginate(10);
         $interventionTypes = InterventionType::filter()->orderBy('id', 'DESC')->paginate(10);
-        $documentCount = DocumentAndApproval::count();
-        $interventionCount = InterventionType::count();
+        $documentCount = DocumentAndApproval::filter()->count();
+        $interventionCount = InterventionType::filter()->count();
         if ($request->ajax()) {
             switch ($request->type) {
                 case 'documents-and-approval':
@@ -163,8 +163,8 @@ class InterventionTableController extends Controller
     {
         $documents = DocumentAndApproval::filter()->orderBy('id', 'DESC')->paginate(10);
         $interventionTypes = InterventionType::filter()->orderBy('id', 'DESC')->paginate(10);
-        $documentCount = DocumentAndApproval::count();
-        $interventionCount = InterventionType::count();
+        $documentCount = DocumentAndApproval::filter()->count();
+        $interventionCount = InterventionType::filter()->count();
         switch ($request->type) {
             case 'documents-and-approval':
                 return response()->json([

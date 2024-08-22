@@ -21,8 +21,8 @@ class FrameworkTableController extends Controller
     {
         $kindergartenTypes = KindergartenType::filter()->orderBy('id', 'DESC')->paginate(10);
         $frameworkTypes = FrameworkType::filter()->orderBy('id', 'DESC')->paginate(10);
-        $kindergartenTypeCount = KindergartenType::count();
-        $frameworkTypeCount = FrameworkType::count();
+        $kindergartenTypeCount = KindergartenType::filter()->count();
+        $frameworkTypeCount = FrameworkType::filter()->count();
         if ($request->ajax()) {
             switch ($request->type) {
                 case 'kindergarten-type':
@@ -161,8 +161,8 @@ class FrameworkTableController extends Controller
     {
         $kindergartenTypes = KindergartenType::filter()->paginate(10);
         $frameworkTypes = FrameworkType::filter()->paginate(10);
-        $kindergartenTypeCount = KindergartenType::count();
-        $frameworkTypeCount = FrameworkType::count();
+        $kindergartenTypeCount = KindergartenType::filter()->count();
+        $frameworkTypeCount = FrameworkType::filter()->count();
         switch ($request->type) {
             case 'kindergarten-type':
                 return response()->json([

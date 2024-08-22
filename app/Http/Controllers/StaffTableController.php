@@ -20,9 +20,9 @@ class StaffTableController extends Controller
         $professions = Profession::filter()->orderBy('id', 'DESC')->get();
         $roles = MemberRole::filter()->orderBy('id', 'DESC')->get();
         $associations = Association::filter()->orderBy('id', 'DESC')->get();
-        $professionCount = Profession::count();
-        $roleCount = MemberRole::count();
-        $associationCount = Association::count();
+        $professionCount = Profession::filter()->count();
+        $roleCount = MemberRole::filter()->count();
+        $associationCount = Association::filter()->count();
         if ($request->ajax()) {
             switch ($request->type) {
                 case 'profession':
@@ -200,9 +200,9 @@ class StaffTableController extends Controller
         $professions = Profession::filter()->get();
         $roles = MemberRole::filter()->get();
         $associations = Association::filter()->get();
-        $professionCount = Profession::count();
-        $roleCount = MemberRole::count();
-        $associationCount = Association::count();
+        $professionCount = Profession::filter()->count();
+        $roleCount = MemberRole::filter()->count();
+        $associationCount = Association::filter()->count();
         switch ($request->type) {
             case 'profession':
                 return response()->json([

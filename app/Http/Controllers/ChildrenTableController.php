@@ -29,11 +29,11 @@ class ChildrenTableController extends Controller
         $diagnosises = Diagnosis::filter()->orderBy('id', 'DESC')->paginate(10);
         $functionalities = Functionality::filter()->orderBy('id', 'DESC')->paginate(10);
         $statuses = Status::filter()->orderBy('id', 'DESC')->paginate(10);
-        $parentsStatusCount = ParentsStatus::count();
-        $hmoCount = Hmo::count();
-        $diagnosisCount = Diagnosis::count();
-        $functionalityCount = Functionality::count();
-        $statusCount = Status::count();
+        $parentsStatusCount = ParentsStatus::filter()->count();
+        $hmoCount = Hmo::filter()->count();
+        $diagnosisCount = Diagnosis::filter()->count();
+        $functionalityCount = Functionality::filter()->count();
+        $statusCount = Status::filter()->count();
         if ($request->ajax()) {
             switch ($request->type) {
                 case 'parents-status':
@@ -222,11 +222,11 @@ class ChildrenTableController extends Controller
         $diagnosises = Diagnosis::filter()->paginate(10);
         $functionalities = Functionality::filter()->paginate(10);
         $statuses = Status::filter()->paginate(10);
-        $parentsStatusCount = ParentsStatus::count();
-        $hmoCount = Hmo::count();
-        $diagnosisCount = Diagnosis::count();
-        $functionalityCount = Functionality::count();
-        $statusCount = Status::count();
+        $parentsStatusCount = ParentsStatus::filter()->count();
+        $hmoCount = Hmo::filter()->count();
+        $diagnosisCount = Diagnosis::filter()->count();
+        $functionalityCount = Functionality::filter()->count();
+        $statusCount = Status::filter()->count();
         switch ($request->type) {
             case 'parents-status':
                 return response()->json([
