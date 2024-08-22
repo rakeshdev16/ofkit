@@ -96,6 +96,16 @@ class User extends Authenticatable
         }
         return $query;
     }
+    
+    public function scopeCounts($query)
+    {
+        if (Auth::user()->hasRole(['manager', 'therapist'])) {
+            $kindergartenIds = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
+            $userIds = StaffKindergarten::whereIn('kindergarten_id', $kindergartenIds)->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
+            $query->whereIn('id', $userIds);
+        }
+        return $query;
+    }
 
     public function getDateOfBirthAttribute()
     {
