@@ -134,17 +134,31 @@
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav align-items-center flex-grow-1">
-                        @if ($user->hasAnyPermission(['staff-table.index']))
+                        @if ($user->hasAnyPermission(['children.index', 'children.store']))
                             @include('components.menu', [
-                                'name' => __('menu.tables'),
-                                'icon' => 'fi_3602109.png',
-                                'active' => in_array($currentRoute, ['framework-table.index', 'staff-table.index']) ? 'active-menu' : '',
-                                'options' => [
-                                    ['icon' => 'fi_4549612.png', 'name' => 'Framework', 'route' => route('framework-table.index', ['type' => 'kindergarten-type'])],
-                                    ['icon' => 'fi_2887367.png', 'name' => 'Staff', 'route' => route('staff-table.index', ['type' => 'profession'])],
-                                    ['icon' => 'fi_9184264.png', 'name' => 'Children', 'route' => route('children-table.index', ['type' => 'parents-status'])],
-                                    ['icon' => 'fi_3602109.png', 'name' => 'Intervention', 'route' => route('intervention.index', ['type' => 'intervention-type'])]
-                                ],
+                                'name' => __('menu.childrens'),
+                                'width' => '180px',
+                                'icon' => 'fi_9184264.png',
+                                'active' => in_array($currentRoute, ['children.index', 'children.create']) ? 'active-menu' : '',
+                                'route' => route('children.index'),
+                                // 'options' => [
+                                //     ['icon' => 'fi_2887367.png', 'name' => __('menu.allChildrens'), 'route' => route('children.index')],
+                                //     ['icon' => 'fi_2887367.png', 'name' => __('menu.addChildren'), 'route' => route('children.create')],
+                                // ],
+                            ])
+                        @endif
+                        @if ($user->hasAnyPermission(['staff.index', 'staff.store']))
+                            @include('components.menu', [
+                                'name' => __('menu.staff'),
+                                'width' => '250px',
+                                'icon' => 'fi_2887367.png',
+                                'active' => in_array($currentRoute, ['staff.index', 'staff.create']) ? 'active-menu' : '',
+                                'route' => route('staff.index'),
+                                // 'options' => [
+                                //     ['icon' => 'fi_1478254.png', 'name' => __('menu.staffList'), 'route' => route('staff.index')],
+                                //     ['icon' => 'fi_6212658.png', 'name' => __('menu.addStaff'), 'route' => route('staff.create')],
+                                //     // ['icon' => 'fi_9959428.png', 'name' => __('menu.childPsychiatrist'), 'route' => route('staff.index')]
+                                // ],
                             ])
                         @endif
                         @if ($user->hasAnyPermission(['kindergarten.index', 'kindergarten.store']))
@@ -172,6 +186,19 @@
                                 // ],
                             ])
                         @endif
+                        @if ($user->hasAnyPermission(['staff-table.index']))
+                            @include('components.menu', [
+                                'name' => __('menu.tables'),
+                                'icon' => 'fi_3602109.png',
+                                'active' => in_array($currentRoute, ['framework-table.index', 'staff-table.index']) ? 'active-menu' : '',
+                                'options' => [
+                                    ['icon' => 'fi_4549612.png', 'name' => 'Framework', 'route' => route('framework-table.index', ['type' => 'kindergarten-type'])],
+                                    ['icon' => 'fi_2887367.png', 'name' => 'Staff', 'route' => route('staff-table.index', ['type' => 'profession'])],
+                                    ['icon' => 'fi_9184264.png', 'name' => 'Children', 'route' => route('children-table.index', ['type' => 'parents-status'])],
+                                    ['icon' => 'fi_3602109.png', 'name' => 'Intervention', 'route' => route('intervention.index', ['type' => 'intervention-type'])]
+                                ],
+                            ])
+                        @endif
                         @if ($user->hasAnyPermission(['therapy-schedule.index']))
                             @include('components.menu', [
                                 'name' => __('menu.therapySchedule'),
@@ -182,33 +209,6 @@
                                 // 'options' => [
                                 //     ['icon' => 'fi_2887367.png', 'name' => __('menu.allTherapySchedule'), 'route' => ''],
                                 //     ['icon' => 'fi_2887367.png', 'name' => __('menu.addTherapySchedule'), 'route' => '']
-                                // ],
-                            ])
-                        @endif
-                        @if ($user->hasAnyPermission(['staff.index', 'staff.store']))
-                            @include('components.menu', [
-                                'name' => __('menu.staff'),
-                                'width' => '250px',
-                                'icon' => 'fi_2887367.png',
-                                'active' => in_array($currentRoute, ['staff.index', 'staff.create']) ? 'active-menu' : '',
-                                'route' => route('staff.index'),
-                                // 'options' => [
-                                //     ['icon' => 'fi_1478254.png', 'name' => __('menu.staffList'), 'route' => route('staff.index')],
-                                //     ['icon' => 'fi_6212658.png', 'name' => __('menu.addStaff'), 'route' => route('staff.create')],
-                                //     // ['icon' => 'fi_9959428.png', 'name' => __('menu.childPsychiatrist'), 'route' => route('staff.index')]
-                                // ],
-                            ])
-                        @endif
-                        @if ($user->hasAnyPermission(['children.index', 'children.store']))
-                            @include('components.menu', [
-                                'name' => __('menu.childrens'),
-                                'width' => '180px',
-                                'icon' => 'fi_9184264.png',
-                                'active' => in_array($currentRoute, ['children.index', 'children.create']) ? 'active-menu' : '',
-                                'route' => route('children.index'),
-                                // 'options' => [
-                                //     ['icon' => 'fi_2887367.png', 'name' => __('menu.allChildrens'), 'route' => route('children.index')],
-                                //     ['icon' => 'fi_2887367.png', 'name' => __('menu.addChildren'), 'route' => route('children.create')],
                                 // ],
                             ])
                         @endif
