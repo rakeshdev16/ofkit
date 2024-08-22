@@ -59,16 +59,16 @@
                                     <span class="text-secondary">{{ @$document->occured == 1 ? 'Yes' : 'No' }}</span>
                                 </li>
                                 
+                                @if ($document->occured == 1)
+                                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                        <h6 class="mb-0">Group Name</h6>
+                                        <span class="text-secondary">{{ @$document->group_name ? $document->group_name : '-' }}</span>
+                                    </li>
+                                @endif
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 class="mb-0">Description</h6>
-                                    <span class="text-secondary">{{ @$document->occured_description ? $document->occured_description : '-' }}</span>
+                                    <span class="text-secondary {{ @$document->occured == 1 ? 'w-75' : '' }}">{{ @$document->occured_description ? $document->occured_description : $document->occured_reason }}</span>
                                 </li>
-                                @if(!$document->occured)
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 class="mb-0">Occured Reason</h6>
-                                    <span class="text-secondary">{{ @$document->occured_reason ?? '-' }}</span>
-                                </li>
-                                @endif
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 class="mb-0">File</h6>
                                     <span class="text-secondary">
@@ -83,33 +83,30 @@
                                 </li>
                             </ul>
                             @if($document->type =='group')
-                                
                                 <div class="col-md-12 kindergarten-section">
                                     <div class="time-table">
                                         <h4 class="text-center">Children</h4>
                                         <table class="table table-borderd" style="width:100%">
                                             <thead>
                                                 <tr>
-                                                    <th>Name</th>
-                                                    <th>Participated</th>
-                                                    <th>Description</th>
-                                                    <th>Reason</th>
-                                                    <th>File</th>
+                                                    <th width="15%">Name</th>
+                                                    <th width="10%">Participated</th>
+                                                    <th width="70%">Description</th>
+                                                    <th width="5%">File</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="selected-kindergarten">
                                                 @if($document->groupChildrens->isEmpty())
-                                                    <td colspan="4">No children found!</td>
+                                                    <td class="text-center" colspan="5">No children found!</td>
                                                 @else                                                    
                                                     @foreach($document->groupChildrens as $child)
                                                         <tr">                                            
                                                             <td>{{ $child->child->name }}</td>
                                                             <td>{{ $child->participated == 1 ? 'Yes' : 'No' }}</td>
-                                                            <td>{{ $child->description ?? '-' }}</td>
-                                                            <td>{{ $child->reason ?? '-' }}</td>
+                                                            <td>{{ $child->description ?? $child->reason }}</td>
                                                             <td>
                                                                 @if(!empty($child->file))
-                                                                    <a href="{{ asset('storage/' . $child->file) }}" target="_blank"><i class="bx bx-file"></i></a>
+                                                                    <a href="{{ asset('storage/' . $child->file) }}" target="_blank"><h4><i class="bx bx-file"></i></h4></a>
                                                                 @else
                                                                     -
                                                                 @endif
