@@ -34,7 +34,7 @@ class User extends Authenticatable
         'photo',
     ];
 
-    protected $appends = ['date_of_birth', 'profile'];
+    protected $appends = ['date_of_birth', 'profile', 'is_assign'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -55,6 +55,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getIsAssignAttribute()
+    {
+        return KindergartenUser::where('user_id', @$this->attributes['id'])->exists() || Cluster::where('manager_id', @$this->attributes['id'])->exists();
+    }
 
     public function days()
     {
