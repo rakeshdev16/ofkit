@@ -557,17 +557,24 @@ class ChildrenController extends Controller
 
     public function initialEvaluation(array $data, $id)
     {
-        $validator = Validator::make($data, [
+        $rules = [
             'date' => 'required',
             'occured' => 'required',
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
             'end_time' => 'required_with:start_time',
-            'child_file' => 'required',
-        ],[
+        ];
+
+        if (!$data['id']) {
+            $rules['child_file'] = 'required';
+        }
+
+        $messages = [
             'occured_description.required_if' => 'Please enter description',
             'occured_reason.required_if' => 'Please enter reason',
-        ]);
+        ];
+
+        $validator = Validator::make($data, $rules, $messages);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }

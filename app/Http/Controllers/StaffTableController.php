@@ -28,25 +28,29 @@ class StaffTableController extends Controller
                 case 'profession':
                     return response()->json([
                         'table' => view('table.staff.profession.table', ['professions' => $professions])->render(),
-                        'accordion' => view('table.staff.profession.accordion', ['professions' => $professions])->render()
+                        'accordion' => view('table.staff.profession.accordion', ['professions' => $professions])->render(),
+                        'count' => $professionCount
                     ]);
                 break;
                 case 'role':
                     return response()->json([
                         'table' => view('table.staff.role.table', ['roles' => $roles])->render(),
-                        'accordion' => view('table.staff.role.accordion', ['roles' => $roles])->render()
+                        'accordion' => view('table.staff.role.accordion', ['roles' => $roles])->render(),
+                        'count' => $roleCount
                     ]);
                 break;
                 case 'association':
                     return response()->json([
                         'table' => view('table.staff.association.table', ['associations' => $associations])->render(),
-                        'accordion' => view('table.staff.association.accordion', ['associations' => $associations])->render()
+                        'accordion' => view('table.staff.association.accordion', ['associations' => $associations])->render(),
+                        'count' => $associationCount
                     ]);
                 break;
                 default:
                     return response()->json([
                         'table' => view('table.staff.profession.table', ['professions' => $professions])->render(),
-                        'accordion' => view('table.staff.profession.accordion', ['professions' => $professions])->render()
+                        'accordion' => view('table.staff.profession.accordion', ['professions' => $professions])->render(),
+                        'count' => $professionCount
                     ]);
                 break;
             }

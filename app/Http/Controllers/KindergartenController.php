@@ -18,13 +18,11 @@ class KindergartenController extends Controller
     {
         $kindergartens = Kindergarten::filter()->orderBy('id', 'DESC')->paginate(10);
         $count = Kindergarten::filter()->count();
-        if (Auth::user()->hasRole(['manager', 'therapist'])) {
-            // $kindergartens->where('user_id', Auth::id());
-        }
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('kindergarten.table', ['kindergartens' => $kindergartens])->render(),
-                'accordion' => view('kindergarten.accordion', ['kindergartens' => $kindergartens])->render()
+                'accordion' => view('kindergarten.accordion', ['kindergartens' => $kindergartens])->render(),
+                'count' => $count
             ]);
         }
         return view('kindergarten.index', compact('kindergartens', 'count'));

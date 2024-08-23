@@ -30,19 +30,22 @@ class InterventionTableController extends Controller
                 case 'documents-and-approval':
                     return response()->json([
                         'table' => view('table.intervention.documents-and-approval.table', ['documents' => $documents])->render(),
-                        'accordion' => view('table.intervention.documents-and-approval.accordion', ['documents' => $documents])->render()
+                        'accordion' => view('table.intervention.documents-and-approval.accordion', ['documents' => $documents])->render(),
+                        'count' => $documentCount
                     ]);
                 break;
                 case 'intervention-type':
                     return response()->json([
                         'table' => view('table.intervention.intervention-type.table', ['interventionTypes' => $interventionTypes])->render(),
-                        'accordion' => view('table.intervention.intervention-type.accordion', ['interventionTypes' => $interventionTypes])->render()
+                        'accordion' => view('table.intervention.intervention-type.accordion', ['interventionTypes' => $interventionTypes])->render(),
+                        'count' => $interventionCount
                     ]);
                 break;
                 default:
                     return response()->json([
                         'table' => view('table.intervention.documents-and-approval.table', ['documents' => $documents])->render(),
-                        'accordion' => view('table.intervention.documents-and-approval.accordion', ['documents' => $documents])->render()
+                        'accordion' => view('table.intervention.documents-and-approval.accordion', ['documents' => $documents])->render(),
+                        'count' => $documentCount
                     ]);
                 break;
             }

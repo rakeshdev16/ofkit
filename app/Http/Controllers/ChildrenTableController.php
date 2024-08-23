@@ -39,37 +39,43 @@ class ChildrenTableController extends Controller
                 case 'parents-status':
                     return response()->json([
                         'table' => view('table.children.parents-status.table', ['parentsStatus' => $parentsStatus])->render(),
-                        'accordion' => view('table.children.parents-status.accordion', ['parentsStatus' => $parentsStatus])->render()
+                        'accordion' => view('table.children.parents-status.accordion', ['parentsStatus' => $parentsStatus])->render(),
+                        'count' => $parentsStatusCount
                     ]);
                 break;
                 case 'hmo':
                     return response()->json([
                         'table' => view('table.children.hmo.table', ['hmos' => $hmos])->render(),
-                        'accordion' => view('table.children.hmo.accordion', ['hmos' => $hmos])->render()
+                        'accordion' => view('table.children.hmo.accordion', ['hmos' => $hmos])->render(),
+                        'count' => $hmoCount
                     ]);
                 break;
                 case 'diagnosis':
                     return response()->json([
                         'table' => view('table.children.diagnosis.table', ['diagnosises' => $diagnosises])->render(),
-                        'accordion' => view('table.children.diagnosis.accordion', ['diagnosises' => $diagnosises])->render()
+                        'accordion' => view('table.children.diagnosis.accordion', ['diagnosises' => $diagnosises])->render(),
+                        'count' => $diagnosisCount
                     ]);
                 break;
                 case 'functionality':
                     return response()->json([
                         'table' => view('table.children.functionality.table', ['functionalities' => $functionalities])->render(),
-                        'accordion' => view('table.children.functionality.accordion', ['functionalities' => $functionalities])->render()
+                        'accordion' => view('table.children.functionality.accordion', ['functionalities' => $functionalities])->render(),
+                        'count' => $functionalityCount
                     ]);
                 break;
                 case 'status':
                     return response()->json([
                         'table' => view('table.children.status.table', ['statuses' => $statuses])->render(),
-                        'accordion' => view('table.children.status.accordion', ['statuses' => $statuses])->render()
+                        'accordion' => view('table.children.status.accordion', ['statuses' => $statuses])->render(),
+                        'count' => $statusCount
                     ]);
                 break;
                 default:
                     return response()->json([
                         'table' => view('table.children.parents-status.table', ['parentsStatus' => $parentsStatus])->render(),
-                        'accordion' => view('table.children.parents-status.accordion', ['parentsStatus' => $parentsStatus])->render()
+                        'accordion' => view('table.children.parents-status.accordion', ['parentsStatus' => $parentsStatus])->render(),
+                        'count' => $parentsStatusCount
                     ]);
                 break;
             }

@@ -19,7 +19,8 @@ class ClusterController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('cluster.table', ['clusters' => $clusters])->render(),
-                'accordion' => view('cluster.accordion', ['clusters' => $clusters])->render()
+                'accordion' => view('cluster.accordion', ['clusters' => $clusters])->render(),
+                'count' => $count
             ]);
         }
         return view('cluster.index', compact('clusters', 'count'));

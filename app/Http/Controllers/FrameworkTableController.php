@@ -29,18 +29,21 @@ class FrameworkTableController extends Controller
                     return response()->json([
                         'table' => view('table.framework.kindergarten-type.table', ['kindergartenTypes' => $kindergartenTypes])->render(),
                         'accordion' => view('table.framework.kindergarten-type.accordion', ['kindergartenTypes' => $kindergartenTypes])->render(),
+                        'count' => $kindergartenTypeCount
                     ]);
                 break;
                 case 'framework-type':
                     return response()->json([
                         'table' => view('table.framework.framework-type.table', ['frameworkTypes' => $frameworkTypes])->render(),
                         'accordion' => view('table.framework.framework-type.accordion', ['frameworkTypes' => $frameworkTypes])->render(),
+                        'count' => $frameworkTypeCount
                     ]);
                 break;
                 default:
                     return response()->json([
                         'table' => view('table.framework.kindergarten-type.table', ['kindergartenTypes' => $kindergartenTypes])->render(),
                         'accordion' => view('table.framework.kindergarten-type.accordion', ['kindergartenTypes' => $kindergartenTypes])->render(),
+                        'count' => $kindergartenTypeCount
                     ]);
                 break;
             }
