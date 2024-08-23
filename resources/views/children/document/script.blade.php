@@ -9,28 +9,35 @@
     });
 
     $(document).on('change', '.endTime', function() {
-        var startTime = $('.startTime').val();
-        var endTime = $(this).val();
-        var errorSpan = $(this).parent().siblings('.invalid-feedback');
-        if (endTime < startTime) {
-            $(this).val('');
-            if (errorSpan.length === 0) {
-                $(this).after(`
-                    <span class="invalid-feedback" role="alert">
-                        <strong>End Time cannot be earlier than Start Time.</strong>
-                    </span>
-                `);
-            } else {
-                errorSpan.html('<strong>End Time cannot be earlier than Start Time.</strong>');
-                errorSpan.show();
-            }
+    var startTime = $('.startTime').val();
+    var endTime = $(this).val();
+    
+    // Find the sibling `.invalid-feedback` span after the input
+    var errorSpan = $(this).siblings('.invalid-feedback');
+
+    if (endTime < startTime) {
+        $(this).val(''); // Clear the input if the end time is earlier
+
+        // If the .invalid-feedback element doesn't exist, create it
+        if (errorSpan.length === 0) {
+            $(this).after(`
+                <span class="invalid-feedback" role="alert">
+                    <strong>End Time cannot be earlier than Start Time.</strong>
+                </span>
+            `);
         } else {
-            if (errorSpan.length > 0) {
-                errorSpan.html('');
-                errorSpan.hide();
-            }
+            errorSpan.html('<strong>End Time cannot be earlier than Start Time.</strong>');
+            errorSpan.show();
         }
-    });
+    } else {
+        // If there's an existing error message, clear it
+        if (errorSpan.length > 0) {
+            errorSpan.html('');
+            errorSpan.hide();
+        }
+    }
+});
+
 
     $(document).on('click', '.button', function() {
         $(this).attr('disabled', false);

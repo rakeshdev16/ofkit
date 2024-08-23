@@ -5597,11 +5597,28 @@ input::placeholder {
 	.page-info .buttons {
 		margin-top: 50px !important;
 	}
+
+	.document {
+		width: 292px !important;
+		max-width: 292px !important;
+	}
+	
 }
 
 @media screen and (max-width: 520px) {
 	.chat-footer-menu,
 	.chat-top-header-menu {
 		display: none;
+	}
+
+	.document {
+		width: 292px !important;
+		max-width: 292px !important;
+	}
+
+	.doc-desc {
+		text-align: left;
+		padding-right: 90px;
+		width: 100% !important;
 	}
 }

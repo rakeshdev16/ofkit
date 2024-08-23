@@ -59,7 +59,7 @@
                                     <span class="text-secondary">{{ @$document->occured == 1 ? 'Yes' : 'No' }}</span>
                                 </li>
                                 
-                                @if ($document->occured == 1)
+                                @if ($document->occured == 1 && $document->type == 'group')
                                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                         <h6 class="mb-0">Group Name</h6>
                                         <span class="text-secondary">{{ @$document->group_name ? $document->group_name : '-' }}</span>
@@ -67,7 +67,7 @@
                                 @endif
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 class="mb-0">Description</h6>
-                                    <span class="text-secondary doc-desc {{ @$document->occured == 1 ? 'w-75' : '' }}">{{ @$document->occured_description ? $document->occured_description : $document->occured_reason }}</span>
+                                    <span class="text-secondary doc-desc">{{ @$document->occured_description ? $document->occured_description : $document->occured_reason }}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 class="mb-0">File</h6>
