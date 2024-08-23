@@ -380,6 +380,7 @@
                                                         <input type="hidden" name="deleted_medicine" value="{{ old('deleted_medicine') }}" id="deletedMedicine">
                                                         <div class="col-12">
                                                             <div class="d-flex align-items-center gap-3">
+                                                                <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">
                                                                 <button type="submit" class="btn button submitBtn px-4">{{ __('comon.update') }}
                                                                     <i class="bx bx-right-arrow-alt ms-2"></i>
                                                                 </button>

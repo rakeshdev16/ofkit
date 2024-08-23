@@ -126,7 +126,7 @@ class FrameworkTableController extends Controller
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
-                KindergartenType::where('id', $id)->update($request->except('_token', '_method', 'type'));
+                KindergartenType::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('framework-table.index', ['type' => 'kindergarten-type']);
             break;
             case 'framework-type':
@@ -138,7 +138,7 @@ class FrameworkTableController extends Controller
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
-                FrameworkType::where('id', $id)->update($request->except('_token', '_method', 'type'));
+                FrameworkType::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('framework-table.index', ['type' => 'framework-type']);
             break;
         }

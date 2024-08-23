@@ -57,18 +57,20 @@ class StaffController extends Controller
             'role' => 'required',
             'kindergarten.*.role_id' => 'required',
             'kindergarten.*.association_id' => 'required',
+            'licence_number' => 'nullable|regex:/^[0-9-]+$/',
         ],[
             'first_name.required' => __('staff.requiredName'),
             'email.required' => __('staff.requiredEmail'),
             'email.email' => __('staff.validEmail'),
             'email.unique' => __('staff.existsEmail'),
             'identification.numeric' => 'Please enter numbers only',
-            'identification.digits' => 'Enter 9 digits only',
+            'identification.digits' => 'Please enter 9 digits only',
             'telephone.required' => __('validation.required'),
             'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
             'role.required' => __('staff.requiredRole'),
             'kindergarten.*.role_id.required' => 'Please choose role',
             'kindergarten.*.association_id.required' => 'Please choose association',
+            'licence_number.regex' => 'Only digits are allowed with hyphens',
         ]);
         $validator->after(function ($validator) use ($request) {
             // if ($request->kindergarten_id && count($request->kindergarten_id) > 0) {
@@ -164,18 +166,20 @@ class StaffController extends Controller
             'role' => 'required',
             'kindergarten.*.role_id' => 'required',
             'kindergarten.*.association_id' => 'required',
+            'licence_number' => 'nullable|regex:/^[0-9-]+$/',
         ],[
             'first_name.required' => __('staff.requiredName'),
             'email.required' => __('staff.requiredEmail'),
             'email.email' => __('staff.validEmail'),
             'email.unique' => __('staff.existsEmail'),
             'identification.numeric' => 'Please enter numbers only',
-            'identification.digits' => 'Enter 9 digits only',
+            'identification.digits' => 'Please enter 9 digits only',
             'telephone.required' => __('validation.required'),
             'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
             'role.required' => __('staff.requiredRole'),
             'kindergarten.*.role_id.required' => 'Please choose role',
             'kindergarten.*.association_id.required' => 'Please choose association',
+            'licence_number.regex' => 'Only digits are allowed with hyphens',
         ]);
         $validator->after(function ($validator) use ($request) {
             // if ($request->kindergarten_id && count($request->kindergarten_id) > 0) {

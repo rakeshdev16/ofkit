@@ -57,7 +57,7 @@ return [
     'requiredName' => "Please enter name",
     'requiredFamilyName' => "Please enter family name",
     'requiredIdentificationNumeric' => "Please enter numbers only",
-    'requiredIdentificationDigits' => "Please enter at least 9 digits",
+    'requiredIdentificationDigits' => "Please enter only 9 digits",
     'requiredDOB' => "Please enter date of birth",
     'requiredAddress' => "Please enter address",
     'requiredFunctionality' => "Please choose functioning",

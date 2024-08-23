@@ -128,7 +128,7 @@ class InterventionTableController extends Controller
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
-                DocumentAndApproval::where('id', $id)->update($request->except('_token', '_method', 'type'));
+                DocumentAndApproval::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('intervention.index', ['type' => 'documents-and-approval']);
             break;
             case 'intervention-type':
@@ -140,7 +140,7 @@ class InterventionTableController extends Controller
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
-                InterventionType::where('id', $id)->update($request->except('_token', '_method', 'type'));
+                InterventionType::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('intervention.index', ['type' => 'intervention-type']);
             break;
         }

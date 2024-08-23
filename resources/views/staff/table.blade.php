@@ -39,14 +39,14 @@
                 {{-- <td>{{ date('d/m/Y', strtotime($member->created_at)) }}</td>
                 <td>{{ date('d/m/Y', strtotime($member->updated_at)) }}</td> --}}
                 <td>
-                    <a
+                    {{-- <a
                         href="{{ route('staff.edit', $member->id) }}?kindergarten_id={{ request()->kindergarten_id }}"
                         data-toggle="tooltip"
                         data-placement="bottom"
                         title="Edit"
                     >
                         <i class="bx bx-edit icon"></i>
-                    </a>
+                    </a> --}}
                     <a
                         href="{{ route('staff.show', $member->id) }}?kindergarten_id={{ request()->kindergarten_id }}"
                         data-toggle="tooltip"

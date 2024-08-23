@@ -72,6 +72,11 @@ function getGroupChildrens($docId, $childId)
 
 function authKindergartens()
 {
-    $kindergartenIds = Auth::user()->staffKindergartens->pluck('kindergarten_id')->toArray();
-    return Kindergarten::whereIn('id', $kindergartenIds)->select('id as key', 'name as value')->orderBy('name', 'ASC')->get()->toArray();
+    if (Auth::user()->hasRole(['manager', 'therapist'])) {
+        $kindergartenIds = Auth::user()->staffKindergartens->pluck('kindergarten_id')->toArray();
+        $kindergarten = Kindergarten::whereIn('id', $kindergartenIds)->select('id as key', 'name as value')->orderBy('name', 'ASC')->get()->toArray();
+    } else {
+        $kindergarten = Kindergarten::select('id as key', 'name as value')->orderBy('name', 'ASC')->get()->toArray();
+    }
+    return $kindergarten;
 }

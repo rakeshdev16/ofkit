@@ -65,14 +65,15 @@
         $(document).ready(function() {
             let formChanged = false;
             $('form :input').on('change input', function() {
-                formChanged = true;
+                // formChanged = true;
+                $('#formChanged').val(true);
             });
             $(document).on('click', '.removeMedicine', function() {
                 formChanged = true;
             });
             $('.exit').on('click', function(e) {
                 $(this).attr('disabled', false);
-                if (formChanged) {
+                if ($('#formChanged').val()) {
                     e.preventDefault();
                     Swal.fire({
                         title: "Unsaved changes",
@@ -92,7 +93,7 @@
                 }
             });
             $('form').on('submit', function() {
-                formChanged = false;
+                // formChanged = false;
             });
         });
     </script>

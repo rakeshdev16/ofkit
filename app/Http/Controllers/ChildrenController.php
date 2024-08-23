@@ -203,7 +203,7 @@ class ChildrenController extends Controller
             'name.required' => __('children.required'),
             'family_name.required' => __('children.required'),
             'dob.required' => __('children.required'),
-            'identification.numeric' => __('children.requiredIdentificationNumeric'),
+            'identification.numeric' => __('children.requiredIdentificationDigits'),
             'identification.digits' => __('children.requiredIdentificationDigits'),
             'father_telephone.regex' => __('children.requiredTelephoneRegex'),
             'mother_telephone.regex' => __('children.requiredTelephoneRegex'),

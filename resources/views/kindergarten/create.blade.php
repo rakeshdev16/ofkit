@@ -23,7 +23,7 @@
                 </div>
                 <div class="ms-auto">
                     <div class="">
-                        <a href="{{ route('kindergarten.index') }}" class="btn button">{{ __('comon.back') }}</a>
+                        <button data-url="{{ route('kindergarten.index') }}" class="btn button exit">{{ __('comon.back') }}</button>
                     </div>
                 </div>
             </div>
@@ -95,6 +95,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="d-md-flex d-grid align-items-center gap-3">
+                                        <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">
                                         <button type="submit" class="btn button submitBtn px-4">{{ __('kindergarten.addBtnText') }}</button>
                                     </div>
                                 </div>

@@ -152,7 +152,7 @@ class StaffTableController extends Controller
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
-                Profession::where('id', $id)->update($request->except('_token', '_method', 'type'));
+                Profession::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('staff-table.index', ['type' => 'profession']);
             break;
             case 'role':
@@ -164,7 +164,7 @@ class StaffTableController extends Controller
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
-                MemberRole::where('id', $id)->update($request->except('_token', '_method', 'type'));
+                MemberRole::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('staff-table.index', ['type' => 'role']);
             break;
             case 'association':
@@ -176,7 +176,7 @@ class StaffTableController extends Controller
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
-                Association::where('id', $id)->update($request->except('_token', '_method', 'type'));
+                Association::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('staff-table.index', ['type' => 'association']);
             break;
         }

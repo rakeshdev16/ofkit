@@ -183,23 +183,23 @@ class ChildrenTableController extends Controller
         }
         switch ($request->type) {
             case 'parents-status':
-                ParentsStatus::where('id', $id)->update($request->except('_token', '_method', 'type'));
+                ParentsStatus::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('children-table.index', ['type' => 'parents-status']);
             break;
             case 'hmo':
-                Hmo::where('id', $id)->update($request->except('_token', '_method', 'type'));
+                Hmo::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('children-table.index', ['type' => 'hmo']);
             break;
             case 'diagnosis':
-                Diagnosis::where('id', $id)->update($request->except('_token', '_method', 'type'));
+                Diagnosis::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('children-table.index', ['type' => 'diagnosis']);
             break;
             case 'functionality':
-                Functionality::where('id', $id)->update($request->except('_token', '_method', 'type'));
+                Functionality::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('children-table.index', ['type' => 'functionality']);
             break;
             case 'status':
-                Status::where('id', $id)->update($request->except('_token', '_method', 'type'));
+                Status::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('children-table.index', ['type' => 'status']);
             break;
         }
