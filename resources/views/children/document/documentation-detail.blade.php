@@ -53,12 +53,10 @@
                                     <h6 class="mb-0">Kindergarten</h6>
                                     <span class="text-secondary">{{ @getKindergartenNameById($children->kindergarten_id) ?? '-' }}</span>
                                 </li>
-                                
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 class="mb-0">Occured</h6>
                                     <span class="text-secondary">{{ @$document->occured == 1 ? 'Yes' : 'No' }}</span>
                                 </li>
-                                
                                 @if ($document->occured == 1 && $document->type == 'group')
                                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                         <h6 class="mb-0">Group Name</h6>
@@ -86,96 +84,93 @@
                                 <div class="col-md-12 kindergarten-section">
                                     <div class="time-table">
                                         <h4 class="text-center">Children</h4>
-                                        <table class="table table-borderd" style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th width="15%">Name</th>
-                                                    <th width="10%">Participated</th>
-                                                    <th width="70%">Description</th>
-                                                    <th width="5%">File</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="selected-kindergarten">
-                                                @if($document->groupChildrens->isEmpty())
-                                                    <td class="text-center" colspan="5">No children found!</td>
-                                                @else                                                    
-                                                    @foreach($document->groupChildrens as $child)
-                                                        <tr">                                            
-                                                            <td>{{ $child->child->name }}</td>
-                                                            <td>{{ $child->participated == 1 ? 'Yes' : 'No' }}</td>
-                                                            <td>{{ $child->description ?? $child->reason }}</td>
-                                                            <td>
-                                                                @if(!empty($child->file))
-                                                                    <a href="{{ asset('storage/' . $child->file) }}" target="_blank"><h4><i class="bx bx-file"></i></h4></a>
-                                                                @else
-                                                                    -
-                                                                @endif
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                @endif
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                        <div class="table-responsive">
+                                            <table class="table table-borderd" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="15%">Name</th>
+                                                        <th width="10%">Participated</th>
+                                                        <th width="70%">Description</th>
+                                                        <th width="5%">File</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="selected-kindergarten">
+                                                    @if($document->groupChildrens->isEmpty())
+                                                        <td class="text-center" colspan="5">No children found!</td>
+                                                    @else                                                    
+                                                        @foreach($document->groupChildrens as $child)
+                                                            <tr">                                            
+                                                                <td>{{ $child->child->name }}</td>
+                                                                <td>{{ $child->participated == 1 ? 'Yes' : 'No' }}</td>
+                                                                <td>{{ $child->description ?? $child->reason }}</td>
+                                                                <td>
+                                                                    @if(!empty($child->file))
+                                                                        <a href="{{ asset('storage/' . $child->file) }}" target="_blank"><h4><i class="bx bx-file"></i></h4></a>
+                                                                    @else
+                                                                        -
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    @endif
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div> 
                                 </div>
-                                
                             @endif
                             @if($document->type =='staff-meeting')
-                                <!-- Display related staffMeeting -->                                
                                 <hr class="my-4">
                                 <ul class="list-group list-group-flush">
-                                        
-                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 class="mb-0">Topic</h6>
-                                            <span class="text-secondary">{{ $document->staffMeeting->topic }}</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 class="mb-0">Discussion</h6>
-                                            <span class="text-secondary">{{ $document->staffMeeting->discussion }}</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 class="mb-0">Decisions</h6>
-                                            <span class="text-secondary">{{ $document->staffMeeting->decisions }}</span>
-                                        </li>
-                                        
-                                        <div class="col-md-12">
-                                            <div class="time-table">
-                                                <h4 class="text-center">Children</h4>
-                                                <div class="table-responsive" style="display: block !important;">
-                                                    <div class="d-flex choosenDocument" style="flex-wrap: wrap;">
-                                                        @if($document->staffMeetingChildren->isEmpty())
-                                                            No children found!
-                                                        @else
-                                                            @foreach($document->staffMeetingChildren as $child)
-                                                                <div class="document mt-1 doc14">
-                                                                        {{ $child->child->name }}
-                                                                </div>
-                                                            @endforeach
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>  
-                                        <div class="col-md-12">
-                                            <div class="time-table">
-                                                <h4 class="text-center">Therapists</h4>
-                                                <div class="table-responsive" style="display: block !important;">
-                                                    <div class="d-flex choosenDocument" style="flex-wrap: wrap;">
-                                                        @forelse ($document->staffMeetingTherapist as $therapist)
+                                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                        <h6 class="mb-0">Topic</h6>
+                                        <span class="text-secondary">{{ $document->staffMeeting->topic }}</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                        <h6 class="mb-0">Discussion</h6>
+                                        <span class="text-secondary">{{ $document->staffMeeting->discussion }}</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                        <h6 class="mb-0">Decisions</h6>
+                                        <span class="text-secondary">{{ $document->staffMeeting->decisions }}</span>
+                                    </li>
+                                    
+                                    <div class="col-md-12">
+                                        <div class="time-table">
+                                            <h4 class="text-center">Children</h4>
+                                            <div class="table-responsive" style="display: block !important;">
+                                                <div class="d-flex choosenDocument" style="flex-wrap: wrap;">
+                                                    @if($document->staffMeetingChildren->isEmpty())
+                                                        No children found!
+                                                    @else
+                                                        @foreach($document->staffMeetingChildren as $child)
                                                             <div class="document mt-1 doc14">
-                                                                <a href="{{ route('staff.show',$therapist->therapist_id)}}" target="_blank" rel="noopener noreferrer">
-                                                                    {{ @$therapist->therapist }}
-                                                                </a>
+                                                                    {{ $child->child->name }}
                                                             </div>
-                                                        @empty
-                                                            No therapists found!
-                                                        @endforelse
-
-                                                        
-                                                    </div>
+                                                        @endforeach
+                                                    @endif
                                                 </div>
                                             </div>
-                                        </div>                                        
+                                        </div>
+                                    </div>  
+                                    <div class="col-md-12">
+                                        <div class="time-table">
+                                            <h4 class="text-center">Therapists</h4>
+                                            <div class="table-responsive" style="display: block !important;">
+                                                <div class="d-flex choosenDocument" style="flex-wrap: wrap;">
+                                                    @forelse ($document->staffMeetingTherapist as $therapist)
+                                                        <div class="document mt-1 doc14">
+                                                            <a href="{{ route('staff.show',$therapist->therapist_id)}}" target="_blank" rel="noopener noreferrer">
+                                                                {{ @$therapist->therapist }}
+                                                            </a>
+                                                        </div>
+                                                    @empty
+                                                        No therapists found!
+                                                    @endforelse
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                        
                                 </ul>                               
                             @endif
                         </div>

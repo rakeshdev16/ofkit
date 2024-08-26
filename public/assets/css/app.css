@@ -5621,4 +5621,8 @@ input::placeholder {
 		padding-right: 90px;
 		width: 100% !important;
 	}
+
+	.button {
+		height: 36px;
+	}
 }

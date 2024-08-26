@@ -9,7 +9,7 @@
 </div>
 <div class="card small-table">
     <div class="card-body">
-        <div class="table-responsive">
+        <div class="table-responsive full-width-table">
             @include('components.table-search', ['label' => "Documents And Approval", 'count' => @$documentCount])
             <div id="dataTable">
                 @include('table.intervention.documents-and-approval.table', ['documents' => $documents])

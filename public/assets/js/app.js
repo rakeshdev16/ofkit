@@ -13,26 +13,26 @@ $('.numbers').on('input', function () {
 });
 
 $(document).ready(function() {
-    function adjustDateInput() {
-        $(".date-of-birth").each(function() {
-            if ($(window).width() < 768) {
-                $(this).css({
-                    "text-align": "right",
-                    "direction": "rtl"
-                });
-            } else {
-                $(this).css({
-                    "text-align": "",
-                    "direction": ""
-                });
-            }
-        });
-    }
+    // function adjustDateInput() {
+    //     $(".date-of-birth").each(function() {
+    //         if ($(window).width() < 768) {
+    //             $(this).css({
+    //                 "text-align": "right",
+    //                 "direction": "rtl"
+    //             });
+    //         } else {
+    //             $(this).css({
+    //                 "text-align": "",
+    //                 "direction": ""
+    //             });
+    //         }
+    //     });
+    // }
 
-    adjustDateInput();
-    $(window).resize(function() {
-        adjustDateInput();
-    });
+    // adjustDateInput();
+    // $(window).resize(function() {
+    //     adjustDateInput();
+    // });
 });
 
 

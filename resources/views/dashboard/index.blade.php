@@ -188,7 +188,7 @@
                 </div>
             </div>
                  <div class="card-body">
-                 <div class="table-responsive">
+                 <div class="table-responsive full-width-table">
                    <table class="table align-middle mb-0">
                     <thead class="table-light">
                      <tr>

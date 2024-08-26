@@ -8,6 +8,7 @@
         value="{{ old($name) ? old($name) : @$value }}"
         max="{{ @$max }}"
         {{ @$disabled }}
+        dir="ltr"
     >
 </div>
 @error($name)

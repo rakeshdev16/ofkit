@@ -462,3 +462,7 @@ input.medicine-number {
     text-align: left;
     width: 75%;
 }
+
+input.form-control {
+    text-align: right;
+}

@@ -9,7 +9,7 @@
 </div>
 <div class="card small-table">
     <div class="card-body">
-        <div class="table-responsive">
+        <div class="table-responsive full-width-table">
             @include('components.table-search', ['label' => 'Framework Types', 'count' => @$count])
             <div id="dataTable">
                 @include('table.framework.framework-type.table', ['frameworkTypes' => $frameworkTypes])
