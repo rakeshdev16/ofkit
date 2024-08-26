@@ -437,7 +437,10 @@ class ChildrenController extends Controller
 
         ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
 
-        return redirect()->route('children.show', $id);
+        if ($data['id']) {
+            return redirect()->route('children-documentation.show', [$id, $data['id']]);
+        }
+        return redirect()->route('children-documentations.get', $id);
     }
     
     public function group(array $data, $id)
@@ -489,7 +492,10 @@ class ChildrenController extends Controller
             }
         }
 
-        return redirect()->route('children.show', $id);
+        if ($data['id']) {
+            return redirect()->route('children-documentation.show', [$id, $data['id']]);
+        }
+        return redirect()->route('children-documentations.get', $id);
     }
     
     public function parentalGuidance(array $data, $id)
@@ -528,8 +534,10 @@ class ChildrenController extends Controller
         //         $document->parentalGuidanceKindergarten()->create(['kindergarten_id' => $kindergartenId]);
         //     }
         // }
-
-        return redirect()->route('children.show', $id);
+        if ($data['id']) {
+            return redirect()->route('children-documentation.show', [$id, $data['id']]);
+        }
+        return redirect()->route('children-documentations.get', $id);
     }
     
     public function staffMeeting(array $data, $id)
@@ -581,8 +589,10 @@ class ChildrenController extends Controller
                 $document->staffMeetingTherapist()->create(['therapist_id' => $therapistId]);
             }
         }
-
-        return redirect()->route('children.show', $id);
+        if ($data['id']) {
+            return redirect()->route('children-documentation.show', [$id, $data['id']]);
+        }
+        return redirect()->route('children-documentations.get', $id);
     }
 
     public function initialEvaluation(array $data, $id)
@@ -613,8 +623,10 @@ class ChildrenController extends Controller
         }
 
         ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
-
-        return redirect()->route('children.show', $id);
+        if ($data['id']) {
+            return redirect()->route('children-documentation.show', [$id, $data['id']]);
+        }
+        return redirect()->route('children-documentations.get', $id);
     }
     
     public function finalEvaluation(array $data, $id)
@@ -642,8 +654,10 @@ class ChildrenController extends Controller
         }
 
         ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
-
-        return redirect()->route('children.show', $id);
+        if ($data['id']) {
+            return redirect()->route('children-documentation.show', [$id, $data['id']]);
+        }
+        return redirect()->route('children-documentations.get', $id);
     }
 
     public function deleteProfile(Request $request)

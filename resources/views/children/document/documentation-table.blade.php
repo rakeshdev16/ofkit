@@ -14,6 +14,9 @@
     </thead>
     <tbody>
         @forelse ($documentations as $documentation)
+            @php
+                $truncatedDesc = \Str::limit($documentation->occured_description, 80, '...');
+            @endphp
             <tr class="tr-{{ $documentation->id }}">
                 {{-- <td><input type="checkbox" name="id[]" value="{{ $documentation->id }}" class="checkbox check-{{ $documentation->id }}" data-class="check-{{ $documentation->id }}"></td> --}}
                 <td>{{ date('d/m/Y', strtotime($documentation->created_at)) }}</td>
@@ -21,7 +24,14 @@
                 <td>-</td>
                 <td>{{ ucfirst(str_replace('-', ' ', $documentation->type)) }}</td>
                 <td>{{ $documentation->occured == 1 ? 'Yes' : 'No' }}</td>
-                <td>{{ $documentation->occured == 1 ? \Str::limit($documentation->occured_description, 20, '...') : $documentation->occured_reason }}</td>
+                <td class="{{ $documentation->occured == 1 ? 'address-column' : '' }}">
+                    @if ($documentation->occured == 1)
+                        <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $truncatedDesc }}</span>
+                    @else
+                        {{ $documentation->occured_reason }}
+                    @endif
+                </td>
+                {{-- <td>{{ $documentation->occured == 1 ? \Str::limit($documentation->occured_description, 20, '...') : $documentation->occured_reason }}</td> --}}
                 <td>
                     @if ($documentation->file)
                         <a href="{{ $documentation->file }}" target="_blank"><h4><i class="bx bx-file"></i></h4></a>
