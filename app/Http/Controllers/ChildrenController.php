@@ -411,17 +411,26 @@ class ChildrenController extends Controller
 
     public function individual(array $data, $id)
     {
-        $validator = Validator::make($data, [
+        $rules = [
             'date' => 'required',
             'occured' => 'required',
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
             'end_time' => 'required_with:start_time',
-        ],[
+        ];
+
+        if (!empty($data['end_time'])) {
+            $rules['start_time'] = 'required';
+        }
+
+        $messages = [
             'occured_description.required_if' => 'Please enter description',
             'occured_reason.required_if' => 'Please enter reason',
             // 'end_time.required_if' => 'Please enter end time',
-        ]);
+        ];
+
+        $validator = Validator::make($data, $rules, $messages);
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
@@ -446,6 +455,10 @@ class ChildrenController extends Controller
             'participated.*.child_file' => "nullable",
             'end_time' => 'required_with:start_time',
         ];
+
+        if (!empty($data['end_time'])) {
+            $rules['start_time'] = 'required';
+        }
         
         $messages = [
             'group_name.required_if' => 'Please enter group name',
@@ -457,7 +470,7 @@ class ChildrenController extends Controller
             'participated.*.description.required_if' => 'Please enter description',
             'participated.*.child_file.required' => 'Please choose file',
         ];
-        
+
         $validator = Validator::make($data, $rules, $messages);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -481,16 +494,25 @@ class ChildrenController extends Controller
     
     public function parentalGuidance(array $data, $id)
     {
-        $validator = Validator::make($data, [
+        $rules = [
             'date' => 'required',
             'occured' => 'required',
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
             'end_time' => 'required_with:start_time',
-        ],[
+        ];
+
+        if (!empty($data['end_time'])) {
+            $rules['start_time'] = 'required';
+        }
+
+        $messages = [
             'occured_description.required_if' => 'Please enter description',
             'occured_reason.required_if' => 'Please enter reason',
-        ]);
+        ];
+
+        $validator = Validator::make($data, $rules, $messages);
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
@@ -512,7 +534,7 @@ class ChildrenController extends Controller
     
     public function staffMeeting(array $data, $id)
     {
-        $validator = Validator::make($data, [
+        $rules = [
             'date' => 'required',
             'occured' => 'required',
             'occured_description' => 'required_if:occured,==,1',
@@ -523,10 +545,18 @@ class ChildrenController extends Controller
             'topic' => 'required',
             'discussion' => 'required',
             'decisions' => 'required',
-        ],[
+        ];
+
+        if (!empty($data['end_time'])) {
+            $rules['start_time'] = 'required';
+        }
+
+        $messages = [
             'occured_description.required_if' => 'Please enter description',
             'occured_reason.required_if' => 'Please enter reason',
-        ]);
+        ];
+
+        $validator = Validator::make($data, $rules, $messages);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
@@ -568,6 +598,9 @@ class ChildrenController extends Controller
         if (!$data['id']) {
             $rules['child_file'] = 'required';
         }
+        if (!empty($data['end_time'])) {
+            $rules['start_time'] = 'required';
+        }
 
         $messages = [
             'occured_description.required_if' => 'Please enter description',
@@ -586,16 +619,24 @@ class ChildrenController extends Controller
     
     public function finalEvaluation(array $data, $id)
     {
-        $validator = Validator::make($data, [
+        $rules = [
             'date' => 'required',
             'occured' => 'required',
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
             'end_time' => 'required_with:start_time',
-        ],[
+        ];
+
+        if (!empty($data['end_time'])) {
+            $rules['start_time'] = 'required';
+        }
+
+        $messages = [
             'occured_description.required_if' => 'Please enter description',
             'occured_reason.required_if' => 'Please enter reason',
-        ]);
+        ];
+
+        $validator = Validator::make($data, $rules, $messages);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
