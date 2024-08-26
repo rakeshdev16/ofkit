@@ -5612,8 +5612,8 @@ input::placeholder {
 	}
 
 	.document {
-		width: 292px !important;
-		max-width: 292px !important;
+		width: auto !important;
+		max-width: 280px !important;
 	}
 
 	.doc-desc {
