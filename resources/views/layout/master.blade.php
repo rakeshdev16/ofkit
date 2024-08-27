@@ -95,6 +95,19 @@
             $('form').on('submit', function() {
                 // formChanged = false;
             });
+
+
+            function handleClass() {
+                if ($(window).width() < 768) {  // 768px is commonly used for tablet breakpoint
+                    $('.page-content > .card').removeClass('small-table');
+                } else {
+                    $('.page-content > .card').addClass('small-table'); // Optionally add the class back for larger screens
+                }
+            }
+            handleClass();
+            $(window).resize(function() {
+                handleClass();
+            });
         });
     </script>
 </body>
