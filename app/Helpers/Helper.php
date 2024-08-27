@@ -31,6 +31,15 @@ function getUserNameById($id)
     return User::where('id', $id)->pluck('name')->first();
 }
 
+function getUserRoleById($id)
+{
+    $user = User::find($id);
+    if ($user) {
+        return @$user->getRoleNames()->first();
+    }
+    return NULL;
+}
+
 function getChildrenNameById($id)
 {
     return Children::where('id', $id)->pluck('name')->first();

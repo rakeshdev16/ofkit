@@ -376,6 +376,7 @@ class ChildrenController extends Controller
     {
         $request['children_id'] = $id;
         $request['type'] = $type;
+        $request['therapist_id'] = Auth::id();
         if ($request['occured'] == 0) {
             $request['occured_description'] = '';
         }

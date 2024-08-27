@@ -9,7 +9,20 @@ class ChildrenDocumentation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['children_id', 'date', 'start_time', 'end_time', 'kindergarten_id', 'occured', 'occured_description', 'group_name', 'occured_reason', 'file', 'type'];
+    protected $fillable = [
+        'therapist_id',
+        'children_id',
+        'date',
+        'start_time',
+        'end_time',
+        'kindergarten_id',
+        'occured',
+        'occured_description',
+        'group_name',
+        'occured_reason',
+        'file',
+        'type'
+    ];
 
     protected $appends = ['file_name'];
 
@@ -64,6 +77,11 @@ class ChildrenDocumentation extends Model
         return $this->hasOne(StaffMeeting::class, 'children_doc_id', 'id');
     }
     
+    public function therapist()
+    {
+        return $this->hasOne(User::class, 'id', 'therapist_id');
+    }
+
     public function staffMeetingChildren()
     {
         return $this->hasMany(StaffMeetingChildren::class, 'children_doc_id', 'id');

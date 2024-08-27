@@ -30,10 +30,10 @@ class KindergartenController extends Controller
     
     public function create()
     {
-        $clusters = Cluster::select('id as key', 'cluster as value')->get();
-        $frameworks = FrameworkType::select('id as key', 'name as value')->get();
-        $types = KindergartenType::select('id as key', 'name as value')->get();
-        $managers = User::role('manager')->select('id as key', 'name as value')->get();
+        $clusters = Cluster::select('id as key', 'cluster as value')->orderBy('id', 'DESC')->get();
+        $frameworks = FrameworkType::select('id as key', 'name as value')->orderBy('id', 'DESC')->get();
+        $types = KindergartenType::select('id as key', 'name as value')->orderBy('id', 'DESC')->get();
+        $managers = User::role('manager')->select('id as key', 'name as value')->orderBy('id', 'DESC')->get();
         return view('kindergarten.create', compact('clusters', 'managers', 'frameworks', 'types'));
     }
 
@@ -64,10 +64,10 @@ class KindergartenController extends Controller
     public function edit($id)
     {
         $kindergarten = Kindergarten::findOrFail($id);
-        $clusters = Cluster::select('id as key', 'cluster as value')->get()->toArray();
-        $managers = User::role('manager')->select('id as key', 'name as value')->get();
-        $frameworks = FrameworkType::select('id as key', 'name as value')->get();
-        $types = KindergartenType::select('id as key', 'name as value')->get();
+        $clusters = Cluster::select('id as key', 'cluster as value')->orderBy('id', 'DESC')->get()->toArray();
+        $managers = User::role('manager')->select('id as key', 'name as value')->orderBy('id', 'DESC')->get();
+        $frameworks = FrameworkType::select('id as key', 'name as value')->orderBy('id', 'DESC')->get();
+        $types = KindergartenType::select('id as key', 'name as value')->orderBy('id', 'DESC')->get();
         return view('kindergarten.edit', compact('kindergarten', 'clusters', 'managers', 'frameworks', 'types'));
     }
 
