@@ -16,7 +16,7 @@ class KindergartenController extends Controller
 {
     public function index(Request $request)
     {
-        $kindergartens = Kindergarten::filter()->orderBy('id', 'DESC')->paginate(10);
+        $kindergartens = Kindergarten::filter()->orderBy('id', 'DESC')->paginate(50);
         $count = Kindergarten::filter()->count();
         if ($request->ajax()) {
             return response()->json([

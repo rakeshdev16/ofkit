@@ -97,7 +97,7 @@ return [
     'childName' => "Child's Name",
     'childFamilyName' => "Child's Family Name",
     'occured' => "Occured",
-    'occuredReason' => "Occured Reason",
+    'occuredReason' => "Not occurred reason",
     'groupName' => "Group Name",
     'occuredDescription' => "Occured Description",
     'file' => "File",

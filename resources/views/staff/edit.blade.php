@@ -270,6 +270,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <input type="hidden" name="query_string" value="{{ request()->kindergarten_id }}">
                                         <div class="col-md-6">
                                             <div class="d-md-flex d-grid align-items-center gap-3">
                                                 <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">

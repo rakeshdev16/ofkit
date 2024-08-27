@@ -19,8 +19,8 @@ class FrameworkTableController extends Controller
 {
     public function index(Request $request)
     {
-        $kindergartenTypes = KindergartenType::filter()->orderBy('id', 'DESC')->paginate(10);
-        $frameworkTypes = FrameworkType::filter()->orderBy('id', 'DESC')->paginate(10);
+        $kindergartenTypes = KindergartenType::filter()->orderBy('id', 'DESC')->paginate(50);
+        $frameworkTypes = FrameworkType::filter()->orderBy('id', 'DESC')->paginate(50);
         $kindergartenTypeCount = KindergartenType::filter()->count();
         $frameworkTypeCount = FrameworkType::filter()->count();
         if ($request->ajax()) {
@@ -162,8 +162,8 @@ class FrameworkTableController extends Controller
 
     public function frameWorkTableTab(Request $request)
     {
-        $kindergartenTypes = KindergartenType::filter()->paginate(10);
-        $frameworkTypes = FrameworkType::filter()->paginate(10);
+        $kindergartenTypes = KindergartenType::filter()->paginate(50);
+        $frameworkTypes = FrameworkType::filter()->paginate(50);
         $kindergartenTypeCount = KindergartenType::filter()->count();
         $frameworkTypeCount = FrameworkType::filter()->count();
         switch ($request->type) {

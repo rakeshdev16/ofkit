@@ -24,7 +24,7 @@ class StaffController extends Controller
 {
     public function index(Request $request)
     {
-        $members = User::whereNot('id', Auth::id())->filter()->orderBy('id', 'DESC')->paginate(10);
+        $members = User::whereNot('id', Auth::id())->filter()->orderBy('id', 'DESC')->paginate(50);
         $count = User::whereNot('id', Auth::id())->filter()->count();
         if ($request->ajax()) {
             return response()->json([
@@ -210,7 +210,7 @@ class StaffController extends Controller
 
             $request['name'] = $request->first_name.' '.$request->family_name;
             $user = User::findOrFail($id);
-            $user->update($request->except('_token', '_method', 'kindergarten_id', 'schedule'));
+            $user->update($request->except('_token', '_method', 'kindergarten_id', 'schedule', 'query_string'));
             if (isset($request->documents) && count($request->documents) > 0) {
                 foreach ($request->documents as $document) {
                     $name = uploadFile($document, 'public/staff-document');
@@ -229,7 +229,7 @@ class StaffController extends Controller
             Session::forget('kindergartenIds');
 
             DB::commit();
-            return redirect()->route('staff.show', $id);
+            return redirect()->route('staff.show', ['staff' => $id, 'kindergarten_id' => $request->query_string]);
 
         } catch (\Exception $e) {
             DB::rollback();

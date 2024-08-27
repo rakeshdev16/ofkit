@@ -24,11 +24,11 @@ class ChildrenTableController extends Controller
 {
     public function index(Request $request)
     {
-        $parentsStatus = ParentsStatus::filter()->orderBy('id', 'DESC')->paginate(10);
-        $hmos = Hmo::filter()->orderBy('id', 'DESC')->paginate(10);
-        $diagnosises = Diagnosis::filter()->orderBy('id', 'DESC')->paginate(10);
-        $functionalities = Functionality::filter()->orderBy('id', 'DESC')->paginate(10);
-        $statuses = Status::filter()->orderBy('id', 'DESC')->paginate(10);
+        $parentsStatus = ParentsStatus::filter()->orderBy('id', 'DESC')->paginate(50);
+        $hmos = Hmo::filter()->orderBy('id', 'DESC')->paginate(50);
+        $diagnosises = Diagnosis::filter()->orderBy('id', 'DESC')->paginate(50);
+        $functionalities = Functionality::filter()->orderBy('id', 'DESC')->paginate(50);
+        $statuses = Status::filter()->orderBy('id', 'DESC')->paginate(50);
         $parentsStatusCount = ParentsStatus::filter()->count();
         $hmoCount = Hmo::filter()->count();
         $diagnosisCount = Diagnosis::filter()->count();
@@ -223,11 +223,11 @@ class ChildrenTableController extends Controller
 
     public function childrenTableTab(Request $request)
     {
-        $parentsStatus = ParentsStatus::filter()->paginate(10);
-        $hmos = Hmo::filter()->paginate(10);
-        $diagnosises = Diagnosis::filter()->paginate(10);
-        $functionalities = Functionality::filter()->paginate(10);
-        $statuses = Status::filter()->paginate(10);
+        $parentsStatus = ParentsStatus::filter()->paginate(50);
+        $hmos = Hmo::filter()->paginate(50);
+        $diagnosises = Diagnosis::filter()->paginate(50);
+        $functionalities = Functionality::filter()->paginate(50);
+        $statuses = Status::filter()->paginate(50);
         $parentsStatusCount = ParentsStatus::filter()->count();
         $hmoCount = Hmo::filter()->count();
         $diagnosisCount = Diagnosis::filter()->count();

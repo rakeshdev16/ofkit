@@ -31,7 +31,7 @@ class ChildrenController extends Controller
 {
     public function index(Request $request)
     {
-        $childrens = Children::filter()->orderBy('id', 'DESC')->paginate(10);
+        $childrens = Children::filter()->orderBy('id', 'DESC')->paginate(50);
         $count = Children::filter()->count();
         if ($request->ajax()) {
             return response()->json([
@@ -277,8 +277,8 @@ class ChildrenController extends Controller
                 $children->medicine()->createMany($request->medicine_dosage);
             }
 
-            DB::commit();
-            return redirect()->route('children.show', $id);
+            DB::rollback();
+            return redirect()->route('children.show', ['child' => $id, 'kindergarten_id' => $request->query_string]);
 
         } catch (\Exception $e) {
             DB::rollback();
@@ -311,7 +311,7 @@ class ChildrenController extends Controller
 
     public function documentations(Request $request, $id)
     {
-        $documentations = ChildrenDocumentation::where('children_id', $id)->filter()->orderBy('id', 'DESC')->paginate(10);
+        $documentations = ChildrenDocumentation::where('children_id', $id)->filter()->orderBy('id', 'DESC')->paginate(50);
         $documentationCount = ChildrenDocumentation::where('children_id', $id)->count();
         if ($request->ajax()) {
             return response()->json([
@@ -549,10 +549,9 @@ class ChildrenController extends Controller
             'occured_reason' => "required_if:occured,==,0",
             'end_time' => 'required_with:start_time',
             'therapist_id' => 'required|array|min:1',
-            'children_ids' => 'required|array|min:1',
-            'topic' => 'required',
-            'discussion' => 'required',
-            'decisions' => 'required',
+            'topic' => 'required_if:occured,==,1',
+            'discussion' => 'required_if:occured,==,1',
+            'decisions' => 'required_if:occured,==,1',
         ];
 
         if (!empty($data['end_time'])) {
@@ -562,6 +561,9 @@ class ChildrenController extends Controller
         $messages = [
             'occured_description.required_if' => 'Please enter description',
             'occured_reason.required_if' => 'Please enter reason',
+            'topic.required_if' => 'Please enter topic',
+            'discussion.required_if' => 'Please enter discussion',
+            'decisions.required_if' => 'Please enter decisions',
         ];
 
         $validator = Validator::make($data, $rules, $messages);
@@ -571,12 +573,14 @@ class ChildrenController extends Controller
 
         $document = ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
         $document->staffMeeting()->delete();
-        $document->staffMeeting()->create([
-            'children_id' => $id,
-            'topic' => $data['topic'],
-            'discussion' => $data['discussion'],
-            'decisions' => $data['decisions'],
-        ]);
+        if ($data['occured'] == 1) {
+            $document->staffMeeting()->create([
+                'children_id' => $id,
+                'topic' => $data['topic'],
+                'discussion' => $data['discussion'],
+                'decisions' => $data['decisions'],
+            ]);
+        }
         $document->staffMeetingChildren()->delete();
         if (isset($data['children_ids']) && count($data['children_ids']) > 0) {
             foreach ($data['children_ids'] as $childrenId) {

@@ -23,7 +23,8 @@
                 </div>
                 <div class="ms-auto">
                     <div class="">
-                        <a href="{!! URL::previous() !!}" class="btn button">{{ __('staff.back') }}</a>
+                        <button data-url="{{ route('children-documentations.get', $children->id) }}" class="btn button exit">{{ __('comon.back') }}</button>
+                        {{-- <a href="{!! URL::previous() !!}" class="btn button">{{ __('comon.back') }}</a> --}}
                     </div>
                 </div>
             </div>
@@ -124,15 +125,15 @@
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                         <h6 class="mb-0">Topic</h6>
-                                        <span class="text-secondary">{{ $document->staffMeeting->topic }}</span>
+                                        <span class="text-secondary">{{ @$document->staffMeeting->topic }}</span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                         <h6 class="mb-0">Discussion</h6>
-                                        <span class="text-secondary">{{ $document->staffMeeting->discussion }}</span>
+                                        <span class="text-secondary">{{ @$document->staffMeeting->discussion }}</span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                         <h6 class="mb-0">Decisions</h6>
-                                        <span class="text-secondary">{{ $document->staffMeeting->decisions }}</span>
+                                        <span class="text-secondary">{{ @$document->staffMeeting->decisions }}</span>
                                     </li>
                                     
                                     <div class="col-md-12">

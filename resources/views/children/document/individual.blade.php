@@ -23,8 +23,16 @@
                             </nav>
                         </div>
                         <div class="ms-auto">
+                            @php
+                                if ($document && $document->id) {
+                                    $back = route('children-documentation.show', [$children->id, $document->id]);
+                                } else {
+                                    $back = route('children.show', Request::segment(3));
+                                }
+                            @endphp
                             <div class="">
-                                <a href="{!! URL::previous() !!}" class="btn button">{{ __('comon.back') }}</a>
+                                <button data-url="{{ $back }}" class="btn button exit">{{ __('comon.back') }}</button>
+                                {{-- <a href="{!! URL::previous() !!}" class="btn button">{{ __('comon.back') }}</a> --}}
                             </div>
                         </div>
                     </div>
@@ -146,6 +154,7 @@
                                                     <input type="hidden" name="delete_file" class="deleteFile">
                                                     <div class="col-12">
                                                         <div class="d-flex align-items-center gap-3">
+                                                            <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">
                                                             <button type="submit" class="btn button px-4">{{ __('comon.submit') }}</button>
                                                         </div>
                                                     </div>

@@ -21,8 +21,8 @@ class InterventionTableController extends Controller
 {
     public function index(Request $request)
     {
-        $documents = DocumentAndApproval::filter()->orderBy('id', 'DESC')->paginate(10);
-        $interventionTypes = InterventionType::filter()->orderBy('id', 'DESC')->paginate(10);
+        $documents = DocumentAndApproval::filter()->orderBy('id', 'DESC')->paginate(50);
+        $interventionTypes = InterventionType::filter()->orderBy('id', 'DESC')->paginate(50);
         $documentCount = DocumentAndApproval::filter()->count();
         $interventionCount = InterventionType::filter()->count();
         if ($request->ajax()) {
@@ -164,8 +164,8 @@ class InterventionTableController extends Controller
 
     public function interventionTableTab(Request $request)
     {
-        $documents = DocumentAndApproval::filter()->orderBy('id', 'DESC')->paginate(10);
-        $interventionTypes = InterventionType::filter()->orderBy('id', 'DESC')->paginate(10);
+        $documents = DocumentAndApproval::filter()->orderBy('id', 'DESC')->paginate(50);
+        $interventionTypes = InterventionType::filter()->orderBy('id', 'DESC')->paginate(50);
         $documentCount = DocumentAndApproval::filter()->count();
         $interventionCount = InterventionType::filter()->count();
         switch ($request->type) {

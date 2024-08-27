@@ -10,10 +10,7 @@
                     <h3 class="mb-0 text-uppercase">Children Documents ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
                 </div>
                 <div class="mt-3">
-                    <a href="{!! URL::previous() !!}" class="btn button">{{ __('staff.back') }}</a>
-                    @if (Auth::user()->hasRole('admin'))
-                        {{-- <button class="btn button moveToArchive">{{ __('comon.moveToArchive') }}</button> --}}
-                    @endif
+                    <button data-url="{{ route('children.show', Request::segment(2)) }}" class="btn button exit">{{ __('comon.back') }}</button>
                 </div>
             </div>
             <div class="card">

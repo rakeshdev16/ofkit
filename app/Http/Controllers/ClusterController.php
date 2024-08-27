@@ -14,7 +14,7 @@ class ClusterController extends Controller
 {
     public function index(Request $request)
     {
-        $clusters = Cluster::filter()->orderBy('id', 'DESC')->paginate(10);
+        $clusters = Cluster::filter()->orderBy('id', 'DESC')->paginate(50);
         $count = Cluster::filter()->count();
         if ($request->ajax()) {
             return response()->json([

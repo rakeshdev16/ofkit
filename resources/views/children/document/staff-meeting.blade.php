@@ -38,8 +38,16 @@
                             </nav>
                         </div>
                         <div class="ms-auto">
+                            @php
+                                if ($document && $document->id) {
+                                    $back = route('children-documentation.show', [$children->id, $document->id]);
+                                } else {
+                                    $back = route('children.show', Request::segment(3));
+                                }
+                            @endphp
                             <div class="">
-                                <a href="{!! URL::previous() !!}" class="btn button">{{ __('comon.back') }}</a>
+                                <button data-url="{{ $back }}" class="btn button exit">{{ __('comon.back') }}</button>
+                                {{-- <a href="{!! URL::previous() !!}" class="btn button">{{ __('comon.back') }}</a> --}}
                             </div>
                         </div>
                     </div>
@@ -165,7 +173,7 @@
                                                             ])
                                                     </div>
                                                     <div class="col-md-12 childrenTabSec" style="display:flex; flex-wrap: wrap;">
-                                                        <span class="child-tab mx-1">{{ $children->name }}</span>
+                                                        <span class="child-tab mx-1 childTab">{{ $children->name }}</span>
                                                         @if (old('children_ids') && count(old('children_ids')) > 0)
                                                             @foreach (old('children_ids') as $childrenId)
                                                                 <span class="child-tab childTab{{$childrenId}} mx-1">{{ getChildrenNameById($childrenId) }}</span>
@@ -178,47 +186,51 @@
                                                             @endif
                                                         @endif
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        @include('components.textarea-input', [
-                                                            'label' =>  'Add Topic',
-                                                            'name' => 'topic',
-                                                            'icon' => 'notepad',
-                                                            'value' => @$document->staffMeeting->topic,
-                                                        ])
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        @include('components.textarea-input', [
-                                                            'label' =>  'Add Discussion',
-                                                            'name' => 'discussion',
-                                                            'icon' => 'group',
-                                                            'value' => @$document->staffMeeting->discussion,
-                                                        ])
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        @include('components.textarea-input', [
-                                                            'label' =>  'Add Decisions',
-                                                            'name' => 'decisions',
-                                                            'icon' => 'user-check',
-                                                            'value' => @$document->staffMeeting->decisions,
-                                                        ])
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        @include('components.file-input', [
-                                                            'label' => __('children.file'),
-                                                            'name' => 'child_file',
-                                                            'class' => 'file',
-                                                            'id' => 'file',
-                                                            'icon' => 'file',
-                                                            'value' => old('file'),
-                                                            'value' => @$document->file,
-                                                        ])
-                                                        <div class="d-flex mt-2 choosenFile" style="flex-wrap: wrap;">
-                                                            @if (isset($document->file) && $document->file != NULL)
-                                                                <div class="document mt-1">
-                                                                    <a href="{{ $document->file }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a>
-                                                                    <i class="bx bx-x childDocument" data-file-name="{{ $document->file }}"></i>
+                                                    <div class="col-md-12 topicSection">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                @include('components.textarea-input', [
+                                                                    'label' =>  'Add Topic',
+                                                                    'name' => 'topic',
+                                                                    'icon' => 'notepad',
+                                                                    'value' => @$document->staffMeeting->topic,
+                                                                ])
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                @include('components.textarea-input', [
+                                                                    'label' =>  'Add Discussion',
+                                                                    'name' => 'discussion',
+                                                                    'icon' => 'group',
+                                                                    'value' => @$document->staffMeeting->discussion,
+                                                                ])
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                @include('components.textarea-input', [
+                                                                    'label' =>  'Add Decisions',
+                                                                    'name' => 'decisions',
+                                                                    'icon' => 'user-check',
+                                                                    'value' => @$document->staffMeeting->decisions,
+                                                                ])
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                @include('components.file-input', [
+                                                                    'label' => __('children.file'),
+                                                                    'name' => 'child_file',
+                                                                    'class' => 'file',
+                                                                    'id' => 'file',
+                                                                    'icon' => 'file',
+                                                                    'value' => old('file'),
+                                                                    'value' => @$document->file,
+                                                                ])
+                                                                <div class="d-flex mt-2 choosenFile" style="flex-wrap: wrap;">
+                                                                    @if (isset($document->file) && $document->file != NULL)
+                                                                        <div class="document mt-1">
+                                                                            <a href="{{ $document->file }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a>
+                                                                            <i class="bx bx-x childDocument" data-file-name="{{ $document->file }}"></i>
+                                                                        </div>
+                                                                    @endif
                                                                 </div>
-                                                            @endif
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <input type="hidden" name="staff_meeting_id" value="{{ @$document->staffMeeting->id }}">
@@ -227,6 +239,7 @@
                                                     <input type="hidden" name="delete_file" class="deleteFile">
                                                     <div class="col-12">
                                                         <div class="d-flex align-items-center gap-3">
+                                                            <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">
                                                             <button type="submit" class="btn button px-4">{{ __('comon.submit') }}</button>
                                                         </div>
                                                     </div>
@@ -252,7 +265,25 @@
 
                 $('.childrens').next('.select2-container').addClass('childrens-select2');
                 $('.therapists').next('.select2-container').addClass('therapists-select2');
+
+                var value = "{{ old('occured') ?? @$document->occured }}";
+                setChildDisabled(value)
             });
+
+            $(document).on('change', '.occured', function() {
+                var value = $(this).val();
+                setChildDisabled(value);
+            });
+
+            function setChildDisabled(value) {
+                if (value == 0) {
+                    $('.topicSection').find('textarea').attr('disabled', true);
+                    $('.file').attr('disabled', true);
+                } else {
+                    $('.topicSection').find('textarea').attr('disabled', false);
+                    $('.file').attr('disabled', false);
+                }
+            }
 
             $('.childrens').on('select2:select', function(e) {
                 var id = e.params.data.id;

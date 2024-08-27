@@ -26,7 +26,11 @@
                 <td>{{ $documentation->occured == 1 ? 'Yes' : 'No' }}</td>
                 <td class="{{ $documentation->occured == 1 ? 'address-column' : '' }}">
                     @if ($documentation->occured == 1)
-                        <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $truncatedDesc }}</span>
+                        @if ($documentation->type == 'group')
+                            <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $documentation->group_name }}: {{ $truncatedDesc }}</span>
+                        @else
+                            <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $truncatedDesc }}</span>
+                        @endif
                     @else
                         {{ $documentation->occured_reason }}
                     @endif
