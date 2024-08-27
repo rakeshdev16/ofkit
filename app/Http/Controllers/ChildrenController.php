@@ -552,7 +552,7 @@ class ChildrenController extends Controller
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
             'end_time' => 'required_with:start_time',
-            'therapist_id' => 'required|array|min:1',
+            'therapist_ids' => 'required|array|min:1',
             'topic' => 'required_if:occured,==,1',
             'discussion' => 'required_if:occured,==,1',
             'decisions' => 'required_if:occured,==,1',
@@ -594,8 +594,8 @@ class ChildrenController extends Controller
             }
         }
         $document->staffMeetingTherapist()->delete();
-        if (isset($data['therapist_id']) && count($data['therapist_id']) > 0) {
-            foreach ($data['therapist_id'] as $therapistId) {
+        if (isset($data['therapist_ids']) && count($data['therapist_ids']) > 0) {
+            foreach ($data['therapist_ids'] as $therapistId) {
                 $document->staffMeetingTherapist()->create(['therapist_id' => $therapistId]);
             }
         }

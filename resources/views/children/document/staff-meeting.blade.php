@@ -111,16 +111,16 @@
                                                     <div class="col-md-12"> 
                                                         @include('components.multi-select-input', [
                                                             'label' => 'Add Therapist',
-                                                            'name' => 'therapist_id[]',
+                                                            'name' => 'therapist_ids[]',
                                                             'class' => 'therapists',
                                                             'icon' => 'user',
                                                             'options' => $therapist,
-                                                            'value' => old('therapist_id') ?? $therapistIds,
+                                                            'value' => old('therapist_ids') ?? $therapistIds,
                                                         ])
                                                     </div>
                                                     <div class="col-md-12 therapistTabSec" style="display:flex; flex-wrap: wrap;">
-                                                        @if (old('therapist_id') && count(old('therapist_id')) > 0)
-                                                            @foreach (old('therapist_id') as $therapistId)
+                                                        @if (old('therapist_ids') && count(old('therapist_ids')) > 0)
+                                                            @foreach (old('therapist_ids') as $therapistId)
                                                                 <span class="child-tab therapistTab{{$therapistId}} mx-1">{{ getUserNameById($therapistId) }}</span>
                                                             @endforeach
                                                         @else
