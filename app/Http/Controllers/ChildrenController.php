@@ -277,7 +277,7 @@ class ChildrenController extends Controller
                 $children->medicine()->createMany($request->medicine_dosage);
             }
 
-            DB::rollback();
+            DB::commit();
             return redirect()->route('children.show', ['child' => $id, 'kindergarten_id' => $request->query_string]);
 
         } catch (\Exception $e) {
