@@ -8,6 +8,13 @@
             <div class="mb-4 page-info">
                 <div>
                     <h3 class="mb-0 text-uppercase">Children Documents ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
+                    <div class="row my-2 mx-1">
+                        <div class="col-md-6"><label for=""><b>Child Name:</b></label> {{ $childrens->name }}</div>
+                        <div class="col-md-6"><label for=""><b>I.D:</b></label> {{ $childrens->identification }}</div>
+                        <div class="col-md-6"><label for=""><b>Kindergarten:</b></label> {{ getKindergartenNameById($childrens->kindergarten_id) }}</div>
+                        <div class="col-md-6"><label for=""><b>Child's Birthday:</b></label> {{ $childrens->date_of_birth }}</div>
+                        <div class="col-md-6"><label for=""><b>Child's Age:</b></label> {{ $childrens->age }}</div>
+                    </div>
                 </div>
                 <div class="mt-3">
                     <button data-url="{{ route('children.show', Request::segment(2)) }}" class="btn button exit">{{ __('comon.back') }}</button>

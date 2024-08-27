@@ -311,6 +311,7 @@ class ChildrenController extends Controller
 
     public function documentations(Request $request, $id)
     {
+        $childrens = Children::findOrFail($id);
         $documentations = ChildrenDocumentation::where('children_id', $id)->filter()->orderBy('id', 'DESC')->paginate(50);
         $documentationCount = ChildrenDocumentation::where('children_id', $id)->count();
         if ($request->ajax()) {
@@ -319,7 +320,7 @@ class ChildrenController extends Controller
                 'accordion' => view('children.document.documentation-accordion', ['documentations' => $documentations])->render()
             ]);
         }
-        return view('children.document.documentation', compact('documentations', 'documentationCount'));
+        return view('children.document.documentation', compact('childrens', 'documentations', 'documentationCount'));
     }
 
     public function documentationDetail($childId, $id)
@@ -478,7 +479,9 @@ class ChildrenController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
+        if ($data['occured'] == 0) {
+            $data['file'] = NULL;
+        }
         $document = ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
         $document->groupChildrens()->delete();
         if (isset($data['participated']) && count($data['participated']) > 0) {
@@ -570,7 +573,9 @@ class ChildrenController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
+        if ($data['occured'] == 0) {
+            $data['file'] = NULL;
+        }
         $document = ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
         $document->staffMeeting()->delete();
         if ($data['occured'] == 1) {
