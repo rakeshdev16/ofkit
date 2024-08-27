@@ -85,7 +85,7 @@
                                 <div class="col-md-12 kindergarten-section">
                                     <div class="time-table">
                                         <h4 class="text-center">Children</h4>
-                                        <div class="table-responsive">
+                                        <div class="table-responsive" style="display: block !important;">
                                             <table class="table table-borderd" style="width:100%">
                                                 <thead>
                                                     <tr>
