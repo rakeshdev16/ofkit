@@ -27,7 +27,7 @@
                 <td class="{{ $documentation->occured == 1 ? 'address-column' : '' }}">
                     @if ($documentation->occured == 1)
                         @if ($documentation->type == 'group')
-                            <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $documentation->group_name }}: {{ $truncatedDesc }}</span>
+                            <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $documentation->group_name }}: <br> {{ $truncatedDesc }}</span>
                         @else
                             <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $truncatedDesc }}</span>
                         @endif
