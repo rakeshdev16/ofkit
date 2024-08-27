@@ -262,9 +262,12 @@
                 if (value == 0) {
                     $('.childrens').attr('disabled', true).val(null).trigger('change');
                     $('.file').attr('disabled', true);
+                    $('.file').val('');
                     $('.child-tab').not(':first').remove();
                     $('.accordion').not(':first').remove();
                     $('.accordion').find('input, select, textarea').attr('disabled', true);
+                    $('.accordion').find('input, select, textarea').val('');
+                    $('.choosenFile > .document').remove();
                 } else {
                     if ($('.childrenTabSec > .childTab').length == 0) {
                         $('.childrenTabSec').append(`<span class="child-tab mx-1 childTab">{{ @getChildrenNameById($children->id) }}</span>`);
