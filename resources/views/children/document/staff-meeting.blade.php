@@ -2,7 +2,7 @@
 @push('customLink')
     <link rel="stylesheet" href="{{ asset('assets/css/bs-stepper.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    @error('therapist_id')
+    @error('therapist_ids')
         <style>
             .therapists-select2 .select2-selection.select2-selection--multiple {
                 border-color: #fd3550 !important;
