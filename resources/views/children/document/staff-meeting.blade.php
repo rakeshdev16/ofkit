@@ -278,7 +278,10 @@
             function setChildDisabled(value) {
                 if (value == 0) {
                     $('.topicSection').find('textarea').attr('disabled', true);
+                    $('.topicSection').find('textarea').val('');
                     $('.file').attr('disabled', true);
+                    $('.file').val('');
+                    $('.choosenFile > .document').remove();
                 } else {
                     $('.topicSection').find('textarea').attr('disabled', false);
                     $('.file').attr('disabled', false);
