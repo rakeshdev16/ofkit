@@ -32,11 +32,11 @@
                         </div>
                         <div class="ms-auto">
                             @php
-                                if ($document && $document->id) {
-                                    $back = route('children-documentation.show', [$children->id, $document->id]);
-                                } else {
+                                // if ($document && $document->id) {
+                                //     $back = route('children-documentation.show', [$children->id, $document->id]);
+                                // } else {
                                     $back = route('children.show', Request::segment(3));
-                                }
+                                // }
                             @endphp
                             <div class="">
                                 <button data-url="{{ $back }}" class="btn button exit">{{ __('comon.back') }}</button>
