@@ -466,3 +466,9 @@ input.medicine-number {
 input.form-control {
     text-align: right;
 }
+
+.children-detail {
+    width: 50%;
+    margin: auto !important;
+    padding: 10px 0px;
+}

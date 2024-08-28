@@ -6,15 +6,8 @@
     <div class="page-wrapper">
         <div class="page-content">
             <div class="mb-4 page-info">
-                <div>
+                <div class="">
                     <h3 class="mb-0 text-uppercase">Document And Approvals ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
-                    <div class="row my-2 mx-1">
-                        <div class="col-md-6"><label for=""><b>Child Name:</b></label> {{ $children->name }}</div>
-                        <div class="col-md-6"><label for=""><b>I.D:</b></label> {{ $children->identification }}</div>
-                        <div class="col-md-6"><label for=""><b>Kindergarten:</b></label> {{ getKindergartenNameById($children->kindergarten_id) }}</div>
-                        <div class="col-md-6"><label for=""><b>Child's Birthday:</b></label> {{ $children->date_of_birth }}</div>
-                        <div class="col-md-6"><label for=""><b>Child's Age:</b></label> {{ $children->age }}</div>
-                    </div>
                 </div>
                 <div class="mt-3">
                     @if (Auth::user()->hasRole('admin'))
@@ -23,6 +16,13 @@
                         <a href="{{ route('children.show', $children->id) }}" class="btn button">{{ __('comon.back') }}</a>
                     @endif
                 </div>
+            </div>
+            <div class="row my-2 mx-1 children-detail">
+                <div class="col-md-6"><label for=""><b>Child Name:</b></label> {{ $children->name }}</div>
+                <div class="col-md-6"><label for=""><b>I.D:</b></label> {{ $children->identification }}</div>
+                <div class="col-md-6"><label for=""><b>Kindergarten:</b></label> {{ getKindergartenNameById($children->kindergarten_id) }}</div>
+                <div class="col-md-6"><label for=""><b>Child's Birthday:</b></label> {{ $children->date_of_birth }}</div>
+                <div class="col-md-6"><label for=""><b>Child's Age:</b></label> {{ $children->age }}</div>
             </div>
             <div class="card small-table">
                 <div class="card-body">
