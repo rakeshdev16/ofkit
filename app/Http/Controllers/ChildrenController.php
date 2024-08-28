@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Children;
+use App\Models\ChildrenDocumentAndApproval;
 use App\Models\ChildrenDocumentation;
 use App\Models\ChildrenMedicalInformation;
 use App\Models\ChildrenMedicine;
@@ -706,5 +707,51 @@ class ChildrenController extends Controller
             'status' => !empty($managerId) ? true : false,
             'name' => getUserNameById($managerId)
         ]);
+    }
+
+    public function documentsAndApprovals(Request $request, $childId)
+    {
+        $children = Children::findOrFail($childId);
+        $documents = ChildrenDocumentAndApproval::where('children_id', $childId)->filter()->orderBy('id', 'DESC')->paginate(50);
+        $count = ChildrenDocumentAndApproval::where('children_id', $childId)->filter()->count();
+        if ($request->ajax()) {
+            return response()->json([
+                'table' => view('children.document-approvals.table', ['children' => $children, 'documents' => $documents])->render(),
+                'accordion' => view('children.document-approvals.accordion', ['children' => $children, 'documents' => $documents])->render(),
+                'count' => $count
+            ]);
+        }
+        return view('children.document-approvals.index', compact('children', 'documents', 'count'));
+    }
+
+    public function saveDocumentsAndApprovals(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'document' => 'required',
+        ],[
+            'document.required' => 'Please choose document',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        if ($request->has('document')) {
+            $document = uploadFile($request->document, 'public/child-document');
+        }
+        ChildrenDocumentAndApproval::create([
+            'children_id' => $request->children_id,
+            'document' => $document
+        ]);
+        return redirect()->route('documents-approvals.get', $request->children_id);
+    }
+
+    public function deleteDocumentsAndApprovals($ids)
+    {
+        $ids = explode(',', $ids);
+        if (ChildrenDocumentAndApproval::whereIn('id', $ids)->delete()) {
+            return response()->json(['status' => true, 'message' => 'Document has been successfully archived', 'ids' => $ids]);
+        }
+        return response()->json(['status' => false, 'ids' => $ids]);
     }
 }

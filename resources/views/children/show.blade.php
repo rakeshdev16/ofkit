@@ -49,7 +49,7 @@
                                                     <h6 class="mb-0">Professional / Staff Meeting Discussion</h6>
                                                 </li>
                                                 <li class="list-group-item text-center">
-                                                    <h6 class="mb-0">Document and approvals</h6>
+                                                    <h6 class="mb-0"><a href="{{ route('documents-approvals.get', $children->id) }}">Document and approvals</a></h6>
                                                 </li>
                                                 <li class="list-group-item text-center">
                                                     <h6 class="mb-0" data-bs-toggle="modal" data-bs-target="#exampleSmallModal">New Documantation</h6>

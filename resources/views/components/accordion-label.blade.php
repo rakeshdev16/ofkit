@@ -4,7 +4,7 @@
             type="checkbox"
             name="id[]"
             value="{{ @$id }}"
-            class="accordionCheckbox"
+            class="accordionCheckbox checkbox"
             data-name="{{ @$dataName }}"
         >&nbsp;&nbsp;
         {{-- <input type="checkbox" value="{{ @$id }}" class="accordionCheckbox check-{{ $id }}" data-class="check-{{ $id }}">&nbsp;&nbsp; --}}
@@ -15,7 +15,12 @@
             <a href="{{ $edit }}" class="me-3"><i class="bx bx-edit icon"></i></a>
         @endisset
         @isset($show)
-            <a href="{{ $show }}" class="me-4"><i class="bx bx-show icon"></i></a>
+            <a href="{{ $show }}" target="{{ @$targetBlank }}" class="me-4"><i class="bx bx-show icon"></i></a>
+        @endisset
+        @isset($download)
+            <a href="{{ $document['url'] }}" download="{{ $download['fileName'] }}" data-toggle="tooltip" data-placement="bottom" title="Download">
+                <i class="bx bx-download icon"></i>
+            </a>
         @endisset
     </div>
 </div>

@@ -58,6 +58,9 @@ Route::middleware(['auth', 'lang'])->group(function () {
         Route::post('children-documentation/{type}/{id}', 'saveDocumentation')->name('children-documentation.store');
         Route::post('delete-children-medicine', 'deleteChildrenMedicine')->name('childrenMedicine.delete');
         Route::get('get-kindergarten-manager', 'getKindergartenManager')->name('kindergarten-manager.get');
+        Route::get('documents-approvals/{childId}', 'documentsAndApprovals')->name('documents-approvals.get');
+        Route::post('documents-approvals', 'saveDocumentsAndApprovals')->name('documents-approvals.post');
+        Route::delete('documents-approvals/{id}', 'deleteDocumentsAndApprovals')->name('documents-approvals.delete');
     });
     Route::controller(StaffTableController::class)->group(function () {
         Route::get('staff-table-tab', 'staffTableTab')->name('staff-table.tab');

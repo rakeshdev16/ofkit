@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('children_doc_id')->constrained('children_documentations')->onDelete('cascade');
             $table->integer('children_id')->nullable();
-            $table->string('topic')->nullable();
-            $table->string('discussion')->nullable();
-            $table->string('decisions')->nullable();
+            $table->longText('topic')->nullable();
+            $table->longText('discussion')->nullable();
+            $table->longText('decisions')->nullable();
             $table->timestamps();
         });
     }
