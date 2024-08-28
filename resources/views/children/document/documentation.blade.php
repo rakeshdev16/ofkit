@@ -20,6 +20,38 @@
                     <button data-url="{{ route('children.show', Request::segment(2)) }}" class="btn button exit">{{ __('comon.back') }}</button>
                 </div>
             </div>
+            <div class="row my-2">
+                <div class="col-md-2">
+                    <input type="date" name="date" value="{{ request()->date }}" class="form-control doc-filter">
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control doc-filter" name="role">
+                        <option value="">Select Profession</option>
+                        @foreach ($roles as $role)
+                            <option {{ request()->role == $role->name ? 'selected' : '' }} value="{{ $role->name }}">{{ $role->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control doc-filter" name="therapist_id">
+                        <option value="">Select Therapist</option>
+                        @foreach ($therapists as $therapist)
+                            <option {{ request()->therapist_id == $therapist->id  ? 'selected' : '' }} value="{{ $therapist->id }}">{{ $therapist->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control doc-filter" name="type">
+                        <option value="">Select Intervention</option>
+                        <option {{ request()->type == 'individual'  ? 'selected' : '' }} value="individual">Individual</option>
+                        <option {{ request()->type == 'initial-evaluation'  ? 'selected' : '' }} value="initial-evaluation">Initial evaluation</option>
+                        <option {{ request()->type == 'group'  ? 'selected' : '' }} value="group">group</option>
+                        <option {{ request()->type == 'staff-meeting'  ? 'selected' : '' }} value="staff-meeting">Staff meeting</option>
+                        <option {{ request()->type == 'parental guidance'  ? 'selected' : '' }} value="parental guidance">Parental Guidance</option>
+                        <option {{ request()->type == 'final-evaluation'  ? 'selected' : '' }} value="final-evaluation">Final Evaluation</option>
+                    </select>
+                </div>
+            </div>
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive full-width-table">

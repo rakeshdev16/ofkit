@@ -25,6 +25,13 @@ $(document).on('change', '.select-filter', function () {
     filter(url);
 });
 
+$(document).on('change', '.doc-filter', function () {
+    var name = $(this).attr('name');
+    var value = $(this).val();
+    var url = queryParam(name, value);
+    filter(url);
+});
+
 $(document).on('click', '.sortTable', function () {
     var key = $(this).data('key');
     var value = $(this).data('value') == 'desc' ? 'asc' : 'desc';

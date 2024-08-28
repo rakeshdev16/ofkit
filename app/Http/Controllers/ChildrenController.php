@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Auth, DB;
+use Spatie\Permission\Models\Role;
 
 class ChildrenController extends Controller
 {
@@ -312,6 +313,8 @@ class ChildrenController extends Controller
     public function documentations(Request $request, $id)
     {
         $childrens = Children::findOrFail($id);
+        $roles = Role::get();
+        $therapists = User::role(['admin', 'therapist'])->select('id', 'name')->get();
         $documentations = ChildrenDocumentation::where('children_id', $id)->filter()->orderBy('id', 'DESC')->paginate(50);
         $documentationCount = ChildrenDocumentation::where('children_id', $id)->count();
         if ($request->ajax()) {
@@ -320,7 +323,7 @@ class ChildrenController extends Controller
                 'accordion' => view('children.document.documentation-accordion', ['documentations' => $documentations])->render()
             ]);
         }
-        return view('children.document.documentation', compact('childrens', 'documentations', 'documentationCount'));
+        return view('children.document.documentation', compact('childrens', 'documentations', 'documentationCount', 'roles', 'therapists'));
     }
 
     public function documentationDetail($childId, $id)

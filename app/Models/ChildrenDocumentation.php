@@ -34,6 +34,19 @@ class ChildrenDocumentation extends Model
         if (request('search')) {
             $query->where('type', 'like', '%'.request('search').'%');
         }
+        if (request('date')) {
+            $query->whereDate('date', request('date'));
+        }
+        if (request('role')) {
+            $userIds = User::role(request('role'))->pluck('id')->toArray();
+            $query->whereIn('therapist_id', $userIds);
+        }
+        if (request('therapist_id')) {
+            $query->where('therapist_id', request('therapist_id'));
+        }
+        if (request('type')) {
+            $query->where('type', request('type'));
+        }
         return $query;
     }
 
