@@ -103,7 +103,11 @@
                                                             <tr">                                            
                                                                 <td>{{ $child->child->name }}</td>
                                                                 <td>{{ $child->participated == 1 ? 'Yes' : 'No' }}</td>
-                                                                <td>{{ $child->description ?? $child->reason }}</td>
+                                                                <td>
+                                                                    <span class="wrap-desc" style="width: 90%; display: inline-block; white-space: normal;">
+                                                                        {{ $child->description ?? $child->reason }}
+                                                                    </span>
+                                                                </td>
                                                                 <td>
                                                                     @if(!empty($child->file))
                                                                         <a href="{{ asset('storage/' . $child->file) }}" target="_blank"><h4><i class="bx bx-file"></i></h4></a>
@@ -125,15 +129,15 @@
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                         <h6 class="mb-0">Topic</h6>
-                                        <span class="text-secondary doc-desc">{{ @$document->staffMeeting->topic }}</span>
+                                        <span class="text-secondary doc-desc">{{ @$document->staffMeeting->topic ?? '-' }}</span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                         <h6 class="mb-0">Discussion</h6>
-                                        <span class="text-secondary doc-desc">{{ @$document->staffMeeting->discussion }}</span>
+                                        <span class="text-secondary doc-desc">{{ @$document->staffMeeting->discussion ?? '-' }}</span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                         <h6 class="mb-0">Decisions</h6>
-                                        <span class="text-secondary doc-desc">{{ @$document->staffMeeting->decisions }}</span>
+                                        <span class="text-secondary doc-desc">{{ @$document->staffMeeting->decisions ?? '-' }}</span>
                                     </li>
                                     
                                     <div class="col-md-12">
