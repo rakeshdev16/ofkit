@@ -173,7 +173,7 @@
                                                             ])
                                                     </div>
                                                     <div class="col-md-12 childrenTabSec" style="display:flex; flex-wrap: wrap;">
-                                                        <span class="child-tab mx-1 childTab">{{ $children->name }}</span>
+                                                        {{-- <span class="child-tab mx-1 childTab">{{ $children->name }}</span> --}}
                                                         @if (old('children_ids') && count(old('children_ids')) > 0)
                                                             @foreach (old('children_ids') as $childrenId)
                                                                 <span class="child-tab childTab{{$childrenId}} mx-1">{{ getChildrenNameById($childrenId) }}</span>
@@ -302,30 +302,30 @@
             $('.childrens').on('select2:select', function(e) {
                 var id = e.params.data.id;
                 var name = e.params.data.text;
-                $(this).find('option[value="' + id + '"]').prop('disabled', true);
-                $(this).trigger('change.select2');
+                // $(this).find('option[value="' + id + '"]').prop('disabled', true);
+                // $(this).trigger('change.select2');
                 $('.childrenTabSec').append('<span class="child-tab childTab'+id+' mx-1">'+name+'</span>');
             });
 
             $('.childrens').on('select2:unselect', function(e) {
                 var id = e.params.data.id;
-                $(this).find('option[value="' + id + '"]').prop('disabled', false);
-                $(this).trigger('change.select2');
+                // $(this).find('option[value="' + id + '"]').prop('disabled', false);
+                // $(this).trigger('change.select2');
                 $('.childTab' + id).remove();
             });
             
             $('.therapists').on('select2:select', function(e) {
                 var id = e.params.data.id;
                 var name = e.params.data.text;
-                $(this).find('option[value="' + id + '"]').prop('disabled', true);
-                $(this).trigger('change.select2');
+                // $(this).find('option[value="' + id + '"]').prop('disabled', true);
+                // $(this).trigger('change.select2');
                 $('.therapistTabSec').append('<span class="child-tab therapistTab'+id+' mx-1">'+name+'</span>');
             });
 
             $('.therapists').on('select2:unselect', function(e) {
                 var id = e.params.data.id;
-                $(this).find('option[value="' + id + '"]').prop('disabled', false);
-                $(this).trigger('change.select2');
+                // $(this).find('option[value="' + id + '"]').prop('disabled', false);
+                // $(this).trigger('change.select2');
                 $('.therapistTab' + id).remove();
             });
         </script>

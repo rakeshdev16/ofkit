@@ -11,6 +11,7 @@ use App\Models\Cluster;
 use App\Models\Diagnosis;
 use App\Models\FamilyLanguage;
 use App\Models\Functionality;
+use App\Models\GroupChildren;
 use App\Models\Hmo;
 use App\Models\Individual;
 use App\Models\IndividualGroup;
@@ -18,6 +19,7 @@ use App\Models\Kindergarten;
 use App\Models\KindergartenUser;
 use App\Models\ParentsStatus;
 use App\Models\StaffKindergarten;
+use App\Models\StaffMeetingChildren;
 use App\Models\Status;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -315,7 +317,14 @@ class ChildrenController extends Controller
         $childrens = Children::findOrFail($id);
         $roles = Role::get();
         $therapists = User::role(['admin', 'therapist'])->select('id', 'name')->get();
-        $documentations = ChildrenDocumentation::where('children_id', $id)->filter()->orderBy('id', 'DESC')->paginate(50);
+
+        $docIds = [];
+        $childDocIds = ChildrenDocumentation::where('children_id', $id)->pluck('id')->toArray();
+        $staffMeetingDocIds = StaffMeetingChildren::where('children_id', $id)->pluck('children_doc_id')->toArray();
+        $groupDocIds = GroupChildren::where('children_id', $id)->pluck('children_documentation_id')->toArray();
+        $docIds = array_merge(array_unique($childDocIds), array_unique($staffMeetingDocIds), array_unique($groupDocIds));
+        // echo '<pre>'; print_r($childDocIds); die;
+        $documentations = ChildrenDocumentation::whereIn('id', $docIds)->filter()->orderBy('id', 'DESC')->paginate(50);
         $documentationCount = ChildrenDocumentation::where('children_id', $id)->count();
         if ($request->ajax()) {
             return response()->json([
@@ -591,6 +600,7 @@ class ChildrenController extends Controller
             ]);
         }
         $document->staffMeetingChildren()->delete();
+        $document->staffMeetingChildren()->create(['children_id' => $id]);
         if (isset($data['children_ids']) && count($data['children_ids']) > 0) {
             foreach ($data['children_ids'] as $childrenId) {
                 $document->staffMeetingChildren()->create(['children_id' => $childrenId]);
