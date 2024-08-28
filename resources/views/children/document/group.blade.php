@@ -303,6 +303,8 @@
                 var id = e.params.data.id;
                 var name = e.params.data.text;                
                 var index = $('.childrenSec .accordion').length;
+                $(this).find('option[value="' + id + '"]').prop('disabled', true);
+                $(this).trigger('change.select2');
                 $('.childrenTabSec').append('<span class="child-tab childTab'+id+' mx-1">'+name+'</span>');
                 var html = `@include('components.children-participated', [
                     'index' => '${index}',
@@ -318,6 +320,8 @@
             $('.childrens').on('select2:unselect', function(e) {
                 var id = e.params.data.id;                
                 var index = $('.childrenSec .accordion').length;
+                $(this).find('option[value="' + id + '"]').prop('disabled', false);
+                $(this).trigger('change.select2');
                 $('.childTab' + id).remove();
                 $('.fileSec' + id).remove();
                 updateIndexes();
