@@ -43,7 +43,7 @@ class ChildrenDocumentation extends Model
             }
         }
         if (request('role')) {
-            $userIds = User::role(request('role'))->pluck('id')->toArray();
+            $userIds = User::where('profession_id', request('role'))->pluck('id')->toArray();
             $query->whereIn('therapist_id', $userIds);
         }
         if (request('therapist_id')) {

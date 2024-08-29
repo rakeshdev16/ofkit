@@ -19,6 +19,7 @@ use App\Models\IndividualGroup;
 use App\Models\Kindergarten;
 use App\Models\KindergartenUser;
 use App\Models\ParentsStatus;
+use App\Models\Profession;
 use App\Models\StaffKindergarten;
 use App\Models\StaffMeetingChildren;
 use App\Models\Status;
@@ -317,17 +318,18 @@ class ChildrenController extends Controller
     public function documentations(Request $request, $id)
     {
         $children = Children::findOrFail($id);
-        $roles = Role::get();
-        $therapists = User::role(['admin', 'therapist'])->select('id', 'name')->get();
+        // $roles = Role::get();
+        $roles = Profession::get();
+        $therapistIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
+        $therapists = User::role(['admin', 'therapist'])->whereIn('id', $therapistIds)->select('id', 'name')->get();
 
         $docIds = [];
         $childDocIds = ChildrenDocumentation::where('children_id', $id)->pluck('id')->toArray();
         $staffMeetingDocIds = StaffMeetingChildren::where('children_id', $id)->pluck('children_doc_id')->toArray();
         $groupDocIds = GroupChildren::where('children_id', $id)->pluck('children_documentation_id')->toArray();
         $docIds = array_merge(array_unique($childDocIds), array_unique($staffMeetingDocIds), array_unique($groupDocIds));
-        // echo '<pre>'; print_r($childDocIds); die;
         $documentations = ChildrenDocumentation::whereIn('id', $docIds)->filter()->orderBy('id', 'DESC')->paginate(50);
-        $documentationCount = ChildrenDocumentation::where('children_id', $id)->count();
+        $documentationCount = ChildrenDocumentation::whereIn('id', $docIds)->filter()->count();
 
         // Get start and end date of last week
         $startOfLastWeek = Carbon::now()->subWeek()->startOfWeek();
@@ -347,8 +349,9 @@ class ChildrenController extends Controller
 
         if ($request->ajax()) {
             return response()->json([
-                'table' => view('children.document.documentation-table', ['documentations' => $documentations])->render(),
-                'accordion' => view('children.document.documentation-accordion', ['documentations' => $documentations])->render()
+                'table' => view('children.document.documentation-table', ['documentations' => $documentations, 'children' => $children])->render(),
+                'accordion' => view('children.document.documentation-accordion', ['documentations' => $documentations, 'children' => $children])->render(),
+                'count' => $documentationCount
             ]);
         }
         return view('children.document.documentation', compact('children', 'documentations', 'documentationCount', 'roles', 'therapists', 'lastWeek', 'month', 'pastThreeMonth', 'pastSixMonth'));

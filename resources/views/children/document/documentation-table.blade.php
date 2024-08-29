@@ -22,7 +22,7 @@
                 {{-- <td><input type="checkbox" name="id[]" value="{{ $documentation->id }}" class="checkbox check-{{ $documentation->id }}" data-class="check-{{ $documentation->id }}"></td> --}}
                 <td>{{ date('d/m/Y', strtotime($documentation->date)) }}</td>
                 <td>{{ $documentation->therapist->name ?? '-' }}</td>
-                <td>{{ getUserRoleById($documentation->therapist_id) ?? '-' }}</td>
+                <td>{{ $documentation->therapist->profession->name ?? '-' }}</td>
                 <td>{{ ucfirst(str_replace('-', ' ', $documentation->type)) }}</td>
                 <td>
                     @if ($documentation->type == 'group' && $groupChildDetail)

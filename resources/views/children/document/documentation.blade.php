@@ -26,14 +26,14 @@
                     {{-- <input type="date" name="date" value="{{ request()->date }}" class="form-control doc-filter"> --}}
                     <div class="dropdown dropdown-filter">
                         @php
-                            if (strpos(request()->date, ',') !== false) {
+                            if (request()->date && strpos(request()->date, ',') !== false) {
                                 $date = explode(',', request()->date);
                                 $date = date('d/m/Y', strtotime($date[1])).' - '.date('d/m/Y', strtotime($date[0]));
                             } else {
-                                $date = date('d/m/Y', strtotime(request()->date));
+                                $date = request()->date ? date('d/m/Y', strtotime(request()->date)) : 'Select Date';
                             }
                         @endphp
-                        <button class="btn dropdown-toggle dropdown-filter-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ $date ?? 'Select Date' }}</button>
+                        <button class="btn dropdown-toggle dropdown-filter-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ $date ? $date : 'Select Date' }}</button>
                         <ul class="dropdown-menu p-2 date-filters" style="">
                             <li><a class="dropdown-item" onclick="dateFilter({{ $lastWeek }}, 'Last Week');" href="#">Last Week</a></li>
                             <li><a class="dropdown-item" onclick="dateFilter({{ $month }}, 'Month');" href="#">Month</a></li>
@@ -51,7 +51,7 @@
                     <select class="form-control doc-filter" name="role">
                         <option value="">Select Profession</option>
                         @foreach ($roles as $role)
-                            <option {{ request()->role == $role->name ? 'selected' : '' }} value="{{ $role->name }}">{{ $role->name }}</option>
+                            <option {{ request()->role == $role->name ? 'selected' : '' }} value="{{ $role->id }}">{{ $role->name }}</option>
                         @endforeach
                     </select>
                 </div>
