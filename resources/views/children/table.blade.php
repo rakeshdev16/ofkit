@@ -8,7 +8,7 @@
             @include('components.table-heading', ['label' => __('children.dob'), 'key' => 'dob', 'width' => '11.75%'])
             @include('components.table-heading', ['label' => __('children.address'), 'key' => 'address', 'width' => '11.75%'])
             @include('components.table-heading', ['label' => __('children.kindergarten'), 'key' => 'kindergarten_id', 'width' => '11.75%'])
-            @include('components.table-heading', ['label' => 'Action', 'width' => '4%'])
+            @include('components.table-heading', ['label' => __('comon.action'), 'width' => '4%'])
         </tr>
     </thead>
     <tbody>

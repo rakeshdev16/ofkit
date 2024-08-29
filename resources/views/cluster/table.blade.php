@@ -5,7 +5,7 @@
             @include('components.table-heading', ['label' => __('cluster.clusterTh'), 'key' => 'cluster', 'width' => '30%'])
             @include('components.table-heading', ['label' => 'Kindergartens', 'width' => '30%'])
             @include('components.table-heading', ['label' => __('cluster.managerTh'), 'key' => 'manager', 'width' => '30%'])
-            @include('components.table-heading', ['label' => 'Action', 'width' => '5%'])
+            @include('components.table-heading', ['label' => __('comon.action'), 'width' => '5%'])
         </tr>
     </thead>
     <tbody>

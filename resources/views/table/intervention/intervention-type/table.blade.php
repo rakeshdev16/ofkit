@@ -3,7 +3,7 @@
         <tr>
             <th><input type="checkbox" class="mainCheckbox"></th>
             @include('components.table-heading', ['label' => 'Name', 'key' => 'name'])
-            @include('components.table-heading', ['label' => 'Action'])
+            @include('components.table-heading', ['label' => __('comon.action')])
         </tr>
     </thead>
     <tbody>

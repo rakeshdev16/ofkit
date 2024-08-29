@@ -2,6 +2,10 @@
     <input type="checkbox" class="mainCheckbox">&nbsp;&nbsp;&nbsp;
 </div>
 @forelse ($documentations as $documentation)
+    @php
+        $truncatedDesc = \Str::limit($documentation->occured_description, 80, '...');
+        $groupChildDetail = getDocGroupChildDetail($documentation->id, $children->id);
+    @endphp
     <div class="accordion accordion-flush tr-{{ $documentation->id }}" id="accordion{{ $loop->iteration }}">
         <div class="accordion-item">
             <h2 class="accordion-header" id="staff-listing-{{ $loop->iteration }}">
@@ -22,37 +26,55 @@
                 data-bs-parent="#accordion{{ $loop->iteration }}" style="">
                 <div class="accordion-body">
                     <div class="d-flex accordion-row">
-                        <div class="w-50 label">Date</div>
+                        <div class="w-50 label">{{ __('children.date') }}</div>
                         <div class="w-50">{{ @date('d/m/Y', strtotime($documentation->date)) ?? '-' }}</div>
                     </div><hr>
                     <div class="d-flex accordion-row">
-                        <div class="w-50 label">Start Time</div>
-                        <div class="w-50">{{ @$documentation->start_time ?? '-' }}</div>
+                        <div class="w-50 label">{{ __('children.therapist') }}</div>
+                        <div class="w-50">{{ @$documentation->therapist->name ?? '-' }}</div>
                     </div><hr>
                     <div class="d-flex accordion-row">
-                        <div class="w-50 label">End Time</div>
-                        <div class="w-50">{{ @$documentation->end_time ?? '-' }}</div>
+                        <div class="w-50 label">{{ __('children.profession') }}</div>
+                        <div class="w-50">{{ @$documentation->therapist->profession->name ?? '-' }}</div>
                     </div><hr>
                     <div class="d-flex accordion-row">
-                        <div class="w-50 label">Kindergarten</div>
-                        <div class="w-50">{{ @getKindergartenNameById($children->kindergarten_id) ?? '-' }}</div>
+                        <div class="w-50 label">{{ __('children.intervention') }}</div>
+                        <div class="w-50">{{ @ucfirst(str_replace('-', ' ', $documentation->type)) }}</div>
                     </div><hr>
                     <div class="d-flex accordion-row">
-                        <div class="w-50 label">Occured</div>
-                        <div class="w-50">{{ @$documentation->occured == 1 ? 'Yes' : 'No' }}</div>
+                        <div class="w-50 label">{{ __('children.occurred') }}</div>
+                        <div class="w-50">
+                            @if ($documentation->type == 'group' && $groupChildDetail)
+                                {{ $groupChildDetail->participated == 1 ? 'Yes' : 'No' }}
+                            @else
+                                {{ $documentation->occured == 1 ? 'Yes' : 'No' }}
+                            @endif
+                        </div>
                     </div><hr>
-                    @if ($documentation->occured == 1 && $documentation->type == 'group')
-                        <div class="d-flex accordion-row">
-                            <div class="w-50 label">Group Name</div>
-                            <div class="w-50">{{ @$documentation->group_name ? $documentation->group_name : '-' }}</div>
-                        </div><hr>
-                    @endif
                     <div class="d-flex accordion-row">
-                        <div class="w-50 label">Description</div>
-                        <div class="w-50">{{ @$documentation->occured_description ? $documentation->occured_description : $documentation->occured_reason }}</div>
-                    </div>
+                        <div class="w-50 label">{{ __('children.description') }}</div>
+                        <div class="w-50">
+                            {{ @$documentation->occured_description ? $documentation->occured_description : $documentation->occured_reason }}
+                            @if ($documentation->occured == 1)
+                                @if ($documentation->type == 'group')
+                                    @if ($groupChildDetail)
+                                        @php
+                                            $truncatedGroupDesc = $groupChildDetail->participated == 1 ? \Str::limit($groupChildDetail->description, 80, '...') : $groupChildDetail->reason;
+                                        @endphp
+                                        <span data-toggle="tooltip" data-placement="bottom" title="{{ $groupChildDetail->description }}">{{ $truncatedGroupDesc }}</span>
+                                    @else
+                                        <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $documentation->group_name }}: <br> {{ $truncatedDesc }}</span>
+                                    @endif
+                                @else
+                                    <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $truncatedDesc }}</span>
+                                @endif
+                            @else
+                                {{ $documentation->occured_reason }}
+                            @endif
+                        </div>
+                    </div><hr>
                     <div class="d-flex accordion-row">
-                        <div class="w-50 label">File</div>
+                        <div class="w-50 label">{{ __('children.attactedFile') }}</div>
                         <div class="w-50">
                             @if(!empty($documentation->file))
                                 <a href="{{ $documentation->file }}" target="_blank">
@@ -62,7 +84,7 @@
                                 -
                             @endif
                         </div>
-                    </div>
+                    </div><hr>
                     <div class="d-flex accordion-row">
                         <div class="w-50 label">{{ __('children.updatedAt') }}</div>
                         <div class="w-50">{{ date('d/m/Y', strtotime($documentation->updated_at)) }}</div>

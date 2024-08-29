@@ -7,13 +7,13 @@
         <div class="page-content">
             <div class="mb-4 page-info">
                 <div>
-                    <h3 class="mb-0 text-uppercase">Children Documents ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
+                    <h3 class="mb-0 text-uppercase">{{ __('children.childrenDocuments') }} ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
                     <div class="row my-2 mx-1">
-                        <div class="col-md-6"><label for=""><b>Child Name:</b></label> {{ @$children->name }}</div>
-                        <div class="col-md-6"><label for=""><b>I.D:</b></label> {{ @$children->identification }}</div>
-                        <div class="col-md-6"><label for=""><b>Kindergarten:</b></label> {{ getKindergartenNameById(@$children->kindergarten_id) }}</div>
-                        <div class="col-md-6"><label for=""><b>Child's Birthday:</b></label> {{ @$children->date_of_birth }}</div>
-                        <div class="col-md-6"><label for=""><b>Child's Age:</b></label> {{ @$children->age }}</div>
+                        <div class="col-md-6"><label for=""><b>{{ __('children.childName') }}:</b></label> {{ @$children->name }}</div>
+                        <div class="col-md-6"><label for=""><b>{{ __('children.ID') }}:</b></label> {{ @$children->identification }}</div>
+                        <div class="col-md-6"><label for=""><b>{{ __('children.Kindergarten') }}:</b></label> {{ getKindergartenNameById(@$children->kindergarten_id) }}</div>
+                        <div class="col-md-6"><label for=""><b>{{ __('children.childBirthday') }}:</b></label> {{ @$children->date_of_birth }}</div>
+                        <div class="col-md-6"><label for=""><b>{{ __('children.childAge') }}:</b></label> {{ @$children->age }}</div>
                     </div>
                 </div>
                 <div class="mt-3">
@@ -22,58 +22,53 @@
             </div>
             <div class="row my-2">
                 <div class="col-md-2 my-1">
-                    {{-- <label>Select Date</label> --}}
-                    {{-- <input type="date" name="date" value="{{ request()->date }}" class="form-control doc-filter"> --}}
                     <div class="dropdown dropdown-filter">
                         @php
                             if (request()->date && strpos(request()->date, ',') !== false) {
                                 $date = explode(',', request()->date);
                                 $date = date('d/m/Y', strtotime($date[1])).' - '.date('d/m/Y', strtotime($date[0]));
                             } else {
-                                $date = request()->date ? date('d/m/Y', strtotime(request()->date)) : 'Select Date';
+                                $date = request()->date ? date('d/m/Y', strtotime(request()->date)) : __('children.selectDate');
                             }
                         @endphp
-                        <button class="btn dropdown-toggle dropdown-filter-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ $date ? $date : 'Select Date' }}</button>
+                        <button class="btn dropdown-toggle dropdown-filter-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ $date ? $date : __('children.selectDate') }}</button>
                         <ul class="dropdown-menu p-2 date-filters" style="">
-                            <li><a class="dropdown-item" onclick="dateFilter({{ $lastWeek }}, 'Last Week');" href="#">Last Week</a></li>
-                            <li><a class="dropdown-item" onclick="dateFilter({{ $month }}, 'Month');" href="#">Month</a></li>
-                            <li><a class="dropdown-item" onclick="dateFilter({{ $pastThreeMonth }}, 'Month 3');" href="#">Month 3</a></li>
-                            <li><a class="dropdown-item" onclick="dateFilter({{ $pastSixMonth }}, 'Half a Year');" href="#">Half a Year</a></li>
+                            <li><a class="dropdown-item" onclick="dateFilter({{ $lastWeek }});" href="#">{{ __('children.lastWeek') }}</a></li>
+                            <li><a class="dropdown-item" onclick="dateFilter({{ $month }});" href="#">{{ __('children.month') }}</a></li>
+                            <li><a class="dropdown-item" onclick="dateFilter({{ $pastThreeMonth }});" href="#">{{ __('children.month3') }}</a></li>
+                            <li><a class="dropdown-item" onclick="dateFilter({{ $pastSixMonth }});" href="#">{{ __('children.halfYear') }}</a></li>
                             <li>
-                                <a class="dropdown-item specific-date-filter" href="#">Specific Date​</a>
+                                <a class="dropdown-item specific-date-filter" href="#">{{ __('children.specificDate​') }}</a>
                                 <input type="date" name="date" class="form-control doc-filter specificDate" style="display: none">
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-2 my-1">
-                    {{-- <label>Select Profession</label> --}}
                     <select class="form-control doc-filter" name="role">
-                        <option value="">Select Profession</option>
+                        <option value="">{{ __('children.selectProfession') }}</option>
                         @foreach ($roles as $role)
                             <option {{ request()->role == $role->name ? 'selected' : '' }} value="{{ $role->id }}">{{ $role->name }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-md-2 my-1">
-                    {{-- <label>Select Therapist</label> --}}
                     <select class="form-control doc-filter" name="therapist_id">
-                        <option value="">Select Therapist</option>
+                        <option value="">{{ __('children.selectTherapist') }}</option>
                         @foreach ($therapists as $therapist)
                             <option {{ request()->therapist_id == $therapist->id  ? 'selected' : '' }} value="{{ $therapist->id }}">{{ $therapist->name }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-md-2 my-1">
-                    {{-- <label>Select Intervention</label> --}}
                     <select class="form-control doc-filter" name="type">
-                        <option value="">Select Intervention</option>
-                        <option {{ request()->type == 'individual'  ? 'selected' : '' }} value="individual">Individual</option>
-                        <option {{ request()->type == 'initial-evaluation'  ? 'selected' : '' }} value="initial-evaluation">Initial evaluation</option>
-                        <option {{ request()->type == 'group'  ? 'selected' : '' }} value="group">group</option>
-                        <option {{ request()->type == 'staff-meeting'  ? 'selected' : '' }} value="staff-meeting">Staff meeting</option>
-                        <option {{ request()->type == 'parental guidance'  ? 'selected' : '' }} value="parental guidance">Parental Guidance</option>
-                        <option {{ request()->type == 'final-evaluation'  ? 'selected' : '' }} value="final-evaluation">Final Evaluation</option>
+                        <option value="">{{ __('children.selectIntervention') }}</option>
+                        <option {{ request()->type == 'individual'  ? 'selected' : '' }} value="individual">{{ __('children.individual') }}</option>
+                        <option {{ request()->type == 'group'  ? 'selected' : '' }} value="group">{{ __('children.group') }}</option>
+                        <option {{ request()->type == 'parental guidance'  ? 'selected' : '' }} value="parental guidance">{{ __('children.parentalGuidance') }}</option>
+                        <option {{ request()->type == 'staff-meeting'  ? 'selected' : '' }} value="staff-meeting">{{ __('children.staffMeeting') }}</option>
+                        <option {{ request()->type == 'initial-evaluation'  ? 'selected' : '' }} value="initial-evaluation">{{ __('children.initialEvaluation') }}</option>
+                        <option {{ request()->type == 'final-evaluation'  ? 'selected' : '' }} value="final-evaluation">{{ __('children.finalEvaluation') }}</option>
                     </select>
                 </div>
             </div>

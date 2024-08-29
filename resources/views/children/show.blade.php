@@ -9,7 +9,7 @@
             <div class="page-wrapper">
                 <div class="page-content">
                     <div class="page-breadcrumb d-flex align-items-center mb-3">
-                        <div class="breadcrumb-title pe-3">Detail</div>
+                        <div class="breadcrumb-title pe-3">{{ __('comon.detail') }}</div>
                         <div class="ps-3">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0 p-0">
@@ -18,8 +18,7 @@
                                             <img class="p-1" src="{{ asset('assets/icons/fi_2887367.png') }}" />
                                         </a>
                                     </li>
-                                    <li class="breadcrumb-item active" aria-current="page">{{ __('children.children') }}
-                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">{{ __('children.children') }}</li>
                                 </ol>
                             </nav>
                         </div>
@@ -37,22 +36,21 @@
                                         <div class="card-body">
                                             <ul class="list-group list-group-flush child-menu">
                                                 <li class="list-group-item text-center">
-                                                    <h6 class="mb-0">Weekly Therapy Schedule</h6>
+                                                    <h6 class="mb-0">{{ __('children.weeklyTherapySchedule') }}</h6>
                                                 </li>
                                                 <li class="list-group-item text-center">
                                                     <h6 class="mb-0">
-                                                        <a href="{{ route('children-documentations.get', $children->id) }}">View Documentation of Intervention</a>
-                                                        {{-- <a href="#">View Documentation of Intervention</a> --}}
+                                                        <a href="{{ route('children-documentations.get', $children->id) }}">{{ __('children.viewDocumentationofIntervention') }}</a>
                                                     </h6>
                                                 </li>
                                                 <li class="list-group-item text-center">
-                                                    <h6 class="mb-0">Professional / Staff Meeting Discussion</h6>
+                                                    <h6 class="mb-0">{{ __('children.professionalMeetingDiscussion') }}</h6>
                                                 </li>
                                                 <li class="list-group-item text-center">
-                                                    <h6 class="mb-0"><a href="{{ route('documents-approvals.get', $children->id) }}">Document and approvals</a></h6>
+                                                    <h6 class="mb-0"><a href="{{ route('documents-approvals.get', $children->id) }}">{{ __('children.documentApprovals') }}</a></h6>
                                                 </li>
                                                 <li class="list-group-item text-center">
-                                                    <h6 class="mb-0" data-bs-toggle="modal" data-bs-target="#exampleSmallModal">New Documantation</h6>
+                                                    <h6 class="mb-0" data-bs-toggle="modal" data-bs-target="#exampleSmallModal">{{ __('children.newDocumantation') }}</h6>
                                                     {{-- <h6 class="mb-0">New Documantation</h6> --}}
                                                 </li>
                                             </ul>
@@ -66,7 +64,7 @@
                                                 <div class="d-flex justify-content-between">
                                                     <h5 class="mb-4 steper-title">{{ __('children.personalInfo') }}</h5>
                                                     <div>
-                                                        <a href="{{ route('children.edit', $children->id) }}?kindergarten_id={{ request()->kindergarten_id }}" class="btn button">Edit</a>
+                                                        <a href="{{ route('children.edit', $children->id) }}?kindergarten_id={{ request()->kindergarten_id }}" class="btn button">{{ __('comon.edit') }}</a>
                                                     </div>
                                                 </div>
                                                 <div>
@@ -161,7 +159,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' => 'Kindergarten Manager',
+                                                                'label' => __('children.kindergartenManager'),
                                                                 'name' => '',
                                                                 'class' => 'kindergartenManager',
                                                                 'icon' => 'user',
@@ -459,17 +457,17 @@
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Documentation Type</h5>
+                            <h5 class="modal-title">{{ __('children.documentationType') }}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <ul style="list-style: none; margin-right: -26px;">
-                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['individual', Request::segment(2), '']) }}">Individual</a></li>
-                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['group', Request::segment(2), '']) }}">Group</a></li>
-                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['parental-guidance', Request::segment(2), '']) }}">Parental Guidance</a></li>
-                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['staff-meeting', Request::segment(2), '']) }}">Staff Meeting</a></li>
-                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['initial-evaluation', Request::segment(2), '']) }}">Initial Evaluation</a></li>
-                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['final-evaluation', Request::segment(2), '']) }}">Final Evaluation</a></li>
+                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['individual', Request::segment(2), '']) }}">{{ __('children.individual') }}</a></li>
+                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['group', Request::segment(2), '']) }}">{{ __('children.group') }}</a></li>
+                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['parental-guidance', Request::segment(2), '']) }}">{{ __('children.parentalGuidance') }}</a></li>
+                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['staff-meeting', Request::segment(2), '']) }}">{{ __('children.staffMeeting') }}</a></li>
+                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['initial-evaluation', Request::segment(2), '']) }}">{{ __('children.initialEvaluation') }}</a></li>
+                                <li class="document my-2"><a href="{{ route('children-documentation.get', ['final-evaluation', Request::segment(2), '']) }}">{{ __('children.finalEvaluation') }}</a></li>
                             </ul>
                         </div>
                     </div>

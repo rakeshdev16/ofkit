@@ -32,7 +32,7 @@ $(document).on('change', '.doc-filter', function () {
     filter(url);
 });
 
-function dateFilter(date, type) {
+function dateFilter(date) {
     var url = queryParam('date', date);
     filter(url);
     if (date.length === 2) {

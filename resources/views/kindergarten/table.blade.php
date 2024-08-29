@@ -12,7 +12,7 @@
             @include('components.table-heading', ['label' => __('kindergarten.telephoneTh'), 'key' => 'telephone', 'width' => '9.4%'])
             {{-- @include('components.table-heading', ['label' => __('kindergarten.createdAt'), 'key' => 'created_at', 'width' => '9.4%'])
             @include('components.table-heading', ['label' => __('kindergarten.updatedAt'), 'key' => 'updated_at', 'width' => '9.4%']) --}}
-            @include('components.table-heading', ['label' => 'Action', 'width' => '4%'])
+            @include('components.table-heading', ['label' => __('comon.action'), 'width' => '4%'])
         </tr>
     </thead>
     <tbody>

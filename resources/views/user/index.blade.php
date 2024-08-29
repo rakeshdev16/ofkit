@@ -38,7 +38,7 @@
                                     <p class="text-secondary mb-1">{{ @$user->email }}</p>
                                     <p class="text-secondary mb-1">{{ @$user->profession->name }}</p>
                                     <p class="text-muted font-size-sm">{{ @$user->address }}</p>
-                                    <a href="{{ route('profile.edit') }}" class="btn button">Edit</a>
+                                    <a href="{{ route('profile.edit') }}" class="btn button">{{ __('comon.edit') }}</a>
                                     <a href="{{ route('change-password.index') }}" class="btn button">Change Password</a>
                                 </div>
                             </div>

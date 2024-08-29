@@ -27,4 +27,5 @@ return [
     'invalidImageFormat' => 'Invalid image format',
     'forgetPassowrd' => 'Forgot Your Password?',
     'action' => 'Action',
+    'detail' => 'Detail',
 ];
