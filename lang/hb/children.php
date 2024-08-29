@@ -2,14 +2,17 @@
 
 return [
 
-    'children' => 'יְלָדִים',
+    'children' => 'ילדים',
     'admin' => 'מנהל מערכת',
     'name' => "שם פרטי",
     'familyName' => "שם משפחה",
     'gender' => "מִין",
-    'identification' => "זיהוי",
+    'identification' => "תעודת זהות",
+    'ID' => "תעודת זהות",
     'dob' => "תאריך לידה",
-    'kindergarten' => "גן ילדים",
+    'kindergarten' => "גן",
+    'kindergartens' => "גנים",
+    'allKindergartens' => "כל הגנים",
     'functionality' => "תִפקוּד",
     'diagnosis' => "אִבחוּן",
     'status' => "סטָטוּס",

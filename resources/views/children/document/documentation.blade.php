@@ -9,11 +9,11 @@
                 <div>
                     <h3 class="mb-0 text-uppercase">Children Documents ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
                     <div class="row my-2 mx-1">
-                        <div class="col-md-6"><label for=""><b>Child Name:</b></label> {{ $childrens->name }}</div>
-                        <div class="col-md-6"><label for=""><b>I.D:</b></label> {{ $childrens->identification }}</div>
-                        <div class="col-md-6"><label for=""><b>Kindergarten:</b></label> {{ getKindergartenNameById($childrens->kindergarten_id) }}</div>
-                        <div class="col-md-6"><label for=""><b>Child's Birthday:</b></label> {{ $childrens->date_of_birth }}</div>
-                        <div class="col-md-6"><label for=""><b>Child's Age:</b></label> {{ $childrens->age }}</div>
+                        <div class="col-md-6"><label for=""><b>Child Name:</b></label> {{ @$children->name }}</div>
+                        <div class="col-md-6"><label for=""><b>I.D:</b></label> {{ @$children->identification }}</div>
+                        <div class="col-md-6"><label for=""><b>Kindergarten:</b></label> {{ getKindergartenNameById(@$children->kindergarten_id) }}</div>
+                        <div class="col-md-6"><label for=""><b>Child's Birthday:</b></label> {{ @$children->date_of_birth }}</div>
+                        <div class="col-md-6"><label for=""><b>Child's Age:</b></label> {{ @$children->age }}</div>
                     </div>
                 </div>
                 <div class="mt-3">
@@ -22,11 +22,32 @@
             </div>
             <div class="row my-2">
                 <div class="col-md-2 my-1">
-                    <label>Select Date</label>
-                    <input type="date" name="date" value="{{ request()->date }}" class="form-control doc-filter">
+                    {{-- <label>Select Date</label> --}}
+                    {{-- <input type="date" name="date" value="{{ request()->date }}" class="form-control doc-filter"> --}}
+                    <div class="dropdown dropdown-filter">
+                        @php
+                            if (strpos(request()->date, ',') !== false) {
+                                $date = explode(',', request()->date);
+                                $date = date('d/m/Y', strtotime($date[1])).' - '.date('d/m/Y', strtotime($date[0]));
+                            } else {
+                                $date = date('d/m/Y', strtotime(request()->date));
+                            }
+                        @endphp
+                        <button class="btn dropdown-toggle dropdown-filter-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ $date ?? 'Select Date' }}</button>
+                        <ul class="dropdown-menu p-2 date-filters" style="">
+                            <li><a class="dropdown-item" onclick="dateFilter({{ $lastWeek }}, 'Last Week');" href="#">Last Week</a></li>
+                            <li><a class="dropdown-item" onclick="dateFilter({{ $month }}, 'Month');" href="#">Month</a></li>
+                            <li><a class="dropdown-item" onclick="dateFilter({{ $pastThreeMonth }}, 'Month 3');" href="#">Month 3</a></li>
+                            <li><a class="dropdown-item" onclick="dateFilter({{ $pastSixMonth }}, 'Half a Year');" href="#">Half a Year</a></li>
+                            <li>
+                                <a class="dropdown-item specific-date-filter" href="#">Specific Date​</a>
+                                <input type="date" name="date" class="form-control doc-filter specificDate" style="display: none">
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="col-md-2 my-1">
-                    <label>Select Profession</label>
+                    {{-- <label>Select Profession</label> --}}
                     <select class="form-control doc-filter" name="role">
                         <option value="">Select Profession</option>
                         @foreach ($roles as $role)
@@ -35,7 +56,7 @@
                     </select>
                 </div>
                 <div class="col-md-2 my-1">
-                    <label>Select Therapist</label>
+                    {{-- <label>Select Therapist</label> --}}
                     <select class="form-control doc-filter" name="therapist_id">
                         <option value="">Select Therapist</option>
                         @foreach ($therapists as $therapist)
@@ -44,7 +65,7 @@
                     </select>
                 </div>
                 <div class="col-md-2 my-1">
-                    <label>Select Intervention</label>
+                    {{-- <label>Select Intervention</label> --}}
                     <select class="form-control doc-filter" name="type">
                         <option value="">Select Intervention</option>
                         <option {{ request()->type == 'individual'  ? 'selected' : '' }} value="individual">Individual</option>
@@ -61,11 +82,11 @@
                     <div class="table-responsive full-width-table">
                         @include('components.table-search', ['label' => "Children Documents", 'count' => @$documentationCount])
                         <div id="dataTable">
-                            @include('children.document.documentation-table', ['documentations' => $documentations])
+                            @include('children.document.documentation-table', ['documentations' => $documentations, 'children' => $children])
                         </div>
                     </div>
                     <div class="lising d-none" id="accordion">
-                        @include('children.document.documentation-accordion', ['documentations' => $documentations])
+                        @include('children.document.documentation-accordion', ['documentations' => $documentations, 'children' => $children])
                     </div>
                 </div>
             </div>
@@ -75,6 +96,19 @@
 @push('customScript')
 <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
 <script>
+    $(document).ready(function() {
+        $('.specific-date-filter').on('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            $('.specificDate').toggle();
+        });
+        
+        $('.specificDate').on('change', function(e) {
+            $('.dropdown-filter-toggle').html(dateFormat($(this).val()));
+        });
+
+    });
+
     $(document).on('click', '.button', function() {
         $(this).attr('disabled', false);
     });

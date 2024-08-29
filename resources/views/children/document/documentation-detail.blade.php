@@ -23,7 +23,7 @@
                 </div>
                 <div class="ms-auto">
                     <div class="">
-                        <button data-url="{{ route('children-documentations.get', $children->id) }}" class="btn button exit">{{ __('comon.back') }}</button>
+                        <button data-url="{{ route('children-documentations.get', $mainChildren->id) }}" class="btn button exit">{{ __('comon.back') }}</button>
                         {{-- <a href="{!! URL::previous() !!}" class="btn button">{{ __('comon.back') }}</a> --}}
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="mt-2 d-flex justify-content-between">
-                                <h4>{{ $document->formatted_type }} ({{$children->name}})</h4>
+                                <h4>{{ $document->formatted_type }} ({{ $mainChildren->name }})</h4>
                                 <a href="{{ route('children-documentation.get', [$document->type, Request::segment(2), $document->id]) }}" class="btn button">Edit</a>
                             </div>
                             <hr class="my-4">

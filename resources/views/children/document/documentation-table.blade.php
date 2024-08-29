@@ -16,6 +16,7 @@
         @forelse ($documentations as $documentation)
             @php
                 $truncatedDesc = \Str::limit($documentation->occured_description, 80, '...');
+                $groupChildDetail = getDocGroupChildDetail($documentation->id, $children->id);
             @endphp
             <tr class="tr-{{ $documentation->id }}">
                 {{-- <td><input type="checkbox" name="id[]" value="{{ $documentation->id }}" class="checkbox check-{{ $documentation->id }}" data-class="check-{{ $documentation->id }}"></td> --}}
@@ -23,11 +24,24 @@
                 <td>{{ $documentation->therapist->name ?? '-' }}</td>
                 <td>{{ getUserRoleById($documentation->therapist_id) ?? '-' }}</td>
                 <td>{{ ucfirst(str_replace('-', ' ', $documentation->type)) }}</td>
-                <td>{{ $documentation->occured == 1 ? 'Yes' : 'No' }}</td>
+                <td>
+                    @if ($documentation->type == 'group' && $groupChildDetail)
+                        {{ $groupChildDetail->participated == 1 ? 'Yes' : 'No' }}
+                    @else
+                        {{ $documentation->occured == 1 ? 'Yes' : 'No' }}
+                    @endif
+                </td>
                 <td class="{{ $documentation->occured == 1 ? 'address-column' : '' }}">
                     @if ($documentation->occured == 1)
                         @if ($documentation->type == 'group')
-                            <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $documentation->group_name }}: <br> {{ $truncatedDesc }}</span>
+                            @if ($groupChildDetail)
+                                @php
+                                    $truncatedGroupDesc = $groupChildDetail->participated == 1 ? \Str::limit($groupChildDetail->description, 80, '...') : $groupChildDetail->reason;
+                                @endphp
+                                <span data-toggle="tooltip" data-placement="bottom" title="{{ $groupChildDetail->description }}">{{ $truncatedGroupDesc }}</span>
+                            @else
+                                <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $documentation->group_name }}: <br> {{ $truncatedDesc }}</span>
+                            @endif
                         @else
                             <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $truncatedDesc }}</span>
                         @endif
@@ -44,8 +58,30 @@
                     @endif
                 </td>
                 <td>
-                    <a href="{{ route('children-documentation.show', [$documentation->children_id, $documentation->id]) }}" data-toggle="tooltip" data-placement="bottom" title="View"><i class="bx bx-show icon"></i></a>
-                    <a href="{{ route('children-documentation.get', [$documentation->type, Request::segment(2), $documentation->id]) }}" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a>
+                    <a
+                        href="{{ route('children-documentation.show', [
+                            $documentation->children_id,
+                            $documentation->id,
+                            Request::segment(2)
+                        ]) }}"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="View"
+                    >
+                        <i class="bx bx-show icon"></i>
+                    </a>
+                    <a
+                        href="{{ route('children-documentation.get', [
+                            $documentation->type,
+                            Request::segment(2),
+                            $documentation->id
+                        ]) }}"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Edit"
+                    >
+                        <i class="bx bx-edit icon"></i>
+                    </a>
                 </td>
             </tr>
         @empty

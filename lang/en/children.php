@@ -21,7 +21,7 @@ return [
     'hmo' => "HMO",
     'address' => "Address",
     'fatherName' => "Father's Name",
-    'fatherEmail' => "Father's Email",
+    'fatherEmail' => "Father's Email", 
     'fatherWork' => "Father's Work",
     'fatherTelephone' => "Father's Telephone",
     'motherName' => "Mother's Name",

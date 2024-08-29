@@ -35,7 +35,12 @@ class ChildrenDocumentation extends Model
             $query->where('type', 'like', '%'.request('search').'%');
         }
         if (request('date')) {
-            $query->whereDate('date', request('date'));
+            if (strpos(request('date'), ',') !== false) {
+                $date = explode(',', request('date'));
+                $query->whereBetween('date', $date);
+            } else {
+                $query->whereDate('date', request('date'));
+            }
         }
         if (request('role')) {
             $userIds = User::role(request('role'))->pluck('id')->toArray();

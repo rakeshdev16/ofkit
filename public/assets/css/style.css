@@ -472,3 +472,15 @@ input.form-control {
     margin: auto !important;
     padding: 10px 0px;
 }
+
+.dropdown.dropdown-filter {
+    width: 100%;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+}
+
+.dropdown-filter-toggle {
+    outline: none;
+    border: none;
+}

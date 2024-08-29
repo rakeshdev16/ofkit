@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Carbon\Carbon;
 use Auth, DB;
 use Spatie\Permission\Models\Role;
 
@@ -315,7 +316,7 @@ class ChildrenController extends Controller
 
     public function documentations(Request $request, $id)
     {
-        $childrens = Children::findOrFail($id);
+        $children = Children::findOrFail($id);
         $roles = Role::get();
         $therapists = User::role(['admin', 'therapist'])->select('id', 'name')->get();
 
@@ -327,21 +328,39 @@ class ChildrenController extends Controller
         // echo '<pre>'; print_r($childDocIds); die;
         $documentations = ChildrenDocumentation::whereIn('id', $docIds)->filter()->orderBy('id', 'DESC')->paginate(50);
         $documentationCount = ChildrenDocumentation::where('children_id', $id)->count();
+
+        // Get start and end date of last week
+        $startOfLastWeek = Carbon::now()->subWeek()->startOfWeek();
+        $endOfLastWeek = Carbon::now()->subWeek()->endOfWeek();
+        $lastWeek = json_encode([$startOfLastWeek->toDateString(), $endOfLastWeek->toDateString()]);
+        // Get start and end date of current month
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth = Carbon::now()->endOfMonth();
+        $month = json_encode([$startOfMonth->toDateString(), $endOfMonth->toDateString()]);
+        // Get start and end date of past three month
+        $startDateOfPast3Month = Carbon::now()->subMonths(3)->startOfMonth();
+        $pastThreeMonth = json_encode([$startDateOfPast3Month->toDateString(), $endOfMonth->toDateString()]);
+        // Get start and end date of past 6 month
+        $startDateOfPast6Month = Carbon::now()->subMonths(6)->startOfMonth();
+        $pastSixMonth = json_encode([$startDateOfPast6Month->toDateString(), $endOfMonth->toDateString()]);
+
+
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('children.document.documentation-table', ['documentations' => $documentations])->render(),
                 'accordion' => view('children.document.documentation-accordion', ['documentations' => $documentations])->render()
             ]);
         }
-        return view('children.document.documentation', compact('childrens', 'documentations', 'documentationCount', 'roles', 'therapists'));
+        return view('children.document.documentation', compact('children', 'documentations', 'documentationCount', 'roles', 'therapists', 'lastWeek', 'month', 'pastThreeMonth', 'pastSixMonth'));
     }
 
-    public function documentationDetail($childId, $id)
+    public function documentationDetail($childId, $id, $mailchildId=NULL)
     {
         $children = Children::findOrFail($childId);
+        $mainChildren = Children::findOrFail($mailchildId);
         $document = ChildrenDocumentation::findOrFail($id);
 
-        return view('children.document.documentation-detail', compact('document', 'children'));
+        return view('children.document.documentation-detail', compact('document', 'children', 'mainChildren'));
     }
 
     public function documentation(Request $request, $type, $childId, $id=null)
@@ -381,7 +400,7 @@ class ChildrenController extends Controller
                 return view('children.document.final-evaluation', compact('children', 'user', 'document', 'childrens', 'therapist'));
             break;
             default:
-                return view('children.document.individual', compact('children', 'user', 'document'));
+                return view('children.document.individual', compact('children', 'childrens', 'user', 'document'));
             break;
         }
     }

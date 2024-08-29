@@ -32,6 +32,15 @@ $(document).on('change', '.doc-filter', function () {
     filter(url);
 });
 
+function dateFilter(date, type) {
+    var url = queryParam('date', date);
+    filter(url);
+    if (date.length === 2) {
+        var dateLabel = dateFormat(date[1])+' - '+dateFormat(date[0]);
+        $('.dropdown-filter-toggle').html(dateLabel);
+    }
+}
+
 $(document).on('click', '.sortTable', function () {
     var key = $(this).data('key');
     var value = $(this).data('value') == 'desc' ? 'asc' : 'desc';
@@ -184,4 +193,13 @@ function moveToArchive(url, msg)
             });               
         }
     });
+}
+
+function dateFormat(date)
+{
+    var date = new Date(date);
+    var day = String(date.getDate()).padStart(2, '0');
+    var month = String(date.getMonth() + 1).padStart(2, '0');
+    var year = date.getFullYear();
+    return `${day}/${month}/${year}`;
 }

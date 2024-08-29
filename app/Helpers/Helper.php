@@ -89,3 +89,8 @@ function authKindergartens()
     }
     return $kindergarten;
 }
+
+function getDocGroupChildDetail($docId, $childId)
+{
+    return GroupChildren::select('id', 'participated', 'reason', 'description')->where(['children_documentation_id' => $docId, 'children_id' => $childId])->first();
+}
