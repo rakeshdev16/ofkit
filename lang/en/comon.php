@@ -1,13 +1,18 @@
 <?php
 
 return [
-
+    
+    'profile' => 'Profile',
+    'login' => 'Login',
+    'logout' => 'Logout',
+    'createdOn' => 'Created On',
+    'updatedOn' => 'Updated On',
     'addNew' => 'Add New',
     'edit' => 'Edit',
     'update' => 'Update',
     'submit' => 'Submit',
     'moveToArchive' => 'Move To Archive',
-    'searchLabel' => 'Search',
+    'search' => 'Search',
     'back' => "Exit",
     'emptyTableMsg' => 'No Data Found!',
     'previous' => 'Prev',
@@ -20,4 +25,6 @@ return [
     'confirmButtonText' => "Yes, archive it!",
     'allKindergartens' => "All Kindergartens",
     'invalidImageFormat' => 'Invalid image format',
+    'forgetPassowrd' => 'Forgot Your Password?',
+    'action' => 'Action',
 ];

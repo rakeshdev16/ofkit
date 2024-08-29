@@ -21,10 +21,12 @@
                 </div>
             </div>
             <div class="row my-2">
-                <div class="col-md-2">
+                <div class="col-md-2 my-1">
+                    <label>Select Date</label>
                     <input type="date" name="date" value="{{ request()->date }}" class="form-control doc-filter">
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2 my-1">
+                    <label>Select Profession</label>
                     <select class="form-control doc-filter" name="role">
                         <option value="">Select Profession</option>
                         @foreach ($roles as $role)
@@ -32,7 +34,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2 my-1">
+                    <label>Select Therapist</label>
                     <select class="form-control doc-filter" name="therapist_id">
                         <option value="">Select Therapist</option>
                         @foreach ($therapists as $therapist)
@@ -40,7 +43,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2 my-1">
+                    <label>Select Intervention</label>
                     <select class="form-control doc-filter" name="type">
                         <option value="">Select Intervention</option>
                         <option {{ request()->type == 'individual'  ? 'selected' : '' }} value="individual">Individual</option>

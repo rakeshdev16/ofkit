@@ -12,8 +12,8 @@
                 <div class="mt-3">
                     @if (Auth::user()->hasRole('admin'))
                         <button class="btn button moveToArchive">{{ __('comon.moveToArchive') }}</button>
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#addDocumentModal" class="btn button">{{ __('comon.addNew') }} +</a>
-                        <a href="{{ route('children.show', $children->id) }}" class="btn button">{{ __('comon.back') }}</a>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#addDocumentModal" class="btn button addDocument">{{ __('comon.addNew') }} +</a>
+                        <a href="{{ route('children.show', $children->id) }}" class="btn button m-top-1">{{ __('comon.back') }}</a>
                     @endif
                 </div>
             </div>
@@ -49,7 +49,7 @@
                         <form action="{{ route('documents-approvals.post') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <label for="">Document</label>
-                            <input type="file" name="document" class="form-control" required>
+                            <input type="file" name="document" class="form-control file" required>
                             <input type="hidden" name="children_id" value="{{ $children->id }}">
                             <div class="my-3">
                                 <button type="submit" class="btn button">Submit</button>
@@ -67,6 +67,9 @@
 <script>
     $(document).on('click', '.button', function() {
         $(this).attr('disabled', false);
+    });
+    $(document).on('click', '.addDocument', function() {
+        $('.file').val('');
     });
     $(document).on('click', '.moveToArchive', function() {
         var url = "{{ route('documents-approvals.delete', ':ids') }}";

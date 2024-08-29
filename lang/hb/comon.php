@@ -1,23 +1,30 @@
 <?php
 
 return [
-
+    
+    'profile' => 'פרופיל',
+    'login' => 'התחברות',
+    'logout' => 'התנתקות',
+    'createdOn' => 'נוצר בתאריך',
+    'updatedOn' => 'עודכן בתאריך',
     'addNew' => 'הוסף חדש',
-    'edit' => 'לַעֲרוֹך',
-    'update' => 'עדכון',
-    'submit' => 'שלח',
+    'edit' => 'עריכה',
+    'update' => 'לְעַדְכֵּן',
+    'submit' => 'לְהַגִישׁ',
     'moveToArchive' => 'העבר לארכיון',
-    'searchLabel' => 'לחפש',
-    'back' => "חזור",
-    'emptyTableMsg' => 'לא נמצאו נתונים!',
+    'search' => 'חיפוש',
+    'back' => "יציאה",
+    'emptyTableMsg' => 'לא נמצאו נתונים',
     'previous' => 'הקודם',
     'next' => 'הַבָּא',
-    'admin' => 'מנהל מערכת',
-    'manager' => 'מנהל',
-    'therapist' => 'מְרַפֵּא',
+    'admin' => 'מנהל',
+    'manager' => 'רכז',
+    'therapist' => 'מטפל',
     'confirmTitle' => 'האם אתה בטוח?',
-    'confirmText' => "אתה לא תוכל להחזיר את זה!",
+    'confirmText' => "לא תוכל להחזיר את זה!",
     'confirmButtonText' => "כן, תעביר את זה לארכיון!",
-    'chose_at_least_one' => "Please choose at least one :attribute!",
-
+    'allKindergartens' => "כל גני הילדים",
+    'invalidImageFormat' => 'פורמט תמונה לא חוקי',
+    'forgetPassowrd' => 'שכחת את הסיסמה שלך?',
+    'action' => 'פעולה',
 ];

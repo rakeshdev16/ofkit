@@ -125,8 +125,7 @@
                                 </div>
                             @endif
                             @if($document->type =='staff-meeting')
-                                <hr class="my-4">
-                                <ul class="list-group list-group-flush">
+                                <ul class="list-group list-group-flush" style="border-top: 1px solid #dfd8d8">
                                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                         <h6 class="mb-0">Topic</h6>
                                         <span class="text-secondary doc-desc">{{ @$document->staffMeeting->topic ?? '-' }}</span>

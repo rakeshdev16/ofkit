@@ -21,7 +21,16 @@
                     @endif
                 </td>
                 <td>
-                    <a href="{{ $document->document }}" target="__blank" data-toggle="tooltip" data-placement="bottom" title="View"><i class="bx bx-show icon"></i></a>
+                    @php
+                        $docExt = pathinfo($document->document, PATHINFO_EXTENSION);
+                    @endphp
+                    @if ($docExt == 'xlsx' || $docExt == 'docx' || $docExt == 'odt')
+                        <a href="#" onclick="window.open('https://docs.google.com/gview?url={{ $document->document }}&embedded=true', '_blank')">
+                            <i class="bx bx-show icon"></i>
+                        </a>
+                    @else
+                        <a href="{{ $document->document }}" target="__blank" data-toggle="tooltip" data-placement="bottom" title="View"><i class="bx bx-show icon"></i></a>
+                    @endif
                     <a href="{{ $document->document }}" download="{{ $fileName }}" data-toggle="tooltip" data-placement="bottom" title="Download">
                         <i class="bx bx-download icon"></i>
                     </a>

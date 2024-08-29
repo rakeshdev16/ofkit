@@ -5531,6 +5531,9 @@ input::placeholder {
 		display: none !important;
 	}
 
+	.children-detail {
+		width: 100% !important;
+	}
 
 	.user-box .user-info {
 
@@ -5602,7 +5605,6 @@ input::placeholder {
 		width: auto !important;
 		max-width: 292px !important;
 	}
-	
 }
 
 @media screen and (max-width: 520px) {
@@ -5624,5 +5626,15 @@ input::placeholder {
 
 	.button {
 		height: 36px;
+	}
+}
+
+@media screen and (max-width: 370px) {
+	.m-top-1 {
+		margin-top: 5px;
+	}
+
+	.acc-icon-gap {
+		margin-right: -25px !important;
 	}
 }

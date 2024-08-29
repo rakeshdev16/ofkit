@@ -1,4 +1,4 @@
-<div class="row w-100 align-items-center" style="margin-left: 4px;">
+<div class="row w-100 align-items-center" style="margin-left: 30px;">
     <div class="col-2 d-flex justify-content-center">
         <input
             type="checkbox"

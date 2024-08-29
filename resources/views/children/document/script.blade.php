@@ -11,7 +11,7 @@
     $(document).on('change', '.endTime', function() {
     var startTime = $('.startTime').val();
     var endTime = $(this).val();
-    
+    $('.invalid-feedback').html('');
     // Find the sibling `.invalid-feedback` span after the input
     var errorSpan = $(this).siblings('.invalid-feedback');
 
