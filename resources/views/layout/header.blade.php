@@ -18,7 +18,7 @@
                         <li class="nav-item dropdown dropdown-laungauge d-none d-sm-flex">
                             <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="avascript:;" data-bs-toggle="dropdown">
                                 @if (getCurrentLang() == 'en')
-                                    <img src="{{ asset('assets/images/county/02.png') }}" width="22" alt="">
+                                    <img src="{{ asset('assets/images/county/en.png') }}" width="22" alt="">
                                 @else
                                     <img src="{{ asset('assets/images/county/hb.jpg') }}" width="22" alt="">
                                 @endif
@@ -26,7 +26,7 @@
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
                                     <button class="dropdown-item d-flex align-items-center py-2" onclick="setLocale('en')">
-                                        <img src="{{ asset('assets/images/county/02.png') }}" width="20" alt="">
+                                        <img src="{{ asset('assets/images/county/en.png') }}" width="20" alt="">
                                         <span class="ms-2">English</span>
                                     </button>
                                 </li>
