@@ -11,7 +11,7 @@
                     <div class="row my-2 mx-1">
                         <div class="col-md-6"><label for=""><b>{{ __('children.childName') }}:</b></label> {{ @$children->name }}</div>
                         <div class="col-md-6"><label for=""><b>{{ __('children.ID') }}:</b></label> {{ @$children->identification }}</div>
-                        <div class="col-md-6"><label for=""><b>{{ __('children.Kindergarten') }}:</b></label> {{ getKindergartenNameById(@$children->kindergarten_id) }}</div>
+                        <div class="col-md-6"><label for=""><b>{{ __('children.kindergarten') }}:</b></label> {{ getKindergartenNameById(@$children->kindergarten_id) }}</div>
                         <div class="col-md-6"><label for=""><b>{{ __('children.childBirthday') }}:</b></label> {{ @$children->date_of_birth }}</div>
                         <div class="col-md-6"><label for=""><b>{{ __('children.childAge') }}:</b></label> {{ @$children->age }}</div>
                     </div>
@@ -78,7 +78,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive full-width-table">
-                        @include('components.table-search', ['label' => "Children Documents", 'count' => @$documentationCount])
+                        @include('components.table-search', ['label' => __('children.childrenDocuments'), 'count' => @$documentationCount])
                         <div id="dataTable">
                             @include('children.document.documentation-table', ['documentations' => $documentations, 'children' => $children])
                         </div>
