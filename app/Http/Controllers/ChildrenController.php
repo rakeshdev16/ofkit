@@ -475,7 +475,7 @@ class ChildrenController extends Controller
         ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
 
         if ($data['id']) {
-            return redirect()->route('children-documentation.show', [$id, $data['id']]);
+            return redirect()->route('children-documentation.show', [$id, $data['id'], $id]);
         }
         return redirect()->route('children-documentations.get', $id);
     }
@@ -532,7 +532,7 @@ class ChildrenController extends Controller
         }
 
         if ($data['id']) {
-            return redirect()->route('children-documentation.show', [$id, $data['id']]);
+            return redirect()->route('children-documentation.show', [$id, $data['id'], $id]);
         }
         return redirect()->route('children-documentations.get', $id);
     }
@@ -574,7 +574,7 @@ class ChildrenController extends Controller
         //     }
         // }
         if ($data['id']) {
-            return redirect()->route('children-documentation.show', [$id, $data['id']]);
+            return redirect()->route('children-documentation.show', [$id, $data['id'], $id]);
         }
         return redirect()->route('children-documentations.get', $id);
     }
@@ -636,7 +636,7 @@ class ChildrenController extends Controller
             }
         }
         if ($data['id']) {
-            return redirect()->route('children-documentation.show', [$id, $data['id']]);
+            return redirect()->route('children-documentation.show', [$id, $data['id'], $id]);
         }
         return redirect()->route('children-documentations.get', $id);
     }
@@ -670,7 +670,7 @@ class ChildrenController extends Controller
 
         ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
         if ($data['id']) {
-            return redirect()->route('children-documentation.show', [$id, $data['id']]);
+            return redirect()->route('children-documentation.show', [$id, $data['id'], $id]);
         }
         return redirect()->route('children-documentations.get', $id);
     }
@@ -701,7 +701,7 @@ class ChildrenController extends Controller
 
         ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
         if ($data['id']) {
-            return redirect()->route('children-documentation.show', [$id, $data['id']]);
+            return redirect()->route('children-documentation.show', [$id, $data['id'], $id]);
         }
         return redirect()->route('children-documentations.get', $id);
     }
