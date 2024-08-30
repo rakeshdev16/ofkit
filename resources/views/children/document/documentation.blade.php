@@ -41,7 +41,7 @@
                             <li><a class="dropdown-item" onclick="dateFilter({{ $pastThreeMonth }});" href="#">{{ __('children.month3') }}</a></li>
                             <li><a class="dropdown-item" onclick="dateFilter({{ $pastSixMonth }});" href="#">{{ __('children.halfYear') }}</a></li>
                             <li>
-                                <a class="dropdown-item specific-date-filter" href="#">{{ __('children.specificDate​') }}</a>
+                                <a class="dropdown-item specific-date-filter" href="#">{{ __('children.specificDate') }}</a>
                                 <input type="date" name="date" class="form-control doc-filter specificDate" style="display: none">
                             </li>
                         </ul>

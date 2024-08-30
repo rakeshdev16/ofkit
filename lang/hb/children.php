@@ -125,7 +125,7 @@ return [
     'childAge' => "גיל הילד",
     'selectDate' => "בחר תאריך",
     'lastWeek' => "שבוע שעבר",
-    'month' => "Month",
+    'month' => "חוֹדֶשׁ",
     'month3' => "חוֹדֶשׁ",
     'halfYear' => "חצי שנה",
     'specificDate' => "תאריך ספציפי",

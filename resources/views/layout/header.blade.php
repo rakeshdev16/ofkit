@@ -54,7 +54,7 @@
                         <li>
                             <button class="dropdown-item d-flex align-items-center previousRoute" data-url="{{ route('profile.index') }}">
                                 <i class="bx bx-user fs-5"></i>
-                                <span>Profile</span>
+                                <span>{{ __('comon.profile') }}</span>
                             </button>
                             {{-- <a class="dropdown-item d-flex align-items-center previousRoute" href="{{ route('profile.index') }}">
                                 <i class="bx bx-user fs-5"></i>
@@ -68,7 +68,7 @@
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
                                 <button type="submit" class="dropdown-item d-flex align-items-center">
-                                    <i class="bx bx-log-out-circle"></i><span>Logout</span>
+                                    <i class="bx bx-log-out-circle"></i><span>{{ __('comon.logout') }}</span>
                                 </button>
                             </form>
                         </li>

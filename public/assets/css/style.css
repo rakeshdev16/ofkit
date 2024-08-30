@@ -478,6 +478,7 @@ input.form-control {
     background: white;
     border: 1px solid #dee2e6;
     border-radius: 5px;
+    height: 38px;
 }
 
 .dropdown-filter-toggle {

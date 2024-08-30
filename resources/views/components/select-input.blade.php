@@ -8,7 +8,7 @@
         {{ @$disabled }}
         {{ @$required }}
     >
-        <option value="" selected>Select</option>
+        <option value="" selected>{{ __('comon.select') }}</option>
         @foreach ($options as $option)
             <option
                 {{ (old($name) ?? @$value) == $option['key'] ? 'selected' : '' }}

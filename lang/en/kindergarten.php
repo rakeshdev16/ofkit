@@ -9,6 +9,7 @@ return [
     'updateBtnText' => 'Update',
     'moveToArchine' => 'Move to Archive',
     'kindergarten' => 'Kindergarten',
+    'kindergartens' => 'Kindergartens',
     'addFormHeading' => 'Add Kindergarten Detail',
     'updateFormHeading' => 'Update Kindergarten Detail',
     'telephoneTh' => 'Telephone',

@@ -29,4 +29,5 @@ return [
     'forgetPassowrd' => 'שכחת את הסיסמה שלך?',
     'action' => 'פעולה',
     'detail' => 'פְּרָט',
+    'select' => 'לִבחוֹר',
 ];

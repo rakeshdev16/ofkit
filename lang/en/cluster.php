@@ -4,6 +4,8 @@ return [
 
     'admin' => 'Admin',
     'cluster' => 'Cluster',
+    'clusters' => 'Clusters',
+    'kindergartens' => 'Kindergartens',
     'back' => 'Back',
     'moveBtnText' => 'Move to Archive',
     'addBtnText' => 'Add New',

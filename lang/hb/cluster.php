@@ -4,6 +4,8 @@ return [
 
     'admin' => 'מנהל מערכת',
     'cluster' => 'אֶשׁכּוֹל',
+    'clusters' => 'אשכולות',
+    'kindergartens' => 'גני ילדים',
     'back' => 'חזור',
     'moveBtnText' => 'העבר לארכיון',
     'addBtnText' => 'הוסף חדש',

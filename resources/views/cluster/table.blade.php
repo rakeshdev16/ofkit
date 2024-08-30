@@ -3,7 +3,7 @@
         <tr>
             <th style="width: 5%;"><input type="checkbox" class="mainCheckbox"></th>
             @include('components.table-heading', ['label' => __('cluster.clusterTh'), 'key' => 'cluster', 'width' => '30%'])
-            @include('components.table-heading', ['label' => 'Kindergartens', 'width' => '30%'])
+            @include('components.table-heading', ['label' => __('cluster.kindergartens'), 'width' => '30%'])
             @include('components.table-heading', ['label' => __('cluster.managerTh'), 'key' => 'manager', 'width' => '30%'])
             @include('components.table-heading', ['label' => __('comon.action'), 'width' => '5%'])
         </tr>

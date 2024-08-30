@@ -30,4 +30,5 @@ return [
     'action' => 'Action',
     'detail' => 'Detail',
     'close' => 'Close',
+    'select' => 'Select',
 ];
