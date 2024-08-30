@@ -43,7 +43,7 @@
                                     <div class="card-body">
                                         <div class="bs-stepper-content">
                                             <div class="d-flex justify-content-between">
-                                                <h5 class="mb-4 steper-title">{{ ucfirst(Request::segment(2)) }}</h5>
+                                                <h5 class="mb-4 steper-title">{{ __('children.'.Request::segment(2)) }}</h5>
                                             </div>
                                             <form action="{{ route('children-documentation.store', ['individual', $children->id]) }}" method="POST" enctype="multipart/form-data">
                                                 @csrf

@@ -33,7 +33,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="mt-2 d-flex justify-content-between">
-                                <h4>{{ $document->formatted_type }} ({{ $mainChildren->name }})</h4>
+                                <h4>{{ __('children.'.$document->type) }} ({{ $mainChildren->name }})</h4>
                                 <a href="{{ route('children-documentation.get', [$document->type, Request::segment(2), $document->id]) }}" class="btn button">{{ __('comon.edit') }}</a>
                             </div>
                             <hr class="my-4">
