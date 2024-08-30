@@ -126,7 +126,7 @@ return [
     'selectDate' => "בחר תאריך",
     'lastWeek' => "שבוע שעבר",
     'month' => "חוֹדֶשׁ",
-    'month3' => "חוֹדֶשׁ",
+    'month3' => "חודשים 3",
     'halfYear' => "חצי שנה",
     'specificDate' => "תאריך ספציפי",
     'selectProfession' => "בחר מקצוע",

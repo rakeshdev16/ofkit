@@ -126,7 +126,7 @@ return [
     'selectDate' => "Select Date",
     'lastWeek' => "Last Week",
     'month' => "Month",
-    'month3' => "Month 3",
+    'month3' => "Months 3",
     'halfYear' => "Half a Year",
     'specificDate' => "Specific Date",
     'selectProfession' => "Select Profession",

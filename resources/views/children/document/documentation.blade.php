@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="row my-2">
-                <div class="col-md-2 my-1">
+                <div class="col-xl-3 col-lg-4 col-md-6  my-1">
                     <div class="dropdown dropdown-filter d-flex justify-content-between">
                         @php
                             if (request()->date && strpos(request()->date, ',') !== false) {
@@ -33,9 +33,9 @@
                         @endphp
                         <button class="btn dropdown-toggle dropdown-filter-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ $date ? $date : __('children.selectDate') }}
-                            <button class="btn" onclick="clearFilter('date')">x</button>
                         </button>
-                        <ul class="dropdown-menu p-2 date-filters" style="">
+                        <button class="btn btn-clear-filter" onclick="clearFilter('date')" type="button">x</button>
+                        <ul class="dropdown-menu p-2 date-filters">
                             <li><a class="dropdown-item" onclick="dateFilter({{ $lastWeek }});" href="#">{{ __('children.lastWeek') }}</a></li>
                             <li><a class="dropdown-item" onclick="dateFilter({{ $month }});" href="#">{{ __('children.month') }}</a></li>
                             <li><a class="dropdown-item" onclick="dateFilter({{ $pastThreeMonth }});" href="#">{{ __('children.month3') }}</a></li>
@@ -47,7 +47,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-2 my-1">
+                <div class="col-xl-3 col-lg-4 col-md-6  my-1">
                     <select class="form-control doc-filter" name="role">
                         <option value="">{{ __('children.selectProfession') }}</option>
                         @foreach ($roles as $role)
@@ -55,7 +55,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2 my-1">
+                <div class="col-xl-3 col-lg-4 col-md-6  my-1">
                     <select class="form-control doc-filter" name="therapist_id">
                         <option value="">{{ __('children.selectTherapist') }}</option>
                         @foreach ($therapists as $therapist)
@@ -63,7 +63,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2 my-1">
+                <div class="col-xl-3 col-lg-4 col-md-6  my-1">
                     <select class="form-control doc-filter" name="type">
                         <option value="">{{ __('children.selectIntervention') }}</option>
                         <option {{ request()->type == 'individual'  ? 'selected' : '' }} value="individual">{{ __('children.individual') }}</option>
