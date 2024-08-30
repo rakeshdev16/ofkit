@@ -16,7 +16,11 @@
                         'id' => $documentation->id,
                         'name' => ucfirst(str_replace('-', ' ', $documentation->type)),
                         'edit' => route('children-documentation.get', [$documentation->type, Request::segment(2), $documentation->id]),
-                        'show' => route('children-documentation.show', [$documentation->children_id, $documentation->id]),
+                        'show' => route('children-documentation.show', [
+                            $documentation->children_id,
+                            $documentation->id,
+                            Request::segment(2)
+                        ]),
                     ])
                 </button>
             </h2>
