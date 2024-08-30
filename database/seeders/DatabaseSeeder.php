@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Setting::firstOrCreate(['key' => 'environment', 'value' => 'local']);
+        Setting::firstOrCreate(['key' => 'lang', 'value' => 'en']);
         $this->call([
             PermissionSeeder::class,
             RoleSeeder::class,

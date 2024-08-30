@@ -110,7 +110,7 @@
                                                     </div>
                                                     <div class="col-md-12"> 
                                                         @include('components.multi-select-input', [
-                                                            'label' => 'Add Therapist',
+                                                            'label' => __('children.addTherapist'),
                                                             'name' => 'therapist_ids[]',
                                                             'class' => 'therapists',
                                                             'icon' => 'user',
@@ -164,7 +164,7 @@
                                                     </div>
                                                     <div class="col-md-12">
                                                         @include('components.multi-select-input', [
-                                                                'label' => 'Add Another Child',
+                                                                'label' => __('children.addAnotherChild'),
                                                                 'name' => 'children_ids[]',
                                                                 'class' => 'childrens',
                                                                 'icon' => 'user',
@@ -190,7 +190,7 @@
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 @include('components.textarea-input', [
-                                                                    'label' =>  'Add Topic',
+                                                                    'label' =>  __('children.addTopic'),
                                                                     'name' => 'topic',
                                                                     'icon' => 'notepad',
                                                                     'value' => @$document->staffMeeting->topic,
@@ -198,7 +198,7 @@
                                                             </div>
                                                             <div class="col-md-12">
                                                                 @include('components.textarea-input', [
-                                                                    'label' =>  'Add Discussion',
+                                                                    'label' =>  __('children.addDiscussion'),
                                                                     'name' => 'discussion',
                                                                     'icon' => 'group',
                                                                     'value' => @$document->staffMeeting->discussion,
@@ -206,7 +206,7 @@
                                                             </div>
                                                             <div class="col-md-12">
                                                                 @include('components.textarea-input', [
-                                                                    'label' =>  'Add Decisions',
+                                                                    'label' =>  __('children.addDecisions'),
                                                                     'name' => 'decisions',
                                                                     'icon' => 'user-check',
                                                                     'value' => @$document->staffMeeting->decisions,

@@ -84,7 +84,7 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         @include('components.text-input', [
-                                                            'label' => "Child's Name",
+                                                            'label' => __('children.childName'),
                                                             'name' => 'name',
                                                             'icon' => 'user',
                                                             'value' => $children->name,
@@ -93,7 +93,7 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         @include('components.text-input', [
-                                                            'label' => "Child's Family Name",
+                                                            'label' => __('children.childFamilyName'),
                                                             'name' => 'family_name',
                                                             'icon' => 'user',
                                                             'value' => $children->family_name,

@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th style="width: 2%"><input type="checkbox" class="mainCheckbox"></th>
-            @include('components.table-heading', ['label' => 'Document', 'key' => 'document', 'width' => '11.75%'])
+            @include('components.table-heading', ['label' => __('children.document'), 'key' => 'document', 'width' => '11.75%'])
             @include('components.table-heading', ['label' => __('comon.action'), 'width' => '5%'])
         </tr>
     </thead>

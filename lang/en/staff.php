@@ -16,6 +16,8 @@ return [
     'leftLengthMenuLabel' => 'Show',
     'rightLengthMenuLabel' => 'entries',
     'nameTh' => 'First Name',
+    'name' => 'Name',
+    'familyName' => 'Family Name',
     'idTh' => 'I.D',
     'birthDateTh' => 'Birth of Date',
     'addressTh' => 'Address',
@@ -57,5 +59,8 @@ return [
     'requiredDOB' => 'Please enter date of birth',
     'requiredRole' => 'Please enter role',
     'requiredKindergarten' => 'Please select kindergarten',
+    'document' => 'Document',
+    'professionalRole' => 'Professional Role',
+    'association' => 'Association',
 
 ];

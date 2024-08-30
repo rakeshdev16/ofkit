@@ -13,6 +13,7 @@ return [
     'submit' => 'לְהַגִישׁ',
     'moveToArchive' => 'העבר לארכיון',
     'search' => 'חיפוש',
+    'total' => 'סַך הַכֹּל',
     'back' => "יציאה",
     'emptyTableMsg' => 'לא נמצאו נתונים',
     'previous' => 'הקודם',
@@ -27,4 +28,5 @@ return [
     'invalidImageFormat' => 'פורמט תמונה לא חוקי',
     'forgetPassowrd' => 'שכחת את הסיסמה שלך?',
     'action' => 'פעולה',
+    'detail' => 'פְּרָט',
 ];

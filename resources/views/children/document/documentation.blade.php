@@ -22,7 +22,7 @@
             </div>
             <div class="row my-2">
                 <div class="col-md-2 my-1">
-                    <div class="dropdown dropdown-filter">
+                    <div class="dropdown dropdown-filter d-flex justify-content-between">
                         @php
                             if (request()->date && strpos(request()->date, ',') !== false) {
                                 $date = explode(',', request()->date);
@@ -31,7 +31,10 @@
                                 $date = request()->date ? date('d/m/Y', strtotime(request()->date)) : __('children.selectDate');
                             }
                         @endphp
-                        <button class="btn dropdown-toggle dropdown-filter-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ $date ? $date : __('children.selectDate') }}</button>
+                        <button class="btn dropdown-toggle dropdown-filter-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ $date ? $date : __('children.selectDate') }}
+                            <button class="btn" onclick="clearFilter('date')">x</button>
+                        </button>
                         <ul class="dropdown-menu p-2 date-filters" style="">
                             <li><a class="dropdown-item" onclick="dateFilter({{ $lastWeek }});" href="#">{{ __('children.lastWeek') }}</a></li>
                             <li><a class="dropdown-item" onclick="dateFilter({{ $month }});" href="#">{{ __('children.month') }}</a></li>

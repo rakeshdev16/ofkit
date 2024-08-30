@@ -5,7 +5,7 @@
                 <th style="width: 2%"><input type="checkbox" class="mainCheckbox"></th>
             @endif
             @include('components.table-heading', ['label' => __('staff.nameTh'), 'key' => 'first_name', 'width' => '13.44%'])
-            @include('components.table-heading', ['label' => 'Family Name', 'key' => 'family_name', 'width' => '13.44%'])
+            @include('components.table-heading', ['label' => __('staff.familyName'), 'key' => 'family_name', 'width' => '13.44%'])
             @include('components.table-heading', ['label' => __('staff.telephoneTh'), 'key' => 'telephone', 'width' => '13.44%'])
             @include('components.table-heading', ['label' => __('staff.emailTh'), 'key' => 'email', 'width' => '13.44%'])
             @include('components.table-heading', ['label' => __('staff.professionTh'), 'key' => 'profession_id', 'width' => '13.44%'])

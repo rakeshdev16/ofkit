@@ -15,73 +15,30 @@
                     <i class='bx bx-menu'></i>
                 </div>
                 <div class="top-menu ms-auto">
-                    {{-- <ul class="navbar-nav align-items-center gap-1">
-                        <li class="nav-item dropdown dropdown-large">
-                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#"
-                                data-bs-toggle="dropdown"><span class="alert-count">7</span>
-                                <i class='bx bx-bell'></i>
+                        <li class="nav-item dropdown dropdown-laungauge d-none d-sm-flex">
+                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="avascript:;" data-bs-toggle="dropdown">
+                                @if (getCurrentLang() == 'en')
+                                    <img src="{{ asset('assets/images/county/02.png') }}" width="22" alt="">
+                                @else
+                                    <img src="{{ asset('assets/images/county/hb.jpg') }}" width="22" alt="">
+                                @endif
                             </a>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <a href="#">
-                                    <div class="msg-header">
-                                        <p class="msg-header-title">Notifications</p>
-                                        <p class="msg-header-badge">8 New</p>
-                                    </div>
-                                </a>
-                                <div class="header-notifications-list ps">
-                                    <a class="dropdown-item" href="#">
-                                        <div class="d-flex align-items-center">
-                                            <div class="user-online">
-                                                <img src="assets/images/avatars/avatar-4.png" class="msg-avatar"
-                                                    alt="user avatar">
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="msg-name">Katherine Pechon <span class="msg-time float-end">15 min ago</span></h6>
-                                                <p class="msg-info">Making this the first true generator</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <div class="d-flex align-items-center">
-                                            <div class="notify bg-light-success text-success"><i class='bx bx-check-square'></i>
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="msg-name">Your item is shipped <span class="msg-time float-end">5 hrs ago</span></h6>
-                                                <p class="msg-info">Successfully shipped your item</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <div class="d-flex align-items-center">
-                                            <div class="notify bg-light-primary">
-                                                <img src="assets/images/app/github.png" width="25" alt="user avatar">
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="msg-name">New 24 authors<span class="msg-time float-end">1 day ago</span></h6>
-                                                <p class="msg-info">24 new authors joined last week</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <div class="d-flex align-items-center">
-                                            <div class="user-online">
-                                                <img src="assets/images/avatars/avatar-8.png" class="msg-avatar" alt="user avatar">
-                                            </div>
-                                            <div class="flex-grow-1">
-                                                <h6 class="msg-name">Peter Costanzo <span class="msg-time float-end">6 hrs ago</span></h6>
-                                                <p class="msg-info">It was popularised in the 1960s</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <a href="#">
-                                    <div class="text-center msg-footer">
-                                        <button class="btn button w-100">View All Notifications</button>
-                                    </div>
-                                </a>
-                            </div>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <button class="dropdown-item d-flex align-items-center py-2" onclick="setLocale('en')">
+                                        <img src="{{ asset('assets/images/county/02.png') }}" width="20" alt="">
+                                        <span class="ms-2">English</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item d-flex align-items-center py-2" onclick="setLocale('hb')">
+                                        <img src="{{ asset('assets/images/county/hb.jpg') }}" width="20" alt="">
+                                        <span class="ms-2">Hebrew</span>
+                                    </button>
+                                </li>
+                            </ul>
                         </li>
-                    </ul> --}}
+                    </ul>
                 </div>
                 <div class="user-box dropdown px-3">
                     <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret"

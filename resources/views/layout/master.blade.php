@@ -48,6 +48,22 @@
 	@stack('customScript')
 
     <script>
+        function setLocale(lang) {
+            $.ajax({
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                type: 'POST',
+                url: "{{ route('set.locale') }}",
+                data: {
+                    lang: lang
+                },
+                success: function (data) {
+                    if (data.status == true) {
+                        window.location.reload();
+                    }
+                }
+            });      
+        }
+
         $(document).on('click', '.previousRoute', function(e) {
             var url = $(this).data('url');
             $.ajax({

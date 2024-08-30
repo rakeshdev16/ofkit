@@ -9,7 +9,7 @@
                 <div>
                     <h3 class="mb-0 text-uppercase">{{ __('staff.staff') }} ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
                     <select name="" class="select-filter">
-                        <option value="">All Kindergartens</option>
+                        <option value="">{{ __('comon.allKindergartens') }}</option>
                         @foreach (authKindergartens() as $kindergarten)
                             <option {{ request()->kindergarten_id == $kindergarten['key'] ? 'selected' : '' }} value="{{ $kindergarten['key'] }}">{{ $kindergarten['value'] }}</option>
                         @endforeach
@@ -25,7 +25,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive full-width-table">
-                        @include('components.table-search', ['label' => 'Staff', 'count' => $count])
+                        @include('components.table-search', ['label' => __('staff.staff'), 'count' => $count])
                     <div id="dataTable">
                             @include('staff.table', ['members' => $members])
                         </div>

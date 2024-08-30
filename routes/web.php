@@ -24,6 +24,9 @@ use Illuminate\Support\Facades\Route;
 // $lang = App\Models\Setting::where('key', 'environment')->pluck('value')->First() == 'local' ? 'en' : 'hb';
 // App::setLocale($lang);
 Auth::routes();
+Route::controller(UserController::class)->group(function () {
+    Route::post('set-locale', 'setLocale')->name('set.locale');
+});
 
 Route::middleware(['auth', 'lang'])->group(function () {
     Route::get('/', fn() => redirect()->route('children.index'))->name('dashboard');

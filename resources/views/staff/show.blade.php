@@ -55,7 +55,7 @@
                                     <hr class="my-4">
                                     <ul class="list-group list-group-flush profile-detail">
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 class="mb-0"><i class="bx bx-user"></i> Family Name</h6>
+                                            <h6 class="mb-0"><i class="bx bx-user"></i> {{ __('staff.familyName') }}</h6>
                                             <span class="text-secondary">{{ @$staff->family_name ?? '-' }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
@@ -63,7 +63,7 @@
                                             <span class="text-secondary">{{ @$staff->email ?? '-' }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 class="mb-0"><i class="bx bx-search-alt"></i> I.D.</h6>
+                                            <h6 class="mb-0"><i class="bx bx-search-alt"></i> {{ __('staff.idTh') }}</h6>
                                             <span class="text-secondary">{{ @$staff->identification ?? '-' }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
@@ -87,11 +87,11 @@
                                             <span class="text-secondary">{{ @$staff->getRoleNames()->first() ?? '-' }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 class="mb-0"><i class="bx bx-calendar"></i> Created On</h6>
+                                            <h6 class="mb-0"><i class="bx bx-calendar"></i> {{ __('staff.createdAt') }}</h6>
                                             <span class="text-secondary">{{ date('d/m/Y', strtotime($staff->created_at)) ?? '-' }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 class="mb-0"><i class="bx bx-calendar"></i> Updated On</h6>
+                                            <h6 class="mb-0"><i class="bx bx-calendar"></i> {{ __('staff.updatedAt') }}</h6>
                                             <span class="text-secondary">{{ date('d/m/Y', strtotime($staff->updated_at)) ?? '-' }}</span>
                                         </li>
                                         {{-- @foreach ($staff->documents as $document)
@@ -110,13 +110,13 @@
                             <div class="row">
                                 <div class="col-md-12 kindergarten-section">
                                     <div class="time-table">
-                                        <h4 class="text-center">Kindergarten</h4>
+                                        <h4 class="text-center">{{ __('staff.kindergartenTh') }}</h4>
                                         <table class="table table-borderd" style="width:100%">
                                             <thead>
                                                 <tr>
-                                                    <th>Name</th>
-                                                    <th>Professional Role</th>
-                                                    <th>Association</th>
+                                                    <th>{{ __('staff.name') }}</th>
+                                                    <th>{{ __('staff.professionalRole') }}</th>
+                                                    <th>{{ __('staff.professionalRole') }}</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="selected-kindergarten">
@@ -129,7 +129,7 @@
                                                         'data' => $kindergarten
                                                     ])
                                                 @empty
-                                                    <tr class="text-center"><td colspan="3">No kindergarten found!</td></tr>
+                                                    <tr class="text-center"><td colspan="3">{{ __('comon.emptyTableMsg') }}</td></tr>
                                                 @endforelse
                                             </tbody>
                                         </table>
@@ -164,7 +164,6 @@
                                                                     type="time"
                                                                     name="schedule[{{$loop->index}}][start_time]"
                                                                     class="form-control"
-                                                                    placeholder="Enter Start Date"
                                                                     value="{{ @$data['start_time'] }}"
                                                                     disabled
                                                                 >
@@ -174,7 +173,6 @@
                                                                     type="time"
                                                                     name="schedule[{{$loop->index}}][end_time]"
                                                                     class="form-control"
-                                                                    placeholder="Enter End Date"
                                                                     value="{{ @$data['end_time'] }}"
                                                                     disabled
                                                                 >
@@ -189,7 +187,7 @@
                                 @if (isset($staff->documents) && count($staff->documents) > 0)
                                 <div class="col-md-12">
                                     <div class="time-table">
-                                        <h4 class="text-center">Documents</h4>
+                                        <h4 class="text-center">{{ __('staff.document') }}</h4>
                                         <div class="table-responsive" style="display: block !important;">
                                             <div class="d-flex choosenDocument" style="flex-wrap: wrap;">
                                                 @foreach ($staff->documents as $document)

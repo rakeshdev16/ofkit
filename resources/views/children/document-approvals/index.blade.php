@@ -7,7 +7,7 @@
         <div class="page-content">
             <div class="mb-4 page-info">
                 <div class="">
-                    <h3 class="mb-0 text-uppercase">Document And Approvals ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
+                    <h3 class="mb-0 text-uppercase">{{ __('children.documentApprovals') }} ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
                 </div>
                 <div class="mt-3">
                     @if (Auth::user()->hasRole('admin'))
@@ -18,11 +18,11 @@
                 </div>
             </div>
             <div class="row my-2 mx-1 children-detail">
-                <div class="col-md-6"><label for=""><b>Child Name:</b></label> {{ $children->name }}</div>
-                <div class="col-md-6"><label for=""><b>I.D:</b></label> {{ $children->identification }}</div>
-                <div class="col-md-6"><label for=""><b>Kindergarten:</b></label> {{ getKindergartenNameById($children->kindergarten_id) }}</div>
-                <div class="col-md-6"><label for=""><b>Child's Birthday:</b></label> {{ $children->date_of_birth }}</div>
-                <div class="col-md-6"><label for=""><b>Child's Age:</b></label> {{ $children->age }}</div>
+                <div class="col-md-6"><label for=""><b>{{ __('children.childName') }}:</b></label> {{ $children->name }}</div>
+                <div class="col-md-6"><label for=""><b>{{ __('children.ID') }}:</b></label> {{ $children->identification }}</div>
+                <div class="col-md-6"><label for=""><b>{{ __('children.kindergarten') }}:</b></label> {{ getKindergartenNameById($children->kindergarten_id) }}</div>
+                <div class="col-md-6"><label for=""><b>{{ __('children.childBirthday') }}:</b></label> {{ $children->date_of_birth }}</div>
+                <div class="col-md-6"><label for=""><b>{{ __('children.childAge') }}:</b></label> {{ $children->age }}</div>
             </div>
             <div class="card small-table">
                 <div class="card-body">
@@ -42,18 +42,18 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Documents</h5>
+                        <h5 class="modal-title">{{ __('children.document') }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form action="{{ route('documents-approvals.post') }}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            <label for="">Document</label>
+                            <label for="">{{ __('children.document') }}</label>
                             <input type="file" name="document" class="form-control file" required>
                             <input type="hidden" name="children_id" value="{{ $children->id }}">
                             <div class="my-3">
-                                <button type="submit" class="btn button">Submit</button>
-                                <button type="button" class="btn button" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                                <button type="submit" class="btn button">{{ __('comon.submit') }}</button>
+                                <button type="button" class="btn button" data-bs-dismiss="modal" aria-label="Close">{{ __('comon.close') }}</button>
                             </div>
                         </form>
                     </div>

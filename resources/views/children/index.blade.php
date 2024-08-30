@@ -25,7 +25,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive full-width-table">
-                        @include('components.table-search', ['label' => 'Childrens', 'count' => $count])
+                        @include('components.table-search', ['label' => __('comon.childrens'), 'count' => $count])
                         <div id="dataTable">
                             @include('children.table', ['childrens' => $childrens])
                         </div>

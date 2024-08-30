@@ -16,6 +16,8 @@ return [
     'leftLengthMenuLabel' => 'הופעה',
     'rightLengthMenuLabel' => 'ערכים',
     'nameTh' => 'שֵׁם',
+    'name' => 'שֵׁם',
+    'familyName' => 'שֵׁם מִשׁפָּחָה',
     'idTh' => 'תְעוּדַת זֶהוּת',
     'birthDateTh' => 'תאריך לידה',
     'addressTh' => 'כתובת',
@@ -43,6 +45,8 @@ return [
     'thursday' => "יוֹם חֲמִישִׁי",
     'friday' => "יוֹם שִׁישִׁי",
     'saturday' => "יום שבת",
+    'createdAt' => 'נוצר ב-',
+    'updatedAt' => 'עודכן ב-',
     'requiredManager' => 'אנא בחר מנהל',
     'requiredName' => 'נא להזין שם',
     'requiredAddress' => 'נא להזין כתובת',
@@ -55,5 +59,8 @@ return [
     'requiredDOB' => 'נא להזין תאריך לידה',
     'requiredRole' => 'נא להזין תפקיד',
     'requiredKindergarten' => 'נא לבחור גן ילדים',
+    'document' => 'מִסְמָך',
+    'professionalRole' => 'תפקיד מקצועי',
+    'association' => 'אִרגוּן',
 
 ];

@@ -43,14 +43,14 @@
                                 ])
                                 <div class="col-md-6">
                                     @include('components.text-input', [
-                                        'label' => 'First Name',
+                                        'label' => __('staff.nameTh'),
                                         'name' => 'first_name',
                                         'icon' => 'user',
                                     ])
                                 </div>
                                 <div class="col-md-6">
                                     @include('components.text-input', [
-                                        'label' => 'Family Name',
+                                        'label' => __('staff.familyName'),
                                         'name' => 'family_name',
                                         'icon' => 'user',
                                     ])
@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     @include('components.text-input', [
-                                        'label' =>  'ID',
+                                        'label' =>  __('staff.idTh'),
                                         'name' => 'identification',
                                         'icon' => 'search-alt',
                                     ])
@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     @include('components.file-input', [
-                                        'label' => 'Document',
+                                        'label' => __('staff.document'),
                                         'name' => 'documents[]',
                                         'class' => 'documents',
                                         'id' => 'documents',
@@ -135,14 +135,14 @@
                                 @endphp
                                 <div class="col-md-12 kindergarten-section" style="display: {{ @$kindergartenCount > 0 ? 'block' : 'none' }}">
                                     <div class="time-table">
-                                        <h4 class="text-center">Kindergarten</h4>
+                                        <h4 class="text-center">{{ __('staff.kindergartenTh') }}</h4>
                                         <div class="table-responsive" style="display: block !important;">
                                             <table class="table table-borderd" style="width:100%;">
                                                 <thead>
                                                     <tr>
-                                                        <th>Name</th>
-                                                        <th>Professional Role</th>
-                                                        <th>Association</th>
+                                                        <th>{{ __('staff.name') }}</th>
+                                                        <th>{{ __('staff.professionalRole') }}</th>
+                                                        <th>{{ __('staff.professionalRole') }}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="selected-kindergarten">

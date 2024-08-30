@@ -13,6 +13,7 @@ return [
     'submit' => 'Submit',
     'moveToArchive' => 'Move To Archive',
     'search' => 'Search',
+    'total' => 'Total',
     'back' => "Exit",
     'emptyTableMsg' => 'No Data Found!',
     'previous' => 'Prev',
@@ -28,4 +29,5 @@ return [
     'forgetPassowrd' => 'Forgot Your Password?',
     'action' => 'Action',
     'detail' => 'Detail',
+    'close' => 'Close',
 ];

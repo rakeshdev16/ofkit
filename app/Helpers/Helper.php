@@ -3,6 +3,7 @@
 use App\Models\Children;
 use App\Models\GroupChildren;
 use App\Models\Kindergarten;
+use App\Models\Setting;
 use App\Models\StaffKindergarten;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -93,4 +94,9 @@ function authKindergartens()
 function getDocGroupChildDetail($docId, $childId)
 {
     return GroupChildren::select('id', 'participated', 'reason', 'description')->where(['children_documentation_id' => $docId, 'children_id' => $childId])->first();
+}
+
+function getCurrentLang()
+{
+    return Setting::where('key', 'lang')->pluck('value')->first();;
 }
