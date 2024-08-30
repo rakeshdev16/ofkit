@@ -119,7 +119,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' =>  'Age',
+                                                                'label' =>  __('children.age'),
                                                                 'name' => 'age',
                                                                 'class' => 'age',
                                                                 'icon' => 'buildings', 

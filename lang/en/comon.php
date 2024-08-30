@@ -31,4 +31,6 @@ return [
     'detail' => 'Detail',
     'close' => 'Close',
     'select' => 'Select',
+    'male' => 'Male',
+    'female' => 'Female',
 ];

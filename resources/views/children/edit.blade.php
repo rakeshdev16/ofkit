@@ -80,7 +80,7 @@
                                                                 'label' => __('children.gender'), 
                                                                 'name' => 'gender', 
                                                                 'icon' => 'buildings', 
-                                                                'options' => [['key' => 'male', 'value' => 'Male'],['key' => 'female', 'value' => 'Female']],
+                                                                'options' => [['key' => 'male', 'value' => __('comon.male')],['key' => 'female', 'value' => __('comon.female')]],
                                                                 'value' => $children->gender
                                                             ])
                                                         </div>
