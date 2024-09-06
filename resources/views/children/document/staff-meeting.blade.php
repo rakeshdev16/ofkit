@@ -114,7 +114,7 @@
                                                     </div>
                                                     <div class="col-md-12">
                                                         @include('components.multi-select-input', [
-                                                            'label' => __('children.addTherapist'),
+                                                            'label' => __('children.addParticipant'),
                                                             'name' => 'therapist_ids[]',
                                                             'class' => 'therapists',
                                                             'icon' => 'user',

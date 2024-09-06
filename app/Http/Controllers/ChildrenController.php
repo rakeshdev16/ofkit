@@ -77,7 +77,7 @@ class ChildrenController extends Controller
             'medicine_dosage.*.type' => "required_if:medicine,==,yes",
             'medicine_dosage.*.dosage_and_timing' => "required_if:medicine,==,yes",
             'medicine_dosage.*.where' => "required_if:medicine,==,yes",
-        ],[
+        ], [
             'name.required' => __('children.requiredName'),
             'family_name.required' => __('children.requiredFamilyName'),
             'dob.required' => __('children.requiredDOB'),
@@ -157,7 +157,6 @@ class ChildrenController extends Controller
 
             DB::commit();
             return redirect()->route('children.index');
-
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back();
@@ -205,7 +204,7 @@ class ChildrenController extends Controller
             'medicine_dosage.*.type' => "required_if:medicine,==,yes",
             'medicine_dosage.*.dosage_and_timing' => "required_if:medicine,==,yes",
             'medicine_dosage.*.where' => "required_if:medicine,==,yes",
-        ],[
+        ], [
             'name.required' => __('children.required'),
             'family_name.required' => __('children.required'),
             'dob.required' => __('children.required'),
@@ -285,7 +284,6 @@ class ChildrenController extends Controller
 
             DB::commit();
             return redirect()->route('children.show', ['child' => $id, 'kindergarten_id' => $request->query_string]);
-
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back();
@@ -310,7 +308,7 @@ class ChildrenController extends Controller
             } else {
                 Children::where('id', $request->user_id)->update(['photo' => $photo]);
             }
-            return response()->json(['status' => true, 'message' => __('children.uploadProfile'), 'src' => asset('storage/'.$photo)]);
+            return response()->json(['status' => true, 'message' => __('children.uploadProfile'), 'src' => asset('storage/' . $photo)]);
         }
         return response()->json(['status' => false]);
     }
@@ -357,7 +355,7 @@ class ChildrenController extends Controller
         return view('children.document.documentation', compact('children', 'documentations', 'documentationCount', 'roles', 'therapists', 'lastWeek', 'month', 'pastThreeMonth', 'pastSixMonth'));
     }
 
-    public function documentationDetail($childId, $id, $mailchildId=NULL)
+    public function documentationDetail($childId, $id, $mailchildId = NULL)
     {
         $children = Children::findOrFail($childId);
         $mainChildren = Children::findOrFail($mailchildId);
@@ -366,7 +364,7 @@ class ChildrenController extends Controller
         return view('children.document.documentation-detail', compact('document', 'children', 'mainChildren'));
     }
 
-    public function documentation(Request $request, $type, $childId, $id=null)
+    public function documentation(Request $request, $type, $childId, $id = null)
     {
         $document = '';
         if ($id) {
@@ -378,33 +376,33 @@ class ChildrenController extends Controller
         switch ($type) {
             case 'individual':
                 return view('children.document.individual', compact('children', 'user', 'document'));
-            break;
+                break;
             case 'group':
                 return view('children.document.group', compact('children', 'user', 'document', 'childrens'));
-            break;
+                break;
             case 'parental-guidance':
                 $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
                 $kindergartens = User::whereIn('id', $userIds)->select('id as key', 'name as value')->get();
                 return view('children.document.parental-guidance', compact('children', 'user', 'document', 'childrens', 'kindergartens'));
-            break;
+                break;
             case 'staff-meeting':
                 $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
-                $therapist = User::whereIn('id', $userIds)->role('therapist')->select('id as key', 'name as value')->get();
+                $therapist = User::whereIn('id', $userIds)->role(['therapist', 'manager'])->select('id as key', 'name as value')->get();
                 return view('children.document.staff-meeting', compact('children', 'user', 'document', 'childrens', 'therapist'));
-            break;
+                break;
             case 'initial-evaluation':
                 $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
-                $therapist = User::whereIn('id', $userIds)->role('therapist')->select('id as key', 'name as value')->get();
+                $therapist = User::whereIn('id', $userIds)->role(['therapist', 'manager'])->select('id as key', 'name as value')->get();
                 return view('children.document.initial-evaluation', compact('children', 'user', 'document', 'childrens', 'therapist'));
-            break;
+                break;
             case 'final-evaluation':
                 $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
-                $therapist = User::whereIn('id', $userIds)->role('therapist')->select('id as key', 'name as value')->get();
+                $therapist = User::whereIn('id', $userIds)->role(['therapist', 'manager'])->select('id as key', 'name as value')->get();
                 return view('children.document.final-evaluation', compact('children', 'user', 'document', 'childrens', 'therapist'));
-            break;
+                break;
             default:
                 return view('children.document.individual', compact('children', 'childrens', 'user', 'document'));
-            break;
+                break;
         }
     }
     public function saveDocumentation(Request $request, $type, $id)
@@ -427,22 +425,22 @@ class ChildrenController extends Controller
         switch ($type) {
             case 'individual':
                 return $this->individual($request->all(), $id);
-            break;
+                break;
             case 'group':
                 return $this->group($request->all(), $id);
-            break;
+                break;
             case 'parental-guidance':
                 return $this->parentalGuidance($request->all(), $id);
-            break;
+                break;
             case 'staff-meeting':
                 return $this->staffMeeting($request->all(), $id);
-            break;
+                break;
             case 'initial-evaluation':
                 return $this->initialEvaluation($request->all(), $id);
-            break;
+                break;
             case 'final-evaluation':
                 return $this->finalEvaluation($request->all(), $id);
-            break;
+                break;
         }
     }
 
@@ -751,7 +749,7 @@ class ChildrenController extends Controller
 
         $validator = Validator::make($request->all(), [
             'document' => 'required',
-        ],[
+        ], [
             'document.required' => 'Please choose document',
         ]);
         if ($validator->fails()) {
