@@ -166,12 +166,12 @@
                                                                     <td class="text-center" colspan="5">{{ __('children.noChildrenFound') }}</td>
                                                                 @else
                                                                     @foreach ($document->staffMeeting as $staffMeeting)
-                                                                        <tr">
-                                                                            <td>{{ getChildrenNameById($staffMeeting->children_id) }}</td>
-                                                                            <td>{{ $staffMeeting->topic }}</td>
-                                                                            <td>{{ $staffMeeting->discussion }}</td>
-                                                                            <td>{{ $staffMeeting->decisions }}</td>
-                                                                            </tr>
+                                                                        <tr>
+                                                                            <td>{{ getChildrenNameById($staffMeeting->children_id) ?? '-' }}</td>
+                                                                            <td>{{ $staffMeeting->topic ?? '-' }}</td>
+                                                                            <td>{{ $staffMeeting->discussion ?? '-' }}</td>
+                                                                            <td>{{ $staffMeeting->decisions ?? '-' }}</td>
+                                                                        </tr>
                                                                     @endforeach
                                                                 @endif
                                                             </tbody>
