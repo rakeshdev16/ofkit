@@ -90,7 +90,7 @@
                                                             'max' => date('Y-m-d'),
                                                         ])
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-6">
                                                         @include('components.time-input', [
                                                             'label' => __('children.startTime'),
                                                             'name' => 'start_time',
@@ -98,7 +98,7 @@
                                                             'value' => @$document->start_time,
                                                         ])
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-6">
                                                         @include('components.time-input', [
                                                             'label' => __('children.endTime'),
                                                             'name' => 'end_time',
