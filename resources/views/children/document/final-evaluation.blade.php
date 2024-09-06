@@ -51,7 +51,7 @@
                                                     @if (Auth::user()->hasRole('admin'))
                                                         <div class="col-md-6">
                                                             @include('components.select-input', [
-                                                                'label' => 'Therapist',
+                                                                'label' => __('children.therapist'),
                                                                 'name' => 'therapist_id',
                                                                 'icon' => 'buildings',
                                                                 'options' => $allTherapists,
@@ -61,7 +61,7 @@
                                                     @else
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' => 'Therapist',
+                                                                'label' => __('children.therapist'),
                                                                 'name' => '',
                                                                 'icon' => 'user',
                                                                 'value' => Auth::user()->name,
