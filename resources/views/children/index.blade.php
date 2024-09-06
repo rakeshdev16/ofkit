@@ -1,13 +1,17 @@
 @extends('layout.master')
 @push('customLink')
-    
+    <style>
+        .accordion-button::after {
+            display: none !important;
+        }
+    </style>
 @endpush
 @section('section')
     <div class="page-wrapper">
         <div class="page-content">
             <div class="mb-4 page-info">
                 <div>
-                    <h3 class="mb-0 text-uppercase">{{ __('children.children') }} ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
+                    <h3 class="mb-0 text-uppercase">{{ __('children.children') }} ({{ __('comon.' . Auth::user()->getRoleNames()->first()) }})</h3>
                     <select name="" class="select-filter">
                         <option value="">{{ __('comon.allKindergartens') }}</option>
                         @foreach (authKindergartens() as $kindergarten)
@@ -39,16 +43,16 @@
     </div>
 @endsection
 @push('customScript')
-<script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
-<script>
-    $(document).on('click', '.button', function() {
-        $(this).attr('disabled', false);
-    });
-    $(document).on('click', '.moveToArchive', function() {
-        var url = "{{ route('children.destroy', ':ids') }}";
-        var msg = "{{ __('children.chooseAtLeastOne') }}";
-        moveToArchive(url, msg);
-    });
-</script>
-<script src="{{ asset('assets/js/custom-datatable.js') }}"></script>
+    <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
+    <script>
+        $(document).on('click', '.button', function() {
+            $(this).attr('disabled', false);
+        });
+        $(document).on('click', '.moveToArchive', function() {
+            var url = "{{ route('children.destroy', ':ids') }}";
+            var msg = "{{ __('children.chooseAtLeastOne') }}";
+            moveToArchive(url, msg);
+        });
+    </script>
+    <script src="{{ asset('assets/js/custom-datatable.js') }}"></script>
 @endpush
