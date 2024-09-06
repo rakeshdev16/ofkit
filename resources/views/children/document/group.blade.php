@@ -60,6 +60,28 @@
                                             <form action="{{ route('children-documentation.store', ['group', $children->id]) }}" method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="row g-3">
+                                                    @if (Auth::user()->hasRole('admin'))
+                                                        <div class="col-md-6">
+                                                            @include('components.select-input', [
+                                                                'label' => 'Therapist',
+                                                                'name' => 'therapist_id',
+                                                                'icon' => 'buildings',
+                                                                'options' => $allTherapists,
+                                                                'value' => old('therapist_id') ? old('therapist_id') : @$document->therapist_id,
+                                                            ])
+                                                        </div>
+                                                    @else
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
+                                                                'label' => 'Therapist',
+                                                                'name' => '',
+                                                                'icon' => 'user',
+                                                                'value' => Auth::user()->name,
+                                                                'disabled' => 'disabled',
+                                                            ])
+                                                            <input type="hidden" name="therapist_id" value="{{ Auth::id() }}">
+                                                        </div>
+                                                    @endif
                                                     <div class="col-md-6">
                                                         @include('components.date-input', [
                                                             'label' => __('children.date'),

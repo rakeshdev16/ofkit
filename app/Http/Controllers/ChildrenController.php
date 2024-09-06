@@ -379,35 +379,36 @@ class ChildrenController extends Controller
         $children = Children::findOrFail($childId);
         $childrens = Children::where('id', '!=', $childId)->where('kindergarten_id', $children->kindergarten_id)->select('id as key', 'name as value')->get();
         $user = Auth::user();
+        $allTherapists = User::role(['admin', 'therapist'])->select('id as key', 'name as value')->get();
         switch ($type) {
             case 'individual':
-                return view('children.document.individual', compact('children', 'user', 'document'));
+                return view('children.document.individual', compact('allTherapists', 'children', 'user', 'document'));
                 break;
             case 'group':
-                return view('children.document.group', compact('children', 'user', 'document', 'childrens'));
+                return view('children.document.group', compact('allTherapists', 'children', 'user', 'document', 'childrens'));
                 break;
             case 'parental-guidance':
                 $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
                 $kindergartens = User::whereIn('id', $userIds)->select('id as key', 'name as value')->get();
-                return view('children.document.parental-guidance', compact('children', 'user', 'document', 'childrens', 'kindergartens'));
+                return view('children.document.parental-guidance', compact('allTherapists', 'children', 'user', 'document', 'childrens', 'kindergartens'));
                 break;
             case 'staff-meeting':
                 $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
                 $therapist = User::whereIn('id', $userIds)->role(['therapist', 'manager'])->select('id as key', 'name as value')->get();
-                return view('children.document.staff-meeting', compact('children', 'user', 'document', 'childrens', 'therapist'));
+                return view('children.document.staff-meeting', compact('allTherapists', 'children', 'user', 'document', 'childrens', 'therapist'));
                 break;
             case 'initial-evaluation':
                 $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
                 $therapist = User::whereIn('id', $userIds)->role(['therapist', 'manager'])->select('id as key', 'name as value')->get();
-                return view('children.document.initial-evaluation', compact('children', 'user', 'document', 'childrens', 'therapist'));
+                return view('children.document.initial-evaluation', compact('allTherapists', 'children', 'user', 'document', 'childrens', 'therapist'));
                 break;
             case 'final-evaluation':
                 $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
                 $therapist = User::whereIn('id', $userIds)->role(['therapist', 'manager'])->select('id as key', 'name as value')->get();
-                return view('children.document.final-evaluation', compact('children', 'user', 'document', 'childrens', 'therapist'));
+                return view('children.document.final-evaluation', compact('allTherapists', 'children', 'user', 'document', 'childrens', 'therapist'));
                 break;
             default:
-                return view('children.document.individual', compact('children', 'childrens', 'user', 'document'));
+                return view('children.document.individual', compact('allTherapists', 'children', 'childrens', 'user', 'document'));
                 break;
         }
     }
@@ -415,7 +416,7 @@ class ChildrenController extends Controller
     {
         $request['children_id'] = $id;
         $request['type'] = $type;
-        $request['therapist_id'] = Auth::id();
+        // $request['therapist_id'] = Auth::id();
         if ($request['occured'] == 0) {
             $request['occured_description'] = '';
         }

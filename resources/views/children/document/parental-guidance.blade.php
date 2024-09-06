@@ -27,7 +27,7 @@
                                 // if ($document && $document->id) {
                                 //     $back = route('children-documentation.show', [$children->id, $document->id]);
                                 // } else {
-                                    $back = route('children.show', Request::segment(3));
+                                $back = route('children.show', Request::segment(3));
                                 // }
                             @endphp
                             <div class="">
@@ -43,17 +43,39 @@
                                     <div class="card-body">
                                         <div class="bs-stepper-content">
                                             <div class="d-flex justify-content-between">
-                                                <h5 class="mb-4 steper-title">{{ __('children.'.Request::segment(2)) }}</h5>
+                                                <h5 class="mb-4 steper-title">{{ __('children.' . Request::segment(2)) }}</h5>
                                             </div>
                                             <form action="{{ route('children-documentation.store', ['parental-guidance', $children->id]) }}" method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="row g-3">
+                                                    @if (Auth::user()->hasRole('admin'))
+                                                        <div class="col-md-6">
+                                                            @include('components.select-input', [
+                                                                'label' => 'Therapist',
+                                                                'name' => 'therapist_id',
+                                                                'icon' => 'buildings',
+                                                                'options' => $allTherapists,
+                                                                'value' => old('therapist_id') ? old('therapist_id') : @$document->therapist_id,
+                                                            ])
+                                                        </div>
+                                                    @else
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
+                                                                'label' => 'Therapist',
+                                                                'name' => '',
+                                                                'icon' => 'user',
+                                                                'value' => Auth::user()->name,
+                                                                'disabled' => 'disabled',
+                                                            ])
+                                                            <input type="hidden" name="therapist_id" value="{{ Auth::id() }}">
+                                                        </div>
+                                                    @endif
                                                     <div class="col-md-6">
                                                         @include('components.date-input', [
-                                                            'label' =>__('children.date'),
+                                                            'label' => __('children.date'),
                                                             'name' => 'date',
                                                             'value' => @$document->date,
-                                                            'max' => date('Y-m-d')
+                                                            'max' => date('Y-m-d'),
                                                         ])
                                                     </div>
                                                     <div class="col-md-3">
@@ -78,7 +100,7 @@
                                                             'name' => 'Kindergarten',
                                                             'icon' => 'user',
                                                             'value' => getKindergartenNameById($children->kindergarten_id),
-                                                            'disabled' => 'disabled'
+                                                            'disabled' => 'disabled',
                                                         ])
                                                     </div>
                                                     <div class="col-md-4">
@@ -87,7 +109,7 @@
                                                             'name' => 'name',
                                                             'icon' => 'user',
                                                             'value' => $children->name,
-                                                            'disabled' => 'disabled'
+                                                            'disabled' => 'disabled',
                                                         ])
                                                     </div>
                                                     <div class="col-md-4">
@@ -96,7 +118,7 @@
                                                             'name' => 'family_name',
                                                             'icon' => 'user',
                                                             'value' => $children->family_name,
-                                                            'disabled' => 'disabled'
+                                                            'disabled' => 'disabled',
                                                         ])
                                                     </div>
                                                     <div class="col-md-12">
@@ -114,12 +136,7 @@
                                                             'name' => 'occured_reason',
                                                             'icon' => 'buildings',
                                                             'value' => @$document->occured_reason,
-                                                            'options' => [
-                                                                ['key' => 'Child absent', 'value' => 'Child absent'],
-                                                                ['key' => 'Therapist absent', 'value' => 'Therapist absent'],
-                                                                ['key' => 'Kindergarten closed', 'value' => 'Kindergarten closed'],
-                                                                ['key' => 'Other', 'value' => 'Other'],
-                                                            ]
+                                                            'options' => [['key' => 'Child absent', 'value' => 'Child absent'], ['key' => 'Therapist absent', 'value' => 'Therapist absent'], ['key' => 'Kindergarten closed', 'value' => 'Kindergarten closed'], ['key' => 'Other', 'value' => 'Other']],
                                                         ])
                                                     </div>
                                                     <div class="col-md-12 occuredDescription" style="display: {{ (old('occured') ?? @$document->occured) == '1' ? 'block' : 'none' }};">
@@ -140,7 +157,7 @@
                                                             'value' => old('file'),
                                                         ])
                                                         <div class="d-flex mt-2 choosenFile" style="flex-wrap: wrap;">
-                                                            @if (isset($document->file) && $document->file != NULL)
+                                                            @if (isset($document->file) && $document->file != null)
                                                                 <div class="document mt-1">
                                                                     <a href="{{ $document->file }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a>
                                                                     <i class="bx bx-x childDocument" data-file-name="{{ $document->file }}"></i>
@@ -171,7 +188,5 @@
     @endsection
     @push('customScript')
         @include('children.document.script')
-        <script>
-            
-        </script>
+        <script></script>
     @endpush

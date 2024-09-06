@@ -79,6 +79,28 @@
                                                             $childrenIds = [];
                                                         }
                                                     @endphp
+                                                    @if (Auth::user()->hasRole('admin'))
+                                                        <div class="col-md-6">
+                                                            @include('components.select-input', [
+                                                                'label' => 'Therapist',
+                                                                'name' => 'therapist_id',
+                                                                'icon' => 'buildings',
+                                                                'options' => $allTherapists,
+                                                                'value' => old('therapist_id') ? old('therapist_id') : @$document->therapist_id,
+                                                            ])
+                                                        </div>
+                                                    @else
+                                                        <div class="col-md-6">
+                                                            @include('components.text-input', [
+                                                                'label' => 'Therapist',
+                                                                'name' => '',
+                                                                'icon' => 'user',
+                                                                'value' => Auth::user()->name,
+                                                                'disabled' => 'disabled',
+                                                            ])
+                                                            <input type="hidden" name="therapist_id" value="{{ Auth::id() }}">
+                                                        </div>
+                                                    @endif
                                                     <div class="col-md-6">
                                                         @include('components.date-input', [
                                                             'label' => __('children.date'),
@@ -188,11 +210,13 @@
                                                     <div class="col-md-12 topicSection">
                                                         <div class="row">
                                                             <div class="col-md-12 childrenTopic">
-                                                                @forelse ($document->staffMeeting as $staffMeeting)
-                                                                    @include('components.topic-section', ['name' => getChildrenNameById($staffMeeting->children_id), 'children_id' => @$staffMeeting->children_id, 'data' => @$staffMeeting])
-                                                                @empty
-                                                                    @include('components.topic-section', ['children_id' => $children->id])
-                                                                @endforelse
+                                                                @if ($document && count($document->staffMeeting) > 0)
+                                                                    @foreach ($document->staffMeeting as $staffMeeting)
+                                                                        @include('components.topic-section', ['name' => getChildrenNameById($staffMeeting->children_id), 'children_id' => @$staffMeeting->children_id, 'data' => @$staffMeeting])
+                                                                    @endforeach
+                                                                @else
+                                                                    @include('components.topic-section', ['name' => getChildrenNameById($children->id), 'children_id' => $children->id])
+                                                                @endif
                                                             </div>
                                                             <div class="col-md-12">
                                                                 @include('components.file-input', [

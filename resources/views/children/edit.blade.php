@@ -77,9 +77,9 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.select-input', [
-                                                                'label' => __('children.gender'), 
-                                                                'name' => 'gender', 
-                                                                'icon' => 'buildings', 
+                                                                'label' => __('children.gender'),
+                                                                'name' => 'gender',
+                                                                'icon' => 'buildings',
                                                                 'options' => [['key' => 'male', 'value' => __('comon.male')],['key' => 'female', 'value' => __('comon.female')]],
                                                                 'value' => $children->gender
                                                             ])
@@ -97,7 +97,7 @@
                                                                 'label' =>  __('children.age'),
                                                                 'name' => 'age',
                                                                 'class' => 'age',
-                                                                'icon' => 'buildings', 
+                                                                'icon' => 'buildings',
                                                                 'readonly' => true,
                                                                 'value' => $children->age
                                                             ])
@@ -488,7 +488,7 @@
                 //         $('.medicine').val('no');
                 //     }
                 // }
-                
+
             });
         </script>
     @endpush
