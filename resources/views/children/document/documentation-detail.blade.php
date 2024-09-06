@@ -135,7 +135,7 @@
                                     @endif
                                     @if ($document->type == 'staff-meeting')
                                         <ul class="list-group list-group-flush" style="border-top: 1px solid #dfd8d8">
-                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            {{-- <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                                 <h6 class="mb-0">{{ __('children.topic') }}</h6>
                                                 <span class="text-secondary doc-desc">{{ @$document->staffMeeting->topic ?? '-' }}</span>
                                             </li>
@@ -146,9 +146,41 @@
                                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                                 <h6 class="mb-0">{{ __('children.decisions') }}</h6>
                                                 <span class="text-secondary doc-desc">{{ @$document->staffMeeting->decisions ?? '-' }}</span>
-                                            </li>
+                                            </li> --}}
 
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 kindergarten-section">
+                                                <div class="time-table">
+                                                    <h4 class="text-center">{{ __('children.children') }}</h4>
+                                                    <div class="table-responsive" style="display: block !important;">
+                                                        <table class="table table-borderd" style="width:100%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="5%">{{ __('children.children') }}</th>
+                                                                    <th width="15%">{{ __('children.topic') }}</th>
+                                                                    <th width="10%">{{ __('children.discussion') }}</th>
+                                                                    <th width="70%">{{ __('children.decisions') }}</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="selected-kindergarten">
+                                                                @if ($document->staffMeeting->isEmpty())
+                                                                    <td class="text-center" colspan="5">{{ __('children.noChildrenFound') }}</td>
+                                                                @else
+                                                                    @foreach ($document->staffMeeting as $staffMeeting)
+                                                                        <tr">
+                                                                            <td>{{ getChildrenNameById($staffMeeting->children_id) }}</td>
+                                                                            <td>{{ $staffMeeting->topic }}</td>
+                                                                            <td>{{ $staffMeeting->discussion }}</td>
+                                                                            <td>{{ $staffMeeting->decisions }}</td>
+                                                                            </tr>
+                                                                    @endforeach
+                                                                @endif
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {{-- <div class="col-md-12">
                                                 <div class="time-table">
                                                     <h4 class="text-center">{{ __('children.children') }}</h4>
                                                     <div class="table-responsive" style="display: block !important;">
@@ -165,7 +197,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="col-md-12">
                                                 <div class="time-table">
                                                     <h4 class="text-center">{{ __('children.participant') }}</h4>

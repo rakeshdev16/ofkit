@@ -187,29 +187,12 @@
                                                     </div>
                                                     <div class="col-md-12 topicSection">
                                                         <div class="row">
-                                                            <div class="col-md-12">
-                                                                @include('components.textarea-input', [
-                                                                    'label' => __('children.addTopic'),
-                                                                    'name' => 'topic',
-                                                                    'icon' => 'notepad',
-                                                                    'value' => @$document->staffMeeting->topic,
-                                                                ])
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                @include('components.textarea-input', [
-                                                                    'label' => __('children.addDiscussion'),
-                                                                    'name' => 'discussion',
-                                                                    'icon' => 'group',
-                                                                    'value' => @$document->staffMeeting->discussion,
-                                                                ])
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                @include('components.textarea-input', [
-                                                                    'label' => __('children.addDecisions'),
-                                                                    'name' => 'decisions',
-                                                                    'icon' => 'user-check',
-                                                                    'value' => @$document->staffMeeting->decisions,
-                                                                ])
+                                                            <div class="col-md-12 childrenTopic">
+                                                                @forelse ($document->staffMeeting as $staffMeeting)
+                                                                    @include('components.topic-section', ['name' => getChildrenNameById($staffMeeting->children_id), 'children_id' => @$staffMeeting->children_id, 'data' => @$staffMeeting])
+                                                                @empty
+                                                                    @include('components.topic-section', ['children_id' => $children->id])
+                                                                @endforelse
                                                             </div>
                                                             <div class="col-md-12">
                                                                 @include('components.file-input', [
@@ -232,7 +215,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <input type="hidden" name="staff_meeting_id" value="{{ @$document->staffMeeting->id }}">
+                                                    {{-- <input type="hidden" name="staff_meeting_id" value="{{ @$document->staffMeeting->id }}"> --}}
                                                     <input type="hidden" name="kindergarten_id" value="{{ @$children->kindergarten_id }}">
                                                     <input type="hidden" name="id" value="{{ @$document->id }}">
                                                     <input type="hidden" name="delete_file" class="deleteFile">
@@ -304,6 +287,10 @@
                 // $(this).find('option[value="' + id + '"]').prop('disabled', true);
                 // $(this).trigger('change.select2');
                 $('.childrenTabSec').append('<span class="child-tab childTab' + id + ' mx-1">' + name + '</span>');
+                $('.childrenTopic').append(`@include('components.topic-section', [
+                    'name' => '${name}',
+                    'children_id' => '${id}',
+                ])`);
             });
 
             $('.childrens').on('select2:unselect', function(e) {
@@ -311,6 +298,7 @@
                 // $(this).find('option[value="' + id + '"]').prop('disabled', false);
                 // $(this).trigger('change.select2');
                 $('.childTab' + id).remove();
+                $('.child-' + id).remove();
             });
 
             $('.therapists').on('select2:select', function(e) {

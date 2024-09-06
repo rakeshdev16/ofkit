@@ -32,7 +32,7 @@ class ChildrenDocumentation extends Model
             $query->orderBy(request('sort'), request('sorting'));
         }
         if (request('search')) {
-            $query->where('type', 'like', '%'.request('search').'%');
+            $query->where('type', 'like', '%' . request('search') . '%');
         }
         if (request('date')) {
             if (strpos(request('date'), ',') !== false) {
@@ -67,7 +67,7 @@ class ChildrenDocumentation extends Model
 
     public function getFileAttribute($value)
     {
-        return isset($this->attributes['file']) ? asset('storage/'.$this->attributes['file']) : '';
+        return isset($this->attributes['file']) ? asset('storage/' . $this->attributes['file']) : '';
     }
 
     public function getFileNameAttribute()
@@ -79,22 +79,22 @@ class ChildrenDocumentation extends Model
     {
         return $this->hasMany(GroupChildren::class);
     }
-    
+
     public function parentalGuidanceChildren()
     {
         return $this->hasMany(ParentalGuidanceChildren::class, 'children_doc_id', 'id');
     }
-    
+
     public function parentalGuidanceKindergarten()
     {
         return $this->hasMany(ParentalGuidanceKindergarten::class, 'children_doc_id', 'id');
     }
-    
+
     public function staffMeeting()
     {
-        return $this->hasOne(StaffMeeting::class, 'children_doc_id', 'id');
+        return $this->hasMany(StaffMeeting::class, 'children_doc_id', 'id');
     }
-    
+
     public function therapist()
     {
         return $this->hasOne(User::class, 'id', 'therapist_id');
@@ -104,7 +104,7 @@ class ChildrenDocumentation extends Model
     {
         return $this->hasMany(StaffMeetingChildren::class, 'children_doc_id', 'id');
     }
-    
+
     public function staffMeetingTherapist()
     {
         return $this->hasMany(StaffMeetingTherapist::class, 'children_doc_id', 'id');

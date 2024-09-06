@@ -592,9 +592,9 @@ class ChildrenController extends Controller
             'occured_reason' => "required_if:occured,==,0",
             'end_time' => 'required_with:start_time',
             'therapist_ids' => 'required|array|min:1',
-            'topic' => 'required_if:occured,==,1',
-            'discussion' => 'required_if:occured,==,1',
-            'decisions' => 'required_if:occured,==,1',
+            // 'topic' => 'required_if:occured,==,1',
+            // 'discussion' => 'required_if:occured,==,1',
+            // 'decisions' => 'required_if:occured,==,1',
         ];
 
         if (!empty($data['end_time'])) {
@@ -619,12 +619,23 @@ class ChildrenController extends Controller
         $document = ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
         $document->staffMeeting()->delete();
         if ($data['occured'] == 1) {
-            $document->staffMeeting()->create([
-                'children_id' => $id,
-                'topic' => $data['topic'],
-                'discussion' => $data['discussion'],
-                'decisions' => $data['decisions'],
-            ]);
+            // $document->staffMeeting()->create([
+            //     'children_id' => $id,
+            //     'topic' => $data['topic'],
+            //     'discussion' => $data['discussion'],
+            //     'decisions' => $data['decisions'],
+            // ]);
+            $document->staffMeeting()->delete();
+            if (isset($data['children']) && count($data['children']) > 0) {
+                foreach ($data['children'] as $childrenId => $children) {
+                    $document->staffMeeting()->create([
+                        'children_id' => $childrenId,
+                        'topic' => $children['topic'],
+                        'discussion' => $children['discussion'],
+                        'decisions' => $children['decisions'],
+                    ]);
+                }
+            }
         }
         $document->staffMeetingChildren()->delete();
         $document->staffMeetingChildren()->create(['children_id' => $id]);
