@@ -32,11 +32,17 @@ use Illuminate\Validation\Rule;
 use Carbon\Carbon;
 use Auth, DB;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Route;
 
 class ChildrenController extends Controller
 {
     public function index(Request $request)
     {
+        $previousRequest = app('request')->create(app('url')->previous());
+        if ($previousRequest && (app('router')->getRoutes()->match($previousRequest)->getName() == 'password.reset')) {
+            Auth::logout();
+            return redirect()->route('login');
+        }
         $childrens = Children::filter()->orderBy('id', 'DESC')->paginate(50);
         $count = Children::filter()->count();
         if ($request->ajax()) {
