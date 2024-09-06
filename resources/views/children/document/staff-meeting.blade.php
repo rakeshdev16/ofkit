@@ -16,7 +16,11 @@
             }
         </style>
     @enderror
-    
+    <style>
+        .select2-container--default .select2-results__option--selected {
+            pointer-events: none !important;
+        }
+    </style>
 @endpush
 @section('section')
     <div class="wrapper">
@@ -42,7 +46,7 @@
                                 // if ($document && $document->id) {
                                 //     $back = route('children-documentation.show', [$children->id, $document->id]);
                                 // } else {
-                                    $back = route('children.show', Request::segment(3));
+                                $back = route('children.show', Request::segment(3));
                                 // }
                             @endphp
                             <div class="">
@@ -58,7 +62,7 @@
                                     <div class="card-body">
                                         <div class="bs-stepper-content">
                                             <div class="d-flex justify-content-between">
-                                                <h5 class="mb-4 steper-title">{{ __('children.'.Request::segment(2)) }}</h5>
+                                                <h5 class="mb-4 steper-title">{{ __('children.' . Request::segment(2)) }}</h5>
                                             </div>
                                             <form action="{{ route('children-documentation.store', ['staff-meeting', $children->id]) }}" method="POST" enctype="multipart/form-data">
                                                 @csrf
@@ -77,10 +81,10 @@
                                                     @endphp
                                                     <div class="col-md-6">
                                                         @include('components.date-input', [
-                                                            'label' =>__('children.date'),
+                                                            'label' => __('children.date'),
                                                             'name' => 'date',
                                                             'value' => @$document->date,
-                                                            'max' => date('Y-m-d')
+                                                            'max' => date('Y-m-d'),
                                                         ])
                                                     </div>
                                                     <div class="col-md-3">
@@ -108,7 +112,7 @@
                                                             'disabled' => 'disabled',
                                                         ])
                                                     </div>
-                                                    <div class="col-md-12"> 
+                                                    <div class="col-md-12">
                                                         @include('components.multi-select-input', [
                                                             'label' => __('children.addTherapist'),
                                                             'name' => 'therapist_ids[]',
@@ -121,12 +125,12 @@
                                                     <div class="col-md-12 therapistTabSec" style="display:flex; flex-wrap: wrap;">
                                                         @if (old('therapist_ids') && count(old('therapist_ids')) > 0)
                                                             @foreach (old('therapist_ids') as $therapistId)
-                                                                <span class="child-tab therapistTab{{$therapistId}} mx-1">{{ getUserNameById($therapistId) }}</span>
+                                                                <span class="child-tab therapistTab{{ $therapistId }} mx-1">{{ getUserNameById($therapistId) }}</span>
                                                             @endforeach
                                                         @else
                                                             @if (isset($therapistIds) && count($therapistIds) > 0)
                                                                 @foreach ($therapistIds as $therapistId)
-                                                                    <span class="child-tab therapistTab{{$therapistId}} mx-1">{{ getUserNameById($therapistId) }}</span>
+                                                                    <span class="child-tab therapistTab{{ $therapistId }} mx-1">{{ getUserNameById($therapistId) }}</span>
                                                                 @endforeach
                                                             @endif
                                                         @endif
@@ -146,12 +150,7 @@
                                                             'name' => 'occured_reason',
                                                             'icon' => 'buildings',
                                                             'value' => @$document->occured_reason,
-                                                            'options' => [
-                                                                ['key' => 'Child absent', 'value' => 'Child absent'],
-                                                                ['key' => 'Therapist absent', 'value' => 'Therapist absent'],
-                                                                ['key' => 'Kindergarten closed', 'value' => 'Kindergarten closed'],
-                                                                ['key' => 'Other', 'value' => 'Other'],
-                                                            ]
+                                                            'options' => [['key' => 'Child absent', 'value' => 'Child absent'], ['key' => 'Therapist absent', 'value' => 'Therapist absent'], ['key' => 'Kindergarten closed', 'value' => 'Kindergarten closed'], ['key' => 'Other', 'value' => 'Other']],
                                                         ])
                                                     </div>
                                                     <div class="col-md-12 occuredDescription" style="display: {{ (old('occured') ?? @$document->occured) == '1' ? 'block' : 'none' }};">
@@ -164,19 +163,19 @@
                                                     </div>
                                                     <div class="col-md-12">
                                                         @include('components.multi-select-input', [
-                                                                'label' => __('children.addAnotherChild'),
-                                                                'name' => 'children_ids[]',
-                                                                'class' => 'childrens',
-                                                                'icon' => 'user',
-                                                                'options' => $childrens,
-                                                                'value' => old('children_ids') ?? $childrenIds,
-                                                            ])
+                                                            'label' => __('children.addAnotherChild'),
+                                                            'name' => 'children_ids[]',
+                                                            'class' => 'childrens',
+                                                            'icon' => 'user',
+                                                            'options' => $childrens,
+                                                            'value' => old('children_ids') ?? $childrenIds,
+                                                        ])
                                                     </div>
                                                     <div class="col-md-12 childrenTabSec" style="display:flex; flex-wrap: wrap;">
                                                         {{-- <span class="child-tab mx-1 childTab">{{ $children->name }}</span> --}}
                                                         @if (old('children_ids') && count(old('children_ids')) > 0)
                                                             @foreach (old('children_ids') as $childrenId)
-                                                                <span class="child-tab childTab{{$childrenId}} mx-1">{{ getChildrenNameById($childrenId) }}</span>
+                                                                <span class="child-tab childTab{{ $childrenId }} mx-1">{{ getChildrenNameById($childrenId) }}</span>
                                                             @endforeach
                                                         @else
                                                             @if (isset($childrenIds) && count($childrenIds) > 0)
@@ -190,7 +189,7 @@
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 @include('components.textarea-input', [
-                                                                    'label' =>  __('children.addTopic'),
+                                                                    'label' => __('children.addTopic'),
                                                                     'name' => 'topic',
                                                                     'icon' => 'notepad',
                                                                     'value' => @$document->staffMeeting->topic,
@@ -198,7 +197,7 @@
                                                             </div>
                                                             <div class="col-md-12">
                                                                 @include('components.textarea-input', [
-                                                                    'label' =>  __('children.addDiscussion'),
+                                                                    'label' => __('children.addDiscussion'),
                                                                     'name' => 'discussion',
                                                                     'icon' => 'group',
                                                                     'value' => @$document->staffMeeting->discussion,
@@ -206,7 +205,7 @@
                                                             </div>
                                                             <div class="col-md-12">
                                                                 @include('components.textarea-input', [
-                                                                    'label' =>  __('children.addDecisions'),
+                                                                    'label' => __('children.addDecisions'),
                                                                     'name' => 'decisions',
                                                                     'icon' => 'user-check',
                                                                     'value' => @$document->staffMeeting->decisions,
@@ -223,7 +222,7 @@
                                                                     'value' => @$document->file,
                                                                 ])
                                                                 <div class="d-flex mt-2 choosenFile" style="flex-wrap: wrap;">
-                                                                    @if (isset($document->file) && $document->file != NULL)
+                                                                    @if (isset($document->file) && $document->file != null)
                                                                         <div class="document mt-1">
                                                                             <a href="{{ $document->file }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a>
                                                                             <i class="bx bx-x childDocument" data-file-name="{{ $document->file }}"></i>
@@ -256,7 +255,7 @@
         </div>
     @endsection
     @push('customScript')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         @include('children.document.script')
         <script>
             $(document).ready(function() {
@@ -304,7 +303,7 @@
                 var name = e.params.data.text;
                 // $(this).find('option[value="' + id + '"]').prop('disabled', true);
                 // $(this).trigger('change.select2');
-                $('.childrenTabSec').append('<span class="child-tab childTab'+id+' mx-1">'+name+'</span>');
+                $('.childrenTabSec').append('<span class="child-tab childTab' + id + ' mx-1">' + name + '</span>');
             });
 
             $('.childrens').on('select2:unselect', function(e) {
@@ -313,13 +312,13 @@
                 // $(this).trigger('change.select2');
                 $('.childTab' + id).remove();
             });
-            
+
             $('.therapists').on('select2:select', function(e) {
                 var id = e.params.data.id;
                 var name = e.params.data.text;
                 // $(this).find('option[value="' + id + '"]').prop('disabled', true);
                 // $(this).trigger('change.select2');
-                $('.therapistTabSec').append('<span class="child-tab therapistTab'+id+' mx-1">'+name+'</span>');
+                $('.therapistTabSec').append('<span class="child-tab therapistTab' + id + ' mx-1">' + name + '</span>');
             });
 
             $('.therapists').on('select2:unselect', function(e) {

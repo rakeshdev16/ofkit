@@ -48,7 +48,7 @@ class ChildrenController extends Controller
         }
         return view('children.index', compact('childrens', 'count'));
     }
-    
+
     public function create()
     {
         $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
@@ -150,7 +150,7 @@ class ChildrenController extends Controller
                 'medicine' => $request->medicine == 'yes' ? 1 : 0,
                 'medicine_detail' => $request->medicine == 'yes' ? $request->medicine_detail : '',
             ]);
-            
+
             if ($request->medicine == 'yes' && isset($request->medicine_dosage) && count($request->medicine_dosage) > 0) {
                 $children->medicine()->createMany($request->medicine_dosage);
             }
@@ -479,9 +479,9 @@ class ChildrenController extends Controller
         }
         return redirect()->route('children-documentations.get', $id);
     }
-    
+
     public function group(array $data, $id)
-    {        
+    {
         $rules = [
             'date' => 'required',
             'occured' => 'required',
@@ -499,7 +499,7 @@ class ChildrenController extends Controller
         if (!empty($data['end_time'])) {
             $rules['start_time'] = 'required';
         }
-        
+
         $messages = [
             'group_name.required_if' => 'Please enter group name',
             'occured_description.required_if' => 'Please enter description',
@@ -536,7 +536,7 @@ class ChildrenController extends Controller
         }
         return redirect()->route('children-documentations.get', $id);
     }
-    
+
     public function parentalGuidance(array $data, $id)
     {
         $rules = [
@@ -578,7 +578,7 @@ class ChildrenController extends Controller
         }
         return redirect()->route('children-documentations.get', $id);
     }
-    
+
     public function staffMeeting(array $data, $id)
     {
         $rules = [
@@ -674,7 +674,7 @@ class ChildrenController extends Controller
         }
         return redirect()->route('children-documentations.get', $id);
     }
-    
+
     public function finalEvaluation(array $data, $id)
     {
         $rules = [

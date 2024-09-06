@@ -9,7 +9,11 @@
             }
         </style>
     @enderror
-    
+    <style>
+        .select2-container--default .select2-results__option--selected {
+            pointer-events: none !important;
+        }
+    </style>
 @endpush
 @section('section')
     <div class="wrapper">
@@ -35,7 +39,7 @@
                                 // if ($document && $document->id) {
                                 //     $back = route('children-documentation.show', [$children->id, $document->id]);
                                 // } else {
-                                    $back = route('children.show', Request::segment(3));
+                                $back = route('children.show', Request::segment(3));
                                 // }
                             @endphp
                             <div class="">
@@ -51,17 +55,17 @@
                                     <div class="card-body">
                                         <div class="bs-stepper-content">
                                             <div class="d-flex justify-content-between">
-                                                <h5 class="mb-4 steper-title">{{ __('children.'.Request::segment(2)) }}</h5>
+                                                <h5 class="mb-4 steper-title">{{ __('children.' . Request::segment(2)) }}</h5>
                                             </div>
                                             <form action="{{ route('children-documentation.store', ['group', $children->id]) }}" method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="row g-3">
                                                     <div class="col-md-6">
                                                         @include('components.date-input', [
-                                                            'label' =>__('children.date'),
+                                                            'label' => __('children.date'),
                                                             'name' => 'date',
                                                             'value' => @$document->date,
-                                                            'max' => date('Y-m-d')
+                                                            'max' => date('Y-m-d'),
                                                         ])
                                                     </div>
                                                     <div class="col-md-3">
@@ -86,7 +90,7 @@
                                                             'name' => 'Kindergarten',
                                                             'icon' => 'user',
                                                             'value' => getKindergartenNameById($children->kindergarten_id),
-                                                            'disabled' => 'disabled'
+                                                            'disabled' => 'disabled',
                                                         ])
                                                     </div>
                                                     <div class="col-md-12">
@@ -104,12 +108,7 @@
                                                             'name' => 'occured_reason',
                                                             'icon' => 'buildings',
                                                             'value' => @$document->occured_reason,
-                                                            'options' => [
-                                                                ['key' => 'Child absent', 'value' => 'Child absent'],
-                                                                ['key' => 'Therapist absent', 'value' => 'Therapist absent'],
-                                                                ['key' => 'Kindergarten closed', 'value' => 'Kindergarten closed'],
-                                                                ['key' => 'Other', 'value' => 'Other'],
-                                                            ]
+                                                            'options' => [['key' => 'Child absent', 'value' => 'Child absent'], ['key' => 'Therapist absent', 'value' => 'Therapist absent'], ['key' => 'Kindergarten closed', 'value' => 'Kindergarten closed'], ['key' => 'Other', 'value' => 'Other']],
                                                         ])
                                                     </div>
                                                     <div class="col-md-12 occuredDescription" style="display: {{ (old('occured') ?? @$document->occured) == '1' ? 'block' : 'none' }};">
@@ -138,7 +137,7 @@
                                                             } else {
                                                                 $groupChildrens = [];
                                                             }
-                                                            
+
                                                         @endphp
                                                         @include('components.multi-select-input', [
                                                             'label' => __('children.addAnotherChild'),
@@ -212,7 +211,7 @@
                                                             'value' => old('file'),
                                                         ])
                                                         <div class="d-flex mt-2 choosenFile" style="flex-wrap: wrap;">
-                                                            @if (isset($document->file) && $document->file != NULL)
+                                                            @if (isset($document->file) && $document->file != null)
                                                                 <div class="document mt-1">
                                                                     <a href="{{ $document->file }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a>
                                                                     <i class="bx bx-x childDocument" data-file-name="{{ $document->file }}"></i>
@@ -243,8 +242,8 @@
         </div>
     @endsection
     @push('customScript')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    @include('children.document.script')
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        @include('children.document.script')
         <script>
             $(document).ready(function() {
                 $('.childrens').select2();
@@ -301,16 +300,16 @@
 
             $('.childrens').on('select2:select', function(e) {
                 var id = e.params.data.id;
-                var name = e.params.data.text;                
+                var name = e.params.data.text;
                 var index = $('.childrenSec .accordion').length;
                 // $(this).find('option[value="' + id + '"]').prop('disabled', true);
                 // $(this).trigger('change.select2');
-                $('.childrenTabSec').append('<span class="child-tab childTab'+id+' mx-1">'+name+'</span>');
+                $('.childrenTabSec').append('<span class="child-tab childTab' + id + ' mx-1">' + name + '</span>');
                 var html = `@include('components.children-participated', [
                     'index' => '${index}',
                     'name' => '${name}',
                     'id' => '${id}',
-                    'child_id' => '${id}'
+                    'child_id' => '${id}',
                 ])`;
                 var $component = $(html);
                 setInputsValEmpty($component);
@@ -318,7 +317,7 @@
             });
 
             $('.childrens').on('select2:unselect', function(e) {
-                var id = e.params.data.id;                
+                var id = e.params.data.id;
                 var index = $('.childrenSec .accordion').length;
                 // $(this).find('option[value="' + id + '"]').prop('disabled', false);
                 // $(this).trigger('change.select2');
