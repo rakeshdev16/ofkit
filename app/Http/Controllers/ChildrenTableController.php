@@ -106,13 +106,13 @@ class ChildrenTableController extends Controller
             break;
         }
     }
-    
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
         ],[
-            'name.required' => 'Please enter name',
+            'name.required' => __('children.requiredName'),
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -176,7 +176,7 @@ class ChildrenTableController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
         ],[
-            'name.required' => 'Please enter name',
+            'name.required' => __('children.requiredName'),
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();

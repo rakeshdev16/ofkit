@@ -35,7 +35,7 @@ class StaffController extends Controller
         }
         return view('staff.index', compact('members', 'count'));
     }
-    
+
     public function create()
     {
         $managers = User::select('id as key', 'name as value')->role('manager')->get()->toArray();
@@ -58,18 +58,18 @@ class StaffController extends Controller
             'kindergarten.*.role_id' => 'required',
             'kindergarten.*.association_id' => 'required',
             'licence_number' => 'nullable|regex:/^[0-9-]+$/',
-        ],[
+        ], [
             'first_name.required' => __('staff.requiredName'),
             'email.required' => __('staff.requiredEmail'),
             'email.email' => __('staff.validEmail'),
             'email.unique' => __('staff.existsEmail'),
-            'identification.digits' => 'Please enter only 9 digits',
-            'telephone.required' => __('validation.required'),
-            'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
+            'identification.digits' => __('staff.nullableIdentification'),
+            'telephone.required' => __('staff.requiredTelephone'),
+            'telephone.regex' => __('staff.telephoneRegex'),
             'role.required' => __('staff.requiredRole'),
-            'kindergarten.*.role_id.required' => 'Please choose role',
-            'kindergarten.*.association_id.required' => 'Please choose association',
-            'licence_number.regex' => 'Only digits are allowed with hyphens',
+            'kindergarten.*.role_id.required' => __('staff.requiredRoleId'),
+            'kindergarten.*.association_id.required' => __('staff.requiredAssociation'),
+            'licence_number.regex' => __('staff.licenceRegex'),
         ]);
         $validator->after(function ($validator) use ($request) {
             // if ($request->kindergarten_id && count($request->kindergarten_id) > 0) {
@@ -98,12 +98,12 @@ class StaffController extends Controller
         DB::beginTransaction();
 
         try {
-            
+
             $request['password'] = rand();
             if (Session::has('staffPhoto')) {
                 $request['photo'] = Session::get('staffPhoto');
             }
-            $request['name'] = $request->first_name.' '.$request->family_name;
+            $request['name'] = $request->first_name . ' ' . $request->family_name;
             $user = User::create($request->all());
             if (isset($request->documents) && count($request->documents) > 0) {
                 foreach ($request->documents as $document) {
@@ -120,15 +120,13 @@ class StaffController extends Controller
                 $user->days()->createMany($request->schedule);
             }
             Session::forget('kindergartenIds');
-            
+
             DB::commit();
             return redirect()->route('staff.index');
-
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back();
         }
-        
     }
 
     public function show($id)
@@ -166,18 +164,18 @@ class StaffController extends Controller
             'kindergarten.*.role_id' => 'required',
             'kindergarten.*.association_id' => 'required',
             'licence_number' => 'nullable|regex:/^[0-9-]+$/',
-        ],[
+        ], [
             'first_name.required' => __('staff.requiredName'),
             'email.required' => __('staff.requiredEmail'),
             'email.email' => __('staff.validEmail'),
             'email.unique' => __('staff.existsEmail'),
-            'identification.digits' => 'Please enter only 9 digits',
+            'identification.digits' => __('staff.nullableIdentification'),
             'telephone.required' => __('validation.required'),
-            'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
+            'telephone.regex' => __('staff.telephoneRegex'),
             'role.required' => __('staff.requiredRole'),
-            'kindergarten.*.role_id.required' => 'Please choose role',
-            'kindergarten.*.association_id.required' => 'Please choose association',
-            'licence_number.regex' => 'Only digits are allowed with hyphens',
+            'kindergarten.*.role_id.required' => __('staff.requiredRoleId'),
+            'kindergarten.*.association_id.required' => __('staff.requiredAssociation'),
+            'licence_number.regex' => __('staff.licenceRegex'),
         ]);
         $validator->after(function ($validator) use ($request) {
             // if ($request->kindergarten_id && count($request->kindergarten_id) > 0) {
@@ -208,7 +206,7 @@ class StaffController extends Controller
 
         try {
 
-            $request['name'] = $request->first_name.' '.$request->family_name;
+            $request['name'] = $request->first_name . ' ' . $request->family_name;
             $user = User::findOrFail($id);
             $user->update($request->except('_token', '_method', 'kindergarten_id', 'schedule', 'query_string'));
             if (isset($request->documents) && count($request->documents) > 0) {
@@ -230,7 +228,6 @@ class StaffController extends Controller
 
             DB::commit();
             return redirect()->route('staff.show', ['staff' => $id, 'kindergarten_id' => $request->query_string]);
-
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back();
@@ -255,7 +252,7 @@ class StaffController extends Controller
             } else {
                 User::where('id', $request->user_id)->update(['photo' => $photo]);
             }
-            return response()->json(['status' => true, 'message' => 'Profile has been uploaded', 'src' => asset('storage/'.$photo)]);
+            return response()->json(['status' => true, 'message' => 'Profile has been uploaded', 'src' => asset('storage/' . $photo)]);
         }
         return response()->json(['status' => false]);
     }

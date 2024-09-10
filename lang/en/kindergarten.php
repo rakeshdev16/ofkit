@@ -32,10 +32,12 @@ return [
     'requiredClusterManager' => "Please select cluster manager",
     'requiredName' => "Please enter name",
     'requiredSymbol' => "Please enter symbol",
+    'numericSymbol' => "Please enter numbers only",
     'requiredFramework' => "Please enter framework",
     'requiredType' => "Please enter type",
     'requiredManager' => "Please enter manager",
     'requiredAddress' => "Please enter address",
     'requiredTelephone' => "Please enter telephone",
+    'nullableTelephone' => "The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.",
 
 ];

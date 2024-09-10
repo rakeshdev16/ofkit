@@ -466,8 +466,8 @@ class ChildrenController extends Controller
         }
 
         $messages = [
-            'occured_description.required_if' => 'Please enter description',
-            'occured_reason.required_if' => 'Please enter reason',
+            'occured_description.required_if' => __('children.occuredDescription'),
+            'occured_reason.required_if' => __('children.occuredReason'),
             // 'end_time.required_if' => 'Please enter end time',
         ];
 
@@ -506,14 +506,14 @@ class ChildrenController extends Controller
         }
 
         $messages = [
-            'group_name.required_if' => 'Please enter group name',
-            'occured_description.required_if' => 'Please enter description',
-            'occured_reason.required_if' => 'Please enter reason',
+            'group_name.required_if' => __('children.groupName'),
+            'occured_description.required_if' => __('children.occuredDescription'),
+            'occured_reason.required_if' => __('children.occuredReason'),
             'children_ids.required_if' => 'Please choose children',
-            'participated.*.participated.required_if' => 'Please choose participated',
-            'participated.*.reason.required_if' => 'Please enter reason',
-            'participated.*.description.required_if' => 'Please enter description',
-            'participated.*.child_file.required' => 'Please choose file',
+            'participated.*.participated.required_if' => __('children.participated'),
+            'participated.*.reason.required_if' => __('children.reason'),
+            'participated.*.description.required_if' => __('children.description'),
+            'participated.*.child_file.required' => __('children.file'),
         ];
 
         $validator = Validator::make($data, $rules, $messages);
@@ -557,8 +557,8 @@ class ChildrenController extends Controller
         }
 
         $messages = [
-            'occured_description.required_if' => 'Please enter description',
-            'occured_reason.required_if' => 'Please enter reason',
+            'occured_description.required_if' => __('children.occuredDescription'),
+            'occured_reason.required_if' => __('children.occuredReason'),
         ];
 
         $validator = Validator::make($data, $rules, $messages);
@@ -607,11 +607,11 @@ class ChildrenController extends Controller
         }
 
         $messages = [
-            'occured_description.required_if' => 'Please enter description',
-            'occured_reason.required_if' => 'Please enter reason',
-            'children.*.topic.required_if' => 'Please enter topic',
-            'children.*.discussion.required_if' => 'Please enter discussion',
-            'children.*.decisions.required_if' => 'Please enter decisions',
+            'occured_description.required_if' => __('children.occuredDescription'),
+            'occured_reason.required_if' => __('children.occuredReason'),
+            'children.*.topic.required_if' => __('children.topic'),
+            'children.*.discussion.required_if' => __('children.discussion'),
+            'children.*.decisions.required_if' => __('children.decisions'),
         ];
 
         $validator = Validator::make($data, $rules, $messages);
@@ -679,8 +679,8 @@ class ChildrenController extends Controller
         }
 
         $messages = [
-            'occured_description.required_if' => 'Please enter description',
-            'occured_reason.required_if' => 'Please enter reason',
+            'occured_description.required_if' => __('children.occuredDescription'),
+            'occured_reason.required_if' => __('children.occuredReason'),
         ];
 
         $validator = Validator::make($data, $rules, $messages);
@@ -710,8 +710,8 @@ class ChildrenController extends Controller
         }
 
         $messages = [
-            'occured_description.required_if' => 'Please enter description',
-            'occured_reason.required_if' => 'Please enter reason',
+            'occured_description.required_if' => __('children.occuredDescription'),
+            'occured_reason.required_if' => __('children.occuredReason'),
         ];
 
         $validator = Validator::make($data, $rules, $messages);

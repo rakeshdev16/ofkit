@@ -62,5 +62,9 @@ return [
     'document' => 'מִסְמָך',
     'professionalRole' => 'תפקיד מקצועי',
     'association' => 'אִרגוּן',
-
+    'telephoneRegex' => "המספר חייב להיות שילוב של ספרות ומקפים, ועליו להיות באורך של בין 8 ל-14 תווים.",
+    'licenceRegex' => "רק ספרות מותרות עם מקפים.",
+    'requiredRoleId' => 'נא לבחור תפקיד',
+    'requiredAssociation' => 'נא לבחור עמותה',
+    'nullableIdentification' => 'נא להזין רק 9 ספרות',
 ];
