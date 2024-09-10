@@ -3,7 +3,7 @@
         <tr>
             {{-- <th><input type="checkbox" class="mainCheckbox"></th> --}}
             @include('components.table-heading', ['label' => __('children.date'), 'key' => 'created_at'])
-            @include('components.table-heading', ['label' => __('children.therapist'), 'key' => 'kindergarten_id'])
+            @include('components.table-heading', ['label' => __('children.therapist'), 'key' => 'therapist_id'])
             @include('components.table-heading', ['label' => __('children.profession')])
             @include('components.table-heading', ['label' => __('children.intervention'), 'key' => 'type'])
             @include('components.table-heading', ['label' => __('children.occurred'), 'key' => 'occured'])

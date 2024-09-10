@@ -50,6 +50,14 @@
                                             <span class="text-secondary">{{ @date('d/m/Y', strtotime($document->date)) ?? '-' }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 class="mb-0">{{ __('children.therapist') }}</h6>
+                                            <span class="text-secondary">{{ $document->therapist->name ?? '-' }}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 class="mb-0">{{ __('children.profession') }}</h6>
+                                            <span class="text-secondary">{{ $document->therapist->profession->name ?? '-' }}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                             <h6 class="mb-0">{{ __('children.startTime') }}</h6>
                                             <span class="text-secondary">{{ @$document->start_time ?? '-' }}</span>
                                         </li>
