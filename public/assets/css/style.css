@@ -4,20 +4,22 @@
     border-radius: 15px;
     color: #000000;
 }
+
 .button:hover {
-	background-color: #FFD681;
-	border-color: #FFD681;
+    background-color: #FFD681;
+    border-color: #FFD681;
     color: #000000;
 }
 
 .button:active {
-	background-color: #FFD681;
-	border-color: #FFD681;
+    background-color: #FFD681;
+    border-color: #FFD681;
     color: #000000;
 }
+
 .button:focus-visible {
-	background-color: #FFD681;
-	border-color: #FFD681;
+    background-color: #FFD681;
+    border-color: #FFD681;
     color: #000000;
 }
 
@@ -41,14 +43,17 @@
     padding: 10px;
 }
 
-.active>.page-link, .page-link.active {
+.active>.page-link,
+.page-link.active {
     background-color: #095F59 !important;
     border-color: #095F59 !important;
     color: #fff !important;
 }
+
 .page-link {
     color: black !important;
 }
+
 .select-filter {
     border-radius: 50px !important;
     outline: none !important;
@@ -112,7 +117,8 @@ div#paginate {
     background-color: #80808014;
 }
 
-.dropdown-item.active, .dropdown-item:active {
+.dropdown-item.active,
+.dropdown-item:active {
     background-color: #FFD681;
     color: black;
 }
@@ -129,9 +135,11 @@ div#paginate {
     border: var(--bs-border-width) solid var(--bs-border-color) !important;
     border-radius: var(--bs-border-radius) !important;
 }
+
 .col-md-12.text-center.upload-photo {
     margin-bottom: -36px;
 }
+
 .upload-photo img {
     cursor: pointer;
     border-radius: 50px;
@@ -149,9 +157,11 @@ div#paginate {
     background-color: transparent !important;
     border: 1px solid #c7c8c9 !important;
 }
+
 .tables li a.nav-link {
     color: #095F59 !important;
 }
+
 .tables.nav-primary.nav-tabs .nav-link.active {
     color: #095F59 !important;
     border-color: #095F59 #095F59 #fff !important;
@@ -174,6 +184,7 @@ a.disable-menu {
     pointer-events: none;
     /* cursor: default; */
 }
+
 .icon {
     font-size: 25px;
 }
@@ -203,6 +214,7 @@ a.disable-menu {
     align-items: center;
     overflow: hidden;
 }
+
 #imageForCrop {
     max-width: 100%;
     max-height: 100%;
@@ -241,7 +253,8 @@ a.disable-menu {
 
 .img-container {
     width: 100%;
-    height: 500px; /* Set the height you want */
+    height: 500px;
+    /* Set the height you want */
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -452,6 +465,7 @@ input.medicine-number {
     width: 90% !important;
     text-wrap: wrap;
 }
+
 .address-column {
     max-width: 200px;
     word-wrap: break-word;
@@ -492,22 +506,31 @@ input.form-control {
 }
 
 .btn-clear-filter {
-    margin-left: 5px; /* Adjust spacing as needed */
+    margin-left: 5px;
+    /* Adjust spacing as needed */
 }
+
+/* .sub-menus {
+    margin-top: 215px !important;
+} */
 
 @media (max-width: 1120px) {
     .dropdown {
         /* flex-direction: column; */
         align-items: flex-start;
     }
-    
+
     .btn-clear-filter {
         /* margin-top: 5px; */
         margin-left: 0;
         align-self: flex-start;
     }
-    
+
     .dropdown-toggle {
         width: 100%;
     }
+
+    /* .sub-menus {
+        margin-top: 40px !important;
+    } */
 }

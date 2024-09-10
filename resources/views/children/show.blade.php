@@ -63,9 +63,11 @@
                                             <div class="bs-stepper-content">
                                                 <div class="d-flex justify-content-between">
                                                     <h5 class="mb-4 steper-title">{{ __('children.personalInfo') }}</h5>
-                                                    <div>
-                                                        <a href="{{ route('children.edit', $children->id) }}?kindergarten_id={{ request()->kindergarten_id }}" class="btn button">{{ __('comon.edit') }}</a>
-                                                    </div>
+                                                    @if (Auth::user()->hasRole('admin'))
+                                                        <div>
+                                                            <a href="{{ route('children.edit', $children->id) }}?kindergarten_id={{ request()->kindergarten_id }}" class="btn button">{{ __('comon.edit') }}</a>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                                 <div>
                                                     <div class="row g-3">
@@ -78,7 +80,7 @@
                                                                 'name' => 'name',
                                                                 'icon' => 'id-card',
                                                                 'value' => $children->name,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -87,25 +89,25 @@
                                                                 'name' => 'family_name',
                                                                 'icon' => 'id-card',
                                                                 'value' => $children->family_name,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' =>  __('children.ID'),
+                                                                'label' => __('children.ID'),
                                                                 'name' => 'identification',
                                                                 'icon' => 'search-alt',
                                                                 'value' => $children->identification,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' =>  __('children.gender'),
+                                                                'label' => __('children.gender'),
                                                                 'name' => 'gender',
                                                                 'icon' => 'buildings',
                                                                 'value' => $children->gender,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -119,43 +121,43 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' =>  __('children.age'),
+                                                                'label' => __('children.age'),
                                                                 'name' => 'age',
                                                                 'class' => 'age',
-                                                                'icon' => 'buildings', 
+                                                                'icon' => 'buildings',
                                                                 'disabled' => 'disabled',
                                                                 'value' => $children->age,
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' =>  __('children.createdAt'),
+                                                                'label' => __('children.createdAt'),
                                                                 'name' => 'created_at',
                                                                 'class' => 'created_at',
-                                                                'icon' => 'calendar', 
+                                                                'icon' => 'calendar',
                                                                 'disabled' => 'disabled',
                                                                 'value' => date('d/m/Y', strtotime($children->created_at)),
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' =>  __('children.updatedAt'),
+                                                                'label' => __('children.updatedAt'),
                                                                 'name' => 'updated_at',
                                                                 'class' => 'updated_at',
-                                                                'icon' => 'calendar', 
+                                                                'icon' => 'calendar',
                                                                 'disabled' => 'disabled',
                                                                 'value' => date('d/m/Y', strtotime($children->updated_at)),
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' =>  __('children.kindergarten'),
+                                                                'label' => __('children.kindergarten'),
                                                                 'name' => 'kindergarten_id',
-                                                                'icon' => 'buildings', 
+                                                                'icon' => 'buildings',
                                                                 'disabled' => 'disabled',
                                                                 'value' => getKindergartenNameById($children->kindergarten_id),
                                                             ])
-                                                            <input type="hidden" class="selectedKindergarten" value="{{$children->kindergarten_id}}">
+                                                            <input type="hidden" class="selectedKindergarten" value="{{ $children->kindergarten_id }}">
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
@@ -172,7 +174,7 @@
                                                                 'name' => 'address',
                                                                 'icon' => 'network-chart',
                                                                 'value' => $children->address,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -182,7 +184,7 @@
                                                                 'icon' => 'buildings',
                                                                 'options' => $functionalities,
                                                                 'value' => $children->functionality_id,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -192,18 +194,18 @@
                                                                 'icon' => 'buildings',
                                                                 'options' => $statuses,
                                                                 'value' => $children->status_id,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-12">
                                                             @include('components.multi-select-input', [
-                                                                'label' =>  __('children.diagnosis'),
+                                                                'label' => __('children.diagnosis'),
                                                                 'name' => 'diagnosis_id[]',
                                                                 'class' => 'diagnosis',
                                                                 'icon' => 'buildings',
                                                                 'disabled' => 'disabled',
                                                                 'options' => $dianioses,
-                                                                'value' => @$children->diagnosis()->pluck('diagnosis_id')->toArray()
+                                                                'value' => @$children->diagnosis()->pluck('diagnosis_id')->toArray(),
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -211,7 +213,7 @@
                                                                 'label' => __('children.tabamServicesStart'),
                                                                 'name' => 'service_start_date',
                                                                 'value' => $children->service_start_date,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -221,7 +223,7 @@
                                                                 'icon' => 'buildings',
                                                                 'options' => $hmos,
                                                                 'value' => $children->hmo_id,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                     </div>
@@ -242,7 +244,7 @@
                                                                 'name' => 'father_name',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$parent->father_name,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -251,7 +253,7 @@
                                                                 'name' => 'father_email',
                                                                 'icon' => 'envelope',
                                                                 'disabled' => 'disabled',
-                                                                'value' => @$parent->father_email
+                                                                'value' => @$parent->father_email,
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -260,7 +262,7 @@
                                                                 'name' => 'father_telephone',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$parent->father_telephone,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -269,7 +271,7 @@
                                                                 'name' => 'father_work',
                                                                 'icon' => 'briefcase',
                                                                 'value' => @$parent->father_work,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -278,7 +280,7 @@
                                                                 'name' => 'mother_name',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$parent->mother_name,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -288,7 +290,7 @@
                                                                 'icon' => 'envelope',
                                                                 'readonly' => true,
                                                                 'disabled' => 'disabled',
-                                                                'value' => @$parent->mother_email
+                                                                'value' => @$parent->mother_email,
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -297,7 +299,7 @@
                                                                 'name' => 'mother_telephone',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$parent->mother_telephone,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -306,7 +308,7 @@
                                                                 'name' => 'mother_work',
                                                                 'icon' => 'briefcase',
                                                                 'disabled' => 'disabled',
-                                                                'value' => @$parent->mother_work
+                                                                'value' => @$parent->mother_work,
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -316,7 +318,7 @@
                                                                 'icon' => 'buildings',
                                                                 'options' => $parentsStatus,
                                                                 'value' => @$parent->family_status,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -326,7 +328,7 @@
                                                                 'class' => 'numbers',
                                                                 'icon' => 'user',
                                                                 'disabled' => 'disabled',
-                                                                'value' => @$parent->siblings
+                                                                'value' => @$parent->siblings,
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -335,15 +337,19 @@
                                                                 'name' => 'disabilities',
                                                                 'icon' => 'user',
                                                                 'disabled' => 'disabled',
-                                                                'value' => @$parent->disabilities
+                                                                'value' => @$parent->disabilities,
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
                                                             @php
                                                                 $parentLanguages = [];
-                                                                $parentLanguages = $children->language()->pluck('language')->map(function ($item) {
-                                                                    return ['key' => $item, 'value' => $item];
-                                                                })->toArray();
+                                                                $parentLanguages = $children
+                                                                    ->language()
+                                                                    ->pluck('language')
+                                                                    ->map(function ($item) {
+                                                                        return ['key' => $item, 'value' => $item];
+                                                                    })
+                                                                    ->toArray();
                                                                 $selectedLanguages = $children ? $children->language()->pluck('language')->toArray() : [];
                                                             @endphp
                                                             @include('components.multi-select-input', [
@@ -353,17 +359,19 @@
                                                                 'icon' => 'notepad',
                                                                 'disabled' => 'disabled',
                                                                 'value' => $selectedLanguages,
-                                                                'options' => $parentLanguages
+                                                                'options' => $parentLanguages,
                                                             ])
                                                         </div>
-                                                        <div class="col-md-12"><h4> {{ __('children.additionalContacts') }}</h4></div>
+                                                        <div class="col-md-12">
+                                                            <h4> {{ __('children.additionalContacts') }}</h4>
+                                                        </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
                                                                 'label' => __('children.emergencyName'),
                                                                 'name' => 'emergency_name',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$parent->name,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -372,7 +380,7 @@
                                                                 'name' => 'emergency_relationship',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$parent->relationship,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-12">
@@ -381,7 +389,7 @@
                                                                 'name' => 'emergency_telephone',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$parent->telephone,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                     </div>
@@ -402,23 +410,18 @@
                                                                 'name' => 'food_allergie',
                                                                 'class' => 'foodAllergie',
                                                                 'icon' => 'buildings',
-                                                                'options' => [
-                                                                    ['key' => 'yes', 'value' => 'Yes'],
-                                                                    ['key' => 'no', 'value' => 'No']
-                                                                ],
+                                                                'options' => [['key' => 'yes', 'value' => 'Yes'], ['key' => 'no', 'value' => 'No']],
                                                                 'value' => @$medical->food_allergie == 1 ? 'yes' : 'no',
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
-                                                        <div class="col-md-12 allergieDetail"
-                                                            style="display: {{ old('food_allergie') ?? (@$medical->food_allergie == 1 ? 'yes' : 'no') == 'yes' ? 'block' : 'none' }};"
-                                                        >
+                                                        <div class="col-md-12 allergieDetail" style="display: {{ old('food_allergie') ?? (@$medical->food_allergie == 1 ? 'yes' : 'no') == 'yes' ? 'block' : 'none' }};">
                                                             @include('components.textarea-input', [
                                                                 'label' => __('children.foodAllergieDetail'),
                                                                 'name' => 'food_allergie_detail',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$medical->food_allergie_detail,
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-12">
@@ -427,17 +430,12 @@
                                                                 'name' => 'medicine',
                                                                 'class' => 'medicine',
                                                                 'icon' => 'buildings',
-                                                                'options' => [
-                                                                    ['key' => 'yes', 'value' => 'Yes'],
-                                                                    ['key' => 'no', 'value' => 'No']
-                                                                ],
+                                                                'options' => [['key' => 'yes', 'value' => 'Yes'], ['key' => 'no', 'value' => 'No']],
                                                                 'value' => @$medical->medicine == 1 ? 'yes' : 'no',
-                                                                'disabled' => 'disabled'
+                                                                'disabled' => 'disabled',
                                                             ])
                                                         </div>
-                                                        <div class="col-md-12 medicineDetail"
-                                                            style="display: {{ old('medicine') ?? (@$medical->medicine == 1 ? 'yes' : 'no') == 'yes' ? 'block' : 'none' }}"
-                                                        >
+                                                        <div class="col-md-12 medicineDetail" style="display: {{ old('medicine') ?? (@$medical->medicine == 1 ? 'yes' : 'no') == 'yes' ? 'block' : 'none' }}">
                                                             @foreach ($children->medicine as $medicine)
                                                                 @include('components.medicine-detail', ['index' => $loop->iteration, 'data' => $medicine, 'disabled' => 'disabled'])
                                                             @endforeach

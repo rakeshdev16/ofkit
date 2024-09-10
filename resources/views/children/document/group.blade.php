@@ -39,7 +39,8 @@
                                 // if ($document && $document->id) {
                                 //     $back = route('children-documentation.show', [$children->id, $document->id]);
                                 // } else {
-                                $back = route('children.show', Request::segment(3));
+                                // $back = route('children.show', Request::segment(3));
+                                $back = route('children-documentations.get', Request::segment(3));
                                 // }
                             @endphp
                             <div class="">

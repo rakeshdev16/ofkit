@@ -7,11 +7,11 @@
         @endisset
     </a>
     @isset($options)
-        <ul class="dropdown-menu" style="width: @isset($width) {{ $width }} @endisset">
+        <ul class="dropdown-menu sub-menus" style="width: @isset($width) {{ $width }} @endisset">
             @foreach ($options as $option)
                 <li>
                     <a class="dropdown-item" href="{{ $option['route'] }}">
-                        <img class="p-1" src="{{ asset('assets/icons') }}/{{ $option['icon'] }}"/> {{ @$option['name'] }}
+                        <img class="p-1" src="{{ asset('assets/icons') }}/{{ $option['icon'] }}" /> {{ @$option['name'] }}
                     </a>
                 </li>
             @endforeach

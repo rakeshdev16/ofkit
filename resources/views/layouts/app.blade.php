@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en" dir="rtl">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,9 +20,9 @@
     <link href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
-    <title>Login Sleiman Ji - Therapist</title>
+    <title>אופקית - טיפול ויעוץ</title>
     <style>
-        .form-switch .form-check-input{
+        .form-switch .form-check-input {
             margin-left: 0px !important;
         }
 
@@ -61,14 +62,14 @@
 
             $(document).on('click', '.passwordEye', function() {
                 var passwordId = $(this).data('id');
-                if ($('#'+passwordId+' input').attr("type") == "text") {
-                    $('#'+passwordId+' input').attr('type', 'password');
-                    $('#'+passwordId+' i').addClass("bx-hide");
-                    $('#'+passwordId+' i').removeClass("bx-show");
-                } else if ($('#'+passwordId+' input').attr("type") == "password") {
-                    $('#'+passwordId+' input').attr('type', 'text');
-                    $('#'+passwordId+' i').removeClass("bx-hide");
-                    $('#'+passwordId+' i').addClass("bx-show");
+                if ($('#' + passwordId + ' input').attr("type") == "text") {
+                    $('#' + passwordId + ' input').attr('type', 'password');
+                    $('#' + passwordId + ' i').addClass("bx-hide");
+                    $('#' + passwordId + ' i').removeClass("bx-show");
+                } else if ($('#' + passwordId + ' input').attr("type") == "password") {
+                    $('#' + passwordId + ' input').attr('type', 'text');
+                    $('#' + passwordId + ' i').removeClass("bx-hide");
+                    $('#' + passwordId + ' i').addClass("bx-show");
                 }
             });
         });

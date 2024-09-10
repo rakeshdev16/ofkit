@@ -18,9 +18,11 @@
                         <li class="nav-item dropdown dropdown-laungauge d-none d-sm-flex">
                             <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="avascript:;" data-bs-toggle="dropdown">
                                 @if (getCurrentLang() == 'en')
-                                    <img src="{{ asset('assets/images/county/en.png') }}" width="22" alt="">
+                                    <b>En</b>
+                                    {{-- <img src="{{ asset('assets/images/county/en.png') }}" width="22" alt=""> --}}
                                 @else
-                                    <img src="{{ asset('assets/images/county/hb.jpg') }}" width="22" alt="">
+                                    <b>He</b>
+                                    {{-- <img src="{{ asset('assets/images/county/hb.jpg') }}" width="22" alt=""> --}}
                                 @endif
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">

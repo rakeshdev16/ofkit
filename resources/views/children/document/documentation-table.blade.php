@@ -52,36 +52,28 @@
                 {{-- <td>{{ $documentation->occured == 1 ? \Str::limit($documentation->occured_description, 20, '...') : $documentation->occured_reason }}</td> --}}
                 <td>
                     @if ($documentation->file)
-                        <a href="{{ $documentation->file }}" target="_blank"><h4><i class="bx bx-file"></i></h4></a>
+                        <a href="{{ $documentation->file }}" target="_blank">
+                            <h4><i class="bx bx-file"></i></h4>
+                        </a>
                     @else
                         -
                     @endif
                 </td>
                 <td>
-                    <a
-                        href="{{ route('children-documentation.show', [
-                            $documentation->children_id,
-                            $documentation->id,
-                            Request::segment(2)
-                        ]) }}"
-                        data-toggle="tooltip"
-                        data-placement="bottom"
-                        title="View"
-                    >
+                    <a href="{{ route('children-documentation.show', [$documentation->children_id, $documentation->id, Request::segment(2)]) }}" data-toggle="tooltip" data-placement="bottom" title="View">
                         <i class="bx bx-show icon"></i>
                     </a>
-                    <a
-                        href="{{ route('children-documentation.get', [
-                            $documentation->type,
-                            Request::segment(2),
-                            $documentation->id
-                        ]) }}"
-                        data-toggle="tooltip"
-                        data-placement="bottom"
-                        title="Edit"
-                    >
-                        <i class="bx bx-edit icon"></i>
-                    </a>
+                    @if (Auth::user()->hasRole('therapist') && Auth::id() == $documentation->therapist_id && $documentation->created_at->isToday())
+                        <a href="{{ route('children-documentation.get', [$documentation->type, Request::segment(2), $documentation->id]) }}" data-toggle="tooltip" data-placement="bottom" title="Edit">
+                            <i class="bx bx-edit icon"></i>
+                        </a>
+                    @endif
+
+                    @if (Auth::user()->hasRole('admin'))
+                        <a href="{{ route('children-documentation.get', [$documentation->type, Request::segment(2), $documentation->id]) }}" data-toggle="tooltip" data-placement="bottom" title="Edit">
+                            <i class="bx bx-edit icon"></i>
+                        </a>
+                    @endif
                 </td>
             </tr>
         @empty
