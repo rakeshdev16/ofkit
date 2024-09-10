@@ -15,8 +15,11 @@
                 @include('table.framework.framework-type.table', ['frameworkTypes' => $frameworkTypes])
             </div>
         </div>
-        <div class="lising d-none" id="accordion">
-            @include('table.framework.framework-type.accordion', ['frameworkTypes' => $frameworkTypes])
+        <div class="lising d-none">
+            @include('components.table-search', ['label' => 'Framework Types', 'count' => $count])
+            <div id="accordion">
+                @include('table.framework.framework-type.accordion', ['frameworkTypes' => $frameworkTypes])
+            </div>
         </div>
     </div>
 </div>

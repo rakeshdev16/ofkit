@@ -15,8 +15,11 @@
                 @include('table.staff.association.table', ['associations' => $associations])
             </div>
         </div>
-        <div class="lising d-none" id="accordion">
-            @include('table.staff.association.accordion', ['associations' => $associations])
+        <div class="lising d-none">
+            @include('components.table-search', ['label' => 'Association', 'count' => $associationCount])
+            <div id="accordion">
+                @include('table.staff.association.accordion', ['associations' => $associations])
+            </div>
         </div>
     </div>
 </div>

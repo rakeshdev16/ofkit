@@ -21,8 +21,11 @@
                             @include('kindergarten.table', ['kindergartens' => $kindergartens])
                         </div>
                     </div>
-                    <div class="lising d-none" id="accordion">
-                        @include('kindergarten.accordion', ['kindergartens' => $kindergartens])
+                    <div class="lising d-none">
+                        @include('components.table-search', ['label' => __('kindergarten.kindergartens'), 'count' => $count])
+                        <div id="accordion">
+                            @include('kindergarten.accordion', ['kindergartens' => $kindergartens])
+                        </div>
                     </div>
                 </div>
             </div>

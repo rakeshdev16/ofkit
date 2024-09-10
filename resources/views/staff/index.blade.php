@@ -29,8 +29,11 @@
                             @include('staff.table', ['members' => $members])
                         </div>
                     </div>
-                    <div class="lising d-none" id="accordion">
-                        @include('staff.accordion', ['members' => $members])
+                    <div class="lising d-none">
+                        @include('components.table-search', ['label' => __('staff.staff'), 'count' => $count])
+                        <div id="accordion">
+                            @include('staff.accordion', ['members' => $members])
+                        </div>
                     </div>
                 </div>
             </div>

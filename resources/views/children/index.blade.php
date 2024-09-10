@@ -34,8 +34,11 @@
                             @include('children.table', ['childrens' => $childrens])
                         </div>
                     </div>
-                    <div class="lising d-none" id="accordion">
-                        @include('children.accordion', ['childrens' => $childrens])
+                    <div class="lising d-none">
+                        @include('components.table-search', ['label' => __('children.childrens'), 'count' => $count])
+                        <div id="accordion">
+                            @include('children.accordion', ['childrens' => $childrens])
+                        </div>
                     </div>
                 </div>
             </div>

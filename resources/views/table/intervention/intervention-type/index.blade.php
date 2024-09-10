@@ -15,8 +15,11 @@
                 @include('table.intervention.intervention-type.table', ['interventionTypes' => $interventionTypes])
             </div>
         </div>
-        <div class="lising d-none" id="accordion">
-            @include('table.intervention.intervention-type.accordion', ['interventionTypes' => $interventionTypes])
+        <div class="lising d-none">
+            @include('components.table-search', ['label' => 'Occurrence/Intervention Type', 'count' => $interventionCount])
+            <div id="accordion">
+                @include('table.intervention.intervention-type.accordion', ['interventionTypes' => $interventionTypes])
+            </div>
         </div>
     </div>
 </div>

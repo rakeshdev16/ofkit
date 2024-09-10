@@ -21,8 +21,11 @@
                             @include('cluster.table', ['clusters' => $clusters])
                         </div>
                     </div>
-                    <div class="lising d-none" id="accordion">
-                        @include('cluster.accordion', ['clusters' => $clusters])
+                    <div class="lising d-none">
+                        @include('components.table-search', ['label' => __('cluster.clusters'), 'count' => $count])
+                        <div id="accordion">
+                            @include('cluster.accordion', ['clusters' => $clusters])
+                        </div>
                     </div>
                 </div>
             </div>

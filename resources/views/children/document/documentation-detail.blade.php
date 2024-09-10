@@ -41,13 +41,27 @@
                                 <div class="card-body">
                                     <div class="mt-2 d-flex justify-content-between">
                                         <h4>{{ __('children.' . $document->type) }}</h4>
-                                        <a href="{{ route('children-documentation.get', [$document->type, Request::segment(2), $document->id]) }}" class="btn button">{{ __('comon.edit') }}</a>
+                                        @if (Auth::user()->hasRole('therapist') && Auth::id() == $document->therapist_id && \Carbon\Carbon::parse($document->created_at)->isToday())
+                                            <a href="{{ route('children-documentation.get', [$document->type, Request::segment(2), $document->id]) }}" class="btn button">{{ __('comon.edit') }}</a>
+                                        @endif
+
+                                        @if (Auth::user()->hasRole('admin'))
+                                            <a href="{{ route('children-documentation.get', [$document->type, Request::segment(2), $document->id]) }}" class="btn button">{{ __('comon.edit') }}</a>
+                                        @endif
                                     </div>
                                     <hr class="my-4">
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                             <h6 class="mb-0">{{ __('children.date') }}</h6>
                                             <span class="text-secondary">{{ @date('d/m/Y', strtotime($document->date)) ?? '-' }}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 class="mb-0">{{ __('children.therapist') }}</h6>
+                                            <span class="text-secondary">{{ $document->therapist->name ?? '-' }}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 class="mb-0">{{ __('children.profession') }}</h6>
+                                            <span class="text-secondary">{{ $document->therapist->profession->name ?? '-' }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                             <h6 class="mb-0">{{ __('children.startTime') }}</h6>

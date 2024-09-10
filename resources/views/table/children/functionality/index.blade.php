@@ -15,8 +15,11 @@
                 @include('table.children.functionality.table', ['functionalities' => $functionalities])
             </div>
         </div>
-        <div class="lising d-none" id="accordion">
-            @include('table.children.functionality.accordion', ['functionalities' => $functionalities])
+        <div class="lising d-none">
+            @include('components.table-search', ['label' => 'Children Functionality', 'count' => $functionalityCount])
+            <div id="accordion">
+                @include('table.children.functionality.accordion', ['functionalities' => $functionalities])
+            </div>
         </div>
     </div>
 </div>
