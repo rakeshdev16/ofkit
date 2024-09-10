@@ -63,7 +63,7 @@
                     <a href="{{ route('children-documentation.show', [$documentation->children_id, $documentation->id, Request::segment(2)]) }}" data-toggle="tooltip" data-placement="bottom" title="View">
                         <i class="bx bx-show icon"></i>
                     </a>
-                    @if (Auth::user()->hasRole('therapist') && Auth::id() == $documentation->therapist_id && $documentation->created_at->isToday())
+                    @if (Auth::user()->hasRole('therapist') && Auth::id() == $documentation->therapist_id && \Carbon\Carbon::parse($documentation->created_at)->isToday())
                         <a href="{{ route('children-documentation.get', [$documentation->type, Request::segment(2), $documentation->id]) }}" data-toggle="tooltip" data-placement="bottom" title="Edit">
                             <i class="bx bx-edit icon"></i>
                         </a>
