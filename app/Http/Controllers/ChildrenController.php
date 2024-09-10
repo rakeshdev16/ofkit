@@ -593,6 +593,10 @@ class ChildrenController extends Controller
             'occured_reason' => "required_if:occured,==,0",
             'end_time' => 'required_with:start_time',
             'therapist_ids' => 'required|array|min:1',
+            'children.*.topic' => 'required_if:occured,==,1',
+            'children.*.discussion' => 'required_if:occured,==,1',
+            'children.*.decisions' => 'required_if:occured,==,1',
+
             // 'topic' => 'required_if:occured,==,1',
             // 'discussion' => 'required_if:occured,==,1',
             // 'decisions' => 'required_if:occured,==,1',
@@ -605,9 +609,9 @@ class ChildrenController extends Controller
         $messages = [
             'occured_description.required_if' => 'Please enter description',
             'occured_reason.required_if' => 'Please enter reason',
-            'topic.required_if' => 'Please enter topic',
-            'discussion.required_if' => 'Please enter discussion',
-            'decisions.required_if' => 'Please enter decisions',
+            'children.*.topic.required_if' => 'Please enter topic',
+            'children.*.discussion.required_if' => 'Please enter discussion',
+            'children.*.decisions.required_if' => 'Please enter decisions',
         ];
 
         $validator = Validator::make($data, $rules, $messages);
@@ -628,9 +632,9 @@ class ChildrenController extends Controller
             // ]);
             $document->staffMeeting()->delete();
             if (isset($data['children']) && count($data['children']) > 0) {
-                foreach ($data['children'] as $childrenId => $children) {
+                foreach ($data['children'] as $children) {
                     $document->staffMeeting()->create([
-                        'children_id' => $childrenId,
+                        'children_id' => $children['children_id'],
                         'topic' => $children['topic'],
                         'discussion' => $children['discussion'],
                         'decisions' => $children['decisions'],

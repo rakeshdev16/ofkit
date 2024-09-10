@@ -143,6 +143,11 @@
                                                             'options' => $therapist,
                                                             'value' => old('therapist_ids') ?? $therapistIds,
                                                         ])
+                                                        @error('therapist_ids')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>Please choose participant</strong>
+                                                            </span>
+                                                        @enderror
                                                     </div>
                                                     <div class="col-md-12 therapistTabSec" style="display:flex; flex-wrap: wrap;">
                                                         @if (old('therapist_ids') && count(old('therapist_ids')) > 0)
@@ -192,6 +197,11 @@
                                                             'options' => $childrens,
                                                             'value' => old('children_ids') ?? $childrenIds,
                                                         ])
+                                                        @error('children_ids')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>Please choose children</strong>
+                                                            </span>
+                                                        @enderror
                                                     </div>
                                                     <div class="col-md-12 childrenTabSec" style="display:flex; flex-wrap: wrap;">
                                                         {{-- <span class="child-tab mx-1 childTab">{{ $children->name }}</span> --}}
@@ -210,12 +220,36 @@
                                                     <div class="col-md-12 topicSection">
                                                         <div class="row">
                                                             <div class="col-md-12 childrenTopic">
-                                                                @if ($document && count($document->staffMeeting) > 0)
-                                                                    @foreach ($document->staffMeeting as $staffMeeting)
-                                                                        @include('components.topic-section', ['name' => getChildrenNameById($staffMeeting->children_id), 'children_id' => @$staffMeeting->children_id, 'data' => @$staffMeeting])
+                                                                @if (old('children_ids') && count(old('children_ids')) > 0)
+                                                                    @include('components.topic-section', [
+                                                                        'index' => 0,
+                                                                        'name' => getChildrenNameById($children->id),
+                                                                        'children_id' => $children->id,
+                                                                    ])
+                                                                    @foreach (old('children_ids') as $childrenId)
+                                                                        @include('components.topic-section', [
+                                                                            'index' => $loop->iteration,
+                                                                            'name' => getChildrenNameById($childrenId),
+                                                                            'children_id' => @$childrenId,
+                                                                        ])
                                                                     @endforeach
                                                                 @else
-                                                                    @include('components.topic-section', ['name' => getChildrenNameById($children->id), 'children_id' => $children->id])
+                                                                    @if ($document && count($document->staffMeeting) > 0)
+                                                                        @foreach ($document->staffMeeting as $staffMeeting)
+                                                                            @include('components.topic-section', [
+                                                                                'index' => $loop->index,
+                                                                                'name' => getChildrenNameById($staffMeeting->children_id),
+                                                                                'children_id' => @$staffMeeting->children_id,
+                                                                                'data' => @$staffMeeting,
+                                                                            ])
+                                                                        @endforeach
+                                                                    @else
+                                                                        @include('components.topic-section', [
+                                                                            'index' => 0,
+                                                                            'name' => getChildrenNameById($children->id),
+                                                                            'children_id' => $children->id,
+                                                                        ])
+                                                                    @endif
                                                                 @endif
                                                             </div>
                                                             <div class="col-md-12">
@@ -308,10 +342,13 @@
             $('.childrens').on('select2:select', function(e) {
                 var id = e.params.data.id;
                 var name = e.params.data.text;
+                var index = $('.childrenTopic .row').length;
+
                 // $(this).find('option[value="' + id + '"]').prop('disabled', true);
                 // $(this).trigger('change.select2');
                 $('.childrenTabSec').append('<span class="child-tab childTab' + id + ' mx-1">' + name + '</span>');
                 $('.childrenTopic').append(`@include('components.topic-section', [
+                    'index' => '${index}',
                     'name' => '${name}',
                     'children_id' => '${id}',
                 ])`);

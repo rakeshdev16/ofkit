@@ -169,6 +169,11 @@
                                                             'value' => old('children_ids') ?? $groupChildrens,
                                                             'options' => $childrens,
                                                         ])
+                                                        @error('children_ids')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>Please choose children</strong>
+                                                            </span>
+                                                        @enderror
                                                     </div>
                                                     <div class="col-md-12 childrenTabSec" style="display:flex; flex-wrap: wrap;">
                                                         @if (!Request::segment(4))

@@ -5,25 +5,41 @@
     <div class="col-md-12">
         @include('components.textarea-input', [
             'label' => __('children.addTopic'),
-            'name' => "children[$children_id][topic]",
+            'name' => "children[$index][topic]",
             'icon' => 'notepad',
-            'value' => @$data->topic,
+            'value' => old('children.' . $index . '.topic') ?? @$data->topic,
         ])
+        @error('children.' . $index . '.topic')
+            <span class="invalid-feedback" role="alert">
+                <strong>Please enter topic</strong>
+            </span>
+        @enderror
     </div>
     <div class="col-md-12">
         @include('components.textarea-input', [
             'label' => __('children.addDiscussion'),
-            'name' => "children[$children_id][discussion]",
+            'name' => "children[$index][discussion]",
             'icon' => 'group',
-            'value' => @$data->discussion,
+            'value' => old('children.' . $index . '.discussion') ?? @$data->discussion,
         ])
+        @error('children.' . $index . '.discussion')
+            <span class="invalid-feedback" role="alert">
+                <strong>Please enter discussion</strong>
+            </span>
+        @enderror
     </div>
     <div class="col-md-12">
         @include('components.textarea-input', [
             'label' => __('children.addDecisions'),
-            'name' => "children[$children_id][decisions]",
+            'name' => "children[$index][decisions]",
             'icon' => 'user-check',
-            'value' => @$data->decisions,
+            'value' => old('children.' . $index . '.decisions') ?? @$data->decisions,
         ])
+        @error('children.' . $index . '.decisions')
+            <span class="invalid-feedback" role="alert">
+                <strong>Please enter decisions</strong>
+            </span>
+        @enderror
     </div>
+    <input type="hidden" name="children[{{ $index }}][children_id]" value="{{ $children_id }}">
 </div>
