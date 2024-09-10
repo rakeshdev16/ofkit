@@ -40,7 +40,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="mt-2 d-flex justify-content-between">
-                                        <h4>{{ __('children.' . $document->type) }} ({{ $mainChildren->name }})</h4>
+                                        <h4>{{ __('children.' . $document->type) }}</h4>
                                         <a href="{{ route('children-documentation.get', [$document->type, Request::segment(2), $document->id]) }}" class="btn button">{{ __('comon.edit') }}</a>
                                     </div>
                                     <hr class="my-4">
@@ -106,26 +106,29 @@
                                                             @if ($document->groupChildrens->isEmpty())
                                                                 <td class="text-center" colspan="5">{{ __('children.noChildrenFound') }}</td>
                                                             @else
-                                                                @foreach ($document->groupChildrens as $child)
-                                                                    <tr">
-                                                                        <td>{{ $child->child->name }}</td>
-                                                                        <td>{{ $child->participated == 1 ? 'Yes' : 'No' }}</td>
-                                                                        <td>
-                                                                            <span class="wrap-desc" style="width: 90%; display: inline-block; white-space: normal;">
-                                                                                {{ $child->description ?? $child->reason }}
-                                                                            </span>
-                                                                        </td>
-                                                                        <td>
-                                                                            @if (!empty($child->file))
-                                                                                <a href="{{ asset('storage/' . $child->file) }}" target="_blank">
-                                                                                    <h4><i class="bx bx-file"></i></h4>
-                                                                                </a>
-                                                                            @else
-                                                                                -
-                                                                            @endif
-                                                                        </td>
-                                                                        </tr>
-                                                                @endforeach
+                                                                @php
+                                                                    $children = $document->groupChildrens->where('children_id', $mainChildren->id)->first();
+                                                                @endphp
+                                                                {{-- @foreach ($document->groupChildrens as $child) --}}
+                                                                <tr>
+                                                                    <td>{{ $children->child->name }}</td>
+                                                                    <td>{{ $children->participated == 1 ? 'Yes' : 'No' }}</td>
+                                                                    <td>
+                                                                        <span class="wrap-desc" style="width: 90%; display: inline-block; white-space: normal;">
+                                                                            {{ $children->description ?? $children->reason }}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        @if (!empty($children->file))
+                                                                            <a href="{{ asset('storage/' . $children->file) }}" target="_blank">
+                                                                                <h4><i class="bx bx-file"></i></h4>
+                                                                            </a>
+                                                                        @else
+                                                                            -
+                                                                        @endif
+                                                                    </td>
+                                                                </tr>
+                                                                {{-- @endforeach --}}
                                                             @endif
                                                         </tbody>
                                                     </table>
