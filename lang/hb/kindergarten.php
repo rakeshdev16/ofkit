@@ -30,10 +30,11 @@ return [
     'requiredClusterManager' => "בחר מנהל אשכולות",
     'requiredName' => "נא להזין שם",
     'requiredSymbol' => "נא להזין סמל",
+    'numericSymbol' => "נא להזין מספרים בלבד",
     'requiredFramework' => "נא להיכנס למסגרת",
     'requiredType' => "נא להזין סוג",
     'requiredManager' => "נא להזין מנהל",
     'requiredAddress' => "נא להזין כתובת",
     'requiredTelephone' => "נא להזין טלפון",
-
+    'nullableTelephone' => "המספר חייב להיות שילוב של ספרות ומקפים, ועליו להיות באורך של בין 8 ל-14 תווים.",
 ];
