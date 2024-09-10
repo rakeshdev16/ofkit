@@ -11,7 +11,7 @@
         <div class="page-content">
             <div class="mb-4 page-info">
                 <div>
-                    <h3 class="mb-0 text-uppercase">{{ __('children.children') }} ({{ __('comon.' . Auth::user()->getRoleNames()->first()) }})</h3>
+                    <h3 class="mb-0 text-uppercase">{{ __('children.children') }}</h3>
                     <select name="" class="select-filter">
                         <option value="">{{ __('comon.allKindergartens') }}</option>
                         @foreach (authKindergartens() as $kindergarten)

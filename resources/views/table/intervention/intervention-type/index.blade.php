@@ -1,6 +1,6 @@
 <div class="mb-4 page-info">
     <div>
-        <h3 class="mb-0 text-uppercase">Occurrence/Intervention Type ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
+        <h3 class="mb-0 text-uppercase">Occurrence/Intervention Type </h3>
     </div>
     <div class="mt-3">
         <a href="{{ route('intervention.create') }}?type=intervention-type" class="btn button">{{ __('cluster.addBtnText') }} +</a>
@@ -10,7 +10,7 @@
 <div class="card small-table">
     <div class="card-body">
         <div class="table-responsive full-width-table">
-            @include('components.table-search', ['label' => "Occurrence/Intervention Type", 'count' => @$interventionCount])
+            @include('components.table-search', ['label' => 'Occurrence/Intervention Type', 'count' => @$interventionCount])
             <div id="dataTable">
                 @include('table.intervention.intervention-type.table', ['interventionTypes' => $interventionTypes])
             </div>

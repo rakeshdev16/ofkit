@@ -1,6 +1,6 @@
 <div class="mb-4 page-info">
     <div>
-        <h3 class="mb-0 text-uppercase">Children Status ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
+        <h3 class="mb-0 text-uppercase">Children Status </h3>
     </div>
     <div class="mt-3">
         <a href="{{ route('children-table.create') }}?type=status" class="btn button">{{ __('cluster.addBtnText') }} +</a>
@@ -10,7 +10,7 @@
 <div class="card small-table">
     <div class="card-body">
         <div class="table-responsive full-width-table">
-            @include('components.table-search', ['label' => "Children Status", 'count' => @$statusCount])
+            @include('components.table-search', ['label' => 'Children Status', 'count' => @$statusCount])
             <div id="dataTable">
                 @include('table.children.status.table', ['statuses' => $statuses])
             </div>
@@ -21,7 +21,5 @@
     </div>
 </div>
 @push('customScript')
-    <script>
-        
-    </script>
+    <script></script>
 @endpush

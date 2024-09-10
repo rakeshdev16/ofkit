@@ -1,13 +1,12 @@
 @extends('layout.master')
 @push('customLink')
-    
 @endpush
 @section('section')
     <div class="page-wrapper">
         <div class="page-content">
             <div class="mb-4 page-info">
                 <div>
-                    <h3 class="mb-0 text-uppercase">{{ __('children.childrenDocuments') }} ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
+                    <h3 class="mb-0 text-uppercase">{{ __('children.childrenDocuments') }} </h3>
                     <div class="row my-2 mx-1">
                         <div class="col-md-6"><label for=""><b>{{ __('children.childName') }}:</b></label> {{ @$children->name }}</div>
                         <div class="col-md-6"><label for=""><b>{{ __('children.ID') }}:</b></label> {{ @$children->identification }}</div>
@@ -26,7 +25,7 @@
                         @php
                             if (request()->date && strpos(request()->date, ',') !== false) {
                                 $date = explode(',', request()->date);
-                                $date = date('d/m/Y', strtotime($date[1])).' - '.date('d/m/Y', strtotime($date[0]));
+                                $date = date('d/m/Y', strtotime($date[1])) . ' - ' . date('d/m/Y', strtotime($date[0]));
                             } else {
                                 $date = request()->date ? date('d/m/Y', strtotime(request()->date)) : __('children.selectDate');
                             }
@@ -59,19 +58,19 @@
                     <select class="form-control doc-filter" name="therapist_id">
                         <option value="">{{ __('children.selectTherapist') }}</option>
                         @foreach ($therapists as $therapist)
-                            <option {{ request()->therapist_id == $therapist->id  ? 'selected' : '' }} value="{{ $therapist->id }}">{{ $therapist->name }}</option>
+                            <option {{ request()->therapist_id == $therapist->id ? 'selected' : '' }} value="{{ $therapist->id }}">{{ $therapist->name }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-xl-3 col-lg-4 col-md-6  my-1">
                     <select class="form-control doc-filter" name="type">
                         <option value="">{{ __('children.selectIntervention') }}</option>
-                        <option {{ request()->type == 'individual'  ? 'selected' : '' }} value="individual">{{ __('children.individual') }}</option>
-                        <option {{ request()->type == 'group'  ? 'selected' : '' }} value="group">{{ __('children.group') }}</option>
-                        <option {{ request()->type == 'parental guidance'  ? 'selected' : '' }} value="parental guidance">{{ __('children.parentalGuidance') }}</option>
-                        <option {{ request()->type == 'staff-meeting'  ? 'selected' : '' }} value="staff-meeting">{{ __('children.staffMeeting') }}</option>
-                        <option {{ request()->type == 'initial-evaluation'  ? 'selected' : '' }} value="initial-evaluation">{{ __('children.initialEvaluation') }}</option>
-                        <option {{ request()->type == 'final-evaluation'  ? 'selected' : '' }} value="final-evaluation">{{ __('children.finalEvaluation') }}</option>
+                        <option {{ request()->type == 'individual' ? 'selected' : '' }} value="individual">{{ __('children.individual') }}</option>
+                        <option {{ request()->type == 'group' ? 'selected' : '' }} value="group">{{ __('children.group') }}</option>
+                        <option {{ request()->type == 'parental guidance' ? 'selected' : '' }} value="parental guidance">{{ __('children.parentalGuidance') }}</option>
+                        <option {{ request()->type == 'staff-meeting' ? 'selected' : '' }} value="staff-meeting">{{ __('children.staffMeeting') }}</option>
+                        <option {{ request()->type == 'initial-evaluation' ? 'selected' : '' }} value="initial-evaluation">{{ __('children.initialEvaluation') }}</option>
+                        <option {{ request()->type == 'final-evaluation' ? 'selected' : '' }} value="final-evaluation">{{ __('children.finalEvaluation') }}</option>
                     </select>
                 </div>
             </div>
@@ -92,29 +91,29 @@
     </div>
 @endsection
 @push('customScript')
-<script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
-<script>
-    $(document).ready(function() {
-        $('.specific-date-filter').on('click', function(e) {
-            e.stopPropagation();
-            e.preventDefault();
-            $('.specificDate').toggle();
-        });
-        
-        $('.specificDate').on('change', function(e) {
-            $('.dropdown-filter-toggle').html(dateFormat($(this).val()));
+    <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.specific-date-filter').on('click', function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                $('.specificDate').toggle();
+            });
+
+            $('.specificDate').on('change', function(e) {
+                $('.dropdown-filter-toggle').html(dateFormat($(this).val()));
+            });
+
         });
 
-    });
-
-    $(document).on('click', '.button', function() {
-        $(this).attr('disabled', false);
-    });
-    $(document).on('click', '.moveToArchive', function() {
-        var url = "{{ route('children.destroy', ':ids') }}";
-        var msg = "{{ __('children.chooseAtLeastOne') }}";
-        moveToArchive(url, msg);
-    });
-</script>
-<script src="{{ asset('assets/js/custom-datatable.js') }}"></script>
+        $(document).on('click', '.button', function() {
+            $(this).attr('disabled', false);
+        });
+        $(document).on('click', '.moveToArchive', function() {
+            var url = "{{ route('children.destroy', ':ids') }}";
+            var msg = "{{ __('children.chooseAtLeastOne') }}";
+            moveToArchive(url, msg);
+        });
+    </script>
+    <script src="{{ asset('assets/js/custom-datatable.js') }}"></script>
 @endpush

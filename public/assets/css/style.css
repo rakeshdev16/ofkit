@@ -513,6 +513,9 @@ input.form-control {
 /* .sub-menus {
     margin-top: 215px !important;
 } */
+.sub-menus {
+    top: 100%;
+}
 
 @media (max-width: 1120px) {
     .dropdown {
@@ -530,7 +533,5 @@ input.form-control {
         width: 100%;
     }
 
-    /* .sub-menus {
-        margin-top: 40px !important;
-    } */
+
 }

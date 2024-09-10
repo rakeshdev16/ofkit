@@ -1,6 +1,6 @@
 <div class="mb-4 page-info">
     <div>
-        <h3 class="mb-0 text-uppercase">Saff Academic Profession ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
+        <h3 class="mb-0 text-uppercase">Saff Academic Profession </h3>
     </div>
     <div class="mt-3">
         <a href="{{ route('staff-table.create') }}?type=profession" class="btn button">{{ __('cluster.addBtnText') }} +</a>
@@ -21,7 +21,5 @@
     </div>
 </div>
 @push('customScript')
-    <script>
-
-    </script>
+    <script></script>
 @endpush

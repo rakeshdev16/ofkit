@@ -1,6 +1,6 @@
 <div class="mb-4 page-info">
     <div>
-        <h3 class="mb-0 text-uppercase">Framework Types ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
+        <h3 class="mb-0 text-uppercase">Framework Types </h3>
     </div>
     <div class="mt-3">
         <a href="{{ route('framework-table.create') }}?type=framework-type" class="btn button">{{ __('cluster.addBtnText') }} +</a>

@@ -1,13 +1,12 @@
 @extends('layout.master')
 @push('customLink')
-    
 @endpush
 @section('section')
     <div class="page-wrapper">
         <div class="page-content">
             <div class="mb-4 page-info">
                 <div class="">
-                    <h3 class="mb-0 text-uppercase">{{ __('children.documentApprovals') }} ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
+                    <h3 class="mb-0 text-uppercase">{{ __('children.documentApprovals') }} </h3>
                 </div>
                 <div class="mt-3">
                     @if (Auth::user()->hasRole('admin'))
@@ -63,19 +62,19 @@
     </div>
 @endsection
 @push('customScript')
-<script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
-<script>
-    $(document).on('click', '.button', function() {
-        $(this).attr('disabled', false);
-    });
-    $(document).on('click', '.addDocument', function() {
-        $('.file').val('');
-    });
-    $(document).on('click', '.moveToArchive', function() {
-        var url = "{{ route('documents-approvals.delete', ':ids') }}";
-        var msg = "Please choose at least one document";
-        moveToArchive(url, msg);
-    });
-</script>
-<script src="{{ asset('assets/js/custom-datatable.js') }}"></script>
+    <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
+    <script>
+        $(document).on('click', '.button', function() {
+            $(this).attr('disabled', false);
+        });
+        $(document).on('click', '.addDocument', function() {
+            $('.file').val('');
+        });
+        $(document).on('click', '.moveToArchive', function() {
+            var url = "{{ route('documents-approvals.delete', ':ids') }}";
+            var msg = "Please choose at least one document";
+            moveToArchive(url, msg);
+        });
+    </script>
+    <script src="{{ asset('assets/js/custom-datatable.js') }}"></script>
 @endpush

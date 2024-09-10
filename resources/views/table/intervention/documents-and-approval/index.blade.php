@@ -1,6 +1,6 @@
 <div class="mb-4 page-info">
     <div>
-        <h3 class="mb-0 text-uppercase">Documents And Approval ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
+        <h3 class="mb-0 text-uppercase">Documents And Approval </h3>
     </div>
     <div class="mt-3">
         <a href="{{ route('intervention.create') }}?type=documents-and-approval" class="btn button">{{ __('cluster.addBtnText') }} +</a>
@@ -10,7 +10,7 @@
 <div class="card small-table">
     <div class="card-body">
         <div class="table-responsive full-width-table">
-            @include('components.table-search', ['label' => "Documents And Approval", 'count' => @$documentCount])
+            @include('components.table-search', ['label' => 'Documents And Approval', 'count' => @$documentCount])
             <div id="dataTable">
                 @include('table.intervention.documents-and-approval.table', ['documents' => $documents])
             </div>

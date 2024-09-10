@@ -1,6 +1,6 @@
 <div class="mb-4 page-info">
     <div>
-        <h3 class="mb-0 text-uppercase">Association ({{ __('comon.'.Auth::user()->getRoleNames()->first()) }})</h3>
+        <h3 class="mb-0 text-uppercase">Association </h3>
     </div>
     <div class="mt-3">
         <a href="{{ route('staff-table.create') }}?type=association" class="btn button">{{ __('cluster.addBtnText') }} +</a>
