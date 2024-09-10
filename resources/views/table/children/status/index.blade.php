@@ -15,8 +15,11 @@
                 @include('table.children.status.table', ['statuses' => $statuses])
             </div>
         </div>
-        <div class="lising d-none" id="accordion">
-            @include('table.children.status.accordion', ['statuses' => $statuses])
+        <div class="lising d-none">
+            @include('components.table-search', ['label' => "Children Parent's Status", 'count' => $parentsStatusCount])
+            <div id="accordion">
+                @include('table.children.status.accordion', ['statuses' => $statuses])
+            </div>
         </div>
     </div>
 </div>

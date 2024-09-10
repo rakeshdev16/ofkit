@@ -15,8 +15,11 @@
                 @include('table.framework.kindergarten-type.table', ['kindergartenTypes' => $kindergartenTypes])
             </div>
         </div>
-        <div class="lising d-none" id="accordion">
-            @include('table.framework.kindergarten-type.accordion', ['kindergartenTypes' => $kindergartenTypes])
+        <div class="lising d-none">
+            @include('components.table-search', ['label' => 'Kindergarten Types', 'count' => $count])
+            <div id="accordion">
+                @include('table.framework.kindergarten-type.accordion', ['kindergartenTypes' => $kindergartenTypes])
+            </div>
         </div>
     </div>
 </div>

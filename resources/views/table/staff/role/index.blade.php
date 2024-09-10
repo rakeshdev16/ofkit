@@ -15,8 +15,11 @@
                 @include('table.staff.role.table', ['roles' => $roles])
             </div>
         </div>
-        <div class="lising d-none" id="accordion">
-            @include('table.staff.role.accordion', ['roles' => $roles])
+        <div class="lising d-none">
+            @include('components.table-search', ['label' => 'Saff Professional Role', 'count' => $roleCount])
+            <div id="accordion">
+                @include('table.staff.role.accordion', ['roles' => $roles])
+            </div>
         </div>
     </div>
 </div>

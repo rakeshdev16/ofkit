@@ -82,8 +82,11 @@
                             @include('children.document.documentation-table', ['documentations' => $documentations, 'children' => $children])
                         </div>
                     </div>
-                    <div class="lising d-none" id="accordion">
-                        @include('children.document.documentation-accordion', ['documentations' => $documentations, 'children' => $children])
+                    <div class="lising d-none">
+                        @include('components.table-search', ['label' => __('children.childrenDocuments'), 'count' => $documentationCount])
+                        <div id="accordion">
+                            @include('children.document.documentation-accordion', ['documentations' => $documentations, 'children' => $children])
+                        </div>
                     </div>
                 </div>
             </div>

@@ -31,8 +31,11 @@
                             @include('children.document-approvals.table', ['documents' => @$documents])
                         </div>
                     </div>
-                    <div class="lising d-none" id="accordion">
-                        @include('children.document-approvals.accordion', ['documents' => @$documents])
+                    <div class="lising d-none">
+                        @include('components.table-search', ['label' => 'Documents', 'count' => $count])
+                        <div id="accordion">
+                            @include('children.document-approvals.accordion', ['documents' => @$documents])
+                        </div>
                     </div>
                 </div>
             </div>

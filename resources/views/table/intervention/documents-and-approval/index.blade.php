@@ -15,8 +15,11 @@
                 @include('table.intervention.documents-and-approval.table', ['documents' => $documents])
             </div>
         </div>
-        <div class="lising d-none" id="accordion">
-            @include('table.intervention.documents-and-approval.accordion', ['documents' => $documents])
+        <div class="lising d-none">
+            @include('components.table-search', ['label' => 'Documents And Approval', 'count' => $documentCount])
+            <div id="accordion">
+                @include('table.intervention.documents-and-approval.accordion', ['documents' => $documents])
+            </div>
         </div>
     </div>
 </div>

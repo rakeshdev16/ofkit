@@ -15,8 +15,11 @@
                 @include('table.staff.profession.table', ['professions' => $professions])
             </div>
         </div>
-        <div class="lising d-none" id="accordion">
-            @include('table.staff.profession.accordion', ['professions' => $professions])
+        <div class="lising d-none">
+            @include('components.table-search', ['label' => 'Saff Academic Professions', 'count' => $professionCount])
+            <div id="accordion">
+                @include('table.staff.profession.accordion', ['professions' => $professions])
+            </div>
         </div>
     </div>
 </div>
