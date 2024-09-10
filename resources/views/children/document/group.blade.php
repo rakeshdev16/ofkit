@@ -125,6 +125,14 @@
                                                             'value' => @$document->occured,
                                                         ])
                                                     </div>
+                                                    <div class="col-md-12">
+                                                        @include('components.text-input', [
+                                                            'label' => __('children.groupName'),
+                                                            'name' => 'group_name',
+                                                            'icon' => 'network-chart',
+                                                            'value' => @$document->group_name,
+                                                        ])
+                                                    </div>
                                                     <div class="col-md-12 occuredReason" style="display: {{ (old('occured') ?? @$document->occured) == '0' ? 'block' : 'none' }};">
                                                         @include('components.select-input', [
                                                             'label' => __('children.occuredReason'),
@@ -136,12 +144,7 @@
                                                     </div>
                                                     <div class="col-md-12 occuredDescription" style="display: {{ (old('occured') ?? @$document->occured) == '1' ? 'block' : 'none' }};">
                                                         <div>
-                                                            @include('components.text-input', [
-                                                                'label' => __('children.groupName'),
-                                                                'name' => 'group_name',
-                                                                'icon' => 'network-chart',
-                                                                'value' => @$document->group_name,
-                                                            ])
+
                                                         </div>
                                                         <div class="mt-3">
                                                             @include('components.textarea-input', [
@@ -282,12 +285,12 @@
 
             $(document).on('change', '.occured', function() {
                 var value = $(this).val();
-                setChildDisabled(value);
+                // setChildDisabled(value);
             });
 
             function setChildDisabled(value) {
                 if (value == 0) {
-                    $('.childrens').attr('disabled', true).val(null).trigger('change');
+                    // $('.childrens').attr('disabled', true).val(null).trigger('change');
                     $('.file').attr('disabled', true);
                     $('.file').val('');
                     $('.child-tab').not(':first').remove();
@@ -306,7 +309,7 @@
                             'child_id' => $children->id,
                         ])`);
                     }
-                    $('.childrens').attr('disabled', false);
+                    // $('.childrens').attr('disabled', false);
                     $('.accordion').find('input, select, textarea').attr('disabled', false);
                     $('.file').attr('disabled', false);
                 }
