@@ -12,8 +12,8 @@
                     @if (Auth::user()->hasRole('admin'))
                         <button class="btn button moveToArchive">{{ __('comon.moveToArchive') }}</button>
                         <a href="#" data-bs-toggle="modal" data-bs-target="#addDocumentModal" class="btn button addDocument">{{ __('comon.addNew') }} +</a>
-                        <a href="{{ route('children.show', $children->id) }}" class="btn button m-top-1">{{ __('comon.back') }}</a>
                     @endif
+                    <a href="{{ route('children.show', $children->id) }}" class="btn button m-top-1">{{ __('comon.back') }}</a>
                 </div>
             </div>
             <div class="row my-2 mx-1 children-detail">
