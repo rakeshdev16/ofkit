@@ -9,7 +9,7 @@
                     <h3 class="mb-0 text-uppercase">{{ __('children.documentApprovals') }} </h3>
                 </div>
                 <div class="mt-3">
-                    @if (Auth::user()->hasRole('admin'))
+                    @if (Auth::user()->hasRole(['admin', 'therapist']))
                         <button class="btn button moveToArchive">{{ __('comon.moveToArchive') }}</button>
                         <a href="#" data-bs-toggle="modal" data-bs-target="#addDocumentModal" class="btn button addDocument">{{ __('comon.addNew') }} +</a>
                     @endif

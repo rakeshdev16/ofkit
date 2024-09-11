@@ -49,10 +49,12 @@
                                                 <li class="list-group-item text-center">
                                                     <h6 class="mb-0"><a href="{{ route('documents-approvals.get', $children->id) }}">{{ __('children.documentApprovals') }}</a></h6>
                                                 </li>
-                                                <li class="list-group-item text-center">
-                                                    <h6 class="mb-0" data-bs-toggle="modal" data-bs-target="#exampleSmallModal">{{ __('children.newDocumantation') }}</h6>
-                                                    {{-- <h6 class="mb-0">New Documantation</h6> --}}
-                                                </li>
+                                                @if (Auth::user()->hasRole(['admin', 'therapist']))
+                                                    <li class="list-group-item text-center">
+                                                        <h6 class="mb-0" data-bs-toggle="modal" data-bs-target="#exampleSmallModal">{{ __('children.newDocumantation') }}</h6>
+                                                        {{-- <h6 class="mb-0">New Documantation</h6> --}}
+                                                    </li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </div>
@@ -63,7 +65,7 @@
                                             <div class="bs-stepper-content">
                                                 <div class="d-flex justify-content-between">
                                                     <h5 class="mb-4 steper-title">{{ __('children.personalInfo') }}</h5>
-                                                    @if (Auth::user()->hasRole('admin'))
+                                                    @if (Auth::user()->hasRole(['admin', 'manager']))
                                                         <div>
                                                             <a href="{{ route('children.edit', $children->id) }}?kindergarten_id={{ request()->kindergarten_id }}" class="btn button">{{ __('comon.edit') }}</a>
                                                         </div>
