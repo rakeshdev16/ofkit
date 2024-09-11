@@ -495,9 +495,8 @@ class ChildrenController extends Controller
             'occured_reason' => "required_if:occured,==,0",
             'children_ids' => "required_if:occured,==,0",
             'participated.*.participated' => 'required_if:occured,==,1',
-            // 'participated.*.reason' => "required_if:participated.*.participated,==,0",
-            'participated.*.reason' => "required_if:occured,==,1",
-            'participated.*.description' => "required_if:occured,==,1",
+            'participated.*.reason' => "required_if:participated.*.participated,==,0",
+            'participated.*.description' => "required_if:participated.*.participated,==,1",
             'participated.*.child_file' => "nullable",
             'end_time' => 'required_with:start_time',
         ];
