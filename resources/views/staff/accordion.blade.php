@@ -17,7 +17,7 @@
                             <input type="checkbox" name="id[]" value="{{ @$id }}" class="accordionCheckbox checkbox">&nbsp;&nbsp;
                         </div>
                         <div class="col-8">{{ $member->name }}</div>
-                        <div class="col-2 d-flex justify-content-center">
+                        <div class="col-2 show-icon">
                             <a href="{{ route('staff.show', $member->id) }}" class="me-4"><i class="bx bx-show icon"></i></a>
                         </div>
                     </div>
