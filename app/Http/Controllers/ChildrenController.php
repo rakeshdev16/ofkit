@@ -211,9 +211,9 @@ class ChildrenController extends Controller
             'medicine_dosage.*.dosage_and_timing' => "required_if:medicine,==,yes",
             'medicine_dosage.*.where' => "required_if:medicine,==,yes",
         ], [
-            'name.required' => __('children.required'),
-            'family_name.required' => __('children.required'),
-            'dob.required' => __('children.required'),
+            'name.required' => __('children.requiredName'),
+            'family_name.required' => __('children.requiredFamilyName'),
+            'dob.required' => __('children.requiredDOB'),
             'identification.numeric' => __('children.requiredIdentificationDigits'),
             'identification.digits' => __('children.requiredIdentificationDigits'),
             'father_telephone.regex' => __('children.requiredTelephoneRegex'),
@@ -466,8 +466,8 @@ class ChildrenController extends Controller
         }
 
         $messages = [
-            'occured_description.required_if' => __('children.occuredDescription'),
-            'occured_reason.required_if' => __('children.occuredReason'),
+            'occured_description.required_if' => __('children.requiredOccuredDescription'),
+            'occured_reason.required_if' => __('children.requiredOccuredReason'),
             // 'end_time.required_if' => 'Please enter end time',
         ];
 
@@ -506,10 +506,10 @@ class ChildrenController extends Controller
         }
 
         $messages = [
-            'group_name.required_if' => __('children.groupName'),
-            'occured_description.required_if' => __('children.occuredDescription'),
-            'occured_reason.required_if' => __('children.occuredReason'),
-            'children_ids.required_if' => 'Please choose children',
+            'group_name.required_if' => __('children.requiredGroupName'),
+            'occured_description.required_if' => __('children.requiredOccuredDescription'),
+            'occured_reason.required_if' => __('children.requiredOccuredReason'),
+            'children_ids.required_if' => __('children.addAnotherChild'),
             'participated.*.participated.required_if' => __('children.participated'),
             'participated.*.reason.required_if' => __('children.reason'),
             'participated.*.description.required_if' => __('children.description'),
