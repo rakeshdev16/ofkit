@@ -380,7 +380,7 @@ class ChildrenController extends Controller
         $childrens = Children::where('id', '!=', $childId)->where('kindergarten_id', $children->kindergarten_id)->select('id as key', 'name as value')->get();
         $user = Auth::user();
         $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
-        $allTherapists = User::whereIn('id', $userIds)->role(['admin', 'therapist'])->select('id as key', 'name as value')->get();
+        $allTherapists = User::whereIn('id', $userIds)->role(['manager', 'therapist'])->select('id as key', 'name as value')->get();
         switch ($type) {
             case 'individual':
                 return view('children.document.individual', compact('allTherapists', 'children', 'user', 'document'));
