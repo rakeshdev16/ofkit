@@ -150,7 +150,7 @@ return [
     'noTherapistsFound' => "No therapists found",
     'addTherapist' => "Add Therapist",
     'addParticipant' => "Add Participant",
-    'participant' => "Participant",
+    'participant' => "Participants",
     'addTopic' => "Add Topic",
     'addDiscussion' => "Add Discussion",
     'addDecisions' => "Add Decisions",

@@ -517,6 +517,14 @@ input.form-control {
     top: 100%;
 }
 
+.accordion-screen::after {
+    display: none !important;
+}
+
+.show-icon {
+    padding-right: 27px !important;
+}
+
 @media (max-width: 1120px) {
     .dropdown {
         /* flex-direction: column; */

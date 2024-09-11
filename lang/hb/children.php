@@ -150,7 +150,7 @@ return [
     'noTherapistsFound' => "לא נמצאו מטפלים",
     'addTherapist' => "הוסף מטפל",
     'addParticipant' => "הוסף משתתף",
-    'participant' => "מִשׁתַתֵף",
+    'participant' => "משתתפים",
     'addTopic' => "הוסף נושא",
     'addDiscussion' => "הוסף דיון",
     'addDecisions' => "הוסף החלטות",

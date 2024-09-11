@@ -5,7 +5,7 @@
     <div class="accordion accordion-flush tr-{{ $children->id }}" id="accordion{{ $loop->iteration }}">
         <div class="accordion-item">
             <h2 class="accordion-header" id="staff-listing-{{ $loop->iteration }}">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false" aria-controls="flush-collapse{{ $loop->iteration }}">
+                <button class="accordion-button accordion-screen collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false" aria-controls="flush-collapse{{ $loop->iteration }}">
                     {{-- @include('components.accordion-label', [
                         'id' => $children->id,
                         'name' => $children->name,
@@ -18,8 +18,8 @@
                             {{-- <input type="checkbox" value="{{ @$id }}" class="accordionCheckbox check-{{ $id }}" data-class="check-{{ $id }}">&nbsp;&nbsp; --}}
                         </div>
                         {{-- <div class="col-8">{{ \Str::limit($children->name, 10, '...') ?? '-' }}</div> --}}
-                        <div class="col-8">{{ $children->name }}</div>
-                        <div class="col-2 d-flex justify-content-center">
+                        <div class="col-8">{{ $children->name . ' ' . $children->family_name }}</div>
+                        <div class="col-2 show-icon">
                             <a href="{{ route('children.show', $children->id) }}?kindergarten_id={{ request()->kindergarten_id }}" data-toggle="tooltip" data-placement="bottom" title="View">
                                 <img src="{{ asset('assets/icons/child-icon-new.png') }}" width="30px" alt="">
                             </a>
