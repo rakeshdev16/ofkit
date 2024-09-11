@@ -19,7 +19,7 @@ class UserController extends Controller
         $user = Auth::user();
         return view('user.index', compact('user'));
     }
-    
+
     public function edit(Request $request)
     {
         $user = Auth::user();
@@ -91,7 +91,7 @@ class UserController extends Controller
             'confirm_password.required' => 'The confirm password is required.',
             'confirm_password.same' => 'The confirm password must match with the new password.',
         ]);
-        
+
         $user = Auth::user();
         $validator->after(function ($validator) use ($request, $user) {
             if (!Hash::check($request->input('old_password'), $user->password)) {
@@ -103,7 +103,7 @@ class UserController extends Controller
         }
         DB::beginTransaction();
         try {
-            
+
             $user->update(['password' => Hash::make($request->confirm_password)]);
             DB::commit();
             return redirect()->route('profile.index');
@@ -125,7 +125,7 @@ class UserController extends Controller
         }
         return response()->json(['status' => false]);
     }
-    
+
     public function deletePhoto(Request $request)
     {
         if (User::where('id', $request->id)->update(['photo' => NULL])) {

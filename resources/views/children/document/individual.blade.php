@@ -159,11 +159,22 @@
                                                             'value' => old('file'),
                                                         ])
                                                         <div class="d-flex mt-2 choosenFile" style="flex-wrap: wrap;">
-                                                            @if (isset($document->file) && $document->file != null)
+                                                            @if (old('file'))
+                                                                @php
+                                                                    $fileName = explode('child-document/', old('file'))[1];
+                                                                @endphp
                                                                 <div class="document mt-1">
-                                                                    <a href="{{ $document->file }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a>
-                                                                    <i class="bx bx-x childDocument" data-file-name="{{ $document->file }}"></i>
+                                                                    <a href="{{ asset('storage/' . old('file')) }}" target="_blank" rel="noopener noreferrer">{{ $fileName }}</a>
+                                                                    <i class="bx bx-x childDocument" data-file-name="{{ $fileName }}"></i>
                                                                 </div>
+                                                                <input type="hidden" name="file" value="{{ old('file') }}">
+                                                            @else
+                                                                @if (isset($document->file) && $document->file != null)
+                                                                    <div class="document mt-1">
+                                                                        <a href="{{ $document->file }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a>
+                                                                        <i class="bx bx-x childDocument" data-file-name="{{ $document->file }}"></i>
+                                                                    </div>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                     </div>
