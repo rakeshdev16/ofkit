@@ -603,7 +603,7 @@ class ChildrenController extends Controller
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
             'end_time' => 'required_with:start_time',
-            'therapist_ids' => 'required|array|min:1',
+            'therapist_ids' => 'required_if:occured,==,1|array|min:1',
             'children.*.topic' => 'required_if:occured,==,1',
             'children.*.discussion' => 'required_if:occured,==,1',
             'children.*.decisions' => 'required_if:occured,==,1',

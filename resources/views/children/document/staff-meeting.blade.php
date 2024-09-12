@@ -146,7 +146,7 @@
                                                         ])
                                                         @error('therapist_ids')
                                                             <span class="invalid-feedback" role="alert">
-                                                                <strong>{{$message}}</strong>
+                                                                <strong>{{ $message }}</strong>
                                                             </span>
                                                         @enderror
                                                     </div>
@@ -340,14 +340,16 @@
 
             function setChildDisabled(value) {
                 if (value == 0) {
+                    $('.therapists').attr('disabled', true).val(null).trigger('change');
+                    $('.childrens').attr('disabled', true).val(null).trigger('change');
+                    $('.childrenTopic .row').not(':first').remove();
+                    $('.childrenTabSec .child-tab ').not(':first').remove();
                     $('.topicSection').find('textarea').attr('disabled', true);
                     $('.topicSection').find('textarea').val('');
-                    $('.file').attr('disabled', true);
-                    $('.file').val('');
-                    $('.choosenFile > .document').remove();
                 } else {
+                    $('.therapists').attr('disabled', false).val(null).trigger('change');
+                    $('.childrens').attr('disabled', false).val(null).trigger('change');
                     $('.topicSection').find('textarea').attr('disabled', false);
-                    $('.file').attr('disabled', false);
                 }
             }
 
