@@ -85,6 +85,7 @@
                                                             @include('components.select-input', [
                                                                 'label' => __('children.therapist'),
                                                                 'name' => 'therapist_id',
+                                                                'class' => 'therapist',
                                                                 'icon' => 'buildings',
                                                                 'options' => $allTherapists,
                                                                 'value' => old('therapist_id') ? old('therapist_id') : @$document->therapist_id,
@@ -340,6 +341,7 @@
 
             function setChildDisabled(value) {
                 if (value == 0) {
+                    $('.therapist').attr('disabled', true).val(null).trigger('change');
                     $('.therapists').attr('disabled', true).val(null).trigger('change');
                     $('.childrens').attr('disabled', true).val(null).trigger('change');
                     $('.childrenTopic .row').not(':first').remove();
@@ -347,6 +349,7 @@
                     $('.topicSection').find('textarea').attr('disabled', true);
                     $('.topicSection').find('textarea').val('');
                 } else {
+                    $('.therapist').attr('disabled', false).val(null).trigger('change');
                     $('.therapists').attr('disabled', false).val(null).trigger('change');
                     $('.childrens').attr('disabled', false).val(null).trigger('change');
                     $('.topicSection').find('textarea').attr('disabled', false);
