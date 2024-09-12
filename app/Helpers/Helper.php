@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use App\Models\Children;
 use App\Models\GroupChildren;
@@ -93,7 +93,7 @@ function authKindergartens()
 
 function getDocGroupChildDetail($docId, $childId)
 {
-    return GroupChildren::select('id', 'participated', 'reason', 'description')->where(['children_documentation_id' => $docId, 'children_id' => $childId])->first();
+    return GroupChildren::select('id', 'participated', 'reason', 'description', 'file')->where(['children_documentation_id' => $docId, 'children_id' => $childId])->first();
 }
 
 function getCurrentLang()

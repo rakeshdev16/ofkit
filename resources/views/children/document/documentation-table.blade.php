@@ -50,13 +50,16 @@
                     @endif
                 </td>
                 {{-- <td>{{ $documentation->occured == 1 ? \Str::limit($documentation->occured_description, 20, '...') : $documentation->occured_reason }}</td> --}}
-                <td>
+                <td class="d-flex">
                     @if ($documentation->file)
                         <a href="{{ $documentation->file }}" target="_blank">
                             <h4><i class="bx bx-file"></i></h4>
                         </a>
-                    @else
-                        -
+                    @endif
+                    @if ($groupChildDetail && $groupChildDetail->file)
+                        <a href="{{ asset('storage/' . @$groupChildDetail->file) }}" target="_blank">
+                            <h4><i class="bx bx-file"></i></h4>
+                        </a>
                     @endif
                 </td>
                 <td>
