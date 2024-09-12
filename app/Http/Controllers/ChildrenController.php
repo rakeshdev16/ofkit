@@ -43,8 +43,8 @@ class ChildrenController extends Controller
             Auth::logout();
             return redirect()->route('login');
         }
-        $childrens = Children::filter()->paginate(50);
-        $count = Children::filter()->count();
+        $childrens = Children::with('kindergarten')->filter()->paginate(50);
+        $count = Children::with('kindergarten')->filter()->count();
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('children.table', ['childrens' => $childrens])->render(),

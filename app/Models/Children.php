@@ -32,6 +32,7 @@ class Children extends Model
 
     public function scopeFilter($query)
     {
+
         if (request('sort') && request('sorting')) {
             if (request('sort') == 'kindergarten_id') {
                 if (Auth::user()->hasRole(['manager', 'therapist'])) {
@@ -51,11 +52,12 @@ class Children extends Model
         }
 
         if (request('search')) {
+
             $search = request('search');
-            $query->where('name', 'like', '%'.$search.'%')
-                ->orWhere('family_name', 'like', '%'.$search.'%')
-                ->orWhere('identification', 'like', '%'.$search.'%')
-                ->orWhere('address', 'like', '%'.$search.'%');
+            $query->where('childrens.name', 'like', '%'.$search.'%')
+                ->orWhere('childrens.family_name', 'like', '%'.$search.'%')
+                ->orWhere('childrens.identification', 'like', '%'.$search.'%')
+                ->orWhere('childrens.address', 'like', '%'.$search.'%');
         }
 
         if (request('kindergarten_id')) {
@@ -64,9 +66,14 @@ class Children extends Model
 
         if (Auth::user()->hasRole(['manager', 'therapist'])) {
             $kindergartenIds = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
-            $query->whereIn('kindergarten_id', $kindergartenIds);
+            $query->whereIn('childrens.kindergarten_id', $kindergartenIds);
         }
         return $query;
+    }
+
+    public function kindergarten()
+    {
+        return $this->belongsTo(Kindergarten::class);
     }
 
     public function getDateOfBirthAttribute()
