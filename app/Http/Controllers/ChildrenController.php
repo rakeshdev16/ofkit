@@ -793,4 +793,13 @@ class ChildrenController extends Controller
         }
         return response()->json(['status' => false, 'ids' => $ids]);
     }
+
+    public function deleteDocuments($ids)
+    {
+        $ids = explode(',', $ids);
+        if (ChildrenDocumentation::whereIn('id', $ids)->delete()) {
+            return response()->json(['status' => true, 'message' => 'Document has been successfully archived', 'ids' => $ids]);
+        }
+        return response()->json(['status' => false, 'ids' => $ids]);
+    }
 }

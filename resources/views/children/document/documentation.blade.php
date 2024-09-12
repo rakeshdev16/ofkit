@@ -16,6 +16,9 @@
                     </div>
                 </div>
                 <div class="mt-3">
+                    @if (Auth::user()->hasRole('admin'))
+                        <button class="btn button moveToArchive">{{ __('comon.moveToArchive') }}</button>
+                    @endif
                     <button data-url="{{ route('children.show', Request::segment(2)) }}" class="btn button exit">{{ __('comon.back') }}</button>
                 </div>
             </div>
@@ -113,8 +116,8 @@
             $(this).attr('disabled', false);
         });
         $(document).on('click', '.moveToArchive', function() {
-            var url = "{{ route('children.destroy', ':ids') }}";
-            var msg = "{{ __('children.chooseAtLeastOne') }}";
+            var url = "{{ route('documents.delete', ':ids') }}";
+            var msg = "{{ __('children.chooseAtLeastOneDoc') }}";
             moveToArchive(url, msg);
         });
     </script>

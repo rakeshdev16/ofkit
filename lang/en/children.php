@@ -90,6 +90,7 @@ return [
     'requiredOccuredReason' => "Please enter occured Reason",
     'requiredGroupName' => "Please enter group name",
     'chooseAtLeastOne' => "Please choose at least one children",
+    'chooseAtLeastOneDoc' => "Please choose at least one children document",
     'created' => 'Children has been successfully created',
     'updated' => 'Children has been successfully updated',
     'deleted' => 'Children has been successfully deleted',
