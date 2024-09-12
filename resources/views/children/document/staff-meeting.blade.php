@@ -146,7 +146,7 @@
                                                         ])
                                                         @error('therapist_ids')
                                                             <span class="invalid-feedback" role="alert">
-                                                                <strong>Please choose participant</strong>
+                                                                <strong>{{$message}}</strong>
                                                             </span>
                                                         @enderror
                                                     </div>

@@ -37,10 +37,10 @@ class Children extends Model
         }
         if (request('search')) {
             $search = request('search');
-            $query->where('name', 'like', '%'.$search.'%')
-                ->orWhere('family_name', 'like', '%'.$search.'%')
-                ->orWhere('identification', 'like', '%'.$search.'%')
-                ->orWhere('address', 'like', '%'.$search.'%');
+            $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('family_name', 'like', '%' . $search . '%')
+                ->orWhere('identification', 'like', '%' . $search . '%')
+                ->orWhere('address', 'like', '%' . $search . '%');
         }
 
         if (request('kindergarten_id')) {
@@ -61,8 +61,9 @@ class Children extends Model
 
     public function getProfileAttribute($value)
     {
-        return isset($this->attributes['photo']) ? asset('storage/'.$this->attributes['photo']) : asset('assets/images/avatars/dummy-image.webp');
+        return isset($this->attributes['photo']) ? asset('storage/' . $this->attributes['photo']) : asset('assets/images/avatars/dummy-image.webp');
     }
+
     public function documentation()
     {
         return $this->hasMany(ChildrenDocumentation::class, 'children_id');
@@ -96,4 +97,9 @@ class Children extends Model
     {
         return $this->hasMany(FamilyLanguage::class);
     }
+
+    // public function kinderGarten()
+    // {
+    //     return $this->belongsTo(Kindergarten::class, 'kindergarten_id');
+    // }
 }

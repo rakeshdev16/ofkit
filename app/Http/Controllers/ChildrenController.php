@@ -90,7 +90,9 @@ class ChildrenController extends Controller
             'identification.numeric' => __('children.requiredIdentificationNumeric'),
             'identification.digits' => __('children.requiredIdentificationDigits'),
             'father_telephone.regex' => __('children.requiredTelephoneRegex'),
+            'father_email.email' => __('children.validEmail'),
             'mother_telephone.regex' => __('children.requiredTelephoneRegex'),
+            'mother_email.email' => __('children.validEmail'),
             'emergency_telephone.regex' => __('children.requiredTelephoneRegex'),
             'food_allergie_detail.required_if' => __('children.requiredFoodAllergieDetail'),
             'medicine_dosage.*.name' => __('children.requiredName'),
@@ -217,13 +219,16 @@ class ChildrenController extends Controller
             'identification.numeric' => __('children.requiredIdentificationDigits'),
             'identification.digits' => __('children.requiredIdentificationDigits'),
             'father_telephone.regex' => __('children.requiredTelephoneRegex'),
+            'father_email.email' => __('children.validEmail'),
             'mother_telephone.regex' => __('children.requiredTelephoneRegex'),
+            'mother_email.email' => __('children.validEmail'),
             'emergency_telephone.regex' => __('children.requiredTelephoneRegex'),
             'food_allergie_detail.required_if' => __('children.requiredFoodAllergieDetail'),
             'medicine_dosage.*.name' => __('children.requiredName'),
             'medicine_dosage.*.type' => __('children.requiredType'),
             'medicine_dosage.*.dosage_and_timing' => __('children.requiredDosageAndTiming'),
             'medicine_dosage.*.where' => __('children.requiredWhere'),
+
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -463,6 +468,9 @@ class ChildrenController extends Controller
         }
 
         $messages = [
+            'date.required' => __('children.requiredDate'),
+            'occured.required' => __('children.requiredOccured'),
+            'end_time.required_with' => __('children.requiredEndTime'),
             'occured_description.required_if' => __('children.requiredOccuredDescription'),
             'occured_reason.required_if' => __('children.requiredOccuredReason'),
             // 'end_time.required_if' => 'Please enter end time',
@@ -503,14 +511,17 @@ class ChildrenController extends Controller
         }
 
         $messages = [
+            'date.required' => __('children.requiredDate'),
+            'occured.required' => __('children.requiredOccured'),
+            'end_time.required_with' => __('children.requiredEndTime'),
             'group_name.required_if' => __('children.requiredGroupName'),
             'occured_description.required_if' => __('children.requiredOccuredDescription'),
             'occured_reason.required_if' => __('children.requiredOccuredReason'),
-            'children_ids.required_if' => __('children.addAnotherChild'),
-            'participated.*.participated.required_if' => __('children.participated'),
-            'participated.*.reason.required_if' => __('children.reason'),
-            'participated.*.description.required_if' => __('children.description'),
-            'participated.*.child_file.required' => __('children.file'),
+            'children_ids.required_if' => __('children.requiredAddAnotherChlidren'),
+            'participated.*.participated.required_if' => __('children.requiredParticipated'),
+            'participated.*.reason.required_if' => __('children.requiredReason'),
+            'participated.*.description.required_if' => __('children.requiredDescription'),
+            'participated.*.child_file.required' => __('children.requiredFile'),
         ];
 
         $validator = Validator::make($data, $rules, $messages);
@@ -554,6 +565,9 @@ class ChildrenController extends Controller
         }
 
         $messages = [
+            'date.required' => __('children.requiredDate'),
+            'occured.required' => __('children.requiredOccured'),
+            'end_time.required_with' => __('children.requiredEndTime'),
             'occured_description.required_if' => __('children.occuredDescription'),
             'occured_reason.required_if' => __('children.occuredReason'),
         ];
@@ -604,11 +618,15 @@ class ChildrenController extends Controller
         }
 
         $messages = [
-            'occured_description.required_if' => __('children.occuredDescription'),
-            'occured_reason.required_if' => __('children.occuredReason'),
-            'children.*.topic.required_if' => __('children.topic'),
-            'children.*.discussion.required_if' => __('children.discussion'),
-            'children.*.decisions.required_if' => __('children.decisions'),
+            'date.required' => __('children.requiredDate'),
+            'occured.required' => __('children.requiredOccured'),
+            'end_time.required_with' => __('children.requiredEndTime'),
+            'therapist_ids.required' => __('children.requiredTherapistIds'),
+            'occured_description.required_if' => __('children.requiredOccuredDescription'),
+            'occured_reason.required_if' => __('children.requiredOccuredReason'),
+            'children.*.topic.required_if' => __('children.requiredTopic'),
+            'children.*.discussion.required_if' => __('children.requiredDiscussion'),
+            'children.*.decisions.required_if' => __('children.requiredDecision'),
         ];
 
         $validator = Validator::make($data, $rules, $messages);
@@ -676,8 +694,8 @@ class ChildrenController extends Controller
         }
 
         $messages = [
-            'occured_description.required_if' => __('children.occuredDescription'),
-            'occured_reason.required_if' => __('children.occuredReason'),
+            'occured_description.required_if' => __('children.requiredOccuredDescription'),
+            'occured_reason.required_if' => __('children.requiredOccuredReason'),
         ];
 
         $validator = Validator::make($data, $rules, $messages);
@@ -707,8 +725,9 @@ class ChildrenController extends Controller
         }
 
         $messages = [
-            'occured_description.required_if' => __('children.occuredDescription'),
-            'occured_reason.required_if' => __('children.occuredReason'),
+            'date.required' => __('children.requiredDate'),
+            'occured_description.required_if' => __('children.requiredOccuredDescription'),
+            'occured_reason.required_if' => __('children.requiredOccuredReason'),
         ];
 
         $validator = Validator::make($data, $rules, $messages);
