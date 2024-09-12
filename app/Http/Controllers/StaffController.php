@@ -209,6 +209,7 @@ class StaffController extends Controller
             $request['name'] = $request->first_name . ' ' . $request->family_name;
             $user = User::findOrFail($id);
             $user->update($request->except('_token', '_method', 'kindergarten_id', 'schedule', 'query_string'));
+            $user->syncRoles($request->role);
             if (isset($request->documents) && count($request->documents) > 0) {
                 foreach ($request->documents as $document) {
                     $name = uploadFile($document, 'public/staff-document');

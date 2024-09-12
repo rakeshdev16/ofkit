@@ -90,6 +90,7 @@ return [
     'requiredOccuredReason' => "נא להזין סיבה שהתרחשה",
     'requiredGroupName' => "נא להזין את שם הקבוצה",
     'chooseAtLeastOne' => "אנא בחרו לפחות ילד אחד",
+    'chooseAtLeastOneDoc' => "אנא בחר מסמך ילדים אחד לפחות",
     'created' => 'ילדים נוצרו בהצלחה',
     'updated' => 'ילדים עודכנו בהצלחה',
     'deleted' => 'ילדים נמחקו בהצלחה',

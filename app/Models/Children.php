@@ -33,25 +33,49 @@ class Children extends Model
     public function scopeFilter($query)
     {
         if (request('sort') && request('sorting')) {
-            $query->orderBy(request('sort'), request('sorting'));
-        }
-        if (request('search')) {
-            $search = request('search');
-            $query->where('name', 'like', '%' . $search . '%')
-                ->orWhere('family_name', 'like', '%' . $search . '%')
-                ->orWhere('identification', 'like', '%' . $search . '%')
-                ->orWhere('address', 'like', '%' . $search . '%');
+            if (request('sort') == 'kindergarten_id') {
+                if (Auth::user()->hasRole(['manager', 'therapist'])) {
+                    $kindergartenIds = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
+                } else {
+                    $kindergartenIds = Kindergarten::pluck('id')->toArray();
+                }
+                $query->join('kindergartens', 'childrens.kindergarten_id', '=', 'kindergartens.id')
+                    ->whereIn('kindergartens.id', $kindergartenIds)
+                    ->orderBy('kindergartens.name', request('sorting'));
+            } else {
+                $query->orderBy(request('sort'), request('sorting'));
+            }
+        } else {
+            $query->orderBy('childrens.id', 'DESC');
         }
 
         if (request('kindergarten_id')) {
-            $query->where('kindergarten_id', request('kindergarten_id'));
+            $query->where('childrens.kindergarten_id', request('kindergarten_id'));
+        }
+
+        if (request('search')) {
+            $search = request('search');
+
+            $query->where(function ($query) use ($search) {
+                $query->where('childrens.name', 'like', '%' . $search . '%')
+                    ->orWhere('childrens.family_name', 'like', '%' . $search . '%')
+                    ->orWhere('childrens.identification', 'like', '%' . $search . '%')
+                    ->orWhere('childrens.address', 'like', '%' . $search . '%');
+            });
         }
 
         if (Auth::user()->hasRole(['manager', 'therapist'])) {
             $kindergartenIds = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
-            $query->whereIn('kindergarten_id', $kindergartenIds);
+            $query->whereIn('childrens.kindergarten_id', $kindergartenIds);
         }
+
         return $query;
+    }
+
+
+    public function kindergarten()
+    {
+        return $this->belongsTo(Kindergarten::class);
     }
 
     public function getDateOfBirthAttribute()

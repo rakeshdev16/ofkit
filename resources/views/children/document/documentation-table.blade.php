@@ -1,7 +1,7 @@
 <table id="staffTable" class="table table-style table-bordered" style="width:100%">
     <thead>
         <tr>
-            {{-- <th><input type="checkbox" class="mainCheckbox"></th> --}}
+            <th><input type="checkbox" class="mainCheckbox"></th>
             @include('components.table-heading', ['label' => __('children.date'), 'key' => 'created_at'])
             @include('components.table-heading', ['label' => __('children.therapist'), 'key' => 'therapist_id'])
             @include('components.table-heading', ['label' => __('children.profession')])
@@ -19,7 +19,7 @@
                 $groupChildDetail = getDocGroupChildDetail($documentation->id, $children->id);
             @endphp
             <tr class="tr-{{ $documentation->id }}">
-                {{-- <td><input type="checkbox" name="id[]" value="{{ $documentation->id }}" class="checkbox check-{{ $documentation->id }}" data-class="check-{{ $documentation->id }}"></td> --}}
+                <td><input type="checkbox" name="id[]" value="{{ $documentation->id }}" class="checkbox check-{{ $documentation->id }}" data-class="check-{{ $documentation->id }}"></td>
                 <td>{{ date('d/m/Y', strtotime($documentation->date)) }}</td>
                 <td>{{ $documentation->therapist->name ?? '-' }}</td>
                 <td>{{ $documentation->therapist->profession->name ?? '-' }}</td>

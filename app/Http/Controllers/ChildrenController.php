@@ -43,8 +43,8 @@ class ChildrenController extends Controller
             Auth::logout();
             return redirect()->route('login');
         }
-        $childrens = Children::filter()->orderBy('id', 'DESC')->paginate(50);
-        $count = Children::filter()->count();
+        $childrens = Children::with('kindergarten')->filter()->paginate(50);
+        $count = Children::with('kindergarten')->filter()->count();
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('children.table', ['childrens' => $childrens])->render(),
@@ -808,6 +808,15 @@ class ChildrenController extends Controller
     {
         $ids = explode(',', $ids);
         if (ChildrenDocumentAndApproval::whereIn('id', $ids)->delete()) {
+            return response()->json(['status' => true, 'message' => 'Document has been successfully archived', 'ids' => $ids]);
+        }
+        return response()->json(['status' => false, 'ids' => $ids]);
+    }
+
+    public function deleteDocuments($ids)
+    {
+        $ids = explode(',', $ids);
+        if (ChildrenDocumentation::whereIn('id', $ids)->delete()) {
             return response()->json(['status' => true, 'message' => 'Document has been successfully archived', 'ids' => $ids]);
         }
         return response()->json(['status' => false, 'ids' => $ids]);

@@ -32,8 +32,7 @@
                             <div class="card">
                                 <div class="card-body p-4">
                                     <h5 class="mb-4">{{ __('staff.editStaffDetail') }}</h5>
-                                    <form class="row g-3" action="{{ route('staff.update', $staff->id) }}" method="POST"
-                                        enctype="multipart/form-data">
+                                    <form class="row g-3" action="{{ route('staff.update', $staff->id) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
                                         @include('components.upload-profile', [
@@ -79,7 +78,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             @include('components.text-input', [
-                                                'label' =>  __('staff.idTh'),
+                                                'label' => __('staff.idTh'),
                                                 'name' => 'identification',
                                                 'icon' => 'search-alt',
                                                 'value' => $staff->identification,
@@ -121,12 +120,12 @@
                                             ])
                                         </div>
                                         <div class="col-md-6">
-                                            @include('components.text-input', [
+                                            @include('components.select-input', [
                                                 'label' => __('staff.roleTh'),
                                                 'name' => 'role',
                                                 'icon' => 'user-check',
+                                                'options' => $roles,
                                                 'value' => $staff->getRoleNames()->first(),
-                                                'readonly' => true,
                                             ])
                                         </div>
                                         <div class="col-md-12">
@@ -138,7 +137,7 @@
                                                 'fileType' => 'document',
                                                 'icon' => 'file',
                                                 'value' => old('doc'),
-                                                'multiple' => 'multiple'
+                                                'multiple' => 'multiple',
                                             ])
                                             <div class="d-flex choosenDocument" style="flex-wrap: wrap;">
                                                 @foreach ($staff->documents as $document)
@@ -158,13 +157,10 @@
                                                 'class' => 'kindergarten',
                                                 'icon' => 'buildings',
                                                 'options' => $kindergartens,
-                                                'value' =>
-                                                    old('kindergarten_id') ??
-                                                    @$staff->staffKindergartens->pluck('kindergarten_id')->toArray(),
+                                                'value' => old('kindergarten_id') ?? @$staff->staffKindergartens->pluck('kindergarten_id')->toArray(),
                                             ])
                                         </div>
-                                        <div class="col-md-12 kindergarten-section"
-                                            style="display: {{ old('kindergarten_id') || count($staff->staffKindergartens) > 0 ? '' : 'none' }}">
+                                        <div class="col-md-12 kindergarten-section" style="display: {{ old('kindergarten_id') || count($staff->staffKindergartens) > 0 ? '' : 'none' }}">
                                             <div class="time-table">
                                                 <h4 class="text-center">{{ __('staff.kindergartenTh') }}</h4>
                                                 <div class="table-responsive" style="display: block !important;">
@@ -179,7 +175,7 @@
                                                         <tbody class="selected-kindergarten">
                                                             @if (count(old('kindergarten_id', [])) > 0)
                                                                 @foreach (old('kindergarten', []) as $data)
-                                                                    @include('components.kindergarten-tr',[
+                                                                    @include('components.kindergarten-tr', [
                                                                         'id' => @$data['kindergarten_id'],
                                                                         'index' => $loop->index,
                                                                         'professions' => $professions,
@@ -207,15 +203,7 @@
                                             <div class="time-table">
                                                 <h4 class="text-center">{{ __('staff.scheduleHeading') }}</h4>
                                                 @php
-                                                    $days = [
-                                                        'sunday',
-                                                        'monday',
-                                                        'tuesday',
-                                                        'wednesday',
-                                                        'thursday',
-                                                        'friday',
-                                                        'saturday',
-                                                    ];
+                                                    $days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
                                                 @endphp
                                                 <div class="table-responsive" style="display: block !important;">
                                                     <table class="table table-borderd" style="width:100%;">
@@ -233,19 +221,11 @@
                                                             <tr>
                                                                 <td>
                                                                     <h6 class="pt-2">{{ __('staff.' . $day) }}</h6>
-                                                                    <input type="hidden"
-                                                                        name="schedule[{{ $loop->index }}][id]"
-                                                                        value="{{ @$data['id'] }}">
-                                                                    <input type="hidden"
-                                                                        name="schedule[{{ $loop->index }}][day]"
-                                                                        value="{{ $day }}">
+                                                                    <input type="hidden" name="schedule[{{ $loop->index }}][id]" value="{{ @$data['id'] }}">
+                                                                    <input type="hidden" name="schedule[{{ $loop->index }}][day]" value="{{ $day }}">
                                                                 </td>
                                                                 <td>
-                                                                    <input type="time"
-                                                                        name="schedule[{{ $loop->index }}][start_time]"
-                                                                        class="form-control time-picker"
-                                                                        placeholder="Enter Start Date",
-                                                                        value="{{ old($startTime) ?? @$data['start_time'] }}">
+                                                                    <input type="time" name="schedule[{{ $loop->index }}][start_time]" class="form-control time-picker" placeholder="Enter Start Date", value="{{ old($startTime) ?? @$data['start_time'] }}">
                                                                     @error($startTime)
                                                                         <span class="invalid-feedback" role="alert">
                                                                             <strong>{{ $message }}</strong>
@@ -253,11 +233,7 @@
                                                                     @enderror
                                                                 </td>
                                                                 <td>
-                                                                    <input type="time"
-                                                                        name="schedule[{{ $loop->index }}][end_time]"
-                                                                        class="form-control time-picker"
-                                                                        placeholder="Enter end Date",
-                                                                        value="{{ old($endTime) ?? @$data['end_time'] }}">
+                                                                    <input type="time" name="schedule[{{ $loop->index }}][end_time]" class="form-control time-picker" placeholder="Enter end Date", value="{{ old($endTime) ?? @$data['end_time'] }}">
                                                                     @error($endTime)
                                                                         <span class="invalid-feedback" role="alert">
                                                                             <strong>{{ $message }}</strong>
@@ -295,7 +271,6 @@
         @include('components.cropper-script')
         @include('staff.script')
         <script>
-
             $(document).on('click', '.removeStaffDocument', function() {
                 var id = $(this).data('id');
                 Swal.fire({
@@ -314,14 +289,16 @@
                             },
                             type: 'POST',
                             url: "{{ route('document.delete') }}",
-                            data: {id: id},
+                            data: {
+                                id: id
+                            },
                             success: function(data) {
                                 if (data.status == true) {
-                                    $('.doc'+id).remove();
+                                    $('.doc' + id).remove();
                                     toastr.success(data.message);
                                 }
                             }
-                        });            
+                        });
                     }
                 });
             })
