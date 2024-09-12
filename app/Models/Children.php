@@ -33,8 +33,23 @@ class Children extends Model
     public function scopeFilter($query)
     {
         if (request('sort') && request('sorting')) {
-            $query->orderBy(request('sort'), request('sorting'));
+            if (request('sort') == 'kindergarten_id') {
+                if (Auth::user()->hasRole(['manager', 'therapist'])) {
+                    $kindergartenIds = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
+                } else {
+                    $kindergartenIds = Kindergarten::pluck('id')->toArray();
+                }
+                $query->join('kindergartens', 'childrens.kindergarten_id', '=', 'kindergartens.id')
+                    ->whereIn('kindergartens.id', $kindergartenIds)
+                    ->orderBy('kindergartens.name', request('sorting'));
+
+            } else {
+                $query->orderBy(request('sort'), request('sorting'));
+            }
+        } else {
+            $query->orderBy('id', 'DESC');
         }
+
         if (request('search')) {
             $search = request('search');
             $query->where('name', 'like', '%'.$search.'%')
