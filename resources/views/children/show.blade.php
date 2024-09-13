@@ -49,12 +49,12 @@
                                                 <li class="list-group-item text-center">
                                                     <h6 class="mb-0"><a href="{{ route('documents-approvals.get', $children->id) }}">{{ __('children.documentApprovals') }}</a></h6>
                                                 </li>
-                                                @if (Auth::user()->hasRole(['admin', 'therapist']))
-                                                    <li class="list-group-item text-center">
-                                                        <h6 class="mb-0" data-bs-toggle="modal" data-bs-target="#exampleSmallModal">{{ __('children.newDocumantation') }}</h6>
-                                                        {{-- <h6 class="mb-0">New Documantation</h6> --}}
-                                                    </li>
-                                                @endif
+                                                {{-- @if (Auth::user()->hasRole(['admin', 'therapist'])) --}}
+                                                <li class="list-group-item text-center">
+                                                    <h6 class="mb-0" data-bs-toggle="modal" data-bs-target="#exampleSmallModal">{{ __('children.newDocumantation') }}</h6>
+                                                    {{-- <h6 class="mb-0">New Documantation</h6> --}}
+                                                </li>
+                                                {{-- @endif --}}
                                             </ul>
                                         </div>
                                     </div>
