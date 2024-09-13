@@ -81,7 +81,7 @@
                                                 </li>
                                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                                     <h6 class="mb-0"><i class="bx bx-calendar-alt"></i> {{ __('staff.birthDateTh') }}</h6>
-                                                    <span class="text-secondary">{{ @$staff->date_of_birth ?? '-' }}</span>
+                                                    <span class="text-secondary">{{ @$staff->date_of_birth ? $staff->date_of_birth : '-' }}</span>
                                                 </li>
                                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                                     <h6 class="mb-0"><i class="bx bx-user-check"></i> {{ __('staff.roleTh') }}</h6>

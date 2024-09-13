@@ -70,7 +70,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profession::class, 'id', 'profession_id');
     }
-    
+
     public function staffKindergartens()
     {
         return $this->hasMany(StaffKindergarten::class);
@@ -104,7 +104,7 @@ class User extends Authenticatable
 
     public function getDateOfBirthAttribute()
     {
-        return isset($this->attributes['dob']) ?? @date('d/m/Y', strtotime($this->attributes['dob']));
+        return isset($this->attributes['dob']) ? @date('d/m/Y', strtotime($this->attributes['dob'])) : NULL;
     }
 
     public function getProfileAttribute($value)
