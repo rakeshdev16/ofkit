@@ -142,7 +142,7 @@
                     window.location.href = "{{ route('login') }}";
                 }
             });
-        }, 10000);
+        }, 60000);
     </script>
 </body>
 
