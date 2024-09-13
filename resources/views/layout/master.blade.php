@@ -128,6 +128,21 @@
                 handleClass();
             });
         });
+
+        setInterval(function() {
+            $.ajax({
+                url: '/check-session',
+                type: 'GET',
+                success: function(response) {
+                    if (!response.isAuthenticated) {
+                        window.location.href = "{{ route('login') }}";
+                    }
+                },
+                error: function() {
+                    window.location.href = "{{ route('login') }}";
+                }
+            });
+        }, 10000);
     </script>
 </body>
 
