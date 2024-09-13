@@ -129,6 +129,36 @@
             });
         });
 
+        // Set the flag when a page starts loading
+        // window.addEventListener('load', function() {
+        //     localStorage.setItem('isReloading', 'true');
+        // });
+
+        // // Clear the flag when the user navigates away (i.e., closes tab)
+        // window.addEventListener('beforeunload', function(e) {
+        //     // Check if the flag is still set in localStorage
+        //     let isReloading = localStorage.getItem('isReloading');
+
+        //     // If 'isReloading' is present, it means the user is refreshing the page, so don't call AJAX
+        //     if (!isReloading) {
+        //         // Add your AJAX call here, as this will only be triggered if the tab is closed
+        //         $.ajax({
+        //             url: '/auth-logout',
+        //             type: 'GET',
+        //             success: function(response) {
+        //                 if (!response.isLogOut) {
+        //                     window.location.href = "{{ route('login') }}";
+        //                 }
+        //             },
+        //             error: function() {
+        //                 window.location.href = "{{ route('login') }}";
+        //             }
+        //         });
+        //     }
+        //     // Remove the flag immediately to prevent incorrect checks
+        //     localStorage.removeItem('isReloading');
+        // });
+
         setInterval(function() {
             $.ajax({
                 url: '/check-session',

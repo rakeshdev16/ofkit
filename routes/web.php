@@ -27,6 +27,11 @@ Auth::routes();
 Route::get('/check-session', function () {
     return response()->json(['isAuthenticated' => auth()->check()]);
 });
+Route::get('/expire-session',function(){
+    \Auth::logout(); // Or perform other session expiration logic
+    return response()->json(['status' => 'Session expired']);
+});
+
 Route::controller(UserController::class)->group(function () {
     Route::post('set-locale', 'setLocale')->name('set.locale');
 });
