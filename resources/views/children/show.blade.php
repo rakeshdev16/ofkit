@@ -113,11 +113,11 @@
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
-                                                            @include('components.date-input', [
+                                                            @include('components.text-input', [
                                                                 'label' => __('children.dob'),
                                                                 'name' => 'dob',
-                                                                'max' => date('Y-m-d'),
-                                                                'value' => date('Y-m-d', strtotime($children->dob)),
+                                                                'icon' => 'calendar',
+                                                                'value' => $children->date_of_birth,
                                                                 'disabled' => 'disabled',
                                                             ])
                                                         </div>

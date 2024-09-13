@@ -80,7 +80,7 @@ class Children extends Model
 
     public function getDateOfBirthAttribute()
     {
-        return date('d/m/Y', strtotime($this->attributes['dob']));
+        return isset($this->attributes['dob']) ? date('d/m/Y', strtotime($this->attributes['dob'])) : NULL;
     }
 
     public function getProfileAttribute($value)
