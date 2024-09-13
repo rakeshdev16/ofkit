@@ -29,6 +29,7 @@ return [
     'requiredCluster' => "נא בחר אשכול",
     'requiredClusterManager' => "בחר מנהל אשכולות",
     'requiredName' => "נא להזין שם",
+    'uniqueName' => "שם הגן הזה כבר קיים בבקשה נסה לשם אחר",
     'requiredSymbol' => "נא להזין סמל",
     'numericSymbol' => "נא להזין מספרים בלבד",
     'requiredFramework' => "נא להיכנס למסגרת",

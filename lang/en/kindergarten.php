@@ -31,6 +31,7 @@ return [
     'requiredCluster' => "Please select cluster",
     'requiredClusterManager' => "Please select cluster manager",
     'requiredName' => "Please enter name",
+    'uniqueName' => "This kindergarten name already exists please try to another name",
     'requiredSymbol' => "Please enter symbol",
     'numericSymbol' => "Please enter numbers only",
     'requiredFramework' => "Please enter framework",

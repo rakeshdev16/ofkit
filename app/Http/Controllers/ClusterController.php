@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Auth;
 
 class ClusterController extends Controller
@@ -25,7 +26,7 @@ class ClusterController extends Controller
         }
         return view('cluster.index', compact('clusters', 'count'));
     }
-    
+
     public function create()
     {
         $managers = User::role('manager')->select('id as key', 'name as value')->get();
@@ -36,11 +37,10 @@ class ClusterController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'cluster' => 'required',
-            // 'manager_id' => 'required',
+            'cluster' => ['required', 'unique:clusters'],
         ],[
             'cluster.required' => __('cluster.requiredCluster'),
-            // 'manager_id.required' => 'Please choose manager',
+            'cluster.unique' => __('cluster.uniqueCluster'),
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -60,11 +60,10 @@ class ClusterController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'cluster' => 'required',
-            // 'manager_id' => 'required',
+            'cluster' => ['required', Rule::unique('clusters')->ignore($id)],
         ],[
             'cluster.required' => __('cluster.requiredCluster'),
-            // 'manager_id.required' => 'Please choose manager',
+            'cluster.unique' => __('cluster.uniqueCluster'),
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
