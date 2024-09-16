@@ -119,18 +119,18 @@
                                                                 @php
                                                                     $children = $document->groupChildrens->where('children_id', $mainChildren->id)->first();
                                                                 @endphp
-                                                                {{-- @foreach ($document->groupChildrens as $child) --}}
+                                                                @foreach ($document->groupChildrens as $child)
                                                                 <tr>
-                                                                    <td>{{ $children->child->name }}</td>
-                                                                    <td>{{ $children->participated == 1 ? 'Yes' : 'No' }}</td>
+                                                                    <td>{{ getChildrenNameById($child->children_id) }}</td>
+                                                                    <td>{{ $child->participated == 1 ? 'Yes' : 'No' }}</td>
                                                                     <td>
                                                                         <span class="wrap-desc" style="width: 90%; display: inline-block; white-space: normal;">
-                                                                            {{ $children->description ?? $children->reason }}
+                                                                            {{ $child->description ?? $child->reason }}
                                                                         </span>
                                                                     </td>
                                                                     <td>
-                                                                        @if (!empty($children->file))
-                                                                            <a href="{{ asset('storage/' . $children->file) }}" target="_blank">
+                                                                        @if (!empty($child->file))
+                                                                            <a href="{{ asset('storage/' . $child->file) }}" target="_blank">
                                                                                 <h4><i class="bx bx-file"></i></h4>
                                                                             </a>
                                                                         @else
@@ -138,7 +138,7 @@
                                                                         @endif
                                                                     </td>
                                                                 </tr>
-                                                                {{-- @endforeach --}}
+                                                                @endforeach
                                                             @endif
                                                         </tbody>
                                                     </table>
