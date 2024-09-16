@@ -32,7 +32,16 @@
                     @endif
                 </td>
                 <td class="{{ $documentation->occured == 1 ? 'address-column' : '' }}">
-                    @if ($documentation->occured == 1)
+                    @if (!empty($documentation->group_name))
+                        @php
+                            $truncatedGroupDesc = $groupChildDetail->participated == 1 ? \Str::limit($groupChildDetail->description, 80, '...') : $groupChildDetail->reason;
+                        @endphp
+                        <span data-toggle="tooltip" data-placement="bottom" title="{{ $truncatedGroupDesc }}">{{ $truncatedGroupDesc }} :{{ $documentation->group_name }}</span>
+                    @else
+                        <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $truncatedDesc }}</span>
+                    @endif
+
+                    {{-- @if ($documentation->occured == 1)
                         @if ($documentation->type == 'group')
                             @if ($groupChildDetail)
                                 @php
@@ -47,7 +56,7 @@
                         @endif
                     @else
                         {{ $documentation->occured_reason }}
-                    @endif
+                    @endif --}}
                 </td>
                 {{-- <td>{{ $documentation->occured == 1 ? \Str::limit($documentation->occured_description, 20, '...') : $documentation->occured_reason }}</td> --}}
                 <td class="d-flex">
