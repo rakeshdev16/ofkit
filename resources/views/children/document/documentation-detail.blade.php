@@ -41,7 +41,8 @@
                                 <div class="card-body">
                                     <div class="mt-2 d-flex justify-content-between">
                                         <h4>{{ __('children.' . $document->type) }}</h4>
-                                        @if ((Auth::user()->hasRole('therapist') && Auth::id() == $document->therapist_id && \Carbon\Carbon::parse($document->created_at)->isToday()) || Auth::user()->hasRole('admin'))
+                                        {{-- @if ((Auth::user()->hasRole('therapist') && Auth::id() == $document->therapist_id && \Carbon\Carbon::parse($document->created_at)->isToday()) || Auth::user()->hasRole('admin')) --}}
+                                        @if (\Carbon\Carbon::parse($document->created_at)->isToday())
                                             <a href="{{ route('children-documentation.get', [$document->type, Request::segment(2), $document->id]) }}" class="btn button">{{ __('comon.edit') }}</a>
                                         @endif
                                     </div>
