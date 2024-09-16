@@ -1,6 +1,6 @@
 <label for="input16" class="form-label">{{ $label }}</label>
 <div class="position-relative input-icon">
-    <textarea name="{{ $name }}" class="form-control  @error($name) is-invalid @enderror {{ @$class }}" placeholder="{{ $label }}" cols="30" rows="2" {{ @$readonly == true ? 'readonly' : '' }} {{ @$disabled }}>
+    <textarea name="{{ $name }}" class="form-control  @error($name) is-invalid @enderror {{ @$class }}" id="description" placeholder="{{ $label }}" cols="30" rows="2" {{ @$readonly == true ? 'readonly' : '' }} {{ @$disabled }} style="resize: none;">
         {{ old($name) ? old($name) : @$value }}
     </textarea>
     <span class="position-absolute top-50 translate-middle-y">

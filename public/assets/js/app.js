@@ -229,3 +229,10 @@ $(document).ready(function () {
         $('.dropdown-laungauge').removeClass('d-none');
     }
 });
+
+const textarea = document.getElementById('description');
+
+textarea.addEventListener('input', function () {
+    this.style.height = 'auto';  // Reset the height
+    this.style.height = (this.scrollHeight) + 'px';  // Set it to the scroll height
+});
