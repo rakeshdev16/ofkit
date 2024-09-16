@@ -136,14 +136,14 @@
                                                             'disabled' => 'disabled',
                                                         ])
                                                     </div>
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-12"> 
                                                         @include('components.multi-select-input', [
                                                             'label' => __('children.addParticipant'),
                                                             'name' => 'therapist_ids[]',
                                                             'class' => 'therapists',
                                                             'icon' => 'user',
                                                             'options' => $therapist,
-                                                            'value' => old('therapist_ids') ?? $therapistIds,
+                                                            'value' => old('therapist_ids') ? old('therapist_ids') : $therapistIds,
                                                         ])
                                                         @error('therapist_ids')
                                                             <span class="invalid-feedback" role="alert">

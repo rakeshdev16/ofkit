@@ -34,7 +34,12 @@
                 <td class="{{ $documentation->occured == 1 ? 'address-column' : '' }}">
                     @if (!empty($documentation->group_name))
                         @php
-                            $truncatedGroupDesc = $groupChildDetail->participated == 1 ? \Str::limit($groupChildDetail->description, 80, '...') : $groupChildDetail->reason;
+                            if (isset($groupChildDetail) && isset($groupChildDetail->participated) && $groupChildDetail->participated == 1) {
+                                $truncatedGroupDesc = \Str::limit($groupChildDetail->description, 80, '...');
+                            } else {
+                                $truncatedGroupDesc = $groupChildDetail->reason;
+                            }
+                            
                         @endphp
                         <span data-toggle="tooltip" data-placement="bottom" title="{{ $truncatedGroupDesc }}">{{ $truncatedGroupDesc }} :{{ $documentation->group_name }}</span>
                     @else

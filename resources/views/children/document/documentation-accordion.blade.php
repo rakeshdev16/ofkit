@@ -16,7 +16,8 @@
                             'name' => ucfirst(str_replace('-', ' ', $documentation->type)),
                             'show' => route('children-documentation.show', [$documentation->children_id, $documentation->id, Request::segment(2)]),
                         ];
-                        if ((Auth::user()->hasRole('therapist') && Auth::id() == $documentation->therapist_id && \Carbon\Carbon::parse($documentation->created_at)->isToday()) || Auth::user()->hasRole('admin')) {
+                        
+                        if (\Carbon\Carbon::parse($documentation->created_at)->isToday()) {
                             $data['edit'] = route('children-documentation.get', [$documentation->type, Request::segment(2), $documentation->id]);
                         }
 
