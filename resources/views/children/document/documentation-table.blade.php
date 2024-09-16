@@ -37,7 +37,7 @@
                             if (isset($groupChildDetail) && isset($groupChildDetail->participated) && $groupChildDetail->participated == 1) {
                                 $truncatedGroupDesc = \Str::limit($groupChildDetail->description, 80, '...');
                             } else {
-                                $truncatedGroupDesc = $groupChildDetail->reason;
+                                $truncatedGroupDesc = @$groupChildDetail->reason;
                             }
                             
                         @endphp
