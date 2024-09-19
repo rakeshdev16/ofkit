@@ -80,6 +80,15 @@
                                                             $childrenIds = [];
                                                         }
                                                     @endphp
+                                                    <div class="col-md-12">
+                                                        @include('components.radio-input', [
+                                                            'label' => __('children.occured'),
+                                                            'name' => 'occured',
+                                                            'class' => 'occured',
+                                                            'icon' => 'user',
+                                                            'value' => @$document->occured,
+                                                        ])
+                                                    </div>
                                                     @if (Auth::user()->hasRole('admin'))
                                                         <div class="col-md-6">
                                                             @include('components.select-input', [
@@ -136,12 +145,7 @@
                                                             'disabled' => 'disabled',
                                                         ])
                                                     </div>
-                                                    <div class="col-md-12"> 
-                                                        {{-- @php
-                                                            echo '<pre>';
-                                                                print_r(old('therapist_ids', $therapistIds));
-                                                            echo '</pre>';
-                                                        @endphp --}}
+                                                    <div class="col-md-12">
                                                         @include('components.multi-select-input', [
                                                             'label' => __('children.addParticipant'),
                                                             'name' => 'therapist_ids[]',
@@ -169,15 +173,7 @@
                                                             @endif
                                                         @endif
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        @include('components.radio-input', [
-                                                            'label' => __('children.occured'),
-                                                            'name' => 'occured',
-                                                            'class' => 'occured',
-                                                            'icon' => 'user',
-                                                            'value' => @$document->occured,
-                                                        ])
-                                                    </div>
+                                                    
                                                     <div class="col-md-12 occuredReason" style="display: {{ (old('occured') ?? @$document->occured) == '0' ? 'block' : 'none' }};">
                                                         @include('components.select-input', [
                                                             'label' => __('children.occuredReason'),
