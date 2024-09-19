@@ -47,7 +47,7 @@ class ResetPassword extends Notification
      */
     public function toMail($notifiable)
     {
-        $resetUrl = url(config('app.url') . route('password.reset', $this->token, false));
+        $resetUrl = url(config('app.url') . route('password.reset', ['token' => $this->token, 'email' => $notifiable->email], false));
         $logo = asset('assets/images/3.png');
 
         return (new MailMessage)
