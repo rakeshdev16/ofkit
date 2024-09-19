@@ -56,6 +56,12 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new \App\Notifications\ResetPassword($token));
+    }
+
+
     public function getIsAssignAttribute()
     {
         return KindergartenUser::where('user_id', @$this->attributes['id'])->exists() || Cluster::where('manager_id', @$this->attributes['id'])->exists();

@@ -7,18 +7,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AccountDetailNotification extends Notification
+class StaffCredentialNotification extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($user, $password)
+    public function __construct()
     {
-        $this->fullName = $user->first_name.' '.$user->last_name;
-        $this->email = $user->email;
-        $this->password = $password;
+        //
     }
 
     /**
@@ -34,26 +32,22 @@ class AccountDetailNotification extends Notification
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(object $notifiable): MailMessage
+    public function toMail($notifiable)
     {
-        // return (new MailMessage)
-        //     ->greeting('Hello ' . $this->fullName)
-        //     ->subject('SleimanJi Account Credentials')
-        //     ->line('Your account has been successfully created!')
-        //     ->line('Email: '.$this->email)
-        //     ->line('Password: '.$this->email)
-        //     ->line('Thank you for using our application!');
+        $resetUrl = url(config('app.url') . route('password.reset', $this->token, false));
+        $logo = asset('assets/images/3.png');
 
         return (new MailMessage)
         ->subject('ברוכים הבאים לאופקית')
         ->view(
-            'emails.account-detail', // Path to your custom Blade view
+            'emails.staff-credential', // Path to your custom Blade view
             [
+                'resetUrl' => $resetUrl,
                 'siteUrl' => url(config('app.url')),
                 'logo' => asset('assets/images/3.png'),
                 'notifiable' => $notifiable,
-                'username' => $this->email, // Assuming email is the username
-                'password' => $this->password, // Replace this with actual logic or variable
+                'username' => $notifiable->email, // Assuming email is the username
+                'password' => 'your-temporary-password', // Replace this with actual logic or variable
             ]
         );
     }
