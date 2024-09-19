@@ -23,7 +23,9 @@ use Illuminate\Support\Facades\Route;
 */
 // $lang = App\Models\Setting::where('key', 'environment')->pluck('value')->First() == 'local' ? 'en' : 'hb';
 // App::setLocale($lang);
-Auth::routes();
+Route::middleware(['lang'])->group(function () {
+    Auth::routes();
+});
 Route::get('/check-session', function () {
     return response()->json(['isAuthenticated' => auth()->check()]);
 });

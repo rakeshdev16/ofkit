@@ -1,9 +1,5 @@
 @extends('layouts.app')
 @section('content')
-@php
-    $lang = App\Models\Setting::where('key', 'environment')->pluck('value')->First() == 'local' ? 'en' : 'hb';
-    App::setLocale($lang);
-@endphp
 <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
     <div class="col mx-auto">
         <div class="card mb-0">

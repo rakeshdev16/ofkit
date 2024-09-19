@@ -5,10 +5,6 @@
         display: block;
     }
 </style>
-@php
-    $lang = App\Models\Setting::where('key', 'environment')->pluck('value')->First() == 'local' ? 'en' : 'hb';
-    App::setLocale($lang);
-@endphp
 <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
     <div class="col mx-auto">
         <div class="card mb-0">
@@ -24,7 +20,7 @@
                     </div>
                     <div class="text-center mb-4">
                         <h5 class="">{{ __('login.welcome') }}</h5>
-                        <h5 class="mb-0">{{ __('Reset Password') }}</h5>
+                        <h5 class="mb-0">{{ __('login.resetPassword') }}</h5>
                     </div>
                     <div class="form-body">
                         <form class="row" method="POST" action="{{ route('password.update') }}">
@@ -42,7 +38,7 @@
                             <div class="col-12 mt-2">
                                 <label for="inputChoosePassword" class="form-label">{{ __('login.password') }}</label>
                                 <div class="input-group" id="show_hide_pass">
-                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Enter Password" name="password" required autocomplete="current-password">
+                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" placeholder="{{ __('login.passwordPlaceholder') }}" name="password" required autocomplete="current-password">
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -52,9 +48,9 @@
                                 </div>
                             </div>
                             <div class="col-12 mt-2">
-                                <label for="password-confirm" class="form-label">{{ __('Confirm Password') }}</label>
+                                <label for="password-confirm" class="form-label">{{ __('login.confirmPassword') }}</label>
                                 <div class="input-group" id="show_hide_confirm_password">
-                                    <input id="confirm_password" type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Enter Confirm Password" name="password_confirmation" required autocomplete="current-password">
+                                    <input id="confirm_password" type="password" class="form-control @error('password') is-invalid @enderror" placeholder="{{ __('login.enterConfirmPassword') }}" name="password_confirmation" required autocomplete="current-password">
                                     @error('password_confirmation')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -66,7 +62,7 @@
                             <div class="col-12 mt-2">
                                 <div class="d-grid">
                                     <button type="submit" class="button btn btn-primary">
-                                        {{ __('Reset Password') }}
+                                        {{ __('login.resetPassword') }}
                                     </button>
                                 </div>
                             </div>
