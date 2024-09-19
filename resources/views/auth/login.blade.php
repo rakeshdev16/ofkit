@@ -44,12 +44,12 @@
                             </div>
                             <div class="col-md-6 mt-2">
                                 @if (Route::has('password.request'))
-                                    <a href="{{ route('password.request') }}">{{ __('comon.forgetPassowrd') }}</a>
+                                    <a href="{{ route('password.request') }}">{{ __('login.forgetPassword') }}</a>
                                 @endif
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="d-grid">
-                                    <button type="submit" class="btn button">{{ __('comon.login') }}</button>
+                                    <button type="submit" class="btn button">{{ __('login.login') }}</button>
                                 </div>
                             </div>
                         </form>
