@@ -40,6 +40,7 @@
                         @include('components.select-input', [
                             'label' => __('children.reason'),
                             'name' => "participated[$index][reason]",
+                            'class' => 'reason',
                             'icon' => 'buildings',
                             'value' => old('participated.'.$index.'.reason') ?? @$data['reason'],
                             'options' => [
@@ -72,11 +73,32 @@
                         @include('components.file-input', [
                             'label' => __('children.file'),
                             'name' => "participated[$index][child_file]",
-                            'id' => 'file',
+                            'id' => 'childFile',
+                            'class' => 'file',
                             'icon' => 'file',
+                            'onchange' => 'appendChildFile(this)',
                             'value' => old('participated.'.$index.'.child_file') ?? @$file,
                         ])
-                        <input type="hidden" name="participated[{{$index}}][old_file]" value="{{ @$data['file'] }}">
+                        <div class="d-flex mt-2 childChoosenFile" style="flex-wrap: wrap;">
+                            @if (old("participated.".$index.".file"))
+                                @php
+                                    $fileName = explode('child-document/', old("participated.".$index.".file"))[1];
+                                @endphp
+                                <div class="document mt-1">
+                                    <a href="{{ asset('storage/' . old("participated.".$index.".file")) }}" target="_blank" rel="noopener noreferrer">{{ $fileName }}</a>
+                                    <i class="bx bx-x childDocument" data-file-name="{{ $fileName }}"></i>
+                                </div>
+                                <input type="hidden" name="participated[{{$index}}][file]" value="{{ old("participated.".$index.".file") }}">
+                            @else
+                                @if (isset($data['file']) && $data['file'] != null)
+                                    <div class="document mt-1">
+                                        <a href="{{ $file }}" target="_blank" rel="noopener noreferrer">{{ explode('child-document/', $data['file'])[1] }}</a>
+                                        <i class="bx bx-x childDocument" data-file-name="{{ $file }}"></i>
+                                    </div>
+                                    <input type="hidden" name="participated[{{$index}}][file]" value="{{ @$data['file'] }}">
+                                @endif
+                            @endif
+                        </div>
                         <input type="hidden" name="participated[{{$index}}][children_id]" value="{{ @$child_id }}">
                         @error('participated.'.$index.'.child_file')
                             <span class="invalid-feedback" role="alert">

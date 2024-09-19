@@ -56,17 +56,19 @@
         }
     });
 
-    $('.file').change(function(event) {
+    $('#file').change(function(event) {
         const file = event.target.files[0];
         var url = URL.createObjectURL(file);
         $('.choosenFile').html('<div class="document mt-1"><a href="'+url+'" target="_blank" rel="noopener noreferrer">'+ file.name +'</a><i class="bx bx-x childDocument" data-file-name="' + file.name + '"></i></div>');
     });
 
-    $('.childFile').change(function(event) {
-        const file = event.target.files[0];
+    function appendChildFile(el) {
+        var data = $(el);
+        const file = $(el)[0].files[0];
+        console.log(file);
         var url = URL.createObjectURL(file);
-        $('.childChoosenFile').html('<div class="document mt-1"><a href="'+url+'" target="_blank" rel="noopener noreferrer">'+ file.name +'</a><i class="bx bx-x childDocument" data-file-name="' + file.name + '"></i></div>');
-    });
+        data.closest('.col-md-12').find('.childChoosenFile').html('<div class="document mt-1"><a href="'+url+'" target="_blank" rel="noopener noreferrer">'+ file.name +'</a><i class="bx bx-x childDocument" data-file-name="' + file.name + '"></i></div>');
+    }
 
     $(document).on('click', '.childDocument', function() {
         $('.file').val('');

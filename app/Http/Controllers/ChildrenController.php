@@ -436,6 +436,15 @@ class ChildrenController extends Controller
                 return $this->individual($request->all(), $id);
                 break;
             case 'group':
+                if ($request->has('participated') && count($request->participated) > 0) {
+                    $participated = $request->participated;
+                    foreach ($participated as $key => $item) {
+                        if (isset($item['child_file'])) {
+                            $participated[$key]['file'] = uploadFile($item['child_file'], 'public/child-document');
+                        }
+                    }
+                    $request->merge(['participated' => $participated]);
+                }
                 return $this->group($request->all(), $id);
                 break;
             case 'parental-guidance':
@@ -535,11 +544,11 @@ class ChildrenController extends Controller
         $document->groupChildrens()->delete();
         if (isset($data['participated']) && count($data['participated']) > 0) {
             foreach ($data['participated'] as $participated) {
-                if (isset($participated['child_file'])) {
-                    $participated['file'] = uploadFile($participated['child_file'], 'public/child-document');
-                } else {
-                    $participated['file'] = $participated['old_file'];
-                }
+                // if (isset($participated['child_file'])) {
+                //     $participated['file'] = uploadFile($participated['child_file'], 'public/child-document');
+                // } else {
+                //     $participated['file'] = $participated['old_file'];
+                // }
                 $document->groupChildrens()->create($participated);
             }
         }

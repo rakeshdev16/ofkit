@@ -193,7 +193,7 @@
                                                             <span class="child-tab mx-1 childTab{{ @$id }}">{{ @getChildrenNameById($id) }}</span>
                                                         @endforeach
                                                     </div>
-                                                    <div class="col-md-12 childrenSec">
+                                                    <div class="col-md-12 childrenSec"> 
                                                         @if (!Request::segment(4) && empty(old('children_ids')))
                                                             @include('components.children-participated', [
                                                                 'index' => 0,
@@ -325,19 +325,21 @@
                 }
             }
 
-            function childParticipated(element) {
-                var value = element.value;
-                var row = element.closest('.row');
-                var reasonDiv = row.querySelector('.participatedReason');
-                var descriptionDiv = row.querySelector('.participatedDescription');
-                if (value == '1') {
-                    descriptionDiv.style.display = 'block';
-                    reasonDiv.style.display = 'none';
+            function childParticipated(radio) {
+                const row = $(radio).closest('.row');
+                const reasonSelect = row.find('.participatedReason select');
+                const descriptionTextarea = row.find('.participatedDescription textarea');
+                if (radio.value === '0') {
+                    reasonSelect.val('');
+                    reasonSelect.closest('.col-md-12').show();
+                    descriptionTextarea.closest('.col-md-12').hide();
                 } else {
-                    descriptionDiv.style.display = 'none';
-                    reasonDiv.style.display = 'block';
+                    descriptionTextarea.val('');
+                    descriptionTextarea.closest('.col-md-12').show();
+                    reasonSelect.closest('.col-md-12').hide();
                 }
             }
+
 
             $('.childrens').on('select2:select', function(e) {
                 var id = e.params.data.id;
@@ -389,6 +391,7 @@
                 $component.find('input:file').val('');
                 $component.find('textarea').val('');
                 $component.find('select').val('');
+                $component.find('.document').remove();
                 $component.find('#previewImage').remove();
             }
         </script>
