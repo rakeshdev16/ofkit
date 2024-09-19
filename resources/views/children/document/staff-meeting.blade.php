@@ -137,13 +137,18 @@
                                                         ])
                                                     </div>
                                                     <div class="col-md-12"> 
+                                                        {{-- @php
+                                                            echo '<pre>';
+                                                                print_r(old('therapist_ids', $therapistIds));
+                                                            echo '</pre>';
+                                                        @endphp --}}
                                                         @include('components.multi-select-input', [
                                                             'label' => __('children.addParticipant'),
                                                             'name' => 'therapist_ids[]',
                                                             'class' => 'therapists',
                                                             'icon' => 'user',
+                                                            'value' => old('therapist_ids', $therapistIds),
                                                             'options' => $therapist,
-                                                            'value' => old('therapist_ids') ? old('therapist_ids') : $therapistIds,
                                                         ])
                                                         @error('therapist_ids')
                                                             <span class="invalid-feedback" role="alert">
@@ -349,9 +354,9 @@
                     $('.topicSection').find('textarea').attr('disabled', true);
                     $('.topicSection').find('textarea').val('');
                 } else {
-                    $('.therapist').attr('disabled', false).val(null).trigger('change');
-                    $('.therapists').attr('disabled', false).val(null).trigger('change');
-                    $('.childrens').attr('disabled', false).val(null).trigger('change');
+                    $('.therapist').attr('disabled', false).trigger('change');
+                    $('.therapists').attr('disabled', false).trigger('change');
+                    $('.childrens').attr('disabled', false).trigger('change');
                     $('.topicSection').find('textarea').attr('disabled', false);
                 }
             }

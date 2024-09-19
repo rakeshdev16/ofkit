@@ -163,14 +163,13 @@
                                                             } else {
                                                                 $groupChildrens = [];
                                                             }
-
                                                         @endphp
                                                         @include('components.multi-select-input', [
                                                             'label' => __('children.addAnotherChild'),
                                                             'name' => 'children_ids[]',
                                                             'class' => 'childrens',
                                                             'icon' => 'user',
-                                                            'value' => old('children_ids') ?? $groupChildrens,
+                                                            'value' => old('children_ids', $groupChildrens),
                                                             'options' => $childrens,
                                                         ])
                                                         @error('children_ids')
