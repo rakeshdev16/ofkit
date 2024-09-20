@@ -521,6 +521,10 @@ input.form-control {
     display: none !important;
 }
 
+button.accordion-button.accordion-screen.collapsed {
+    padding: 5px 5px 5px 0px !important;
+}
+
 .show-icon {
     padding-right: 27px !important;
 }

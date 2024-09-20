@@ -1,11 +1,11 @@
-<div class="mx-3 p-1" style="display: {{ count($clusters) > 0 ? 'block' : 'none' }}">
+<div class="mx-2" style="display: {{ count($clusters) > 0 ? 'block' : 'none' }}">
     <input type="checkbox" class="mainAccordionCheckbox">&nbsp;&nbsp;&nbsp;
 </div>
 @forelse ($clusters as $cluster)
     <div class="accordion accordion-flush tr-{{ $cluster->id }}" id="accordion{{ $loop->iteration }}">
         <div class="accordion-item">
             <h2 class="accordion-header" id="staff-listing-{{ $loop->iteration }}">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                <button class="accordion-button accordion-screen collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false"
                     aria-controls="flush-collapse{{ $loop->iteration }}">
                     @include('components.accordion-label', [
@@ -24,7 +24,7 @@
                         <div class="w-50">{{ $cluster->cluster }}</div>
                     </div><hr>
                     <div class="d-flex accordion-row">
-                        <div class="w-50 label">Kindergartens</div>
+                        <div class="w-50 label">{{ __('cluster.kindergartens') }}</div>
                         <div class="w-50">
                             @forelse ($cluster->kindergartens->take(2) as $kindergarten)
                                 {{ getKindergartenNameById($kindergarten->kindergarten_id) }}{{ !$loop->last ? ', ' : '' }}

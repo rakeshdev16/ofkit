@@ -1,4 +1,4 @@
-<div class="mx-3 p-1" style="display: {{ count($documentations) > 0 ? 'block' : 'none' }}">
+<div class="mx-2" style="display: {{ count($documentations) > 0 ? 'block' : 'none' }}">
     <input type="checkbox" class="mainCheckbox">&nbsp;&nbsp;&nbsp;
 </div>
 @forelse ($documentations as $documentation)
