@@ -545,5 +545,7 @@ button.accordion-button.accordion-screen.collapsed {
         width: 100%;
     }
 
-
+    button.btn.dropdown-toggle.dropdown-filter-toggle {
+        text-align: right !important;
+    }
 }
