@@ -98,7 +98,7 @@ class User extends Authenticatable
             $query->whereIn('id', $userIds);
         }
         if (request('search')) {
-            $query->where('name', 'like', '%'.request('search').'%');
+            $query->where('name', 'like', '%'.request('search').'%')->orWhere('email', 'like', '%'.request('search').'%');
         }
         if (Auth::user()->hasRole(['manager', 'therapist'])) {
             $kindergartenIds = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
