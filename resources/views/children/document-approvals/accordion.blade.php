@@ -8,16 +8,29 @@
     <div class="accordion accordion-flush tr-{{ $document->id }}" id="accordion{{ $loop->iteration }}">
         <div class="accordion-item">
             <h2 class="accordion-header" id="staff-listing-{{ $loop->iteration }}">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                <button class="accordion-button accordion-screen collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false"
                     aria-controls="flush-collapse{{ $loop->iteration }}">
-                    @include('components.accordion-label', [
+                    {{-- @include('components.accordion-label', [
                         'id' => $document->id,
                         'name' => $fileName,
                         'download' => ['fileName' => $fileName, 'url' => $document->document],
                         'show' => $document->document,
                         'targetBlank' => true,
-                    ])
+                    ]) --}}
+                    <div class="row w-100 align-items-center" style="">
+                        <div class="col-2 d-flex justify-content-center">
+                            <input type="checkbox" name="id[]" value="{{ @$id }}" class="accordionCheckbox checkbox" data-name="{{ @$dataName }}">&nbsp;&nbsp;
+                            {{-- <input type="checkbox" value="{{ @$id }}" class="accordionCheckbox check-{{ $id }}" data-class="check-{{ $id }}">&nbsp;&nbsp; --}}
+                        </div>
+                        <div class="col-7">{{ \Str::limit($fileName, 10, '...') ?? '-' }}</div>
+                        <div class="col-3 d-flex">
+                            <a href="{{ $document->document }}" target="__blank" class="me-4"><i class="bx bx-show icon"></i></a>
+                            <a href="{{ $document->document }}" download="{{ $fileName }}" data-toggle="tooltip" data-placement="bottom" title="Download">
+                                <i class="bx bx-download icon"></i>
+                            </a>
+                        </div>
+                    </div>
                 </button>
             </h2>
             

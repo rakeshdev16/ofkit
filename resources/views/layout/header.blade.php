@@ -147,7 +147,27 @@
                                 'name' => __('menu.tables'),
                                 'icon' => 'fi_3602109.png',
                                 'active' => in_array($currentRoute, ['framework-table.index', 'staff-table.index']) ? 'active-menu' : '',
-                                'options' => [['icon' => 'fi_4549612.png', 'name' => 'Framework', 'route' => route('framework-table.index', ['type' => 'kindergarten-type'])], ['icon' => 'fi_2887367.png', 'name' => 'Staff', 'route' => route('staff-table.index', ['type' => 'profession'])], ['icon' => 'fi_9184264.png', 'name' => 'Children', 'route' => route('children-table.index', ['type' => 'parents-status'])], ['icon' => 'fi_3602109.png', 'name' => 'Intervention', 'route' => route('intervention.index', ['type' => 'intervention-type'])]],
+                                'options' => [
+                                    [
+                                        'icon' => 'fi_4549612.png',
+                                        'name' => __('menu.framework'),
+                                        'route' => route('framework-table.index', ['type' => 'kindergarten-type'])
+                                    ],
+                                    [
+                                        'icon' => 'fi_2887367.png',
+                                        'name' => __('menu.staff'),
+                                        'route' => route('staff-table.index', ['type' => 'profession'])
+                                    ],
+                                    [
+                                        'icon' => 'fi_9184264.png',
+                                        'name' => __('menu.children'),
+                                        'route' => route('children-table.index', ['type' => 'parents-status'])
+                                    ],
+                                    [
+                                        'icon' => 'fi_3602109.png',
+                                        'name' => __('menu.intervention'),
+                                        'route' => route('intervention.index', ['type' => 'intervention-type'])]
+                                    ],
                             ])
                         @endif
                         @if ($user->hasAnyPermission(['therapy-schedule.index']))

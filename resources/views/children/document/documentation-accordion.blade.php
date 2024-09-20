@@ -9,7 +9,7 @@
     <div class="accordion accordion-flush tr-{{ $documentation->id }}" id="accordion{{ $loop->iteration }}">
         <div class="accordion-item">
             <h2 class="accordion-header" id="staff-listing-{{ $loop->iteration }}">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false" aria-controls="flush-collapse{{ $loop->iteration }}">
+                <button class="accordion-button accordion-screen collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false" aria-controls="flush-collapse{{ $loop->iteration }}">
                     @php
                         $data = [
                             'id' => $documentation->id,

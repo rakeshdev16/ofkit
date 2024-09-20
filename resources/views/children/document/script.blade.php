@@ -75,4 +75,10 @@
         $('.deleteFile').val('1');
         $(this).parent().remove();
     })
+
+    $(document).on('click', '.childDocFile', function() {
+        $(this).closest('.document').siblings('input').val('');
+        $(this).parent().remove();
+    });
+
 </script>
