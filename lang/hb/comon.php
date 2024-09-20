@@ -29,6 +29,7 @@ return [
     'forgetPassowrd' => 'שכחת את הסיסמה שלך?',
     'action' => 'פעולה',
     'detail' => 'פְּרָט',
+    'close' => 'לִסְגוֹר',
     'select' => 'לִבחוֹר',
     'male' => 'זָכָר',
     'female' => 'נְקֵבָה',
