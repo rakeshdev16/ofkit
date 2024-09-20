@@ -10,6 +10,7 @@ use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StaffTableController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,9 +30,17 @@ Route::middleware(['lang'])->group(function () {
 Route::get('/check-session', function () {
     return response()->json(['isAuthenticated' => auth()->check()]);
 });
-Route::get('/expire-session',function(){
-    \Auth::logout(); // Or perform other session expiration logic
-    return response()->json(['status' => 'Session expired']);
+Route::get('/expire-session', function() {
+    try {
+        //code...
+        \Auth::logout();
+        session()->invalidate();
+        session()->regenerateToken();
+        return response()->json(['isLogOut' => true]);
+    } catch (\Exception $e) {
+        //throw $th;
+        Log::info('Expire Session', $e->getMessage());
+    }
 });
 
 Route::controller(UserController::class)->group(function () {

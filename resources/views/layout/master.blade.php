@@ -129,33 +129,32 @@
             });
         });
 
-        // Set the flag when a page starts loading
+        // Increment the tab count when a new tab loads
         // window.addEventListener('load', function() {
+        //     let tabCount = localStorage.getItem('tabCount');
+        //     tabCount = tabCount ? parseInt(tabCount) + 1 : 1;
+        //     localStorage.setItem('tabCount', tabCount);
         //     localStorage.setItem('isReloading', 'true');
         // });
 
-        // // Clear the flag when the user navigates away (i.e., closes tab)
+        // // Decrement the tab count when a tab is closed or reloaded
         // window.addEventListener('beforeunload', function(e) {
-        //     // Check if the flag is still set in localStorage
+        //     let tabCount = localStorage.getItem('tabCount');
         //     let isReloading = localStorage.getItem('isReloading');
 
-        //     // If 'isReloading' is present, it means the user is refreshing the page, so don't call AJAX
+        //     // Only decrement the tab count if it's not a reload
         //     if (!isReloading) {
-        //         // Add your AJAX call here, as this will only be triggered if the tab is closed
-        //         $.ajax({
-        //             url: '/auth-logout',
-        //             type: 'GET',
-        //             success: function(response) {
-        //                 if (!response.isLogOut) {
-        //                     window.location.href = "{{ route('login') }}";
-        //                 }
-        //             },
-        //             error: function() {
-        //                 window.location.href = "{{ route('login') }}";
-        //             }
-        //         });
+        //         tabCount = tabCount ? parseInt(tabCount) - 1 : 0;
+        //         localStorage.setItem('tabCount', tabCount);
+
+        //         // If no more tabs are open, trigger the logout process
+        //         if (tabCount <= 0) {
+        //             // Use sendBeacon for logging out the user asynchronously
+        //             navigator.sendBeacon('/expire-session');
+        //         }
         //     }
-        //     // Remove the flag immediately to prevent incorrect checks
+
+        //     // Clear the reloading flag after use
         //     localStorage.removeItem('isReloading');
         // });
 
