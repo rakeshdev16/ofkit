@@ -103,7 +103,11 @@ class User extends Authenticatable
         if (Auth::user()->hasRole(['manager', 'therapist'])) {
             $kindergartenIds = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
             $userIds = StaffKindergarten::whereIn('kindergarten_id', $kindergartenIds)->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
+            $userIds[] = Auth::id();
             $query->whereIn('id', $userIds);
+        }
+        if (Auth::user()->hasRole('admin')) {
+            $query->whereNot('id', Auth::id());
         }
         return $query;
     }
