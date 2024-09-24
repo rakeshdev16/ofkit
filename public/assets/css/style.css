@@ -529,6 +529,20 @@ button.accordion-button.accordion-screen.collapsed {
     padding-right: 27px !important;
 }
 
+.accordion-button {
+    padding-left: 0 !important;
+    /* Removes the left padding */
+    padding-right: 0 !important;
+    /* Removes the right padding */
+}
+
+.name-col {
+    padding-left: 0 !important;
+    /* Removes left padding from the content */
+    padding-right: 0 !important;
+    /* Removes right padding from the content */
+}
+
 @media (max-width: 1120px) {
     .dropdown {
         /* flex-direction: column; */
