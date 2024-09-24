@@ -51,7 +51,7 @@ class ResetPassword extends Notification
         $logo = asset('assets/images/3.png');
 
         return (new MailMessage)
-            ->subject('Reset Password Notification')
+            ->subject('איפוס סיסמה')
             ->view(
                 'emails.reset-password', // Path to your custom Blade view
                 ['resetUrl' => $resetUrl, 'siteUrl' => url(config('app.url')), 'logo' => $logo, 'notifiable' => $notifiable] // Pass necessary data to the view
