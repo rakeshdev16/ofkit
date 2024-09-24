@@ -39,9 +39,9 @@
 });
 
 
-    $(document).on('click', '.button', function() {
-        $(this).attr('disabled', false);
-    });
+    // $(document).on('click', '.button', function() {
+    //     $(this).attr('disabled', false);
+    // });
 
     $(document).on('change', '.occured', function() {
         var value = $(this).val();

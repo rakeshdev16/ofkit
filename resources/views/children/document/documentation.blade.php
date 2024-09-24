@@ -112,9 +112,9 @@
 
         });
 
-        $(document).on('click', '.button', function() {
-            $(this).attr('disabled', false);
-        });
+        // $(document).on('click', '.button', function() {
+        //     $(this).attr('disabled', false);
+        // });
         $(document).on('click', '.moveToArchive', function() {
             var url = "{{ route('documents.delete', ':ids') }}";
             var msg = "{{ __('children.chooseAtLeastOneDoc') }}";

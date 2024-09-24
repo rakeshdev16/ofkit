@@ -1,6 +1,10 @@
-$(document).on('click', '.submitBtn', function () {
-    $(this).attr('disabled', true);
-    $(this).parent().parent().parent().submit();
+$(document).on('click', '.submitBtn', function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    if (!$this.prop('disabled')) {
+        $this.prop('disabled', true);
+        $this.closest('form').submit();
+    }
 });
 
 $(document).on('click', '.moveToArchive', function () {
