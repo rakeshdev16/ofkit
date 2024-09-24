@@ -74,7 +74,7 @@
             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                 <tr>
                     <td bgcolor="#ffffff" align="right" style="padding: 20px 30px 40px 30px; color: #666666; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                      <p style="margin: 0;">שלום {{ $notifiable->name }},</p>
+                      <p style="margin: 0;"><span>{{ $notifiable->name }}</span>: שלום</p>
                       <p style="margin: 0;">החשבון שלך נוצר בהצלחה!</p>
                       <p style="margin: 0;"><span>{{ $username }}</span>: שם המשתמש שלך הוא</p>
                       <p style="margin: 0;"><span>{{ $password }}</span>: סיסמה</p>
@@ -87,26 +87,18 @@
                 </tr>
                 <tr>
                     <td bgcolor="#ffffff" align="right" style="padding: 20px 30px 20px 30px; color: #666666; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                      <p style="margin: 0;">ניתן להשיב למייל זה במקרים של בירור או צורך בתמיכה טכנית.</p>
+                      <p style="margin: 0;">ניתן להשיב למייל זה במקרים של בירור או צורך בתמיכה טכנית</p>
                     </td>
                 </tr>
                 <tr>
                     <td bgcolor="#ffffff" align="right" style="padding: 0px 30px 20px 30px; color: #666666; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                      <p style="margin: 0;">בברכה,<br>אופקית – מערכת התיעוד הדיגיטאלית של ארגון אופק</p>
+                      <p style="margin: 0;">בברכה<br>אופקית – מערכת התיעוד הדיגיטאלית של ארגון אופק</p>
                     </td>
                 </tr>
             </table>
         </td>
     </tr>
-</table>
-<table>
-    <tr><td> </td></tr>
-</table>
-<table>
-    <tr><td> </td></tr>
-</table>
-<table>
-    <tr><td> </td></tr>
+    <tr><br><br><br><br></tr>
 </table>
 </body>
 </html>
