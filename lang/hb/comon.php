@@ -33,4 +33,6 @@ return [
     'select' => 'לִבחוֹר',
     'male' => 'זָכָר',
     'female' => 'נְקֵבָה',
+    'showMore' => 'הצג עוד',
+    'showLess' => 'הצג פחות',
 ];

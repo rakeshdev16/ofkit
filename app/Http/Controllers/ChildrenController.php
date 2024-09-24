@@ -330,7 +330,7 @@ class ChildrenController extends Controller
         // $roles = Role::get();
         $roles = Profession::get();
         $therapistIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
-        $therapists = User::role(['admin', 'therapist'])->whereIn('id', $therapistIds)->select('id', 'name')->get();
+        $therapists = User::role(['manager', 'therapist'])->whereIn('id', $therapistIds)->select('id', 'name')->get();
 
         $docIds = [];
         $childDocIds = ChildrenDocumentation::where('children_id', $id)->pluck('id')->toArray();
@@ -382,7 +382,10 @@ class ChildrenController extends Controller
             $document = ChildrenDocumentation::findOrFail($id);
         }
         $children = Children::findOrFail($childId);
-        $childrens = Children::where('id', '!=', $childId)->where('kindergarten_id', $children->kindergarten_id)->select('id as key', 'name as value')->get();
+        $childrens = Children::where('id', '!=', $childId)
+            ->where('kindergarten_id', $children->kindergarten_id)
+            ->select('id as key', DB::raw("CONCAT(name, ' ', family_name) as value"))
+            ->get();
         $user = Auth::user();
         $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
         $allTherapists = User::whereIn('id', $userIds)->role(['manager', 'therapist'])->select('id as key', 'name as value')->get();

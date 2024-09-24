@@ -33,4 +33,6 @@ return [
     'select' => 'Select',
     'male' => 'Male',
     'female' => 'Female',
+    'showMore' => 'Show more',
+    'showLess' => 'Show less',
 ];

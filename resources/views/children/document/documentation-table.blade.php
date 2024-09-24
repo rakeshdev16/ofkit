@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th><input type="checkbox" class="mainCheckbox"></th>
-            @include('components.table-heading', ['label' => __('children.date'), 'key' => 'created_at'])
+            @include('components.table-heading', ['label' => __('children.date'), 'key' => 'date'])
             @include('components.table-heading', ['label' => __('children.therapist'), 'key' => 'therapist_id'])
             @include('components.table-heading', ['label' => __('children.profession')])
             @include('components.table-heading', ['label' => __('children.intervention'), 'key' => 'type'])
@@ -15,7 +15,6 @@
     <tbody>
         @forelse ($documentations as $documentation)
             @php
-                $truncatedDesc = \Str::limit($documentation->occured_description, 80, '...');
                 $groupChildDetail = getDocGroupChildDetail($documentation->id, $children->id);
             @endphp
             <tr class="tr-{{ $documentation->id }}">
@@ -35,15 +34,14 @@
                     @if (!empty($documentation->group_name))
                         @php
                             if (isset($groupChildDetail) && isset($groupChildDetail->participated) && $groupChildDetail->participated == 1) {
-                                $truncatedGroupDesc = \Str::limit($groupChildDetail->description, 80, '...');
+                                $description = $groupChildDetail->description;
                             } else {
-                                $truncatedGroupDesc = @$groupChildDetail->reason;
+                                $description = @$groupChildDetail->reason;
                             }
-                            
                         @endphp
-                        <span data-toggle="tooltip" data-placement="bottom" title="{{ $truncatedGroupDesc }}">{{ $truncatedGroupDesc }} :{{ $documentation->group_name }}</span>
+                        {!! description($description, 80) !!} :{{ $documentation->group_name }}
                     @else
-                        <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $truncatedDesc }}</span>
+                        {!! description($documentation->occured_description, 80) !!}
                     @endif
 
                     {{-- @if ($documentation->occured == 1)

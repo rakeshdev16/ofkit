@@ -6,6 +6,7 @@ return [
     'childrens' => 'ילדים',
     'admin' => 'מנהל מערכת',
     'therapist' => 'מְרַפֵּא',
+    'fullName' => "שֵׁם",
     'name' => "שם פרטי",
     'firstName' => "שֵׁם פְּרַטִי",
     'familyName' => "שם משפחה",

@@ -49,6 +49,23 @@
     @stack('customScript')
 
     <script>
+        $(document).on('click', '.toggle-text', function() {
+            var status = $(this).data('status');
+            var truncatedText = $(this).siblings('.truncated-text');
+            var fullText = $(this).siblings('.full-text');
+
+            if (status === 'less') {
+                // Show the full text
+                truncatedText.hide();
+                fullText.show();
+                $(this).data('status', 'more').text("{{ __('comon.showLess') }}");
+            } else {
+                // Show the truncated text
+                fullText.hide();
+                truncatedText.show();
+                $(this).data('status', 'less').text("{{ __('comon.showMore') }}");
+            }
+        });
         function setLocale(lang) {
             $.ajax({
                 headers: {

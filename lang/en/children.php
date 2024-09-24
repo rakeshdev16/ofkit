@@ -6,6 +6,7 @@ return [
     'childrens' => 'Childrens',
     'admin' => 'Admin',
     'therapist' => 'Therapist',
+    'fullName' => "Name",
     'name' => "First Name",
     'firstName' => "First Name",
     'familyName' => "Family Name",

@@ -43,7 +43,8 @@ function getUserRoleById($id)
 
 function getChildrenNameById($id)
 {
-    return Children::where('id', $id)->pluck('name')->first();
+    $children = Children::where('id', $id)->select('name', 'family_name')->first();
+    return $children->name.' '.$children->family_name;
 }
 
 function getKindergartenNameById($id)
@@ -98,5 +99,23 @@ function getDocGroupChildDetail($docId, $childId)
 
 function getCurrentLang()
 {
-    return Setting::where('key', 'lang')->pluck('value')->first();;
+    return Setting::where('key', 'lang')->pluck('value')->first();
 }
+
+function description($desc, $length)
+{
+    $truncatedDesc = \Str::limit($desc, $length, '');
+    $showMore = '';
+    if ($desc && strlen($desc) > $length) {
+        $showMore = '<a href="javascript:void(0);" class="toggle-text" data-status="less">' . __('comon.showMore') . '</a>';
+    }
+    return <<<HTML
+        <span data-toggle="tooltip" data-placement="bottom" title="{$desc}">
+            <span class="truncated-text">{$truncatedDesc}</span>
+            <span class="full-text" style="display: none;">{$desc}</span>
+            {$showMore}
+        </span>
+    HTML;
+}
+
+
