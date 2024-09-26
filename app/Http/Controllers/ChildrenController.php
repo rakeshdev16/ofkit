@@ -24,6 +24,7 @@ use App\Models\StaffKindergarten;
 use App\Models\StaffMeetingChildren;
 use App\Models\Status;
 use App\Models\User;
+use App\Models\FileType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -784,6 +785,7 @@ class ChildrenController extends Controller
         $children = Children::findOrFail($childId);
         $documents = ChildrenDocumentAndApproval::where('children_id', $childId)->filter()->orderBy('id', 'DESC')->paginate(50);
         $count = ChildrenDocumentAndApproval::where('children_id', $childId)->filter()->count();
+        $fileTypes = FileType::select('id as key', 'name as value')->orderBY('id', 'desc')->get();
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('children.document-approvals.table', ['children' => $children, 'documents' => $documents])->render(),
@@ -791,29 +793,44 @@ class ChildrenController extends Controller
                 'count' => $count
             ]);
         }
-        return view('children.document-approvals.index', compact('children', 'documents', 'count'));
+        return view('children.document-approvals.index', compact('children', 'documents', 'count', 'fileTypes'));
     }
 
     public function saveDocumentsAndApprovals(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
-            'document' => 'required',
+            'document' => 'nullable',
+            'file_type_id' => 'required',
+            'description' => 'required',
         ], [
             'document.required' => 'Please choose document',
+            'file_type_id.required' => 'Please choose file type',
+            'description.required' => 'Please enter description',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+        DB::beginTransaction();
 
-        if ($request->has('document')) {
-            $document = uploadFile($request->document, 'public/child-document');
+        try {
+
+            if ($request->has('document')) {
+                $document = uploadFile($request->document, 'public/child-document');
+            } else {
+                $document = explode('storage/', $request->old_document)[1];
+            }
+            ChildrenDocumentAndApproval::updateOrCreate(['id' => $request->id], [
+                'children_id' => $request->children_id,
+                'document' => $document,
+                'file_type_id' => $request->file_type_id,
+                'description' => $request->description,
+            ]);
+        DB::commit();
+            return redirect()->route('documents-approvals.get', $request->children_id);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back();
         }
-        ChildrenDocumentAndApproval::create([
-            'children_id' => $request->children_id,
-            'document' => $document
-        ]);
-        return redirect()->route('documents-approvals.get', $request->children_id);
     }
 
     public function deleteDocumentsAndApprovals($ids)

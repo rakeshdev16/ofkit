@@ -44,7 +44,7 @@
                                 <div class="col-lg-4">
                                     <div class="card">
                                         <div class="card-body">
-                                            @if (Auth::user()->hasRole('admin'))
+                                            @if (Auth::user()->hasRole(['admin', 'manager']))
                                                 <a href="{{ route('staff.edit', $staff->id) }}?kindergarten_id={{ request()->kindergarten_id }}" class="btn button">{{ __('comon.edit') }}</a>
                                             @endif
                                             <div class="d-flex flex-column align-items-center text-center">

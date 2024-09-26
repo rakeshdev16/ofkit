@@ -156,6 +156,8 @@ return [
     'addTopic' => "הוסף נושא",
     'addDiscussion' => "הוסף דיון",
     'addDecisions' => "הוסף החלטות",
+    'fileType' => "סוג קובץ",
+    'documentDescription' => "תיאור מסמך",
     'requiredParticipated' => 'שדה ההשתתפות חובה',
     'requiredReason' => 'אנא בחר סיבה',
     'requiredDescription' => "נא להזין תיאור",

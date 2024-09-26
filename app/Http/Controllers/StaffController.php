@@ -112,7 +112,15 @@ class StaffController extends Controller
                 }
             }
             $user->assignRole($request->role);
-            $user->notify(new AccountDetailNotification($user, $request['password']));
+
+            // if (filter_var(trim($request->email), FILTER_VALIDATE_EMAIL)) {
+            //     $user->notify(new AccountDetailNotification($user, $request['password']));
+            // } 
+            try {
+                $user->notify(new AccountDetailNotification($user, $request['password']));
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
             if (isset($request->kindergarten) && count($request->kindergarten)) {
                 $user->staffKindergartens()->createMany($request->kindergarten);
             }
@@ -125,6 +133,7 @@ class StaffController extends Controller
             return redirect()->route('staff.index');
         } catch (\Exception $e) {
             DB::rollback();
+            echo '<pre>'; print_r($e->getMessage()); print_r($e->__toString()); die;
             return redirect()->back();
         }
     }

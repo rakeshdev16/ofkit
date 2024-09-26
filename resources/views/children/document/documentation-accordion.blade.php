@@ -17,7 +17,7 @@
                             'show' => route('children-documentation.show', [$documentation->children_id, $documentation->id, Request::segment(2)]),
                         ];
                         
-                        if (\Carbon\Carbon::parse($documentation->created_at)->isToday()) {
+                        if (Auth::user()->hasRole('admin') || (Auth::user()->hasRole(['manager', 'therapist']) && \Carbon\Carbon::parse($documentation->created_at)->isToday())) {
                             $data['edit'] = route('children-documentation.get', [$documentation->type, Request::segment(2), $documentation->id]);
                         }
 
@@ -62,8 +62,7 @@
                     <div class="d-flex accordion-row">
                         <div class="w-50 label">{{ __('children.description') }}</div>
                         <div class="w-50">
-                            {{ @$documentation->occured_description ? $documentation->occured_description : $documentation->occured_reason }}
-                            @if ($documentation->occured == 1)
+                            {{-- @if ($documentation->occured == 1)
                                 @if ($documentation->type == 'group')
                                     @if ($groupChildDetail)
                                         @php
@@ -78,6 +77,18 @@
                                 @endif
                             @else
                                 {{ $documentation->occured_reason }}
+                            @endif --}}
+                            @if (!empty($documentation->group_name))
+                                @php
+                                    if (isset($groupChildDetail) && isset($groupChildDetail->participated) && $groupChildDetail->participated == 1) {
+                                        $description = $groupChildDetail->description;
+                                    } else {
+                                        $description = @$groupChildDetail->reason;
+                                    }
+                                @endphp
+                                {!! description($description, 80) !!} :{{ $documentation->group_name }}
+                            @else
+                                {!! description($documentation->occured_description, 80) !!}
                             @endif
                         </div>
                     </div>

@@ -9,7 +9,9 @@ class ChildrenDocumentAndApproval extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['children_id', 'document'];
+    protected $fillable = ['children_id', 'document', 'file_type_id', 'description'];
+
+    protected $appends = ['file_type'];
 
     public function scopeFilter($query)
     {
@@ -22,6 +24,11 @@ class ChildrenDocumentAndApproval extends Model
         return $query;
     }
 
+    public function getFileTypeAttribute($value)
+    {
+        return FileType::where('id', $this->attributes['file_type_id'])->pluck('name')->first();
+    }
+    
     public function getDocumentAttribute($value)
     {
         return isset($this->attributes['document']) ? asset('storage/'.$this->attributes['document']) : NULL;

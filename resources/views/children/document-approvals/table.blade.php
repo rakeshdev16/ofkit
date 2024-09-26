@@ -3,14 +3,16 @@
         <tr>
             <th style="width: 2%"><input type="checkbox" class="mainCheckbox"></th>
             @include('components.table-heading', ['label' => __('children.document'), 'key' => 'document', 'width' => '11.75%'])
+            @include('components.table-heading', ['label' => __('children.fileType'), 'key' => 'file_type_id', 'width' => '11.75%'])
+            @include('components.table-heading', ['label' => __('children.documentDescription'), 'key' => 'desription', 'width' => '11.75%'])
             @include('components.table-heading', ['label' => __('comon.action'), 'width' => '5%'])
         </tr>
     </thead>
     <tbody>
         @forelse ($documents as $document)
-        @php
-            $fileName = explode('child-document/', $document->document)[1];
-        @endphp
+            @php
+                $fileName = explode('child-document/', $document->document)[1];
+            @endphp
             <tr class="tr-{{ $document->id }}">
                 <td><input type="checkbox" name="id[]" value="{{ $document->id }}" class="checkbox check-{{ $document->id }}" data-class="check-{{ $document->id }}"></td>
                 <td>
@@ -20,7 +22,12 @@
                         -
                     @endif
                 </td>
+                <td>{{ $document->file_type }}</td>
+                <td class="address-column">{!! description($document->description, 80) !!}</td>
                 <td>
+                    <a href="#" class="editDocument" data-id="{{ $document->id }}" data-document="{{ $document->document }}" data-file-type-id="{{ $document->file_type_id }}" data-description="{{ $document->description }}" data-toggle="tooltip" data-placement="bottom" title="Edit">
+                        <i class="bx bx-edit icon"></i>
+                    </a>
                     @php
                         $docExt = pathinfo($document->document, PATHINFO_EXTENSION);
                     @endphp

@@ -23,7 +23,7 @@
                             <input type="checkbox" name="id[]" value="{{ @$id }}" class="accordionCheckbox checkbox" data-name="{{ @$dataName }}">&nbsp;&nbsp;
                             {{-- <input type="checkbox" value="{{ @$id }}" class="accordionCheckbox check-{{ $id }}" data-class="check-{{ $id }}">&nbsp;&nbsp; --}}
                         </div>
-                        <div class="col-7">{{ \Str::limit($fileName, 10, '...') ?? '-' }}</div>
+                        <div class="col-7">{{ \Str::limit($fileName, 15, '...') ?? '-' }}</div>
                         <div class="col-3 d-flex">
                             <a href="{{ $document->document }}" target="__blank" class="me-4"><i class="bx bx-show icon"></i></a>
                             <a href="{{ $document->document }}" download="{{ $fileName }}" data-toggle="tooltip" data-placement="bottom" title="Download">
@@ -41,6 +41,14 @@
                     <div class="d-flex accordion-row">
                         <div class="w-50 label">{{ __('children.name') }}</div>
                         <div class="w-50">{{ $fileName }}</div>
+                    </div>
+                    <div class="d-flex accordion-row">
+                        <div class="w-50 label">{{ __('children.fileType') }}</div>
+                        <div class="w-50">{{ $document->file_type }}</div>
+                    </div>
+                    <div class="d-flex accordion-row">
+                        <div class="w-50 label">{{ __('children.documentDescription') }}</div>
+                        <div class="w-50">{{ $document->description }}</div>
                     </div>
                 </div>
             </div>

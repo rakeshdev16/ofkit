@@ -50,6 +50,7 @@
                                                 'name' => 'first_name',
                                                 'icon' => 'user',
                                                 'value' => $staff->first_name,
+                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
                                         </div>
                                         <div class="col-md-6">
@@ -58,6 +59,7 @@
                                                 'name' => 'family_name',
                                                 'icon' => 'user',
                                                 'value' => $staff->family_name,
+                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
                                         </div>
                                         <div class="col-md-6">
@@ -66,6 +68,7 @@
                                                 'name' => 'address',
                                                 'icon' => 'current-location',
                                                 'value' => $staff->address,
+                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
                                         </div>
                                         <div class="col-md-6">
@@ -74,6 +77,7 @@
                                                 'name' => 'email',
                                                 'icon' => 'envelope',
                                                 'value' => $staff->email,
+                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
                                         </div>
                                         <div class="col-md-6">
@@ -82,6 +86,7 @@
                                                 'name' => 'identification',
                                                 'icon' => 'search-alt',
                                                 'value' => $staff->identification,
+                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
                                         </div>
                                         <div class="col-md-6">
@@ -91,6 +96,7 @@
                                                 'class' => 'numbers',
                                                 'icon' => 'phone',
                                                 'value' => $staff->telephone,
+                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
                                         </div>
                                         <div class="col-md-6">
@@ -100,6 +106,7 @@
                                                 'class' => 'numbers',
                                                 'icon' => 'credit-card',
                                                 'value' => $staff->licence_number,
+                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
                                         </div>
                                         <div class="col-md-6">
@@ -109,6 +116,7 @@
                                                 'icon' => 'user-circle',
                                                 'options' => $professions,
                                                 'value' => $staff->profession_id,
+                                                'disabled' => Auth::user()->hasRole('admin') ? '' : 'disabled',
                                             ])
                                         </div>
                                         <div class="col-md-6">
@@ -117,16 +125,27 @@
                                                 'name' => 'dob',
                                                 'max' => date('Y-m-d'),
                                                 'value' => $staff->dob ? date('Y-m-d', strtotime($staff->dob)) : '',
+                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
                                         </div>
                                         <div class="col-md-6">
-                                            @include('components.select-input', [
-                                                'label' => __('staff.roleTh'),
-                                                'name' => 'role',
-                                                'icon' => 'user-check',
-                                                'options' => $roles,
-                                                'value' => $staff->getRoleNames()->first(),
-                                            ])
+                                            @if (Auth::user()->hasRole('admin'))
+                                                @include('components.select-input', [
+                                                    'label' => __('staff.roleTh'),
+                                                    'name' => 'role',
+                                                    'icon' => 'user-check',
+                                                    'options' => $roles,
+                                                    'value' => $staff->getRoleNames()->first(),
+                                                ])
+                                            @else
+                                                <label for="role" class="form-label">{{ __('staff.roleTh') }}</label>
+                                                <div class="position-relative input-icon">
+                                                    <input type="text" class="form-control " name="role" value="{{ $staff->getRoleNames()->first() }}" readonly="">
+                                                    <span class="position-absolute top-50 translate-middle-y">
+                                                        <i class="bx bx-user-check"></i>
+                                                    </span>
+                                                </div>
+                                            @endif
                                         </div>
                                         <div class="col-md-12">
                                             @include('components.file-input', [
@@ -138,6 +157,7 @@
                                                 'icon' => 'file',
                                                 'value' => old('doc'),
                                                 'multiple' => 'multiple',
+                                                'disabled' => Auth::user()->hasRole('admin') ? '' : 'disabled',
                                             ])
                                             <div class="d-flex choosenDocument" style="flex-wrap: wrap;">
                                                 @foreach ($staff->documents as $document)
@@ -158,6 +178,7 @@
                                                 'icon' => 'buildings',
                                                 'options' => $kindergartens,
                                                 'value' => old('kindergarten_id') ?? @$staff->staffKindergartens->pluck('kindergarten_id')->toArray(),
+                                                'disabled' => Auth::user()->hasRole('admin') ? '' : 'disabled',
                                             ])
                                         </div>
                                         <div class="col-md-12 kindergarten-section" style="display: {{ old('kindergarten_id') || count($staff->staffKindergartens) > 0 ? '' : 'none' }}">

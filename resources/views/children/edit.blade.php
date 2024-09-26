@@ -56,7 +56,8 @@
                                                                 'label' => __('children.name'),
                                                                 'name' => 'name',
                                                                 'icon' => 'id-card',
-                                                                'value' => $children->name
+                                                                'value' => $children->name,
+                                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -64,7 +65,8 @@
                                                                 'label' => __('children.familyName'),
                                                                 'name' => 'family_name',
                                                                 'icon' => 'id-card',
-                                                                'value' => $children->family_name
+                                                                'value' => $children->family_name,
+                                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -72,7 +74,8 @@
                                                                 'label' =>  __('children.ID'),
                                                                 'name' => 'identification',
                                                                 'icon' => 'search-alt',
-                                                                'value' => $children->identification
+                                                                'value' => $children->identification,
+                                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -81,7 +84,8 @@
                                                                 'name' => 'gender',
                                                                 'icon' => 'buildings',
                                                                 'options' => [['key' => 'male', 'value' => __('comon.male')],['key' => 'female', 'value' => __('comon.female')]],
-                                                                'value' => $children->gender
+                                                                'value' => $children->gender,
+                                                                'disabled' => Auth::user()->hasRole('admin') ? '' : 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -89,7 +93,8 @@
                                                                 'label' => __('children.dob'),
                                                                 'name' => 'dob',
                                                                 'max' => date('Y-m-d'),
-                                                                'value' => $children->dob
+                                                                'value' => $children->dob,
+                                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -109,7 +114,8 @@
                                                                 'class' => 'selectedKindergarten',
                                                                 'icon' => 'buildings',
                                                                 'options' => $kindergartens,
-                                                                'value' => $children->kindergarten_id
+                                                                'value' => $children->kindergarten_id,
+                                                                'disabled' => Auth::user()->hasRole('admin') ? '' : 'disabled',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">

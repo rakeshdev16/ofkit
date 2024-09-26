@@ -34,7 +34,9 @@
                             <div class="d-flex justify-content-between">
                                 <h5 class="mb-4 steper-title">Kindergarten Detail</h5>
                                 <div>
-                                    <a href="{{ route('kindergarten.edit', $kindergarten->id) }}" class="btn button">{{ __('comon.edit') }}</a>
+                                    @if (Auth::user()->hasRole('admin'))
+                                        <a href="{{ route('kindergarten.edit', $kindergarten->id) }}" class="btn button">{{ __('comon.edit') }}</a>
+                                    @endif
                                 </div>
                             </div>
                             <DIV class="row g-3">

@@ -156,6 +156,8 @@ return [
     'addTopic' => "Add Topic",
     'addDiscussion' => "Add Discussion",
     'addDecisions' => "Add Decisions",
+    'fileType' => "File Type",
+    'documentDescription' => "Document Description",
     'requiredParticipated' => 'The participated field is required',
     'requiredReason' => 'Please choose reason',
     'requiredDescription' => "Please enter description",

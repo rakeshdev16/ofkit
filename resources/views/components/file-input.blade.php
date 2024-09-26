@@ -8,6 +8,7 @@
         placeholder="{{ $label }}"
         value="{{ @$value }}"
         onchange="{{ @$onchange }}"
+        {{ @$disabled }}
         {{ @$multiple }}
     >
     @if (@$class != 'file')
