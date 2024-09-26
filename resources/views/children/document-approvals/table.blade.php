@@ -45,7 +45,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="2" class="text-center">{{ __('comon.emptyTableMsg') }}</td>
+                <td colspan="9" class="text-center">{{ __('comon.emptyTableMsg') }}</td>
             </tr>
         @endforelse
     </tbody>
