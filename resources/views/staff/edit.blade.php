@@ -190,7 +190,7 @@
                                                             <tr>
                                                                 <th>{{ __('staff.name') }}</th>
                                                                 <th>{{ __('staff.professionalRole') }}</th>
-                                                                <th>{{ __('staff.professionalRole') }}</th>
+                                                                <th>{{ __('staff.association') }}</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody class="selected-kindergarten">
