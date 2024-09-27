@@ -796,17 +796,36 @@ class ChildrenController extends Controller
         return view('children.document-approvals.index', compact('children', 'documents', 'count', 'fileTypes'));
     }
 
+    public function documentsAndApprovalsCreate(Request $request, $childId)
+    {
+        $fileTypes = FileType::select('id as key', 'name as value')->orderBY('id', 'desc')->get();
+        return view('children.document-approvals.create', compact('fileTypes', 'childId'));
+    }
+
+    public function documentsAndApprovalsEdit(Request $request, $docId)
+    {
+        $fileTypes = FileType::select('id as key', 'name as value')->orderBY('id', 'desc')->get();
+        $document = ChildrenDocumentAndApproval::where('id', $docId)->first();
+        return view('children.document-approvals.edit', compact('fileTypes', 'document'));
+    }
+
     public function saveDocumentsAndApprovals(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'document' => 'nullable',
+        $rules= [
             'file_type_id' => 'required',
             'description' => 'required',
-        ], [
-            'document.required' => 'Please choose document',
+        ];
+        if (!isset($request->id) && empty($request->id)) {
+            $rules['document'] = 'required';
+        }
+        $messages = [
             'file_type_id.required' => 'Please choose file type',
             'description.required' => 'Please enter description',
-        ]);
+        ];
+        if (!isset($request->id) && empty($request->id)) {
+            $messages['document.required'] = 'Please choose document';
+        }
+        $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
@@ -825,8 +844,9 @@ class ChildrenController extends Controller
                 'file_type_id' => $request->file_type_id,
                 'description' => $request->description,
             ]);
-        DB::commit();
+            DB::commit();
             return redirect()->route('documents-approvals.get', $request->children_id);
+
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back();

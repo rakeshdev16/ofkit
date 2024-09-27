@@ -89,6 +89,23 @@
                                                             'value' => @$document->occured,
                                                         ])
                                                     </div>
+                                                    <div class="col-md-12 occuredReason" style="display: {{ (old('occured') ?? @$document->occured) == '0' ? 'block' : 'none' }};">
+                                                        @include('components.select-input', [
+                                                            'label' => __('children.occuredReason'),
+                                                            'name' => 'occured_reason',
+                                                            'icon' => 'buildings',
+                                                            'value' => @$document->occured_reason,
+                                                            'options' => [['key' => 'Child absent', 'value' => 'Child absent'], ['key' => 'Therapist absent', 'value' => 'Therapist absent'], ['key' => 'Kindergarten closed', 'value' => 'Kindergarten closed'], ['key' => 'Other', 'value' => 'Other']],
+                                                        ])
+                                                    </div>
+                                                    <div class="col-md-12 occuredDescription" style="display: {{ (old('occured') ?? @$document->occured) == '1' ? 'block' : 'none' }};">
+                                                        @include('components.textarea-input', [
+                                                            'label' => __('children.description'),
+                                                            'name' => 'occured_description',
+                                                            'icon' => 'network-chart',
+                                                            'value' => @$document->occured_description,
+                                                        ])
+                                                    </div>
                                                     @if (Auth::user()->hasRole('admin'))
                                                         <div class="col-md-6">
                                                             @include('components.select-input', [
@@ -172,24 +189,6 @@
                                                                 @endforeach
                                                             @endif
                                                         @endif
-                                                    </div>
-                                                    
-                                                    <div class="col-md-12 occuredReason" style="display: {{ (old('occured') ?? @$document->occured) == '0' ? 'block' : 'none' }};">
-                                                        @include('components.select-input', [
-                                                            'label' => __('children.occuredReason'),
-                                                            'name' => 'occured_reason',
-                                                            'icon' => 'buildings',
-                                                            'value' => @$document->occured_reason,
-                                                            'options' => [['key' => 'Child absent', 'value' => 'Child absent'], ['key' => 'Therapist absent', 'value' => 'Therapist absent'], ['key' => 'Kindergarten closed', 'value' => 'Kindergarten closed'], ['key' => 'Other', 'value' => 'Other']],
-                                                        ])
-                                                    </div>
-                                                    <div class="col-md-12 occuredDescription" style="display: {{ (old('occured') ?? @$document->occured) == '1' ? 'block' : 'none' }};">
-                                                        @include('components.textarea-input', [
-                                                            'label' => __('children.description'),
-                                                            'name' => 'occured_description',
-                                                            'icon' => 'network-chart',
-                                                            'value' => @$document->occured_description,
-                                                        ])
                                                     </div>
                                                     <div class="col-md-12">
                                                         @include('components.multi-select-input', [

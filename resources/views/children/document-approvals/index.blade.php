@@ -13,7 +13,8 @@
                         <button class="btn button moveToArchive">{{ __('comon.moveToArchive') }}</button>
                     @endif
                     {{-- <a href="#" data-bs-toggle="modal" data-bs-target="#addDocumentModal" class="btn button addDocument">{{ __('comon.addNew') }} +</a> --}}
-                    <a href="#" class="btn button addDocument">{{ __('comon.addNew') }} +</a>
+                    {{-- <a href="#" class="btn button addDocument">{{ __('comon.addNew') }} +</a> --}}
+                    <a href="{{ route('documents-approvals.create', $children->id) }}" class="btn button">{{ __('comon.addNew') }} +</a>
                     <a href="{{ route('children.show', $children->id) }}" class="btn button m-top-1">{{ __('comon.back') }}</a>
                 </div>
             </div>
@@ -41,12 +42,7 @@
                 </div>
             </div>
         </div>
-        @php
-            echo '<pre>';
-            print_r(Session::get('errors'));
-            echo '</pre>';
-        @endphp
-        <div class="modal fade" id="addDocumentModal" tabindex="-1" aria-hidden="true" style="display: none;">
+        {{-- <div class="modal fade" id="addDocumentModal" tabindex="-1" aria-hidden="true" style="display: none;">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -54,51 +50,11 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('documents-approvals.post') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="row">
-                                <input type="hidden" name="children_id" value="187">
-                                <div class="col-md-12">
-                                    <label for="input16" class="form-label">Document</label>
-                                    <div class="position-relative input-icon">
-                                        <input type="file" class="form-control  file" id="file" name="document" placeholder="Document" value="" onchange="">
-                                    </div>
-                                    <input type="hidden" class="document" name="old_document" value="">
-                                </div>
-                                <div class="col-md-12 pt-3">
-                                    <label for="input16" class="form-label">File Type</label>
-                                    <div class="position-relative input-icon">
-                                        <select name="file_type_id" class="form-control file-type">
-                                            <option value="" selected="">Select</option>
-                                            @foreach ($fileTypes as $fileType)
-                                                <option value="{{ $fileType['key'] }}">{{ $fileType['value'] }}</option>
-                                            @endforeach
-                                        </select>
-                                        <span class="position-absolute top-50 translate-middle-y">
-                                            <i class="bx bx-buildings"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 pt-3">
-                                    <label for="input16" class="form-label">Document Description</label>
-                                    <div class="position-relative input-icon">
-                                        <textarea name="description" class="form-control description" id="description" placeholder="Document Description" cols="30" rows="2" style="resize: none;"></textarea>
-                                        <span class="position-absolute top-50 translate-middle-y">
-                                            <i class="bx bx-network-chart"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="my-3">
-                                <input type="hidden" name="id" class="id">
-                                <button type="submit" class="btn button">{{ __('comon.submit') }}</button>
-                                <button type="button" class="btn button" data-bs-dismiss="modal" aria-label="Close">{{ __('comon.close') }}</button>
-                            </div>
-                        </form>
+                        
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection
 @push('customScript')
@@ -113,10 +69,6 @@
             @endif
         });
 
-
-        $(document).on('click', '.button', function() {
-            $(this).attr('disabled', false);
-        });
         $(document).on('click', '.addDocument', function() {
             $('.file').val('');
         });

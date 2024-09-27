@@ -80,7 +80,9 @@ Route::middleware(['auth', 'lang'])->group(function () {
         Route::post('children-documentation/{type}/{id}', 'saveDocumentation')->name('children-documentation.store');
         Route::post('delete-children-medicine', 'deleteChildrenMedicine')->name('childrenMedicine.delete');
         Route::get('get-kindergarten-manager', 'getKindergartenManager')->name('kindergarten-manager.get');
-        Route::get('documents-approvals/{childId}', 'documentsAndApprovals')->name('documents-approvals.get');
+        Route::get('documents-approvals/{childId}/{docId?}', 'documentsAndApprovals')->name('documents-approvals.get');
+        Route::get('documents-approvals-create/{childId}', 'documentsAndApprovalsCreate')->name('documents-approvals.create');
+        Route::get('documents-approvals-edit/{docId}', 'documentsAndApprovalsEdit')->name('documents-approvals.edit');
         Route::post('documents-approvals', 'saveDocumentsAndApprovals')->name('documents-approvals.post');
         Route::delete('documents-approvals/{id}', 'deleteDocumentsAndApprovals')->name('documents-approvals.delete');
         Route::delete('documents/{id}', 'deleteDocuments')->name('documents.delete');

@@ -89,6 +89,12 @@ class User extends Authenticatable
 
     public function scopeFilter($query)
     {
+        if (Auth::user()->hasRole(['manager', 'therapist'])) {
+            $kindergartenIds = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
+            $userIds = StaffKindergarten::whereIn('kindergarten_id', $kindergartenIds)->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
+            $userIds[] = Auth::id();
+            $query->whereIn('id', $userIds);
+        }
         if (request('sort') && request('sorting')) {
             $query->orderBy(request('sort'), request('sorting'));
         }
@@ -99,12 +105,6 @@ class User extends Authenticatable
         }
         if (request('search')) {
             $query->where('name', 'like', '%'.request('search').'%')->orWhere('email', 'like', '%'.request('search').'%');
-        }
-        if (Auth::user()->hasRole(['manager', 'therapist'])) {
-            $kindergartenIds = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
-            $userIds = StaffKindergarten::whereIn('kindergarten_id', $kindergartenIds)->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
-            $userIds[] = Auth::id();
-            $query->whereIn('id', $userIds);
         }
         if (Auth::user()->hasRole('admin')) {
             $query->whereNot('id', Auth::id());
