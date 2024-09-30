@@ -21,7 +21,7 @@
                             <input type="checkbox" name="id[]" value="{{ @$id }}" class="accordionCheckbox checkbox" data-name="{{ @$dataName }}">&nbsp;&nbsp;
                             {{-- <input type="checkbox" value="{{ @$id }}" class="accordionCheckbox check-{{ $id }}" data-class="check-{{ $id }}">&nbsp;&nbsp; --}}
                         </div>
-                        <div class="col-7">{{ \Str::limit($fileName, 15, '...') ?? '-' }}</div>
+                        <div class="col-7">{{ \Str::limit($fileName, 14, '...') ?? '-' }}</div>
                         <div class="col-3 d-flex">
                             @if (Auth::user()->hasRole(['admin', 'manager']))
                                 <a href="{{ route('documents-approvals.edit', $document->id) }}" class="me-1" data-toggle="tooltip" data-placement="bottom" title="Edit">
@@ -40,7 +40,7 @@
             <div id="flush-collapse{{ $loop->iteration }}" class="accordion-collapse collapse" aria-labelledby="staff-listing-{{ $loop->iteration }}" data-bs-parent="#accordion{{ $loop->iteration }}" style="">
                 <div class="accordion-body">
                     <div class="d-flex accordion-row">
-                        <div class="w-50 label">{{ __('children.name') }}</div>
+                        <div class="w-50 label">{{ __('children.document') }}</div>
                         <div class="w-50">{{ $fileName }}</div>
                     </div>
                     <div class="d-flex accordion-row">
