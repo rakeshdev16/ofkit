@@ -85,7 +85,6 @@
                                         <div class="my-3">
                                             <input type="hidden" name="id" class="id">
                                             <button type="submit" class="btn button">{{ __('comon.submit') }}</button>
-                                            <button type="button" class="btn button" data-bs-dismiss="modal" aria-label="Close">{{ __('comon.close') }}</button>
                                         </div>
                                     </form>
                                 </div>
