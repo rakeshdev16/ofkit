@@ -24,12 +24,12 @@
                         <div class="col-7">{{ \Str::limit($fileName, 15, '...') ?? '-' }}</div>
                         <div class="col-3 d-flex">
                             @if (Auth::user()->hasRole(['admin', 'manager']))
-                                <a href="{{ route('documents-approvals.edit', $document->id) }}" data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                <a href="{{ route('documents-approvals.edit', $document->id) }}" class="me-1" data-toggle="tooltip" data-placement="bottom" title="Edit">
                                     <i class="bx bx-edit icon"></i>
                                 </a>
                             @endif
-                            <a href="{{ $document->document }}" target="__blank" class="me-4"><i class="bx bx-show icon"></i></a>
-                            <a href="{{ $document->document }}" download="{{ $fileName }}" data-toggle="tooltip" data-placement="bottom" title="Download">
+                            <a href="{{ $document->document }}" target="__blank" class="me-1"><i class="bx bx-show icon"></i></a>
+                            <a href="{{ $document->document }}" download="{{ $fileName }}" class="me-1" data-toggle="tooltip" data-placement="bottom" title="Download">
                                 <i class="bx bx-download icon"></i>
                             </a>
                         </div>
