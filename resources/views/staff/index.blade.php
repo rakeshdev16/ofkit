@@ -49,7 +49,7 @@
 
         $(document).on('click', '.moveToArchive', function() {
             var url = "{{ route('staff.destroy', ':ids') }}";
-            var msg = "{{ __('validation.chose_at_least_one', ['attribute' => 'staff member']) }}";
+            var msg = "{{ __('staff.selectMsg') }}";
             moveToArchive(url, msg);
         });
     </script>
