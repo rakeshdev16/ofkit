@@ -8,9 +8,7 @@
     <div class="accordion accordion-flush tr-{{ $document->id }}" id="accordion{{ $loop->iteration }}">
         <div class="accordion-item">
             <h2 class="accordion-header" id="staff-listing-{{ $loop->iteration }}">
-                <button class="accordion-button accordion-screen collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false"
-                    aria-controls="flush-collapse{{ $loop->iteration }}">
+                <button class="accordion-button accordion-screen collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false" aria-controls="flush-collapse{{ $loop->iteration }}">
                     {{-- @include('components.accordion-label', [
                         'id' => $document->id,
                         'name' => $fileName,
@@ -25,6 +23,11 @@
                         </div>
                         <div class="col-7">{{ \Str::limit($fileName, 15, '...') ?? '-' }}</div>
                         <div class="col-3 d-flex">
+                            @if (Auth::user()->hasRole(['admin', 'manager']))
+                                <a href="{{ route('documents-approvals.edit', $document->id) }}" data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                    <i class="bx bx-edit icon"></i>
+                                </a>
+                            @endif
                             <a href="{{ $document->document }}" target="__blank" class="me-4"><i class="bx bx-show icon"></i></a>
                             <a href="{{ $document->document }}" download="{{ $fileName }}" data-toggle="tooltip" data-placement="bottom" title="Download">
                                 <i class="bx bx-download icon"></i>
@@ -33,10 +36,8 @@
                     </div>
                 </button>
             </h2>
-            
-            <div id="flush-collapse{{ $loop->iteration }}" class="accordion-collapse collapse"
-                aria-labelledby="staff-listing-{{ $loop->iteration }}"
-                data-bs-parent="#accordion{{ $loop->iteration }}" style="">
+
+            <div id="flush-collapse{{ $loop->iteration }}" class="accordion-collapse collapse" aria-labelledby="staff-listing-{{ $loop->iteration }}" data-bs-parent="#accordion{{ $loop->iteration }}" style="">
                 <div class="accordion-body">
                     <div class="d-flex accordion-row">
                         <div class="w-50 label">{{ __('children.name') }}</div>
