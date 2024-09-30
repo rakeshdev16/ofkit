@@ -21,8 +21,8 @@
                             <input type="checkbox" name="id[]" value="{{ @$id }}" class="accordionCheckbox checkbox" data-name="{{ @$dataName }}">&nbsp;&nbsp;
                             {{-- <input type="checkbox" value="{{ @$id }}" class="accordionCheckbox check-{{ $id }}" data-class="check-{{ $id }}">&nbsp;&nbsp; --}}
                         </div>
-                        <div class="col-7">{{ \Str::limit($fileName, 14, '...') ?? '-' }}</div>
-                        <div class="col-3 d-flex">
+                        <div class="col-6">{{ \Str::limit($fileName, 10, '...') ?? '-' }}</div>
+                        <div class="col-4 d-flex">
                             @if (Auth::user()->hasRole(['admin', 'manager']))
                                 <a href="{{ route('documents-approvals.edit', $document->id) }}" class="me-1" data-toggle="tooltip" data-placement="bottom" title="Edit">
                                     <i class="bx bx-edit icon"></i>
