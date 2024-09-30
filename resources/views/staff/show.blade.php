@@ -112,7 +112,7 @@
                                 <div class="col-lg-8">
                                     <div class="row">
                                         <div class="col-md-12 kindergarten-section">
-                                            <div class="time-table">
+                                            <div class="time-table table-responsive" style="display: block !important;">
                                                 <h4 class="text-center">{{ __('staff.kindergartenTh') }}</h4>
                                                 <table class="table table-borderd" style="width:100%">
                                                     <thead>
