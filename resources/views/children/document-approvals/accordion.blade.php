@@ -49,7 +49,7 @@
                     </div>
                     <div class="d-flex accordion-row">
                         <div class="w-50 label">{{ __('children.documentDescription') }}</div>
-                        <div class="w-50">{{ $document->description }}</div>
+                        <div class="w-50">{!! description($document->description, 80) !!}</div>
                     </div>
                 </div>
             </div>
