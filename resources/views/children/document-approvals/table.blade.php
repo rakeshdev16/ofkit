@@ -17,7 +17,7 @@
                 <td><input type="checkbox" name="id[]" value="{{ $document->id }}" class="checkbox check-{{ $document->id }}" data-class="check-{{ $document->id }}"></td>
                 <td>
                     @if ($document->document)
-                        <span>{{ $fileName }}</span>
+                        <span>{{ \Str::limit($fileName, 15, '...') }}</span>
                     @else
                         -
                     @endif
