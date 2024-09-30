@@ -26,9 +26,11 @@
                 <td class="address-column">{!! description($document->description, 80) !!}</td>
                 <td>
                     {{-- <a href="#" class="editDocument" data-id="{{ $document->id }}" data-document="{{ $document->document }}" data-file-type-id="{{ $document->file_type_id }}" data-description="{{ $document->description }}" data-toggle="tooltip" data-placement="bottom" title="Edit"> --}}
-                    <a href="{{ route('documents-approvals.edit', $document->id) }}" data-toggle="tooltip" data-placement="bottom" title="Edit">
-                        <i class="bx bx-edit icon"></i>
-                    </a>
+                    @if (Auth::user()->hasRole(['admin', 'manager']))
+                        <a href="{{ route('documents-approvals.edit', $document->id) }}" data-toggle="tooltip" data-placement="bottom" title="Edit">
+                            <i class="bx bx-edit icon"></i>
+                        </a>
+                    @endif
                     @php
                         $docExt = pathinfo($document->document, PATHINFO_EXTENSION);
                     @endphp
