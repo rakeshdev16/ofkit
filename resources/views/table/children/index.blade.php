@@ -54,7 +54,7 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link {{ request()->type == 'file-type' ? 'active' : '' }}" data-type="file-type" data-bs-toggle="tab" href="#file-type" role="tab" aria-selected="false" tabindex="-1">
                             <div class="d-flex align-items-center">
-                                <div class="tab-icon"><i class="bx bx-check-circle font-18 me-1"></i>
+                                <div class="tab-icon"><i class="bx bx-file font-18 me-1"></i>
                                 </div>
                                 <div class="tab-title"> File Type</div>
                             </div>
@@ -103,7 +103,7 @@
     <script>
         $(document).on('click', '.nav-link', function() {
             var uri = window.location.toString();
-            
+
             if (uri.indexOf("?") > 0) {
                 var clean_uri = uri.substring(0, uri.indexOf("?"));
                 window.history.replaceState({}, document.title, clean_uri);
@@ -118,14 +118,16 @@
             $('#status').html('');
             $('#file-type').html('');
             $.ajax({
-                type : 'GET',
-                url : "{{ route('children-table.tab') }}",
-                data : { type: type },
-                success : function(data){
+                type: 'GET',
+                url: "{{ route('children-table.tab') }}",
+                data: {
+                    type: type
+                },
+                success: function(data) {
                     console.log(data);
-                    
+
                     if (data.status == true) {
-                        $('#'+type).html(data.data);
+                        $('#' + type).html(data.data);
                     }
                 }
             });
@@ -138,7 +140,7 @@
                 ids.push($(this).val());
             });
             if (ids.length == 0) {
-                toastr.warning("Please select at least one "+type);
+                toastr.warning("Please select at least one " + type);
                 return false
             }
             var url = "{{ route('children-table.destroy', ':ids') }}";
@@ -158,7 +160,7 @@
                             'X-CSRF-TOKEN': "{{ csrf_token() }}"
                         },
                         type: 'DELETE',
-                        url: url+'?type='+type,
+                        url: url + '?type=' + type,
                         success: function(data) {
                             if (data.status == true) {
                                 data.ids.map(function(id) {
