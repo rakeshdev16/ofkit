@@ -20,6 +20,7 @@
         td {
             mso-table-lspace: 0pt;
             mso-table-rspace: 0pt;
+            padding: 10px 15px;
         }
 
         img {
@@ -58,11 +59,45 @@
             line-height: inherit !important;
         }
 
+        p {
+            margin: 0;
+            font-size: 16px;
+            /* adjust the font size for readability on mobile */
+            line-height: 22px;
+            color: #666666;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            max-width: 280px;
+            padding: 15px 25px;
+            background-color: #4A35EA;
+            color: #ffffff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 0 auto;
+        }
+
         /* MOBILE STYLES */
         @media screen and (max-width:600px) {
             h1 {
-                font-size: 32px !important;
-                line-height: 32px !important;
+                font-size: 24px !important;
+                line-height: 28px !important;
+            }
+
+            p {
+                font-size: 16px !important;
+                line-height: 22px !important;
+            }
+
+            td {
+                padding: 15px !important;
+            }
+
+            .button {
+                width: 100% !important;
             }
         }
 
