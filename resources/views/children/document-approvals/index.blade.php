@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="row my-2 mx-1 children-detail">
-                <div class="col-md-6"><label for=""><b>{{ __('children.childName') }}:</b></label> {{ $children->name }}</div>
+                <div class="col-md-6"><label for=""><b>{{ __('children.childName') }}:</b></label> {{ $children->name . ' ' . $children->family_name }}</div>
                 <div class="col-md-6"><label for=""><b>{{ __('children.ID') }}:</b></label> {{ $children->identification }}</div>
                 <div class="col-md-6"><label for=""><b>{{ __('children.kindergarten') }}:</b></label> {{ getKindergartenNameById($children->kindergarten_id) }}</div>
                 <div class="col-md-6"><label for=""><b>{{ __('children.childBirthday') }}:</b></label> {{ $children->date_of_birth }}</div>
