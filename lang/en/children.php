@@ -172,4 +172,8 @@ return [
     'requiredTherapistIds' => 'Please choose participant',
     'validEmail' => 'Please enter valid email address',
     'uniqueEmail' => 'This email is already exists',
+    'childAbsent' => 'Child absent',
+    'therapistAbsent' => 'Therapist absent',
+    'kindergartenClosed' => 'Kindergarten closed',
+    'other' => 'Other',
 ];

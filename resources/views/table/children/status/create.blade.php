@@ -17,7 +17,7 @@
                                     <img class="p-1" src="{{ asset('assets/icons/fi_2887367.png') }}"/>
                                 </a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Status</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ __('tables.status') }}</li>
                         </ol>
                     </nav>
                 </div>
@@ -31,11 +31,11 @@
                 <div class="col-xl-6 mx-auto">
                     <div class="card">
                         <div class="card-body p-4">
-                            <h5 class="mb-4">Add Status Detail</h5>
+                            <h5 class="mb-4">{{ __('tables.addStatusDetail') }}</h5>
                             <form class="row g-3" action="{{ route('children-table.store') }}" method="POST">
                                 @csrf
                                 <div class="col-md-12">
-                                    @include('components.text-input', ['label' => 'Name', 'name' => 'name', 'icon' => 'user'])
+                                    @include('components.text-input', ['label' => __('tables.name'), 'name' => 'name', 'icon' => 'user'])
                                 </div>
                                 <div class="col-md-12">
                                     <div class="d-md-flex d-grid align-items-center gap-3">

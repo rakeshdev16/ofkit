@@ -75,7 +75,7 @@
                     @endif
                 </td>
                 <td>
-                    <a href="{{ route('children-documentation.show', [$documentation->children_id, $documentation->id, Request::segment(2)]) }}" data-toggle="tooltip" data-placement="bottom" title="View">
+                    <a href="{{ route('children-documentation.show', [$documentation->children_id, $documentation->id, Request::segment(2)]) }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('comon.view') }}">
                         <i class="bx bx-show icon"></i>
                     </a>
                     {{-- @if ((Auth::user()->hasRole('therapist') && Auth::id() == $documentation->therapist_id && \Carbon\Carbon::parse($documentation->created_at)->isToday()) || Auth::user()->hasRole('admin')) --}}

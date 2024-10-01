@@ -11,7 +11,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-comment-detail font-18 me-1"></i>
                                 </div>
-                                <div class="tab-title"> Occurrence/Intervention Type </div>
+                                <div class="tab-title"> {{ __('tables.occurrenceInterventionType') }} </div>
                             </div>
                         </a>
                     </li>
@@ -20,7 +20,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="fadeIn animated bx bx-error font-18 me-1"></i>
                                 </div>
-                                <div class="tab-title"> Documents and Approval</div>
+                                <div class="tab-title"> {{ __('tables.documentsAndApproval') }} </div>
                             </div>
                         </a>
                     </li>
@@ -47,7 +47,7 @@
     <script>
         $(document).on('click', '.nav-link', function() {
             var uri = window.location.toString();
-            
+
             if (uri.indexOf("?") > 0) {
                 var clean_uri = uri.substring(0, uri.indexOf("?"));
                 window.history.replaceState({}, document.title, clean_uri);
@@ -57,12 +57,14 @@
             $('#intervention-type').html('');
             $('#documents-and-approval').html('');
             $.ajax({
-                type : 'GET',
-                url : "{{ route('intervention.tab') }}",
-                data : { type: type },
-                success : function(data){
+                type: 'GET',
+                url: "{{ route('intervention.tab') }}",
+                data: {
+                    type: type
+                },
+                success: function(data) {
                     if (data.status == true) {
-                        $('#'+type).html(data.data);
+                        $('#' + type).html(data.data);
                     }
                 }
             });
@@ -75,7 +77,7 @@
                 ids.push($(this).val());
             });
             if (ids.length == 0) {
-                toastr.warning("Please select at least one "+type);
+                toastr.warning("Please select at least one " + type);
                 return false
             }
             var url = "{{ route('intervention.destroy', ':ids') }}";
@@ -95,7 +97,7 @@
                             'X-CSRF-TOKEN': "{{ csrf_token() }}"
                         },
                         type: 'DELETE',
-                        url: url+'?type='+type,
+                        url: url + '?type=' + type,
                         success: function(data) {
                             if (data.status == true) {
                                 data.ids.map(function(id) {

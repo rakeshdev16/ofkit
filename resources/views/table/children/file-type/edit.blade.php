@@ -17,7 +17,7 @@
                                     <img class="p-1" src="{{ asset('assets/icons/fi_2887367.png') }}"/>
                                 </a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">File Type</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ __('tables.fileType') }}</li>
                         </ol>
                     </nav>
                 </div>
@@ -31,12 +31,12 @@
                 <div class="col-xl-6 mx-auto">
                     <div class="card">
                         <div class="card-body p-4">
-                            <h5 class="mb-4">Update File Type Detail</h5>
+                            <h5 class="mb-4">{{ __('tables.updateFileTypeDetail') }}</h5>
                             <form class="row g-3" action="{{ route('children-table.update', $fileType->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <div class="col-md-12">
-                                    @include('components.text-input', ['label' => 'Name', 'name' => 'name', 'icon' => 'user', 'value' => $fileType->name])
+                                    @include('components.text-input', ['label' => __('tables.fileType'), 'name' => 'name', 'icon' => 'user', 'value' => $fileType->name])
                                 </div>
                                 <div class="col-md-12">
                                     <div class="d-md-flex d-grid align-items-center gap-3">

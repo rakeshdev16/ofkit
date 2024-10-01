@@ -16,13 +16,11 @@
                 </div>
                 <div class="top-menu ms-auto">
                     <li class="nav-item dropdown dropdown-laungauge d-none d-sm-flex">
-                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="avascript:;" data-bs-toggle="dropdown">
+                        <a class="dropdown-toggle dropdown-toggle-nocaret text-dark" href="javascript:void(0);" data-bs-toggle="dropdown">
                             @if (getCurrentLang() == 'en')
                                 <b>En</b>
-                                {{-- <img src="{{ asset('assets/images/county/en.png') }}" width="22" alt=""> --}}
                             @else
                                 <b>He</b>
-                                {{-- <img src="{{ asset('assets/images/county/hb.jpg') }}" width="22" alt=""> --}}
                             @endif
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
@@ -43,7 +41,7 @@
                     </ul>
                 </div>
                 <div class="user-box dropdown px-3">
-                    <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="d-flex align-items-center dropdown-toggle gap-3 dropdown-toggle-nocaret text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="{{ $user->profile }}" class="user-img" alt="user avatar">
                         <div class="user-info">
                             <p class="user-name mb-0">{{ $user->name }}</p>
@@ -151,23 +149,24 @@
                                     [
                                         'icon' => 'fi_4549612.png',
                                         'name' => __('menu.framework'),
-                                        'route' => route('framework-table.index', ['type' => 'kindergarten-type'])
+                                        'route' => route('framework-table.index', ['type' => 'kindergarten-type']),
                                     ],
                                     [
                                         'icon' => 'fi_2887367.png',
                                         'name' => __('menu.staff'),
-                                        'route' => route('staff-table.index', ['type' => 'profession'])
+                                        'route' => route('staff-table.index', ['type' => 'profession']),
                                     ],
                                     [
                                         'icon' => 'fi_9184264.png',
                                         'name' => __('menu.children'),
-                                        'route' => route('children-table.index', ['type' => 'parents-status'])
+                                        'route' => route('children-table.index', ['type' => 'parents-status']),
                                     ],
                                     [
                                         'icon' => 'fi_3602109.png',
                                         'name' => __('menu.intervention'),
-                                        'route' => route('intervention.index', ['type' => 'intervention-type'])]
+                                        'route' => route('intervention.index', ['type' => 'intervention-type']),
                                     ],
+                                ],
                             ])
                         @endif
                         @if ($user->hasAnyPermission(['therapy-schedule.index']))

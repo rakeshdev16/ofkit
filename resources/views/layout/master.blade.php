@@ -66,6 +66,7 @@
                 $(this).data('status', 'less').text("{{ __('comon.showMore') }}");
             }
         });
+
         function setLocale(lang) {
             $.ajax({
                 headers: {

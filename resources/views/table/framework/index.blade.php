@@ -11,7 +11,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-building-house font-18 me-1"></i>
                                 </div>
-                                <div class="tab-title"> Kindergarten Type </div>
+                                <div class="tab-title"> {{ __('tables.kindergartenType') }} </div>
                             </div>
                         </a>
                     </li>
@@ -20,7 +20,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-code-block font-18 me-1"></i>
                                 </div>
-                                <div class="tab-title"> Framework Type</div>
+                                <div class="tab-title"> {{ __('tables.frameworkType') }}</div>
                             </div>
                         </a>
                     </li>

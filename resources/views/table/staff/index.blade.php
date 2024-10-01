@@ -11,7 +11,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-building-house font-18 me-1"></i>
                                 </div>
-                                <div class="tab-title"> Academic Profession </div>
+                                <div class="tab-title"> {{ __('tables.academicProfession') }} </div>
                             </div>
                         </a>
                     </li>
@@ -20,7 +20,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-id-card font-18 me-1"></i>
                                 </div>
-                                <div class="tab-title"> Professional Role</div>
+                                <div class="tab-title"> {{ __('tables.professionalRole') }} </div>
                             </div>
                         </a>
                     </li>
@@ -29,7 +29,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-group font-18 me-1"></i>
                                 </div>
-                                <div class="tab-title"> Association</div>
+                                <div class="tab-title"> {{ __('tables.association') }} </div>
                             </div>
                         </a>
                     </li>
@@ -61,7 +61,7 @@
     <script>
         $(document).on('click', '.nav-link', function() {
             var uri = window.location.toString();
-            
+
             if (uri.indexOf("?") > 0) {
                 var clean_uri = uri.substring(0, uri.indexOf("?"));
                 window.history.replaceState({}, document.title, clean_uri);
@@ -71,12 +71,14 @@
             $('#profession').html('');
             $('#role').html('');
             $.ajax({
-                type : 'GET',
-                url : "{{ route('staff-table.tab') }}",
-                data : { type: type },
-                success : function(data){
+                type: 'GET',
+                url: "{{ route('staff-table.tab') }}",
+                data: {
+                    type: type
+                },
+                success: function(data) {
                     if (data.status == true) {
-                        $('#'+type).html(data.data);
+                        $('#' + type).html(data.data);
                     }
                 }
             });
@@ -89,7 +91,7 @@
                 ids.push($(this).val());
             });
             if (ids.length == 0) {
-                toastr.warning("Please select at least one "+type);
+                toastr.warning("Please select at least one " + type);
                 return false
             }
             var url = "{{ route('staff-table.destroy', ':ids') }}";
@@ -108,7 +110,7 @@
                             'X-CSRF-TOKEN': "{{ csrf_token() }}"
                         },
                         type: 'DELETE',
-                        url: url+'?type='+type,
+                        url: url + '?type=' + type,
                         success: function(data) {
                             console.log(data.existsIds);
                             if (data.status == true) {

@@ -22,8 +22,8 @@ return [
     'allChildrens' => 'כל הילדים',
     'addChildren' => 'הוסף ילדים',
     'documentation' => 'תיעוד',
-    'framework' => 'מִסגֶרֶת',
+    'framework' => 'מסגרת',
     'staff' => 'סֶגֶל',
     'children' => 'יְלָדִים',
-    'intervention' => 'הִתעָרְבוּת',
+    'intervention' => 'התערבות',
 ];

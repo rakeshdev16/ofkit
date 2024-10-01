@@ -412,7 +412,7 @@
                                                                 'name' => 'food_allergie',
                                                                 'class' => 'foodAllergie',
                                                                 'icon' => 'buildings',
-                                                                'options' => [['key' => 'yes', 'value' => 'Yes'], ['key' => 'no', 'value' => 'No']],
+                                                                'options' => [['key' => 'yes', 'value' => __('comon.yes')], ['key' => 'no', 'value' => __('comon.no')]],
                                                                 'value' => @$medical->food_allergie == 1 ? 'yes' : 'no',
                                                                 'disabled' => 'disabled',
                                                             ])
@@ -432,7 +432,7 @@
                                                                 'name' => 'medicine',
                                                                 'class' => 'medicine',
                                                                 'icon' => 'buildings',
-                                                                'options' => [['key' => 'yes', 'value' => 'Yes'], ['key' => 'no', 'value' => 'No']],
+                                                                'options' => [['key' => 'yes', 'value' => __('comon.yes')], ['key' => 'no', 'value' => __('comon.no')]],
                                                                 'value' => @$medical->medicine == 1 ? 'yes' : 'no',
                                                                 'disabled' => 'disabled',
                                                             ])

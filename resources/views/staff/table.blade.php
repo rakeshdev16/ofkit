@@ -20,14 +20,7 @@
             <tr class="tr-{{ $member->id }}">
                 @if (Auth::user()->hasRole('admin'))
                     <td>
-                        <input
-                            type="checkbox"
-                            name="id[]"
-                            value="{{ $member->id }}"
-                            class="checkbox check-{{ $member->id }}"
-                            data-class="check-{{ $member->id }}"
-                            data-name="{{ $member->is_assign ? $member->first_name.' has assigned to kindergarten or cluster' : '' }}"
-                        >
+                        <input type="checkbox" name="id[]" value="{{ $member->id }}" class="checkbox check-{{ $member->id }}" data-class="check-{{ $member->id }}" data-name="{{ $member->is_assign ? $member->first_name . ' has assigned to kindergarten or cluster' : '' }}">
                         {{-- <input type="checkbox" name="id[]" value="{{ $member->id }}" class="checkbox check-{{ $member->id }}" data-class="check-{{ $member->id }}"> --}}
                     </td>
                 @endif
@@ -57,12 +50,7 @@
                     >
                         <i class="bx bx-edit icon"></i>
                     </a> --}}
-                    <a
-                        href="{{ route('staff.show', $member->id) }}?kindergarten_id={{ request()->kindergarten_id }}"
-                        data-toggle="tooltip"
-                        data-placement="bottom"
-                        title="View"
-                    >
+                    <a href="{{ route('staff.show', $member->id) }}?kindergarten_id={{ request()->kindergarten_id }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('comon.view') }}">
                         <i class="bx bx-show icon"></i>
                     </a>
                 </td>

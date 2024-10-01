@@ -39,7 +39,7 @@
                             <i class="bx bx-show icon"></i>
                         </a>
                     @else
-                        <a href="{{ $document->document }}" target="__blank" data-toggle="tooltip" data-placement="bottom" title="View"><i class="bx bx-show icon"></i></a>
+                        <a href="{{ $document->document }}" target="__blank" data-toggle="tooltip" data-placement="bottom" title="{{ __('comon.view') }}"><i class="bx bx-show icon"></i></a>
                     @endif
                     <a href="{{ $document->document }}" download="{{ $fileName }}" data-toggle="tooltip" data-placement="bottom" title="Download">
                         <i class="bx bx-download icon"></i>

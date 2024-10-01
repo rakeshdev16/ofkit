@@ -3,9 +3,9 @@
 return [
 
     'admin' => 'מנהל מערכת',
-    'cluster' => 'אֶשׁכּוֹל',
+    'cluster' => 'אשכול',
     'clusters' => 'אשכולות',
-    'kindergartens' => 'גני ילדים',
+    'kindergartens' => 'גנים',
     'back' => 'חזור',
     'moveBtnText' => 'העבר לארכיון',
     'addBtnText' => 'הוסף חדש',
@@ -13,7 +13,7 @@ return [
     'formHeading' => 'עדכון פרטי אשכול',
     'addClusterDetail' => 'הוסף פרטי אשכול',
     'clusterTh' => 'אֶשׁכּוֹל',
-    'managerTh' => 'מנהל',
+    'managerTh' => 'רכז/ת',
     'selectMsg' => "בחר אשכול אחד לפחות",
     'requiredCluster' => "נא להזין את שם האשכול",
     'uniqueCluster' => "שם האשכול הזה כבר קיים בבקשה נסה שם אחר",

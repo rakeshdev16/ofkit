@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th><input type="checkbox" class="mainCheckbox"></th>
-            @include('components.table-heading', ['label' => 'Name', 'key' => 'name'])
+            @include('components.table-heading', ['label' => __('tables.name'), 'key' => 'name'])
             @include('components.table-heading', ['label' => __('comon.action')])
         </tr>
     </thead>
@@ -10,13 +10,7 @@
         @forelse ($professions as $profession)
             <tr class="tr-{{ $profession->id }}">
                 <td>
-                    <input
-                        type="checkbox"
-                        name="id[]"
-                        value="{{ $profession->id }}"
-                        class="checkbox"
-                        data-name="{{ $profession->is_assign ? $profession->name.' has assigned to staff members' : '' }}"
-                    >
+                    <input type="checkbox" name="id[]" value="{{ $profession->id }}" class="checkbox" data-name="{{ $profession->is_assign ? $profession->name . ' has assigned to staff members' : '' }}">
                 </td>
                 <td>{{ @$profession->name ?? '-' }}</td>
                 <td>

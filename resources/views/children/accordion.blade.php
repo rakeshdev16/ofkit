@@ -20,7 +20,7 @@
                         {{-- <div class="col-8">{{ \Str::limit($children->name, 10, '...') ?? '-' }}</div> --}}
                         <div class="col-8">{{ $children->family_name . ' ' . $children->name }}</div>
                         <div class="col-2 show-icon">
-                            <a href="{{ route('children.show', $children->id) }}?kindergarten_id={{ request()->kindergarten_id }}" data-toggle="tooltip" data-placement="bottom" title="View">
+                            <a href="{{ route('children.show', $children->id) }}?kindergarten_id={{ request()->kindergarten_id }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('comon.view') }}">
                                 <img src="{{ asset('assets/icons/child-icon-new.png') }}" width="30px" alt="">
                             </a>
                         </div>

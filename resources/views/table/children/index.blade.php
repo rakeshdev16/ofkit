@@ -11,7 +11,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-comment-detail font-18 me-1"></i>
                                 </div>
-                                <div class="tab-title"> Parent's Status </div>
+                                <div class="tab-title"> {{ __('tables.parentsStatus') }} </div>
                             </div>
                         </a>
                     </li>
@@ -20,7 +20,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-bookmark-alt font-18 me-1"></i>
                                 </div>
-                                <div class="tab-title"> HMO</div>
+                                <div class="tab-title"> {{ __('tables.hmo') }} </div>
                             </div>
                         </a>
                     </li>
@@ -29,7 +29,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-notepad font-18 me-1"></i>
                                 </div>
-                                <div class="tab-title"> Diagnosis</div>
+                                <div class="tab-title"> {{ __('tables.diagnosis') }} </div>
                             </div>
                         </a>
                     </li>
@@ -38,7 +38,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-cog font-18 me-1"></i>
                                 </div>
-                                <div class="tab-title"> Functionality</div>
+                                <div class="tab-title"> {{ __('tables.functionality') }} </div>
                             </div>
                         </a>
                     </li>
@@ -47,7 +47,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-check-circle font-18 me-1"></i>
                                 </div>
-                                <div class="tab-title"> Status</div>
+                                <div class="tab-title"> {{ __('tables.status') }} </div>
                             </div>
                         </a>
                     </li>
@@ -56,7 +56,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bx-file font-18 me-1"></i>
                                 </div>
-                                <div class="tab-title"> File Type</div>
+                                <div class="tab-title"> {{ __('tables.fileType') }} </div>
                             </div>
                         </a>
                     </li>
