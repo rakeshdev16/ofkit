@@ -49,16 +49,13 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        // Assuming there's a 'role' field, or adapt this to your role-checking logic
         if (!Auth::user()->hasRole('admin')) {
-            // For non-admin users, send OTP and logout to wait for OTP verification
-            session(['user_id' => $user->id]);  // Store user ID in session
-            $this->sendOtp($user);  // Send OTP to the user's phone
-            Auth::logout();  // Log out the user temporarily
-            return redirect()->route('otp.verify');  // Redirect to OTP verification page
+            session(['user_id' => $user->id]);
+            $this->sendOtp($user);
+            Auth::logout();
+            return redirect()->route('otp.verify');
         }
 
-        // For admin users, just allow the login as usual
         return redirect($this->redirectTo);
     }
 
