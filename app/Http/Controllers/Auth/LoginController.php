@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Services\TextMeService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -48,15 +49,24 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        session(['user_id' => $user->id]);
-        $this->sendOtp($user);
-        Auth::logout($user);
-        return redirect()->route('otp.verify');
+        // Assuming there's a 'role' field, or adapt this to your role-checking logic
+        if (!Auth::user()->hasRole('admin')) {
+            // For non-admin users, send OTP and logout to wait for OTP verification
+            session(['user_id' => $user->id]);  // Store user ID in session
+            $this->sendOtp($user);  // Send OTP to the user's phone
+            Auth::logout();  // Log out the user temporarily
+            return redirect()->route('otp.verify');  // Redirect to OTP verification page
+        }
+
+        // For admin users, just allow the login as usual
+        return redirect($this->redirectTo);
     }
+
 
     public function sendOtp($user)
     {
         $otp = rand(100000, 999999);
+        Log::info($otp);
         $mobileNumber = $user->telephone;
         $message = "לכניסה למערכת אופקית קוד האימות שלך הוא: $otp נא לא לשתף את הקוד עם אחרים.";
         session(['otp' => $otp]);
