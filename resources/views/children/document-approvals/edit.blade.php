@@ -39,9 +39,25 @@
                                             <div class="col-md-12">
                                                 <label for="file" class="form-label">{{ __('children.document') }}</label>
                                                 <div class="position-relative input-icon">
-                                                    <input type="file" class="form-control file" id="file" name="document" placeholder="Document" value="" onchange="">
+                                                    <input type="file" class="form-control documents file" id="file" name="document" placeholder="Document" value="" onchange="">
+                                                    @error('document')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
                                                 </div>
-                                                <input type="hidden" class="document" name="old_document" value="{{ $document->document }}">
+                                                @if (!$errors->has('document') && isset($document->document))
+                                                    <div class="d-flex mt-2 choosenDocument" style="flex-wrap: wrap;">
+                                                        <div class="document mt-1">
+                                                            <a href="{{ $document->document }}" target="__blank">
+                                                                {{ explode('child-document/', $document->document)[1] }}
+                                                            </a>
+                                                            <i class="bx bx-x staffDocument" data-file-name="{{ $document->document }}"></i>
+                                                        </div>
+                                                    </div>
+                                                    <input type="hidden" class="document oldDocument" name="old_document" value="{{ $document->document }}">
+                                                @endif
+                                                <input type="hidden" class="document oldDocument" name="old_document" value="{{ $document->document }}">
                                             </div>
                                             <div class="col-md-12 pt-3">
                                                 <label for="file_type_id" class="form-label">{{ __('children.fileType') }}</label>
@@ -91,4 +107,19 @@
         </div>
     @endsection
     @push('customScript')
+        <script>
+            $('.documents').change(function(event) {
+                const file = event.target.files[0];
+                console.log(file);
+                $('.choosenDocument').html('<div class="document mt-1">' + file.name + '<i class="bx bx-x staffDocument" data-file-name="' + file.name + '"></i></div>');
+            });
+
+            $(document).on('click', '.staffDocument', function() {
+                let parentDiv = $(this).parent();
+                let fileName = $(this).data('file-name');
+                parentDiv.remove();
+                $('.oldDocument').val('');
+                $('.documents').val('');
+            });
+        </script>
     @endpush

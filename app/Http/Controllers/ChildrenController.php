@@ -815,14 +815,14 @@ class ChildrenController extends Controller
             'file_type_id' => 'required',
             'description' => 'required',
         ];
-        if (!isset($request->id) && empty($request->id)) {
+        if ((!isset($request->id) && empty($request->id) || (isset($request->id) && empty($request->old_document)))) {
             $rules['document'] = 'required';
         }
         $messages = [
             'file_type_id.required' => 'Please choose file type',
             'description.required' => 'Please enter description',
         ];
-        if (!isset($request->id) && empty($request->id)) {
+        if ((!isset($request->id) && empty($request->id) || (isset($request->id) && empty($request->old_document)))) {
             $messages['document.required'] = 'Please choose document';
         }
         $validator = Validator::make($request->all(), $rules, $messages);
