@@ -47,7 +47,7 @@
     <script>
         $(document).on('click', '.nav-link', function() {
             var uri = window.location.toString();
-            
+
             if (uri.indexOf("?") > 0) {
                 var clean_uri = uri.substring(0, uri.indexOf("?"));
                 window.history.replaceState({}, document.title, clean_uri);
@@ -57,12 +57,14 @@
             $('#kindergarten-type').html('');
             $('#framework-type').html('');
             $.ajax({
-                type : 'GET',
-                url : "{{ route('framework-table.tab') }}",
-                data : { type: type },
-                success : function(data){
+                type: 'GET',
+                url: "{{ route('framework-table.tab') }}",
+                data: {
+                    type: type
+                },
+                success: function(data) {
                     if (data.status == true) {
-                        $('#'+type).html(data.data);
+                        $('#' + type).html(data.data);
                     }
                 }
             });
@@ -75,7 +77,7 @@
                 ids.push($(this).val());
             });
             if (ids.length == 0) {
-                toastr.warning("Please select at least one "+type);
+                toastr.warning("{{ __('tables.selectMsg') }} " + type);
                 return false
             }
             var url = "{{ route('framework-table.destroy', ':ids') }}";
@@ -95,7 +97,7 @@
                             'X-CSRF-TOKEN': "{{ csrf_token() }}"
                         },
                         type: 'DELETE',
-                        url: url+'?type='+type,
+                        url: url + '?type=' + type,
                         success: function(data) {
                             if (data.status == true) {
                                 data.ids.map(function(id) {

@@ -9,6 +9,7 @@ use App\Http\Controllers\KindergartenController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StaffTableController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OtpController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
 
@@ -26,7 +27,12 @@ use Illuminate\Support\Facades\Log;
 // App::setLocale($lang);
 Route::middleware(['lang'])->group(function () {
     Auth::routes();
+    Route::controller(OtpController::class)->group(function () {
+        Route::get('otp-verify', 'showVerifyForm')->name('otp.verify');
+        Route::post('otp-verify', 'verifyOtp')->name('otp.verify.submit');
+    });
 });
+
 Route::get('/check-session', function () {
     return response()->json(['isAuthenticated' => auth()->check()]);
 });
@@ -70,6 +76,7 @@ Route::middleware(['auth', 'lang'])->group(function () {
         Route::get('selected-kindergarten', 'selectedKindergarten')->name('selected.kindergarten');
         Route::post('delete-document', 'deleteDocument')->name('document.delete');
         Route::post('delete-staff-kindergarten', 'deleteStaffKindergarten')->name('deleteStaffKindergarten');
+        Route::get('send-message', 'sendMessage')->name('sendMessage');
     });
     Route::controller(ChildrenController::class)->group(function () {
         Route::post('upload-children-profile', 'uploadProfile')->name('uploadChildrenProfile');

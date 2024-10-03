@@ -42,7 +42,7 @@
         });
         $(document).on('click', '.moveToArchive', function() {
             var url = "{{ route('kindergarten.destroy', ':ids') }}";
-            var msg = "{{ __('validation.chose_at_least_one', ['attribute' => 'kindergarten']) }}";
+            var msg = "{{ __('kindergarten.selectMsg') }}";
             moveToArchive(url, msg);
         });
     </script>

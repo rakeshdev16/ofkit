@@ -49,6 +49,9 @@
     @stack('customScript')
 
     <script>
+        var confirmMsgTitle = "{{ __('comon.confirmTitle') }}";
+        var confirmButtonText = "{{ __('comon.confirmButtonText') }}";
+        var cancelButtonText = "{{ __('comon.cancel') }}";
         $(document).on('click', '.toggle-text', function() {
             var status = $(this).data('status');
             var truncatedText = $(this).siblings('.truncated-text');

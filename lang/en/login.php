@@ -16,4 +16,9 @@ return [
     'resetPassword' => 'Reset Password',
     'confirmPassword' => 'Confirm Password',
     'enterConfirmPassword' => 'Enter Confirm Password',
+    'enterOtp' => 'Enter OTP',
+    'verifyOtp' => 'Verify OTP',
+    'otpSuccessMsg' => 'We have sent you an otp on registered mobile number',
+    'dearUser' => 'Dear User, Use Code',
+    'otpMsg' => 'to Login into your Ofkit Account. Please do not share the Code with anyone.',
 ];

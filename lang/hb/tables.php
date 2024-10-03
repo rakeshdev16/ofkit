@@ -53,5 +53,5 @@ return [
     'documentsAndApproval' => "מסמכים ואישורים",
     'addDocumentsAndApproval' => "הוספת פרטים",
     'updateDocumentsAndApproval' => "עדכון פרטים",
-
+    'selectMsg' => "אנא בחר לפחות אחד",
 ];

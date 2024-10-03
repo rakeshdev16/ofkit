@@ -48,5 +48,6 @@ return [
     'documentsAndApproval' => "Documents And Approval",
     'addDocumentsAndApproval' => "Add Documents And Approval Detail",
     'updateDocumentsAndApproval' => "Update Documents And Approval Detail",
+    'selectMsg' => "Please select at least one",
 
 ];

@@ -19,9 +19,27 @@ use Illuminate\Support\Str;
 use Auth, Session, DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Validation\Rule;
+use App\Services\TextMeService;
 
 class StaffController extends Controller
 {
+    protected $textMeService;
+
+    public function __construct(TextMeService $textMeService)
+    {
+        $this->textMeService = $textMeService;
+    }
+
+    public function sendMessage()
+    {
+        $mobileNumber = '552603210';  // The recipient's phone number
+        $message = 'This is a test message from TextMe API';  // Your message
+
+        $response = $this->textMeService->sendMessage($mobileNumber, $message);
+
+        return response()->json($response);
+    }
+
     public function index(Request $request)
     {
         $members = User::filter()->orderBy('id', 'DESC')->paginate(50);

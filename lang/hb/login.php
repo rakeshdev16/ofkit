@@ -16,4 +16,9 @@ return [
     'resetPassword' => 'אפס סיסמה',
     'confirmPassword' => 'אשר את הסיסמה',
     'enterConfirmPassword' => 'הזן אישור סיסמה',
+    'enterOtp' => 'הזן קוד',
+    'verifyOtp' => 'אמת את הקוד',
+    'otpSuccessMsg' => 'שלחנו לך אישור על מספר נייד רשום',
+    'dearUser' => 'לכניסה למערכת אופקית קוד האימות שלך הוא:',
+    'otpMsg' => 'נא לא לשתף את הקוד עם אחרים.',
 ];

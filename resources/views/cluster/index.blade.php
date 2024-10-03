@@ -40,7 +40,7 @@
         });
         $(document).on('click', '.moveToArchive', function() {
             var url = "{{ route('cluster.destroy', ':ids') }}";
-            var msg = "{{ __('validation.chose_at_least_one', ['attribute' => 'cluster']) }}";
+            var msg = "{{ __('cluster.selectMsg') }}";
             moveToArchive(url, msg);
         });
     </script>

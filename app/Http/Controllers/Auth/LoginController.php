@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Services\TextMeService;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+
+    protected $textMeService;
+
     /*
     |--------------------------------------------------------------------------
     | Login Controller
@@ -32,9 +38,29 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(TextMeService $textMeService)
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
+
+        $this->textMeService = $textMeService;
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        session(['user_id' => $user->id]);
+        $this->sendOtp($user);
+        Auth::logout($user);
+        return redirect()->route('otp.verify');
+    }
+
+    public function sendOtp($user)
+    {
+        $otp = rand(100000, 999999);
+        $mobileNumber = $user->telephone;
+        $message = "לכניסה למערכת אופקית קוד האימות שלך הוא: $otp נא לא לשתף את הקוד עם אחרים.";
+        session(['otp' => $otp]);
+        $response = $this->textMeService->sendMessage($mobileNumber, $message);
+        return $response;
     }
 }

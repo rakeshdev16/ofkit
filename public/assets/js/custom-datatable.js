@@ -172,12 +172,13 @@ function moveToArchive(url, msg) {
     }
     url = url.replace(':ids', ids);
     Swal.fire({
-        title: "Are you sure?",
+        title: confirmMsgTitle,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, archive it!"
+        confirmButtonText: confirmButtonText,
+        cancelButtonText: cancelButtonText
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
