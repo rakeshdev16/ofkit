@@ -18,14 +18,14 @@
                     <a href="{{ route('children.show', $children->id) }}" class="btn button m-top-1">{{ __('comon.back') }}</a>
                 </div>
             </div>
-            <div class="row my-2 mx-1 children-detail">
+            <div class="row my-2 mx-1 children-detail w-100">
                 <div class="col-md-6"><label for=""><b>{{ __('children.childName') }}:</b></label> {{ $children->name . ' ' . $children->family_name }}</div>
                 <div class="col-md-6"><label for=""><b>{{ __('children.ID') }}:</b></label> {{ $children->identification }}</div>
                 <div class="col-md-6"><label for=""><b>{{ __('children.kindergarten') }}:</b></label> {{ getKindergartenNameById($children->kindergarten_id) }}</div>
                 <div class="col-md-6"><label for=""><b>{{ __('children.childBirthday') }}:</b></label> {{ $children->date_of_birth }}</div>
                 <div class="col-md-6"><label for=""><b>{{ __('children.childAge') }}:</b></label> {{ $children->age }}</div>
             </div>
-            <div class="card small-table">
+            <div class="card">
                 <div class="card-body">
                     <div class="table-responsive full-width-table">
                         @include('components.table-search', ['label' => 'Documents', 'count' => @$count])
