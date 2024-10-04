@@ -7,6 +7,13 @@
             <div class="mb-4 page-info">
                 <div class="">
                     <h3 class="mb-0 text-uppercase">{{ __('children.documentApprovals') }} </h3>
+                    <div class="row my-2 mx-1 children-detail w-100">
+                        <div class="col-md-6"><label for=""><b>{{ __('children.childName') }}:</b></label> {{ $children->name . ' ' . $children->family_name }}</div>
+                        <div class="col-md-6"><label for=""><b>{{ __('children.ID') }}:</b></label> {{ $children->identification }}</div>
+                        <div class="col-md-6"><label for=""><b>{{ __('children.kindergarten') }}:</b></label> {{ getKindergartenNameById($children->kindergarten_id) }}</div>
+                        <div class="col-md-6"><label for=""><b>{{ __('children.childBirthday') }}:</b></label> {{ $children->date_of_birth }}</div>
+                        <div class="col-md-6"><label for=""><b>{{ __('children.childAge') }}:</b></label> {{ $children->age }}</div>
+                    </div>
                 </div>
                 <div class="mt-3">
                     @if (Auth::user()->hasRole(['admin', 'manager']))
@@ -18,12 +25,41 @@
                     <a href="{{ route('children.show', $children->id) }}" class="btn button m-top-1">{{ __('comon.back') }}</a>
                 </div>
             </div>
-            <div class="row my-2 mx-1 children-detail w-100">
-                <div class="col-md-6"><label for=""><b>{{ __('children.childName') }}:</b></label> {{ $children->name . ' ' . $children->family_name }}</div>
-                <div class="col-md-6"><label for=""><b>{{ __('children.ID') }}:</b></label> {{ $children->identification }}</div>
-                <div class="col-md-6"><label for=""><b>{{ __('children.kindergarten') }}:</b></label> {{ getKindergartenNameById($children->kindergarten_id) }}</div>
-                <div class="col-md-6"><label for=""><b>{{ __('children.childBirthday') }}:</b></label> {{ $children->date_of_birth }}</div>
-                <div class="col-md-6"><label for=""><b>{{ __('children.childAge') }}:</b></label> {{ $children->age }}</div>
+            <div class="row my-2">
+                <div class="col-xl-3 col-lg-4 col-md-6  my-1">
+                    <div class="dropdown dropdown-filter d-flex justify-content-between">
+                        @php
+                            if (request()->date && strpos(request()->date, ',') !== false) {
+                                $date = explode(',', request()->date);
+                                $date = date('d/m/Y', strtotime($date[1])) . ' - ' . date('d/m/Y', strtotime($date[0]));
+                            } else {
+                                $date = request()->date ? date('d/m/Y', strtotime(request()->date)) : __('children.selectDate');
+                            }
+                        @endphp
+                        <button class="btn dropdown-toggle dropdown-filter-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ $date ? $date : __('children.selectDate') }}
+                        </button>
+                        <button class="btn btn-clear-filter" onclick="clearFilter('date')" type="button">x</button>
+                        <ul class="dropdown-menu p-2 date-filters">
+                            <li><a class="dropdown-item" onclick="dateFilter({{ $lastWeek }});" href="#">{{ __('children.lastWeek') }}</a></li>
+                            <li><a class="dropdown-item" onclick="dateFilter({{ $month }});" href="#">{{ __('children.month') }}</a></li>
+                            <li><a class="dropdown-item" onclick="dateFilter({{ $pastThreeMonth }});" href="#">{{ __('children.month3') }}</a></li>
+                            <li><a class="dropdown-item" onclick="dateFilter({{ $pastSixMonth }});" href="#">{{ __('children.halfYear') }}</a></li>
+                            <li>
+                                <a class="dropdown-item specific-date-filter" href="#">{{ __('children.specificDate') }}</a>
+                                <input type="date" name="date" class="form-control doc-filter specificDate" style="display: none">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6  my-1">
+                    <select class="form-control doc-filter" name="file_type_id">
+                        <option value="">{{ __('children.selectFileType') }}</option>
+                        @foreach ($fileTypes as $fileType)
+                            <option value="{{ $fileType->key }}">{{ $fileType->value }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
             <div class="card">
                 <div class="card-body">
@@ -60,6 +96,18 @@
 @push('customScript')
     <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
     <script>
+        $(document).ready(function() {
+            $('.specific-date-filter').on('click', function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                $('.specificDate').toggle();
+            });
+
+            $('.specificDate').on('change', function(e) {
+                $('.dropdown-filter-toggle').html(dateFormat($(this).val()));
+            });
+
+        });
         $(document).ready(function() {
             // Show Laravel validation errors using Toastr
             @if ($errors->any())

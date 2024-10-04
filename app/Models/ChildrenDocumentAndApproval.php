@@ -21,6 +21,17 @@ class ChildrenDocumentAndApproval extends Model
         if (request('search')) {
             $query->where('document', 'like', '%'.request('search').'%');
         }
+        if (request('file_type_id')) {
+            $query->where('file_type_id', request('file_type_id'));
+        }
+        if (request('date')) {
+            if (strpos(request('date'), ',') !== false) {
+                $date = explode(',', request('date'));
+                $query->whereBetween('created_at', $date);
+            } else {
+                $query->whereDate('created_at', request('date'));
+            }
+        }
         return $query;
     }
 

@@ -786,6 +786,21 @@ class ChildrenController extends Controller
         $documents = ChildrenDocumentAndApproval::where('children_id', $childId)->filter()->orderBy('id', 'DESC')->paginate(50);
         $count = ChildrenDocumentAndApproval::where('children_id', $childId)->filter()->count();
         $fileTypes = FileType::select('id as key', 'name as value')->orderBY('id', 'desc')->get();
+
+        // Get start and end date of last week
+        $startOfLastWeek = Carbon::now()->subWeek()->startOfWeek();
+        $endOfLastWeek = Carbon::now()->subWeek()->endOfWeek();
+        $lastWeek = json_encode([$startOfLastWeek->toDateString(), $endOfLastWeek->toDateString()]);
+        // Get start and end date of current month
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth = Carbon::now()->endOfMonth();
+        $month = json_encode([$startOfMonth->toDateString(), $endOfMonth->toDateString()]);
+        // Get start and end date of past three month
+        $startDateOfPast3Month = Carbon::now()->subMonths(3)->startOfMonth();
+        $pastThreeMonth = json_encode([$startDateOfPast3Month->toDateString(), $endOfMonth->toDateString()]);
+        // Get start and end date of past 6 month
+        $startDateOfPast6Month = Carbon::now()->subMonths(6)->startOfMonth();
+        $pastSixMonth = json_encode([$startDateOfPast6Month->toDateString(), $endOfMonth->toDateString()]);
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('children.document-approvals.table', ['children' => $children, 'documents' => $documents])->render(),
@@ -793,7 +808,7 @@ class ChildrenController extends Controller
                 'count' => $count
             ]);
         }
-        return view('children.document-approvals.index', compact('children', 'documents', 'count', 'fileTypes'));
+        return view('children.document-approvals.index', compact('children', 'documents', 'count', 'fileTypes', 'lastWeek', 'month', 'pastThreeMonth', 'pastSixMonth'));
     }
 
     public function documentsAndApprovalsCreate(Request $request, $childId)

@@ -156,6 +156,7 @@ return [
     'addTopic' => "נושאים",
     'addDiscussion' => "דיון",
     'addDecisions' => "החלטות",
+    'selectFileType' => "בחר סוג קובץ",
     'fileType' => "סוג המסמך",
     'documentDescription' => "תיאור המסמך",
     'requiredParticipated' => 'שדה חובה',
