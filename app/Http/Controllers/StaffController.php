@@ -135,7 +135,9 @@ class StaffController extends Controller
             //     $user->notify(new AccountDetailNotification($user, $request['password']));
             // } 
             try {
-                $user->notify(new AccountDetailNotification($user, $request['password']));
+                if ($request->role != 'support') {
+                    $user->notify(new AccountDetailNotification($user, $request['password']));
+                }
             } catch (\Throwable $th) {
                 //throw $th;
             }

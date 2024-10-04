@@ -23,7 +23,6 @@ return [
     'addChildren' => 'הוסף ילדים',
     'documentation' => 'תיעוד',
     'framework' => 'מסגרת',
-    'staff' => 'סֶגֶל',
     'children' => 'יְלָדִים',
     'intervention' => 'התערבות',
 ];
