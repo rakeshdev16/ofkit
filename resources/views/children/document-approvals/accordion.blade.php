@@ -18,7 +18,7 @@
                     ]) --}}
                     <div class="row w-100 align-items-center" style="">
                         <div class="col-2 d-flex justify-content-center">
-                            <input type="checkbox" name="id[]" value="{{ @$id }}" class="accordionCheckbox checkbox" data-name="{{ @$dataName }}">&nbsp;&nbsp;
+                            <input type="checkbox" name="id[]" value="{{ $document->id }}" class="accordionCheckbox checkbox" data-name="{{ @$dataName }}">&nbsp;&nbsp;
                             {{-- <input type="checkbox" value="{{ @$id }}" class="accordionCheckbox check-{{ $id }}" data-class="check-{{ $id }}">&nbsp;&nbsp; --}}
                         </div>
                         <div class="col-6">{{ \Str::limit($fileName, 10, '...') ?? '-' }}</div>
