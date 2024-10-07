@@ -177,4 +177,6 @@ return [
     'therapistAbsent' => 'Therapist absent',
     'kindergartenClosed' => 'Kindergarten closed',
     'other' => 'Other',
+    'dateRange' => 'Date Range',
+    'selectDateRange' => 'Select Date Range',
 ];

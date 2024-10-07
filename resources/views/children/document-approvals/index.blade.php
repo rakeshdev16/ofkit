@@ -51,8 +51,8 @@
                                 <input type="date" name="date" class="form-control doc-filter specificDate" style="display: none">
                             </li>
                             <li>
-                                <a class="dropdown-item specific-date-range-filter" href="#">Date Range</a>
-                                <input type="text" name="date" class="form-control doc-filter dateRangePicker" placeholder="Select Date Range" style="display: none">
+                                <a class="dropdown-item specific-date-range-filter" href="#">{{ __('children.dateRange') }}</a>
+                                <input type="text" name="date" class="form-control doc-filter dateRangePicker" placeholder="{{ __('children.selectDateRange') }}" style="display: none">
                             </li>
                         </ul>
                     </div>

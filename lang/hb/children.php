@@ -177,4 +177,6 @@ return [
     'therapistAbsent' => 'היעדרות מטפל/ת',
     'kindergartenClosed' => 'הגן סגור',
     'other' => 'אחר',
+    'dateRange' => 'טווח תאריכים',
+    'selectDateRange' => 'בחר טווח תאריכים',
 ];
