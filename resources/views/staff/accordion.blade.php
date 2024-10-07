@@ -75,11 +75,11 @@
                     </div>
                     <hr>
                     <div class="d-flex accordion-row">
-                        <div class="w-50 label">{{ __('staff.createdAt') }}</div>
+                        <div class="w-50 label">{{ __('staff.createdOn') }}</div>
                         <div class="w-50">{{ date('d/m/Y', strtotime($member->created_at)) }}</div>
                     </div>
                     <div class="d-flex accordion-row">
-                        <div class="w-50 label">{{ __('staff.updatedAt') }}</div>
+                        <div class="w-50 label">{{ __('staff.updatedOn') }}</div>
                         <div class="w-50">{{ date('d/m/Y', strtotime($member->updated_at)) }}</div>
                     </div>
                 </div>

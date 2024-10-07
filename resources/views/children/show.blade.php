@@ -133,7 +133,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' => __('children.createdAt'),
+                                                                'label' => __('comon.createdOn'),
                                                                 'name' => 'created_at',
                                                                 'class' => 'created_at',
                                                                 'icon' => 'calendar',
@@ -143,7 +143,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' => __('children.updatedAt'),
+                                                                'label' => __('comon.updatedOn'),
                                                                 'name' => 'updated_at',
                                                                 'class' => 'updated_at',
                                                                 'icon' => 'calendar',

@@ -90,11 +90,11 @@
                                                     <span class="text-secondary">{{ @ucfirst($staff->getRoleNames()->first()) ?? '-' }}</span>
                                                 </li>
                                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                    <h6 class="mb-0"><i class="bx bx-calendar"></i> {{ __('staff.createdAt') }}</h6>
+                                                    <h6 class="mb-0"><i class="bx bx-calendar"></i> {{ __('comon.createdOn') }}</h6>
                                                     <span class="text-secondary">{{ date('d/m/Y', strtotime($staff->created_at)) ?? '-' }}</span>
                                                 </li>
                                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                    <h6 class="mb-0"><i class="bx bx-calendar"></i> {{ __('staff.updatedAt') }}</h6>
+                                                    <h6 class="mb-0"><i class="bx bx-calendar"></i> {{ __('comon.updatedOn') }}</h6>
                                                     <span class="text-secondary">{{ date('d/m/Y', strtotime($staff->updated_at)) ?? '-' }}</span>
                                                 </li>
                                                 {{-- @foreach ($staff->documents as $document)
@@ -178,7 +178,7 @@
                                             </div>
                                         </div>
                                         @if (isset($staff->documents) && count($staff->documents) > 0)
-                                                {{-- <div class="col-md-12">
+                                            {{-- <div class="col-md-12">
                                                     <div class="time-table">
                                                         <h4 class="text-center">{{ __('staff.document') }}</h4>
                                                         <div class="table-responsive" style="display: block !important;">

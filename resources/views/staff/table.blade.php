@@ -10,8 +10,8 @@
             @include('components.table-heading', ['label' => __('staff.emailTh'), 'key' => 'email', 'width' => '13.44%'])
             @include('components.table-heading', ['label' => __('staff.professionTh'), 'key' => 'profession_id', 'width' => '13.44%'])
             @include('components.table-heading', ['label' => __('staff.kindergartenTh'), 'width' => '13.44%'])
-            {{-- @include('components.table-heading', ['label' => __('staff.createdAt'), 'key' => 'created_at', 'width' => '13.44%'])
-            @include('components.table-heading', ['label' => __('staff.updatedAt'), 'key' => 'updated_at', 'width' => '13.44%']) --}}
+            {{-- @include('components.table-heading', ['label' => __('staff.createdOn'), 'key' => 'created_at', 'width' => '13.44%'])
+            @include('components.table-heading', ['label' => __('staff.updatedOn'), 'key' => 'updated_at', 'width' => '13.44%']) --}}
             @include('components.table-heading', ['label' => __('comon.action'), 'width' => '4%'])
         </tr>
     </thead>
