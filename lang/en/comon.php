@@ -22,6 +22,7 @@ return [
     'admin' => 'Admin',
     'manager' => 'Manager',
     'therapist' => 'Therapist',
+    'support' => 'Therapist',
     'confirmTitle' => 'Are You Sure?',
     'confirmText' => "You won't be able to revert this!",
     'confirmButtonText' => "Yes, archive it!",

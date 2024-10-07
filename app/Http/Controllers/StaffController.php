@@ -58,7 +58,13 @@ class StaffController extends Controller
     {
         $managers = User::select('id as key', 'name as value')->role('manager')->get()->toArray();
         $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
-        $roles = Role::select('name as key', 'name as value')->where('name', '!=', 'admin')->get()->toArray();
+        $roles = Role::select('name as key', 'name as value')
+            ->where('name', '!=', 'admin')
+            ->get()
+            ->toArray();
+        foreach ($roles as &$role) {
+            $role['value'] = __('comon.' . $role['value']);
+        }
         $professions = Profession::select('id as key', 'name as value')->get()->toArray();
         $associations = Association::select('id as key', 'name as value')->get()->toArray();
         $memberRoles = MemberRole::select('id as key', 'name as value')->get()->toArray();

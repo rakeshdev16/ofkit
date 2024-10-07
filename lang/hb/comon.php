@@ -22,6 +22,7 @@ return [
     'admin' => 'מנהל מערכת',
     'manager' => 'רכז',
     'therapist' => 'מטפל/ת',
+    'support' => 'תְמִיכָה',
     'confirmTitle' => 'האם אתה בטוח?',
     'confirmText' => "לא תוכל להחזיר את זה!",
     'confirmButtonText' => "כן, תעביר את זה לארכיון!",
