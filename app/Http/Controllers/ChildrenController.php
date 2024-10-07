@@ -338,7 +338,7 @@ class ChildrenController extends Controller
         $staffMeetingDocIds = StaffMeetingChildren::where('children_id', $id)->pluck('children_doc_id')->toArray();
         $groupDocIds = GroupChildren::where('children_id', $id)->pluck('children_documentation_id')->toArray();
         $docIds = array_merge(array_unique($childDocIds), array_unique($staffMeetingDocIds), array_unique($groupDocIds));
-        $documentations = ChildrenDocumentation::whereIn('id', $docIds)->filter()->orderBy('id', 'DESC')->paginate(50);
+        $documentations = ChildrenDocumentation::whereIn('id', $docIds)->filter()->orderBy('date', 'DESC')->paginate(50);
         $documentationCount = ChildrenDocumentation::whereIn('id', $docIds)->filter()->count();
 
         // Get start and end date of last week
