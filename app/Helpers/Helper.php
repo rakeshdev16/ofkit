@@ -99,7 +99,8 @@ function getDocGroupChildDetail($docId, $childId)
 
 function getCurrentLang()
 {
-    return Setting::where('key', 'lang')->pluck('value')->first();
+    // return Setting::where('key', 'lang')->pluck('value')->first();
+    return session('lang');
 }
 
 function description($desc, $length)
