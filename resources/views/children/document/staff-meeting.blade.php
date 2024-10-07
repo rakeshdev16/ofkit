@@ -293,7 +293,7 @@
                                                     <div class="col-12">
                                                         <div class="d-flex align-items-center gap-3">
                                                             <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">
-                                                            <button type="submit" class="btn submitBtn button px-4">{{ __('comon.submit') }}</button>
+                                                            <button type="submit" class="btn docSubmitBtn button px-4">{{ __('comon.submit') }}</button>
                                                         </div>
                                                     </div>
                                                 </div>

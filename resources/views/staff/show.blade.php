@@ -178,19 +178,31 @@
                                             </div>
                                         </div>
                                         @if (isset($staff->documents) && count($staff->documents) > 0)
-                                            <div class="col-md-12">
-                                                <div class="time-table">
-                                                    <h4 class="text-center">{{ __('staff.document') }}</h4>
-                                                    <div class="table-responsive" style="display: block !important;">
-                                                        <div class="d-flex choosenDocument" style="flex-wrap: wrap;">
-                                                            @foreach ($staff->documents as $document)
-                                                                <div class="document mt-1 doc{{ $document->id }}">
-                                                                    <a href="{{ $document->name }}" target="_blank" rel="noopener noreferrer">
-                                                                        {{ $document->file_name }}
-                                                                    </a>
-                                                                </div>
-                                                            @endforeach
+                                                {{-- <div class="col-md-12">
+                                                    <div class="time-table">
+                                                        <h4 class="text-center">{{ __('staff.document') }}</h4>
+                                                        <div class="table-responsive" style="display: block !important;">
+                                                            <div class="d-flex choosenDocument" style="flex-wrap: wrap;">
+                                                                @foreach ($staff->documents as $document)
+                                                                    <div class="document mt-1 doc{{ $document->id }}">
+                                                                        <a href="{{ $document->name }}" target="_blank" rel="noopener noreferrer">
+                                                                            {{ $document->file_name }}
+                                                                        </a>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
                                                         </div>
+                                                    </div>
+                                                </div> --}}
+
+                                            <div class="col-md-12 document-section mt-4">
+                                                <div class="time-table p-4">
+                                                    <h4 class="text-center">{{ __('staff.document') }}</h4>
+                                                    <div class="bg-white p-2">
+                                                        @foreach ($staff->documents as $document)
+                                                            <h5><a href="{{ $document->name }}" target="__blank">{{ $document->file_name }}</a></h5>
+                                                            <p class="border p-2">{{ $document->description }}</p>
+                                                        @endforeach
                                                     </div>
                                                 </div>
                                             </div>

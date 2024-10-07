@@ -193,7 +193,7 @@
                                                             <span class="child-tab mx-1 childTab{{ @$id }}">{{ @getChildrenNameById($id) }}</span>
                                                         @endforeach
                                                     </div>
-                                                    <div class="col-md-12 childrenSec"> 
+                                                    <div class="col-md-12 childrenSec">
                                                         @if (!Request::segment(4) && empty(old('children_ids')))
                                                             @include('components.children-participated', [
                                                                 'index' => 0,
@@ -267,7 +267,7 @@
                                                     <div class="col-12">
                                                         <div class="d-flex align-items-center gap-3">
                                                             <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">
-                                                            <button type="submit" class="btn submitBtn button px-4">{{ __('comon.submit') }}</button>
+                                                            <button type="submit" class="btn docSubmitBtn button px-4">{{ __('comon.submit') }}</button>
                                                         </div>
                                                     </div>
                                                 </div>

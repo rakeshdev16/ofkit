@@ -124,9 +124,10 @@ class StaffController extends Controller
             $request['name'] = $request->first_name . ' ' . $request->family_name;
             $user = User::create($request->all());
             if (isset($request->documents) && count($request->documents) > 0) {
-                foreach ($request->documents as $document) {
+                $description = $request['document_description'];
+                foreach ($request->documents as $key => $document) {
                     $name = uploadFile($document, 'public/staff-document');
-                    $user->documents()->create(['name' => $name]);
+                    $user->documents()->create(['name' => $name, 'description' => $description[$key]]);
                 }
             }
             $user->assignRole($request->role);
@@ -239,10 +240,16 @@ class StaffController extends Controller
             $user = User::findOrFail($id);
             $user->update($request->except('_token', '_method', 'kindergarten_id', 'schedule', 'query_string'));
             $user->syncRoles($request->role);
+            $description = $request['document_description'];
             if (isset($request->documents) && count($request->documents) > 0) {
-                foreach ($request->documents as $document) {
+                foreach ($request->documents as $key => $document) {
                     $name = uploadFile($document, 'public/staff-document');
-                    $user->documents()->create(['name' => $name]);
+                    $user->documents()->create(['name' => $name, 'description' => $description[$key]]);
+                }
+            }
+            if (isset($request->document_id) && count($request->document_id) > 0) {
+                foreach ($request->document_id as $key => $document_id) {
+                    StaffDocument::where('id', $document_id)->update(['description' => $description[$key]]);
                 }
             }
             $user->staffKindergartens()->delete();

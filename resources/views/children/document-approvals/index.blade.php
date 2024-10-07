@@ -1,5 +1,6 @@
 @extends('layout.master')
 @push('customLink')
+    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /> --}}
 @endpush
 @section('section')
     <div class="page-wrapper">
@@ -49,6 +50,10 @@
                                 <a class="dropdown-item specific-date-filter" href="#">{{ __('children.specificDate') }}</a>
                                 <input type="date" name="date" class="form-control doc-filter specificDate" style="display: none">
                             </li>
+                            {{-- <li>
+                                <a class="dropdown-item specific-date-range-filter" href="#">Date Range</a>
+                                <input type="text" name="date_range" class="form-control doc-filter dateRangePicker" placeholder="Select Date Range" style="display: none">
+                            </li> --}}
                         </ul>
                     </div>
                 </div>
@@ -95,19 +100,51 @@
 @endsection
 @push('customScript')
     <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
+    {{-- <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> --}}
     <script>
         $(document).ready(function() {
             $('.specific-date-filter').on('click', function(e) {
                 e.stopPropagation();
                 e.preventDefault();
+                $('.dateRangePicker').hide();
                 $('.specificDate').toggle();
             });
+            // $('.specific-date-range-filter').on('click', function(e) {
+            //     e.stopPropagation();
+            //     e.preventDefault();
+            //     $('.dateRangePicker').toggle();
+            //     $('.specificDate').hide();
+            // });
 
             $('.specificDate').on('change', function(e) {
                 $('.dropdown-filter-toggle').html(dateFormat($(this).val()));
             });
 
+            // $('.dateRangePicker').daterangepicker({
+            //     locale: {
+            //         format: 'DD/MM/YYYY'
+            //     }
+            // });
+
+            // $('.dateRangePicker').on('apply.daterangepicker', function(ev, picker) {
+            //     $('.dropdown-filter-toggle').html(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+            // });
         });
+
+        // $(document).ready(function() {
+        //     $('.specific-date-filter').on('click', function(e) {
+        //         e.stopPropagation();
+        //         e.preventDefault();
+        //         $('.specificDate').toggle();
+        //     });
+
+        //     $('.specificDate').on('change', function(e) {
+        //         $('.dropdown-filter-toggle').html(dateFormat($(this).val()));
+        //     });
+
+        // });
+
         $(document).ready(function() {
             // Show Laravel validation errors using Toastr
             @if ($errors->any())

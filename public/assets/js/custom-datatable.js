@@ -162,10 +162,14 @@ $(document).on('change', '.accordionCheckbox', function () {
 
 function moveToArchive(url, msg) {
     var ids = [];
-    $(".checkbox:checked").map(function () {
-        ids.push($(this).val());
+    $(".checkbox:checked").each(function () {
+        var value = $(this).val();
+        if (value) {  // Only push non-empty values
+            ids.push(value);
+        }
     });
     $.unique(ids.sort());
+
     if (ids.length == 0) {
         toastr.warning(msg);
         return false

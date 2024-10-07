@@ -118,7 +118,15 @@
                                                 'value' => old('documents'),
                                                 'multiple' => 'multiple',
                                             ])
-                                            <div class="d-flex mt-2 choosenDocument" style="flex-wrap: wrap;"></div>
+                                            {{-- <div class="d-flex mt-2 choosenDocument" style="flex-wrap: wrap;"></div> --}}
+                                        </div>
+                                        <div class="col-md-12 document-section mt-4" style="display: none">
+                                            <div class="time-table p-4">
+                                                <h4 class="text-center">{{ __('staff.document') }}</h4>
+                                                <div class="bg-white p-2 choosenDocument">
+                                                    {{-- @include('components.document-detail') --}}
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-md-12">
                                             @include('components.multi-select-input', [

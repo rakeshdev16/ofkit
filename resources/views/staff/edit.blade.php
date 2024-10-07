@@ -159,7 +159,7 @@
                                                 'multiple' => 'multiple',
                                                 'disabled' => Auth::user()->hasRole('admin') ? '' : 'disabled',
                                             ])
-                                            <div class="d-flex choosenDocument" style="flex-wrap: wrap;">
+                                            {{-- <div class="d-flex choosenDocument" style="flex-wrap: wrap;">
                                                 @foreach ($staff->documents as $document)
                                                     <div class="document mt-1 doc{{ $document->id }}">
                                                         <a href="{{ $document->name }}" target="_blank" rel="noopener noreferrer">
@@ -168,6 +168,23 @@
                                                         <i class="bx bx-x removeStaffDocument" data-file-name="{{ $document->file_name }}" data-id="{{ $document->id }}"></i>
                                                     </div>
                                                 @endforeach
+                                            </div> --}}
+                                            <div class="col-md-12 document-section mt-4" style="display: {{ isset($staff->documents) && count($staff->documents) > 0 ? 'block' : 'none' }}">
+                                                <div class="time-table p-4">
+                                                    <h4 class="text-center">{{ __('staff.document') }}</h4>
+                                                    <div class="bg-white p-2 choosenDocument">
+                                                        @foreach ($staff->documents as $document)
+                                                            @include('components.document-detail', [
+                                                                'index' => $loop->index,
+                                                                'id' => $document->id,
+                                                                'name' => $document->file_name,
+                                                                'document' => $document->name,
+                                                                'description' => $document->description,
+                                                                'class' => 'removeStaffDocument',
+                                                            ])
+                                                        @endforeach
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
