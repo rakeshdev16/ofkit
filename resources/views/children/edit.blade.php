@@ -92,6 +92,7 @@
                                                             @include('components.date-input', [
                                                                 'label' => __('children.dob'),
                                                                 'name' => 'dob',
+                                                                'class' => 'date-of-birth',
                                                                 'max' => date('Y-m-d'),
                                                                 'value' => $children->dob,
                                                                 'readonly' => Auth::user()->hasRole('admin') ? '' : true,

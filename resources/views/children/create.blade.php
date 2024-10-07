@@ -83,6 +83,7 @@
                                                             @include('components.date-input', [
                                                                 'label' => __('children.dob'),
                                                                 'name' => 'dob',
+                                                                'class' => 'date-of-birth',
                                                                 'max' => date('Y-m-d'),
                                                             ])
                                                         </div>
