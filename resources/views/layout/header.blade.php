@@ -45,7 +45,7 @@
                         <img src="{{ $user->profile }}" class="user-img" alt="user avatar">
                         <div class="user-info">
                             <p class="user-name mb-0">{{ $user->name }}</p>
-                            <p class="designattion mb-0">{{ $user->getRoleNames()->first() }}</p>
+                            <p class="designattion mb-0">{{ __('comon.' . $user->getRoleNames()->first()) }}</p>
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
