@@ -13,6 +13,7 @@ use App\Http\Controllers\OtpController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes

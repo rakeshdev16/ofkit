@@ -28,10 +28,22 @@ class ChildrenDocumentAndApproval extends Model
             if (strpos(request('date'), ',') !== false) {
                 $date = explode(',', request('date'));
                 $query->whereBetween('created_at', $date);
+            } elseif (strpos(request('date'), '-') !== false && count(explode('-', request('date'))) === 2) {
+                $date = explode('-', request('date'));
+                $dates = array_map(function($date) {
+                    return \DateTime::createFromFormat('d/m/Y', trim($date))->format('Y-m-d');
+                }, $date);
+
+                $startDate = $dates[0] . ' 00:00:00';
+                $endDate = $dates[1] . ' 23:59:59';
+
+                $query->whereBetween('created_at', [$startDate, $endDate]);
             } else {
                 $query->whereDate('created_at', request('date'));
             }
         }
+
+
         return $query;
     }
 

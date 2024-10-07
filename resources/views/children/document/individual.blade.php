@@ -28,8 +28,14 @@
                                 //     $back = route('children-documentation.show', [$children->id, $document->id]);
                                 // } else {
                                 // $back = route('children.show', Request::segment(3));
-                                $back = route('children-documentations.get', Request::segment(3));
+                                if (Request::segment(4)) {
+                                    $back = route('children-documentations.get', Request::segment(3));
+                                } else {
+                                    $back = route('children.show', $children->id);
+                                }
+
                                 // }
+
                             @endphp
                             <div class="">
                                 <button data-url="{{ $back }}" class="btn button exit">{{ __('comon.back') }}</button>
