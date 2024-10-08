@@ -17,13 +17,24 @@
                             <form class="row" method="POST" action="{{ route('otp.verify.submit') }}">
                                 @csrf
                                 <div class="col-12">
-                                    <label for="otp" class="form-label">{{ __('login.enterOtp') }}</label>
-                                    <input id="otp" type="text" class="form-control @error('otp') is-invalid @enderror" name="otp" placeholder="{{ __('login.enterOtp') }}" value="{{ old('otp') }}" required autocomplete="email" autofocus>
+                                    {{-- <label for="otp" class="form-label">{{ __('login.enterOtp') }}</label>
+                                    <input id="otp" type="password" class="form-control @error('otp') is-invalid @enderror" name="otp" placeholder="{{ __('login.enterOtp') }}" value="{{ old('otp') }}" required autocomplete="email" autofocus>
                                     @error('otp')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
-                                    @enderror
+                                    @enderror --}}
+
+                                    <label for="otp" class="form-label">{{ __('login.enterOtp') }}</label>
+                                    <div class="input-group" id="show_hide_password">
+                                        <input id="otp" type="password" class="form-control @error('otp') is-invalid @enderror" placeholder="{{ __('login.enterOtp') }}" name="otp" required autocomplete="current-password">
+                                        <a href="javascript:void(0);" class="input-group-text bg-transparent"><i class='bx bx-hide'></i></a>
+                                        @error('otp')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="d-grid">
