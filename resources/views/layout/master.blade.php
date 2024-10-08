@@ -118,13 +118,14 @@
                 if ($('#formChanged').val()) {
                     e.preventDefault();
                     Swal.fire({
-                        title: "Unsaved changes",
-                        text: "You have unsaved changes. Are you sure you want to leave this page?",
+                        title: "{{ __('comon.unsavedChanges') }}",
+                        text: "{{ __('comon.unsavedChangesMsg') }}",
                         icon: "warning",
                         showCancelButton: true,
                         confirmButtonColor: "#3085d6",
                         cancelButtonColor: "#d33",
-                        confirmButtonText: "Yes, leave it!"
+                        confirmButtonText: "{{ __('comon.yesLeaveIt') }}",
+                        cancelButtonText: "{{ __('comon.cancel') }}"
                     }).then((result) => {
                         if (result.isConfirmed) {
                             window.location.href = $(this).data('url');

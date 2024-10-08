@@ -41,4 +41,7 @@ return [
     'showLess' => 'Show less',
     'crop' => 'Crop',
     'cancel' => 'Cancel',
+    'unsavedChanges' => 'Unsaved Changes',
+    'unsavedChangesMsg' => 'You have unsaved changes. Are you sure you want to leave this page?',
+    'yesLeaveIt' => 'Yes leave it!',
 ];
