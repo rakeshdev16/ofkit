@@ -119,13 +119,13 @@
                                                         <tr>
                                                             <th>{{ __('staff.name') }}</th>
                                                             <th>{{ __('staff.professionalRole') }}</th>
-                                                            <th>{{ __('staff.professionalRole') }}</th>
+                                                            <th>{{ __('staff.association') }}</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody class="selected-kindergarten">
-                                                        @forelse ($staff->staffKindergartens as $kindergarten)
+                                                        @forelse ($staffKindergartens as $kindergarten)
                                                             @include('components.kindergarten-tr', [
-                                                                'id' => $kindergarten->kindergarten_id,
+                                                                'id' => @$kindergarten['kindergarten_id'],
                                                                 'index' => $loop->index,
                                                                 'professions' => $professions,
                                                                 'roles' => $memberRoles,
