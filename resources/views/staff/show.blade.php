@@ -140,7 +140,7 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="col-md-12 mt-4">
                                             <div class="time-table">
                                                 <h4 class="text-center">{{ __('staff.scheduleHeading') }}</h4>
                                                 @php
