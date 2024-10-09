@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="d-grid">
-                                        <button type="submit" class="btn button">{{ __('login.login') }}</button>
+                                        <button type="submit" class="btn button">{{ __('comon.login') }}</button>
                                     </div>
                                 </div>
                             </form>
