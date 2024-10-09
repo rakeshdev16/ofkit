@@ -52,6 +52,8 @@
         var confirmMsgTitle = "{{ __('comon.confirmTitle') }}";
         var confirmButtonText = "{{ __('comon.confirmButtonText') }}";
         var cancelButtonText = "{{ __('comon.cancel') }}";
+        var selectDate = "{{ __('children.selectDate') }}";
+        var selectDateRange = "{{ __('children.selectDateRange') }}";
         $(document).on('click', '.toggle-text', function() {
             var status = $(this).data('status');
             var truncatedText = $(this).siblings('.truncated-text');
