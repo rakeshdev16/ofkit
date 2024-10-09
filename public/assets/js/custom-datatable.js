@@ -44,6 +44,8 @@ function dateFilter(date) {
 function clearFilter(param) {
     var url = queryParam(param, '');
     $('.dropdown-filter-toggle').html('Select Date');
+    $('.dateRangePicker').val('Select Date Range');
+    $('.dateRangePicker').hide();
     filter(url);
 }
 
