@@ -144,7 +144,7 @@
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                     <tr>
                         <td bgcolor="#ffffff" align="right" style="padding: 20px 30px 40px 30px; color: #666666; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                            <p style="margin: 0;">שלום ,{{ $notifiable->name }}</p>
+                            <p style="margin: 0;">,שלום {{ $notifiable->name }}</p>
                             <p style="margin: 0;">.קיבלת הודעת דוא"ל זו בעקבות בקשתך לאיפוס </p>
                         </td>
                     </tr>
@@ -165,12 +165,12 @@
                     </tr>
                     <tr>
                         <td bgcolor="#ffffff" align="right" style="padding: 0px 30px 0px 30px; color: #666666; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                            <p style="margin: 0;">.תוקף הקישור לאיפוס הסיסמה יפוג לאחר 60 דקות</p>
+                            <p style="direction: rtl; text-align: right;">תוקף הקישור לאיפוס הסיסמה יפוג לאחר 60 דקות.</p>
                         </td>
                     </tr>
                     <tr>
                         <td bgcolor="#ffffff" align="right" style="padding: 20px 30px 20px 30px; color: #666666; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                            <p style="margin: 0;">.אם לא ביקשת לאפס את סיסמתך, נא להתעלם מהודעה זו</p>
+                            <p style="direction: rtl; text-align: right;">אם לא ביקשת לאפס את סיסמתך, נא להתעלם מהודעה זו.</p>
                         </td>
                     </tr>
                     <tr>
