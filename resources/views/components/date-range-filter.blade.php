@@ -2,9 +2,9 @@
     @php
         if ($date && strpos($date, ',') !== false) {
             $date = explode(',', $date);
-            $date = date('d/m/Y', strtotime($date[1])) . ' - ' . date('d/m/Y', strtotime($date[0]));
+            $date = $date[1] . ' - ' . $date[0];
         } else {
-            $date = $date ? date('d/m/Y', strtotime($date)) : __('children.selectDate');
+            $date = $date ? $date : __('children.selectDate');
         }
     @endphp
     <button class="btn dropdown-toggle dropdown-filter-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -12,17 +12,17 @@
     </button>
     <button class="btn btn-clear-filter" onclick="clearFilter('date')" type="button">x</button>
     <ul class="dropdown-menu p-2 date-filters">
-        <li><a class="dropdown-item" onclick="dateFilter({{ filterDate()['lastWeek'] }});" href="#">{{ __('children.lastWeek') }}</a></li>
-        <li><a class="dropdown-item" onclick="dateFilter({{ filterDate()['month'] }});" href="#">{{ __('children.month') }}</a></li>
-        <li><a class="dropdown-item" onclick="dateFilter({{ filterDate()['pastThreeMonth'] }});" href="#">{{ __('children.month3') }}</a></li>
-        <li><a class="dropdown-item" onclick="dateFilter({{ filterDate()['pastSixMonth'] }});" href="#">{{ __('children.halfYear') }}</a></li>
+        <li><a class="dropdown-item this-filter {{ request('dateType') == 'lastWeek' ? 'active-filter' : '' }}" onclick="dateFilter({{ filterDate()['lastWeek'] }}, 'lastWeek');" href="#">{{ __('children.lastWeek') }}</a></li>
+        <li><a class="dropdown-item this-filter {{ request('dateType') == 'month' ? 'active-filter' : '' }}" onclick="dateFilter({{ filterDate()['month'] }}, 'month');" href="#">{{ __('children.month') }}</a></li>
+        <li><a class="dropdown-item this-filter {{ request('dateType') == 'pastThreeMonth' ? 'active-filter' : '' }}" onclick="dateFilter({{ filterDate()['pastThreeMonth'] }}, 'month3');" href="#">{{ __('children.month3') }}</a></li>
+        <li><a class="dropdown-item this-filter {{ request('dateType') == 'pastSixMonth' ? 'active-filter' : '' }}" onclick="dateFilter({{ filterDate()['pastSixMonth'] }}, 'halfYear');" href="#">{{ __('children.halfYear') }}</a></li>
         <li>
-            <a class="dropdown-item specific-date-filter" href="#">{{ __('children.specificDate') }}</a>
-            <input type="date" name="date" class="form-control doc-filter specificDate" style="display: none">
+            <a class="dropdown-item this-filter {{ request('dateType') == 'specificDate' ? 'active-filter' : '' }} specific-date-filter" href="#">{{ __('children.specificDate') }}</a>
+            <input type="date" name="date" class="form-control doc-filter specificDate" value="{{ request('dateType') == 'specificDate' ? date('Y-m-d', strtotime($date)) : '' }}" data-type="specificDate" style="display: none">
         </li>
         <li>
-            <a class="dropdown-item specific-date-range-filter" href="#">{{ __('children.dateRange') }}</a>
-            <input type="text" name="date" class="form-control doc-filter dateRangePicker" placeholder="{{ __('children.selectDateRange') }}" style="display: none">
+            <a class="dropdown-item this-filter {{ request('dateType') == 'dateRange' ? 'active-filter' : '' }} specific-date-range-filter" href="#">{{ __('children.dateRange') }}</a>
+            <input type="text" name="date" class="form-control doc-filter dateRangePicker" placeholder="{{ __('children.selectDateRange') }}" data-type="dateRange" style="display: none">
         </li>
     </ul>
 </div>

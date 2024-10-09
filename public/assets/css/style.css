@@ -407,6 +407,10 @@ span.child-tab {
     white-space: normal;
 }
 
+.active-filter {
+    background-color: #d5d8db57;
+}
+
 @-webkit-keyframes fadein {
     from {
         bottom: 0;

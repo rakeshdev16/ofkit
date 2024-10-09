@@ -28,17 +28,22 @@ $(document).on('change', '.select-filter', function () {
 $(document).on('change', '.doc-filter', function () {
     var name = $(this).attr('name');
     var value = $(this).val();
+    var dateType = $(this).data('type');
     if (value.includes(' - ')) {
         var dateRange = value.split(' - ');
         value = [dateRange[0], dateRange[1]];
     } else {
         value = formatDate(value, 'd/m/Y');
     }
+    queryParam('dateType', dateType);
     var url = queryParam(name, value);
     filter(url);
+    $('.dropdown-item').removeClass('active-filter');
+    $(this).siblings(".dropdown-item").addClass('active-filter');
 });
 
-function dateFilter(date) {
+function dateFilter(date, dateType) {
+    queryParam('dateType', dateType);
     var url = queryParam('date', date);
     filter(url);
     if (date.length === 2) {
@@ -46,6 +51,11 @@ function dateFilter(date) {
         $('.dropdown-filter-toggle').html(dateLabel);
     }
 }
+
+$(document).on('click', '.this-filter', function () {
+    $('.dropdown-item').removeClass('active-filter');
+    $(this).addClass('active-filter');
+});
 
 function formatDate(date, format) {
     var parsedDate = new Date(date);
