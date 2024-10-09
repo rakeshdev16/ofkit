@@ -402,6 +402,11 @@ span.child-tab {
     animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
+.document-name {
+    word-wrap: break-word;
+    white-space: normal;
+}
+
 @-webkit-keyframes fadein {
     from {
         bottom: 0;
