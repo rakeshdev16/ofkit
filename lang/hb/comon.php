@@ -19,7 +19,7 @@ return [
     'emptyTableMsg' => 'לא נמצאו נתונים',
     'previous' => 'הקודם',
     'next' => 'הַבָּא',
-    'admin' => 'מנהל מערכת',
+    'admin' => 'מנהל',
     'manager' => 'רכז',
     'therapist' => 'מטפל/ת',
     'support' => 'תְמִיכָה',
