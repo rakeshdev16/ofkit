@@ -28,34 +28,7 @@
             </div>
             <div class="row my-2">
                 <div class="col-xl-3 col-lg-4 col-md-6  my-1">
-                    <div class="dropdown dropdown-filter d-flex justify-content-between">
-                        @php
-                            if (request()->date && strpos(request()->date, ',') !== false) {
-                                $date = explode(',', request()->date);
-                                $date = date('d/m/Y', strtotime($date[1])) . ' - ' . date('d/m/Y', strtotime($date[0]));
-                            } else {
-                                $date = request()->date ? date('d/m/Y', strtotime(request()->date)) : __('children.selectDate');
-                            }
-                        @endphp
-                        <button class="btn dropdown-toggle dropdown-filter-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ $date ? $date : __('children.selectDate') }}
-                        </button>
-                        <button class="btn btn-clear-filter" onclick="clearFilter('date')" type="button">x</button>
-                        <ul class="dropdown-menu p-2 date-filters">
-                            <li><a class="dropdown-item" onclick="dateFilter({{ $lastWeek }});" href="#">{{ __('children.lastWeek') }}</a></li>
-                            <li><a class="dropdown-item" onclick="dateFilter({{ $month }});" href="#">{{ __('children.month') }}</a></li>
-                            <li><a class="dropdown-item" onclick="dateFilter({{ $pastThreeMonth }});" href="#">{{ __('children.month3') }}</a></li>
-                            <li><a class="dropdown-item" onclick="dateFilter({{ $pastSixMonth }});" href="#">{{ __('children.halfYear') }}</a></li>
-                            <li>
-                                <a class="dropdown-item specific-date-filter" href="#">{{ __('children.specificDate') }}</a>
-                                <input type="date" name="date" class="form-control doc-filter specificDate" style="display: none">
-                            </li>
-                            <li>
-                                <a class="dropdown-item specific-date-range-filter" href="#">{{ __('children.dateRange') }}</a>
-                                <input type="text" name="date" class="form-control doc-filter dateRangePicker" placeholder="{{ __('children.selectDateRange') }}" style="display: none">
-                            </li>
-                        </ul>
-                    </div>
+                    @include('components.date-range-filter', ['date' => request('date')])
                 </div>
                 <div class="col-xl-3 col-lg-4 col-md-6  my-1">
                     <select class="form-control doc-filter" name="file_type_id">
@@ -127,6 +100,7 @@
             });
 
             $('.dateRangePicker').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
                 $('.dropdown-filter-toggle').html(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
             });
         });

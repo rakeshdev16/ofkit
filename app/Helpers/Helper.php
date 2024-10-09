@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Carbon\Carbon;
 
 function getAllRouteNames()
 {
@@ -117,6 +118,34 @@ function description($desc, $length)
             {$showMore}
         </span>
     HTML;
+}
+
+function filterDate()
+{
+    // Get start and end date of last week in d/m/Y format
+    $startOfLastWeek = Carbon::now()->subWeek()->startOfWeek()->format('d/m/Y');
+    $endOfLastWeek = Carbon::now()->subWeek()->endOfWeek()->format('d/m/Y');
+    $lastWeek = json_encode([$startOfLastWeek, $endOfLastWeek]);
+
+    // Get start and end date of current month in d/m/Y format
+    $startOfMonth = Carbon::now()->startOfMonth()->format('d/m/Y');
+    $endOfMonth = Carbon::now()->endOfMonth()->format('d/m/Y');
+    $month = json_encode([$startOfMonth, $endOfMonth]);
+
+    // Get start and end date of past three months in d/m/Y format
+    $startDateOfPast3Month = Carbon::now()->subMonths(3)->startOfMonth()->format('d/m/Y');
+    $pastThreeMonth = json_encode([$startDateOfPast3Month, $endOfMonth]);
+
+    // Get start and end date of past six months in d/m/Y format
+    $startDateOfPast6Month = Carbon::now()->subMonths(6)->startOfMonth()->format('d/m/Y');
+    $pastSixMonth = json_encode([$startDateOfPast6Month, $endOfMonth]);
+
+    return [
+        'lastWeek' => $lastWeek,
+        'month' => $month,
+        'pastThreeMonth' => $pastThreeMonth,
+        'pastSixMonth' => $pastSixMonth
+    ];
 }
 
 

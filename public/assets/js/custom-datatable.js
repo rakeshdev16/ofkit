@@ -28,6 +28,12 @@ $(document).on('change', '.select-filter', function () {
 $(document).on('change', '.doc-filter', function () {
     var name = $(this).attr('name');
     var value = $(this).val();
+    if (value.includes(' - ')) {
+        var dateRange = value.split(' - ');
+        value = [dateRange[0], dateRange[1]];
+    } else {
+        value = formatDate(value, 'd/m/Y');
+    }
     var url = queryParam(name, value);
     filter(url);
 });
@@ -36,9 +42,20 @@ function dateFilter(date) {
     var url = queryParam('date', date);
     filter(url);
     if (date.length === 2) {
-        var dateLabel = dateFormat(date[1]) + ' - ' + dateFormat(date[0]);
+        var dateLabel = date[1] + ' - ' + date[0];
         $('.dropdown-filter-toggle').html(dateLabel);
     }
+}
+
+function formatDate(date, format) {
+    var parsedDate = new Date(date);
+    if (!isNaN(parsedDate)) {
+        var day = ('0' + parsedDate.getDate()).slice(-2);
+        var month = ('0' + (parsedDate.getMonth() + 1)).slice(-2);
+        var year = parsedDate.getFullYear();
+        return day + '/' + month + '/' + year;
+    }
+    return date;
 }
 
 function clearFilter(param) {

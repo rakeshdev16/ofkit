@@ -1,5 +1,6 @@
 @extends('layout.master')
 @push('customLink')
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endpush
 @section('section')
     <div class="page-wrapper">
@@ -8,7 +9,7 @@
                 <div>
                     <h3 class="mb-0 text-uppercase">{{ __('children.childrenDocuments') }} </h3>
                     <div class="row my-2 mx-1">
-                        <div class="col-md-6"><label for=""><b>{{ __('children.childName') }}:</b></label> {{ @$children->name.' '.$children->family_name }}</div>
+                        <div class="col-md-6"><label for=""><b>{{ __('children.childName') }}:</b></label> {{ @$children->name . ' ' . $children->family_name }}</div>
                         <div class="col-md-6"><label for=""><b>{{ __('children.ID') }}:</b></label> {{ @$children->identification }}</div>
                         <div class="col-md-6"><label for=""><b>{{ __('children.kindergarten') }}:</b></label> {{ getKindergartenNameById(@$children->kindergarten_id) }}</div>
                         <div class="col-md-6"><label for=""><b>{{ __('children.childBirthday') }}:</b></label> {{ @$children->date_of_birth }}</div>
@@ -24,30 +25,7 @@
             </div>
             <div class="row my-2">
                 <div class="col-xl-3 col-lg-4 col-md-6  my-1">
-                    <div class="dropdown dropdown-filter d-flex justify-content-between">
-                        @php
-                            if (request()->date && strpos(request()->date, ',') !== false) {
-                                $date = explode(',', request()->date);
-                                $date = date('d/m/Y', strtotime($date[1])) . ' - ' . date('d/m/Y', strtotime($date[0]));
-                            } else {
-                                $date = request()->date ? date('d/m/Y', strtotime(request()->date)) : __('children.selectDate');
-                            }
-                        @endphp
-                        <button class="btn dropdown-toggle dropdown-filter-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ $date ? $date : __('children.selectDate') }}
-                        </button>
-                        <button class="btn btn-clear-filter" onclick="clearFilter('date')" type="button">x</button>
-                        <ul class="dropdown-menu p-2 date-filters">
-                            <li><a class="dropdown-item" onclick="dateFilter({{ $lastWeek }});" href="#">{{ __('children.lastWeek') }}</a></li>
-                            <li><a class="dropdown-item" onclick="dateFilter({{ $month }});" href="#">{{ __('children.month') }}</a></li>
-                            <li><a class="dropdown-item" onclick="dateFilter({{ $pastThreeMonth }});" href="#">{{ __('children.month3') }}</a></li>
-                            <li><a class="dropdown-item" onclick="dateFilter({{ $pastSixMonth }});" href="#">{{ __('children.halfYear') }}</a></li>
-                            <li>
-                                <a class="dropdown-item specific-date-filter" href="#">{{ __('children.specificDate') }}</a>
-                                <input type="date" name="date" class="form-control doc-filter specificDate" style="display: none">
-                            </li>
-                        </ul>
-                    </div>
+                    @include('components.date-range-filter', ['date' => request('date')])
                 </div>
                 <div class="col-xl-3 col-lg-4 col-md-6  my-1">
                     <select class="form-control doc-filter" name="role">
@@ -98,18 +76,36 @@
 @endsection
 @push('customScript')
     <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
+        $('.dateRangePicker').daterangepicker({
+            locale: {
+                format: 'DD/MM/YYYY'
+            }
+        });
         $(document).ready(function() {
             $('.specific-date-filter').on('click', function(e) {
                 e.stopPropagation();
                 e.preventDefault();
+                $('.dateRangePicker').hide();
                 $('.specificDate').toggle();
+            });
+            $('.specific-date-range-filter').on('click', function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                $('.dateRangePicker').toggle();
+                $('.specificDate').hide();
             });
 
             $('.specificDate').on('change', function(e) {
                 $('.dropdown-filter-toggle').html(dateFormat($(this).val()));
             });
 
+            $('.dateRangePicker').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+                $('.dropdown-filter-toggle').html(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+            });
         });
 
         // $(document).on('click', '.button', function() {
