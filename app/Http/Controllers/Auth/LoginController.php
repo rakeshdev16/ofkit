@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Services\TextMeService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class LoginController extends Controller
 {
@@ -63,10 +64,13 @@ class LoginController extends Controller
     public function sendOtp($user)
     {
         $otp = rand(100000, 999999);
+        $user->otp = $otp;
+        $user->otp_expires_at = Carbon::now()->addMinutes(5);  // OTP valid for 10 minutes
+        $user->save();
         Log::info($otp);
         $mobileNumber = $user->telephone;
         $message = "לכניסה למערכת אופקית קוד האימות שלך הוא: $otp נא לא לשתף את הקוד עם אחרים.";
-        session(['otp' => $otp]);
+        // session(['otp' => $otp]);
         $response = $this->textMeService->sendMessage($mobileNumber, $message);
         return $response;
     }

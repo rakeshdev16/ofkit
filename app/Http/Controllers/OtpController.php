@@ -21,16 +21,19 @@ class OtpController extends Controller
             'otp' => 'required|digits:6',
         ]);
 
-        if ($request->otp == env('MASTER_OTP') || $request->otp == session('otp')) {
-            $user = User::findOrFail(session('user_id'));
-            Auth::login($user);
+        $user = User::findOrFail(session('user_id'));
+        if ($user->otp == $request->otp) {
+            if ($user->otp_expires_at->isFuture()) {
+                $user->otp = null;
+                $user->otp_expires_at = null;
+                $user->save();
 
-            session()->forget('otp');
-            session()->forget('user_id');
-
-            return redirect()->intended($this->redirectTo);
+                return redirect()->route('home')->with('success', 'Logged in successfully');
+            } else {
+                return back()->withErrors(['otp' => 'The OTP has expired. Please request a new one.']);
+            }
+        } else {
+            return back()->withErrors(['otp' => 'Invalid OTP. Please try again.']);
         }
-
-        return back()->withErrors(['otp' => 'The provided OTP is incorrect.']);
     }
 }

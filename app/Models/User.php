@@ -32,6 +32,8 @@ class User extends Authenticatable
         'dob',
         'identification',
         'photo',
+        'otp',
+        'otp_expires_at',
     ];
 
     protected $appends = ['date_of_birth', 'profile', 'is_assign'];
@@ -54,6 +56,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'otp_expires_at' => 'datetime',
     ];
 
     public function sendPasswordResetNotification($token)
