@@ -28,12 +28,12 @@ class OtpController extends Controller
                 $user->otp_expires_at = null;
                 $user->save();
 
-                return redirect()->route('home')->with('success', 'Logged in successfully');
+                return redirect()->route('dashboard');
             } else {
-                return back()->withErrors(['otp' => 'The OTP has expired. Please request a new one.']);
+                return back()->withErrors(['otp' => __('login.otpExpired')]);
             }
         } else {
-            return back()->withErrors(['otp' => 'Invalid OTP. Please try again.']);
+            return back()->withErrors(['otp' => __('login.invalidOtp')]);
         }
     }
 }
