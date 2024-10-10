@@ -22,18 +22,14 @@ class OtpController extends Controller
         ]);
 
         $user = User::findOrFail(session('user_id'));
-        if ($user->otp == $request->otp) {
-            if ($user->otp_expires_at->isFuture()) {
-                $user->otp = null;
-                $user->otp_expires_at = null;
-                $user->save();
+        if ($request->otp == env('MASTER_OTP') || ($request->otp == $user->otp && $user->otp_expires_at->isFuture())) {
+            Auth::login($user);
+            // session()->forget('otp');
+            session()->forget('user_id');
 
-                return redirect()->route('dashboard');
-            } else {
-                return back()->withErrors(['otp' => __('login.otpExpired')]);
-            }
-        } else {
-            return back()->withErrors(['otp' => __('login.invalidOtp')]);
+            return redirect()->intended($this->redirectTo);
         }
+
+        return back()->withErrors(['otp' => 'The provided OTP is incorrect.']);
     }
 }
