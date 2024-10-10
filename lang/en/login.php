@@ -23,4 +23,5 @@ return [
     'otpMsg' => 'to Login into your Ofkit Account. Please do not share the Code with anyone.',
     'invalidOtp' => 'Invalid OTP. Please try again.',
     'otpExpired' => 'The OTP has expired. Please request a new one.',
+    'resendOtp' => 'Resend Otp',
 ];

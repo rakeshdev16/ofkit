@@ -35,6 +35,7 @@
                                             </span>
                                         @enderror
                                     </div>
+                                    <a href="{{ route('resend.otp') }}">{{ __('login.resendOtp') }}</a>
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="d-grid">

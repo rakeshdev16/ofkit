@@ -32,6 +32,7 @@ Route::middleware(['lang'])->group(function () {
     Route::controller(OtpController::class)->group(function () {
         Route::get('otp-verify', 'showVerifyForm')->name('otp.verify');
         Route::post('otp-verify', 'verifyOtp')->name('otp.verify.submit');
+        Route::get('resend-otp', 'resendOtp')->name('resend.otp');
     });
 });
 

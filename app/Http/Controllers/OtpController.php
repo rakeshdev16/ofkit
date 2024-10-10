@@ -4,11 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\LoginController;
 use App\Models\User;
 
 class OtpController extends Controller
 {
     protected $redirectTo = '/';
+    protected $loginController;
+
+    public function __construct(LoginController $loginController)
+    {
+        $this->loginController = $loginController;
+    }
 
     public function showVerifyForm()
     {
@@ -29,7 +36,14 @@ class OtpController extends Controller
 
             return redirect()->intended($this->redirectTo);
         }
+        $msg = !$user->otp_expires_at->isFuture() ? __('login.otpExpired') : __('login.invalidOtp');
+        return back()->withErrors(['otp' => $msg]);
+    }
 
-        return back()->withErrors(['otp' => 'The provided OTP is incorrect.']);
+    public function resendOtp(Request $request)
+    {
+        $user = User::findOrFail(session('user_id'));
+        $this->loginController->sendOtp($user);
+        return redirect()->route('otp.verify');
     }
 }
