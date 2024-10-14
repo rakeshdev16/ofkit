@@ -28,16 +28,19 @@ $(document).on('change', '.select-filter', function () {
 $(document).on('change', '.doc-filter', function () {
     var name = $(this).attr('name');
     var value = $(this).val();
+
     var dateType = $(this).data('type');
-    if (value.includes(' - ')) {
-        var dateRange = value.split(' - ');
-        value = [dateRange[0], dateRange[1]];
-    } else {
-        value = formatDate(value, 'd/m/Y');
-    }
     if (name == 'date') {
+        if (value.includes(' - ')) {
+            var dateRange = value.split(' - ');
+            value = [dateRange[0], dateRange[1]];
+        } else {
+            value = formatDate(value, 'd/m/Y');
+        }
         queryParam('dateType', dateType);
     }
+    console.log(name);
+    console.log(value);
     var url = queryParam(name, value);
     filter(url);
     $('.dropdown-item').removeClass('active-filter');
