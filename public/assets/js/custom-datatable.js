@@ -35,7 +35,9 @@ $(document).on('change', '.doc-filter', function () {
     } else {
         value = formatDate(value, 'd/m/Y');
     }
-    queryParam('dateType', dateType);
+    if (name == 'date') {
+        queryParam('dateType', dateType);
+    }
     var url = queryParam(name, value);
     filter(url);
     $('.dropdown-item').removeClass('active-filter');
