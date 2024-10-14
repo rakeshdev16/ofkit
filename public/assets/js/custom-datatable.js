@@ -39,8 +39,6 @@ $(document).on('change', '.doc-filter', function () {
         }
         queryParam('dateType', dateType);
     }
-    console.log(name);
-    console.log(value);
     var url = queryParam(name, value);
     filter(url);
     $('.dropdown-item').removeClass('active-filter');
