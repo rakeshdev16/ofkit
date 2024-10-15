@@ -41,7 +41,7 @@
                                     @if (!Auth::user()->hasRole('therapist'))
                                         <a href="{{ route('profile.edit') }}" class="btn button">{{ __('comon.edit') }}</a>
                                     @endif
-                                    <a href="{{ route('change-password.index') }}" class="btn button">Change Password</a>
+                                    <a href="{{ route('change-password.index') }}" class="btn button">{{ __('staff.changePassword') }}</a>
                                 </div>
                             </div>
                             <hr class="my-4">

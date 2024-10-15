@@ -67,4 +67,5 @@ return [
     'requiredRoleId' => 'נא לבחור תפקיד',
     'requiredAssociation' => 'נא לבחור שיוך',
     'nullableIdentification' => 'נא להזין 9 ספרות בלבד',
+    'changePassword' => 'שנה סיסמה',
 ];
