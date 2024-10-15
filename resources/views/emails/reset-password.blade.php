@@ -145,7 +145,7 @@
                     <tr>
                         <td bgcolor="#ffffff" align="right" style="padding: 20px 30px 40px 30px; color: #666666; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
                             <p style="margin: 0;">,שלום {{ $notifiable->name }}</p>
-                            <p style="margin: 0;">קיבלת הודעת דוא"ל זו בעקבות בקשתך לאיפוס.</p>
+                            <p style="margin: 0; direction: rtl; text-align: right;">קיבלת הודעת דוא"ל זו בעקבות בקשתך לאיפוס.</p>
                         </td>
                     </tr>
                     <tr>
