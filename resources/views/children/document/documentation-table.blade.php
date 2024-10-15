@@ -79,7 +79,7 @@
                         <i class="bx bx-show icon"></i>
                     </a>
                     {{-- @if ((Auth::user()->hasRole('therapist') && Auth::id() == $documentation->therapist_id && \Carbon\Carbon::parse($documentation->created_at)->isToday()) || Auth::user()->hasRole('admin')) --}}
-                    @if (Auth::user()->hasRole('admin') || (Auth::user()->hasRole(['manager', 'therapist']) && \Carbon\Carbon::parse($documentation->created_at)->isToday() && Auth::id() == $documentation->therapist_id))
+                    @if (Auth::user()->hasRole(['admin', 'manager']) || (Auth::user()->hasRole(['therapist']) && \Carbon\Carbon::parse($documentation->created_at)->isToday() && Auth::id() == $documentation->therapist_id))
                         <a href="{{ route('children-documentation.get', [$documentation->type, Request::segment(2), $documentation->id]) }}" data-toggle="tooltip" data-placement="bottom" title="Edit">
                             <i class="bx bx-edit icon"></i>
                         </a>
