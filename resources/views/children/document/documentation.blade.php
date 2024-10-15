@@ -48,7 +48,7 @@
                         <option value="">{{ __('children.selectIntervention') }}</option>
                         <option {{ request()->type == 'individual' ? 'selected' : '' }} value="individual">{{ __('children.individual') }}</option>
                         <option {{ request()->type == 'group' ? 'selected' : '' }} value="group">{{ __('children.group') }}</option>
-                        <option {{ request()->type == 'parental guidance' ? 'selected' : '' }} value="parental guidance">{{ __('children.parentalGuidance') }}</option>
+                        <option {{ request()->type == 'parental-guidance' ? 'selected' : '' }} value="parental guidance">{{ __('children.parentalGuidance') }}</option>
                         <option {{ request()->type == 'staff-meeting' ? 'selected' : '' }} value="staff-meeting">{{ __('children.staffMeeting') }}</option>
                         <option {{ request()->type == 'initial-evaluation' ? 'selected' : '' }} value="initial-evaluation">{{ __('children.initialEvaluation') }}</option>
                         <option {{ request()->type == 'final-evaluation' ? 'selected' : '' }} value="final-evaluation">{{ __('children.finalEvaluation') }}</option>
