@@ -70,20 +70,17 @@ class StaffController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $rules = [
             'first_name' => 'required',
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'identification' => 'nullable|digits:9|unique:users',
             'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
             'role' => 'required',
             'kindergarten.*.role_id' => 'required',
             'kindergarten.*.association_id' => 'required',
             'licence_number' => 'nullable|regex:/^[0-9-]+$/',
-        ], [
+        ];
+        $messages = [
             'first_name.required' => __('staff.requiredName'),
-            'email.required' => __('staff.requiredEmail'),
-            'email.email' => __('staff.validEmail'),
-            'email.unique' => __('staff.existsEmail'),
             'identification.digits' => __('staff.nullableIdentification'),
             'telephone.required' => __('staff.requiredTelephone'),
             'telephone.regex' => __('staff.telephoneRegex'),
@@ -91,7 +88,15 @@ class StaffController extends Controller
             'kindergarten.*.role_id.required' => __('staff.requiredRoleId'),
             'kindergarten.*.association_id.required' => __('staff.requiredAssociation'),
             'licence_number.regex' => __('staff.licenceRegex'),
-        ]);
+        ];
+        if ($request->role != 'support') {
+            $rules['email'] = ['required', 'string', 'email', 'max:255', 'unique:users'];
+            $messages['email.required'] = __('staff.requiredEmail');
+            $messages['email.email'] = __('staff.validEmail');
+            $messages['email.unique'] = __('staff.existsEmail');
+        }
+
+        $validator = Validator::make($request->all(), $rules, $messages);
         $validator->after(function ($validator) use ($request) {
             // if ($request->kindergarten_id && count($request->kindergarten_id) > 0) {
             //     foreach ($request->kindergarten as $index => $kindergarten) {
@@ -193,20 +198,17 @@ class StaffController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
+        $rules = [
             'first_name' => 'required',
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($id)],
             'identification' => ['nullable', 'digits:9', Rule::unique('users')->ignore($id)],
             'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
             'role' => 'required',
             'kindergarten.*.role_id' => 'required',
             'kindergarten.*.association_id' => 'required',
             'licence_number' => 'nullable|regex:/^[0-9-]+$/',
-        ], [
+        ];
+        $messages = [
             'first_name.required' => __('staff.requiredName'),
-            'email.required' => __('staff.requiredEmail'),
-            'email.email' => __('staff.validEmail'),
-            'email.unique' => __('staff.existsEmail'),
             'identification.digits' => __('staff.nullableIdentification'),
             'telephone.required' => __('validation.required'),
             'telephone.regex' => __('staff.telephoneRegex'),
@@ -214,7 +216,14 @@ class StaffController extends Controller
             'kindergarten.*.role_id.required' => __('staff.requiredRoleId'),
             'kindergarten.*.association_id.required' => __('staff.requiredAssociation'),
             'licence_number.regex' => __('staff.licenceRegex'),
-        ]);
+        ];
+        if ($request->role != 'support') {
+            $rules['email'] = ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($id)];
+            $messages['email.required'] = __('staff.requiredEmail');
+            $messages['email.email'] = __('staff.validEmail');
+            $messages['email.unique'] = __('staff.existsEmail');
+        }
+        $validator = Validator::make($request->all(), $rules, $messages);
         $validator->after(function ($validator) use ($request) {
             // if ($request->kindergarten_id && count($request->kindergarten_id) > 0) {
             //     foreach ($request->kindergarten as $index => $kindergarten) {
