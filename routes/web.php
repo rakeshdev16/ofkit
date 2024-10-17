@@ -11,6 +11,7 @@ use App\Http\Controllers\StaffTableController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
 
@@ -53,14 +54,15 @@ Route::get('/expire-session', function() {
 });
 
 Route::controller(Controller::class)->group(function () {
-    Route::post('inactive-records', 'inactiveRecords')->name('inactive.records');
+    Route::post('active-inactive', 'activeInactive')->name('activeInactive.records');
 });
 
 Route::middleware(['auth', 'lang'])->group(function () {
     Route::controller(UserController::class)->group(function () {
         Route::post('set-locale', 'setLocale')->name('set.locale');
     });
-    Route::get('/', fn() => redirect()->route('children.index'))->name('dashboard');
+    // Route::get('/', fn() => redirect()->route('children.index'))->name('dashboard');
+    Route::get('/', [HomeController::class, 'index'])->name('dashboard');
     Route::get('therapy-schedule', fn() => view('dashboard.index'))->name('therapy-schedule.index');
     Route::resource('staff', StaffController::class);
     Route::resource('cluster', ClusterController::class);

@@ -11,12 +11,13 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function inactiveRecords(Request $request)
+    public function activeInactive(Request $request)
     {
-        $model = app("App\\Models\\" . $request->modal);
-
-        if ($model->whereIn('id', $request->ids)->update(['status' => 'inactive'])) {
-            return response()->json(['status' => true]);
+        $model = app("App\\Models\\" . $request->model);
+        $ids = explode(',', $request->ids);
+        $status = $request->status == 'active' ? 'inactive' : 'active';
+        if ($model->whereIn('id', $ids)->update(['status' => $status])) {
+            return response()->json(['status' => true, 'ids' => $ids]);
         }
 
         return response()->json(['status' => false]);
