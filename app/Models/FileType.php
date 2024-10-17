@@ -26,6 +26,6 @@ class FileType extends Model
 
     public function getIsAssignAttribute()
     {
-        return false;
+        return ChildrenDocumentAndApproval::where('file_type_id', @$this->attributes['id'])->exists();
     }
 }
