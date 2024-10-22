@@ -40,9 +40,9 @@ Route::middleware(['lang'])->group(function () {
 Route::get('/page-expired', fn() => view('errors.419'))->name('page.expired');
 Route::get('/check-session', function () {
     if (auth()->check() && Auth::user()->last_activity_at) {
-        $loginTime = Carbon::parse(Auth::user()->last_activity_at);
+        $lastActivityTime = Carbon::parse(Auth::user()->last_activity_at);
         $currentTime = Carbon::now();
-        if ($loginTime->diffInMinutes($currentTime) >= env('SESSION_EXPIRE_IN')) {
+        if ($lastActivityTime->diffInMinutes($currentTime) >= env('SESSION_EXPIRE_IN')) {
             Auth::logout();
             return response()->json(['isAuthenticated' => false]);
         } else {
