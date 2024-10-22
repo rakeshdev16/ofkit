@@ -187,12 +187,13 @@
                 url: '/check-session',
                 type: 'GET',
                 success: function(response) {
+                    console.log(response);
                     if (!response.isAuthenticated) {
-                        window.location.href = "{{ route('login') }}";
+                        window.location.href = "{{ route('page.expired') }}";
                     }
                 },
                 error: function() {
-                    window.location.href = "{{ route('login') }}";
+                    window.location.href = "{{ route('page.expired') }}";
                 }
             });
         }, 60000);

@@ -14,7 +14,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,9 +37,18 @@ Route::middleware(['lang'])->group(function () {
         Route::get('resend-otp', 'resendOtp')->name('resend.otp');
     });
 });
-
+Route::get('/page-expired', fn() => view('errors.419'))->name('page.expired');
 Route::get('/check-session', function () {
-    return response()->json(['isAuthenticated' => auth()->check()]);
+    if (auth()->check() && Auth::user()->last_activity_at) {
+        $loginTime = Carbon::parse(Auth::user()->last_activity_at);
+        $currentTime = Carbon::now();
+        if ($loginTime->diffInMinutes($currentTime) >= env('SESSION_EXPIRE_IN')) {
+            Auth::logout();
+            return response()->json(['isAuthenticated' => false]);
+        } else {
+            return response()->json(['isAuthenticated' => true]);
+        }
+    }
 });
 Route::get('/expire-session', function() {
     try {
@@ -57,7 +67,7 @@ Route::controller(Controller::class)->group(function () {
     Route::post('active-inactive', 'activeInactive')->name('activeInactive.records');
 });
 
-Route::middleware(['auth', 'lang'])->group(function () {
+Route::middleware(['auth', 'lang', 'last.activity'])->group(function () {
     Route::controller(UserController::class)->group(function () {
         Route::post('set-locale', 'setLocale')->name('set.locale');
     });
