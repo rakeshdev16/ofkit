@@ -10,17 +10,20 @@ $(document).on('input', '.search', function () {
 });
 $(document).on('change', '.search', function () {
     var search = $(this).val();
+    queryParam('page', '');
     var url = queryParam('search', search);
     filter(url);
 });
 $(document).on('click', '.search-button', function () {
     var search = $(this).siblings('.search').val();
+    queryParam('page', '');
     var url = queryParam('search', search);
     filter(url);
 });
 
 $(document).on('change', '.select-filter', function () {
     var kindergartenId = $(this).val();
+    queryParam('page', '');
     var url = queryParam('kindergarten_id', kindergartenId);
     filter(url);
 });
@@ -39,6 +42,7 @@ $(document).on('change', '.doc-filter', function () {
         }
         queryParam('dateType', dateType);
     }
+    queryParam('page', '');
     var url = queryParam(name, value);
     filter(url);
     $('.dropdown-item').removeClass('active-filter');
@@ -46,6 +50,7 @@ $(document).on('change', '.doc-filter', function () {
 });
 
 function dateFilter(date, dateType) {
+    queryParam('page', '');
     queryParam('dateType', dateType);
     var url = queryParam('date', date);
     filter(url);
