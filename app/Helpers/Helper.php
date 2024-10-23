@@ -123,26 +123,36 @@ function description($desc, $length)
 function filterDate()
 {
     // Get start and end date of last week in d/m/Y format
-    $startOfLastWeek = Carbon::now()->subWeek()->startOfWeek()->format('d/m/Y');
-    $endOfLastWeek = Carbon::now()->subWeek()->endOfWeek()->format('d/m/Y');
-    $lastWeek = json_encode([$startOfLastWeek, $endOfLastWeek]);
+    // $startOfLastWeek = Carbon::now()->subWeek()->startOfWeek()->format('d/m/Y');
+    // $endOfLastWeek = Carbon::now()->subWeek()->endOfWeek()->format('d/m/Y');
+    // $lastWeek = json_encode([$startOfLastWeek, $endOfLastWeek]);
+
+    $startOfLast7Days = Carbon::now()->subDays(6)->format('d/m/Y'); // 6 days before today (including today)
+    $endOfLast7Days = Carbon::now()->format('d/m/Y'); // today
+    $last7Days = json_encode([$startOfLast7Days, $endOfLast7Days]);
 
     // Get start and end date of current month in d/m/Y format
-    $startOfMonth = Carbon::now()->startOfMonth()->format('d/m/Y');
-    $endOfMonth = Carbon::now()->endOfMonth()->format('d/m/Y');
-    $month = json_encode([$startOfMonth, $endOfMonth]);
+    // $startOfMonth = Carbon::now()->startOfMonth()->format('d/m/Y');
+    // $endOfMonth = Carbon::now()->endOfMonth()->format('d/m/Y');
+    // $month = json_encode([$startOfMonth, $endOfMonth]);
+
+    $startOfLast30Days = Carbon::now()->subDays(29)->format('d/m/Y'); // 29 days before today (including today)
+    $endOfLast30Days = Carbon::now()->format('d/m/Y'); // today
+    $last30Days = json_encode([$startOfLast30Days, $endOfLast30Days]);
 
     // Get start and end date of past three months in d/m/Y format
-    $startDateOfPast3Month = Carbon::now()->subMonths(3)->startOfMonth()->format('d/m/Y');
-    $pastThreeMonth = json_encode([$startDateOfPast3Month, $endOfMonth]);
+    // $startDateOfPast3Month = Carbon::now()->subMonths(3)->startOfMonth()->format('d/m/Y');
+    $startDateOfPast3Month = Carbon::now()->subMonths(3)->format('d/m/Y');
+    $pastThreeMonth = json_encode([$startDateOfPast3Month, $endOfLast30Days]);
 
     // Get start and end date of past six months in d/m/Y format
-    $startDateOfPast6Month = Carbon::now()->subMonths(6)->startOfMonth()->format('d/m/Y');
-    $pastSixMonth = json_encode([$startDateOfPast6Month, $endOfMonth]);
+    // $startDateOfPast6Month = Carbon::now()->subMonths(6)->startOfMonth()->format('d/m/Y');
+    $startDateOfPast6Month = Carbon::now()->subMonths(6)->format('d/m/Y');
+    $pastSixMonth = json_encode([$startDateOfPast6Month, $endOfLast30Days]);
 
     return [
-        'lastWeek' => $lastWeek,
-        'month' => $month,
+        'lastWeek' => $last7Days,
+        'month' => $last30Days,
         'pastThreeMonth' => $pastThreeMonth,
         'pastSixMonth' => $pastSixMonth
     ];
