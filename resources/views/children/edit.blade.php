@@ -105,7 +105,7 @@
                                                                 'class' => 'age',
                                                                 'icon' => 'buildings',
                                                                 'readonly' => true,
-                                                                'value' => $children->age,
+                                                                'value' => $children->calclulated_age,
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">

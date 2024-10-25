@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
+use \Carbon\Carbon;
 
 class Children extends Model
 {
@@ -28,7 +29,7 @@ class Children extends Model
         'photo',
     ];
 
-    protected $appends = ['date_of_birth', 'profile'];
+    protected $appends = ['date_of_birth', 'profile', 'calclulated_age'];
 
     public function scopeFilter($query)
     {
@@ -86,6 +87,11 @@ class Children extends Model
     public function getProfileAttribute($value)
     {
         return isset($this->attributes['photo']) ? asset('storage/' . $this->attributes['photo']) : asset('assets/images/avatars/dummy-image.webp');
+    }
+
+    public function getCalclulatedAgeAttribute()
+    {
+        return Carbon::parse($this->attributes['dob'])->diff(Carbon::now())->format('%y.%m');
     }
 
     public function documentation()

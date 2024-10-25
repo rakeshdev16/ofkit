@@ -13,7 +13,7 @@
                         <div class="col-md-6"><label for=""><b>{{ __('children.ID') }}:</b></label> {{ $children->identification }}</div>
                         <div class="col-md-6"><label for=""><b>{{ __('children.kindergarten') }}:</b></label> {{ getKindergartenNameById($children->kindergarten_id) }}</div>
                         <div class="col-md-6"><label for=""><b>{{ __('children.childBirthday') }}:</b></label> {{ $children->date_of_birth }}</div>
-                        <div class="col-md-6"><label for=""><b>{{ __('children.childAge') }}:</b></label> {{ $children->age }}</div>
+                        <div class="col-md-6"><label for=""><b>{{ __('children.childAge') }}:</b></label> {{ $children->calclulated_age }}</div>
                     </div>
                 </div>
                 <div class="mt-3">
