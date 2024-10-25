@@ -371,8 +371,11 @@
                 var months = end.diff(start, 'months');
                 start.add(months, 'months');
                 var age = years + '.' + months;
-                // var age = years;
-                $('.age').val(age);
+                if (isNaN(age)) {
+                    $('.age').val(0.0);
+                } else {
+                    $('.age').val(age);
+                }
             });
 
             $(document).on('click', '.removeMedicine', function() {
