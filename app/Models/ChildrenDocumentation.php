@@ -35,22 +35,26 @@ class ChildrenDocumentation extends Model
             $query->where('type', 'like', '%' . request('search') . '%');
         }
         if (request('date')) {
-            if (strpos(request('date'), ',') !== false) {
-                $date = explode(',', request('date'));
-                if (count($date) === 2) {
-                    $dates = array_map(function($date) {
-                        return \DateTime::createFromFormat('d/m/Y', trim($date))->format('Y-m-d');
-                    }, $date);
+            $date = explode(',', request('date'));
+            $startDate = $date[0] . ' 00:00:00';
+            $endDate = $date[1] . ' 23:59:59';
+            $query->whereBetween('date', [$startDate, $endDate]);
+            // if (strpos(request('date'), ',') !== false) {
+            //     $date = explode(',', request('date'));
+            //     if (count($date) === 2) {
+            //         $dates = array_map(function($date) {
+            //             return \DateTime::createFromFormat('d/m/Y', trim($date))->format('Y-m-d');
+            //         }, $date);
 
-                    $startDate = $dates[0] . ' 00:00:00';
-                    $endDate = $dates[1] . ' 23:59:59';
+            //         $startDate = $dates[0] . ' 00:00:00';
+            //         $endDate = $dates[1] . ' 23:59:59';
 
-                    $query->whereBetween('date', [$startDate, $endDate]);
-                }
-            } else {
-                $singleDate = \DateTime::createFromFormat('d/m/Y', request('date'))->format('Y-m-d');
-                $query->whereDate('date', $singleDate);
-            }
+            //         $query->whereBetween('date', [$startDate, $endDate]);
+            //     }
+            // } else {
+            //     $singleDate = \DateTime::createFromFormat('d/m/Y', request('date'))->format('Y-m-d');
+            //     $query->whereDate('date', $singleDate);
+            // }
         }
         if (request('role')) {
             $userIds = User::where('profession_id', request('role'))->pluck('id')->toArray();
