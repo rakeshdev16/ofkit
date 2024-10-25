@@ -87,7 +87,9 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
-
+        $(document).ready(function() {
+            $('.ranges ul li').addClass('active');
+        });
         $(function() {
             var selectedDate = "{{ request('date') }}";
             var date = selectedDate.split(',');
@@ -95,12 +97,11 @@
             var end = moment();
             var isUserInteraction = false;
 
-            function cb(start, end) {
+            function cb(start, end, label) {
                 $('#reportrange span').html(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
                 if (isUserInteraction) {
                     var url = queryParam('date', [start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')]);
                     filter(url);
-                    console.log(url);
                 }
             }
 
@@ -116,9 +117,9 @@
                 locale: {
                     format: 'DD/MM/YYYY'
                 }
-            }, function(start, end) {
+            }, function(start, end, label) {
                 isUserInteraction = true;
-                cb(start, end);
+                cb(start, end, label);
             });
             if (isNaN(date[0]) && isNaN(date[1])) {
                 $('#reportrange span').html(moment(date[0]).format('DD/MM/YYYY') + ' - ' + moment(date[1]).format('DD/MM/YYYY'));
