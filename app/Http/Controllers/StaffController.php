@@ -258,6 +258,10 @@ class StaffController extends Controller
             $user->update($request->except('_token', '_method', 'kindergarten_id', 'schedule', 'query_string'));
             $user->syncRoles($request->role);
             $description = $request['document_description'];
+            if (isset($request->deleted_document_ids) && !empty($request->deleted_document_ids)) {
+                $documentIds = explode(',', $request->deleted_document_ids);
+                StaffDocument::whereIn('id', $documentIds)->delete();
+            }
             if (isset($request->documents) && count($request->documents) > 0) {
                 foreach ($request->documents as $key => $document) {
                     $name = uploadFile($document, 'public/staff-document');

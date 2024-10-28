@@ -6,6 +6,7 @@ use App\Models\Kindergarten;
 use App\Models\Setting;
 use App\Models\StaffKindergarten;
 use App\Models\User;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
@@ -156,6 +157,36 @@ function filterDate()
         'pastThreeMonth' => $pastThreeMonth,
         'pastSixMonth' => $pastSixMonth
     ];
+}
+
+function activityLog($modelName, $modalId, $type)
+{
+    $user = Auth::user();
+    $request = request();
+        switch ($type) {
+        case 'ADD':
+            $subject = $user->name.' has added new '.$modelName;
+            break;
+        case 'UPDATE':
+            $subject = $user->name.' has updated the '.$modelName;
+            break;
+        case 'DELETE':
+            $subject = $user->name.' has deleted the '.$modelName;
+            break;
+        default:
+            $subject = $user->name.' has performed an action on '.$modelName;
+            break;
+    }
+
+    ActivityLog::create([
+        'user_id' => $user->id,
+        'subject' => $subject,
+        'url' => $request->fullUrl(),
+        'method' => $request->method(),
+        'ip' => $request->ip(),
+        'modal_id' => $modalId,
+        'model_name' => $modelName,
+    ]);
 }
 
 

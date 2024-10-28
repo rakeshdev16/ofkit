@@ -88,7 +88,11 @@
                                 @endphp
                                 {!! description($description, 80) !!} :{{ $documentation->group_name }}
                             @else
-                                {!! description($documentation->occured_description, 80) !!}
+                                @if ($documentation->occured == 1)
+                                    {!! description($documentation->occured_description, 80) !!} 
+                                @else
+                                    {{ $documentation->occured_reason }}
+                                @endif
                             @endif
                         </div>
                     </div>

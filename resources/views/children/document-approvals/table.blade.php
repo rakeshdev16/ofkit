@@ -3,7 +3,7 @@
         <tr>
             <th style="width: 2%"><input type="checkbox" class="mainCheckbox"></th>
             @include('components.table-heading', ['label' => __('children.date'), 'key' => 'created_at', 'width' => '11.75%'])
-            @include('components.table-heading', ['label' => __('children.document'), 'key' => 'document', 'width' => '11.75%'])
+            {{-- @include('components.table-heading', ['label' => __('children.document'), 'key' => 'document', 'width' => '11.75%']) --}}
             @include('components.table-heading', ['label' => __('children.fileType'), 'key' => 'file_type_id', 'width' => '11.75%'])
             @include('components.table-heading', ['label' => __('children.documentDescription'), 'key' => 'desription', 'width' => '11.75%'])
             @include('components.table-heading', ['label' => __('comon.action'), 'width' => '5%'])
@@ -17,13 +17,13 @@
             <tr class="tr-{{ $document->id }}">
                 <td><input type="checkbox" name="id[]" value="{{ $document->id }}" class="checkbox check-{{ $document->id }}" data-class="check-{{ $document->id }}"></td>
                 <td>{{ date('d/m/Y', strtotime($document->created_at)) }}</td>
-                <td>
+                {{-- <td>
                     @if ($document->document)
                         <span>{{ \Str::limit($fileName, 15, '...') }}</span>
                     @else
                         -
                     @endif
-                </td>
+                </td> --}}
                 <td>{{ $document->file_type }}</td>
                 <td class="address-column">{!! description($document->description, 80) !!}</td>
                 <td>
@@ -38,10 +38,12 @@
                     @endphp
                     @if ($docExt == 'xlsx' || $docExt == 'docx' || $docExt == 'odt')
                         <a href="#" onclick="window.open('https://docs.google.com/gview?url={{ $document->document }}&embedded=true', '_blank')">
-                            <i class="bx bx-show icon"></i>
+                            <i class="bx bx-file icon"></i>
                         </a>
                     @else
-                        <a href="{{ $document->document }}" target="__blank" data-toggle="tooltip" data-placement="bottom" title="{{ __('comon.view') }}"><i class="bx bx-show icon"></i></a>
+                        <a href="{{ $document->document }}" target="__blank" data-toggle="tooltip" data-placement="bottom" title="{{ __('comon.view') }}">
+                            <i class="bx bx-file icon"></i>
+                        </a>
                     @endif
                     <a href="{{ $document->document }}" download="{{ $fileName }}" data-toggle="tooltip" data-placement="bottom" title="Download">
                         <i class="bx bx-download icon"></i>

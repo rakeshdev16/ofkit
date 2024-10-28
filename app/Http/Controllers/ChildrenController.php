@@ -480,7 +480,6 @@ class ChildrenController extends Controller
         }
 
         ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
-
         if ($data['id']) {
             return redirect()->route('children-documentation.show', [$id, $data['id'], $id]);
         }
@@ -850,9 +849,10 @@ class ChildrenController extends Controller
     public function deleteDocuments($ids)
     {
         $ids = explode(',', $ids);
-        if (ChildrenDocumentation::whereIn('id', $ids)->delete()) {
-            return response()->json(['status' => true, 'message' => 'Document has been successfully archived', 'ids' => $ids]);
+        $documents = ChildrenDocumentation::whereIn('id', $ids)->get();
+        foreach ($documents as $document) {
+            $document->delete(); // This will trigger the `deleted` event on each document
         }
-        return response()->json(['status' => false, 'ids' => $ids]);
+        return response()->json(['status' => true, 'message' => 'Documents have been successfully archived', 'ids' => $ids]);
     }
 }

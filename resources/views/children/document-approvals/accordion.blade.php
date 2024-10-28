@@ -21,14 +21,26 @@
                             <input type="checkbox" name="id[]" value="{{ $document->id }}" class="accordionCheckbox checkbox" data-name="{{ @$dataName }}">&nbsp;&nbsp;
                             {{-- <input type="checkbox" value="{{ @$id }}" class="accordionCheckbox check-{{ $id }}" data-class="check-{{ $id }}">&nbsp;&nbsp; --}}
                         </div>
-                        <div class="col-6">{{ \Str::limit($fileName, 10, '...') ?? '-' }}</div>
+                        {{-- <div class="col-6">{{ \Str::limit($fileName, 10, '...') ?? '-' }}</div> --}}
+                        <div class="col-6">{{ date('d/m/Y', strtotime($document->created_at)) }}</div>
                         <div class="col-4 d-flex">
                             @if (Auth::user()->hasRole(['admin', 'manager']))
                                 <a href="{{ route('documents-approvals.edit', $document->id) }}" class="me-1" data-toggle="tooltip" data-placement="bottom" title="Edit">
                                     <i class="bx bx-edit icon"></i>
                                 </a>
                             @endif
-                            <a href="{{ $document->document }}" target="__blank" class="me-1"><i class="bx bx-show icon"></i></a>
+                            @php
+                                $docExt = pathinfo($document->document, PATHINFO_EXTENSION);
+                            @endphp
+                            @if ($docExt == 'xlsx' || $docExt == 'docx' || $docExt == 'odt')
+                                <a href="#" onclick="window.open('https://docs.google.com/gview?url={{ $document->document }}&embedded=true', '_blank')">
+                                    <i class="bx bx-file icon"></i>
+                                </a>
+                            @else
+                                <a href="{{ $document->document }}" target="__blank" data-toggle="tooltip" data-placement="bottom" title="{{ __('comon.view') }}">
+                                    <i class="bx bx-file icon"></i>
+                                </a>
+                            @endif
                             <a href="{{ $document->document }}" download="{{ $fileName }}" class="me-1" data-toggle="tooltip" data-placement="bottom" title="Download">
                                 <i class="bx bx-download icon"></i>
                             </a>
@@ -39,10 +51,10 @@
 
             <div id="flush-collapse{{ $loop->iteration }}" class="accordion-collapse collapse" aria-labelledby="staff-listing-{{ $loop->iteration }}" data-bs-parent="#accordion{{ $loop->iteration }}" style="">
                 <div class="accordion-body">
-                    <div class="d-flex accordion-row">
+                    {{-- <div class="d-flex accordion-row">
                         <div class="w-50 label">{{ __('children.document') }}</div>
                         <div class="w-50">{{ $fileName }}</div>
-                    </div>
+                    </div> --}}
                     <div class="d-flex accordion-row">
                         <div class="w-50 label">{{ __('children.fileType') }}</div>
                         <div class="w-50">{{ $document->file_type }}</div>

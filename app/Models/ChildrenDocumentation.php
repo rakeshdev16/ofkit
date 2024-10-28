@@ -26,6 +26,28 @@ class ChildrenDocumentation extends Model
 
     protected $appends = ['file_name'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($document) {
+            $document->logActivity('ADD');
+        });
+
+        static::updated(function ($document) {
+            $document->logActivity('UPDATE');
+        });
+
+        static::deleted(function ($document) {
+            $document->logActivity('DELETE');
+        });
+    }
+
+    private function logActivity($type)
+    {
+        activityLog('ChildrenDocumentation', $this->id, $type);
+    }
+
     public function scopeFilter($query)
     {
         if (request('sort') && request('sorting')) {

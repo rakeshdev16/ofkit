@@ -287,6 +287,7 @@
                                         <input type="hidden" name="query_string" value="{{ request()->kindergarten_id }}">
                                         <div class="col-md-6">
                                             <div class="d-md-flex d-grid align-items-center gap-3">
+                                                <input type="hidden" name="deleted_document_ids" id="deletedDocumentIds">
                                                 <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">
                                                 <button type="submit" class="btn button submitBtn px-4">{{ __('staff.updateBtnText') }}</button>
                                             </div>
@@ -309,36 +310,47 @@
         @include('components.cropper-script')
         @include('staff.script')
         <script>
+            var ids = [];
             $(document).on('click', '.removeStaffDocument', function() {
                 var id = $(this).data('id');
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            headers: {
-                                'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                            },
-                            type: 'POST',
-                            url: "{{ route('document.delete') }}",
-                            data: {
-                                id: id
-                            },
-                            success: function(data) {
-                                if (data.status == true) {
-                                    $('.doc' + id).remove();
-                                    toastr.success(data.message);
-                                }
-                            }
-                        });
-                    }
-                });
+                if (id) {
+                    ids.push(id);
+                }
+                $('#deletedDocumentIds').val(ids);
+                $('.doc' + id).remove();
+                if ($('.choosenDocument > .row').length == 0) {
+                    $('.document-section').hide();
+                }
+                console.log(ids);
+                
+                // Swal.fire({
+                //     title: "Are you sure?",
+                //     text: "You won't be able to revert this!",
+                //     icon: "warning",
+                //     showCancelButton: true,
+                //     confirmButtonColor: "#3085d6",
+                //     cancelButtonColor: "#d33",
+                //     confirmButtonText: "Yes, delete it!"
+                // }).then((result) => {
+                //     if (result.isConfirmed) {
+                //         $.ajax({
+                //             headers: {
+                //                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                //             },
+                //             type: 'POST',
+                //             url: "{{ route('document.delete') }}",
+                //             data: {
+                //                 id: id
+                //             },
+                //             success: function(data) {
+                //                 if (data.status == true) {
+                //                     $('.doc' + id).remove();
+                //                     toastr.success(data.message);
+                //                 }
+                //             }
+                //         });
+                //     }
+                // });
             })
         </script>
     @endpush

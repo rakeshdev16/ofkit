@@ -200,8 +200,11 @@
                                                     <h4 class="text-center">{{ __('staff.document') }}</h4>
                                                     <div class="bg-white p-2">
                                                         @foreach ($staff->documents as $document)
-                                                            <h5 class="document-name"><a href="{{ $document->name }}" target="__blank">{{ $document->file_name }}</a></h5>
-                                                            <p class="border p-2">{{ $document->description }}</p>
+                                                            <a href="{{ $document->name }}" target="__blank" data-toggle="tooltip" data-placement="bottom" title="{{ __('comon.view') }}">
+                                                                <i class="bx bx-file icon"></i>
+                                                            </a>
+                                                            {{-- <h5 class="document-name"><a href="{{ $document->name }}" target="__blank">{{ $document->file_name }}</a></h5> --}}
+                                                            <p class="border p-2">{!! description($document->description, 80) !!}</p>
                                                         @endforeach
                                                     </div>
                                                 </div>
