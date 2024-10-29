@@ -183,7 +183,8 @@ function activityLog($modelName, $modalId, $type)
         'subject' => $subject,
         'url' => $request->fullUrl(),
         'method' => $request->method(),
-        'ip' => $request->ip(),
+        // 'ip' => $request->ip(),
+        'ip' => exec('cat /sys/class/net/enp0s31f6/address'),
         'modal_id' => $modalId,
         'model_name' => $modelName,
     ]);
