@@ -13,6 +13,28 @@ class ChildrenDocumentAndApproval extends Model
 
     protected $appends = ['file_type'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($document) {
+            $document->logActivity('ADD');
+        });
+
+        static::updated(function ($document) {
+            $document->logActivity('UPDATE');
+        });
+
+        static::deleted(function ($document) {
+            $document->logActivity('DELETE');
+        });
+    }
+
+    private function logActivity($type)
+    {
+        activityLog('ChildrenDocumentAndApproval', $this->id, $type);
+    }
+
     public function scopeFilter($query)
     {
         if (request('sort') && request('sorting')) {

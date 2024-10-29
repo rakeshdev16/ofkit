@@ -840,10 +840,11 @@ class ChildrenController extends Controller
     public function deleteDocumentsAndApprovals($ids)
     {
         $ids = explode(',', $ids);
-        if (ChildrenDocumentAndApproval::whereIn('id', $ids)->delete()) {
-            return response()->json(['status' => true, 'message' => 'Document has been successfully archived', 'ids' => $ids]);
+        $documents = ChildrenDocumentAndApproval::whereIn('id', $ids)->get();
+        foreach ($documents as $document) {
+            $document->delete(); // This will trigger the `deleted` event on each document
         }
-        return response()->json(['status' => false, 'ids' => $ids]);
+        return response()->json(['status' => true, 'message' => 'Document has been successfully archived', 'ids' => $ids]);
     }
 
     public function deleteDocuments($ids)

@@ -22,6 +22,9 @@
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
     <title>אופקית - טיפול ויעוץ</title>
     <style>
+        #txtPassword{
+            -webkit-text-security:disc;
+        }
         .form-switch .form-check-input {
             margin-left: 0px !important;
         }
