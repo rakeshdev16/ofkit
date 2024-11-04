@@ -25,15 +25,7 @@
             </div>
             <div class="row my-2">
                 <div class="col-xl-3 col-lg-4 col-md-6  my-1">
-                    <div class="pull-right" style="background: #fff; cursor: pointer; padding: 0px 10px; border: 1px solid #cccccc7d; width: 100%; display: grid; grid-template-columns: 1fr auto; align-items: center; height: 37px;">
-                        <div id="reportrange">
-                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-                            <span></span> <b class="caret"></b>
-                        </div>
-                        <button id="clearFilters" class="btn btn-clear-filter">X</button>
-                    </div>
-
-                    {{-- @include('components.date-range-filter', ['date' => request('date')]) --}}
+                    @include('components.date-range-filter', ['date' => request('date')])
                 </div>
                 <div class="col-xl-3 col-lg-4 col-md-6  my-1">
                     <select class="form-control doc-filter" name="role">
