@@ -27,7 +27,7 @@
                                 <div class="col-12 mt-2">
                                     <label for="inputChoosePassword" class="form-label">{{ __('login.password') }}</label>
                                     <div class="input-group" id="show_hide_password">
-                                        <input id="txtPassword" type="password" class="form-control @error('password') is-invalid @enderror" placeholder="{{ __('login.passwordPlaceholder') }}" name="password" required autocomplete="off">
+                                        <input id="txtPassword" type="password" class="form-control @error('password') is-invalid @enderror" placeholder="{{ __('login.passwordPlaceholder') }}" name="password" required autocomplete="new-password">
                                         @error('password')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
