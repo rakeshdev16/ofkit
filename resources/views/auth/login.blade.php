@@ -13,11 +13,14 @@
                             <h5 class="mb-0">{{ __('login.signInMsg') }}</h5>
                         </div>
                         <div class="form-body">
-                            <form class="row" method="POST" action="{{ route('login') }}" autocomplete="off">
+                            <form class="row" method="POST" action="{{ route('login') }}" autocomplete="off" id="loginForm">
                                 @csrf
                                 <div class="col-12">
                                     <label for="inputEmailAddress" class="form-label">{{ __('login.email') }}</label>
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="{{ __('login.emailPlaceholder') }}" value="{{ old('email') }}" required autocomplete="off" autofocus>
+                                    <input id="inputEmailAddress" type="email" class="form-control @error('email') is-invalid @enderror"
+                                        placeholder="{{ __('login.emailPlaceholder') }}" required autocomplete="off"
+                                        readonly onfocus="this.removeAttribute('readonly');" 
+                                        name="user_email" value="{{ old('user_email') }}">
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -27,7 +30,10 @@
                                 <div class="col-12 mt-2">
                                     <label for="inputChoosePassword" class="form-label">{{ __('login.password') }}</label>
                                     <div class="input-group" id="show_hide_password">
-                                        <input id="txtPassword" type="password" class="form-control @error('password') is-invalid @enderror" placeholder="{{ __('login.passwordPlaceholder') }}" name="password" required autocomplete="new-password">
+                                        <input id="inputChoosePassword" type="password" class="form-control @error('password') is-invalid @enderror"
+                                            placeholder="{{ __('login.passwordPlaceholder') }}" required autocomplete="off"
+                                            readonly onfocus="this.removeAttribute('readonly');" 
+                                            name="user_password">
                                         @error('password')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -36,12 +42,6 @@
                                         <a href="javascript:void(0);" class="input-group-text bg-transparent"><i class='bx bx-hide'></i></a>
                                     </div>
                                 </div>
-                                {{-- <div class="col-md-6 mt-2">
-                                <div class="form-check form-switch mt-1">
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
-                                    <label class="form-check-label" for="flexSwitchCheckChecked">{{ __('login.remember') }}</label>
-                                </div>
-                            </div> --}}
                                 <div class="col-md-6 mt-2">
                                     @if (Route::has('password.request'))
                                         <a href="{{ route('password.request') }}">{{ __('login.forgetPassword') }}</a>
