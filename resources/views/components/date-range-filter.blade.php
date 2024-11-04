@@ -1,4 +1,4 @@
-<div class="dropdown dropdown-filter d-flex justify-content-between">
+{{-- <div class="dropdown dropdown-filter d-flex justify-content-between">
     @php
         if ($date && strpos($date, ',') !== false) {
             $date = explode(',', $date);
@@ -25,4 +25,13 @@
             <input type="text" name="date" class="form-control doc-filter dateRangePicker" placeholder="{{ __('children.selectDateRange') }}" data-type="dateRange" style="display: none">
         </li>
     </ul>
+</div> --}}
+
+
+<div class="pull-right" style="background: #fff; cursor: pointer; padding: 0px 10px; border: 1px solid #cccccc7d; width: 100%; display: grid; grid-template-columns: 1fr auto; align-items: center; height: 37px;">
+    <div id="reportrange">
+        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+        <span></span> <b class="caret"></b>
+    </div>
+    <button id="clearFilters" class="btn btn-clear-filter">X</button>
 </div>

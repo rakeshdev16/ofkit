@@ -47,22 +47,26 @@ class ChildrenDocumentAndApproval extends Model
             $query->where('file_type_id', request('file_type_id'));
         }
         if (request('date')) {
-            if (strpos(request('date'), ',') !== false) {
-                $date = explode(',', request('date'));
-                if (count($date) === 2) {
-                    $dates = array_map(function($date) {
-                        return \DateTime::createFromFormat('d/m/Y', trim($date))->format('Y-m-d');
-                    }, $date);
+            $date = explode(',', request('date'));
+            $startDate = $date[0] . ' 00:00:00';
+            $endDate = $date[1] . ' 23:59:59';
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+            // if (strpos(request('date'), ',') !== false) {
+            //     $date = explode(',', request('date'));
+            //     if (count($date) === 2) {
+            //         $dates = array_map(function($date) {
+            //             return \DateTime::createFromFormat('d/m/Y', trim($date))->format('Y-m-d');
+            //         }, $date);
 
-                    $startDate = $dates[0] . ' 00:00:00';
-                    $endDate = $dates[1] . ' 23:59:59';
+            //         $startDate = $dates[0] . ' 00:00:00';
+            //         $endDate = $dates[1] . ' 23:59:59';
 
-                    $query->whereBetween('created_at', [$startDate, $endDate]);
-                }
-            } else {
-                $singleDate = \DateTime::createFromFormat('d/m/Y', request('date'))->format('Y-m-d');
-                $query->whereDate('created_at', $singleDate);
-            }
+            //         $query->whereBetween('created_at', [$startDate, $endDate]);
+            //     }
+            // } else {
+            //     $singleDate = \DateTime::createFromFormat('d/m/Y', request('date'))->format('Y-m-d');
+            //     $query->whereDate('created_at', $singleDate);
+            // }
         }
 
         return $query;

@@ -7,7 +7,7 @@
         <div class="page-content">
             <div class="mb-4 page-info">
                 <div class="">
-                    <h3 class="mb-0 text-uppercase">{{ __('children.documentApprovals') }} </h3>
+                    <h3 class="mb-0 text-uppercase">{{ __('children.documentApprovals') }}</h3>
                     <div class="row my-2 mx-1 children-detail w-100">
                         <div class="col-md-6"><label for=""><b>{{ __('children.childName') }}:</b></label> {{ $children->name . ' ' . $children->family_name }}</div>
                         <div class="col-md-6"><label for=""><b>{{ __('children.ID') }}:</b></label> {{ $children->identification }}</div>
@@ -76,34 +76,77 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
-        $('.dateRangePicker').daterangepicker({
-            locale: {
-                format: 'DD/MM/YYYY'
+        $(function() {
+            var selectedDate = "{{ request('date') }}";
+            var date = selectedDate.split(',');
+            var start = moment().subtract(29, 'days');
+            var end = moment();
+            var isUserInteraction = false;
+
+            function cb(start, end, label) {
+                $('#reportrange span').html(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
+                if (isUserInteraction) {
+                    var url = queryParam('date', [start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')]);
+                    filter(url);
+                }
+            }
+
+            $('#reportrange').daterangepicker({
+                startDate: start,
+                endDate: end,
+                ranges: {
+                    'Last Week': [moment().subtract(6, 'days'), moment()],
+                    'Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Month 3': [moment().subtract(3, 'months').startOf('month'), moment().endOf('month')],
+                    'Half a Year': [moment().subtract(6, 'months').startOf('month'), moment().endOf('month')],
+                },
+                locale: {
+                    format: 'DD/MM/YYYY'
+                }
+            }, function(start, end, label) {
+                isUserInteraction = true;
+                cb(start, end, label);
+            });
+            if (isNaN(date[0]) && isNaN(date[1])) {
+                $('#reportrange span').html(moment(date[0]).format('DD/MM/YYYY') + ' - ' + moment(date[1]).format('DD/MM/YYYY'));
+            } else {
+                $('#reportrange span').html('Select Date');
             }
         });
-        $(document).ready(function() {
-            $('.specific-date-filter').on('click', function(e) {
-                e.stopPropagation();
-                e.preventDefault();
-                $('.dateRangePicker').hide();
-                $('.specificDate').toggle();
-            });
-            $('.specific-date-range-filter').on('click', function(e) {
-                e.stopPropagation();
-                e.preventDefault();
-                $('.dateRangePicker').toggle();
-                $('.specificDate').hide();
-            });
 
-            $('.specificDate').on('change', function(e) {
-                $('.dropdown-filter-toggle').html(dateFormat($(this).val()));
-            });
-
-            $('.dateRangePicker').on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
-                $('.dropdown-filter-toggle').html(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
-            });
+        $(document).on('click', '.btn-clear-filter', function() {
+            var url = queryParam('date', '');
+            filter(url);
+            $('#reportrange span').html('Select Date');
         });
+        // $('.dateRangePicker').daterangepicker({
+        //     locale: {
+        //         format: 'DD/MM/YYYY'
+        //     }
+        // });
+        // $(document).ready(function() {
+        //     $('.specific-date-filter').on('click', function(e) {
+        //         e.stopPropagation();
+        //         e.preventDefault();
+        //         $('.dateRangePicker').hide();
+        //         $('.specificDate').toggle();
+        //     });
+        //     $('.specific-date-range-filter').on('click', function(e) {
+        //         e.stopPropagation();
+        //         e.preventDefault();
+        //         $('.dateRangePicker').toggle();
+        //         $('.specificDate').hide();
+        //     });
+
+        //     $('.specificDate').on('change', function(e) {
+        //         $('.dropdown-filter-toggle').html(dateFormat($(this).val()));
+        //     });
+
+        //     $('.dateRangePicker').on('apply.daterangepicker', function(ev, picker) {
+        //         $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+        //         $('.dropdown-filter-toggle').html(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+        //     });
+        // });
 
         // $(document).ready(function() {
         //     $('.specific-date-filter').on('click', function(e) {
