@@ -551,16 +551,20 @@ class ChildrenController extends Controller
             $data['file'] = NULL;
         }
 
-        $therapist_ids = isset($data['therapist_id']) ? $data['therapist_id'] : [];
+        if(Auth::user()->hasRole('admin')){
+            $therapist_ids = isset($data['therapist_id']) ? $data['therapist_id'] : [];
 
-        unset($data['therapist_id']);
+            unset($data['therapist_id']);
 
-        $document = ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
+            $document = ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
 
-        foreach ($therapist_ids as $therapist_id) {
-            ChildrenDocumentTherapist::updateOrCreate(
-                ['children_documentation_id' => $document->id, 'therapist_id' => $therapist_id],
-            );
+            foreach ($therapist_ids as $therapist_id) {
+                ChildrenDocumentTherapist::updateOrCreate(
+                    ['children_documentation_id' => $document->id, 'therapist_id' => $therapist_id],
+                );
+            }
+        }else{
+            $document = ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
         }
 
         $document->groupChildrens()->delete();
