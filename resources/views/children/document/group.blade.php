@@ -63,12 +63,14 @@
                                                 <div class="row g-3">
                                                     @if (Auth::user()->hasRole('admin'))
                                                         <div class="col-md-6">
-                                                            @include('components.select-input', [
+                                                            @include('components.multi-select-input', [
                                                                 'label' => __('children.therapist'),
-                                                                'name' => 'therapist_id',
+                                                                'name' => 'therapist_id[]',
+                                                                'class' => 'therapists',
                                                                 'icon' => 'buildings',
                                                                 'options' => $allTherapists,
-                                                                'value' => old('therapist_id') ? old('therapist_id') : @$document->therapist_id,
+                                                                // 'value' => old('therapist_id') ? old('therapist_id') : @$therapist,
+                                                                'value' => old('therapist_id', $therapist ?? []),
                                                             ])
                                                         </div>
                                                     @else
@@ -278,6 +280,7 @@
         <script>
             $(document).ready(function() {
                 $('.childrens').select2();
+                $('.therapists').select2();
                 $('.childrens').next('.select2-container').addClass('childrens-select2');
                 // var value = "{{ old('occured') ?? @$document->occured }}";
                 // setChildDisabled(value)

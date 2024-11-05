@@ -28,7 +28,7 @@ Route::controller(UserController::class)->group(function () {
     Route::post('set-locale', 'setLocale')->name('set.locale');
 });
 
-Route::middleware(['auth', 'lang'])->group(function () {
+Route::middleware(['auth','disableBackBtnAfterLogout' ,'lang'])->group(function () {
     Route::get('/', fn() => redirect()->route('children.index'))->name('dashboard');
     Route::get('therapy-schedule', fn() => view('dashboard.index'))->name('therapy-schedule.index');
     Route::resource('staff', StaffController::class);

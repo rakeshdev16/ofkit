@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Children;
 use App\Models\ChildrenDocumentAndApproval;
 use App\Models\ChildrenDocumentation;
+use App\Models\ChildrenDocumentTherapist;
 use App\Models\ChildrenMedicalInformation;
 use App\Models\ChildrenMedicine;
 use App\Models\ChildrenParent;
@@ -366,15 +367,22 @@ class ChildrenController extends Controller
         $children = Children::findOrFail($childId);
         $mainChildren = Children::findOrFail($mailchildId);
         $document = ChildrenDocumentation::findOrFail($id);
+        $therapist = null;
+        if($document){
+            $therapist_ids = ChildrenDocumentTherapist::where('children_documentation_id', $document->id)->pluck('therapist_id');
+            $therapist = User::whereIn('id', $therapist_ids)->pluck('name')->implode(', ');
+        }
 
-        return view('children.document.documentation-detail', compact('document', 'children', 'mainChildren'));
+        return view('children.document.documentation-detail', compact('document', 'children', 'mainChildren', 'therapist'));
     }
 
     public function documentation(Request $request, $type, $childId, $id = null)
     {
         $document = '';
+        $therapist = '';
         if ($id) {
             $document = ChildrenDocumentation::findOrFail($id);
+            $therapist = ChildrenDocumentTherapist::where('children_documentation_id', $document->id)->pluck('therapist_id')->toArray();
         }
         $children = Children::findOrFail($childId);
         $childrens = Children::where('id', '!=', $childId)->where('kindergarten_id', $children->kindergarten_id)->select('id as key', 'name as value')->get();
@@ -385,7 +393,7 @@ class ChildrenController extends Controller
                 return view('children.document.individual', compact('allTherapists', 'children', 'user', 'document'));
                 break;
             case 'group':
-                return view('children.document.group', compact('allTherapists', 'children', 'user', 'document', 'childrens'));
+                return view('children.document.group', compact('allTherapists', 'children', 'user', 'document', 'childrens', 'therapist'));
                 break;
             case 'parental-guidance':
                 $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
@@ -524,7 +532,19 @@ class ChildrenController extends Controller
         if ($data['occured'] == 0) {
             $data['file'] = NULL;
         }
+
+        $therapist_ids = isset($data['therapist_id']) ? $data['therapist_id'] : [];
+
+        unset($data['therapist_id']);
+
         $document = ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
+
+        foreach ($therapist_ids as $therapist_id) {
+            ChildrenDocumentTherapist::updateOrCreate(
+                ['children_documentation_id' => $document->id, 'therapist_id' => $therapist_id],
+            );
+        }
+
         $document->groupChildrens()->delete();
         if (isset($data['participated']) && count($data['participated']) > 0) {
             foreach ($data['participated'] as $participated) {

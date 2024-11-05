@@ -27,11 +27,11 @@
 </head>
 <body class="pace-done" style="background-color: #FFFCF1">
     <div class="wrapper">
-        
+
         @include('layout.header')
-        
+
         @yield('section')
-        
+
         @include('layout.footer')
     </div>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
@@ -61,7 +61,7 @@
                         window.location.reload();
                     }
                 }
-            });      
+            });
         }
 
         $(document).on('click', '.previousRoute', function(e) {
@@ -75,7 +75,7 @@
                         window.location.href = url;
                     }
                 }
-            });      
+            });
         });
 
         $(document).ready(function() {
@@ -101,7 +101,7 @@
                         confirmButtonText: "Yes, leave it!"
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location.href = $(this).data('url');            
+                            window.location.href = $(this).data('url');
                         }
                     });
                 } else {

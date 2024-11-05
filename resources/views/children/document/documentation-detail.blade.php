@@ -56,8 +56,16 @@
                                             <span class="text-secondary">{{ @date('d/m/Y', strtotime($document->date)) ?? '-' }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            @php
+                                                $truncatedDesc = \Str::limit($therapist, 80, '...');
+                                            @endphp
                                             <h6 class="mb-0">{{ __('children.therapist') }}</h6>
+                                            @if ($document->therapist->name)
                                             <span class="text-secondary">{{ $document->therapist->name ?? '-' }}</span>
+
+                                            @else
+                                                <span data-toggle="tooltip" data-placement="bottom" title="{{ $therapist }}">{{ $truncatedDesc }}</span>
+                                            @endif
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                             <h6 class="mb-0">{{ __('children.profession') }}</h6>
