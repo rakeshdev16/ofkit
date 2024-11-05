@@ -68,6 +68,10 @@ Route::controller(Controller::class)->group(function () {
 });
 
 Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout'])->group(function () {
+    Route::get('weekly-schedule', fn() => view('schedule.weekly-schedule'))->name('weekly-schedule');
+    Route::get('create-schedule', fn() => view('schedule.create-schedule'))->name('create-schedule');
+    Route::get('schedule-history', fn() => view('schedule.history'))->name('schedule-history');
+    Route::get('child-record', fn() => view('schedule.child-record'))->name('child-record');
     Route::controller(UserController::class)->group(function () {
         Route::post('set-locale', 'setLocale')->name('set.locale');
     });
