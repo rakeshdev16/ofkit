@@ -5,10 +5,6 @@
         display: block;
     }
 </style>
-@php
-    $lang = App\Models\Setting::where('key', 'environment')->pluck('value')->First() == 'local' ? 'en' : 'hb';
-    App::setLocale($lang);
-@endphp
 <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
     <div class="col mx-auto">
         <div class="card mb-0">
@@ -24,14 +20,14 @@
                     </div>
                     <div class="text-center mb-4">
                         <h5 class="">{{ __('login.welcome') }}</h5>
-                        <h5 class="mb-0">Enter email to continue</h5>
+                        <h5 class="mb-0">{{ __('login.enterEmail') }}</h5>
                     </div>
                     <div class="form-body">
                         <form class="row" method="POST" action="{{ route('password.email') }}">
                             @csrf
                             <div class="col-12">
                                 <label for="inputEmailAddress" class="form-label">{{ __('login.email') }}</label>
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Enter email" autofocus>
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="{{ __('login.emailPlaceholder') }}" autofocus>
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -41,7 +37,7 @@
                             <div class="col-12 mt-2">
                                 <div class="d-grid">
                                     <button type="submit" class="button btn btn-primary">
-                                        {{ __('Send Password Reset Link') }}
+                                        {{ __('login.sendResetLink') }}
                                     </button>
                                 </div>
                             </div>

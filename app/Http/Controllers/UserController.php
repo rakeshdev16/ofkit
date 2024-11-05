@@ -146,6 +146,7 @@ class UserController extends Controller
     public function setLocale(Request $request)
     {
         if (Setting::updateOrCreate(['key' => 'lang'], ['value' => $request->lang])) {
+            // session(['lang' => $request->lang]);
             return response()->json(['status' => true]);
         }
         return response()->json(['status' => false]);

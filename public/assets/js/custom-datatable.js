@@ -10,17 +10,20 @@ $(document).on('input', '.search', function () {
 });
 $(document).on('change', '.search', function () {
     var search = $(this).val();
+    queryParam('page', '');
     var url = queryParam('search', search);
     filter(url);
 });
 $(document).on('click', '.search-button', function () {
     var search = $(this).siblings('.search').val();
+    queryParam('page', '');
     var url = queryParam('search', search);
     filter(url);
 });
 
 $(document).on('change', '.select-filter', function () {
     var kindergartenId = $(this).val();
+    queryParam('page', '');
     var url = queryParam('kindergarten_id', kindergartenId);
     filter(url);
 });
@@ -28,22 +31,56 @@ $(document).on('change', '.select-filter', function () {
 $(document).on('change', '.doc-filter', function () {
     var name = $(this).attr('name');
     var value = $(this).val();
+
+    var dateType = $(this).data('type');
+    if (name == 'date') {
+        if (value.includes(' - ')) {
+            var dateRange = value.split(' - ');
+            value = [dateRange[0], dateRange[1]];
+        } else {
+            value = formatDate(value, 'd/m/Y');
+        }
+        queryParam('dateType', dateType);
+    }
+    queryParam('page', '');
     var url = queryParam(name, value);
     filter(url);
+    $('.dropdown-item').removeClass('active-filter');
+    $(this).siblings(".dropdown-item").addClass('active-filter');
 });
 
-function dateFilter(date) {
+function dateFilter(date, dateType) {
+    queryParam('page', '');
+    queryParam('dateType', dateType);
     var url = queryParam('date', date);
     filter(url);
     if (date.length === 2) {
-        var dateLabel = dateFormat(date[1]) + ' - ' + dateFormat(date[0]);
+        var dateLabel = date[1] + ' - ' + date[0];
         $('.dropdown-filter-toggle').html(dateLabel);
     }
 }
 
+$(document).on('click', '.this-filter', function () {
+    $('.dropdown-item').removeClass('active-filter');
+    $(this).addClass('active-filter');
+});
+
+function formatDate(date, format) {
+    var parsedDate = new Date(date);
+    if (!isNaN(parsedDate)) {
+        var day = ('0' + parsedDate.getDate()).slice(-2);
+        var month = ('0' + (parsedDate.getMonth() + 1)).slice(-2);
+        var year = parsedDate.getFullYear();
+        return day + '/' + month + '/' + year;
+    }
+    return date;
+}
+
 function clearFilter(param) {
     var url = queryParam(param, '');
-    $('.dropdown-filter-toggle').html('Select Date');
+    $('.dropdown-filter-toggle').html(selectDate);
+    $('.dateRangePicker').val(selectDateRange);
+    $('.dateRangePicker').hide();
     filter(url);
 }
 
@@ -162,22 +199,27 @@ $(document).on('change', '.accordionCheckbox', function () {
 
 function moveToArchive(url, msg) {
     var ids = [];
-    $(".checkbox:checked").map(function () {
-        ids.push($(this).val());
+    $(".checkbox:checked").each(function () {
+        var value = $(this).val();
+        if (value) {  // Only push non-empty values
+            ids.push(value);
+        }
     });
     $.unique(ids.sort());
+
     if (ids.length == 0) {
         toastr.warning(msg);
         return false
     }
     url = url.replace(':ids', ids);
     Swal.fire({
-        title: "Are you sure?",
+        title: confirmMsgTitle,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, archive it!"
+        confirmButtonText: confirmButtonText,
+        cancelButtonText: cancelButtonText
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({

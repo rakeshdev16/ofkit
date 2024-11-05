@@ -9,8 +9,10 @@
                     <h3 class="mb-0 text-uppercase">{{ __('kindergarten.kindergarten') }} </h3>
                 </div>
                 <div class="mt-3">
-                    <button class="btn button moveToArchive">{{ __('kindergarten.moveToArchine') }}</button>
-                    <a href="{{ route('kindergarten.create') }}" class="btn button">{{ __('kindergarten.addNew') }} +</a>
+                    @if (Auth::user()->hasRole('admin'))
+                        <button class="btn button moveToArchive">{{ __('kindergarten.moveToArchine') }}</button>
+                        <a href="{{ route('kindergarten.create') }}" class="btn button">{{ __('kindergarten.addNew') }} +</a>
+                    @endif
                 </div>
             </div>
             <div class="card">
@@ -40,7 +42,7 @@
         });
         $(document).on('click', '.moveToArchive', function() {
             var url = "{{ route('kindergarten.destroy', ':ids') }}";
-            var msg = "{{ __('validation.chose_at_least_one', ['attribute' => 'kindergarten']) }}";
+            var msg = "{{ __('kindergarten.selectMsg') }}";
             moveToArchive(url, msg);
         });
     </script>

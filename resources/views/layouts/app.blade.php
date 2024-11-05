@@ -22,6 +22,9 @@
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
     <title>אופקית - טיפול ויעוץ</title>
     <style>
+        #txtPassword{
+            -webkit-text-security:disc;
+        }
         .form-switch .form-check-input {
             margin-left: 0px !important;
         }
@@ -76,6 +79,13 @@
     </script>
     <!--app JS-->
     <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function() {
+            // Rename fields to the correct names on form submission
+            document.getElementById('inputEmailAddress').setAttribute('name', 'email');
+            document.getElementById('inputChoosePassword').setAttribute('name', 'password');
+        });
+    </script>
 </body>
 
 </html>

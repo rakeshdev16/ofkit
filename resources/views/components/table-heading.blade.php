@@ -1,9 +1,4 @@
-<th
-    class="{{ isset($key) ? 'sortTable' : '' }}"
-    data-key="{{ @$key }}"
-    data-value="{{ request()->sort == @$key ? request()->sorting : 'desc' }}"
-    style="width: {{ @$width }}"
->
+<th class="{{ isset($key) ? 'sortTable' : '' }}" data-key="{{ @$key }}" data-value="{{ request()->sort == @$key ? request()->sorting : 'desc' }}" style="width: {{ @$width }}!important">
     <div class="d-flex justify-content-between">
         {{ $label }}
         @isset($key)

@@ -67,5 +67,6 @@ return [
     'requiredRoleId' => 'Please choose role',
     'requiredAssociation' => 'Please choose association',
     'nullableIdentification' => 'Please enter only 9 digits',
+    'changePassword' => 'Change Password',
 
 ];

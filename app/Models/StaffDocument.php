@@ -9,7 +9,7 @@ class StaffDocument extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'name'];
+    protected $fillable = ['user_id', 'name', 'description'];
 
     protected $appends = ['file_name'];
 

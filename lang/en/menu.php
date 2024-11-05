@@ -22,5 +22,8 @@ return [
     'allChildrens' => 'All Childrens',
     'addChildren' => 'Add Children',
     'documentation' => 'Documentation',
+    'framework' => 'Framework',
+    'children' => 'Children',
+    'intervention' => 'Intervention',
 
 ];

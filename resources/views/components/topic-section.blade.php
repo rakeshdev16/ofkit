@@ -11,7 +11,7 @@
         ])
         @error('children.' . $index . '.topic')
             <span class="invalid-feedback" role="alert">
-                <strong>Please enter topic</strong>
+                <strong>{{$message}}</strong>
             </span>
         @enderror
     </div>
@@ -24,7 +24,7 @@
         ])
         @error('children.' . $index . '.discussion')
             <span class="invalid-feedback" role="alert">
-                <strong>Please enter discussion</strong>
+                <strong>{{$message}}</strong>
             </span>
         @enderror
     </div>
@@ -37,7 +37,7 @@
         ])
         @error('children.' . $index . '.decisions')
             <span class="invalid-feedback" role="alert">
-                <strong>Please enter decisions</strong>
+                <strong>{{$message}}</strong>
             </span>
         @enderror
     </div>

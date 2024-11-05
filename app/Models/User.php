@@ -32,6 +32,9 @@ class User extends Authenticatable
         'dob',
         'identification',
         'photo',
+        'otp',
+        'otp_expires_at',
+        'last_activity_at',
     ];
 
     protected $appends = ['date_of_birth', 'profile', 'is_assign'];
@@ -54,7 +57,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'otp_expires_at' => 'datetime',
+        // 'last_activity_at' => 'datetime',
     ];
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new \App\Notifications\ResetPassword($token));
+    }
+
 
     public function getIsAssignAttribute()
     {
@@ -70,7 +81,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profession::class, 'id', 'profession_id');
     }
-    
+
     public function staffKindergartens()
     {
         return $this->hasMany(StaffKindergarten::class);
@@ -83,6 +94,12 @@ class User extends Authenticatable
 
     public function scopeFilter($query)
     {
+        if (Auth::user()->hasRole(['manager', 'therapist'])) {
+            $kindergartenIds = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
+            $userIds = StaffKindergarten::whereIn('kindergarten_id', $kindergartenIds)->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
+            $userIds[] = Auth::id();
+            $query->whereIn('id', $userIds);
+        }
         if (request('sort') && request('sorting')) {
             $query->orderBy(request('sort'), request('sorting'));
         }
@@ -92,19 +109,17 @@ class User extends Authenticatable
             $query->whereIn('id', $userIds);
         }
         if (request('search')) {
-            $query->where('name', 'like', '%'.request('search').'%');
+            $query->where('name', 'like', '%'.request('search').'%')->orWhere('email', 'like', '%'.request('search').'%');
         }
-        if (Auth::user()->hasRole(['manager', 'therapist'])) {
-            $kindergartenIds = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
-            $userIds = StaffKindergarten::whereIn('kindergarten_id', $kindergartenIds)->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
-            $query->whereIn('id', $userIds);
+        if (Auth::user()->hasRole('admin')) {
+            $query->whereNot('id', Auth::id());
         }
         return $query;
     }
 
     public function getDateOfBirthAttribute()
     {
-        return isset($this->attributes['dob']) ?? @date('d/m/Y', strtotime($this->attributes['dob']));
+        return isset($this->attributes['dob']) ? @date('d/m/Y', strtotime($this->attributes['dob'])) : NULL;
     }
 
     public function getProfileAttribute($value)

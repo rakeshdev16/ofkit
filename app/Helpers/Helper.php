@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use App\Models\Children;
 use App\Models\GroupChildren;
@@ -6,10 +6,12 @@ use App\Models\Kindergarten;
 use App\Models\Setting;
 use App\Models\StaffKindergarten;
 use App\Models\User;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Carbon\Carbon;
 
 function getAllRouteNames()
 {
@@ -32,6 +34,11 @@ function getUserNameById($id)
     return User::where('id', $id)->pluck('name')->first();
 }
 
+function getUserNameByIds($ids)
+{
+    return  User::whereIn('id', $ids)->pluck('name')->implode(', ');
+}
+
 function getUserRoleById($id)
 {
     $user = User::find($id);
@@ -43,7 +50,8 @@ function getUserRoleById($id)
 
 function getChildrenNameById($id)
 {
-    return Children::where('id', $id)->pluck('name')->first();
+    $children = Children::where('id', $id)->select('name', 'family_name')->first();
+    return $children->name.' '.$children->family_name;
 }
 
 function getKindergartenNameById($id)
@@ -93,10 +101,97 @@ function authKindergartens()
 
 function getDocGroupChildDetail($docId, $childId)
 {
-    return GroupChildren::select('id', 'participated', 'reason', 'description')->where(['children_documentation_id' => $docId, 'children_id' => $childId])->first();
+    return GroupChildren::select('id', 'participated', 'reason', 'description', 'file')->where(['children_documentation_id' => $docId, 'children_id' => $childId])->first();
 }
 
 function getCurrentLang()
 {
-    return Setting::where('key', 'lang')->pluck('value')->first();;
+    return Setting::where('key', 'lang')->pluck('value')->first();
+    // return session('lang');
 }
+
+function description($desc, $length)
+{
+    $truncatedDesc = \Str::limit($desc, $length, '');
+    $showMore = '';
+    if ($desc && strlen($desc) > $length) {
+        $showMore = '<a href="javascript:void(0);" class="toggle-text" data-status="less">' . __('comon.showMore') . '</a>';
+    }
+    return <<<HTML
+        <span data-toggle="tooltip" data-placement="bottom" title="{$desc}">
+            <span class="truncated-text">{$truncatedDesc}</span>
+            <span class="full-text" style="display: none;">{$desc}</span>
+            {$showMore}
+        </span>
+    HTML;
+}
+
+function filterDate()
+{
+    // Get start and end date of last week in d/m/Y format
+    // $startOfLastWeek = Carbon::now()->subWeek()->startOfWeek()->format('d/m/Y');
+    // $endOfLastWeek = Carbon::now()->subWeek()->endOfWeek()->format('d/m/Y');
+    // $lastWeek = json_encode([$startOfLastWeek, $endOfLastWeek]);
+
+    $startOfLast7Days = Carbon::now()->subDays(6)->format('d/m/Y'); // 6 days before today (including today)
+    $endOfLast7Days = Carbon::now()->format('d/m/Y'); // today
+    $last7Days = json_encode([$startOfLast7Days, $endOfLast7Days]);
+
+    // Get start and end date of current month in d/m/Y format
+    // $startOfMonth = Carbon::now()->startOfMonth()->format('d/m/Y');
+    // $endOfMonth = Carbon::now()->endOfMonth()->format('d/m/Y');
+    // $month = json_encode([$startOfMonth, $endOfMonth]);
+
+    $startOfLast30Days = Carbon::now()->subDays(29)->format('d/m/Y'); // 29 days before today (including today)
+    $endOfLast30Days = Carbon::now()->format('d/m/Y'); // today
+    $last30Days = json_encode([$startOfLast30Days, $endOfLast30Days]);
+
+    // Get start and end date of past three months in d/m/Y format
+    // $startDateOfPast3Month = Carbon::now()->subMonths(3)->startOfMonth()->format('d/m/Y');
+    $startDateOfPast3Month = Carbon::now()->subMonths(3)->format('d/m/Y');
+    $pastThreeMonth = json_encode([$startDateOfPast3Month, $endOfLast30Days]);
+
+    // Get start and end date of past six months in d/m/Y format
+    // $startDateOfPast6Month = Carbon::now()->subMonths(6)->startOfMonth()->format('d/m/Y');
+    $startDateOfPast6Month = Carbon::now()->subMonths(6)->format('d/m/Y');
+    $pastSixMonth = json_encode([$startDateOfPast6Month, $endOfLast30Days]);
+
+    return [
+        'lastWeek' => $last7Days,
+        'month' => $last30Days,
+        'pastThreeMonth' => $pastThreeMonth,
+        'pastSixMonth' => $pastSixMonth
+    ];
+}
+
+function activityLog($modelName, $modalId, $type)
+{
+    $user = Auth::user();
+    $request = request();
+        switch ($type) {
+        case 'ADD':
+            $subject = $user->name.' has added new '.$modelName;
+            break;
+        case 'UPDATE':
+            $subject = $user->name.' has updated the '.$modelName;
+            break;
+        case 'DELETE':
+            $subject = $user->name.' has deleted the '.$modelName;
+            break;
+        default:
+            $subject = $user->name.' has performed an action on '.$modelName;
+            break;
+    }
+
+    ActivityLog::create([
+        'user_id' => $user->id,
+        'subject' => $subject,
+        'url' => $request->fullUrl(),
+        'method' => $request->method(),
+        'ip' => $request->ip(),
+        'modal_id' => $modalId,
+        'model_name' => $modelName,
+    ]);
+}
+
+

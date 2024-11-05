@@ -36,13 +36,26 @@ class AccountDetailNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        // return (new MailMessage)
+        //     ->greeting('Hello ' . $this->fullName)
+        //     ->subject('SleimanJi Account Credentials')
+        //     ->line('Your account has been successfully created!')
+        //     ->line('Email: '.$this->email)
+        //     ->line('Password: '.$this->email)
+        //     ->line('Thank you for using our application!');
+
         return (new MailMessage)
-            ->greeting('Hello ' . $this->fullName)
-            ->subject('SleimanJi Account Credentials')
-            ->line('Your account has been successfully created!')
-            ->line('Email: '.$this->email)
-            ->line('Password: '.$this->password)
-            ->line('Thank you for using our application!');
+        ->subject('ברוכים הבאים לאופקית')
+        ->view(
+            'emails.account-detail', // Path to your custom Blade view
+            [
+                'siteUrl' => url(config('app.url')),
+                'logo' => asset('assets/images/3.png'),
+                'notifiable' => $notifiable,
+                'username' => $this->email, // Assuming email is the username
+                'password' => $this->password, // Replace this with actual logic or variable
+            ]
+        );
     }
 
     /**

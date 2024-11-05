@@ -1,11 +1,11 @@
-<div class="mx-3 p-1" style="display: {{ count($childrens) > 0 ? 'block' : 'none' }}">
+<div class="mx-2" style="display: {{ count($childrens) > 0 ? 'block' : 'none' }}">
     <input type="checkbox" class="mainAccordionCheckbox">&nbsp;&nbsp;&nbsp;
 </div>
 @forelse ($childrens as $children)
     <div class="accordion accordion-flush tr-{{ $children->id }}" id="accordion{{ $loop->iteration }}">
         <div class="accordion-item">
             <h2 class="accordion-header" id="staff-listing-{{ $loop->iteration }}">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false" aria-controls="flush-collapse{{ $loop->iteration }}">
+                <button class="accordion-button accordion-screen collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false" aria-controls="flush-collapse{{ $loop->iteration }}">
                     {{-- @include('components.accordion-label', [
                         'id' => $children->id,
                         'name' => $children->name,
@@ -14,13 +14,13 @@
                     ]) --}}
                     <div class="row w-100 align-items-center" style="margin-left: 0px;">
                         <div class="col-2 d-flex justify-content-center">
-                            <input type="checkbox" name="id[]" value="{{ @$id }}" class="accordionCheckbox checkbox" data-name="{{ @$dataName }}">&nbsp;&nbsp;
+                            <input type="checkbox" name="id[]" value="{{ $children->id }}" class="accordionCheckbox checkbox" data-name="{{ @$dataName }}">&nbsp;&nbsp;
                             {{-- <input type="checkbox" value="{{ @$id }}" class="accordionCheckbox check-{{ $id }}" data-class="check-{{ $id }}">&nbsp;&nbsp; --}}
                         </div>
                         {{-- <div class="col-8">{{ \Str::limit($children->name, 10, '...') ?? '-' }}</div> --}}
-                        <div class="col-8">{{ $children->name }}</div>
-                        <div class="col-2 d-flex justify-content-center">
-                            <a href="{{ route('children.show', $children->id) }}?kindergarten_id={{ request()->kindergarten_id }}" data-toggle="tooltip" data-placement="bottom" title="View">
+                        <div class="col-8">{{ $children->family_name . ' ' . $children->name }}</div>
+                        <div class="col-2 show-icon">
+                            <a href="{{ route('children.show', $children->id) }}?kindergarten_id={{ request()->kindergarten_id }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('comon.view') }}">
                                 <img src="{{ asset('assets/icons/child-icon-new.png') }}" width="30px" alt="">
                             </a>
                         </div>

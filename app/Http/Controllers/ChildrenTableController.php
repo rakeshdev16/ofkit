@@ -15,6 +15,7 @@ use App\Models\ParentsStatus;
 use App\Models\Profession;
 use App\Models\Status;
 use App\Models\User;
+use App\Models\FileType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -29,11 +30,13 @@ class ChildrenTableController extends Controller
         $diagnosises = Diagnosis::filter()->orderBy('id', 'DESC')->paginate(50);
         $functionalities = Functionality::filter()->orderBy('id', 'DESC')->paginate(50);
         $statuses = Status::filter()->orderBy('id', 'DESC')->paginate(50);
+        $fileTypes = FileType::filter()->orderBy('id', 'DESC')->paginate(50);
         $parentsStatusCount = ParentsStatus::filter()->count();
         $hmoCount = Hmo::filter()->count();
         $diagnosisCount = Diagnosis::filter()->count();
         $functionalityCount = Functionality::filter()->count();
         $statusCount = Status::filter()->count();
+        $fileTypesCount = FileType::filter()->count();
         if ($request->ajax()) {
             switch ($request->type) {
                 case 'parents-status':
@@ -71,6 +74,13 @@ class ChildrenTableController extends Controller
                         'count' => $statusCount
                     ]);
                 break;
+                case 'file-type':
+                    return response()->json([
+                        'table' => view('table.children.file-type.table', ['fileTypes' => $fileTypes])->render(),
+                        'accordion' => view('table.children.file-type.accordion', ['fileTypes' => $fileTypes])->render(),
+                        'count' => $fileTypesCount
+                    ]);
+                break;
                 default:
                     return response()->json([
                         'table' => view('table.children.parents-status.table', ['parentsStatus' => $parentsStatus])->render(),
@@ -80,7 +90,7 @@ class ChildrenTableController extends Controller
                 break;
             }
         }
-        return view('table.children.index', compact('parentsStatus', 'hmos', 'diagnosises', 'functionalities', 'statuses', 'parentsStatusCount', 'hmoCount', 'diagnosisCount', 'functionalityCount', 'statusCount'));
+        return view('table.children.index', compact('parentsStatus', 'hmos', 'diagnosises', 'functionalities', 'statuses', 'fileTypes', 'parentsStatusCount', 'hmoCount', 'diagnosisCount', 'functionalityCount', 'statusCount', 'fileTypesCount'));
     }
 
     public function create(Request $request)
@@ -100,6 +110,9 @@ class ChildrenTableController extends Controller
             break;
             case 'status':
                 return view('table.children.status.create');
+            break;
+            case 'file-type':
+                return view('table.children.file-type.create');
             break;
             default:
                 return view('table.children.parents-status.create');
@@ -138,6 +151,10 @@ class ChildrenTableController extends Controller
                 Status::create($request->all());
                 return redirect()->route('children-table.index', ['type' => 'status']);
             break;
+            case 'file-type':
+                FileType::create($request->all());
+                return redirect()->route('children-table.index', ['type' => 'file-type']);
+            break;
         }
     }
 
@@ -163,6 +180,10 @@ class ChildrenTableController extends Controller
             case 'status':
                 $status = Status::findOrFail($id);
                 return view('table.children.status.edit', compact('status'));
+            break;
+            case 'file-type':
+                $fileType = FileType::findOrFail($id);
+                return view('table.children.file-type.edit', compact('fileType'));
             break;
             default:
                 $parentsStatus = ParentsStatus::findOrFail($id);
@@ -202,11 +223,16 @@ class ChildrenTableController extends Controller
                 Status::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('children-table.index', ['type' => 'status']);
             break;
+            case 'file-type':
+                FileType::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
+                return redirect()->route('children-table.index', ['type' => 'file-type']);
+            break;
         }
     }
 
     public function destroy(Request $request, $ids)
     {
+        $ids = explode(',', $ids);
         switch ($request->type) {
             case 'parents-status':
                 $ids = explode(',', $ids);
@@ -216,7 +242,22 @@ class ChildrenTableController extends Controller
             case 'hmo':
                 $ids = explode(',', $ids);
                 Hmo::whereIn('id', $ids)->delete();
-                return response()->json(['status' => true, 'ids' => $ids, 'message' => 'Framework Type has been successfully archived!']);
+                return response()->json(['status' => true, 'ids' => $ids, 'message' => 'Hmo has been successfully archived!']);
+            case 'diagnosis':
+                Diagnosis::whereIn('id', $ids)->delete();
+                return response()->json(['status' => true, 'ids' => $ids, 'message' => 'Diagnosis has been successfully archived!']);
+            break;
+            case 'functionality':
+                Functionality::whereIn('id', $ids)->delete();
+                return response()->json(['status' => true, 'ids' => $ids, 'message' => 'Functionality has been successfully archived!']);
+            break;
+            case 'status':
+                Status::whereIn('id', $ids)->delete();
+                return response()->json(['status' => true, 'ids' => $ids, 'message' => 'Status has been successfully archived!']);
+            break;
+            case 'file-type':
+                FileType::whereIn('id', $ids)->delete();
+                return response()->json(['status' => true, 'ids' => $ids, 'message' => 'File Type has been successfully archived!']);
             break;
         }
     }
@@ -228,11 +269,13 @@ class ChildrenTableController extends Controller
         $diagnosises = Diagnosis::filter()->paginate(50);
         $functionalities = Functionality::filter()->paginate(50);
         $statuses = Status::filter()->paginate(50);
+        $fileTypes = FileType::filter()->orderBy('id', 'DESC')->paginate(50);
         $parentsStatusCount = ParentsStatus::filter()->count();
         $hmoCount = Hmo::filter()->count();
         $diagnosisCount = Diagnosis::filter()->count();
         $functionalityCount = Functionality::filter()->count();
         $statusCount = Status::filter()->count();
+        $fileTypesCount = FileType::filter()->count();
         switch ($request->type) {
             case 'parents-status':
                 return response()->json([
@@ -262,6 +305,12 @@ class ChildrenTableController extends Controller
                 return response()->json([
                     'status' => true,
                     'data' => view('table.children.status.index', ['statuses' => $statuses, 'statusCount' => $statusCount])->render()
+                ]);
+            break;
+            case 'file-type':
+                return response()->json([
+                    'status' => true,
+                    'data' => view('table.children.file-type.index', ['fileTypes' => $fileTypes, 'fileTypesCount' => $fileTypesCount])->render()
                 ]);
             break;
         }

@@ -59,45 +59,46 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' =>  __('children.familyName'),
+                                                                'label' => __('children.familyName'),
                                                                 'name' => 'family_name',
                                                                 'icon' => 'id-card',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' =>  __('children.ID'),
+                                                                'label' => __('children.ID'),
                                                                 'name' => 'identification',
                                                                 'icon' => 'search-alt',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.select-input', [
-                                                                'label' =>  __('children.gender'), 
-                                                                'name' => 'gender', 
-                                                                'icon' => 'buildings', 
-                                                                'options' => [['key' => 'male', 'value' => __('comon.male')],['key' => 'female', 'value' => __('comon.female')]],
+                                                                'label' => __('children.gender'),
+                                                                'name' => 'gender',
+                                                                'icon' => 'buildings',
+                                                                'options' => [['key' => 'male', 'value' => __('comon.male')], ['key' => 'female', 'value' => __('comon.female')]],
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.date-input', [
-                                                                'label' =>  __('children.dob'),
+                                                                'label' => __('children.dob'),
                                                                 'name' => 'dob',
-                                                                'max' => date('Y-m-d')
+                                                                'class' => 'date-of-birth',
+                                                                'max' => date('Y-m-d'),
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' =>  __('children.age'),
+                                                                'label' => __('children.age'),
                                                                 'name' => 'age',
                                                                 'class' => 'age',
-                                                                'icon' => 'buildings', 
+                                                                'icon' => 'buildings',
                                                                 'readonly' => true,
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.select-input', [
-                                                                'label' =>  __('children.kindergarten'),
+                                                                'label' => __('children.kindergarten'),
                                                                 'name' => 'kindergarten_id',
                                                                 'class' => 'selectedKindergarten',
                                                                 'icon' => 'buildings',
@@ -110,19 +111,19 @@
                                                                 'name' => '',
                                                                 'class' => 'kindergartenManager',
                                                                 'icon' => 'user',
-                                                                'readonly' => true
+                                                                'readonly' => true,
                                                             ])
                                                         </div>
                                                         <div class="col-md-12">
                                                             @include('components.textarea-input', [
-                                                                'label' =>  __('children.address'),
+                                                                'label' => __('children.address'),
                                                                 'name' => 'address',
                                                                 'icon' => 'current-location',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.select-input', [
-                                                                'label' =>  __('children.functionality'),
+                                                                'label' => __('children.functionality'),
                                                                 'name' => 'functionality_id',
                                                                 'icon' => 'buildings',
                                                                 'options' => $functionalities,
@@ -130,15 +131,15 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.select-input', [
-                                                                'label' =>  __('children.status'),
+                                                                'label' => __('children.status'),
                                                                 'name' => 'status_id',
                                                                 'icon' => 'buildings',
                                                                 'options' => $statuses,
-                                                                ])
+                                                            ])
                                                         </div>
                                                         <div class="col-md-12">
                                                             @include('components.multi-select-input', [
-                                                                'label' =>  __('children.diagnosis'),
+                                                                'label' => __('children.diagnosis'),
                                                                 'name' => 'diagnosis_id[]',
                                                                 'class' => 'diagnosis',
                                                                 'icon' => 'buildings',
@@ -153,7 +154,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.select-input', [
-                                                                'label' =>  __('children.hmo'),
+                                                                'label' => __('children.hmo'),
                                                                 'name' => 'hmo_id',
                                                                 'icon' => 'buildings',
                                                                 'options' => $hmos,
@@ -255,7 +256,9 @@
                                                                 'icon' => 'notepad',
                                                             ])
                                                         </div>
-                                                        <div class="col-md-12"><h4> {{ __('children.additionalContacts') }}</h4></div>
+                                                        <div class="col-md-12">
+                                                            <h4> {{ __('children.additionalContacts') }}</h4>
+                                                        </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
                                                                 'label' => __('children.emergencyName'),
@@ -291,10 +294,7 @@
                                                                 'name' => 'food_allergie',
                                                                 'class' => 'foodAllergie',
                                                                 'icon' => 'buildings',
-                                                                'options' => [
-                                                                    ['key' => 'yes', 'value' => 'Yes'],
-                                                                    ['key' => 'no', 'value' => 'No']
-                                                                ],
+                                                                'options' => [['key' => 'yes', 'value' => __('comon.yes')], ['key' => 'no', 'value' => __('comon.no')]],
                                                             ])
                                                         </div>
                                                         <div class="col-md-12 allergieDetail" style="display: {{ old('food_allergie') == 'yes' ? 'block' : 'none' }};">
@@ -310,10 +310,7 @@
                                                                 'name' => 'medicine',
                                                                 'class' => 'medicine',
                                                                 'icon' => 'buildings',
-                                                                'options' => [
-                                                                    ['key' => 'yes', 'value' => 'Yes'],
-                                                                    ['key' => 'no', 'value' => 'No']
-                                                                ],
+                                                                'options' => [['key' => 'yes', 'value' => __('comon.yes')], ['key' => 'no', 'value' => __('comon.no')]],
                                                             ])
                                                         </div>
                                                         <div class="col-md-12 medicineDetail" style="display: {{ old('medicine') == 'yes' ? 'block' : 'none' }}">
@@ -365,7 +362,7 @@
             $(document).on('click', '.button', function() {
                 $(this).attr('disabled', false);
             });
-            
+
             $(document).on('change', '.date-of-birth', function() {
                 var start = moment(new Date($(this).val()));
                 var end = moment(new Date());
@@ -374,8 +371,11 @@
                 var months = end.diff(start, 'months');
                 start.add(months, 'months');
                 var age = years + '.' + months;
-                // var age = years;
-                $('.age').val(age);
+                if (isNaN(age)) {
+                    $('.age').val(0.0);
+                } else {
+                    $('.age').val(age);
+                }
             });
 
             $(document).on('click', '.removeMedicine', function() {
@@ -387,6 +387,5 @@
                     $('.medicine').val('no');
                 }
             });
-            
         </script>
     @endpush

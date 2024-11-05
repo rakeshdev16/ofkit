@@ -9,7 +9,13 @@ use App\Http\Controllers\KindergartenController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StaffTableController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OtpController;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,13 +29,50 @@ use Illuminate\Support\Facades\Route;
 */
 // $lang = App\Models\Setting::where('key', 'environment')->pluck('value')->First() == 'local' ? 'en' : 'hb';
 // App::setLocale($lang);
-Auth::routes();
-Route::controller(UserController::class)->group(function () {
-    Route::post('set-locale', 'setLocale')->name('set.locale');
+Route::middleware(['lang'])->group(function () {
+    Auth::routes();
+    Route::controller(OtpController::class)->group(function () {
+        Route::get('otp-verify', 'showVerifyForm')->name('otp.verify');
+        Route::post('otp-verify', 'verifyOtp')->name('otp.verify.submit');
+        Route::get('resend-otp', 'resendOtp')->name('resend.otp');
+    });
+});
+Route::get('/page-expired', fn() => view('errors.419'))->name('page.expired');
+Route::get('/check-session', function () {
+    if (auth()->check() && Auth::user()->last_activity_at) {
+        $lastActivityTime = Carbon::parse(Auth::user()->last_activity_at);
+        $currentTime = Carbon::now();
+        if ($lastActivityTime->diffInMinutes($currentTime) >= env('SESSION_EXPIRE_IN')) {
+            Auth::logout();
+            return response()->json(['isAuthenticated' => false]);
+        } else {
+            return response()->json(['isAuthenticated' => true]);
+        }
+    }
+});
+Route::get('/expire-session', function() {
+    try {
+        //code...
+        \Auth::logout();
+        session()->invalidate();
+        session()->regenerateToken();
+        return response()->json(['isLogOut' => true]);
+    } catch (\Exception $e) {
+        //throw $th;
+        Log::info('Expire Session', $e->getMessage());
+    }
 });
 
-Route::middleware(['auth','disableBackBtnAfterLogout' ,'lang'])->group(function () {
-    Route::get('/', fn() => redirect()->route('children.index'))->name('dashboard');
+Route::controller(Controller::class)->group(function () {
+    Route::post('active-inactive', 'activeInactive')->name('activeInactive.records');
+});
+
+Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout'])->group(function () {
+    Route::controller(UserController::class)->group(function () {
+        Route::post('set-locale', 'setLocale')->name('set.locale');
+    });
+    // Route::get('/', fn() => redirect()->route('children.index'))->name('dashboard');
+    Route::get('/', [HomeController::class, 'index'])->name('dashboard');
     Route::get('therapy-schedule', fn() => view('dashboard.index'))->name('therapy-schedule.index');
     Route::resource('staff', StaffController::class);
     Route::resource('cluster', ClusterController::class);
@@ -51,6 +94,7 @@ Route::middleware(['auth','disableBackBtnAfterLogout' ,'lang'])->group(function 
         Route::get('selected-kindergarten', 'selectedKindergarten')->name('selected.kindergarten');
         Route::post('delete-document', 'deleteDocument')->name('document.delete');
         Route::post('delete-staff-kindergarten', 'deleteStaffKindergarten')->name('deleteStaffKindergarten');
+        Route::get('send-message', 'sendMessage')->name('sendMessage');
     });
     Route::controller(ChildrenController::class)->group(function () {
         Route::post('upload-children-profile', 'uploadProfile')->name('uploadChildrenProfile');
@@ -61,9 +105,12 @@ Route::middleware(['auth','disableBackBtnAfterLogout' ,'lang'])->group(function 
         Route::post('children-documentation/{type}/{id}', 'saveDocumentation')->name('children-documentation.store');
         Route::post('delete-children-medicine', 'deleteChildrenMedicine')->name('childrenMedicine.delete');
         Route::get('get-kindergarten-manager', 'getKindergartenManager')->name('kindergarten-manager.get');
-        Route::get('documents-approvals/{childId}', 'documentsAndApprovals')->name('documents-approvals.get');
+        Route::get('documents-approvals/{childId}/{docId?}', 'documentsAndApprovals')->name('documents-approvals.get');
+        Route::get('documents-approvals-create/{childId}', 'documentsAndApprovalsCreate')->name('documents-approvals.create');
+        Route::get('documents-approvals-edit/{docId}', 'documentsAndApprovalsEdit')->name('documents-approvals.edit');
         Route::post('documents-approvals', 'saveDocumentsAndApprovals')->name('documents-approvals.post');
         Route::delete('documents-approvals/{id}', 'deleteDocumentsAndApprovals')->name('documents-approvals.delete');
+        Route::delete('documents/{id}', 'deleteDocuments')->name('documents.delete');
     });
     Route::controller(StaffTableController::class)->group(function () {
         Route::get('staff-table-tab', 'staffTableTab')->name('staff-table.tab');

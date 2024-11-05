@@ -7,8 +7,9 @@
         name="{{ @$name }}"
         placeholder="{{ $label }}"
         value="{{ @$value }}"
+        onchange="{{ @$onchange }}"
+        {{ @$disabled }}
         {{ @$multiple }}
-        {{ @$onchange }}
     >
     @if (@$class != 'file')
         <img class="pt-2 {{ @$value ? '' : 'd-none' }}" id="previewImage" src="{{ @$value }}" width="50px" height="50px" alt="">

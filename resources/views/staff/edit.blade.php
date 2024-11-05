@@ -32,8 +32,7 @@
                             <div class="card">
                                 <div class="card-body p-4">
                                     <h5 class="mb-4">{{ __('staff.editStaffDetail') }}</h5>
-                                    <form class="row g-3" action="{{ route('staff.update', $staff->id) }}" method="POST"
-                                        enctype="multipart/form-data">
+                                    <form class="row g-3" action="{{ route('staff.update', $staff->id) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
                                         @include('components.upload-profile', [
@@ -51,6 +50,7 @@
                                                 'name' => 'first_name',
                                                 'icon' => 'user',
                                                 'value' => $staff->first_name,
+                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
                                         </div>
                                         <div class="col-md-6">
@@ -59,6 +59,7 @@
                                                 'name' => 'family_name',
                                                 'icon' => 'user',
                                                 'value' => $staff->family_name,
+                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
                                         </div>
                                         <div class="col-md-6">
@@ -67,6 +68,7 @@
                                                 'name' => 'address',
                                                 'icon' => 'current-location',
                                                 'value' => $staff->address,
+                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
                                         </div>
                                         <div class="col-md-6">
@@ -75,14 +77,16 @@
                                                 'name' => 'email',
                                                 'icon' => 'envelope',
                                                 'value' => $staff->email,
+                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
                                         </div>
                                         <div class="col-md-6">
                                             @include('components.text-input', [
-                                                'label' =>  __('staff.idTh'),
+                                                'label' => __('staff.idTh'),
                                                 'name' => 'identification',
                                                 'icon' => 'search-alt',
                                                 'value' => $staff->identification,
+                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
                                         </div>
                                         <div class="col-md-6">
@@ -92,6 +96,7 @@
                                                 'class' => 'numbers',
                                                 'icon' => 'phone',
                                                 'value' => $staff->telephone,
+                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
                                         </div>
                                         <div class="col-md-6">
@@ -101,6 +106,7 @@
                                                 'class' => 'numbers',
                                                 'icon' => 'credit-card',
                                                 'value' => $staff->licence_number,
+                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
                                         </div>
                                         <div class="col-md-6">
@@ -110,6 +116,7 @@
                                                 'icon' => 'user-circle',
                                                 'options' => $professions,
                                                 'value' => $staff->profession_id,
+                                                'disabled' => Auth::user()->hasRole('admin') ? '' : 'disabled',
                                             ])
                                         </div>
                                         <div class="col-md-6">
@@ -118,16 +125,27 @@
                                                 'name' => 'dob',
                                                 'max' => date('Y-m-d'),
                                                 'value' => $staff->dob ? date('Y-m-d', strtotime($staff->dob)) : '',
+                                                'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
                                         </div>
                                         <div class="col-md-6">
-                                            @include('components.text-input', [
-                                                'label' => __('staff.roleTh'),
-                                                'name' => 'role',
-                                                'icon' => 'user-check',
-                                                'value' => $staff->getRoleNames()->first(),
-                                                'readonly' => true,
-                                            ])
+                                            @if (Auth::user()->hasRole('admin'))
+                                                @include('components.select-input', [
+                                                    'label' => __('staff.roleTh'),
+                                                    'name' => 'role',
+                                                    'icon' => 'user-check',
+                                                    'options' => $roles,
+                                                    'value' => $staff->getRoleNames()->first(),
+                                                ])
+                                            @else
+                                                <label for="role" class="form-label">{{ __('staff.roleTh') }}</label>
+                                                <div class="position-relative input-icon">
+                                                    <input type="text" class="form-control " name="role" value="{{ $staff->getRoleNames()->first() }}" readonly="">
+                                                    <span class="position-absolute top-50 translate-middle-y">
+                                                        <i class="bx bx-user-check"></i>
+                                                    </span>
+                                                </div>
+                                            @endif
                                         </div>
                                         <div class="col-md-12">
                                             @include('components.file-input', [
@@ -138,9 +156,10 @@
                                                 'fileType' => 'document',
                                                 'icon' => 'file',
                                                 'value' => old('doc'),
-                                                'multiple' => 'multiple'
+                                                'multiple' => 'multiple',
+                                                'disabled' => Auth::user()->hasRole('admin') ? '' : 'disabled',
                                             ])
-                                            <div class="d-flex choosenDocument" style="flex-wrap: wrap;">
+                                            {{-- <div class="d-flex choosenDocument" style="flex-wrap: wrap;">
                                                 @foreach ($staff->documents as $document)
                                                     <div class="document mt-1 doc{{ $document->id }}">
                                                         <a href="{{ $document->name }}" target="_blank" rel="noopener noreferrer">
@@ -149,6 +168,23 @@
                                                         <i class="bx bx-x removeStaffDocument" data-file-name="{{ $document->file_name }}" data-id="{{ $document->id }}"></i>
                                                     </div>
                                                 @endforeach
+                                            </div> --}}
+                                            <div class="col-md-12 document-section mt-4" style="display: {{ isset($staff->documents) && count($staff->documents) > 0 ? 'block' : 'none' }}">
+                                                <div class="time-table p-4">
+                                                    <h4 class="text-center">{{ __('staff.document') }}</h4>
+                                                    <div class="bg-white p-2 choosenDocument">
+                                                        @foreach ($staff->documents as $document)
+                                                            @include('components.document-detail', [
+                                                                'index' => $loop->index,
+                                                                'id' => $document->id,
+                                                                'name' => $document->file_name,
+                                                                'document' => $document->name,
+                                                                'description' => $document->description,
+                                                                'class' => 'removeStaffDocument',
+                                                            ])
+                                                        @endforeach
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -158,13 +194,11 @@
                                                 'class' => 'kindergarten',
                                                 'icon' => 'buildings',
                                                 'options' => $kindergartens,
-                                                'value' =>
-                                                    old('kindergarten_id') ??
-                                                    @$staff->staffKindergartens->pluck('kindergarten_id')->toArray(),
+                                                'value' => old('kindergarten_id') ?? @$staff->staffKindergartens->pluck('kindergarten_id')->toArray(),
+                                                'disabled' => Auth::user()->hasRole('admin') ? '' : 'disabled',
                                             ])
                                         </div>
-                                        <div class="col-md-12 kindergarten-section"
-                                            style="display: {{ old('kindergarten_id') || count($staff->staffKindergartens) > 0 ? '' : 'none' }}">
+                                        <div class="col-md-12 kindergarten-section" style="display: {{ old('kindergarten_id') || count($staff->staffKindergartens) > 0 ? '' : 'none' }}">
                                             <div class="time-table">
                                                 <h4 class="text-center">{{ __('staff.kindergartenTh') }}</h4>
                                                 <div class="table-responsive" style="display: block !important;">
@@ -173,13 +207,13 @@
                                                             <tr>
                                                                 <th>{{ __('staff.name') }}</th>
                                                                 <th>{{ __('staff.professionalRole') }}</th>
-                                                                <th>{{ __('staff.professionalRole') }}</th>
+                                                                <th>{{ __('staff.association') }}</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody class="selected-kindergarten">
                                                             @if (count(old('kindergarten_id', [])) > 0)
                                                                 @foreach (old('kindergarten', []) as $data)
-                                                                    @include('components.kindergarten-tr',[
+                                                                    @include('components.kindergarten-tr', [
                                                                         'id' => @$data['kindergarten_id'],
                                                                         'index' => $loop->index,
                                                                         'professions' => $professions,
@@ -207,15 +241,7 @@
                                             <div class="time-table">
                                                 <h4 class="text-center">{{ __('staff.scheduleHeading') }}</h4>
                                                 @php
-                                                    $days = [
-                                                        'sunday',
-                                                        'monday',
-                                                        'tuesday',
-                                                        'wednesday',
-                                                        'thursday',
-                                                        'friday',
-                                                        'saturday',
-                                                    ];
+                                                    $days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
                                                 @endphp
                                                 <div class="table-responsive" style="display: block !important;">
                                                     <table class="table table-borderd" style="width:100%;">
@@ -233,19 +259,11 @@
                                                             <tr>
                                                                 <td>
                                                                     <h6 class="pt-2">{{ __('staff.' . $day) }}</h6>
-                                                                    <input type="hidden"
-                                                                        name="schedule[{{ $loop->index }}][id]"
-                                                                        value="{{ @$data['id'] }}">
-                                                                    <input type="hidden"
-                                                                        name="schedule[{{ $loop->index }}][day]"
-                                                                        value="{{ $day }}">
+                                                                    <input type="hidden" name="schedule[{{ $loop->index }}][id]" value="{{ @$data['id'] }}">
+                                                                    <input type="hidden" name="schedule[{{ $loop->index }}][day]" value="{{ $day }}">
                                                                 </td>
                                                                 <td>
-                                                                    <input type="time"
-                                                                        name="schedule[{{ $loop->index }}][start_time]"
-                                                                        class="form-control time-picker"
-                                                                        placeholder="Enter Start Date",
-                                                                        value="{{ old($startTime) ?? @$data['start_time'] }}">
+                                                                    <input type="time" name="schedule[{{ $loop->index }}][start_time]" class="form-control time-picker" placeholder="Enter Start Date", value="{{ old($startTime) ?? @$data['start_time'] }}">
                                                                     @error($startTime)
                                                                         <span class="invalid-feedback" role="alert">
                                                                             <strong>{{ $message }}</strong>
@@ -253,11 +271,7 @@
                                                                     @enderror
                                                                 </td>
                                                                 <td>
-                                                                    <input type="time"
-                                                                        name="schedule[{{ $loop->index }}][end_time]"
-                                                                        class="form-control time-picker"
-                                                                        placeholder="Enter end Date",
-                                                                        value="{{ old($endTime) ?? @$data['end_time'] }}">
+                                                                    <input type="time" name="schedule[{{ $loop->index }}][end_time]" class="form-control time-picker" placeholder="Enter end Date", value="{{ old($endTime) ?? @$data['end_time'] }}">
                                                                     @error($endTime)
                                                                         <span class="invalid-feedback" role="alert">
                                                                             <strong>{{ $message }}</strong>
@@ -273,6 +287,7 @@
                                         <input type="hidden" name="query_string" value="{{ request()->kindergarten_id }}">
                                         <div class="col-md-6">
                                             <div class="d-md-flex d-grid align-items-center gap-3">
+                                                <input type="hidden" name="deleted_document_ids" id="deletedDocumentIds">
                                                 <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">
                                                 <button type="submit" class="btn button submitBtn px-4">{{ __('staff.updateBtnText') }}</button>
                                             </div>
@@ -295,35 +310,47 @@
         @include('components.cropper-script')
         @include('staff.script')
         <script>
-
+            var ids = [];
             $(document).on('click', '.removeStaffDocument', function() {
                 var id = $(this).data('id');
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            headers: {
-                                'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                            },
-                            type: 'POST',
-                            url: "{{ route('document.delete') }}",
-                            data: {id: id},
-                            success: function(data) {
-                                if (data.status == true) {
-                                    $('.doc'+id).remove();
-                                    toastr.success(data.message);
-                                }
-                            }
-                        });            
-                    }
-                });
+                if (id) {
+                    ids.push(id);
+                }
+                $('#deletedDocumentIds').val(ids);
+                $('.doc' + id).remove();
+                if ($('.choosenDocument > .row').length == 0) {
+                    $('.document-section').hide();
+                }
+                console.log(ids);
+                
+                // Swal.fire({
+                //     title: "Are you sure?",
+                //     text: "You won't be able to revert this!",
+                //     icon: "warning",
+                //     showCancelButton: true,
+                //     confirmButtonColor: "#3085d6",
+                //     cancelButtonColor: "#d33",
+                //     confirmButtonText: "Yes, delete it!"
+                // }).then((result) => {
+                //     if (result.isConfirmed) {
+                //         $.ajax({
+                //             headers: {
+                //                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                //             },
+                //             type: 'POST',
+                //             url: "{{ route('document.delete') }}",
+                //             data: {
+                //                 id: id
+                //             },
+                //             success: function(data) {
+                //                 if (data.status == true) {
+                //                     $('.doc' + id).remove();
+                //                     toastr.success(data.message);
+                //                 }
+                //             }
+                //         });
+                //     }
+                // });
             })
         </script>
     @endpush

@@ -1,16 +1,10 @@
-<div class="row w-100 align-items-center" style="margin-left: 30px;">
+<div class="row w-100 align-items-center" style="">
     <div class="col-2 d-flex justify-content-center">
-        <input
-            type="checkbox"
-            name="id[]"
-            value="{{ @$id }}"
-            class="accordionCheckbox checkbox"
-            data-name="{{ @$dataName }}"
-        >&nbsp;&nbsp;
+        <input type="checkbox" name="id[]" value="{{ @$id }}" class="accordionCheckbox checkbox" data-name="{{ @$dataName }}">&nbsp;&nbsp;
         {{-- <input type="checkbox" value="{{ @$id }}" class="accordionCheckbox check-{{ $id }}" data-class="check-{{ $id }}">&nbsp;&nbsp; --}}
     </div>
-    <div class="col-8">{{ \Str::limit($name, 10, '...') ?? '-' }}</div>
-    <div class="col-2 d-flex justify-content-center">
+    <div class="col-{{ @$edit && @$show ? '7' : '8' }} name-col">{{ \Str::limit($name, 25, '...') ?? '-' }}</div>
+    <div class="col-{{ @$edit && @$show ? '3' : '2' }} d-flex">
         @isset($edit)
             <a href="{{ $edit }}" class="me-3"><i class="bx bx-edit icon"></i></a>
         @endisset

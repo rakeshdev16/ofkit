@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="row my-2 mx-1 children-detail">
-                        <div class="col-md-6"><label for=""><b>{{ __('children.childName') }}:</b></label> {{ $mainChildren->name }}</div>
+                        <div class="col-md-6"><label for=""><b>{{ __('children.childName') }}:</b></label> {{ $mainChildren->name.' '.$mainChildren->family_name }}</div>
                         <div class="col-md-6"><label for=""><b>{{ __('children.ID') }}:</b></label> {{ $mainChildren->identification }}</div>
                         <div class="col-md-6"><label for=""><b>{{ __('children.kindergarten') }}:</b></label> {{ getKindergartenNameById($mainChildren->kindergarten_id) }}</div>
                         <div class="col-md-6"><label for=""><b>{{ __('children.childBirthday') }}:</b></label> {{ $mainChildren->date_of_birth }}</div>
@@ -41,11 +41,8 @@
                                 <div class="card-body">
                                     <div class="mt-2 d-flex justify-content-between">
                                         <h4>{{ __('children.' . $document->type) }}</h4>
-                                        @if (Auth::user()->hasRole('therapist') && Auth::id() == $document->therapist_id && \Carbon\Carbon::parse($document->created_at)->isToday())
-                                            <a href="{{ route('children-documentation.get', [$document->type, Request::segment(2), $document->id]) }}" class="btn button">{{ __('comon.edit') }}</a>
-                                        @endif
-
-                                        @if (Auth::user()->hasRole('admin'))
+                                        {{-- @if ((Auth::user()->hasRole('therapist') && Auth::id() == $document->therapist_id && \Carbon\Carbon::parse($document->created_at)->isToday()) || Auth::user()->hasRole('admin')) --}}
+                                        @if (\Carbon\Carbon::parse($document->created_at)->isToday())
                                             <a href="{{ route('children-documentation.get', [$document->type, Request::segment(2), $document->id]) }}" class="btn button">{{ __('comon.edit') }}</a>
                                         @endif
                                     </div>
@@ -56,15 +53,14 @@
                                             <span class="text-secondary">{{ @date('d/m/Y', strtotime($document->date)) ?? '-' }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            @php
-                                                $truncatedDesc = \Str::limit($therapist, 80, '...');
-                                            @endphp
                                             <h6 class="mb-0">{{ __('children.therapist') }}</h6>
-                                            @if ($document->therapist->name)
-                                            <span class="text-secondary">{{ $document->therapist->name ?? '-' }}</span>
-
+                                            @php
+                                                $therapist_ids = $document->groupTherapist->pluck('therapist_id')->toArray();
+                                            @endphp
+                                            @if ($document->therapist != null)
+                                                {{ $document->therapist->name ?? '-' }}
                                             @else
-                                                <span data-toggle="tooltip" data-placement="bottom" title="{{ $therapist }}">{{ $truncatedDesc }}</span>
+                                                {!! description(getUserNameByIds($therapist_ids), 80) !!}
                                             @endif
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
@@ -118,10 +114,10 @@
                                                     <table class="table table-borderd" style="width:100%">
                                                         <thead>
                                                             <tr>
-                                                                <th width="15%">{{ __('children.name') }}</th>
-                                                                <th width="10%">{{ __('children.participated') }}</th>
-                                                                <th width="70%">{{ __('children.description') }}</th>
-                                                                <th width="5%">{{ __('children.attactedFile') }}</th>
+                                                                <th>{{ __('children.fullName') }}</th>
+                                                                <th>{{ __('children.participated') }}</th>
+                                                                <th>{{ __('children.description') }}</th>
+                                                                <th>{{ __('children.attactedFile') }}</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody class="selected-kindergarten">
@@ -131,18 +127,23 @@
                                                                 @php
                                                                     $children = $document->groupChildrens->where('children_id', $mainChildren->id)->first();
                                                                 @endphp
-                                                                {{-- @foreach ($document->groupChildrens as $child) --}}
+                                                                @foreach ($document->groupChildrens as $child)
                                                                 <tr>
-                                                                    <td>{{ $children->child->name }}</td>
-                                                                    <td>{{ $children->participated == 1 ? 'Yes' : 'No' }}</td>
-                                                                    <td>
-                                                                        <span class="wrap-desc" style="width: 90%; display: inline-block; white-space: normal;">
-                                                                            {{ $children->description ?? $children->reason }}
-                                                                        </span>
+                                                                    <td>{{ getChildrenNameById($child->children_id) }}</td>
+                                                                    <td>{{ $child->participated == 1 ? 'Yes' : 'No' }}</td>
+                                                                    <td class="address-column">
+                                                                        @if ($child->description)
+                                                                            {!! description($child->description, 80) !!}
+                                                                        @else
+                                                                            {{ $child->reason }}
+                                                                        @endif
+                                                                        {{-- <span class="wrap-desc" style="width: 500px; display: inline-block; white-space: normal;">
+                                                                            {{ $child->description ?? $child->reason }}
+                                                                        </span> --}}
                                                                     </td>
                                                                     <td>
-                                                                        @if (!empty($children->file))
-                                                                            <a href="{{ asset('storage/' . $children->file) }}" target="_blank">
+                                                                        @if (!empty($child->file))
+                                                                            <a href="{{ asset('storage/' . $child->file) }}" target="_blank">
                                                                                 <h4><i class="bx bx-file"></i></h4>
                                                                             </a>
                                                                         @else
@@ -150,7 +151,7 @@
                                                                         @endif
                                                                     </td>
                                                                 </tr>
-                                                                {{-- @endforeach --}}
+                                                                @endforeach
                                                             @endif
                                                         </tbody>
                                                     </table>
@@ -180,10 +181,10 @@
                                                         <table class="table table-borderd" style="width:100%">
                                                             <thead>
                                                                 <tr>
-                                                                    <th width="5%">{{ __('children.children') }}</th>
-                                                                    <th width="15%">{{ __('children.topic') }}</th>
-                                                                    <th width="10%">{{ __('children.discussion') }}</th>
-                                                                    <th width="70%">{{ __('children.decisions') }}</th>
+                                                                    <th width="10%">{{ __('children.children') }}</th>
+                                                                    <th width="30%">{{ __('children.topic') }}</th>
+                                                                    <th width="30%">{{ __('children.discussion') }}</th>
+                                                                    <th width="30%">{{ __('children.decisions') }}</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody class="selected-kindergarten">
@@ -191,11 +192,34 @@
                                                                     <td class="text-center" colspan="5">{{ __('children.noChildrenFound') }}</td>
                                                                 @else
                                                                     @foreach ($document->staffMeeting as $staffMeeting)
+                                                                        {{-- @php
+                                                                            $truncatedTopic = \Str::limit($staffMeeting->topic, 30, '...');
+                                                                            $truncatedDesc = \Str::limit($staffMeeting->discussion, 30, '...');
+                                                                            $truncatedDec = \Str::limit($staffMeeting->decisions, 30, '...');
+                                                                        @endphp --}}
                                                                         <tr>
                                                                             <td>{{ getChildrenNameById($staffMeeting->children_id) ?? '-' }}</td>
-                                                                            <td>{{ $staffMeeting->topic ?? '-' }}</td>
-                                                                            <td>{{ $staffMeeting->discussion ?? '-' }}</td>
-                                                                            <td>{{ $staffMeeting->decisions ?? '-' }}</td>
+                                                                            <td class="address-column">
+                                                                                @if ($staffMeeting->topic)
+                                                                                    {!! description($staffMeeting->topic, 30) !!}
+                                                                                @else
+                                                                                    -
+                                                                                @endif
+                                                                            </td>
+                                                                            <td class="address-column">
+                                                                                @if ($staffMeeting->discussion)
+                                                                                    {!! description($staffMeeting->discussion, 30) !!}
+                                                                                @else
+                                                                                    -
+                                                                                @endif
+                                                                            </td>
+                                                                            <td class="address-column">
+                                                                                @if ($staffMeeting->decisions)
+                                                                                    {!! description($staffMeeting->decisions, 30) !!}
+                                                                                @else
+                                                                                    -
+                                                                                @endif
+                                                                            </td>
                                                                         </tr>
                                                                     @endforeach
                                                                 @endif

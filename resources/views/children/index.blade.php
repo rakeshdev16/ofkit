@@ -1,9 +1,7 @@
 @extends('layout.master')
 @push('customLink')
     <style>
-        .accordion-button::after {
-            display: none !important;
-        }
+
     </style>
 @endpush
 @section('section')

@@ -49,10 +49,12 @@
                                                 <li class="list-group-item text-center">
                                                     <h6 class="mb-0"><a href="{{ route('documents-approvals.get', $children->id) }}">{{ __('children.documentApprovals') }}</a></h6>
                                                 </li>
+                                                {{-- @if (Auth::user()->hasRole(['admin', 'therapist'])) --}}
                                                 <li class="list-group-item text-center">
                                                     <h6 class="mb-0" data-bs-toggle="modal" data-bs-target="#exampleSmallModal">{{ __('children.newDocumantation') }}</h6>
                                                     {{-- <h6 class="mb-0">New Documantation</h6> --}}
                                                 </li>
+                                                {{-- @endif --}}
                                             </ul>
                                         </div>
                                     </div>
@@ -63,7 +65,7 @@
                                             <div class="bs-stepper-content">
                                                 <div class="d-flex justify-content-between">
                                                     <h5 class="mb-4 steper-title">{{ __('children.personalInfo') }}</h5>
-                                                    @if (Auth::user()->hasRole('admin'))
+                                                    @if (Auth::user()->hasRole(['admin', 'manager']))
                                                         <div>
                                                             <a href="{{ route('children.edit', $children->id) }}?kindergarten_id={{ request()->kindergarten_id }}" class="btn button">{{ __('comon.edit') }}</a>
                                                         </div>
@@ -111,11 +113,11 @@
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
-                                                            @include('components.date-input', [
+                                                            @include('components.text-input', [
                                                                 'label' => __('children.dob'),
                                                                 'name' => 'dob',
-                                                                'max' => date('Y-m-d'),
-                                                                'value' => date('Y-m-d', strtotime($children->dob)),
+                                                                'icon' => 'calendar',
+                                                                'value' => $children->date_of_birth,
                                                                 'disabled' => 'disabled',
                                                             ])
                                                         </div>
@@ -126,12 +128,12 @@
                                                                 'class' => 'age',
                                                                 'icon' => 'buildings',
                                                                 'disabled' => 'disabled',
-                                                                'value' => $children->age,
+                                                                'value' => $children->calclulated_age,
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' => __('children.createdAt'),
+                                                                'label' => __('comon.createdOn'),
                                                                 'name' => 'created_at',
                                                                 'class' => 'created_at',
                                                                 'icon' => 'calendar',
@@ -141,7 +143,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             @include('components.text-input', [
-                                                                'label' => __('children.updatedAt'),
+                                                                'label' => __('comon.updatedOn'),
                                                                 'name' => 'updated_at',
                                                                 'class' => 'updated_at',
                                                                 'icon' => 'calendar',
@@ -410,7 +412,7 @@
                                                                 'name' => 'food_allergie',
                                                                 'class' => 'foodAllergie',
                                                                 'icon' => 'buildings',
-                                                                'options' => [['key' => 'yes', 'value' => 'Yes'], ['key' => 'no', 'value' => 'No']],
+                                                                'options' => [['key' => 'yes', 'value' => __('comon.yes')], ['key' => 'no', 'value' => __('comon.no')]],
                                                                 'value' => @$medical->food_allergie == 1 ? 'yes' : 'no',
                                                                 'disabled' => 'disabled',
                                                             ])
@@ -430,7 +432,7 @@
                                                                 'name' => 'medicine',
                                                                 'class' => 'medicine',
                                                                 'icon' => 'buildings',
-                                                                'options' => [['key' => 'yes', 'value' => 'Yes'], ['key' => 'no', 'value' => 'No']],
+                                                                'options' => [['key' => 'yes', 'value' => __('comon.yes')], ['key' => 'no', 'value' => __('comon.no')]],
                                                                 'value' => @$medical->medicine == 1 ? 'yes' : 'no',
                                                                 'disabled' => 'disabled',
                                                             ])

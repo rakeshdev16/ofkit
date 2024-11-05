@@ -40,9 +40,64 @@
         });
         $(document).on('click', '.moveToArchive', function() {
             var url = "{{ route('cluster.destroy', ':ids') }}";
-            var msg = "{{ __('validation.chose_at_least_one', ['attribute' => 'cluster']) }}";
+            var msg = "{{ __('cluster.selectMsg') }}";
             moveToArchive(url, msg);
         });
+
+        // $(document).on('click', '.moveToArchive', function() {
+        //     var url = "{{ route('activeInactive.records') }}";
+        //     var msg = "{{ __('cluster.selectMsg') }}";
+        //     var status = "{{ request('status', 'active') }}";
+        //     var model = "Cluster";
+        //     moveToArchive(url, msg, status , model);
+        // });
+
+        // function moveToArchive(url, msg, status, model) {
+        //     var ids = [];
+        //     $(".checkbox:checked").each(function () {
+        //         var value = $(this).val();
+        //         if (value) {  // Only push non-empty values
+        //             ids.push(value);
+        //         }
+        //     });
+        //     $.unique(ids.sort());
+
+        //     if (ids.length == 0) {
+        //         toastr.warning(msg);
+        //         return false
+        //     }
+        //     var url = url + "?ids=" + ids.join(',') + "&status=" + status + "&model=" + model;
+        //     // console.log(url);
+
+        //     Swal.fire({
+        //         title: confirmMsgTitle,
+        //         icon: "warning",
+        //         showCancelButton: true,
+        //         confirmButtonColor: "#3085d6",
+        //         cancelButtonColor: "#d33",
+        //         confirmButtonText: confirmButtonText,
+        //         cancelButtonText: cancelButtonText
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             $.ajax({
+        //                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        //                 type: 'POST',
+        //                 url: url,
+        //                 processData: false,
+        //                 contentType: false,
+        //                 dataType: 'json',
+        //                 success: function (data) {
+        //                     if (data.status == true) {
+        //                         data.ids.map(function (id) {
+        //                             $('.tr-' + id).remove();
+        //                         });
+        //                         toastr.success(data.message);
+        //                     }
+        //                 }
+        //             });
+        //         }
+        //     });
+        // }
     </script>
     <script src="{{ asset('assets/js/custom-datatable.js') }}"></script>
 @endpush

@@ -19,14 +19,7 @@
         @forelse ($kindergartens as $kindergarten)
             <tr class="tr-{{ $kindergarten->id }}">
                 <td>
-                    <input
-                        type="checkbox"
-                        name="id[]"
-                        value="{{ $kindergarten->id }}"
-                        class="checkbox check-{{ $kindergarten->id }}"
-                        data-class="check-{{ $kindergarten->id }}"
-                        data-name="{{ $kindergarten->is_assign ? $kindergarten->name.' has assigned to children or staff' : '' }}"
-                    >
+                    <input type="checkbox" name="id[]" value="{{ $kindergarten->id }}" class="checkbox check-{{ $kindergarten->id }}" data-class="check-{{ $kindergarten->id }}" data-name="{{ $kindergarten->is_assign ? $kindergarten->name . ' has assigned to children or staff' : '' }}">
                 </td>
                 <td>{{ $kindergarten->name }}</td>
                 <td>{{ $kindergarten->symbol }}</td>
@@ -40,7 +33,7 @@
                 <td>{{ date('d/m/Y', strtotime($kindergarten->updated_at)) }}</td> --}}
                 <td>
                     {{-- <a href="{{ route('kindergarten.edit', $kindergarten->id) }}" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a> --}}
-                    <a href="{{ route('kindergarten.show', $kindergarten->id) }}" data-toggle="tooltip" data-placement="bottom" title="View"><i class="bx bx-show icon"></i></a>
+                    <a href="{{ route('kindergarten.show', $kindergarten->id) }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('comon.view') }}"><i class="bx bx-show icon"></i></a>
                 </td>
             </tr>
         @empty

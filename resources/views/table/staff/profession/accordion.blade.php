@@ -1,11 +1,11 @@
-<div class="mx-3 p-1">
+<div class="mx-2">
     <input type="checkbox" class="mainAccordionCheckbox">&nbsp;&nbsp;&nbsp;
 </div>
 @forelse ($professions as $profession)
     <div class="accordion accordion-flush tr-{{ $profession->id }}" id="accordion{{ $loop->iteration }}">
         <div class="accordion-item">
             <h2 class="accordion-header" id="staff-listing-{{ $loop->iteration }}">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                <button class="accordion-button accordion-screen collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false"
                     aria-controls="flush-collapse{{ $loop->iteration }}">
                     @include('components.accordion-label', [
@@ -21,7 +21,7 @@
                 data-bs-parent="#accordion{{ $loop->iteration }}" style="">
                 <div class="accordion-body">
                     <div class="d-flex accordion-row">
-                        <div class="w-50 label">Profession</div>
+                        <div class="w-50 label">{{ __('tables.profession') }}</div>
                         <div class="w-50">{{ $profession->name }}</div>
                     </div>
                 </div>

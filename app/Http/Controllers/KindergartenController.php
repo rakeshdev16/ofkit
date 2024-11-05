@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Auth;
 
 class KindergartenController extends Controller
@@ -40,15 +41,15 @@ class KindergartenController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'name' => ['required', 'unique:kindergartens'],
             'cluster_id' => 'required',
             'symbol' => 'nullable|numeric',
             'telephone' => ['nullable', 'regex:/^[0-9-]{8,14}$/'],
         ], [
             'name.required' => __('kindergarten.requiredName'),
+            'name.unique' => __('kindergarten.uniqueName'),
             'cluster_id.required' => __('kindergarten.requiredCluster'),
             'symbol.numeric' => __('kindergarten.numericSymbol'),
-            // 'telephone.required' => 'Please enter telephone number',
             'telephone.regex' => __('kindergarten.nullableTelephone'),
         ]);
         if ($validator->fails()) {
@@ -84,13 +85,13 @@ class KindergartenController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'name' => ['required', Rule::unique('kindergartens')->ignore($id)],
             'symbol' => 'nullable|numeric',
             'telephone' => ['nullable', 'regex:/^[0-9-]{8,14}$/'],
         ], [
             'name.required' => __('kindergarten.requiredName'),
+            'name.unique' => __('kindergarten.uniqueName'),
             'symbol.numeric' => __('kindergarten.numericSymbol'),
-            // 'telephone.required' => 'Please enter telephone number',
             'telephone.regex' => __('kindergarten.nullableTelephone'),
         ]);
         if ($validator->fails()) {

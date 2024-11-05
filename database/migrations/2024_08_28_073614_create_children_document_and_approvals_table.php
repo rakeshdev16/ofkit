@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('children_id')->constrained('childrens')->onDelete('cascade');
             $table->string('document')->nullable();
+            $table->foreignId('file_type_id')->constrained('file_types')->onDelete('cascade');
+            $table->longText('description');
             $table->timestamps();
         });
     }
