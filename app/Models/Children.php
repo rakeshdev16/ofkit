@@ -51,7 +51,7 @@ class Children extends Model
         }
 
         if (request('kindergarten_id')) {
-            $query->where('childrens.kindergarten_id', request('kindergarten_id'));
+            $query->whereIn('childrens.kindergarten_id', explode(',',request('kindergarten_id')));
         }
 
         if (request('search')) {

@@ -3,6 +3,7 @@
     <style>
 
     </style>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endpush
 @section('section')
     <div class="page-wrapper">
@@ -10,7 +11,7 @@
             <div class="mb-4 page-info">
                 <div>
                     <h3 class="mb-0 text-uppercase">{{ __('children.children') }}</h3>
-                    <select name="" class="select-filter">
+                    <select name="[]" class="select-filter kindergardenFilter form-control" multiple>
                         <option value="">{{ __('comon.allKindergartens') }}</option>
                         @foreach (authKindergartens() as $kindergarten)
                             <option {{ request()->kindergarten_id == $kindergarten['key'] ? 'selected' : '' }} value="{{ $kindergarten['key'] }}">{{ $kindergarten['value'] }}</option>
@@ -44,8 +45,12 @@
     </div>
 @endsection
 @push('customScript')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
     <script>
+        $(".kindergardenFilter").select2({
+            width: '100%'
+        });
         $(document).on('click', '.button', function() {
             $(this).attr('disabled', false);
         });

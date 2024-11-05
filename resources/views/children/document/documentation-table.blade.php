@@ -7,7 +7,7 @@
             @include('components.table-heading', ['label' => __('children.profession')])
             @include('components.table-heading', ['label' => __('children.intervention'), 'key' => 'type'])
             @include('components.table-heading', ['label' => __('children.occurred'), 'key' => 'occured'])
-            @include('components.table-heading', ['label' => __('children.description'), 'key' => 'occured_description'])
+            @include('components.table-heading', ['label' => __('children.description'),])
             @include('components.table-heading', ['label' => __('children.attactedFile'), 'width' => '20px'])
             @include('components.table-heading', ['label' => __('comon.action'), 'width' => '20px'])
         </tr>

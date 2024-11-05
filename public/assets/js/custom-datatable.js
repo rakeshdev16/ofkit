@@ -23,6 +23,7 @@ $(document).on('click', '.search-button', function () {
 
 $(document).on('change', '.select-filter', function () {
     var kindergartenId = $(this).val();
+
     queryParam('page', '');
     var url = queryParam('kindergarten_id', kindergartenId);
     filter(url);

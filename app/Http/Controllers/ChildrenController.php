@@ -550,8 +550,8 @@ class ChildrenController extends Controller
         if ($data['occured'] == 0) {
             $data['file'] = NULL;
         }
-
-        if(Auth::user()->hasRole('admin')){
+        // dd($data);
+        if(Auth::user()->hasRole('admin') && isset($data->therapist_id)){
             $therapist_ids = isset($data['therapist_id']) ? $data['therapist_id'] : [];
 
             unset($data['therapist_id']);

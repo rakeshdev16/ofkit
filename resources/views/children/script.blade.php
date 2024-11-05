@@ -18,7 +18,7 @@
             type : 'GET',
             url : "{{ route('kindergarten-manager.get') }}",
             data : { kindergarten_id: kindergarten_id },
-            success : function(data){                        
+            success : function(data){
                 if (data.status == true) {
                     $('.kindergartenManager').val(data.name);
                 } else {
