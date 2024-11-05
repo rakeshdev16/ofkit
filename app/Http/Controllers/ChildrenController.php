@@ -334,7 +334,6 @@ class ChildrenController extends Controller
         $docIds = array_merge(array_unique($childDocIds), array_unique($staffMeetingDocIds), array_unique($groupDocIds));
         $documentations = ChildrenDocumentation::whereIn('id', $docIds)->filter()->orderBy('id', 'DESC')->paginate(50);
         $documentationCount = ChildrenDocumentation::whereIn('id', $docIds)->filter()->count();
-
         // Get start and end date of last week
         $startOfLastWeek = Carbon::now()->subWeek()->startOfWeek();
         $endOfLastWeek = Carbon::now()->subWeek()->endOfWeek();

@@ -63,7 +63,16 @@
                     <a href="{{ route('children-documentation.show', [$documentation->children_id, $documentation->id, Request::segment(2)]) }}" data-toggle="tooltip" data-placement="bottom" title="View">
                         <i class="bx bx-show icon"></i>
                     </a>
-                    @if (Auth::user()->hasRole('therapist') && Auth::id() == $documentation->therapist_id && $documentation->created_at->isToday())
+                    @php
+                        $authKindergartens = Auth::user()->staffKindergartens->pluck('kindergarten_id')->toArray();
+                    @endphp
+                    @if (Auth::user()->hasRole('manager') && $documentation->created_at->diffInHours() < 24 && in_array($documentation->kindergarten_id, $authKindergartens))
+                        <a href="{{ route('children-documentation.get', [$documentation->type, Request::segment(2), $documentation->id]) }}" data-toggle="tooltip" data-placement="bottom" title="Edit">
+                            <i class="bx bx-edit icon"></i>
+                        </a>
+                    @endif
+
+                    @if (Auth::user()->hasRole('therapist') && Auth::id() == $documentation->therapist_id && $documentation->created_at->diffInHours() < 24)
                         <a href="{{ route('children-documentation.get', [$documentation->type, Request::segment(2), $documentation->id]) }}" data-toggle="tooltip" data-placement="bottom" title="Edit">
                             <i class="bx bx-edit icon"></i>
                         </a>

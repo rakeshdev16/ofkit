@@ -40,8 +40,19 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="mt-2 d-flex justify-content-between">
+                                        @php
+                                            $authKindergartens = Auth::user()->staffKindergartens->pluck('kindergarten_id')->toArray();
+                                        @endphp
                                         <h4>{{ __('children.' . $document->type) }}</h4>
-                                        <a href="{{ route('children-documentation.get', [$document->type, Request::segment(2), $document->id]) }}" class="btn button">{{ __('comon.edit') }}</a>
+                                        @if (Auth::user()->hasRole('manager') && $document->created_at->diffInHours() < 24 && in_array($mainChildren->kindergarten_id, $authKindergartens))
+                                            <a href="{{ route('children-documentation.get', [$document->type, Request::segment(2), $document->id]) }}" class="btn button">{{ __('comon.edit') }}</a>
+                                        @endif
+                                        @if (Auth::user()->hasRole('therapist') && Auth::id() == $document->therapist_id && $document->created_at->diffInHours() < 24)
+                                            <a href="{{ route('children-documentation.get', [$document->type, Request::segment(2), $document->id]) }}" class="btn button">{{ __('comon.edit') }}</a>
+                                        @endif
+                                        @if (Auth::user()->hasRole('admin'))
+                                            <a href="{{ route('children-documentation.get', [$document->type, Request::segment(2), $document->id]) }}" class="btn button">{{ __('comon.edit') }}</a>
+                                        @endif
                                     </div>
                                     <hr class="my-4">
                                     <ul class="list-group list-group-flush">
