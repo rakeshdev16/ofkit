@@ -19,13 +19,31 @@ use Illuminate\Support\Str;
 use Auth, Session, DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Validation\Rule;
+use App\Services\TextMeService;
 
 class StaffController extends Controller
 {
+    protected $textMeService;
+
+    public function __construct(TextMeService $textMeService)
+    {
+        $this->textMeService = $textMeService;
+    }
+
+    public function sendMessage()
+    {
+        $mobileNumber = '552603210';  // The recipient's phone number
+        $message = 'This is a test message from TextMe API';  // Your message
+
+        $response = $this->textMeService->sendMessage($mobileNumber, $message);
+
+        return response()->json($response);
+    }
+
     public function index(Request $request)
     {
-        $members = User::whereNot('id', Auth::id())->filter()->orderBy('id', 'DESC')->paginate(50);
-        $count = User::whereNot('id', Auth::id())->filter()->count();
+        $members = User::filter()->orderBy('id', 'DESC')->paginate(50);
+        $count = User::filter()->count();
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('staff.table', ['members' => $members])->render(),
@@ -35,12 +53,15 @@ class StaffController extends Controller
         }
         return view('staff.index', compact('members', 'count'));
     }
-    
+
     public function create()
     {
         $managers = User::select('id as key', 'name as value')->role('manager')->get()->toArray();
         $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
         $roles = Role::select('name as key', 'name as value')->where('name', '!=', 'admin')->get()->toArray();
+        foreach ($roles as &$role) {
+            $role['value'] = __('comon.' . $role['value']);
+        }
         $professions = Profession::select('id as key', 'name as value')->get()->toArray();
         $associations = Association::select('id as key', 'name as value')->get()->toArray();
         $memberRoles = MemberRole::select('id as key', 'name as value')->get()->toArray();
@@ -49,28 +70,33 @@ class StaffController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $rules = [
             'first_name' => 'required',
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'identification' => 'nullable|digits:9|unique:users',
             'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
             'role' => 'required',
             'kindergarten.*.role_id' => 'required',
             'kindergarten.*.association_id' => 'required',
             'licence_number' => 'nullable|regex:/^[0-9-]+$/',
-        ],[
+        ];
+        $messages = [
             'first_name.required' => __('staff.requiredName'),
-            'email.required' => __('staff.requiredEmail'),
-            'email.email' => __('staff.validEmail'),
-            'email.unique' => __('staff.existsEmail'),
-            'identification.digits' => 'Please enter only 9 digits',
-            'telephone.required' => __('validation.required'),
-            'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
+            'identification.digits' => __('staff.nullableIdentification'),
+            'telephone.required' => __('staff.requiredTelephone'),
+            'telephone.regex' => __('staff.telephoneRegex'),
             'role.required' => __('staff.requiredRole'),
-            'kindergarten.*.role_id.required' => 'Please choose role',
-            'kindergarten.*.association_id.required' => 'Please choose association',
-            'licence_number.regex' => 'Only digits are allowed with hyphens',
-        ]);
+            'kindergarten.*.role_id.required' => __('staff.requiredRoleId'),
+            'kindergarten.*.association_id.required' => __('staff.requiredAssociation'),
+            'licence_number.regex' => __('staff.licenceRegex'),
+        ];
+        if ($request->role != 'support') {
+            $rules['email'] = ['required', 'string', 'email', 'max:255', 'unique:users'];
+            $messages['email.required'] = __('staff.requiredEmail');
+            $messages['email.email'] = __('staff.validEmail');
+            $messages['email.unique'] = __('staff.existsEmail');
+        }
+
+        $validator = Validator::make($request->all(), $rules, $messages);
         $validator->after(function ($validator) use ($request) {
             // if ($request->kindergarten_id && count($request->kindergarten_id) > 0) {
             //     foreach ($request->kindergarten as $index => $kindergarten) {
@@ -98,21 +124,32 @@ class StaffController extends Controller
         DB::beginTransaction();
 
         try {
-            
+
             $request['password'] = rand();
             if (Session::has('staffPhoto')) {
                 $request['photo'] = Session::get('staffPhoto');
             }
-            $request['name'] = $request->first_name.' '.$request->family_name;
+            $request['name'] = $request->first_name . ' ' . $request->family_name;
             $user = User::create($request->all());
             if (isset($request->documents) && count($request->documents) > 0) {
-                foreach ($request->documents as $document) {
+                $description = $request['document_description'];
+                foreach ($request->documents as $key => $document) {
                     $name = uploadFile($document, 'public/staff-document');
-                    $user->documents()->create(['name' => $name]);
+                    $user->documents()->create(['name' => $name, 'description' => $description[$key]]);
                 }
             }
             $user->assignRole($request->role);
-            $user->notify(new AccountDetailNotification($user, $request['password']));
+
+            // if (filter_var(trim($request->email), FILTER_VALIDATE_EMAIL)) {
+            //     $user->notify(new AccountDetailNotification($user, $request['password']));
+            // } 
+            try {
+                if ($request->role != 'support') {
+                    $user->notify(new AccountDetailNotification($user, $request['password']));
+                }
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
             if (isset($request->kindergarten) && count($request->kindergarten)) {
                 $user->staffKindergartens()->createMany($request->kindergarten);
             }
@@ -120,27 +157,31 @@ class StaffController extends Controller
                 $user->days()->createMany($request->schedule);
             }
             Session::forget('kindergartenIds');
-            
+
             DB::commit();
             return redirect()->route('staff.index');
-
         } catch (\Exception $e) {
             DB::rollback();
+            echo '<pre>'; print_r($e->getMessage()); print_r($e->__toString()); die;
             return redirect()->back();
         }
-        
     }
 
     public function show($id)
     {
         $staff = User::findOrFail($id);
+        $kindergartenIds = KindergartenUser::where('user_id', $id)->select('kindergarten_id')->get()
+            ->map(function($item) {
+                return array_merge($item->toArray(), ['role_id' => 4, 'association_id' => 1]);
+            })->toArray();
+        $staffKindergartens = array_merge($kindergartenIds, $staff->staffKindergartens->toArray());
         $managers = User::select('id as key', 'name as value')->role('manager')->get()->toArray();
         $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
         $roles = Role::select('name as key', 'name as value')->where('name', '!=', 'admin')->get()->toArray();
         $memberRoles = MemberRole::select('id as key', 'name as value')->get()->toArray();
         $professions = Profession::select('id as key', 'name as value')->get()->toArray();
         $associations = Association::select('id as key', 'name as value')->get()->toArray();
-        return view('staff.show', compact('staff', 'kindergartens', 'managers', 'roles', 'memberRoles', 'professions', 'associations'));
+        return view('staff.show', compact('staff', 'kindergartens', 'managers', 'roles', 'memberRoles', 'professions', 'associations', 'staffKindergartens'));
     }
 
     public function edit($id)
@@ -157,28 +198,32 @@ class StaffController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
+        $rules = [
             'first_name' => 'required',
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($id)],
             'identification' => ['nullable', 'digits:9', Rule::unique('users')->ignore($id)],
             'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
             'role' => 'required',
             'kindergarten.*.role_id' => 'required',
             'kindergarten.*.association_id' => 'required',
             'licence_number' => 'nullable|regex:/^[0-9-]+$/',
-        ],[
+        ];
+        $messages = [
             'first_name.required' => __('staff.requiredName'),
-            'email.required' => __('staff.requiredEmail'),
-            'email.email' => __('staff.validEmail'),
-            'email.unique' => __('staff.existsEmail'),
-            'identification.digits' => 'Please enter only 9 digits',
+            'identification.digits' => __('staff.nullableIdentification'),
             'telephone.required' => __('validation.required'),
-            'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
+            'telephone.regex' => __('staff.telephoneRegex'),
             'role.required' => __('staff.requiredRole'),
-            'kindergarten.*.role_id.required' => 'Please choose role',
-            'kindergarten.*.association_id.required' => 'Please choose association',
-            'licence_number.regex' => 'Only digits are allowed with hyphens',
-        ]);
+            'kindergarten.*.role_id.required' => __('staff.requiredRoleId'),
+            'kindergarten.*.association_id.required' => __('staff.requiredAssociation'),
+            'licence_number.regex' => __('staff.licenceRegex'),
+        ];
+        if ($request->role != 'support') {
+            $rules['email'] = ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($id)];
+            $messages['email.required'] = __('staff.requiredEmail');
+            $messages['email.email'] = __('staff.validEmail');
+            $messages['email.unique'] = __('staff.existsEmail');
+        }
+        $validator = Validator::make($request->all(), $rules, $messages);
         $validator->after(function ($validator) use ($request) {
             // if ($request->kindergarten_id && count($request->kindergarten_id) > 0) {
             //     foreach ($request->kindergarten as $index => $kindergarten) {
@@ -208,13 +253,24 @@ class StaffController extends Controller
 
         try {
 
-            $request['name'] = $request->first_name.' '.$request->family_name;
+            $request['name'] = $request->first_name . ' ' . $request->family_name;
             $user = User::findOrFail($id);
             $user->update($request->except('_token', '_method', 'kindergarten_id', 'schedule', 'query_string'));
+            $user->syncRoles($request->role);
+            $description = $request['document_description'];
+            if (isset($request->deleted_document_ids) && !empty($request->deleted_document_ids)) {
+                $documentIds = explode(',', $request->deleted_document_ids);
+                StaffDocument::whereIn('id', $documentIds)->delete();
+            }
             if (isset($request->documents) && count($request->documents) > 0) {
-                foreach ($request->documents as $document) {
+                foreach ($request->documents as $key => $document) {
                     $name = uploadFile($document, 'public/staff-document');
-                    $user->documents()->create(['name' => $name]);
+                    $user->documents()->create(['name' => $name, 'description' => $description[$key]]);
+                }
+            }
+            if (isset($request->document_id) && count($request->document_id) > 0) {
+                foreach ($request->document_id as $key => $document_id) {
+                    StaffDocument::where('id', $document_id)->update(['description' => $description[$key]]);
                 }
             }
             $user->staffKindergartens()->delete();
@@ -230,7 +286,6 @@ class StaffController extends Controller
 
             DB::commit();
             return redirect()->route('staff.show', ['staff' => $id, 'kindergarten_id' => $request->query_string]);
-
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back();
@@ -255,7 +310,7 @@ class StaffController extends Controller
             } else {
                 User::where('id', $request->user_id)->update(['photo' => $photo]);
             }
-            return response()->json(['status' => true, 'message' => 'Profile has been uploaded', 'src' => asset('storage/'.$photo)]);
+            return response()->json(['status' => true, 'message' => 'Profile has been uploaded', 'src' => asset('storage/' . $photo)]);
         }
         return response()->json(['status' => false]);
     }

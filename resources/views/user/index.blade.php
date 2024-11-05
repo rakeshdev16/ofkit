@@ -38,8 +38,10 @@
                                     <p class="text-secondary mb-1">{{ @$user->email }}</p>
                                     <p class="text-secondary mb-1">{{ @$user->profession->name }}</p>
                                     <p class="text-muted font-size-sm">{{ @$user->address }}</p>
-                                    <a href="{{ route('profile.edit') }}" class="btn button">{{ __('comon.edit') }}</a>
-                                    <a href="{{ route('change-password.index') }}" class="btn button">Change Password</a>
+                                    @if (!Auth::user()->hasRole('therapist'))
+                                        <a href="{{ route('profile.edit') }}" class="btn button">{{ __('comon.edit') }}</a>
+                                    @endif
+                                    <a href="{{ route('change-password.index') }}" class="btn button">{{ __('staff.changePassword') }}</a>
                                 </div>
                             </div>
                             <hr class="my-4">

@@ -27,4 +27,21 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function render($request, Throwable $exception)
+    {
+        // Handle TokenMismatchException (419 Page Expired)
+        // if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
+        //     // // Check if user is authenticated
+        //     // if (auth()->check()) {
+        //     //     // If authenticated, redirect to homepage
+        //     //     return redirect()->back();
+        //     // } else {
+        //     //     // If not authenticated, redirect to login page
+        //     //     return redirect()->route('login');
+        //     // }
+        // }
+
+        return parent::render($request, $exception);
+    }
 }

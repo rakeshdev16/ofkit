@@ -1,27 +1,33 @@
 <table id="staffTable" class="table table-style table-bordered" style="width:100%">
     <thead>
         <tr>
-            {{-- <th><input type="checkbox" class="mainCheckbox"></th> --}}
-            @include('components.table-heading', ['label' => __('children.date'), 'key' => 'created_at'])
-            @include('components.table-heading', ['label' => __('children.therapist'), 'key' => 'kindergarten_id'])
+            <th><input type="checkbox" class="mainCheckbox"></th>
+            @include('components.table-heading', ['label' => __('children.date'), 'key' => 'date'])
+            @include('components.table-heading', ['label' => __('children.therapist'), 'key' => 'therapist_id'])
             @include('components.table-heading', ['label' => __('children.profession')])
             @include('components.table-heading', ['label' => __('children.intervention'), 'key' => 'type'])
             @include('components.table-heading', ['label' => __('children.occurred'), 'key' => 'occured'])
             @include('components.table-heading', ['label' => __('children.description'), 'key' => 'occured_description'])
-            @include('components.table-heading', ['label' => __('children.attactedFile')])
-            @include('components.table-heading', ['label' => __('comon.action')])
+            @include('components.table-heading', ['label' => __('children.attactedFile'), 'width' => '20px'])
+            @include('components.table-heading', ['label' => __('comon.action'), 'width' => '20px'])
         </tr>
     </thead>
     <tbody>
         @forelse ($documentations as $documentation)
             @php
-                $truncatedDesc = \Str::limit($documentation->occured_description, 80, '...');
+                $therapist_ids = $documentation->groupTherapist->pluck('therapist_id')->toArray();
                 $groupChildDetail = getDocGroupChildDetail($documentation->id, $children->id);
             @endphp
             <tr class="tr-{{ $documentation->id }}">
-                {{-- <td><input type="checkbox" name="id[]" value="{{ $documentation->id }}" class="checkbox check-{{ $documentation->id }}" data-class="check-{{ $documentation->id }}"></td> --}}
+                <td><input type="checkbox" name="id[]" value="{{ $documentation->id }}" class="checkbox check-{{ $documentation->id }}" data-class="check-{{ $documentation->id }}"></td>
                 <td>{{ date('d/m/Y', strtotime($documentation->date)) }}</td>
-                <td>{{ $documentation->therapist->name ?? '-' }}</td>
+                <td>
+                    @if ($documentation->therapist != null)
+                        {{ $documentation->therapist->name ?? '-' }}
+                    @else
+                        {!! description(getUserNameByIds($therapist_ids), 80) !!}
+                    @endif
+                </td>
                 <td>{{ $documentation->therapist->profession->name ?? '-' }}</td>
                 <td>{{ ucfirst(str_replace('-', ' ', $documentation->type)) }}</td>
                 <td>
@@ -32,7 +38,24 @@
                     @endif
                 </td>
                 <td class="{{ $documentation->occured == 1 ? 'address-column' : '' }}">
-                    @if ($documentation->occured == 1)
+                    @if (!empty($documentation->group_name))
+                        @php
+                            if (isset($groupChildDetail) && isset($groupChildDetail->participated) && $groupChildDetail->participated == 1) {
+                                $description = $groupChildDetail->description;
+                            } else {
+                                $description = @$groupChildDetail->reason;
+                            }
+                        @endphp
+                        {!! description($description, 80) !!} :{{ $documentation->group_name }}
+                    @else
+                        @if ($documentation->occured == 1)
+                            {!! description($documentation->occured_description, 80) !!}
+                        @else
+                            {{ $documentation->occured_reason }}
+                        @endif
+                    @endif
+
+                    {{-- @if ($documentation->occured == 1)
                         @if ($documentation->type == 'group')
                             @if ($groupChildDetail)
                                 @php
@@ -43,24 +66,27 @@
                                 <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $documentation->group_name }}: <br> {{ $truncatedDesc }}</span>
                             @endif
                         @else
-                            <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $truncatedDesc }}</span>
+                            <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $truncatedDesc }}</span>dflsdj
                         @endif
                     @else
                         {{ $documentation->occured_reason }}
-                    @endif
+                    @endif --}}
                 </td>
                 {{-- <td>{{ $documentation->occured == 1 ? \Str::limit($documentation->occured_description, 20, '...') : $documentation->occured_reason }}</td> --}}
-                <td>
+                <td class="d-flex">
                     @if ($documentation->file)
                         <a href="{{ $documentation->file }}" target="_blank">
                             <h4><i class="bx bx-file"></i></h4>
                         </a>
-                    @else
-                        -
+                    @endif
+                    @if ($groupChildDetail && $groupChildDetail->file)
+                        <a href="{{ asset('storage/' . @$groupChildDetail->file) }}" target="_blank">
+                            <h4><i class="bx bx-file"></i></h4>
+                        </a>
                     @endif
                 </td>
                 <td>
-                    <a href="{{ route('children-documentation.show', [$documentation->children_id, $documentation->id, Request::segment(2)]) }}" data-toggle="tooltip" data-placement="bottom" title="View">
+                    <a href="{{ route('children-documentation.show', [$documentation->children_id, $documentation->id, Request::segment(2)]) }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('comon.view') }}">
                         <i class="bx bx-show icon"></i>
                     </a>
                     @php

@@ -1,4 +1,12 @@
 <script>
+    $(document).on('click', '.docSubmitBtn', function(e) {
+        e.preventDefault();
+        var $this = $(this);
+        if (!$this.prop('disabled')) {
+            $this.prop('disabled', true);
+            $this.closest('form').submit();
+        }
+    });
     $(document).on('change', '.startTime', function() {
         var startTime = $(this).val();
         var endTimeInput = $('.endTime');
@@ -9,39 +17,39 @@
     });
 
     $(document).on('change', '.endTime', function() {
-    var startTime = $('.startTime').val();
-    var endTime = $(this).val();
-    $('.invalid-feedback').html('');
-    // Find the sibling `.invalid-feedback` span after the input
-    var errorSpan = $(this).siblings('.invalid-feedback');
+        var startTime = $('.startTime').val();
+        var endTime = $(this).val();
+        $('.invalid-feedback').html('');
+        // Find the sibling `.invalid-feedback` span after the input
+        var errorSpan = $(this).siblings('.invalid-feedback');
 
-    if (endTime < startTime) {
-        $(this).val(''); // Clear the input if the end time is earlier
+        if (endTime < startTime) {
+            $(this).val(''); // Clear the input if the end time is earlier
 
-        // If the .invalid-feedback element doesn't exist, create it
-        if (errorSpan.length === 0) {
-            $(this).after(`
+            // If the .invalid-feedback element doesn't exist, create it
+            if (errorSpan.length === 0) {
+                $(this).after(`
                 <span class="invalid-feedback" role="alert">
                     <strong>End Time cannot be earlier than Start Time.</strong>
                 </span>
             `);
+            } else {
+                errorSpan.html('<strong>End Time cannot be earlier than Start Time.</strong>');
+                errorSpan.show();
+            }
         } else {
-            errorSpan.html('<strong>End Time cannot be earlier than Start Time.</strong>');
-            errorSpan.show();
+            // If there's an existing error message, clear it
+            if (errorSpan.length > 0) {
+                errorSpan.html('');
+                errorSpan.hide();
+            }
         }
-    } else {
-        // If there's an existing error message, clear it
-        if (errorSpan.length > 0) {
-            errorSpan.html('');
-            errorSpan.hide();
-        }
-    }
-});
-
-
-    $(document).on('click', '.button', function() {
-        $(this).attr('disabled', false);
     });
+
+
+    // $(document).on('click', '.button', function() {
+    //     $(this).attr('disabled', false);
+    // });
 
     $(document).on('change', '.occured', function() {
         var value = $(this).val();
@@ -56,15 +64,28 @@
         }
     });
 
-    $('.file').change(function(event) {
+    $('#file').change(function(event) {
         const file = event.target.files[0];
         var url = URL.createObjectURL(file);
-        $('.choosenFile').html('<div class="document mt-1"><a href="'+url+'" target="_blank" rel="noopener noreferrer">'+ file.name +'</a><i class="bx bx-x childDocument" data-file-name="' + file.name + '"></i></div>');
+        $('.choosenFile').html('<div class="document mt-1"><a href="' + url + '" target="_blank" rel="noopener noreferrer">' + file.name + '</a><i class="bx bx-x childDocument" data-file-name="' + file.name + '"></i></div>');
     });
+
+    function appendChildFile(el) {
+        var data = $(el);
+        const file = $(el)[0].files[0];
+        console.log(file);
+        var url = URL.createObjectURL(file);
+        data.closest('.col-md-12').find('.childChoosenFile').html('<div class="document mt-1"><a href="' + url + '" target="_blank" rel="noopener noreferrer">' + file.name + '</a><i class="bx bx-x childDocument" data-file-name="' + file.name + '"></i></div>');
+    }
 
     $(document).on('click', '.childDocument', function() {
         $('.file').val('');
         $('.deleteFile').val('1');
         $(this).parent().remove();
     })
+
+    $(document).on('click', '.childDocFile', function() {
+        $(this).closest('.document').siblings('input').val('');
+        $(this).parent().remove();
+    });
 </script>

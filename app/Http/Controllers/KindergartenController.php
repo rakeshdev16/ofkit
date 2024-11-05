@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Auth;
 
 class KindergartenController extends Controller
@@ -27,7 +28,7 @@ class KindergartenController extends Controller
         }
         return view('kindergarten.index', compact('kindergartens', 'count'));
     }
-    
+
     public function create()
     {
         $clusters = Cluster::select('id as key', 'cluster as value')->orderBy('id', 'DESC')->get();
@@ -40,16 +41,16 @@ class KindergartenController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'name' => ['required', 'unique:kindergartens'],
             'cluster_id' => 'required',
             'symbol' => 'nullable|numeric',
             'telephone' => ['nullable', 'regex:/^[0-9-]{8,14}$/'],
-        ],[
+        ], [
             'name.required' => __('kindergarten.requiredName'),
+            'name.unique' => __('kindergarten.uniqueName'),
             'cluster_id.required' => __('kindergarten.requiredCluster'),
-            'symbol.numeric' => 'Please enter numbers only',
-            // 'telephone.required' => 'Please enter telephone number',
-            'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
+            'symbol.numeric' => __('kindergarten.numericSymbol'),
+            'telephone.regex' => __('kindergarten.nullableTelephone'),
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -84,14 +85,14 @@ class KindergartenController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'name' => ['required', Rule::unique('kindergartens')->ignore($id)],
             'symbol' => 'nullable|numeric',
             'telephone' => ['nullable', 'regex:/^[0-9-]{8,14}$/'],
-        ],[
+        ], [
             'name.required' => __('kindergarten.requiredName'),
-            'symbol.numeric' => 'Please enter numbers only',
-            // 'telephone.required' => 'Please enter telephone number',
-            'telephone.regex' => 'The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.',
+            'name.unique' => __('kindergarten.uniqueName'),
+            'symbol.numeric' => __('kindergarten.numericSymbol'),
+            'telephone.regex' => __('kindergarten.nullableTelephone'),
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -113,7 +114,7 @@ class KindergartenController extends Controller
         }
         return response()->json(['status' => false, 'ids' => $ids]);
     }
-    
+
     public function getClusterManager(Request $request)
     {
         $cluster = Cluster::where('id', $request->cluster_id)->first();

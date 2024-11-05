@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Children;
 use App\Models\ChildrenDocumentAndApproval;
 use App\Models\ChildrenDocumentation;
+use App\Models\ChildrenDocumentTherapist;
 use App\Models\ChildrenMedicalInformation;
 use App\Models\ChildrenMedicine;
 use App\Models\ChildrenParent;
@@ -24,6 +25,7 @@ use App\Models\StaffKindergarten;
 use App\Models\StaffMeetingChildren;
 use App\Models\Status;
 use App\Models\User;
+use App\Models\FileType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -43,8 +45,8 @@ class ChildrenController extends Controller
             Auth::logout();
             return redirect()->route('login');
         }
-        $childrens = Children::filter()->orderBy('id', 'DESC')->paginate(50);
-        $count = Children::filter()->count();
+        $childrens = Children::with('kindergarten')->filter()->paginate(50);
+        $count = Children::with('kindergarten')->filter()->count();
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('children.table', ['childrens' => $childrens])->render(),
@@ -90,7 +92,9 @@ class ChildrenController extends Controller
             'identification.numeric' => __('children.requiredIdentificationNumeric'),
             'identification.digits' => __('children.requiredIdentificationDigits'),
             'father_telephone.regex' => __('children.requiredTelephoneRegex'),
+            'father_email.email' => __('children.validEmail'),
             'mother_telephone.regex' => __('children.requiredTelephoneRegex'),
+            'mother_email.email' => __('children.validEmail'),
             'emergency_telephone.regex' => __('children.requiredTelephoneRegex'),
             'food_allergie_detail.required_if' => __('children.requiredFoodAllergieDetail'),
             'medicine_dosage.*.name' => __('children.requiredName'),
@@ -211,19 +215,22 @@ class ChildrenController extends Controller
             'medicine_dosage.*.dosage_and_timing' => "required_if:medicine,==,yes",
             'medicine_dosage.*.where' => "required_if:medicine,==,yes",
         ], [
-            'name.required' => __('children.required'),
-            'family_name.required' => __('children.required'),
-            'dob.required' => __('children.required'),
+            'name.required' => __('children.requiredName'),
+            'family_name.required' => __('children.requiredFamilyName'),
+            'dob.required' => __('children.requiredDOB'),
             'identification.numeric' => __('children.requiredIdentificationDigits'),
             'identification.digits' => __('children.requiredIdentificationDigits'),
             'father_telephone.regex' => __('children.requiredTelephoneRegex'),
+            'father_email.email' => __('children.validEmail'),
             'mother_telephone.regex' => __('children.requiredTelephoneRegex'),
+            'mother_email.email' => __('children.validEmail'),
             'emergency_telephone.regex' => __('children.requiredTelephoneRegex'),
             'food_allergie_detail.required_if' => __('children.requiredFoodAllergieDetail'),
             'medicine_dosage.*.name' => __('children.requiredName'),
             'medicine_dosage.*.type' => __('children.requiredType'),
             'medicine_dosage.*.dosage_and_timing' => __('children.requiredDosageAndTiming'),
             'medicine_dosage.*.where' => __('children.requiredWhere'),
+
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -325,14 +332,14 @@ class ChildrenController extends Controller
         // $roles = Role::get();
         $roles = Profession::get();
         $therapistIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
-        $therapists = User::role(['admin', 'therapist'])->whereIn('id', $therapistIds)->select('id', 'name')->get();
+        $therapists = User::role(['manager', 'therapist'])->whereIn('id', $therapistIds)->select('id', 'name')->get();
 
         $docIds = [];
         $childDocIds = ChildrenDocumentation::where('children_id', $id)->pluck('id')->toArray();
         $staffMeetingDocIds = StaffMeetingChildren::where('children_id', $id)->pluck('children_doc_id')->toArray();
         $groupDocIds = GroupChildren::where('children_id', $id)->pluck('children_documentation_id')->toArray();
         $docIds = array_merge(array_unique($childDocIds), array_unique($staffMeetingDocIds), array_unique($groupDocIds));
-        $documentations = ChildrenDocumentation::whereIn('id', $docIds)->filter()->orderBy('id', 'DESC')->paginate(50);
+        $documentations = ChildrenDocumentation::with('groupTherapist')->whereIn('id', $docIds)->filter()->orderBy('date', 'DESC')->paginate(50);
         $documentationCount = ChildrenDocumentation::whereIn('id', $docIds)->filter()->count();
         // Get start and end date of last week
         $startOfLastWeek = Carbon::now()->subWeek()->startOfWeek();
@@ -357,7 +364,7 @@ class ChildrenController extends Controller
                 'count' => $documentationCount
             ]);
         }
-        return view('children.document.documentation', compact('children', 'documentations', 'documentationCount', 'roles', 'therapists', 'lastWeek', 'month', 'pastThreeMonth', 'pastSixMonth'));
+        return view('children.document.documentation', compact('children', 'documentations', 'documentationCount', 'roles', 'therapists'));
     }
 
     public function documentationDetail($childId, $id, $mailchildId = NULL)
@@ -365,44 +372,51 @@ class ChildrenController extends Controller
         $children = Children::findOrFail($childId);
         $mainChildren = Children::findOrFail($mailchildId);
         $document = ChildrenDocumentation::findOrFail($id);
+        $therapist = null;
+        if($document){
+            $therapist_ids = ChildrenDocumentTherapist::where('children_documentation_id', $document->id)->pluck('therapist_id');
+            $therapist = User::whereIn('id', $therapist_ids)->pluck('name')->implode(', ');
+        }
 
-        return view('children.document.documentation-detail', compact('document', 'children', 'mainChildren'));
+        return view('children.document.documentation-detail', compact('document', 'children', 'mainChildren', 'therapist'));
     }
 
     public function documentation(Request $request, $type, $childId, $id = null)
     {
         $document = '';
+        $therapist = '';
         if ($id) {
             $document = ChildrenDocumentation::findOrFail($id);
+            $therapist = ChildrenDocumentTherapist::where('children_documentation_id', $document->id)->pluck('therapist_id')->toArray();
         }
         $children = Children::findOrFail($childId);
-        $childrens = Children::where('id', '!=', $childId)->where('kindergarten_id', $children->kindergarten_id)->select('id as key', 'name as value')->get();
+        $childrens = Children::where('id', '!=', $childId)
+            ->where('kindergarten_id', $children->kindergarten_id)
+            ->select('id as key', DB::raw("CONCAT(name, ' ', family_name) as value"))
+            ->get();
         $user = Auth::user();
-        $allTherapists = User::role(['admin', 'therapist'])->select('id as key', 'name as value')->get();
+        $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
+        $allTherapists = User::whereIn('id', $userIds)->role(['manager', 'therapist'])->select('id as key', 'name as value')->get();
         switch ($type) {
             case 'individual':
                 return view('children.document.individual', compact('allTherapists', 'children', 'user', 'document'));
                 break;
             case 'group':
-                return view('children.document.group', compact('allTherapists', 'children', 'user', 'document', 'childrens'));
+                return view('children.document.group', compact('allTherapists', 'children', 'user', 'document', 'childrens', 'therapist'));
                 break;
             case 'parental-guidance':
-                $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
                 $kindergartens = User::whereIn('id', $userIds)->select('id as key', 'name as value')->get();
                 return view('children.document.parental-guidance', compact('allTherapists', 'children', 'user', 'document', 'childrens', 'kindergartens'));
                 break;
             case 'staff-meeting':
-                $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
                 $therapist = User::whereIn('id', $userIds)->role(['therapist', 'manager'])->select('id as key', 'name as value')->get();
                 return view('children.document.staff-meeting', compact('allTherapists', 'children', 'user', 'document', 'childrens', 'therapist'));
                 break;
             case 'initial-evaluation':
-                $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
                 $therapist = User::whereIn('id', $userIds)->role(['therapist', 'manager'])->select('id as key', 'name as value')->get();
                 return view('children.document.initial-evaluation', compact('allTherapists', 'children', 'user', 'document', 'childrens', 'therapist'));
                 break;
             case 'final-evaluation':
-                $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
                 $therapist = User::whereIn('id', $userIds)->role(['therapist', 'manager'])->select('id as key', 'name as value')->get();
                 return view('children.document.final-evaluation', compact('allTherapists', 'children', 'user', 'document', 'childrens', 'therapist'));
                 break;
@@ -433,6 +447,15 @@ class ChildrenController extends Controller
                 return $this->individual($request->all(), $id);
                 break;
             case 'group':
+                if ($request->has('participated') && count($request->participated) > 0) {
+                    $participated = $request->participated;
+                    foreach ($participated as $key => $item) {
+                        if (isset($item['child_file'])) {
+                            $participated[$key]['file'] = uploadFile($item['child_file'], 'public/child-document');
+                        }
+                    }
+                    $request->merge(['participated' => $participated]);
+                }
                 return $this->group($request->all(), $id);
                 break;
             case 'parental-guidance':
@@ -465,8 +488,11 @@ class ChildrenController extends Controller
         }
 
         $messages = [
-            'occured_description.required_if' => 'Please enter description',
-            'occured_reason.required_if' => 'Please enter reason',
+            'date.required' => __('children.requiredDate'),
+            'occured.required' => __('children.requiredOccured'),
+            'end_time.required_with' => __('children.requiredEndTime'),
+            'occured_description.required_if' => __('children.requiredOccuredDescription'),
+            'occured_reason.required_if' => __('children.requiredOccuredReason'),
             // 'end_time.required_if' => 'Please enter end time',
         ];
 
@@ -477,7 +503,6 @@ class ChildrenController extends Controller
         }
 
         ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
-
         if ($data['id']) {
             return redirect()->route('children-documentation.show', [$id, $data['id'], $id]);
         }
@@ -489,10 +514,10 @@ class ChildrenController extends Controller
         $rules = [
             'date' => 'required',
             'occured' => 'required',
-            'group_name' => 'required_if:occured,==,1',
+            'group_name' => 'required_if:occured,==,0',
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
-            'children_ids' => "required_if:occured,==,1",
+            'children_ids' => "required_if:occured,==,0",
             'participated.*.participated' => 'required_if:occured,==,1',
             'participated.*.reason' => "required_if:participated.*.participated,==,0",
             'participated.*.description' => "required_if:participated.*.participated,==,1",
@@ -505,14 +530,17 @@ class ChildrenController extends Controller
         }
 
         $messages = [
-            'group_name.required_if' => 'Please enter group name',
-            'occured_description.required_if' => 'Please enter description',
-            'occured_reason.required_if' => 'Please enter reason',
-            'children_ids.required_if' => 'Please choose children',
-            'participated.*.participated.required_if' => 'Please choose participated',
-            'participated.*.reason.required_if' => 'Please enter reason',
-            'participated.*.description.required_if' => 'Please enter description',
-            'participated.*.child_file.required' => 'Please choose file',
+            'date.required' => __('children.requiredDate'),
+            'occured.required' => __('children.requiredOccured'),
+            'end_time.required_with' => __('children.requiredEndTime'),
+            'group_name.required_if' => __('children.requiredGroupName'),
+            'occured_description.required_if' => __('children.requiredOccuredDescription'),
+            'occured_reason.required_if' => __('children.requiredOccuredReason'),
+            'children_ids.required_if' => __('children.requiredAddAnotherChlidren'),
+            'participated.*.participated.required_if' => __('children.requiredParticipated'),
+            'participated.*.reason.required_if' => __('children.requiredReason'),
+            'participated.*.description.required_if' => __('children.requiredDescription'),
+            'participated.*.child_file.required' => __('children.requiredFile'),
         ];
 
         $validator = Validator::make($data, $rules, $messages);
@@ -522,15 +550,27 @@ class ChildrenController extends Controller
         if ($data['occured'] == 0) {
             $data['file'] = NULL;
         }
+
+        $therapist_ids = isset($data['therapist_id']) ? $data['therapist_id'] : [];
+
+        unset($data['therapist_id']);
+
         $document = ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
+
+        foreach ($therapist_ids as $therapist_id) {
+            ChildrenDocumentTherapist::updateOrCreate(
+                ['children_documentation_id' => $document->id, 'therapist_id' => $therapist_id],
+            );
+        }
+
         $document->groupChildrens()->delete();
         if (isset($data['participated']) && count($data['participated']) > 0) {
             foreach ($data['participated'] as $participated) {
-                if (isset($participated['child_file'])) {
-                    $participated['file'] = uploadFile($participated['child_file'], 'public/child-document');
-                } else {
-                    $participated['file'] = $participated['old_file'];
-                }
+                // if (isset($participated['child_file'])) {
+                //     $participated['file'] = uploadFile($participated['child_file'], 'public/child-document');
+                // } else {
+                //     $participated['file'] = $participated['old_file'];
+                // }
                 $document->groupChildrens()->create($participated);
             }
         }
@@ -556,8 +596,11 @@ class ChildrenController extends Controller
         }
 
         $messages = [
-            'occured_description.required_if' => 'Please enter description',
-            'occured_reason.required_if' => 'Please enter reason',
+            'date.required' => __('children.requiredDate'),
+            'occured.required' => __('children.requiredOccured'),
+            'end_time.required_with' => __('children.requiredEndTime'),
+            'occured_description.required_if' => __('children.occuredDescription'),
+            'occured_reason.required_if' => __('children.occuredReason'),
         ];
 
         $validator = Validator::make($data, $rules, $messages);
@@ -591,7 +634,7 @@ class ChildrenController extends Controller
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
             'end_time' => 'required_with:start_time',
-            'therapist_ids' => 'required|array|min:1',
+            'therapist_ids' => 'required_if:occured,==,1',
             'children.*.topic' => 'required_if:occured,==,1',
             'children.*.discussion' => 'required_if:occured,==,1',
             'children.*.decisions' => 'required_if:occured,==,1',
@@ -606,11 +649,15 @@ class ChildrenController extends Controller
         }
 
         $messages = [
-            'occured_description.required_if' => 'Please enter description',
-            'occured_reason.required_if' => 'Please enter reason',
-            'children.*.topic.required_if' => 'Please enter topic',
-            'children.*.discussion.required_if' => 'Please enter discussion',
-            'children.*.decisions.required_if' => 'Please enter decisions',
+            'date.required' => __('children.requiredDate'),
+            'occured.required' => __('children.requiredOccured'),
+            'end_time.required_with' => __('children.requiredEndTime'),
+            'therapist_ids.required_if' => __('children.requiredTherapistIds'),
+            'occured_description.required_if' => __('children.requiredOccuredDescription'),
+            'occured_reason.required_if' => __('children.requiredOccuredReason'),
+            'children.*.topic.required_if' => __('children.requiredTopic'),
+            'children.*.discussion.required_if' => __('children.requiredDiscussion'),
+            'children.*.decisions.required_if' => __('children.requiredDecision'),
         ];
 
         $validator = Validator::make($data, $rules, $messages);
@@ -678,8 +725,8 @@ class ChildrenController extends Controller
         }
 
         $messages = [
-            'occured_description.required_if' => 'Please enter description',
-            'occured_reason.required_if' => 'Please enter reason',
+            'occured_description.required_if' => __('children.requiredOccuredDescription'),
+            'occured_reason.required_if' => __('children.requiredOccuredReason'),
         ];
 
         $validator = Validator::make($data, $rules, $messages);
@@ -709,8 +756,9 @@ class ChildrenController extends Controller
         }
 
         $messages = [
-            'occured_description.required_if' => 'Please enter description',
-            'occured_reason.required_if' => 'Please enter reason',
+            'date.required' => __('children.requiredDate'),
+            'occured_description.required_if' => __('children.requiredOccuredDescription'),
+            'occured_reason.required_if' => __('children.requiredOccuredReason'),
         ];
 
         $validator = Validator::make($data, $rules, $messages);
@@ -755,6 +803,8 @@ class ChildrenController extends Controller
         $children = Children::findOrFail($childId);
         $documents = ChildrenDocumentAndApproval::where('children_id', $childId)->filter()->orderBy('id', 'DESC')->paginate(50);
         $count = ChildrenDocumentAndApproval::where('children_id', $childId)->filter()->count();
+        $fileTypes = FileType::select('id as key', 'name as value')->orderBY('id', 'desc')->get();
+
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('children.document-approvals.table', ['children' => $children, 'documents' => $documents])->render(),
@@ -762,37 +812,83 @@ class ChildrenController extends Controller
                 'count' => $count
             ]);
         }
-        return view('children.document-approvals.index', compact('children', 'documents', 'count'));
+        return view('children.document-approvals.index', compact('children', 'documents', 'count', 'fileTypes'));
+    }
+
+    public function documentsAndApprovalsCreate(Request $request, $childId)
+    {
+        $fileTypes = FileType::select('id as key', 'name as value')->orderBY('id', 'desc')->get();
+        return view('children.document-approvals.create', compact('fileTypes', 'childId'));
+    }
+
+    public function documentsAndApprovalsEdit(Request $request, $docId)
+    {
+        $fileTypes = FileType::select('id as key', 'name as value')->orderBY('id', 'desc')->get();
+        $document = ChildrenDocumentAndApproval::where('id', $docId)->first();
+        return view('children.document-approvals.edit', compact('fileTypes', 'document'));
     }
 
     public function saveDocumentsAndApprovals(Request $request)
     {
-
-        $validator = Validator::make($request->all(), [
-            'document' => 'required',
-        ], [
-            'document.required' => 'Please choose document',
-        ]);
+        $rules= [
+            'file_type_id' => 'required',
+            'description' => 'required',
+        ];
+        if ((!isset($request->id) && empty($request->id) || (isset($request->id) && empty($request->old_document)))) {
+            $rules['document'] = 'required';
+        }
+        $messages = [
+            'file_type_id.required' => 'Please choose file type',
+            'description.required' => 'Please enter description',
+        ];
+        if ((!isset($request->id) && empty($request->id) || (isset($request->id) && empty($request->old_document)))) {
+            $messages['document.required'] = 'Please choose document';
+        }
+        $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+        DB::beginTransaction();
 
-        if ($request->has('document')) {
-            $document = uploadFile($request->document, 'public/child-document');
+        try {
+
+            if ($request->has('document')) {
+                $document = uploadFile($request->document, 'public/child-document');
+            } else {
+                $document = explode('storage/', $request->old_document)[1];
+            }
+            ChildrenDocumentAndApproval::updateOrCreate(['id' => $request->id], [
+                'children_id' => $request->children_id,
+                'document' => $document,
+                'file_type_id' => $request->file_type_id,
+                'description' => $request->description,
+            ]);
+            DB::commit();
+            return redirect()->route('documents-approvals.get', $request->children_id);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back();
         }
-        ChildrenDocumentAndApproval::create([
-            'children_id' => $request->children_id,
-            'document' => $document
-        ]);
-        return redirect()->route('documents-approvals.get', $request->children_id);
     }
 
     public function deleteDocumentsAndApprovals($ids)
     {
         $ids = explode(',', $ids);
-        if (ChildrenDocumentAndApproval::whereIn('id', $ids)->delete()) {
-            return response()->json(['status' => true, 'message' => 'Document has been successfully archived', 'ids' => $ids]);
+        $documents = ChildrenDocumentAndApproval::whereIn('id', $ids)->get();
+        foreach ($documents as $document) {
+            $document->delete(); // This will trigger the `deleted` event on each document
         }
-        return response()->json(['status' => false, 'ids' => $ids]);
+        return response()->json(['status' => true, 'message' => 'Document has been successfully archived', 'ids' => $ids]);
+    }
+
+    public function deleteDocuments($ids)
+    {
+        $ids = explode(',', $ids);
+        $documents = ChildrenDocumentation::whereIn('id', $ids)->get();
+        foreach ($documents as $document) {
+            $document->delete(); // This will trigger the `deleted` event on each document
+        }
+        return response()->json(['status' => true, 'message' => 'Documents have been successfully archived', 'ids' => $ids]);
     }
 }

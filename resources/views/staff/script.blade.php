@@ -5,6 +5,7 @@
         var allFiles = [];
 
         $('.documents').change(function(event) {
+            $('.document-section').show();
             const files = event.target.files;
             for (let i = 0; i < files.length; i++) {
                 if (documentExists(files[i].name) == false) {
@@ -17,7 +18,8 @@
                 var validFile = extensionArr.includes(file.name.split('.').pop());
                 if (validFile) {
                     if (documentExists(file.name) == false) {
-                        fileList.append('<div class="document mt-1">'+ file.name +'<i class="bx bx-x staffDocument" data-file-name="' + file.name + '"></i></div>');
+                        // fileList.append('<div class="document mt-1">'+ file.name +'<i class="bx bx-x staffDocument" data-file-name="' + file.name + '"></i></div>');
+                        fileList.append(`@include('components.document-detail', ['index' => '${index}', 'name' => '${file.name}', 'class' => 'staffDocument'])`);
                     }
                 } else {
                     allFiles = allFiles.filter(doc => doc.name !== file.name);
@@ -40,7 +42,7 @@
         }
 
         $(document).on('click', '.staffDocument', function() {
-            let parentDiv = $(this).parent();
+            let parentDiv = $(this).parent().parent().parent();
             let fileName = $(this).data('file-name');
             parentDiv.remove();
             allFiles = allFiles.filter(file => file.name !== fileName);
@@ -77,7 +79,11 @@
         $.ajax({
             type: 'GET',
             url: "{{ route('selected.kindergarten') }}",
-            data: { id: id, user_id: user_id, index: index },
+            data: {
+                id: id,
+                user_id: user_id,
+                index: index
+            },
             success: function(data) {
                 if (data.status == true) {
                     if ($('.tr-' + id).length == 0) {

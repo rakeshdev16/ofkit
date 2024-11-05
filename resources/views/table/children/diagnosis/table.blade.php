@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th><input type="checkbox" class="mainCheckbox"></th>
-            @include('components.table-heading', ['label' => 'Name', 'key' => 'name'])
+            @include('components.table-heading', ['label' => __('tables.name'), 'key' => 'name'])
             @include('components.table-heading', ['label' => __('comon.action')])
         </tr>
     </thead>
@@ -10,17 +10,11 @@
         @forelse ($diagnosises as $diagnosis)
             <tr class="tr-{{ $diagnosis->id }}">
                 <td>
-                    <input
-                        type="checkbox"
-                        name="id[]"
-                        value="{{ $diagnosis->id }}"
-                        class="checkbox"
-                        data-name="{{ $diagnosis->is_assign ? $diagnosis->name.' has assigned to children' : '' }}"
-                    >
+                    <input type="checkbox" name="id[]" value="{{ $diagnosis->id }}" class="checkbox" data-name="{{ $diagnosis->is_assign ? $diagnosis->name . ' has assigned to children' : '' }}">
                 </td>
                 <td>{{ $diagnosis->name }}</td>
                 <td>
-                    <a href="{{ route('children-table.edit', $diagnosis->id) }}?type=diagnosis" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="bx bx-edit icon"></i></a>
+                    <a href="{{ route('children-table.edit', $diagnosis->id) }}?type=diagnosis" data-toggle="tooltip" data-placement="bottom" title="{{ __('comon.edit') }}"><i class="bx bx-edit icon"></i></a>
                 </td>
             </tr>
         @empty

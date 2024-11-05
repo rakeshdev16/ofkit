@@ -65,7 +65,7 @@ class FrameworkTableController extends Controller
             break;
         }
     }
-    
+
     public function store(Request $request)
     {
         switch ($request->type) {
@@ -73,7 +73,7 @@ class FrameworkTableController extends Controller
                 $validator = Validator::make($request->all(), [
                     'name' => 'required',
                 ],[
-                    'name.required' => 'Please enter name',
+                    'name.required' => __('kindergarten.requiredName'),
                 ]);
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
@@ -85,7 +85,7 @@ class FrameworkTableController extends Controller
                 $validator = Validator::make($request->all(), [
                     'name' => 'required',
                 ],[
-                    'name.required' => 'Please enter name',
+                    'name.required' => __('kindergarten.requiredName'),
                 ]);
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
@@ -121,7 +121,7 @@ class FrameworkTableController extends Controller
                 $validator = Validator::make($request->all(), [
                     'name' => 'required',
                 ],[
-                    'name.required' => 'Please enter name',
+                    'name.required' => __('kindergarten.requiredName'),
                 ]);
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
@@ -133,7 +133,7 @@ class FrameworkTableController extends Controller
                 $validator = Validator::make($request->all(), [
                     'name' => 'required',
                 ],[
-                    'name.required' => 'Please enter name',
+                    'name.required' => __('kindergarten.requiredName'),
                 ]);
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();

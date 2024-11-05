@@ -402,6 +402,15 @@ span.child-tab {
     animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
+.document-name {
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.active-filter {
+    background-color: #d5d8db57;
+}
+
 @-webkit-keyframes fadein {
     from {
         bottom: 0;
@@ -517,6 +526,28 @@ input.form-control {
     top: 100%;
 }
 
+.accordion-screen::after {
+    display: none !important;
+}
+
+button.accordion-button.accordion-screen.collapsed {
+    padding: 5px 5px 5px 0px !important;
+}
+
+.show-icon {
+    padding-right: 27px !important;
+}
+
+.accordion-button {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.name-col {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
 @media (max-width: 1120px) {
     .dropdown {
         /* flex-direction: column; */
@@ -533,5 +564,7 @@ input.form-control {
         width: 100%;
     }
 
-
+    button.btn.dropdown-toggle.dropdown-filter-toggle {
+        text-align: right !important;
+    }
 }

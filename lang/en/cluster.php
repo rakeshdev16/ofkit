@@ -16,6 +16,7 @@ return [
     'managerTh' => 'Manager',
     'selectMsg' => "Please select at least one cluster",
     'requiredCluster' => "Please enter cluster name",
+    'uniqueCluster' => "This cluster name already exists please try to another name",
     'requiredManager' => "Please enter manager name",
 
 ];

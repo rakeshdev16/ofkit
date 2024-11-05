@@ -62,5 +62,11 @@ return [
     'document' => 'Document',
     'professionalRole' => 'Professional Role',
     'association' => 'Association',
+    'telephoneRegex' => "The number must be a combination of digits and hyphens, and must be between 8 and 14 characters long.",
+    'licenceRegex' => "Only digits are allowed with hyphens.",
+    'requiredRoleId' => 'Please choose role',
+    'requiredAssociation' => 'Please choose association',
+    'nullableIdentification' => 'Please enter only 9 digits',
+    'changePassword' => 'Change Password',
 
 ];

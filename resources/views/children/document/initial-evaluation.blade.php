@@ -28,7 +28,11 @@
                                 //     $back = route('children-documentation.show', [$children->id, $document->id]);
                                 // } else {
                                 // $back = route('children.show', Request::segment(3));
-                                $back = route('children-documentations.get', Request::segment(3));
+                                if (Request::segment(4)) {
+                                    $back = route('children-documentations.get', Request::segment(3));
+                                } else {
+                                    $back = route('children.show', $children->id);
+                                }
                                 // }
                             @endphp
                             <div class="">
@@ -158,11 +162,22 @@
                                                             'value' => old('file'),
                                                         ])
                                                         <div class="d-flex mt-2 choosenFile" style="flex-wrap: wrap;">
-                                                            @if (isset($document->file) && $document->file != null)
+                                                            @if (old('file'))
+                                                                @php
+                                                                    $fileName = explode('child-document/', old('file'))[1];
+                                                                @endphp
                                                                 <div class="document mt-1">
-                                                                    <a href="{{ $document->file }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a>
-                                                                    <i class="bx bx-x childDocument" data-file-name="{{ $document->file }}"></i>
+                                                                    <a href="{{ asset('storage/' . old('file')) }}" target="_blank" rel="noopener noreferrer">{{ $fileName }}</a>
+                                                                    <i class="bx bx-x childDocument" data-file-name="{{ $fileName }}"></i>
                                                                 </div>
+                                                                <input type="hidden" name="file" value="{{ old('file') }}">
+                                                            @else
+                                                                @if (isset($document->file) && $document->file != null)
+                                                                    <div class="document mt-1">
+                                                                        <a href="{{ $document->file }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a>
+                                                                        <i class="bx bx-x childDocument" data-file-name="{{ $document->file }}"></i>
+                                                                    </div>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                     </div>
@@ -172,7 +187,7 @@
                                                     <div class="col-12">
                                                         <div class="d-flex align-items-center gap-3">
                                                             <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">
-                                                            <button type="submit" class="btn button px-4">{{ __('comon.submit') }}</button>
+                                                            <button type="submit" class="btn docSubmitBtn button px-4">{{ __('comon.submit') }}</button>
                                                         </div>
                                                     </div>
                                                 </div>

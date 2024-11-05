@@ -17,6 +17,7 @@ class SetLanguage
     public function handle(Request $request, Closure $next): Response
     {
         $lang = Setting::where('key', 'lang')->pluck('value')->first();
+        // $lang = session('lang');
         \App::setLocale($lang);
         return $next($request);
     }

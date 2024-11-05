@@ -47,7 +47,11 @@
                                 //     $back = route('children-documentation.show', [$children->id, $document->id]);
                                 // } else {
                                 // $back = route('children.show', Request::segment(3));
-                                $back = route('children-documentations.get', Request::segment(3));
+                                if (Request::segment(4)) {
+                                    $back = route('children-documentations.get', Request::segment(3));
+                                } else {
+                                    $back = route('children.show', $children->id);
+                                }
                                 // }
                             @endphp
                             <div class="">
@@ -80,11 +84,38 @@
                                                             $childrenIds = [];
                                                         }
                                                     @endphp
+                                                    <div class="col-md-12">
+                                                        @include('components.radio-input', [
+                                                            'label' => __('children.occured'),
+                                                            'name' => 'occured',
+                                                            'class' => 'occured',
+                                                            'icon' => 'user',
+                                                            'value' => @$document->occured,
+                                                        ])
+                                                    </div>
+                                                    <div class="col-md-12 occuredReason" style="display: {{ (old('occured') ?? @$document->occured) == '0' ? 'block' : 'none' }};">
+                                                        @include('components.select-input', [
+                                                            'label' => __('children.occuredReason'),
+                                                            'name' => 'occured_reason',
+                                                            'icon' => 'buildings',
+                                                            'value' => @$document->occured_reason,
+                                                            'options' => [['key' => 'Child absent', 'value' => 'Child absent'], ['key' => 'Therapist absent', 'value' => 'Therapist absent'], ['key' => 'Kindergarten closed', 'value' => 'Kindergarten closed'], ['key' => 'Other', 'value' => 'Other']],
+                                                        ])
+                                                    </div>
+                                                    <div class="col-md-12 occuredDescription" style="display: {{ (old('occured') ?? @$document->occured) == '1' ? 'block' : 'none' }};">
+                                                        @include('components.textarea-input', [
+                                                            'label' => __('children.description'),
+                                                            'name' => 'occured_description',
+                                                            'icon' => 'network-chart',
+                                                            'value' => @$document->occured_description,
+                                                        ])
+                                                    </div>
                                                     @if (Auth::user()->hasRole('admin'))
                                                         <div class="col-md-6">
                                                             @include('components.select-input', [
                                                                 'label' => __('children.therapist'),
                                                                 'name' => 'therapist_id',
+                                                                'class' => 'therapist',
                                                                 'icon' => 'buildings',
                                                                 'options' => $allTherapists,
                                                                 'value' => old('therapist_id') ? old('therapist_id') : @$document->therapist_id,
@@ -141,12 +172,12 @@
                                                             'name' => 'therapist_ids[]',
                                                             'class' => 'therapists',
                                                             'icon' => 'user',
+                                                            'value' => old('therapist_ids', $therapistIds),
                                                             'options' => $therapist,
-                                                            'value' => old('therapist_ids') ?? $therapistIds,
                                                         ])
                                                         @error('therapist_ids')
                                                             <span class="invalid-feedback" role="alert">
-                                                                <strong>Please choose participant</strong>
+                                                                <strong>{{ $message }}</strong>
                                                             </span>
                                                         @enderror
                                                     </div>
@@ -162,32 +193,6 @@
                                                                 @endforeach
                                                             @endif
                                                         @endif
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        @include('components.radio-input', [
-                                                            'label' => __('children.occured'),
-                                                            'name' => 'occured',
-                                                            'class' => 'occured',
-                                                            'icon' => 'user',
-                                                            'value' => @$document->occured,
-                                                        ])
-                                                    </div>
-                                                    <div class="col-md-12 occuredReason" style="display: {{ (old('occured') ?? @$document->occured) == '0' ? 'block' : 'none' }};">
-                                                        @include('components.select-input', [
-                                                            'label' => __('children.occuredReason'),
-                                                            'name' => 'occured_reason',
-                                                            'icon' => 'buildings',
-                                                            'value' => @$document->occured_reason,
-                                                            'options' => [['key' => 'Child absent', 'value' => 'Child absent'], ['key' => 'Therapist absent', 'value' => 'Therapist absent'], ['key' => 'Kindergarten closed', 'value' => 'Kindergarten closed'], ['key' => 'Other', 'value' => 'Other']],
-                                                        ])
-                                                    </div>
-                                                    <div class="col-md-12 occuredDescription" style="display: {{ (old('occured') ?? @$document->occured) == '1' ? 'block' : 'none' }};">
-                                                        @include('components.textarea-input', [
-                                                            'label' => __('children.description'),
-                                                            'name' => 'occured_description',
-                                                            'icon' => 'network-chart',
-                                                            'value' => @$document->occured_description,
-                                                        ])
                                                     </div>
                                                     <div class="col-md-12">
                                                         @include('components.multi-select-input', [
@@ -264,11 +269,22 @@
                                                                     'value' => @$document->file,
                                                                 ])
                                                                 <div class="d-flex mt-2 choosenFile" style="flex-wrap: wrap;">
-                                                                    @if (isset($document->file) && $document->file != null)
+                                                                    @if (old('file'))
+                                                                        @php
+                                                                            $fileName = explode('child-document/', old('file'))[1];
+                                                                        @endphp
                                                                         <div class="document mt-1">
-                                                                            <a href="{{ $document->file }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a>
-                                                                            <i class="bx bx-x childDocument" data-file-name="{{ $document->file }}"></i>
+                                                                            <a href="{{ asset('storage/' . old('file')) }}" target="_blank" rel="noopener noreferrer">{{ $fileName }}</a>
+                                                                            <i class="bx bx-x childDocument" data-file-name="{{ $fileName }}"></i>
                                                                         </div>
+                                                                        <input type="hidden" name="file" value="{{ old('file') }}">
+                                                                    @else
+                                                                        @if (isset($document->file) && $document->file != null)
+                                                                            <div class="document mt-1">
+                                                                                <a href="{{ $document->file }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a>
+                                                                                <i class="bx bx-x childDocument" data-file-name="{{ $document->file }}"></i>
+                                                                            </div>
+                                                                        @endif
                                                                     @endif
                                                                 </div>
                                                             </div>
@@ -281,7 +297,7 @@
                                                     <div class="col-12">
                                                         <div class="d-flex align-items-center gap-3">
                                                             <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">
-                                                            <button type="submit" class="btn button px-4">{{ __('comon.submit') }}</button>
+                                                            <button type="submit" class="btn docSubmitBtn button px-4">{{ __('comon.submit') }}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -329,14 +345,18 @@
 
             function setChildDisabled(value) {
                 if (value == 0) {
+                    $('.therapist').attr('disabled', true).val(null).trigger('change');
+                    $('.therapists').attr('disabled', true).val(null).trigger('change');
+                    $('.childrens').attr('disabled', true).val(null).trigger('change');
+                    $('.childrenTopic .row').not(':first').remove();
+                    $('.childrenTabSec .child-tab ').not(':first').remove();
                     $('.topicSection').find('textarea').attr('disabled', true);
                     $('.topicSection').find('textarea').val('');
-                    $('.file').attr('disabled', true);
-                    $('.file').val('');
-                    $('.choosenFile > .document').remove();
                 } else {
+                    $('.therapist').attr('disabled', false).trigger('change');
+                    $('.therapists').attr('disabled', false).trigger('change');
+                    $('.childrens').attr('disabled', false).trigger('change');
                     $('.topicSection').find('textarea').attr('disabled', false);
-                    $('.file').attr('disabled', false);
                 }
             }
 
