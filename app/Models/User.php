@@ -104,7 +104,7 @@ class User extends Authenticatable
             $query->orderBy(request('sort'), request('sorting'));
         }
         if (request('kindergarten_id')) {
-            $userIds = StaffKindergarten::where('kindergarten_id', request('kindergarten_id'))
+            $userIds = StaffKindergarten::whereIn('kindergarten_id', explode(',',request('kindergarten_id')))
                 ->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
             $query->whereIn('id', $userIds);
         }
