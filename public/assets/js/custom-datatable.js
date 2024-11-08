@@ -212,64 +212,16 @@ $(document).on('change', '.accordionCheckbox', function () {
     }
 });
 
-// function moveToArchive(url, msg) {
-//     var ids = [];
-//     $(".checkbox:checked").each(function () {
-//         var value = $(this).val();
-//         if (value) {  // Only push non-empty values
-//             ids.push(value);
-//         }
-//     });
-//     $.unique(ids.sort());
-
-//     if (ids.length == 0) {
-//         toastr.warning(msg);
-//         return false
-//     }
-//     url = url.replace(':ids', ids);
-//     Swal.fire({
-//         title: confirmMsgTitle,
-//         icon: "warning",
-//         showCancelButton: true,
-//         confirmButtonColor: "#3085d6",
-//         cancelButtonColor: "#d33",
-//         confirmButtonText: confirmButtonText,
-//         cancelButtonText: cancelButtonText
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             $.ajax({
-//                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-//                 type: 'DELETE',
-//                 url: url,
-//                 processData: false,
-//                 contentType: false,
-//                 dataType: 'json',
-//                 success: function (data) {
-//                     if (data.status == true) {
-//                         data.ids.map(function (id) {
-//                             $('.tr-' + id).remove();
-//                         });
-//                         toastr.success(data.message);
-//                     }
-//                 }
-//             });
-//         }
-//     });
-// }
-
 function moveToArchive(msg, status, model) {
     var ids = [];
     $(".checkbox:checked").each(function () {
         var value = $(this).val();
-        if (value) {  // Only push non-empty values
+        if (value) {
             ids.push(value);
         }
     });
 
-    console.log("Without short list" + ids);
     $.unique(ids.sort());
-    console.log("with short List" + ids);
-    return false;
 
     if (ids.length == 0) {
         toastr.warning(msg);

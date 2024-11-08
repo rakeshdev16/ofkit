@@ -569,7 +569,33 @@ button.accordion-button.accordion-screen.collapsed {
     }
 }
 
-.form-select .select-padding {
-    padding-top: 0.20rem !important;
-    padding-bottom: 0.20rem !important;
+/* calendar css */
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.modal {
+    .modal-header {
+        background-color: #095F59;
+        justify-content: space-between;
+
+        h5,
+        h4 {
+            color: #fff;
+        }
+
+        button.btn-close {
+            filter: invert(1);
+            margin: 0;
+        }
+
+    }
+
+    .draft-list {
+        td {
+            display: flex;
+            align-items: center;
+        }
+    }
 }
