@@ -49,6 +49,9 @@
     @stack('customScript')
 
     <script>
+        var activeInactiveBtnText = "{{ __('comon.active') }}";
+        var inactiveInactiveBtnText = "{{ __('comon.inactive') }}";
+        var activeInactive = "{{ route('activeInactive.records') }}";
         var confirmMsgTitle = "{{ __('comon.confirmTitle') }}";
         var confirmButtonText = "{{ __('comon.confirmButtonText') }}";
         var cancelButtonText = "{{ __('comon.cancel') }}";

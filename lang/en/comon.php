@@ -1,7 +1,7 @@
 <?php
 
 return [
-    
+
     'profile' => 'Profile',
     'login' => 'Login',
     'logout' => 'Logout',
@@ -44,4 +44,7 @@ return [
     'unsavedChanges' => 'Unsaved Changes',
     'unsavedChangesMsg' => 'You have unsaved changes. Are you sure you want to leave this page?',
     'yesLeaveIt' => 'Yes leave it!',
+    'status' => 'Status',
+    'active' => 'Active',
+    'inactive' => 'Inactive',
 ];

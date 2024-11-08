@@ -21,6 +21,11 @@ class Profession extends Model
         if (request('search')) {
             $query->where('name', 'like', '%'.request('search').'%');
         }
+        if (request('status')) {
+            $query->where('status', request('status'));
+        }else{
+            $query->where('status', 'active');
+        }
         return $query;
     }
 

@@ -108,6 +108,11 @@ class User extends Authenticatable
                 ->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
             $query->whereIn('id', $userIds);
         }
+        if (request('status')) {
+            $query->where('status', request('status'));
+        }else{
+            $query->where('status', 'active');
+        }
         if (request('search')) {
             $query->where('name', 'like', '%'.request('search').'%')->orWhere('email', 'like', '%'.request('search').'%');
         }

@@ -17,7 +17,8 @@ class Controller extends BaseController
         $ids = explode(',', $request->ids);
         $status = $request->status == 'active' ? 'inactive' : 'active';
         if ($model->whereIn('id', $ids)->update(['status' => $status])) {
-            return response()->json(['status' => true, 'ids' => $ids]);
+            $count = $model->where('status',  $request->status)->count();
+            return response()->json(['status' => true, 'ids' => $ids, 'count' => $count]);
         }
 
         return response()->json(['status' => false]);

@@ -6,11 +6,12 @@
         <div class="page-content">
             <div class="mb-4 page-info">
                 <div>
-                    <h3 class="mb-0 text-uppercase">{{ __('kindergarten.kindergarten') }} </h3>
+                    <h3 class="mb-2 text-uppercase">{{ __('kindergarten.kindergarten') }} </h3>
+                    @include('components.active-inactive')
                 </div>
                 <div class="mt-3">
                     @if (Auth::user()->hasRole('admin'))
-                        <button class="btn button moveToArchive">{{ __('kindergarten.moveToArchine') }}</button>
+                        @include('components.table-button')
                         <a href="{{ route('kindergarten.create') }}" class="btn button">{{ __('kindergarten.addNew') }} +</a>
                     @endif
                 </div>
@@ -41,9 +42,10 @@
             $(this).attr('disabled', false);
         });
         $(document).on('click', '.moveToArchive', function() {
-            var url = "{{ route('kindergarten.destroy', ':ids') }}";
-            var msg = "{{ __('kindergarten.selectMsg') }}";
-            moveToArchive(url, msg);
+            var msg = "{{ __('cluster.selectMsg') }}";
+            var status = $('.status').val();
+            var model = "Kindergarten";
+            moveToArchive( msg, status , model);
         });
     </script>
     <script src="{{ asset('assets/js/custom-datatable.js') }}"></script>

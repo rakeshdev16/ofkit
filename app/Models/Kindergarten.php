@@ -21,6 +21,11 @@ class Kindergarten extends Model
         if (request('search')) {
             $query->where('name', 'like', '%'.request('search').'%');
         }
+        if (request('status')) {
+            $query->where('status', request('status'));
+        }else{
+            $query->where('status', 'active');
+        }
         return $query;
     }
 
@@ -43,7 +48,7 @@ class Kindergarten extends Model
     {
         return $this->hasOne(Cluster::class, 'id', 'cluster_id');
     }
-    
+
     public function kindergartenUser()
     {
         return $this->hasOne(KindergartenUser::class, 'kindergarten_id', 'id');

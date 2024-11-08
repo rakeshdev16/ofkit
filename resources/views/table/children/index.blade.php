@@ -134,44 +134,28 @@
         });
 
         $(document).on('click', '.moveToArchive', function() {
-            var type = $(this).data('type');
-            var ids = [];
-            $(".checkbox:checked").map(function() {
-                ids.push($(this).val());
-            });
-            if (ids.length == 0) {
-                toastr.warning("Please select at least one " + type);
-                return false
+            var msg = "{{ __('cluster.selectMsg') }}";
+            var status = $('.status').val();
+            var type = "{{request()->type}}"
+            if(type == 'parents-status'){
+                var model = "ParentsStatus";
             }
-            var url = "{{ route('children-table.destroy', ':ids') }}";
-            url = url.replace(':ids', ids);
-            Swal.fire({
-                title: "Are you sure?",
-                // text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, archive it!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                        },
-                        type: 'DELETE',
-                        url: url + '?type=' + type,
-                        success: function(data) {
-                            if (data.status == true) {
-                                data.ids.map(function(id) {
-                                    $('.tr-' + id).remove();
-                                });
-                                toastr.success(data.message);
-                            }
-                        }
-                    });
-                }
-            });
+            if(type == 'hmo'){
+                var model = "Hmo";
+            }
+            if(type == 'diagnosis'){
+                var model = "Diagnosis";
+            }
+            if(type == 'functionality'){
+                var model = "Functionality";
+            }
+            if(type == 'status'){
+                var model = "Status";
+            }
+            if(type == 'file-type'){
+                var model = "FileType";
+            }
+            moveToArchive( msg, status , model);
         });
     </script>
 @endpush

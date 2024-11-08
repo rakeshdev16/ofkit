@@ -1,10 +1,11 @@
 <div class="mb-4 page-info">
     <div>
-        <h3 class="mb-0 text-uppercase">{{ __('tables.fileType') }} </h3>
+        <h3 class="mb-2 text-uppercase">{{ __('tables.fileType') }} </h3>
+        @include('components.active-inactive')
     </div>
     <div class="mt-3">
         <a href="{{ route('children-table.create') }}?type=file-type" class="btn button">{{ __('cluster.addBtnText') }} +</a>
-        <button class="btn button moveToArchive" data-type="file-type">{{ __('cluster.moveBtnText') }}</button>
+        @include('components.table-button')
     </div>
 </div>
 <div class="card small-table">

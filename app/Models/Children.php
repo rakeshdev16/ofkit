@@ -54,6 +54,12 @@ class Children extends Model
             $query->whereIn('childrens.kindergarten_id', explode(',',request('kindergarten_id')));
         }
 
+        if (request('status')) {
+            $query->where('status', request('status'));
+        }else{
+            $query->where('status', 'active');
+        }
+
         if (request('search')) {
             $search = request('search');
 

@@ -79,39 +79,42 @@
         $days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         $times = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00"]; // Add more times as needed
 
-        // Sample data for events (associative array for simplicity)
+        // Sample data for events, including users
         $events = [
             "Wednesday" => [
-                "08:30" => ["title" => "Oral Reserve", "color" => "bg-light"],
-                "09:00" => ["title" => "Eating Group", "color" => "bg-purple", "details" => "Location: Room 302, Bldg. A"],
+                "08:30" => [
+                    ["user" => "Charlie Davis", "title" => "Oral Reserve", "color" => "bg-light"]
+                ],
+                "09:00" => [
+                    ["user" => "Charlie Davis", "title" => "Eating Group", "color" => "bg-purple", "details" => "Location: Room 302, Bldg. A"],
+                ],
             ],
             "Tuesday" => [
-                "09:00" => ["title" => "Eating Group", "color" => "bg-green", "details" => "Location: Room 303, Bldg. B"],
+                "09:00" => [
+                    ["user" => "Alice Johnson", "title" => "Eating Group", "color" => "bg-green", "details" => "Location: Room 303, Bldg. B"],
+                ],
             ],
             "Thursday" => [
-                "09:00" => ["title" => "Eating Group", "color" => "bg-orange", "details" => "Location: Room 304, Bldg. C"],
+                "09:00" => [
+                    ["user" => "Frank Green", "title" => "Eating Group", "color" => "bg-orange", "details" => "Location: Room 304, Bldg. C"],
+                ],
             ]
         ];
 
-        // Sample data for users working on each day
         $users = [
             "Monday" => ["John Doe", "Jane Smith"],
-            "Tuesday" => ["Alice Johnson", "Bob Brown"],
+            "Tuesday" => ["Alice Johnson", "Bob Brown", "Test"],
             "Wednesday" => ["Charlie Davis"],
             "Thursday" => ["Emily White", "Frank Green"],
             "Friday" => ["George Harris"],
-            // Add more as needed
         ];
     @endphp
 
 <div class="container mt-5">
     <h2 class="text-center">Weekly Schedule</h2>
-
-    <!-- Schedule Table -->
     <div class="table-responsive">
         <table class="table table-bordered schedule-table mt-4">
             <thead>
-                <!-- Days of the Week Row -->
                 <tr>
                     <th scope="col" class="days"></th>
                     @foreach ($days as $day)
@@ -122,7 +125,6 @@
                     @endforeach
                 </tr>
 
-                <!-- Users Row -->
                 <tr>
                     <th scope="col">Employees</th>
                     @foreach ($days as $day)
@@ -131,13 +133,12 @@
                                 <th>{{ $user }}</th>
                             @endforeach
                         @else
-                            <th>-</th> <!-- Placeholder if no users are scheduled -->
+                            <th>-</th>
                         @endif
                     @endforeach
                 </tr>
             </thead>
             <tbody>
-                <!-- Times and Events -->
                 @foreach ($times as $time)
                     <tr>
                         <td>{{ $time }}</td>
@@ -145,25 +146,32 @@
                             @if (isset($users[$day]))
                                 @foreach ($users[$day] as $user)
                                     <td data-day="{{ $day }}" data-time="{{ $time }}" class="schedule-cell position-relative">
-                                        <!-- Display event data if available for this time and user day -->
                                         @if (isset($events[$day][$time]))
                                             @php
-                                                $event = $events[$day][$time];
+                                                $userEvent = null;
+                                                foreach ($events[$day][$time] as $event) {
+                                                    if ($event['user'] === $user) {
+                                                        $userEvent = $event;
+                                                        break;
+                                                    }
+                                                }
                                             @endphp
-                                            <div class="event {{ $event['color'] }}">
-                                                <span>{{ $event['title'] }}</span>
-                                                @if (isset($event['details']))
-                                                    <div class="tooltip-content">
-                                                        <p><strong>{{ $event['title'] }}</strong></p>
-                                                        <p>{{ $event['details'] }}</p>
-                                                    </div>
-                                                @endif
-                                            </div>
+                                            @if ($userEvent)
+                                                <div class="event {{ $userEvent['color'] }}">
+                                                    <span>{{ $userEvent['title'] }}</span>
+                                                    @if (isset($userEvent['details']))
+                                                        <div class="tooltip-content">
+                                                            <p><strong>{{ $userEvent['title'] }}</strong></p>
+                                                            <p>{{ $userEvent['details'] }}</p>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            @endif
                                         @endif
                                     </td>
                                 @endforeach
                             @else
-                                <td class="position-relative"></td> <!-- Empty cell if no users -->
+                                <td class="position-relative"></td>
                             @endif
                         @endforeach
                     </tr>
