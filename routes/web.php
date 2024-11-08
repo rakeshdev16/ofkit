@@ -66,6 +66,7 @@ Route::get('/expire-session', function() {
 Route::controller(Controller::class)->group(function () {
     Route::post('active-inactive', 'activeInactive')->name('activeInactive.records');
 });
+Route::get('test', fn() => view('schedule.test'))->name('test');
 
 Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout'])->group(function () {
     Route::get('weekly-schedule', fn() => view('schedule.weekly-schedule'))->name('weekly-schedule');

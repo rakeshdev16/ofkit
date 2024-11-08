@@ -4,8 +4,6 @@
 @endpush
 @section('section')
 
-    {{-- Main Content Section --}}
-
 @endsection
 @push('customScript')
     {{-- if need to add any script --}}
