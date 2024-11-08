@@ -71,44 +71,11 @@
         });
 
         $(document).on('click', '.moveToArchive', function() {
-            var type = $(this).data('type');
-            var ids = [];
-            $(".checkbox:checked").map(function() {
-                ids.push($(this).val());
-            });
-            if (ids.length == 0) {
-                toastr.warning("{{ __('tables.selectMsg') }} " + type);
-                return false
-            }
-            var url = "{{ route('framework-table.destroy', ':ids') }}";
-            url = url.replace(':ids', ids);
-            Swal.fire({
-                title: "Are you sure?",
-                // text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, archive it!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                        },
-                        type: 'DELETE',
-                        url: url + '?type=' + type,
-                        success: function(data) {
-                            if (data.status == true) {
-                                data.ids.map(function(id) {
-                                    $('.tr-' + id).remove();
-                                });
-                                toastr.success(data.message);
-                            }
-                        }
-                    });
-                }
-            });
+            var msg = "{{ __('cluster.selectMsg') }}";
+            var status = $('.status').val();
+            var model = "{{ request()->type == 'kindergarten-type' ? 'KindergartenType' : 'FrameworkType' }}";
+            moveToArchive( msg, status , model);
         });
+
     </script>
 @endpush

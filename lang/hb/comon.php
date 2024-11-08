@@ -1,7 +1,7 @@
 <?php
 
 return [
-    
+
     'profile' => 'פרופיל',
     'login' => 'התחברות',
     'logout' => 'התנתקות',
@@ -44,4 +44,7 @@ return [
     'unsavedChanges' => 'שינויים שלא נשמרו',
     'unsavedChangesMsg' => 'השינויים לא נשמרו. האם אתם בטוחים שאתם רוצים לצאת מעמוד זה?',
     'yesLeaveIt' => 'כן צא עכשיו',
+    'status' => 'סטָטוּס',
+    'active' => 'פָּעִיל',
+    'inactive' => 'לֹא פָּעִיל',
 ];

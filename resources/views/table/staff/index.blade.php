@@ -85,47 +85,19 @@
         });
 
         $(document).on('click', '.moveToArchive', function() {
-            var type = $(this).data('type');
-            var ids = [];
-            $(".checkbox:checked").map(function() {
-                ids.push($(this).val());
-            });
-            if (ids.length == 0) {
-                toastr.warning("Please select at least one " + type);
-                return false
+            var msg = "{{ __('cluster.selectMsg') }}";
+            var status = $('.status').val();
+            var type = "{{request()->type}}"
+            if(type == 'profession'){
+                var model = "Profession";
             }
-            var url = "{{ route('staff-table.destroy', ':ids') }}";
-            url = url.replace(':ids', ids);
-            Swal.fire({
-                title: "Are you sure?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, archive it!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                        },
-                        type: 'DELETE',
-                        url: url + '?type=' + type,
-                        success: function(data) {
-                            console.log(data.existsIds);
-                            if (data.status == true) {
-                                // data.existIds.map(function(id) {
-                                //     toastr.warning(id+' is already assign to staf');
-                                // });
-                                data.ids.map(function(id) {
-                                    $('.tr-' + id).remove();
-                                });
-                                toastr.success(data.message);
-                            }
-                        }
-                    });
-                }
-            });
+            if(type == 'role'){
+                var model = "MemberRole";
+            }
+            if(type == 'association'){
+                var model = "Association";
+            }
+            moveToArchive( msg, status , model);
         });
     </script>
 @endpush
