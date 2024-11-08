@@ -599,8 +599,3 @@ button.accordion-button.accordion-screen.collapsed {
         }
     }
 }
-
-.form-select .select-padding {
-    padding-top: 0.20rem !important;
-    padding-bottom: 0.20rem !important;
-}
