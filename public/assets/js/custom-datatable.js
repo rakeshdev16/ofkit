@@ -32,9 +32,11 @@ $(document).on('change', '.select-filter', function () {
 $(document).on('change', '.status', function () {
     var status = $(this).val();
     if (status == 'active') {
-        $('.moveToArchive').text(inactiveInactiveBtnText)
+        $('.moveToArchive').text(inactiveInactiveBtnText);
+        confirmButtonText = inactiveButtonText;
     } else {
-        $('.moveToArchive').text(activeInactiveBtnText)
+        $('.moveToArchive').text(activeInactiveBtnText);
+        confirmButtonText = activeButtonText;
     }
     queryParam('page', '');
     var url = queryParam('status', status);
@@ -235,7 +237,7 @@ function moveToArchive(msg, status, model) {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: confirmButtonText,
+        confirmButtonText: confirmButtonText ? confirmButtonText : inactiveButtonText,
         cancelButtonText: cancelButtonText
     }).then((result) => {
         if (result.isConfirmed) {

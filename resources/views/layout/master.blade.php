@@ -53,7 +53,9 @@
         var inactiveInactiveBtnText = "{{ __('comon.inactive') }}";
         var activeInactive = "{{ route('activeInactive.records') }}";
         var confirmMsgTitle = "{{ __('comon.confirmTitle') }}";
-        var confirmButtonText = "{{ __('comon.confirmButtonText') }}";
+        var activeButtonText = "{{__('comon.activeButtonText')}}";
+        var inactiveButtonText = "{{__('comon.inactiveButtonText')}}";
+        var confirmButtonText = null;
         var cancelButtonText = "{{ __('comon.cancel') }}";
         var selectDate = "{{ __('children.selectDate') }}";
         var selectDateRange = "{{ __('children.selectDateRange') }}";
