@@ -1,5 +1,7 @@
 @extends('layout.master')
 @push('customLink')
+<link href="assets/css/main.css" type="text/css" rel="stylesheet" />
+<script src="assets/js/daypilot-all.min.js"></script>
 @endpush
 
 @section('section')
@@ -33,67 +35,8 @@
             <span class="badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#draft">Draft</span>
         </div>
     </div>
-    <div class="table-responsive">
-        <table class="table table-style table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th></th>
-                    <th>Sunday</th>
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
-                    <th>Saturdat</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>08:00</td>
-                    <td></td>
-                    <td class="bg-info text-white">
-                        John <br />
-                        08:15AM
-                    </td>
-                    <td></td>
-                    <td class="bg-success text-white">
-                        Eating Group <br />
-                        08:45AM
-                    </td>
-                    <td class="bg-warning text-dark">
-                        Meeting Group <br />
-                        08:30AM
-                    </td>
-                    <td>Employee 1</td>
-                </tr>
-                <tr>
-                    <td>08:30</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="bg-primary text-white">
-                        Project Review <br />
-                        08:45AM
-                    </td>
-                    <td>Employee 2</td>
-                </tr>
-                <tr>
-                    <td>08:45</td>
-                    <td></td>
-                    <td></td>
-                    <td class="bg-secondary text-white">
-                        Workshop <br />
-                        08:50AM
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td>Employee 3</td>
-                </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-        </table>
-    </div>
+    <div id="dp"></div>
+    
 </div>
 <!-- hours summary -->
 <div class="modal" id="scoreSummary">
@@ -173,27 +116,27 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                
+
                 <div class="table-responsive">
-                        <ul class="p-0 m-0">
-                            <!-- Add rows as needed -->
-                            <li class="d-flex gap-3 justify-content-between align-items-center border-bottom py-2">
-                                <div class="text-end">
-                                    <div class="d-flex gap-3">
-                                        <span class="badge button rounded-pill p-2 rounded-circle fs-6 fw-normal"><i class="fa fa-trash text-danger"></i></span>
-                                        <span class="badge button rounded-pill p-2 px-4 fs-6 fw-normal">Open</span>
-                                    </div>
+                    <ul class="p-0 m-0">
+                        <!-- Add rows as needed -->
+                        <li class="d-flex gap-3 justify-content-between align-items-center border-bottom py-2">
+                            <div class="text-end">
+                                <div class="d-flex gap-3">
+                                    <span class="badge button rounded-pill p-2 rounded-circle fs-6 fw-normal"><i class="fa fa-trash text-danger"></i></span>
+                                    <span class="badge button rounded-pill p-2 px-4 fs-6 fw-normal">Open</span>
                                 </div>
-                                <div class="text-end">
-                                    <small class="text-success">Last saved</small>
-                                    <p class="m-0">Jun, 15 /3:35PM</p>
-                                </div>
-                                <div class="text-end">Draft 1</div>
-                                
-                                
-                            </li>
-                            <!-- Repeat rows as needed -->
-                        </ul>
+                            </div>
+                            <div class="text-end">
+                                <small class="text-success">Last saved</small>
+                                <p class="m-0">Jun, 15 /3:35PM</p>
+                            </div>
+                            <div class="text-end">Draft 1</div>
+
+
+                        </li>
+                        <!-- Repeat rows as needed -->
+                    </ul>
                 </div>
             </div>
         </div>
@@ -203,5 +146,162 @@
 @endsection
 
 @push('customScript')
-  
+<script src="assets/js/app.js"></script>
+<script>
+    var elements = {
+        filter: document.querySelector("#filter"),
+        clear: document.querySelector("#clear"),
+    };
+
+    elements.filter.addEventListener("keyup", function() {
+        var query = this.value;
+        dp.columns.filter(query); // see dp.onColumnFilter below
+    });
+
+    elements.clear.addEventListener("click", function(ev) {
+        ev.preventDefault();
+        elements.filter.value = "";
+        dp.columns.filter(null);
+    });
+</script>
+
+<script type="text/javascript">
+    var dp = new DayPilot.Calendar("dp");
+    // overlay start
+
+
+    // overlay end
+
+    dp.onColumnFilter = function(args) {
+        if (args.column.name.toUpperCase().indexOf(args.filter.toUpperCase()) === -1) {
+            args.visible = false;
+        }
+    };
+
+    // view
+    dp.startDate = "2013-03-25"; // or just dp.startDate = "2013-03-25";
+    dp.days = 1;
+    dp.allDayEventHeight = 25;
+
+    dp.viewType = "Resources";
+    dp.headerLevels = 2;
+    dp.columns.list = [{
+            name: "Sunday",
+            children: [{
+                    name: "Big Car #1",
+                    id: "big1"
+                },
+                {
+                    name: "Big Car #2",
+                    id: "big2"
+                },
+
+            ]
+        },
+        {
+            name: "Saturday",
+            children: [{
+                    name: "Small Car #1",
+                    id: "small1"
+                },
+                {
+                    name: "Small Car #2",
+                    id: "small2"
+                },
+            ]
+        },
+        {
+            name: "Friday",
+            children: [{
+                    name: "Small Car #1",
+                    id: "small1"
+                },
+                {
+                    name: "Small Car #2",
+                    id: "small2"
+                },
+            ]
+        },
+        {
+            name: "Thrusday",
+            children: [{
+                    name: "Small Car #1",
+                    id: "small1"
+                },
+                {
+                    name: "Small Car #2",
+                    id: "small2"
+                },
+            ]
+        },
+        {
+            name: "Wednesday",
+            children: [{
+                    name: "Small Car #1",
+                    id: "small1"
+                },
+                {
+                    name: "Small Car #2",
+                    id: "small2"
+                },
+            ]
+        },
+        {
+            name: "Tuesday",
+            children: [{
+                    name: "Small Car #1",
+                    id: "small1"
+                },
+                {
+                    name: "Small Car #2",
+                    id: "small2"
+                },
+            ]
+        },
+        {
+            name: "Monday",
+            children: [{
+                    name: "Small Car #1",
+                    id: "small1"
+                },
+                {
+                    name: "Small Car #2",
+                    id: "small2"
+                },
+            ]
+        }
+    ];
+
+
+    // event creating
+    dp.onTimeRangeSelected = function(args) {
+        var name = prompt("New event name:", "Event");
+        if (!name) return;
+        var e = new DayPilot.Event({
+            start: args.start,
+            end: args.end,
+            id: DayPilot.guid(),
+            resource: args.resource,
+            text: "Event"
+        });
+        dp.events.add(e);
+        dp.clearSelection();
+        dp.message("Created");
+    };
+
+    dp.headerHeightAutoFit = true;
+
+    dp.init();
+
+    var e = new DayPilot.Event({
+        start: new DayPilot.Date("2013-03-25T12:00:00"),
+        end: new DayPilot.Date("2013-03-25T12:00:00").addHours(3),
+        id: DayPilot.guid(),
+        text: "Special event",
+        resource: "J"
+
+    });
+    dp.events.add(e);
+</script>
+<script></script>
 @endpush

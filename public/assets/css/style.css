@@ -599,3 +599,28 @@ button.accordion-button.accordion-screen.collapsed {
         }
     }
 }
+
+.calendar_default_rowheader_inner, .calendar_default_cornerright_inner, .calendar_default_corner_inner, .calendar_default_colheader_inner, .calendar_default_alldayheader_inner{
+    background: #095F59 !important;
+    color: #fff !important;
+    padding: 10px;
+}
+.calendar_default_main > div > div > div:nth-child(1){
+    float: right !important;
+}
+.calendar_default_main > div > div > div:nth-child(2){
+   margin: 0 !important;
+}
+/* event template */
+.custom-event {
+    padding: 5px;
+    background-color: #f0f8ff;
+    border-radius: 4px;
+    border: 1px solid #d3d3d3;
+    color: #333;
+}
+
+.custom-event-class {
+    font-size: 12px;
+    line-height: 1.4;
+}
