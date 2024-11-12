@@ -21,6 +21,21 @@ $(document).on('click', '.search-button', function () {
     filter(url);
 });
 
+$(document).on('click', '.print-button', function () {
+    const originalContent = document.body.innerHTML;
+    $('.table-search button').hide();
+    $('.table-search input').hide();
+    $('.page-info .mt-3').hide();
+    $('.status').css('width', '300px');
+
+    const printContent = document.querySelector('.page-content').innerHTML;
+
+    document.body.innerHTML = printContent;
+    window.print();
+    document.body.innerHTML = originalContent;
+    window.location.reload()
+});
+
 $(document).on('change', '.select-filter', function () {
     var kindergartenId = $(this).val();
 

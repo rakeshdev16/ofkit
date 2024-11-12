@@ -276,13 +276,15 @@ a.disable-menu {
     overflow-y: scroll;
 } */
 
-.search-button {
+.search-button,
+.print-button {
     background: #ffd681;
     padding: 5px 10px;
     font-size: 12px;
 }
 
-.search-button:hover {
+.search-button:hover,
+.print-button:hover {
     background: #ffd681;
     padding: 5px 10px;
     font-size: 12px;
