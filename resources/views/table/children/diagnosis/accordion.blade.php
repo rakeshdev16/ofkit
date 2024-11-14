@@ -12,7 +12,7 @@
                         'id' => $diagnosis->id,
                         'name' => $diagnosis->name,
                         'edit' => route('children-table.edit', $diagnosis->id).'?type=diagnosis',
-                        'dataName' => $diagnosis->is_assign ? $diagnosis->name.' has assigned to kindergarten' : ''
+                        'dataName' => $diagnosis->is_assign ? $diagnosis->name.' has assigned to children' : ''
                     ])
                 </button>
             </h2>

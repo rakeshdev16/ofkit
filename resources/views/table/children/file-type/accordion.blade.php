@@ -10,7 +10,7 @@
                         'id' => $fileType->id,
                         'name' => $fileType->name,
                         'edit' => route('children-table.edit', $fileType->id) . '?type=file-type',
-                        'dataName' => $fileType->is_assign ? $fileType->name . ' has assigned to kindergarten' : '',
+                        'dataName' => $fileType->is_assign ? $fileType->name . ' has assigned to children' : '',
                     ])
                 </button>
             </h2>

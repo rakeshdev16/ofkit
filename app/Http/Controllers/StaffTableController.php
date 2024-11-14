@@ -75,7 +75,7 @@ class StaffTableController extends Controller
             break;
         }
     }
-    
+
     public function store(Request $request)
     {
         switch ($request->type) {
@@ -152,6 +152,7 @@ class StaffTableController extends Controller
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
+                $request['status'] = $request->status ?? 'inactive';
                 Profession::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('staff-table.index', ['type' => 'profession']);
             break;
@@ -164,6 +165,7 @@ class StaffTableController extends Controller
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
+                $request['status'] = $request->status ?? 'inactive';
                 MemberRole::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('staff-table.index', ['type' => 'role']);
             break;
@@ -176,6 +178,7 @@ class StaffTableController extends Controller
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
+                $request['status'] = $request->status ?? 'inactive';
                 Association::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('staff-table.index', ['type' => 'association']);
             break;

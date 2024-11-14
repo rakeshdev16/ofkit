@@ -18,7 +18,8 @@
                 </div>
                 <div class="mt-3">
                     @if (Auth::user()->hasRole('admin'))
-                        <button class="btn button moveToArchive">{{ __('comon.moveToArchive') }}</button>
+                        {{-- <button class="btn button moveToArchive">{{ __('comon.moveToArchive') }}</button> --}}
+                        @include('components.table-button')
                     @endif
                     <button data-url="{{ route('children.show', Request::segment(2)) }}" class="btn button exit">{{ __('comon.back') }}</button>
                 </div>
@@ -35,7 +36,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-xl-3 col-lg-4 col-md-6  my-1">
+                <div class="col-xl-2 col-lg-4 col-md-6  my-1">
                     <select class="form-control doc-filter" name="therapist_id">
                         <option value="">{{ __('children.selectTherapist') }}</option>
                         @foreach ($therapists as $therapist)
@@ -43,7 +44,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-xl-3 col-lg-4 col-md-6  my-1">
+                <div class="col-xl-2 col-lg-4 col-md-6  my-1">
                     <select class="form-control doc-filter" name="type">
                         <option value="">{{ __('children.selectIntervention') }}</option>
                         <option {{ request()->type == 'individual' ? 'selected' : '' }} value="individual">{{ __('children.individual') }}</option>
@@ -53,6 +54,9 @@
                         <option {{ request()->type == 'initial-evaluation' ? 'selected' : '' }} value="initial-evaluation">{{ __('children.initialEvaluation') }}</option>
                         <option {{ request()->type == 'final-evaluation' ? 'selected' : '' }} value="final-evaluation">{{ __('children.finalEvaluation') }}</option>
                     </select>
+                </div>
+                <div class="col-xl-2 col-lg-4 align-self-end py-1 my-1">
+                    @include('components.active-inactive')
                 </div>
             </div>
             <div class="card">
@@ -159,9 +163,10 @@
         //     $(this).attr('disabled', false);
         // });
         $(document).on('click', '.moveToArchive', function() {
-            var url = "{{ route('documents.delete', ':ids') }}";
-            var msg = "{{ __('children.chooseAtLeastOneDoc') }}";
-            moveToArchive(url, msg);
+            var msg = "{{ __('cluster.selectMsg') }}";
+            var status = $('.status').val();
+            var model = "ChildrenDocumentation";
+            moveToArchive( msg, status , model);
         });
     </script>
     <script src="{{ asset('assets/js/custom-datatable.js') }}"></script>

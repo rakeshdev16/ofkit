@@ -37,6 +37,7 @@
                                         <div class="col-md-12">
                                             @include('components.text-input', ['label' => __('tables.kindergartenType'), 'name' => 'name', 'icon' => 'user-circle', 'value' => $kindergartenType->name])
                                         </div>
+                                        @include('components.active-inactive-toggle',['statusCheck' => @$kindergartenType, 'dataName' => $kindergartenType->is_assign ? $kindergartenType->name.' has assigned to kindergarten' : ''])
                                         <div class="col-md-12">
                                             <div class="d-md-flex d-grid align-items-center gap-3">
                                                 <input type="hidden" name="type" value="kindergarten-type">

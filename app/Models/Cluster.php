@@ -9,7 +9,7 @@ class Cluster extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['manager_id', 'cluster'];
+    protected $fillable = ['manager_id', 'cluster', 'status'];
 
     protected $appends = ['is_assign'];
 

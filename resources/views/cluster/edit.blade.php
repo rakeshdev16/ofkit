@@ -45,13 +45,14 @@
                                 </div>
                                 <div class="col-md-6">
                                     @include('components.select-input', [
-                                        'label' => __('cluster.managerTh'), 
-                                        'name' => 'manager_id', 
-                                        'icon' => 'user', 
+                                        'label' => __('cluster.managerTh'),
+                                        'name' => 'manager_id',
+                                        'icon' => 'user',
                                         'options' => $managers,
                                         'value' => $cluster->manager_id
                                     ])
                                 </div>
+                                @include('components.active-inactive-toggle',['statusCheck' => @$cluster, 'dataName' => $cluster->is_assign ? $cluster->name.' has assigned to kindergarten' : ''])
                                 <div class="col-md-6">
                                     <div class="d-md-flex d-grid align-items-center gap-3">
                                         <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">

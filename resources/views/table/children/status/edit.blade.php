@@ -37,6 +37,7 @@
                                         <div class="col-md-12">
                                             @include('components.text-input', ['label' => __('tables.name'), 'name' => 'name', 'icon' => 'user', 'value' => $status->name])
                                         </div>
+                                        @include('components.active-inactive-toggle',['statusCheck' => @$status, 'dataName' => $status->is_assign ? $status->name . ' has assigned to children' : ''])
                                         <div class="col-md-12">
                                             <div class="d-md-flex d-grid align-items-center gap-3">
                                                 <input type="hidden" name="type" value="status">

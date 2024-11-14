@@ -93,6 +93,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @include('components.active-inactive-toggle',['statusCheck' => @$document, 'dataName' => ""])
                                         <div class="my-3">
                                             <input type="hidden" name="id" value="{{ $document->id }}">
                                             <button type="submit" class="btn button">{{ __('comon.submit') }}</button>

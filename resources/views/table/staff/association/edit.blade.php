@@ -37,6 +37,7 @@
                                         <div class="col-md-12">
                                             @include('components.text-input', ['label' => __('tables.association'), 'name' => 'name', 'icon' => 'user-circle', 'value' => $association->name])
                                         </div>
+                                        @include('components.active-inactive-toggle',['statusCheck' => @$association, 'dataName' => $association->is_assign ? $association->name . ' has assigned to staff members' : '',])
                                         <div class="col-md-12">
                                             <div class="d-md-flex d-grid align-items-center gap-3">
                                                 <input type="hidden" name="type" value="association">

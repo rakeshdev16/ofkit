@@ -27,6 +27,7 @@ class Children extends Model
         'service_start_date',
         'hmo_id',
         'photo',
+        'status',
     ];
 
     protected $appends = ['date_of_birth', 'profile', 'calclulated_age'];

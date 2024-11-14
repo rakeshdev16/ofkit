@@ -12,7 +12,7 @@
                         'id' => $functionality->id,
                         'name' => $functionality->name,
                         'edit' => route('children-table.edit', $functionality->id).'?type=functionality',
-                        'dataName' => $functionality->is_assign ? $functionality->name.' has assigned to kindergarten' : ''
+                        'dataName' => $functionality->is_assign ? $functionality->name.' has assigned to children' : ''
                     ])
                 </button>
             </h2>

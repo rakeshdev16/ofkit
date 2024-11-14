@@ -1,6 +1,6 @@
 @extends('layout.master')
 @push('customLink')
-    
+
 @endpush
 @section('section')
 <div class="wrapper">
@@ -38,6 +38,7 @@
                                 <div class="col-md-12">
                                     @include('components.text-input', ['label' => __('tables.fileType'), 'name' => 'name', 'icon' => 'user', 'value' => $fileType->name])
                                 </div>
+                                @include('components.active-inactive-toggle',['statusCheck' => @$fileType, 'dataName' => $fileType->is_assign ? $fileType->name . ' has assigned to children' : '',])
                                 <div class="col-md-12">
                                     <div class="d-md-flex d-grid align-items-center gap-3">
                                         <input type="hidden" name="type" value="file-type">
@@ -55,5 +56,5 @@
 </div>
 @endsection
 @push('customScript')
-    
+
 @endpush

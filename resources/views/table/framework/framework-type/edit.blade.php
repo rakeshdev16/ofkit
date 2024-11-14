@@ -1,6 +1,6 @@
 @extends('layout.master')
 @push('customLink')
-    
+
 @endpush
 @section('section')
 <div class="wrapper">
@@ -38,6 +38,7 @@
                                 <div class="col-md-12">
                                     @include('components.text-input', ['label' => __('tables.frameworkType'), 'name' => 'name', 'icon' => 'user-circle', 'value' => $frameworkType->name])
                                 </div>
+                                @include('components.active-inactive-toggle',['statusCheck' => @$frameworkType, 'dataName' => $frameworkType->is_assign ? $frameworkType->name.' has assigned to kindergarten' : ''])
                                 <div class="col-md-12">
                                     <div class="d-md-flex d-grid align-items-center gap-3">
                                         <input type="hidden" name="type" value="framework-type">
@@ -55,5 +56,5 @@
 </div>
 @endsection
 @push('customScript')
-    
+
 @endpush

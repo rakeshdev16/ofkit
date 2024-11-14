@@ -290,6 +290,9 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    @if (isset($document->status))
+                                                        @include('components.active-inactive-toggle',['statusCheck' => @$document, 'dataName' => ""])
+                                                    @endif
                                                     {{-- <input type="hidden" name="staff_meeting_id" value="{{ @$document->staffMeeting->id }}"> --}}
                                                     <input type="hidden" name="kindergarten_id" value="{{ @$children->kindergarten_id }}">
                                                     <input type="hidden" name="id" value="{{ @$document->id }}">

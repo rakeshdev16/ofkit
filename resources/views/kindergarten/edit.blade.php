@@ -1,6 +1,6 @@
 @extends('layout.master')
 @push('customLink')
-    
+
 @endpush
 @section('section')
 <div class="wrapper">
@@ -82,8 +82,8 @@
                                 <div class="col-md-6">
                                     @include('components.select-input', [
                                         'label' => __('kindergarten.kindergartenManagerTh'),
-                                        'name' => 'manager_id', 
-                                        'icon' => 'user', 
+                                        'name' => 'manager_id',
+                                        'icon' => 'user',
                                         'options' => $managers,
                                         'value' => @$kindergarten->kindergartenUser->user_id
                                     ])
@@ -100,6 +100,7 @@
                                 <div class="col-md-12">
                                     @include('components.text-input', ['label' => __('kindergarten.addressTh'), 'name' => 'address', 'icon' => 'current-location', 'value' => $kindergarten->address])
                                 </div>
+                                @include('components.active-inactive-toggle',['statusCheck' => @$kindergarten, 'dataName' => $kindergarten->is_assign ? $kindergarten->name.' has assigned to children or staff' : ''])
                                 <div class="col-md-12">
                                     <div class="d-md-flex d-grid align-items-center gap-3">
                                         <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">

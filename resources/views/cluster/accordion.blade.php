@@ -12,6 +12,7 @@
                         'id' => $cluster->id,
                         'name' => @$cluster->manager->name,
                         'edit' => route('cluster.edit', $cluster->id),
+                        'dataName' => $cluster->is_assign ? $cluster->name.' has assigned to kindergarten' : ''
                     ])
                 </button>
             </h2>

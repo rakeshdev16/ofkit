@@ -97,7 +97,9 @@ class KindergartenController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+        
         $kindergarten = Kindergarten::findOrFail($id);
+        $request['status'] = $request->status ?? 'inactive';
         $kindergarten->update($request->except('_token', '_method', 'manager_id'));
         $kindergarten->kindergartenUser()->delete();
         if (isset($request->manager_id)) {

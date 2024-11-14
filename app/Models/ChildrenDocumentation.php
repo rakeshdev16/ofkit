@@ -21,7 +21,8 @@ class ChildrenDocumentation extends Model
         'group_name',
         'occured_reason',
         'file',
-        'type'
+        'type',
+        'status',
     ];
 
     protected $appends = ['file_name'];
@@ -87,6 +88,11 @@ class ChildrenDocumentation extends Model
         }
         if (request('type')) {
             $query->where('type', request('type'));
+        }
+        if (request('status')) {
+            $query->where('status', request('status'));
+        }else{
+            $query->where('status', 'active');
         }
         return $query;
     }

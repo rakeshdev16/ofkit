@@ -18,7 +18,8 @@
                 </div>
                 <div class="mt-3">
                     @if (Auth::user()->hasRole(['admin', 'manager']))
-                        <button class="btn button moveToArchive">{{ __('comon.moveToArchive') }}</button>
+                        {{-- <button class="btn button moveToArchive">{{ __('comon.moveToArchive') }}</button> --}}
+                        @include('components.table-button')
                     @endif
                     {{-- <a href="#" data-bs-toggle="modal" data-bs-target="#addDocumentModal" class="btn button addDocument">{{ __('comon.addNew') }} +</a> --}}
                     {{-- <a href="#" class="btn button addDocument">{{ __('comon.addNew') }} +</a> --}}
@@ -37,6 +38,9 @@
                             <option value="{{ $fileType->key }}">{{ $fileType->value }}</option>
                         @endforeach
                     </select>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 py-1 my-1">
+                    @include('components.active-inactive')
                 </div>
             </div>
             <div class="card">
@@ -64,7 +68,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        
+
                     </div>
                 </div>
             </div>
@@ -173,10 +177,12 @@
         $(document).on('click', '.addDocument', function() {
             $('.file').val('');
         });
+
         $(document).on('click', '.moveToArchive', function() {
-            var url = "{{ route('documents-approvals.delete', ':ids') }}";
-            var msg = "Please choose at least one document";
-            moveToArchive(url, msg);
+            var msg = "{{ __('cluster.selectMsg') }}";
+            var status = $('.status').val();
+            var model = "ChildrenDocumentAndApproval";
+            moveToArchive( msg, status , model);
         });
 
         $(document).on('click', '.addDocument', function() {

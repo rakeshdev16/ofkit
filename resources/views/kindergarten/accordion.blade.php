@@ -12,6 +12,7 @@
                         'id' => $kindergarten->id,
                         'name' => $kindergarten->name,
                         'edit' => route('kindergarten.edit', $kindergarten->id),
+                        'dataName' => $kindergarten->is_assign ? $kindergarten->name.' has assigned to children or staff' : ''
                     ])
                 </button>
             </h2>

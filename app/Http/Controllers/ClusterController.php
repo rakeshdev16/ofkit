@@ -69,6 +69,7 @@ class ClusterController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $cluster = Cluster::findOrFail($id);
+        $request['status'] = $request->status ?? 'inactive';
         $cluster->update($request->except('_token', '_method', 'kindergarten_id'));
         return redirect()->route('cluster.index');
     }

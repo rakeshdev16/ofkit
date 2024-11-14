@@ -284,6 +284,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @include('components.active-inactive-toggle', ['statusCheck' => @$staff, 'dataName' => $staff->is_assign ? $staff->first_name . ' has assigned to kindergarten or cluster' : '' ])
                                         <input type="hidden" name="query_string" value="{{ request()->kindergarten_id }}">
                                         <div class="col-md-6">
                                             <div class="d-md-flex d-grid align-items-center gap-3">
@@ -322,7 +323,7 @@
                     $('.document-section').hide();
                 }
                 console.log(ids);
-                
+
                 // Swal.fire({
                 //     title: "Are you sure?",
                 //     text: "You won't be able to revert this!",

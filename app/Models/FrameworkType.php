@@ -9,7 +9,7 @@ class FrameworkType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'status'];
 
     protected $appends = ['is_assign'];
 

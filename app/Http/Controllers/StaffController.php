@@ -142,7 +142,7 @@ class StaffController extends Controller
 
             // if (filter_var(trim($request->email), FILTER_VALIDATE_EMAIL)) {
             //     $user->notify(new AccountDetailNotification($user, $request['password']));
-            // } 
+            // }
             try {
                 if ($request->role != 'support') {
                     $user->notify(new AccountDetailNotification($user, $request['password']));
@@ -255,6 +255,7 @@ class StaffController extends Controller
 
             $request['name'] = $request->first_name . ' ' . $request->family_name;
             $user = User::findOrFail($id);
+            $request['status'] = $request->status ?? 'inactive';
             $user->update($request->except('_token', '_method', 'kindergarten_id', 'schedule', 'query_string'));
             $user->syncRoles($request->role);
             $description = $request['document_description'];

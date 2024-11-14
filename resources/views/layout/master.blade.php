@@ -158,35 +158,6 @@
             });
         });
 
-        // Increment the tab count when a new tab loads
-        // window.addEventListener('load', function() {
-        //     let tabCount = localStorage.getItem('tabCount');
-        //     tabCount = tabCount ? parseInt(tabCount) + 1 : 1;
-        //     localStorage.setItem('tabCount', tabCount);
-        //     localStorage.setItem('isReloading', 'true');
-        // });
-
-        // // Decrement the tab count when a tab is closed or reloaded
-        // window.addEventListener('beforeunload', function(e) {
-        //     let tabCount = localStorage.getItem('tabCount');
-        //     let isReloading = localStorage.getItem('isReloading');
-
-        //     // Only decrement the tab count if it's not a reload
-        //     if (!isReloading) {
-        //         tabCount = tabCount ? parseInt(tabCount) - 1 : 0;
-        //         localStorage.setItem('tabCount', tabCount);
-
-        //         // If no more tabs are open, trigger the logout process
-        //         if (tabCount <= 0) {
-        //             // Use sendBeacon for logging out the user asynchronously
-        //             navigator.sendBeacon('/expire-session');
-        //         }
-        //     }
-
-        //     // Clear the reloading flag after use
-        //     localStorage.removeItem('isReloading');
-        // });
-
         setInterval(function() {
             $.ajax({
                 url: '/check-session',
@@ -201,6 +172,34 @@
                 }
             });
         }, 60000);
+
+        $(document).on('change', '.checkbox', function () {
+            if ($('.checkbox').length != $('.checkbox:checked').length) {
+                $('.mainCheckbox').prop('checked', false);
+            } else {
+                $('.mainCheckbox').prop('checked', true);
+            }
+            var name = $(this).data('name');
+            if (name && name.trim() != '') {
+                $(this).prop('checked', false);
+                toastr.warning(name, null, { timeOut: 5000, extendedTimeOut: 5000 });
+                $('.activeInactive').prop('checked', true);
+            } else {
+                if ($(this).is(':checked') == true) {
+                    $(this).prop('checked', true);
+                } else {
+                    $(this).prop('checked', false);
+                }
+            }
+        });
+
+        $(document).on('change', '.activeInactive', function () {
+            if ($(this).is(':checked')) {
+                $(this).val('active');
+            } else {
+                $(this).val('inactive');
+            }
+        });
     </script>
 </body>
 

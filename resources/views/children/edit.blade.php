@@ -381,6 +381,7 @@
                                                                 @include('components.medicine-detail', ['no' => $loop->iteration, 'index' => $loop->index, 'data' => $medicine])
                                                             @endforeach
                                                         </div>
+                                                        @include('components.active-inactive-toggle',['statusCheck' => @$children, 'dataName' => ""])
                                                         <input type="hidden" name="deleted_medicine" value="{{ old('deleted_medicine') }}" id="deletedMedicine">
                                                         <input type="hidden" name="query_string" value="{{ request()->kindergarten_id }}">
                                                         <div class="col-12">

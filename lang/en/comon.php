@@ -48,4 +48,6 @@ return [
     'status' => 'Status',
     'active' => 'Active',
     'inactive' => 'Inactive',
+    'activeMsg' => 'Selected record has been activated',
+    'inactiveMsg' => 'Selected record has been inactivated'
 ];

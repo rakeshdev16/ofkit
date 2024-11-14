@@ -17,6 +17,12 @@ return new class extends Migration
         Schema::table('childrens', function (Blueprint $table) {
             $table->enum('status', ['active', 'inactive'])->default('active');
         });
+        Schema::table('children_documentations', function (Blueprint $table) {
+            $table->enum('status', ['active', 'inactive'])->default('active');
+        });
+        Schema::table('children_document_and_approvals', function (Blueprint $table) {
+            $table->enum('status', ['active', 'inactive'])->default('active');
+        });
         Schema::table('kindergartens', function (Blueprint $table) {
             $table->enum('status', ['active', 'inactive'])->default('active');
         });

@@ -10,7 +10,7 @@
                         'id' => $hmo->id,
                         'name' => $hmo->name,
                         'edit' => route('children-table.edit', $hmo->id) . '?type=hmo',
-                        'dataName' => $hmo->is_assign ? $hmo->name . ' has assigned to kindergarten' : '',
+                        'dataName' => $hmo->is_assign ? $hmo->name . ' has assigned to children' : '',
                     ])
                 </button>
             </h2>

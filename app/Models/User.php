@@ -35,6 +35,7 @@ class User extends Authenticatable
         'otp',
         'otp_expires_at',
         'last_activity_at',
+        'status',
     ];
 
     protected $appends = ['date_of_birth', 'profile', 'is_assign'];

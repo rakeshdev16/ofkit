@@ -68,6 +68,11 @@ class ChildrenDocumentAndApproval extends Model
             //     $query->whereDate('created_at', $singleDate);
             // }
         }
+        if (request('status')) {
+            $query->where('status', request('status'));
+        }else{
+            $query->where('status', 'active');
+        }
 
         return $query;
     }
@@ -76,7 +81,7 @@ class ChildrenDocumentAndApproval extends Model
     {
         return FileType::where('id', $this->attributes['file_type_id'])->pluck('name')->first();
     }
-    
+
     public function getDocumentAttribute($value)
     {
         return isset($this->attributes['document']) ? asset('storage/'.$this->attributes['document']) : NULL;

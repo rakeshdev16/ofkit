@@ -184,6 +184,9 @@
                                                             @endif
                                                         </div>
                                                     </div>
+                                                    @if (isset($document->status))
+                                                        @include('components.active-inactive-toggle',['statusCheck' => @$document, 'dataName' => ""])
+                                                    @endif
                                                     <input type="hidden" name="kindergarten_id" value="{{ $children->kindergarten_id }}">
                                                     <input type="hidden" name="id" value="{{ @$document->id }}">
                                                     <input type="hidden" name="delete_file" class="deleteFile">

@@ -67,7 +67,7 @@ class InterventionTableController extends Controller
             break;
         }
     }
-    
+
     public function store(Request $request)
     {
         switch ($request->type) {
@@ -128,6 +128,7 @@ class InterventionTableController extends Controller
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
+                $request['status'] = $request->status ?? 'inactive';
                 DocumentAndApproval::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('intervention.index', ['type' => 'documents-and-approval']);
             break;
@@ -140,6 +141,7 @@ class InterventionTableController extends Controller
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
+                $request['status'] = $request->status ?? 'inactive';
                 InterventionType::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('intervention.index', ['type' => 'intervention-type']);
             break;

@@ -14,7 +14,7 @@
                 ]) --}}
                     <div class="row w-100 align-items-center" style="margin-left: 0px;">
                         <div class="col-2 d-flex justify-content-center">
-                            <input type="checkbox" name="id[]" value="{{ $member->id }}" class="accordionCheckbox checkbox" data-name="{{ $member->is_assign ? $member->first_name . ' has assigned to kindergarten or cluster' : '' }}">&nbsp;&nbsp;
+                            <input type="checkbox" name="id[]" value="{{ $member->id }}" class="accordionCheckbox checkbox" data-name="$member->is_assign ? $member->first_name . ' has assigned to kindergarten or cluster' : '' ">&nbsp;&nbsp;
                         </div>
                         <div class="col-8">{{ $member->name }}</div>
                         <div class="col-2 show-icon">

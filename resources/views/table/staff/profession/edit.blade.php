@@ -42,6 +42,7 @@
                                                 'value' => $profession->name,
                                             ])
                                         </div>
+                                        @include('components.active-inactive-toggle',['statusCheck' => @$profession, 'dataName' => $profession->is_assign ? $profession->name.' has assigned to staff members' : ''])
                                         <div class="col-md-6">
                                             <div class="d-md-flex d-grid align-items-center gap-3">
                                                 <input type="hidden" name="type" value="profession">

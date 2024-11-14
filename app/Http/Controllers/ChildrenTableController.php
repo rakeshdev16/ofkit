@@ -204,26 +204,32 @@ class ChildrenTableController extends Controller
         }
         switch ($request->type) {
             case 'parents-status':
+                $request['status'] = $request->status ?? 'inactive';
                 ParentsStatus::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('children-table.index', ['type' => 'parents-status']);
             break;
             case 'hmo':
+                $request['status'] = $request->status ?? 'inactive';
                 Hmo::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('children-table.index', ['type' => 'hmo']);
             break;
             case 'diagnosis':
+                $request['status'] = $request->status ?? 'inactive';
                 Diagnosis::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('children-table.index', ['type' => 'diagnosis']);
             break;
             case 'functionality':
+                $request['status'] = $request->status ?? 'inactive';
                 Functionality::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('children-table.index', ['type' => 'functionality']);
             break;
             case 'status':
+                $request['status'] = $request->status ?? 'inactive';
                 Status::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('children-table.index', ['type' => 'status']);
             break;
             case 'file-type':
+                $request['status'] = $request->status ?? 'inactive';
                 FileType::where('id', $id)->update($request->except('_token', '_method', 'type', 'form_changed'));
                 return redirect()->route('children-table.index', ['type' => 'file-type']);
             break;

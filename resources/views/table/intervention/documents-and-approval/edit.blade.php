@@ -37,6 +37,7 @@
                                         <div class="col-md-12">
                                             @include('components.text-input', ['label' => __('tables.documentsAndApproval'), 'name' => 'name', 'icon' => 'user-circle', 'value' => $document->name])
                                         </div>
+                                        @include('components.active-inactive-toggle',['statusCheck' => @$document, 'dataName' => $document->is_assign ? $document->name.' has assigned to children document' : ''])
                                         <div class="col-md-12">
                                             <div class="d-md-flex d-grid align-items-center gap-3">
                                                 <input type="hidden" name="type" value="documents-and-approval">

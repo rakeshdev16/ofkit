@@ -254,6 +254,7 @@ class ChildrenController extends Controller
                 'status_id' => $request->status_id,
                 'service_start_date' => $request->service_start_date,
                 'hmo_id' => $request->hmo_id,
+                'status' => $request->status ?? 'inactive',
                 'updated_at' => now(),
             ]);
             $children->diagnosis()->delete();
@@ -442,6 +443,7 @@ class ChildrenController extends Controller
         if ($request->has('delete_file') && $request->delete_file == 1) {
             $request['file'] = NULL;
         }
+
         switch ($type) {
             case 'individual':
                 return $this->individual($request->all(), $id);
@@ -502,6 +504,10 @@ class ChildrenController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        if(isset($data['id'])){
+            $data['status'] = $data['status'] ?? 'inactive';
+        }
+
         ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
         if ($data['id']) {
             return redirect()->route('children-documentation.show', [$id, $data['id'], $id]);
@@ -550,12 +556,15 @@ class ChildrenController extends Controller
         if ($data['occured'] == 0) {
             $data['file'] = NULL;
         }
-        // dd($data);
+
         if(Auth::user()->hasRole('admin') && isset($data->therapist_id)){
             $therapist_ids = isset($data['therapist_id']) ? $data['therapist_id'] : [];
 
             unset($data['therapist_id']);
 
+            if(isset($data['id'])){
+                $data['status'] = $data['status'] ?? 'inactive';
+            }
             $document = ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
 
             foreach ($therapist_ids as $therapist_id) {
@@ -613,6 +622,9 @@ class ChildrenController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        if(isset($data['id'])){
+            $data['status'] = $data['status'] ?? 'inactive';
+        }
         $document = ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
         // if (isset($request->children_ids) && count($request->children_ids) > 0) {
         //     foreach ($request->children_ids as $childrenId) {
@@ -670,6 +682,10 @@ class ChildrenController extends Controller
         }
         if ($data['occured'] == 0) {
             $data['file'] = NULL;
+        }
+
+        if(isset($data['id'])){
+            $data['status'] = $data['status'] ?? 'inactive';
         }
         $document = ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
         $document->staffMeeting()->delete();
@@ -738,6 +754,9 @@ class ChildrenController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        if(isset($data['id'])){
+            $data['status'] = $data['status'] ?? 'inactive';
+        }
         ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
         if ($data['id']) {
             return redirect()->route('children-documentation.show', [$id, $data['id'], $id]);
@@ -770,6 +789,9 @@ class ChildrenController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        if(isset($data['id'])){
+            $data['status'] = $data['status'] ?? 'inactive';
+        }
         ChildrenDocumentation::updateOrCreate(['id' => $data['id']], $data);
         if ($data['id']) {
             return redirect()->route('children-documentation.show', [$id, $data['id'], $id]);
@@ -855,7 +877,12 @@ class ChildrenController extends Controller
         DB::beginTransaction();
 
         try {
-
+            if(isset($request->id)){
+                $request['status'] = $request->status ?? 'inactive';
+            }
+            echo "<pre>";
+            print_r($request->all());
+            die;
             if ($request->has('document')) {
                 $document = uploadFile($request->document, 'public/child-document');
             } else {

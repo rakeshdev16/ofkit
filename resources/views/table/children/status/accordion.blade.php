@@ -10,7 +10,7 @@
                         'id' => $status->id,
                         'name' => $status->name,
                         'edit' => route('children-table.edit', $status->id) . '?type=status',
-                        'dataName' => $status->is_assign ? $status->name . ' has assigned to kindergarten' : '',
+                        'dataName' => $status->is_assign ? $status->name . ' has assigned to children' : '',
                     ])
                 </button>
             </h2>

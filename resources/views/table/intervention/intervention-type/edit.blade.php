@@ -37,6 +37,7 @@
                                         <div class="col-md-12">
                                             @include('components.text-input', ['label' => __('tables.occurrenceInterventionType'), 'name' => 'name', 'icon' => 'user-circle', 'value' => $interventionType->name])
                                         </div>
+                                        @include('components.active-inactive-toggle',['statusCheck' => @$interventionType, 'dataName' => $interventionType->is_assign ? $interventionType->name . ' has assigned to children document' : ''])
                                         <div class="col-md-12">
                                             <div class="d-md-flex d-grid align-items-center gap-3">
                                                 <input type="hidden" name="type" value="intervention-type">
