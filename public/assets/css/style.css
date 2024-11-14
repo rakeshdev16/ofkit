@@ -601,3 +601,127 @@ button.accordion-button.accordion-screen.collapsed {
         }
     }
 }
+
+.calendar_default_rowheader_inner,
+.calendar_default_cornerright_inner,
+.calendar_default_corner_inner,
+.calendar_default_colheader_inner,
+.calendar_default_alldayheader_inner {
+    background: #095F59 !important;
+    color: #fff !important;
+    padding: 10px;
+}
+
+/* .calendar_default_main>div>div>div:nth-child(1) {
+    float: right !important;
+}
+
+.calendar_default_main>div>div>div:nth-child(2) {
+    margin: 0 !important;
+
+    div>div>div:nth-child(3) {
+        margin: 0 !important;
+    }
+} */
+
+/* event template */
+
+.event-box {
+
+    height: 100%;
+}
+
+.calendar_default_event_inner {
+    padding: 0 !important;
+    color: #000 !important;
+}
+
+.calendar_default_event_bar {
+    display: none !important;
+}
+
+.calendar-event-overlay {
+    width: 20vw;
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.table-container table {
+    margin: 20px 0;
+    border-radius: 20px;
+    background-color: #f8f7f4;
+}
+
+.table-header th {
+    background-color: #095F59 !important;
+    color: white;
+}
+
+.table th,
+.table td {
+    text-align: center;
+    padding: 15px;
+    vertical-align: middle;
+}
+
+.icon {
+    cursor: pointer;
+    font-size: 18px !important;
+    color: #095F59;
+}
+
+.table-checkbox {
+    width: 20px;
+    height: 20px;
+}
+
+.avatar-img {
+    width: 122px;
+    height: 134px;
+
+    img {
+        object-fit: cover;
+        border-radius: 10px;
+    }
+}
+
+.green-light {
+    color: #00AEA7;
+}
+
+.new-btn-appointment {
+    border: 1px solid #D0D0D0;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #AAAAAA;
+
+    &:hover {
+        background: #FFD681;
+        color: #000000;
+    }
+}
+
+#appointmentModal {
+    input,select,textarea {
+        border: 1px solid #F0F0F0 !important;
+    }
+}
+
+
+@media screen and (max-width:576px) {
+    .calendar-event-overlay {
+        width: 80vw;
+
+    }
+    /* .calendar_default_colheader_back > div:nth-child(2) > div > div{
+        width: 500px !important;
+    } */
+     .calendar_default_cell_inner{
+        width: 500px !important;
+     }
+}
