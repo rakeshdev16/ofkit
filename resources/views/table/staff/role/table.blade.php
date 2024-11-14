@@ -9,8 +9,11 @@
     <tbody>
         @forelse ($roles as $role)
             <tr class="tr-{{ $role->id }}">
+                @php
+                    $checkRecord = $role->is_assign ? $role->name . " has assigned to staff members" : '';
+                @endphp
                 <td>
-                    <input type="checkbox" name="id[]" value="{{ $role->id }}" class="checkbox" data-name="{{ $role->is_assign ? $role->name . ' has assigned to staff members' : '' }}">
+                    <input type="checkbox" name="id[]" value="{{ $role->id }}" class="checkbox" data-name="{{request()->status == 'inactive' ? '' : $checkRecord}}">
                 </td>
                 <td>{{ $role->name }}</td>
                 <td>

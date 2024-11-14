@@ -17,6 +17,8 @@ class Association extends Model
     {
         if (request('sort') && request('sorting')) {
             $query->orderBy(request('sort'), request('sorting'));
+        }else{
+            $query->orderBy('name', 'ASC');
         }
         if (request('search')) {
             $query->where('name', 'like', '%'.request('search').'%');

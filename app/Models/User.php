@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Spatie\Permission\Traits\HasRoles;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -103,8 +104,11 @@ class User extends Authenticatable
         }
         if (request('sort') && request('sorting')) {
             $query->orderBy(request('sort'), request('sorting'));
+        }else{
+            $query->orderBy('name', 'ASC');
         }
         if (request('kindergarten_id')) {
+            Session::put('staff_kindergarten', request('kindergarten_id'));
             $userIds = StaffKindergarten::whereIn('kindergarten_id', explode(',',request('kindergarten_id')))
                 ->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
             $query->whereIn('id', $userIds);

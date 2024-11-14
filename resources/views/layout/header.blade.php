@@ -94,7 +94,7 @@
                                 'width' => '180px',
                                 'icon' => 'fi_9184264.png',
                                 'active' => in_array($currentRoute, ['children.index', 'children.create']) ? 'active-menu' : '',
-                                'route' => route('children.index'),
+                                'route' => route('children.index')."?kindergarten_id=".Session::get('children_kindergarten'),
                                 // 'options' => [
                                 //     ['icon' => 'fi_2887367.png', 'name' => __('menu.allChildrens'), 'route' => route('children.index')],
                                 //     ['icon' => 'fi_2887367.png', 'name' => __('menu.addChildren'), 'route' => route('children.create')],
@@ -107,7 +107,7 @@
                                 'width' => '250px',
                                 'icon' => 'fi_2887367.png',
                                 'active' => in_array($currentRoute, ['staff.index', 'staff.create']) ? 'active-menu' : '',
-                                'route' => route('staff.index'),
+                                'route' => route('staff.index')."?kindergarten_id=".Session::get('staff_kindergarten'),
                                 // 'options' => [
                                 //     ['icon' => 'fi_1478254.png', 'name' => __('menu.staffList'), 'route' => route('staff.index')],
                                 //     ['icon' => 'fi_6212658.png', 'name' => __('menu.addStaff'), 'route' => route('staff.create')],

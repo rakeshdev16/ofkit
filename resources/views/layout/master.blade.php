@@ -174,21 +174,25 @@
         }, 60000);
 
         $(document).on('change', '.checkbox', function () {
-            if ($('.checkbox').length != $('.checkbox:checked').length) {
-                $('.mainCheckbox').prop('checked', false);
-            } else {
-                $('.mainCheckbox').prop('checked', true);
-            }
-            var name = $(this).data('name');
-            if (name && name.trim() != '') {
-                $(this).prop('checked', false);
-                toastr.warning(name, null, { timeOut: 5000, extendedTimeOut: 5000 });
-                $('.activeInactive').prop('checked', true);
-            } else {
-                if ($(this).is(':checked') == true) {
-                    $(this).prop('checked', true);
+            let searchParams = new URLSearchParams(window.location.search);
+            let param = searchParams.get('status');
+            if(param == 'active'){
+                if ($('.checkbox').length != $('.checkbox:checked').length) {
+                    $('.mainCheckbox').prop('checked', false);
                 } else {
+                    $('.mainCheckbox').prop('checked', true);
+                }
+                var name = $(this).data('name');
+                if (name && name.trim() != '') {
                     $(this).prop('checked', false);
+                    toastr.warning(name, null, { timeOut: 5000, extendedTimeOut: 5000 });
+                    $('.activeInactive').prop('checked', true);
+                } else {
+                    if ($(this).is(':checked') == true) {
+                        $(this).prop('checked', true);
+                    } else {
+                        $(this).prop('checked', false);
+                    }
                 }
             }
         });

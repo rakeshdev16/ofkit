@@ -18,6 +18,8 @@ class Cluster extends Model
     {
         if (request('sort') && request('sorting')) {
             $query->orderBy(request('sort'), request('sorting'));
+        }else{
+            $query->orderBy('cluster', 'ASC');
         }
         if (request('search')) {
             $search = request('search');

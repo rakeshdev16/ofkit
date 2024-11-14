@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 use \Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 class Children extends Model
 {
@@ -48,10 +49,11 @@ class Children extends Model
                 $query->orderBy(request('sort'), request('sorting'));
             }
         } else {
-            $query->orderBy('childrens.id', 'DESC');
+            $query->orderBy('childrens.name', 'ASC');
         }
 
         if (request('kindergarten_id')) {
+            Session::put('children_kindergarten', request('kindergarten_id'));
             $query->whereIn('childrens.kindergarten_id', explode(',',request('kindergarten_id')));
         }
 
