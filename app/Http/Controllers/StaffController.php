@@ -56,15 +56,15 @@ class StaffController extends Controller
 
     public function create()
     {
-        $managers = User::select('id as key', 'name as value')->role('manager')->get()->toArray();
-        $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
+        $managers = User::select('id as key', 'name as value')->role('manager')->where('status', 'active')->get()->toArray();
+        $kindergartens = Kindergarten::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
         $roles = Role::select('name as key', 'name as value')->where('name', '!=', 'admin')->get()->toArray();
         foreach ($roles as &$role) {
             $role['value'] = __('comon.' . $role['value']);
         }
-        $professions = Profession::select('id as key', 'name as value')->get()->toArray();
-        $associations = Association::select('id as key', 'name as value')->get()->toArray();
-        $memberRoles = MemberRole::select('id as key', 'name as value')->get()->toArray();
+        $professions = Profession::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
+        $associations = Association::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
+        $memberRoles = MemberRole::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
         return view('staff.create', compact('kindergartens', 'managers', 'roles', 'professions', 'associations', 'memberRoles'));
     }
 
@@ -73,7 +73,7 @@ class StaffController extends Controller
         $rules = [
             'first_name' => 'required',
             'identification' => 'nullable|digits:9|unique:users',
-            'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
+            // 'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
             'role' => 'required',
             'kindergarten.*.role_id' => 'required',
             'kindergarten.*.association_id' => 'required',
@@ -91,6 +91,7 @@ class StaffController extends Controller
         ];
         if ($request->role != 'support') {
             $rules['email'] = ['required', 'string', 'email', 'max:255', 'unique:users'];
+            $rules['telephone'] = ['required', 'regex'];
             $messages['email.required'] = __('staff.requiredEmail');
             $messages['email.email'] = __('staff.validEmail');
             $messages['email.unique'] = __('staff.existsEmail');
@@ -187,12 +188,12 @@ class StaffController extends Controller
     public function edit($id)
     {
         $staff = User::findOrFail($id);
-        $managers = User::select('id as key', 'name as value')->role('manager')->get()->toArray();
-        $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
+        $managers = User::select('id as key', 'name as value')->role('manager')->where('status', 'active')->get()->toArray();
+        $kindergartens = Kindergarten::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
         $roles = Role::select('name as key', 'name as value')->where('name', '!=', 'admin')->get()->toArray();
-        $memberRoles = MemberRole::select('id as key', 'name as value')->get()->toArray();
-        $professions = Profession::select('id as key', 'name as value')->get()->toArray();
-        $associations = Association::select('id as key', 'name as value')->get()->toArray();
+        $memberRoles = MemberRole::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
+        $professions = Profession::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
+        $associations = Association::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
         return view('staff.edit', compact('staff', 'kindergartens', 'managers', 'roles', 'memberRoles', 'professions', 'associations'));
     }
 

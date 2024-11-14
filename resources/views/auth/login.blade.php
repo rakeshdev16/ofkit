@@ -6,7 +6,7 @@
                 <div class="card-body">
                     <div class="p-4">
                         <div class="mb-3 text-center">
-                            <img src="{{ asset('assets/images/3.png') }}" width="100" alt="" />
+                            <img src="{{ asset('assets/images/3.png') }}" width="200" alt="" />
                         </div>
                         <div class="text-center mb-4">
                             <h5 class="">{{ __('login.welcome') }}</h5>
@@ -19,7 +19,7 @@
                                     <label for="inputEmailAddress" class="form-label">{{ __('login.email') }}</label>
                                     <input id="inputEmailAddress" type="email" class="form-control @error('email') is-invalid @enderror"
                                         placeholder="{{ __('login.emailPlaceholder') }}" required autocomplete="off"
-                                        readonly onfocus="this.removeAttribute('readonly');" 
+                                        readonly onfocus="this.removeAttribute('readonly');"
                                         name="user_email" value="{{ old('user_email') }}">
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
@@ -32,7 +32,7 @@
                                     <div class="input-group" id="show_hide_password">
                                         <input id="inputChoosePassword" type="password" class="form-control @error('password') is-invalid @enderror"
                                             placeholder="{{ __('login.passwordPlaceholder') }}" required autocomplete="off"
-                                            readonly onfocus="this.removeAttribute('readonly');" 
+                                            readonly onfocus="this.removeAttribute('readonly');"
                                             name="user_password">
                                         @error('password')
                                             <span class="invalid-feedback" role="alert">

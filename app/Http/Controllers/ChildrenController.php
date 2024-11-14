@@ -59,12 +59,12 @@ class ChildrenController extends Controller
 
     public function create()
     {
-        $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
-        $functionalities = Functionality::select('id as key', 'name as value')->get()->toArray();
-        $dianioses = Diagnosis::select('id as key', 'name as value')->get()->toArray();
-        $statuses = Status::select('id as key', 'name as value')->get()->toArray();
-        $parentsStatus = ParentsStatus::select('id as key', 'name as value')->get()->toArray();
-        $hmos = Hmo::select('id as key', 'name as value')->get()->toArray();
+        $kindergartens = Kindergarten::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
+        $functionalities = Functionality::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
+        $dianioses = Diagnosis::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
+        $statuses = Status::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
+        $parentsStatus = ParentsStatus::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
+        $hmos = Hmo::select('id as key', 'name as value')->get()->where('status', 'active')->toArray();
         return view('children.create', compact('kindergartens', 'functionalities', 'dianioses', 'statuses', 'hmos', 'parentsStatus'));
     }
 
@@ -188,12 +188,12 @@ class ChildrenController extends Controller
     public function edit($id)
     {
         $children = Children::findOrFail($id);
-        $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
-        $functionalities = Functionality::select('id as key', 'name as value')->get()->toArray();
-        $dianioses = Diagnosis::select('id as key', 'name as value')->get()->toArray();
-        $statuses = Status::select('id as key', 'name as value')->get()->toArray();
-        $parentsStatus = ParentsStatus::select('id as key', 'name as value')->get()->toArray();
-        $hmos = Hmo::select('id as key', 'name as value')->get()->toArray();
+        $kindergartens = Kindergarten::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
+        $functionalities = Functionality::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
+        $dianioses = Diagnosis::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
+        $statuses = Status::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
+        $parentsStatus = ParentsStatus::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
+        $hmos = Hmo::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
         return view('children.edit', compact('children', 'kindergartens', 'functionalities', 'dianioses', 'statuses', 'hmos', 'parentsStatus'));
     }
 
@@ -557,7 +557,7 @@ class ChildrenController extends Controller
             $data['file'] = NULL;
         }
 
-        if(Auth::user()->hasRole('admin') && isset($data->therapist_id)){
+        if(Auth::user()->hasRole('admin') && isset($data['therapist_id'])){
             $therapist_ids = isset($data['therapist_id']) ? $data['therapist_id'] : [];
 
             unset($data['therapist_id']);

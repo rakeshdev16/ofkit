@@ -19,9 +19,9 @@ class Controller extends BaseController
         if ($model->whereIn('id', $ids)->update(['status' => $status])) {
             $count = $model->where('status',  $request->status)->count();
             if($status == 'active'){
-                $message = __('comon.inactiveMsg');
-            }else{
                 $message = __('comon.activeMsg');
+            }else{
+                $message = __('comon.inactiveMsg');
             }
             return response()->json(['status' => true, 'ids' => $ids, 'count' => $count, 'message' => $message]);
         }

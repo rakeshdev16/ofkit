@@ -29,8 +29,8 @@ class ClusterController extends Controller
 
     public function create()
     {
-        $managers = User::role('manager')->select('id as key', 'name as value')->get();
-        $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
+        $managers = User::role('manager')->select('id as key', 'name as value')->where('status', 'active')->get();
+        $kindergartens = Kindergarten::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
         return view('cluster.create', compact('managers', 'kindergartens'));
     }
 
@@ -52,8 +52,8 @@ class ClusterController extends Controller
     public function edit($id)
     {
         $cluster = Cluster::findOrFail($id);
-        $managers = User::role('manager')->select('id as key', 'name as value')->get();
-        $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
+        $managers = User::role('manager')->select('id as key', 'name as value')->where('status', 'active')->get();
+        $kindergartens = Kindergarten::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
         return view('cluster.edit', compact('cluster', 'managers', 'kindergartens'));
     }
 

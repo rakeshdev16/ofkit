@@ -30,7 +30,7 @@
                 <div class="mt-3">
                     @if (Auth::user()->hasRole('admin'))
                         @include('components.table-button')
-                        <a href="{{ route('children.create') }}" class="btn button">{{ __('comon.addNew') }} +</a>
+                        <a href="{{ route('staff.create') }}" class="btn button">{{ __('comon.addNew') }} +</a>
                     @endif
                 </div>
             </div>

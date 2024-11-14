@@ -8,7 +8,7 @@
             <nav class="navbar navbar-expand gap-3">
                 <div class="topbar-logo-header d-none d-lg-flex">
                     <div class="">
-                        <img src="{{ asset('assets/images/3.png') }}" class="" width="100px" alt="logo icon">
+                        <img src="{{ asset('assets/images/3.png') }}" class="" width="160px" height="60px" alt="logo icon">
                     </div>
                 </div>
                 <div class="mobile-toggle-menu d-block d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
