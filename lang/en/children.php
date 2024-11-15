@@ -3,7 +3,7 @@
 return [
 
     'children' => 'Children',
-    'childrens' => 'Childrens',
+    'childrens' => 'Total Children',
     'admin' => 'Admin',
     'therapist' => 'Therapist',
     'fullName' => "Name",
@@ -129,7 +129,7 @@ return [
     'professionalMeetingDiscussion' => "Professional / Staff Meeting Discussion",
     'documentApprovals' => "Document and approvals",
     'newDocumantation' => "New Documantation",
-    'childrenDocuments' => "Children Documents",
+    'childrenDocuments' => "Total Children Documents",
     'childBirthday' => "Child's Birthday",
     'childAge' => "Child's Age",
     'selectDate' => "Select Date",
@@ -179,4 +179,5 @@ return [
     'other' => 'Other',
     'dateRange' => 'Date Range',
     'selectDateRange' => 'Select Date Range',
+    'totalDocuments' => 'Total Documents',
 ];

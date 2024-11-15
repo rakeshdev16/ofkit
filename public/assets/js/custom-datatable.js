@@ -162,7 +162,7 @@ $(document).on('change', '.mainCheckbox', function () {
         $('.checkbox').each(function () {
             let searchParams = new URLSearchParams(window.location.search);
             let param = searchParams.get('status');
-            if (param == 'active') {
+            if (param != 'inactive') {
                 var name = $(this).data('name');
 
                 if (name && name.trim() != '') {
@@ -173,7 +173,7 @@ $(document).on('change', '.mainCheckbox', function () {
                 } else {
                     $(this).prop('checked', true);
                 }
-            }else{
+            } else {
                 $(this).prop('checked', true);
             }
         });
@@ -206,7 +206,7 @@ $(document).on('change', '.mainAccordionCheckbox', function () {
         $('.accordionCheckbox').each(function () {
             let searchParams = new URLSearchParams(window.location.search);
             let param = searchParams.get('status');
-            if (param == 'active') {
+            if (param != 'inactive') {
                 var name = $(this).data('name');
                 if (name && name.trim() != '') {
                     $(this).prop('checked', false);
@@ -214,7 +214,7 @@ $(document).on('change', '.mainAccordionCheckbox', function () {
                 } else {
                     $(this).prop('checked', true);
                 }
-            }else{
+            } else {
                 $(this).prop('checked', true);
             }
         });
@@ -226,7 +226,8 @@ $(document).on('change', '.mainAccordionCheckbox', function () {
 $(document).on('change', '.accordionCheckbox', function () {
     let searchParams = new URLSearchParams(window.location.search);
     let param = searchParams.get('status');
-    if (param == 'active') {
+
+    if (param != 'inactive') {
         if ($('.accordionCheckbox').length != $('.accordionCheckbox:checked').length) {
             $('.mainAccordionCheckbox').prop('checked', false);
         } else {

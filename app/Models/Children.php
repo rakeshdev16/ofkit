@@ -55,6 +55,8 @@ class Children extends Model
         if (request('kindergarten_id')) {
             Session::put('children_kindergarten', request('kindergarten_id'));
             $query->whereIn('childrens.kindergarten_id', explode(',',request('kindergarten_id')));
+        }else{
+            Session::forget('children_kindergarten');
         }
 
         if (request('status')) {

@@ -1,5 +1,5 @@
 <div class="table-search">
-    <label> {{ $label }} <b class="totalCount">{{ $count }}</b> :{{ __('comon.total') }}</label>
+    <label> {{ $label }}: <b class="totalCount">{{ $count }}</b></label>
 
     <div class="d-flex">
         <button class="btn print-button mx-2">Print</button>

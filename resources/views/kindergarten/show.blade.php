@@ -7,7 +7,7 @@
             <div class="page-wrapper">
                 <div class="page-content">
                     <div class="page-breadcrumb d-flex align-items-center mb-3">
-                        <div class="breadcrumb-title pe-3">Detail</div>
+                        <div class="breadcrumb-title pe-3">{{__('comon.detail')}}</div>
                         <div class="ps-3">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0 p-0">
@@ -16,7 +16,7 @@
                                             <img class="p-1" src="{{ asset('assets/icons/fi_2887367.png') }}" />
                                         </a>
                                     </li>
-                                    <li class="breadcrumb-item active" aria-current="page">Kindergarten</li>
+                                    <li class="breadcrumb-item active" aria-current="page">{{__('kindergarten.kindergarten')}}</li>
                                 </ol>
                             </nav>
                         </div>
@@ -31,7 +31,7 @@
                             <div class="card">
                                 <div class="card-body p-4">
                                     <div class="d-flex justify-content-between">
-                                        <h5 class="mb-4 steper-title">Kindergarten Detail</h5>
+                                        <h5 class="mb-4 steper-title">{{__('kindergarten.kindergartenDetail')}}</h5>
                                         <div>
                                             @if (Auth::user()->hasRole('admin'))
                                                 <a href="{{ route('kindergarten.edit', $kindergarten->id) }}" class="btn button">{{ __('comon.edit') }}</a>

@@ -2,7 +2,7 @@
 
 return [
 
-    'staff' => 'צוות',
+    'staff' => 'סה"כ צוות',
     'manager' => 'מנהל',
     'select' => 'בחר',
     'back' => 'חזור',
@@ -11,7 +11,7 @@ return [
     'moveBtnText' => 'העבר לארכיון',
     'editBtnText' => 'לַעֲרוֹך',
     'updateBtnText' => 'עדכון',
-    'addBtnText' => 'הוסף חדש',
+    'addBtnText' => 'שמירה',
     'searchLabel' => 'לחפש',
     'leftLengthMenuLabel' => 'הופעה',
     'rightLengthMenuLabel' => 'ערכים',
@@ -28,7 +28,7 @@ return [
     'roleTh' => 'תפקיד אדמיניסטרטיבי',
     'kindergartenTh' => 'גן',
     'addStaffDetail' => 'מידע אישי',
-    'editStaffDetail' => 'עדכן את פרטי הצוות',
+    'editStaffDetail' => 'מידע אישי',
     'deleteStaffMsg' => 'חבר הצוות נמחק!',
     'mainCheckboxLabel' => 'Select Checkbox',
     'confirmTitle' => 'האם אתה בטוח?',

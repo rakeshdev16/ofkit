@@ -112,6 +112,8 @@ class User extends Authenticatable
             $userIds = StaffKindergarten::whereIn('kindergarten_id', explode(',',request('kindergarten_id')))
                 ->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
             $query->whereIn('id', $userIds);
+        }else{
+            Session::forget('staff_kindergarten');
         }
         if (request('status')) {
             $query->where('status', request('status'));

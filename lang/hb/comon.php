@@ -3,14 +3,14 @@
 return [
 
     'profile' => 'פרופיל',
-    'login' => 'התחברות',
+    'login' => 'כניסה',
     'logout' => 'התנתקות',
     'createdOn' => 'נוצר בתאריך',
     'updatedOn' => 'עודכן בתאריך',
     'addNew' => 'הוסף חדש',
     'edit' => 'עריכה',
     'view' => 'צפייה',
-    'update' => 'לְעַדְכֵּן',
+    'update' => 'שמירה',
     'submit' => 'שמירה',
     'moveToArchive' => 'העבר לארכיון',
     'search' => 'חיפוש',

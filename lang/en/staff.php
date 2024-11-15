@@ -2,7 +2,7 @@
 
 return [
 
-    'staff' => 'Staff',
+    'staff' => 'Total Staff',
     'manager' => 'Manager',
     'select' => 'Select',
     'back' => 'Back',

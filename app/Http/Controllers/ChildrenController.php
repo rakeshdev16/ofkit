@@ -880,9 +880,7 @@ class ChildrenController extends Controller
             if(isset($request->id)){
                 $request['status'] = $request->status ?? 'inactive';
             }
-            echo "<pre>";
-            print_r($request->all());
-            die;
+            
             if ($request->has('document')) {
                 $document = uploadFile($request->document, 'public/child-document');
             } else {

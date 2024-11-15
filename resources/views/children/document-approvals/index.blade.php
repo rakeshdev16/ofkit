@@ -46,13 +46,13 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive full-width-table">
-                        @include('components.table-search', ['label' => 'Documents', 'count' => @$count])
+                        @include('components.table-search', ['label' => __('children.totalDocuments'), 'count' => @$count])
                         <div id="dataTable">
                             @include('children.document-approvals.table', ['documents' => @$documents])
                         </div>
                     </div>
                     <div class="lising d-none">
-                        @include('components.table-search', ['label' => 'Documents', 'count' => $count])
+                        @include('components.table-search', ['label' => __('children.totalDocuments'), 'count' => $count])
                         <div id="accordion">
                             @include('children.document-approvals.accordion', ['documents' => @$documents])
                         </div>

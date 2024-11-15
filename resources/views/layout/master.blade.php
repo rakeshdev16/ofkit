@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>אופקית - טיפול ויעוץ</title>
     @stack('customLink')
+
 </head>
 
 <body class="pace-done" style="background-color: #FFFCF1">
@@ -176,7 +177,7 @@
         $(document).on('change', '.checkbox', function () {
             let searchParams = new URLSearchParams(window.location.search);
             let param = searchParams.get('status');
-            if(param == 'active'){
+            if (param != 'inactive') {
                 if ($('.checkbox').length != $('.checkbox:checked').length) {
                     $('.mainCheckbox').prop('checked', false);
                 } else {

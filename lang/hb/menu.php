@@ -3,13 +3,13 @@
 return [
 
     'tables' => 'טבלאות',
-    'kindergarten' => 'גן ילדים',
+    'kindergarten' => 'גנים',
     'allKindergarten' => 'כל גני הילדים',
     'addKindergarten' => 'הוסף גן ילדים',
     'clusters' => 'אשכולות',
     'clusterList' => 'רשימת אשכולות',
     'addCluster' => 'הוסף אשכול',
-    'therapySchedule' => 'לוח זמנים לטיפול',
+    'therapySchedule' => 'תוכנית טיפול',
     'allTherapySchedule' => 'כל לוחות הזמנים של הטיפולים',
     'addTherapySchedule' => 'הוסף לוח זמנים לטיפול',
     'staff' => 'צוות',
