@@ -553,9 +553,9 @@ class ChildrenController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        if ($data['occured'] == 0) {
-            $data['file'] = NULL;
-        }
+        // if ($data['occured'] == 0) {
+        //     $data['file'] = NULL;
+        // }
 
         if(Auth::user()->hasRole('admin') && isset($data['therapist_id'])){
             $therapist_ids = isset($data['therapist_id']) ? $data['therapist_id'] : [];
@@ -680,9 +680,9 @@ class ChildrenController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        if ($data['occured'] == 0) {
-            $data['file'] = NULL;
-        }
+        // if ($data['occured'] == 0) {
+        //     $data['file'] = NULL;
+        // }
 
         if(isset($data['id'])){
             $data['status'] = $data['status'] ?? 'inactive';
@@ -880,7 +880,7 @@ class ChildrenController extends Controller
             if(isset($request->id)){
                 $request['status'] = $request->status ?? 'inactive';
             }
-            
+
             if ($request->has('document')) {
                 $document = uploadFile($request->document, 'public/child-document');
             } else {

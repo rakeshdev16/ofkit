@@ -8,7 +8,7 @@
     <div class="page-wrapper">
         <div class="page-content">
             <div class="page-breadcrumb d-flex align-items-center mb-3">
-                <div class="breadcrumb-title pe-3">Edit</div>
+                <div class="breadcrumb-title pe-3">{{__('comon.edit')}}</div>
                 <div class="ps-3">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
@@ -17,7 +17,7 @@
                                     <img class="p-1" src="{{ asset('assets/icons/fi_2887367.png') }}"/>
                                 </a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Kindergarten</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{__('kindergarten.kindergarten')}}</li>
                         </ol>
                     </nav>
                 </div>

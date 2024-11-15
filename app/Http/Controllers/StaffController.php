@@ -91,7 +91,9 @@ class StaffController extends Controller
         ];
         if ($request->role != 'support') {
             $rules['email'] = ['required', 'string', 'email', 'max:255', 'unique:users'];
-            $rules['telephone'] = ['required', 'regex'];
+            $rules['telephone'] = ['required', 'regex:/^[0-9-]{8,14}$/'];
+            $rules['telephone.required'] = __('staff.requiredTelephone');
+            $rules['telephone.regex'] = __('staff.telephoneRegex');
             $messages['email.required'] = __('staff.requiredEmail');
             $messages['email.email'] = __('staff.validEmail');
             $messages['email.unique'] = __('staff.existsEmail');
