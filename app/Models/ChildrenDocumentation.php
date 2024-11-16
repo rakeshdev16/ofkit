@@ -84,7 +84,10 @@ class ChildrenDocumentation extends Model
             $query->whereIn('therapist_id', $userIds);
         }
         if (request('therapist_id')) {
-            $query->where('therapist_id', request('therapist_id'));
+            $childirenIds = ChildrenDocumentTherapist::where('therapist_id', request('therapist_id'))->pluck('children_documentation_id')->toArray();
+            $query->where('therapist_id', request('therapist_id'))->orWhereIn('id', $childirenIds);
+
+            // $query->whereIn('id', $childirenIds);
         }
         if (request('type')) {
             $query->where('type', request('type'));

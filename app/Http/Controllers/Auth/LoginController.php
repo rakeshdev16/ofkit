@@ -9,6 +9,7 @@ use App\Services\TextMeService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -60,6 +61,46 @@ class LoginController extends Controller
         return redirect($this->redirectTo);
     }
 
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if($validator->fails())
+        {
+            return back()->withErrors($validator)->withInput();
+        }
+        $user = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
+        if($user == true){
+            $user = Auth::user();
+                if (!Auth::user()->hasRole('admin')) {
+                    if($user->status == 'inactive'){
+                        Auth::logout();
+                        return back()->with('error', 'החשבון שלך הושבת');
+                    }else{
+                        session(['user_id' => $user->id]);
+                        $this->sendOtp($user);
+                        Auth::logout();
+                        return redirect()->route('otp.verify');
+                    }
+                }else{
+                    return redirect($this->redirectTo);
+                }
+
+            // if($user->status == 'inactive'){
+            //     Auth::logout();
+            //     return back()->with('error', 'החשבון שלך הושבת');
+            // }else{
+            //     $this->sendOtp($user);
+            //     Auth::logout();
+            //     return redirect()->route('otp.verify');
+            // }
+        }else{
+            return back()->with('error', 'אישורים לא חוקיים');
+        }
+    }
 
     public function sendOtp($user)
     {
@@ -80,7 +121,7 @@ class LoginController extends Controller
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-    $request->session()->regenerateToken();
+        $request->session()->regenerateToken();
 
         return redirect('/login');
     }

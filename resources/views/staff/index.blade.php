@@ -4,10 +4,6 @@
     <style>
         .select2-width{
             min-width: 300px !important;
-            max-width: 50% !important;
-        }
-        .select2{
-            width: 100% !important;
         }
     </style>
 @endpush
@@ -15,7 +11,7 @@
     <div class="page-wrapper">
         <div class="page-content">
             <div class="mb-4 page-info">
-                <div class="d-flex">
+                <div class="d-sm-flex">
                     <div class="select2-width align-self-end">
                         <h3 class="mb-2 text-uppercase">{{ __('staff.staff') }} </h3>
                         <select name="[]" class="select-filter  kindergardenFilter form-select" multiple>

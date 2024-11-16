@@ -11,6 +11,14 @@
                         <div class="text-center mb-4">
                             <h5 class="">{{ __('login.welcome') }}</h5>
                             <h5 class="mb-0">{{ __('login.signInMsg') }}</h5>
+                            @if (session()->has('error'))
+                                <p>
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: block">
+                                        {{session()->get('error')}}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                </p>
+                            @endif
                         </div>
                         <div class="form-body">
                             <form class="row" method="POST" action="{{ route('login') }}" autocomplete="off" id="loginForm">
