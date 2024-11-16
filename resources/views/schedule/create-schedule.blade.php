@@ -8,7 +8,7 @@
 {{-- Main Content Section --}}
 <div class="container-fluid" style="margin-top: 130px;">
     <h3>Create New Schedule</h3>
-    <div class="d-flex justify-content-between align-items-center my-3">
+    <div class="d-flex justify-content-between my-3">
         <div class="filters">
             <!-- Filter Dropdowns -->
             <select id="staffFilter" class="btn form-select btn-outline-secondary w-auto px-5 rounded-pill ">
@@ -32,7 +32,7 @@
 <div class="modal" id="newAppointment">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
-            
+
             <!-- Modal body -->
             <div class="modal-body d-flex gap-3 flex-column">
                 <button class="btn new-btn-appointment" data-bs-toggle="modal" data-bs-target="#appointmentModal">Individual</button>
@@ -149,7 +149,7 @@
 
     // view
     dp.startDate = "2024-11-11"; // or just dp.startDate = "2013-03-25";
-
+    dp.viewType = "Week";
     // dp.days = 1;
     dp.allDayEventHeight = 50;
 
@@ -253,12 +253,22 @@
             id: DayPilot.guid(),
             resource: args.resource,
             text: "Event"
-
         });
         dp.events.add(e);
         dp.clearSelection();
         dp.message("Created");
     };
+    dp.dayBeginsHour = 7;
+    dp.timeHeaderCellDuration = 15;
+    dp.cellDuration = 15;
+    dp.hourWidth = 100;
+    dp.cellHeight = 50;
+
+    dp.onBeforeTimeHeaderRender = function(args) {
+        var hour = DayPilot.Date.today().addTime(args.header.time);
+        args.header.html = hour.toString("h:mm");
+    };
+
     dp.onBeforeEventRender = function(args) {
         args.data.html = `<div class="p-3 event-box bg-danger">
                            <p class="text-start fw-bold text-end mb-0"> ${args.data.text} <i class="fa fa-user" aria-hidden="true"></i></p>

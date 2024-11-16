@@ -3,6 +3,7 @@
     border-color: #FFD681;
     border-radius: 15px;
     color: #000000;
+    line-height: 20px;
 }
 
 .button:hover {
@@ -611,6 +612,18 @@ button.accordion-button.accordion-screen.collapsed {
     color: #fff !important;
     padding: 10px;
 }
+.calendar_default_main.calendar_default_direction_rtl > div > div > div:nth-child(2) > div:nth-child(2) > div > div:nth-last-child(-n+14) > .calendar_default_colheader > .calendar_default_colheader_inner{
+    background: none !important;
+    color: #000 !important;
+}
+
+.calendar_default_rowheader_inner {
+    background: none !important;
+    color: #000 !important;
+    text-align: center !important;
+font-weight: 500;
+    font-size: 1rem !important;
+}
 
 /* .calendar_default_main>div>div>div:nth-child(1) {
     float: right !important;
@@ -707,7 +720,10 @@ button.accordion-button.accordion-screen.collapsed {
 }
 
 #appointmentModal {
-    input,select,textarea {
+
+    input,
+    select,
+    textarea {
         border: 1px solid #F0F0F0 !important;
     }
 }
@@ -718,10 +734,11 @@ button.accordion-button.accordion-screen.collapsed {
         width: 80vw;
 
     }
+
     /* .calendar_default_colheader_back > div:nth-child(2) > div > div{
         width: 500px !important;
     } */
-     .calendar_default_cell_inner{
+    .calendar_default_cell_inner {
         width: 500px !important;
-     }
+    }
 }

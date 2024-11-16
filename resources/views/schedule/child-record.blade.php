@@ -8,7 +8,7 @@
     <h3 class="text-start text-dark">Child Records</h3>
     <div class="my-4 p-3">
         <div class="d-flex align-items-center justify-content-end gap-4">
-            
+
             <div class="row w-100">
                 <div class="col-lg-3 mb-3">
                     <p class="text-dark fw-normal fs-6">Adi <span class="green-light fw-medium">:First Name</span></p>
@@ -17,16 +17,16 @@
                     <p class="text-dark fw-normal fs-6">Zohar <span class="green-light fw-medium">:Last Name</span></p>
                 </div>
                 <div class="col-lg-3 mb-3">
-                    <p class="text-dark fw-normal fs-6">2132333 <span class="green-light fw-medium">:ID</span></p>
+                    <p class="text-dark fw-normal fs-6 justify-content-end d-flex gap-2" style="flex-direction:row-reverse">2132333 <span class="green-light fw-medium">:ID</span></p>
                 </div>
                 <div class="col-lg-3 mb-3">
                     <p class="text-dark fw-normal fs-6">First Grade <span class="green-light fw-medium"> :Kindergarten</span></p>
                 </div>
                 <div class="col-lg-3 mb-3">
-                    <p class="text-dark fw-normal fs-6">03/11/1998 <span class="green-light fw-medium">:Child’s Birthday </span></p>
+                    <p class="text-dark fw-normal fs-6 justify-content-end d-flex gap-2" style="flex-direction:row-reverse"> 03/11/1998 <span class="green-light fw-medium"> Child’s Birthday: </span></p>
                 </div>
                 <div class="col-lg-3 mb-3">
-                    <p class="text-dark fw-normal fs-6">26 <span class="green-light fw-medium">:Child’s Age</span></p>
+                    <p class="text-dark fw-normal fs-6 d-flex gap-2 justify-content-end" style="flex-direction:row-reverse">26 <span class="green-light fw-medium">:Child’s Age</span></p>
                 </div>
             </div>
             <div class="avatar-img">
@@ -42,7 +42,7 @@
 <script type="text/javascript">
     var dp = new DayPilot.Calendar("dp");
     // overlay start
-
+    dp.rtl = true;
 
     // overlay end
 
@@ -53,7 +53,8 @@
     };
 
     // view
-    dp.startDate = "2024-11-11"; // or just dp.startDate = "2013-03-25";
+    dp.startDate = "2024-11-11";
+    dp.viewType = "Week";
 
     // dp.days = 1;
     dp.allDayEventHeight = 50;
@@ -65,19 +66,7 @@
 
         },
         {
-            name: "Saturday",
-
-        },
-        {
-            name: "Friday",
-
-        },
-        {
-            name: "Thrusday",
-
-        },
-        {
-            name: "Wednesday",
+            name: "Monday",
 
         },
         {
@@ -85,9 +74,26 @@
 
         },
         {
-            name: "Monday",
+            name: "Wednesday",
 
-        }
+        },
+        {
+            name: "Thrusday",
+
+        },
+        {
+            name: "Friday",
+
+        },
+        {
+            name: "Saturday",
+
+        },
+
+
+
+
+
     ];
 
 
@@ -101,11 +107,20 @@
             id: DayPilot.guid(),
             resource: args.resource,
             text: "Event"
-
         });
         dp.events.add(e);
         dp.clearSelection();
         dp.message("Created");
+    };
+    dp.dayBeginsHour = 7;
+    dp.timeHeaderCellDuration = 15;
+    dp.cellDuration = 15;
+    dp.hourWidth = 100;
+    dp.cellHeight = 50;
+
+    dp.onBeforeTimeHeaderRender = function(args) {
+        var hour = DayPilot.Date.today().addTime(args.header.time);
+        args.header.html = hour.toString("h:mm");
     };
     dp.onBeforeEventRender = function(args) {
         args.data.html = `<div class="p-3 event-box bg-danger">

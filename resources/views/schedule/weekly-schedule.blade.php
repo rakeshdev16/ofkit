@@ -7,32 +7,34 @@
 @section('section')
 <div class="container-fluid" style="margin-top: 130px;">
     <h3>Weekly Schedule</h3>
-    <div class="d-flex flex-wrap gap-3 justify-content-between align-items-center my-3">
+    <div class="d-flex flex-wrap gap-3 justify-content-between my-3">
         <div class="filters d-flex flex-wrap  gap-3">
             <!-- Filter Dropdowns -->
-            <select id="staffFilter" class="form-select rounded-pill px-5 w-auto">
-                <option value="">Staff</option>
-                <option value="John">John</option>
-                <option value="Ortal Remano">Ortal Remano</option>
-            </select>
-            <select id="childrenFilter" class="form-select rounded-pill px-5 w-auto">
-                <option value="">Children</option>
-                <option value="Child1">Child 1</option>
-                <option value="Child2">Child 2</option>
-            </select>
+
+
             <select id="kindergartenFilter" class="form-select rounded-pill px-5 w-auto">
                 <option value="">Kindergarten Name</option>
                 <option value="Hatsav">Hatsav</option>
                 <option value="Nitzan">Nitzan</option>
                 <option value="Alwan">Alwan</option>
             </select>
+            <select id="childrenFilter" class="form-select rounded-pill px-5 w-auto">
+                <option value="">Children</option>
+                <option value="Child1">Child 1</option>
+                <option value="Child2">Child 2</option>
+            </select>
+            <select id="staffFilter" class="form-select rounded-pill px-5 w-auto">
+                <option value="">Staff</option>
+                <option value="John">John</option>
+                <option value="Ortal Remano">Ortal Remano</option>
+            </select>
         </div>
         <div class="d-flex flex-wrap gap-3">
-            <span class="badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#scoreSummary">Hours</span>
-            <a href="/create-schedule" class="badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Create New</a>
-            <span class="badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Edit</span>
-            <a href="/schedule-history" class="badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">History</a>
-            <span class="badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#draft">Draft</span>
+            <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#draft">Draft</span>
+            <a href="/schedule-history" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">History</a>
+            <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Edit</span>
+            <a href="/create-schedule" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Create New</a>
+            <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#scoreSummary">Hours</span>
         </div>
     </div>
 
@@ -187,7 +189,11 @@
     };
 
     // view
-    dp.startDate = "2024-11-11"; // or just dp.startDate = "2013-03-25";
+    dp.startDate = "2024-11-11";
+    dp.viewType = "Week";
+
+
+
 
     // dp.days = 1;
     dp.allDayEventHeight = 50;
@@ -280,9 +286,9 @@
             ]
         }
     ];
+    
 
 
-    // event creating
     dp.onTimeRangeSelected = function(args) {
         var name = prompt("New event name:", "Event");
         if (!name) return;
@@ -292,11 +298,19 @@
             id: DayPilot.guid(),
             resource: args.resource,
             text: "Event"
-
         });
         dp.events.add(e);
         dp.clearSelection();
         dp.message("Created");
+    };
+    dp.dayBeginsHour = 7;
+    dp.timeHeaderCellDuration = 15;
+    dp.cellDuration = 15;
+    dp.hourWidth = 100;
+    dp.cellHeight = 50;
+    dp.onBeforeTimeHeaderRender = function(args) {
+        var hour = DayPilot.Date.today().addTime(args.header.time);
+        args.header.html = hour.toString("h:mm");
     };
     dp.onBeforeEventRender = function(args) {
         args.data.html = `<div class="p-3 event-box bg-danger"  data-bs-toggle="modal" data-bs-target="#appointmentModal">
