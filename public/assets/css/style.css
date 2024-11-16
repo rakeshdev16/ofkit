@@ -281,6 +281,7 @@ a.disable-menu {
     background: #ffd681;
     padding: 5px 10px;
     font-size: 12px;
+    height: 30px;
 }
 
 .search-button:hover,
@@ -707,7 +708,10 @@ button.accordion-button.accordion-screen.collapsed {
 }
 
 #appointmentModal {
-    input,select,textarea {
+
+    input,
+    select,
+    textarea {
         border: 1px solid #F0F0F0 !important;
     }
 }
@@ -718,10 +722,11 @@ button.accordion-button.accordion-screen.collapsed {
         width: 80vw;
 
     }
+
     /* .calendar_default_colheader_back > div:nth-child(2) > div > div{
         width: 500px !important;
     } */
-     .calendar_default_cell_inner{
+    .calendar_default_cell_inner {
         width: 500px !important;
-     }
+    }
 }
