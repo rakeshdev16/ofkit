@@ -3,7 +3,7 @@
 return [
 
     'profile' => 'פרופיל',
-    'login' => 'כניסה',
+    'login' => 'התחברות',
     'logout' => 'התנתקות',
     'createdOn' => 'נוצר בתאריך',
     'updatedOn' => 'עודכן בתאריך',
@@ -21,7 +21,7 @@ return [
     'next' => 'הַבָּא',
     'admin' => 'מנהל',
     'manager' => 'רכז',
-    'therapist' => 'מטפל/ת',
+    'therapist' => 'מטפל',
     'support' => 'תְמִיכָה',
     'confirmTitle' => 'האם אתה בטוח?',
     'confirmText' => "לא תוכל להחזיר את זה!",

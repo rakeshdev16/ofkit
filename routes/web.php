@@ -12,6 +12,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TherapyScheduleController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -125,6 +126,10 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
     });
     Route::controller(InterventionTableController::class)->group(function () {
         Route::get('intervention-tab', 'interventionTableTab')->name('intervention.tab');
+    });
+    Route::controller(TherapyScheduleController::class)->group(function (){
+        Route::get('therapy-schedule', 'index')->name('therapy-schedule.index');
+        Route::get('therapy-schedule/add','create')->name('therapy-schedule.create');
     });
     Route::controller(UserController::class)->group(function () {
         Route::get('profile', 'index')->name('profile.index');

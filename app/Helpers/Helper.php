@@ -7,6 +7,7 @@ use App\Models\Setting;
 use App\Models\StaffKindergarten;
 use App\Models\User;
 use App\Models\ActivityLog;
+use App\Models\StaffSchedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
@@ -192,6 +193,25 @@ function activityLog($modelName, $modalId, $type)
         'modal_id' => $modalId,
         'model_name' => $modelName,
     ]);
+}
+
+function calenderHeader()
+{
+    $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    $staffSchedules = StaffSchedule::with(['user:id,name'])->whereIn('day', $days)->get();
+    $groupedSchedules = $staffSchedules->groupBy('day');
+    return $groupedSchedules->map(function ($records, $day) {
+        $members = $records->map(function ($record) {
+            return [
+                'name' => $record->user->name,
+                'id' => $record->user->id
+            ];
+        });
+        return [
+            'name' => $day,
+            'children' => $members
+        ];
+    })->values()->toArray();
 }
 
 

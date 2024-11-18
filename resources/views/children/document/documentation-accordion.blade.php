@@ -5,6 +5,7 @@
     @php
         $truncatedDesc = \Str::limit($documentation->occured_description, 80, '...');
         $groupChildDetail = getDocGroupChildDetail($documentation->id, $children->id);
+        $therapist_ids = $documentation->groupTherapist->pluck('therapist_id')->toArray();
     @endphp
     <div class="accordion accordion-flush tr-{{ $documentation->id }}" id="accordion{{ $loop->iteration }}">
         <div class="accordion-item">
@@ -35,7 +36,14 @@
                     <hr>
                     <div class="d-flex accordion-row">
                         <div class="w-50 label">{{ __('children.therapist') }}</div>
-                        <div class="w-50">{{ @$documentation->therapist->name ?? '-' }}</div>
+                        {{-- <div class="w-50">{{ @$documentation->therapist->name ?? '-' }}</div> --}}
+                        <div class="w-50">
+                            @if ($documentation->therapist != null)
+                                {{ $documentation->therapist->name ?? '-' }}
+                            @else
+                                {!! description(getUserNameByIds($therapist_ids), 80) !!}
+                            @endif
+                        </div>
                     </div>
                     <hr>
                     <div class="d-flex accordion-row">
@@ -89,7 +97,7 @@
                                 {!! description($description, 80) !!} :{{ $documentation->group_name }}
                             @else
                                 @if ($documentation->occured == 1)
-                                    {!! description($documentation->occured_description, 80) !!} 
+                                    {!! description($documentation->occured_description, 80) !!}
                                 @else
                                     {{ $documentation->occured_reason }}
                                 @endif
