@@ -25,14 +25,17 @@
             <span class="badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#newAppointment">New Appointment</span>
         </div>
     </div>
-    <div id="dp1"></div>
+    <div class="mb-5">
+
+        <div id="dp"></div>
+    </div>
 </div>
 
 <!-- new appointment -->
-<div class="modal" id="newAppointment" aria-hidden="true">
+{{-- <div class="modal" id="newAppointment">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
             <!-- Modal body -->
             <div class="modal-body d-flex gap-3 flex-column">
                 <button class="btn new-btn-appointment" data-bs-toggle="modal" data-bs-target="#appointmentModal">Individual</button>
@@ -46,9 +49,9 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 <!-- hours summary -->
-<div class="modal" id="appointmentModal">
+<div class="modal" id="newAppointment">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <!-- Modal Header -->
@@ -59,33 +62,54 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <select id="staffFilter" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
-                    <option value="">Choose Appointment</option>
-                    <option value="John">John</option>
-                    <option value="Ortal Remano">Ortal Remano</option>
-                </select>
-                <input type="date" class="w-100 mb-3 form-control border-1">
-                <select id="staffFilter" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
-                    <option value="">Add Frequency (Repeat)</option>
-                    <option value="John">John</option>
-                    <option value="Ortal Remano">Ortal Remano</option>
-                </select>
-                <select id="staffFilter" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
-                    <option value="">Therapist name</option>
-                    <option value="John">John</option>
-                    <option value="Ortal Remano">Ortal Remano</option>
-                </select>
-                <select id="staffFilter" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
-                    <option value="">Child</option>
-                    <option value="John">John</option>
-                    <option value="Ortal Remano">Ortal Remano</option>
-                </select>
-                <textarea class="form-control mb-3 w-100" placeholder="Add Description" rows="5" id="comment" name="text"></textarea>
-                <input type="file" class="mb-3">
-                <div class="d-flex gap-3">
-                    <button class="button p-2 px-4 rounded-pill border-0">Cancel</button>
-                    <button class="button p-2 px-4 rounded-pill border-0">Save</button>
-                </div>
+                <form action="{{route('therapy-schedule.store')}}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <select id="appointment_type" name="type" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
+                        <option value="" selected disabled>Choose Appointment Type</option>
+                        <option value="individual">Individual</option>
+                        <option value="group">Group</option>
+                        <option value="parental guidance">Parental guidance</option>
+                        <option value="staff meeting">Staff Meeting</option>
+                        <option value="documentation">Documentation</option>
+                        <option value="preparation">Preparation</option>
+                        <option value="tutorial">Tutorial</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <input type="datetime-local" name='schedule_time' class="w-100 mb-3 form-control border-1">
+                    <select id="frequency_repeat" name="frequency_repeat" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
+                        <option value="" selected disabled>Add Frequency (Repeat)</option>
+                        <option value="bi-weekly">Bi-weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                    <select id="staffFilter" name="start" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
+                        <option value="" selected disabled>When it will start</option>
+                        <option value="one week offset" class="bi-weekly">One week offset</option>
+                        <option value="from start week offset" class="bi-weekly">From start week offset</option>
+                        <option value="start week" class="monthly">Start week</option>
+                        <option value="after 1 week" class="monthly">After 1 week</option>
+                        <option value="after 2 week" class="monthly">After 2 week</option>
+                        <option value="after 3 week" class="monthly">After 3 week</option>
+                    </select>
+                    <input type="test" id="group_name" name='group_name' placeholder="Group Name" class="w-100 mb-3 form-control border-1">
+                    <select id="staffFilter" name='therapist_id' class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
+                        <option value="" selected disabled>Therapist name</option>
+                        @foreach ($therapists as $therapist)
+                            <option value="{{$therapist->id}}">{{$therapist->name}}</option>
+                        @endforeach
+                    </select>
+                    <select id="children_ids" name='children_ids[]' class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
+                        <option value="" selected disabled>Child</option>
+                        @foreach ($childrens as $children)
+                            <option value="{{$children->id}}">{{$children->name}}</option>
+                        @endforeach
+                    </select>
+                    <textarea class="form-control mb-3 w-100" placeholder="Add Description" rows="5" id="comment" name="description"></textarea>
+                    <input type="file" id="image" name="image" class="mb-3">
+                    <div class="d-flex gap-3">
+                        <button class="button p-2 px-4 rounded-pill border-0">Cancel</button>
+                        <button type="submit" class="button p-2 px-4 rounded-pill border-0">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -133,8 +157,8 @@
 
 @endsection
 @push('customScript')
-<script type="text/javascript">
-    var dp = new DayPilot.Calendar("dp1");
+{{-- <script type="text/javascript">
+    var dp = new DayPilot.Calendar("dp");
     dp.rtl = true;
     // overlay start
 
@@ -148,8 +172,7 @@
     };
 
     // view
-    var today = new Date();
-    dp.startDate = today; // or just dp.startDate = "2013-03-25";
+    dp.startDate = "2024-11-19"; // or just dp.startDate = "2013-03-25";
     dp.viewType = "Week";
     // dp.days = 1;
     dp.allDayEventHeight = 50;
@@ -161,24 +184,23 @@
     dp.columnMinWidth = 100;
 
 
+
     // event creating
     dp.onTimeRangeSelected = function(args) {
-        $('#newAppointment').show();
-        // var name = prompt("New event name:", "Event");
-        // if (!name) return;
-        // var e = new DayPilot.Event({
-        //     start: args.start,
-        //     end: args.end,
-        //     id: DayPilot.guid(),
-        //     resource: args.resource,
-        //     text: "Event"
-        // });
-        // console.log(e);
-
-        // dp.events.add(e);
-        // dp.clearSelection();
-        // dp.message("Created");
+        var name = prompt("New event name:", "Event");
+        if (!name) return;
+        var e = new DayPilot.Event({
+            start: args.start,
+            end: args.end,
+            id: DayPilot.guid(),
+            resource: args.resource,
+            text: "Event"
+        });
+        dp.events.add(e);
+        dp.clearSelection();
+        dp.message("Created");
     };
+
     dp.dayBeginsHour = 7;
     dp.timeHeaderCellDuration = 15;
     dp.cellDuration = 15;
@@ -187,8 +209,6 @@
 
     dp.onBeforeTimeHeaderRender = function(args) {
         var hour = DayPilot.Date.today().addTime(args.header.time);
-        console.log(hour);
-
         args.header.html = hour.toString("h:mm");
     };
 
@@ -229,29 +249,112 @@
 
     dp.headerHeightAutoFit = true;
 
-        // generate and load events
-    for (let i = 0; i < 10; i++) {
-        const duration = Math.floor(Math.random() * 1.2);
-        const start = Math.floor(Math.random() * 6) - 3; // -3 to 3
-
-        dp.events.add({
-            start: new DayPilot.Date(today).addDays(start),
-            end: new DayPilot.Date(today).addDays(start).addDays(duration),
-            id: DayPilot.guid(),
-            text: "Event " + i
-        });
-    }
-
     dp.init();
 
-    // var e = new DayPilot.Event({
-    //     start: new DayPilot.today,
-    //     end: new DayPilot.today,
-    //     id: DayPilot.guid(),
-    //     text: "Special event",
-    //     resource: "J"
+    var e = new DayPilot.Event({
+        start: new DayPilot.Date("2024-11-19T12:10:00"),
+        end: new DayPilot.Date("2024-11-19T12:12:00").addHours(3),
+        id: DayPilot.guid(),
+        text: "Special event",
+        resource: "J"
 
-    // });
-    // dp.events.add(e);
-</script>
+    });
+    dp.events.add(e);
+
+    $('#frequency_repeat').on('change', function (){
+        let value = $(this).val();
+        if(value == 'bi-weekly'){
+            $('.monthly').hide();
+            $('.bi-weekly').show();
+        }else{
+            $('.bi-weekly').hide();
+            $('.monthly').show();
+        }
+    });
+    $('.bi-weekly').hide();
+    $('.monthly').hide();
+    $('#group_name').hide();
+
+    $('#appointment_type').on('change', function (){
+        let value = $(this).val();
+        if(value == 'preparation' || value == 'documentation' || value == 'tutorial' || value == 'other'){
+            $('#comment').hide();
+            $('#image').hide();
+            $('#children_ids').hide();
+        }else{
+            $('#comment').show();
+            $('#image').show();
+            $('#children_ids').show();
+            if(value == 'group' || value == 'staff meeting'){
+                $('#group_name').show();
+            }else{
+                $('#group_name').hide();
+            }
+        }
+
+    });
+</script> --}}
+  <script type="text/javascript">
+
+        var dp = new DayPilot.Calendar("dp");
+        dp.rtl = true;
+    // overlay start
+
+
+    // overlay end
+
+    dp.onColumnFilter = function(args) {
+        if (args.column.name.toUpperCase().indexOf(args.filter.toUpperCase()) === -1) {
+            args.visible = true;
+        }
+    };
+        // view
+        dp.startDate = "2022-03-25";
+        dp.viewType = "Week";
+        // dp.days = 1;
+        dp.allDayEventHeight = 50;
+
+        dp.viewType = "Resources";
+        dp.headerLevels = 2;
+        dp.columns.list = {!! json_encode(calenderHeader()) !!};
+        dp.columnWidthSpec = "Fixed";
+        dp.columnMinWidth = 100;
+        dp.dayBeginsHour = 7;
+        dp.timeHeaderCellDuration = 15;
+        dp.cellDuration = 15;
+        dp.hourWidth = 100;
+        dp.cellHeight = 50;
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: "Event"
+            });
+            dp.events.add(e);
+            dp.clearSelection();
+            dp.message("Created");
+        };
+
+        dp.onBeforeTimeHeaderRender = function(args) {
+        var hour = DayPilot.Date.today().addTime(args.header.time);
+        args.header.html = hour.toString("h:mm");
+    };
+
+        dp.init();
+
+        var e = new DayPilot.Event({
+            start: new DayPilot.Date("2022-03-25T12:00:00"),
+            end: new DayPilot.Date("2022-03-25T12:00:00").addHours(3),
+            id: DayPilot.guid(),
+            text: "Special event"
+        });
+        dp.events.add(e);
+
+    </script>
 @endpush

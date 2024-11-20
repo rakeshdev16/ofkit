@@ -130,6 +130,7 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
     Route::controller(TherapyScheduleController::class)->group(function (){
         Route::get('therapy-schedule', 'index')->name('therapy-schedule.index');
         Route::get('therapy-schedule/add','create')->name('therapy-schedule.create');
+        Route::post('therapy-schedule/add', 'store')->name('therapy-schedule.store');
     });
     Route::controller(UserController::class)->group(function () {
         Route::get('profile', 'index')->name('profile.index');
