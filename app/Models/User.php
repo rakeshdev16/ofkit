@@ -103,6 +103,10 @@ class User extends Authenticatable
             $query->whereIn('id', $userIds);
         }
         if (request('sort') && request('sorting')) {
+            Session::put('staff_sorting', [
+                'key' => request('sort'),
+                'value' => request('sorting'),
+            ]);
             $query->orderBy(request('sort'), request('sorting'));
         }else{
             $query->orderBy('name', 'ASC');

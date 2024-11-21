@@ -33,7 +33,7 @@ $(document).on('click', '.print-button', function () {
     document.body.innerHTML = printContent;
     window.print();
     document.body.innerHTML = originalContent;
-    window.location.reload()
+    // window.location.reload()
 });
 
 $(document).on('change', '.select-filter', function () {

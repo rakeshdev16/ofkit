@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Notifications\SendOtpNotification;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Services\TextMeService;
@@ -112,6 +113,7 @@ class LoginController extends Controller
         $mobileNumber = $user->telephone;
         $message = "לכניסה למערכת אופקית קוד האימות שלך הוא: $otp נא לא לשתף את הקוד עם אחרים.";
         // session(['otp' => $otp]);
+        $user->notify(new SendOtpNotification($otp));
         $response = $this->textMeService->sendMessage($mobileNumber, $message);
         return $response;
     }

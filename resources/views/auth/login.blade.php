@@ -6,7 +6,7 @@
                 <div class="card-body">
                     <div class="p-4">
                         <div class="mb-3 text-center">
-                            <img src="{{ asset('assets/images/3.png') }}" width="200" alt="" />
+                            <img src="{{ asset('assets/images/5.png') }}" width="200" alt="" />
                         </div>
                         <div class="text-center mb-4">
                             <h5 class="">{{ __('login.welcome') }}</h5>

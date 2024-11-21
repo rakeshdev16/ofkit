@@ -8,7 +8,7 @@
             <nav class="navbar navbar-expand gap-3">
                 <div class="topbar-logo-header d-none d-lg-flex">
                     <div class="">
-                        <img src="{{ asset('assets/images/3.png') }}" class="" width="160px" height="60px" alt="logo icon">
+                        <img src="{{ asset('assets/images/5.png') }}" class="" width="160px" height="60px" alt="logo icon">
                     </div>
                 </div>
                 <div class="mobile-toggle-menu d-block d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
@@ -81,7 +81,7 @@
                 <div class="offcanvas-header border-bottom">
                     <div class="d-flex align-items-center">
                         <div class="">
-                            <img src="{{ asset('assets/images/3.png') }}" width="100px" class="" alt="logo icon">
+                            <img src="{{ asset('assets/images/5.png') }}" width="100px" class="" alt="logo icon">
                         </div>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -94,7 +94,7 @@
                                 'width' => '180px',
                                 'icon' => 'fi_9184264.png',
                                 'active' => in_array($currentRoute, ['children.index', 'children.create']) ? 'active-menu' : '',
-                                'route' => route('children.index')."?kindergarten_id=".Session::get('children_kindergarten'),
+                                'route' => route('children.index') . "?kindergarten_id=" . Session::get('children_kindergarten', '') . "&sort=" . (Session::get('children_sorting.key', '')) . "&sorting=" . (Session::get('children_sorting.value', '')),
                                 // 'options' => [
                                 //     ['icon' => 'fi_2887367.png', 'name' => __('menu.allChildrens'), 'route' => route('children.index')],
                                 //     ['icon' => 'fi_2887367.png', 'name' => __('menu.addChildren'), 'route' => route('children.create')],
@@ -107,7 +107,7 @@
                                 'width' => '250px',
                                 'icon' => 'fi_2887367.png',
                                 'active' => in_array($currentRoute, ['staff.index', 'staff.create']) ? 'active-menu' : '',
-                                'route' => route('staff.index')."?kindergarten_id=".Session::get('staff_kindergarten'),
+                                'route' => route('staff.index')."?kindergarten_id=".Session::get('staff_kindergarten') . "&sort=" . (Session::get('staff_sorting.key', '')) . "&sorting=" . (Session::get('staff_sorting.value', '')),
                                 // 'options' => [
                                 //     ['icon' => 'fi_1478254.png', 'name' => __('menu.staffList'), 'route' => route('staff.index')],
                                 //     ['icon' => 'fi_6212658.png', 'name' => __('menu.addStaff'), 'route' => route('staff.create')],

@@ -157,7 +157,7 @@
 
 @endsection
 @push('customScript')
-{{-- <script type="text/javascript">
+<script type="text/javascript">
     var dp = new DayPilot.Calendar("dp");
     dp.rtl = true;
     // overlay start
@@ -293,68 +293,6 @@
         }
 
     });
-</script> --}}
-  <script type="text/javascript">
+</script>
 
-        var dp = new DayPilot.Calendar("dp");
-        dp.rtl = true;
-    // overlay start
-
-
-    // overlay end
-
-    dp.onColumnFilter = function(args) {
-        if (args.column.name.toUpperCase().indexOf(args.filter.toUpperCase()) === -1) {
-            args.visible = true;
-        }
-    };
-        // view
-        dp.startDate = "2022-03-25";
-        dp.viewType = "Week";
-        // dp.days = 1;
-        dp.allDayEventHeight = 50;
-
-        dp.viewType = "Resources";
-        dp.headerLevels = 2;
-        dp.columns.list = {!! json_encode(calenderHeader()) !!};
-        dp.columnWidthSpec = "Fixed";
-        dp.columnMinWidth = 100;
-        dp.dayBeginsHour = 7;
-        dp.timeHeaderCellDuration = 15;
-        dp.cellDuration = 15;
-        dp.hourWidth = 100;
-        dp.cellHeight = 50;
-
-        // event creating
-        dp.onTimeRangeSelected = function (args) {
-            var name = prompt("New event name:", "Event");
-            if (!name) return;
-            var e = new DayPilot.Event({
-                start: args.start,
-                end: args.end,
-                id: DayPilot.guid(),
-                resource: args.resource,
-                text: "Event"
-            });
-            dp.events.add(e);
-            dp.clearSelection();
-            dp.message("Created");
-        };
-
-        dp.onBeforeTimeHeaderRender = function(args) {
-        var hour = DayPilot.Date.today().addTime(args.header.time);
-        args.header.html = hour.toString("h:mm");
-    };
-
-        dp.init();
-
-        var e = new DayPilot.Event({
-            start: new DayPilot.Date("2022-03-25T12:00:00"),
-            end: new DayPilot.Date("2022-03-25T12:00:00").addHours(3),
-            id: DayPilot.guid(),
-            text: "Special event"
-        });
-        dp.events.add(e);
-
-    </script>
 @endpush

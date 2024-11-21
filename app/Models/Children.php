@@ -36,6 +36,10 @@ class Children extends Model
     public function scopeFilter($query)
     {
         if (request('sort') && request('sorting')) {
+            Session::put('children_sorting', [
+                'key' => request('sort'),
+                'value' => request('sorting'),
+            ]);
             if (request('sort') == 'kindergarten_id') {
                 if (Auth::user()->hasRole(['manager', 'therapist'])) {
                     $kindergartenIds = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();

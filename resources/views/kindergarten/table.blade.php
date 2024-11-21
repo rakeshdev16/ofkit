@@ -5,9 +5,9 @@
             @include('components.table-heading', ['label' => __('kindergarten.nameTh'), 'key' => 'name', 'width' => '9.4%'])
             @include('components.table-heading', ['label' => __('kindergarten.symbolTh'), 'key' => 'symbol', 'width' => '9.4%'])
             {{-- @include('components.table-heading', ['label' => __('kindergarten.frameworkTh'), 'key' => 'framework', 'width' => '9.4%']) --}}
-            @include('components.table-heading', ['label' => __('kindergarten.clusterTh'), 'key' => 'cluster', 'width' => '9.4%'])
-            @include('components.table-heading', ['label' => __('kindergarten.clusterManagerTh'), 'key' => 'cluster', 'width' => '9.4%'])
-            @include('components.table-heading', ['label' => __('kindergarten.kindergartenManagerTh'), 'key' => 'cluster_manager', 'width' => '9.4%'])
+            @include('components.table-heading', ['label' => __('kindergarten.clusterTh'), 'width' => '9.4%'])
+            @include('components.table-heading', ['label' => __('kindergarten.clusterManagerTh'), 'width' => '9.4%'])
+            @include('components.table-heading', ['label' => __('kindergarten.kindergartenManagerTh'),'width' => '9.4%'])
             @include('components.table-heading', ['label' => __('kindergarten.addressTh'), 'key' => 'address', 'width' => '9.4%'])
             @include('components.table-heading', ['label' => __('kindergarten.telephoneTh'), 'key' => 'telephone', 'width' => '9.4%'])
             {{-- @include('components.table-heading', ['label' => __('kindergarten.createdAt'), 'key' => 'created_at', 'width' => '9.4%'])

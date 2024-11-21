@@ -12,7 +12,34 @@ class TherapyScheduleController extends Controller
 {
     public function index()
     {
-        return view('therapy-schedule.index');
+        $therapists = User::role('therapist')->orderBy('name')->get(['id', 'name']);
+        $childrens = Children::orderBy('name')->get(['id', 'name']);
+
+        return view('therapy-schedule.index', compact('therapists', 'childrens'));
+    }
+
+    public function calenderView()
+    {
+        $events = TherapySchedule::get();
+        $formattedEvents = $events->map(function ($event) {
+            return [
+                'id' => $event->id,
+                'text' => $event->description,
+                'start' => $event->schedule_time,
+                'end' => $event->schedule_time,
+                'resource' => $event->therapist_id, // Ensure resource matches column IDs
+            ];
+        });
+
+        $data = compact('formattedEvents');
+        $result = view('therapy-schedule.calender', $data)->render();
+
+        return response()->json([
+            'success' => true,
+            'record' => $result,
+            'data'=> $data
+        ]);
+
     }
 
     public function create()
