@@ -24,7 +24,7 @@
                         </div>
                         <div class="ms-auto">
                             <div class="">
-                                <a href="{{ route('children.index') }}?kindergarten_id={{ request()->kindergarten_id ?? Session::get('children_kindergarten') . "&sort=" . (Session::get('children_sorting.key', '')) . "&sorting=" . (Session::get('children_sorting.value', '')) }}" class="btn button">{{ __('comon.back') }}</a>
+                                <a href="{{ route('children.index') }}?kindergarten_id={{ Session::get('children_kindergarten') . "&sort=" . (Session::get('children_sorting.key', '')) . "&sorting=" . (Session::get('children_sorting.value', '')) }}" class="btn button">{{ __('comon.back') }}</a>
                             </div>
                         </div>
                     </div>
