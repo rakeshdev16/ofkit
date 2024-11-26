@@ -66,7 +66,9 @@
 
     $('#file').change(function(event) {
         const file = event.target.files[0];
+
         var url = URL.createObjectURL(file);
+        // console.log(url);
         $('.choosenFile').html('<div class="document mt-1"><a href="' + url + '" target="_blank" rel="noopener noreferrer">' + file.name + '</a><i class="bx bx-x childDocument" data-file-name="' + file.name + '"></i></div>');
     });
 

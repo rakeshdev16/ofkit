@@ -16,7 +16,7 @@ return [
     'leftLengthMenuLabel' => 'הופעה',
     'rightLengthMenuLabel' => 'ערכים',
     'nameTh' => 'שם פרטי',
-    'name' => 'שם פרטי',
+    'name' => 'שם',
     'familyName' => 'שם משפחה',
     'idTh' => 'תעודת זהות',
     'birthDateTh' => 'תאריך לידה',

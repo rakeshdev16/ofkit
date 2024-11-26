@@ -141,7 +141,7 @@
                                                             'name' => 'occured_reason',
                                                             'icon' => 'buildings',
                                                             'value' => @$document->occured_reason,
-                                                            'options' => [['key' => 'Child absent', 'value' => 'Child absent'], ['key' => 'Therapist absent', 'value' => 'Therapist absent'], ['key' => 'Kindergarten closed', 'value' => 'Kindergarten closed'], ['key' => 'Other', 'value' => 'Other']],
+                                                            'options' => [['key' => 'Child absent', 'value' => __('children.childAbsent')], ['key' => 'Therapist absent', 'value' => __('children.therapistAbsent')], ['key' => 'Kindergarten closed', 'value' => __('children.kindergartenClosed')], ['key' => 'Other', 'value' => __('children.other')]],
                                                         ])
                                                     </div>
                                                     <div class="col-md-12 occuredDescription" style="display: {{ (old('occured') ?? @$document->occured) == '1' ? 'block' : 'none' }};">

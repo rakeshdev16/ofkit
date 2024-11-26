@@ -36,7 +36,7 @@ return [
     'disabilities' => "מוגבלויות אחרות במשפחה",
     'spokenLanguages' => "שפה מדוברת במשפחה",
     'familyStatus' => "מצב משפחתי",
-    'emergencyName' => "שֵׁם",
+    'emergencyName' => "שם מלא",
     'relationship' => "קירבה",
     'telephone' => "טלפון",
     'foodAllergie' => "אלרגיה למזון",

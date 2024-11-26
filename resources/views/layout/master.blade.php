@@ -60,6 +60,10 @@
         var cancelButtonText = "{{ __('comon.cancel') }}";
         var selectDate = "{{ __('children.selectDate') }}";
         var selectDateRange = "{{ __('children.selectDateRange') }}";
+        var lastWeek = "{{__('children.lastWeek')}}";
+        var month = "{{__('children.month')}}";
+        var month3 = "{{__('children.month3')}}";
+        var halfYear = "{{__('children.halfYear')}}";
         $(document).on('click', '.toggle-text', function() {
             var status = $(this).data('status');
             var truncatedText = $(this).siblings('.truncated-text');

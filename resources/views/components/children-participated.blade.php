@@ -48,6 +48,7 @@
                             </span>
                         @enderror
                     </div>
+
                     <div class="col-md-12 participatedDescription" style="display: {{ (old('participated.' . $index . '.participated') ?? @$data['participated']) == '1' ? 'block' : 'none' }};">
                         @include('components.textarea-input', [
                             'label' => __('children.description'),
