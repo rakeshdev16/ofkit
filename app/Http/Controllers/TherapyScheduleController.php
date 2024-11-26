@@ -27,7 +27,7 @@ class TherapyScheduleController extends Controller
                 'text' => $event->description,
                 'start' => $event->schedule_time,
                 'end' => $event->schedule_time,
-                'resource' => $event->therapist_id, // Ensure resource matches column IDs
+                'resource' => $event->therapist_id.''.strtolower(date('l', strtotime($event->schedule_time))), // Ensure resource matches column IDs
             ];
         });
 

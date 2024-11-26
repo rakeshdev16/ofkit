@@ -201,10 +201,10 @@ function calenderHeader()
     $staffSchedules = StaffSchedule::with(['user:id,name'])->whereIn('day', $days)->get();
     $groupedSchedules = $staffSchedules->groupBy('day');
     return $groupedSchedules->map(function ($records, $day) {
-        $members = $records->map(function ($record) {
+        $members = $records->map(function ($record) use($day) {
             return [
                 'name' => $record->user->name,
-                'id' => $record->user->id
+                'id' => $record->user->id.''.$day
             ];
         });
         return [
