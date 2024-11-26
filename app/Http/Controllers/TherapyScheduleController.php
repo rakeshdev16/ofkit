@@ -6,7 +6,9 @@ use App\Models\Children;
 use App\Models\StaffSchedule;
 use App\Models\TherapySchedule;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class TherapyScheduleController extends Controller
 {
@@ -20,14 +22,15 @@ class TherapyScheduleController extends Controller
 
     public function calenderView()
     {
-        $events = TherapySchedule::get();
+        $events = TherapySchedule::orderBy('schedule_time')->get();
         $formattedEvents = $events->map(function ($event) {
+            $scheduleTime = Carbon::parse($event->schedule_time);
             return [
                 'id' => $event->id,
                 'text' => $event->description,
                 'start' => $event->schedule_time,
                 'end' => $event->schedule_time,
-                'resource' => $event->therapist_id.''.strtolower(date('l', strtotime($event->schedule_time))), // Ensure resource matches column IDs
+                'resource' => $event->therapist_id . Str::lower($scheduleTime->format('l')), // Ensure resource matches column IDs
             ];
         });
 

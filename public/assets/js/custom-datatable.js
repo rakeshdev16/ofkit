@@ -22,19 +22,44 @@ $(document).on('click', '.search-button', function () {
 });
 
 $(document).on('click', '.print-button', function () {
-    const originalContent = document.body.innerHTML;
+    //     // const originalContent = document.body.innerHTML;
+    //     // $('.table-search button').hide();
+    //     // $('.table-search input').hide();
+    //     // $('.page-info .mt-3').hide();
+    //     // $('.status').css('width', '300px');
+
+    //     // const printContent = document.querySelector('.page-content').innerHTML;
+
+    //     // document.body.innerHTML = printContent;
+    //     // window.print();
+    //     // document.body.innerHTML = originalContent;
+    //     // $(document).trigger('DOMContentLoaded');
+
     $('.table-search button').hide();
     $('.table-search input').hide();
     $('.page-info .mt-3').hide();
     $('.status').css('width', '300px');
 
+    const originalContent = document.body.innerHTML;
     const printContent = document.querySelector('.page-content').innerHTML;
-
     document.body.innerHTML = printContent;
+    // Use window.print() to open the print dialog
     window.print();
     document.body.innerHTML = originalContent;
-    // window.location.reload()
+    myprint()
+    // window.location.reload();
+    // After printing, restore the visibility of the hidden elements
+    $('.table-search button').show();
+    $('.table-search input').show();
+    $('.page-info .mt-3').show();
+    $('.status').css('width', 'auto'); // Or set to the original width
 });
+
+function myprint() {
+    window.onbeforeprint = function (event) {
+        window.location.href = '/'
+    };
+}
 
 $(document).on('change', '.select-filter', function () {
     var kindergartenId = $(this).val();

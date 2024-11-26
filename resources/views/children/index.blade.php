@@ -18,7 +18,6 @@
                             <option value="">{{ __('comon.allKindergartens') }}</option>
                             @foreach (authKindergartens() as $kindergarten)
                                 <option {{ in_array($kindergarten['key'], explode(',', request()->kindergarten_id)) ? 'selected' : '' }} value="{{ $kindergarten['key'] }}">{{ $kindergarten['value'] }}</option>
-
                             @endforeach
                         </select>
                     </div>

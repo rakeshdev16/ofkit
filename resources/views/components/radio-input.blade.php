@@ -14,7 +14,7 @@
             {{ @$onchange }}
             {{ (old($name) ?? @$value) == '1' ? 'checked' : '' }}
         >
-        <label class="form-check-label" for="{{ $class }}1">Yes</label>
+        <label class="form-check-label" for="{{ $class }}1">{{__('comon.yes')}}</label>
     </div>
     <div class="form-check form-check-inline">
         <input
@@ -28,7 +28,7 @@
             {{ @$onchange }}
             {{ (old($name) ?? @$value) == '0' ? 'checked' : '' }}
         >
-        <label class="form-check-label" for="{{ $class }}2">No</label>
+        <label class="form-check-label" for="{{ $class }}2">{{__('comon.no')}}</label>
     </div>
 </div>
 @error($name)

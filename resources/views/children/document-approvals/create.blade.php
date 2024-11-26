@@ -23,6 +23,8 @@
                         </div>
                         <div class="ms-auto">
                             <div class="">
+                                {{old('document')}}
+                                {{old('description')}}
                                 <button data-url="{{ route('documents-approvals.get', $childId) }}" class="btn button exit">{{ __('comon.back') }}</button>
                             </div>
                         </div>
@@ -37,7 +39,7 @@
                                         <div class="row">
                                             <input type="hidden" name="children_id" value="{{ $childId }}">
                                             <div class="col-md-12">
-                                                <label for="file" class="form-label">{{ __('children.document') }}</label>
+                                                {{-- <label for="file" class="form-label">{{ __('children.document') }}</label>
                                                 <div class="position-relative input-icon">
                                                     <input type="file" class="form-control documents @error('document') is-invalid @enderror file" id="file" name="document" placeholder="Document">
                                                 </div>
@@ -47,15 +49,43 @@
                                                     </span>
                                                 @enderror
                                                 <div class="d-flex mt-2 choosenDocument" style="flex-wrap: wrap;"></div>
-                                                <input type="hidden" class="document" name="old_document" value="">
+                                                <input type="hidden" class="document" name="old_document" value=""> --}}
+                                                @include('components.file-input', [
+                                                    'label' => __('children.document'),
+                                                    'name' => 'document',
+                                                    'class' => 'file',
+                                                    'id' => 'file',
+                                                    'icon' => 'file',
+                                                    'value' => old('file'),
+                                                ])
+                                                <div class="d-flex mt-2 choosenFile" style="flex-wrap: wrap;">
+                                                    @if (old('file'))
+                                                        @php
+                                                            $fileName = explode('child-document/', old('file'))[1];
+                                                        @endphp
+                                                        <div class="document mt-1">
+                                                            <a href="{{ asset('storage/' . old('file')) }}" target="_blank" rel="noopener noreferrer">{{ $fileName }}</a>
+                                                            <i class="bx bx-x childDocument" data-file-name="{{ $fileName }}"></i>
+                                                        </div>
+                                                        <input type="hidden" name="old_document" value="{{ old('file') }}">
+                                                    @else
+                                                        @if (isset($document->file) && $document->file != null)
+                                                            <div class="document mt-1">
+                                                                <a href="{{ $document->file }}" target="_blank" rel="noopener noreferrer">{{ $document->file_name }}</a>
+                                                                <i class="bx bx-x childDocument" data-file-name="{{ $document->file }}"></i>
+                                                            </div>
+                                                        @endif
+                                                    @endif
+                                                </div>
                                             </div>
+
                                             <div class="col-md-12 pt-3">
                                                 <label for="file_type_id" class="form-label">{{ __('children.fileType') }}</label>
                                                 <div class="position-relative input-icon">
                                                     <select name="file_type_id" class="form-control @error('file_type_id') is-invalid @enderror  file-type">
                                                         <option value="" selected="">{{ __('comon.select') }}</option>
                                                         @foreach ($fileTypes as $fileType)
-                                                            <option value="{{ $fileType['key'] }}">{{ $fileType['value'] }}</option>
+                                                            <option value="{{ $fileType['key'] }}" {{old('file_type_id') == $fileType['key'] ? 'selected' : ''}}>{{ $fileType['value'] }}</option>
                                                         @endforeach
                                                     </select>
                                                     <span class="position-absolute top-50 translate-middle-y">
@@ -72,7 +102,7 @@
                                             <div class="col-md-12 pt-3">
                                                 <label for="description" class="form-label">{{ __('children.documentDescription') }}</label>
                                                 <div class="position-relative input-icon">
-                                                    <textarea name="description" class="form-control @error('description') is-invalid @enderror  description" id="description" cols="30" rows="2" style="resize: none;"></textarea>
+                                                    <textarea name="description" class="form-control @error('description') is-invalid @enderror  description" id="description" cols="30" rows="2" style="resize: none;">{{old('description')}}</textarea>
                                                     <span class="position-absolute top-50 translate-middle-y">
                                                         <i class="bx bx-network-chart"></i>
                                                     </span>
@@ -98,6 +128,7 @@
         </div>
     @endsection
     @push('customScript')
+     @include('children.document.script')
         <script>
             $('.documents').change(function(event) {
                 const file = event.target.files[0];
@@ -111,5 +142,6 @@
                 parentDiv.remove();
                 $('.documents').val('');
             });
+
         </script>
     @endpush

@@ -25,8 +25,8 @@ return [
     'support' => 'Support',
     'confirmTitle' => 'Are You Sure?',
     'confirmText' => "You won't be able to revert this!",
-    'activeButtonText' => "Yes, active it!",
-    'inactiveButtonText' => "Yes, inactive it!",
+    'activeButtonText' => "Yes, activate it!",
+    'inactiveButtonText' => "Yes, deactivate it!",
     'allKindergartens' => "All Kindergartens",
     'invalidImageFormat' => 'Invalid image format',
     'forgetPassowrd' => 'Forgot Your Password?',
@@ -46,8 +46,8 @@ return [
     'unsavedChangesMsg' => 'You have unsaved changes. Are you sure you want to leave this page?',
     'yesLeaveIt' => 'Yes leave it!',
     'status' => 'Status',
-    'active' => 'Active',
-    'inactive' => 'Inactive',
+    'active' => 'Activate',
+    'inactive' => 'Deactivate',
     'activeMsg' => 'Selected record has been activated',
     'inactiveMsg' => 'Selected record has been inactivated'
 ];

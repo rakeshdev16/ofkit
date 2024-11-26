@@ -32,7 +32,7 @@
                     <select class="form-control doc-filter" name="role">
                         <option value="">{{ __('children.selectProfession') }}</option>
                         @foreach ($roles as $role)
-                            <option {{ request()->role == $role->name ? 'selected' : '' }} value="{{ $role->id }}">{{ $role->name }}</option>
+                            <option {{ request()->role == $role->id ? 'selected' : '' }} value="{{ $role->id }}">{{ $role->name }}</option>
                         @endforeach
                     </select>
                 </div>

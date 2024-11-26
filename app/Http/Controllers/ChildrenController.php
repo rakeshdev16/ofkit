@@ -64,7 +64,7 @@ class ChildrenController extends Controller
         $dianioses = Diagnosis::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
         $statuses = Status::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
         $parentsStatus = ParentsStatus::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
-        $hmos = Hmo::select('id as key', 'name as value')->get()->where('status', 'active')->toArray();
+        $hmos = Hmo::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
         return view('children.create', compact('kindergartens', 'functionalities', 'dianioses', 'statuses', 'hmos', 'parentsStatus'));
     }
 
@@ -331,9 +331,9 @@ class ChildrenController extends Controller
     {
         $children = Children::findOrFail($id);
         // $roles = Role::get();
-        $roles = Profession::get();
+        $roles = Profession::where('status', 'active')->get();
         $therapistIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
-        $therapists = User::role(['manager', 'therapist'])->whereIn('id', $therapistIds)->select('id', 'name')->get();
+        $therapists = User::role(['manager', 'therapist'])->whereIn('id', $therapistIds)->where('status', 'active')->select('id', 'name')->get();
 
         $docIds = [];
         $childDocIds = ChildrenDocumentation::where('children_id', $id)->pluck('id')->toArray();
@@ -393,11 +393,12 @@ class ChildrenController extends Controller
         $children = Children::findOrFail($childId);
         $childrens = Children::where('id', '!=', $childId)
             ->where('kindergarten_id', $children->kindergarten_id)
+            ->where('status', 'active')
             ->select('id as key', DB::raw("CONCAT(name, ' ', family_name) as value"))
             ->get();
         $user = Auth::user();
         $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
-        $allTherapists = User::whereIn('id', $userIds)->role(['manager', 'therapist'])->select('id as key', 'name as value')->get();
+        $allTherapists = User::whereIn('id', $userIds)->role(['manager', 'therapist'])->where('status', 'active')->select('id as key', 'name as value')->get();
         switch ($type) {
             case 'individual':
                 return view('children.document.individual', compact('allTherapists', 'children', 'user', 'document'));
@@ -829,7 +830,7 @@ class ChildrenController extends Controller
         $children = Children::findOrFail($childId);
         $documents = ChildrenDocumentAndApproval::where('children_id', $childId)->filter()->orderBy('id', 'DESC')->paginate(50);
         $count = ChildrenDocumentAndApproval::where('children_id', $childId)->filter()->count();
-        $fileTypes = FileType::select('id as key', 'name as value')->orderBY('id', 'desc')->get();
+        $fileTypes = FileType::select('id as key', 'name as value')->where('status', 'active')->orderBY('id', 'desc')->get();
 
         if ($request->ajax()) {
             return response()->json([
@@ -856,11 +857,21 @@ class ChildrenController extends Controller
 
     public function saveDocumentsAndApprovals(Request $request)
     {
+        // echo "<pre>";
+        // print_r($request->all());
+        // die;
+        if ($request->has('document')) {
+            $request['file'] = uploadFile($request->document, 'public/child-document');
+        } else {
+            $request['file'] = $request->old_document;
+        }
+
         $rules= [
             'file_type_id' => 'required',
             'description' => 'required',
         ];
-        if ((!isset($request->id) && empty($request->id) || (isset($request->id) && empty($request->old_document)))) {
+
+        if (empty($request->old_document) && empty($request->document)) {
             $rules['document'] = 'required';
         }
         $messages = [
