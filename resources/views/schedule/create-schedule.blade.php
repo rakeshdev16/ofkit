@@ -285,18 +285,18 @@
                                          ${args.data.start.toString("HH:mm")} <i class="fa fa-calendar"></i>
                                         </li>
                                         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
-                                       1 Week, 16-08-2024  <i class="fa fa-clock-o"></i> 
+                                       1 Week, 16-08-2024  <i class="fa fa-clock-o"></i>
                                         </li>
                                         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
                                          John Bride <i class="fa fa-briefcase"></i>
                                         </li>
                                         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
-                                       
+
                                         <div class="text-end">
                                         <p class="mb-2">Marina</p>
                                         <p class="mt-2">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. </p>
                                         </div>
-                                         <i class="fa fa-user"></i> 
+                                         <i class="fa fa-user"></i>
                                         </li>
                                     </ul>
                                 </div>`;
