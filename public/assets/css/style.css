@@ -613,16 +613,17 @@ button.accordion-button.accordion-screen.collapsed {
     color: #fff !important;
     padding: 10px;
 }
-.calendar_default_main.calendar_default_direction_rtl > div > div > div:nth-child(2) > div:nth-child(2) > div > div:nth-last-child(-n+14) > .calendar_default_colheader > .calendar_default_colheader_inner{
-    background: none !important;
-    color: #000 !important;
+
+.calendar_default_main.calendar_default_direction_rtl>div>div>div:nth-child(2)>div:nth-child(2)>div>div:nth-last-child(-n+14)>.calendar_default_colheader>.calendar_default_colheader_inner {
+    /* background: none !important; */
+    /* color: #000 !important; */
 }
 
 .calendar_default_rowheader_inner {
     background: none !important;
     color: #000 !important;
     text-align: center !important;
-font-weight: 500;
+    font-weight: 500;
     font-size: 1rem !important;
 }
 
