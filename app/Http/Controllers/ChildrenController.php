@@ -828,7 +828,10 @@ class ChildrenController extends Controller
     public function documentsAndApprovals(Request $request, $childId)
     {
         $children = Children::findOrFail($childId);
-        $documents = ChildrenDocumentAndApproval::where('children_id', $childId)->filter()->orderBy('id', 'DESC')->paginate(50);
+        $documents = ChildrenDocumentAndApproval::with('user')->where('children_id', $childId)->filter()->orderBy('id', 'DESC')->paginate(50);
+        // echo "<pre>";
+        // print_r($documents);
+        // die;
         $count = ChildrenDocumentAndApproval::where('children_id', $childId)->filter()->count();
         $fileTypes = FileType::select('id as key', 'name as value')->where('status', 'active')->orderBY('id', 'desc')->get();
 
@@ -845,14 +848,16 @@ class ChildrenController extends Controller
     public function documentsAndApprovalsCreate(Request $request, $childId)
     {
         $fileTypes = FileType::select('id as key', 'name as value')->orderBY('id', 'desc')->get();
-        return view('children.document-approvals.create', compact('fileTypes', 'childId'));
+        $therapists = User::role(['therapist'])->select('id as key', 'name as value')->get();
+        return view('children.document-approvals.create', compact('fileTypes', 'childId', 'therapists'));
     }
 
     public function documentsAndApprovalsEdit(Request $request, $docId)
     {
         $fileTypes = FileType::select('id as key', 'name as value')->orderBY('id', 'desc')->get();
         $document = ChildrenDocumentAndApproval::where('id', $docId)->first();
-        return view('children.document-approvals.edit', compact('fileTypes', 'document'));
+        $therapists = User::role(['therapist'])->select('id as key', 'name as value')->get();
+        return view('children.document-approvals.edit', compact('fileTypes', 'document', 'therapists'));
     }
 
     public function saveDocumentsAndApprovals(Request $request)
@@ -897,11 +902,15 @@ class ChildrenController extends Controller
             } else {
                 $document = explode('storage/', $request->old_document)[1];
             }
+            // echo "<pre>";
+            // print_r($request->all());
+            // die;
             ChildrenDocumentAndApproval::updateOrCreate(['id' => $request->id], [
                 'children_id' => $request->children_id,
                 'document' => $document,
                 'file_type_id' => $request->file_type_id,
                 'description' => $request->description,
+                'user_id' => $request->user_id,
             ]);
             DB::commit();
             return redirect()->route('documents-approvals.get', $request->children_id);

@@ -37,6 +37,25 @@
                                         <div class="row">
                                             <input type="hidden" name="children_id" value="{{ $document->children_id }}">
                                             <div class="col-md-12">
+                                                <label for="user_id" class="form-label">{{ __('comon.therapist') }}</label>
+                                                <div class="position-relative input-icon">
+                                                    <select name="user_id" class="form-control @error('user_id') is-invalid @enderror">
+                                                        <option value="" selected="">{{ __('comon.select') }}</option>
+                                                        @foreach ($therapists as $therapist)
+                                                            <option value="{{ $therapist['key'] }}" {{old('user_id', $document->user_id) == $therapist['key'] ? 'selected' : ''}}>{{ $therapist['value'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <span class="position-absolute top-50 translate-middle-y">
+                                                        <i class="bx bx-buildings"></i>
+                                                    </span>
+                                                    @error('user_id')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 pt-3">
                                                 <label for="file" class="form-label">{{ __('children.document') }}</label>
                                                 <div class="position-relative input-icon">
                                                     <input type="file" class="form-control documents file" id="file" name="document" placeholder="Document" value="" onchange="">

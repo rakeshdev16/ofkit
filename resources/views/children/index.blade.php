@@ -13,7 +13,7 @@
             <div class="mb-4 d-sm-flex page-info">
                 <div class="d-sm-flex">
                     <div class="select2-width">
-                        <h3 class="mb-2 text-uppercase">{{ __('children.children') }} {{Session::get('children_kindergarten')}}</h3>
+                        <h3 class="mb-2 text-uppercase">{{ __('children.children') }}</h3>
                         <select name="[]" class="select-filter kindergardenFilter form-select" multiple>
                             <option value="">{{ __('comon.allKindergartens') }}</option>
                             @foreach (authKindergartens() as $kindergarten)

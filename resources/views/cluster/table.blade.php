@@ -10,7 +10,7 @@
     </thead>
     <tbody>
         @forelse ($clusters as $cluster)
-            <tr class="tr-{{ $cluster->id }}">
+            <tr class="tr-{{ $cluster->id }} {{$cluster->status == 'inactive' ? $cluster->status : ''}}">
                 <td>
                     <input
                         type="checkbox"

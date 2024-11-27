@@ -7,7 +7,7 @@
             <div class="mb-4 page-info">
                 <div>
                     <h3 class="mb-2 text-uppercase">{{ __('cluster.cluster') }} </h3>
-                    @include('components.active-inactive')
+                    {{-- @include('components.active-inactive') --}}
                 </div>
                 <div class="mt-3">
                     @include('components.table-button')

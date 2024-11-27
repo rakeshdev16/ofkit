@@ -56,6 +56,10 @@
                         <div class="w-50">{{ $fileName }}</div>
                     </div> --}}
                     <div class="d-flex accordion-row">
+                        <div class="w-50 label">{{ __('comon.therapist') }}</div>
+                        <div class="w-50">{{$document->user->name ?? ' - '}}</div>
+                    </div>
+                    <div class="d-flex accordion-row">
                         <div class="w-50 label">{{ __('children.fileType') }}</div>
                         <div class="w-50">{{ $document->file_type }}</div>
                     </div>

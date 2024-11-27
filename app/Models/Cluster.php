@@ -26,8 +26,8 @@ class Cluster extends Model
             $clusterIds = ClusterKindergarten::whereIn('kindergarten_id', Kindergarten::where('name', 'like', '%'.$search.'%')->pluck('id'))->pluck('cluster_id');
             $query->where('cluster', 'like', '%'.$search.'%')->orWhereIn('id', $clusterIds);
         }
-        if (request('status')) {
-            $query->where('status', request('status'));
+        if (request('status') == 'inactive') {
+            $query->whereIn('status', ['active', 'inactive']);
         }else{
             $query->where('status', 'active');
         }

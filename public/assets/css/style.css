@@ -44,6 +44,11 @@
     padding: 10px;
 }
 
+tr.inactive td {
+    background-color: #8080803b !important;
+    border: 1px solid #ccc6c6 !important;
+}
+
 .active>.page-link,
 .page-link.active {
     background-color: #095F59 !important;

@@ -111,13 +111,16 @@
                         <td bgcolor="#ffffff" align="right" style="padding: 20px 30px 40px 30px; color: #666666; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
                             <p style="margin: 0;"><span>,{{ $notifiable->name }}</span> שלום</p>
                             <p style="margin: 0;">!החשבון שלך נוצר בהצלחה</p>
-                            <p style="margin: 0;"><span>{{ $username }} :שם המשתמש שלך הוא</span></p>
-                            <p style="margin: 0;"><span>{{ $password }} :סיסמה</span></p>
+                            <p style="margin: 0;"><span> :שם המשתמש שלך הוא</span></p>
+                            <p style="margin: 0;"><span>{{ $username }}</span></p>
+                            <p style="margin: 0;"><span>:סיסמה</span></p>
+                            <p style="margin: 0;"><span>{{ $password }}</span></p>
                         </td>
                     </tr>
                     <tr>
                         <td bgcolor="#ffffff" align="right" style="padding: 0px 30px 0px 30px; color: #666666; font-family: Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                            <p style="margin: 0;"><span><a href="https://ofktabam.net" target="_blank" style="color: #4A35EA; text-decoration: none;">https://ofktabam.net</a> :להתחברות דרך האתר</span></p>
+                            <p style="margin: 0;"><span>:להתחברות דרך האתר</span></p>
+                            <p style="margin: 0;"><span><a href="https://ofktabam.net" target="_blank" style="color: #4A35EA; text-decoration: none;">https://ofktabam.net</a></span></p>
                         </td>
                     </tr>
                     <tr>

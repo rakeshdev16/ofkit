@@ -57,7 +57,7 @@ class StaffController extends Controller
     public function create()
     {
         $managers = User::select('id as key', 'name as value')->role('manager')->where('status', 'active')->get()->toArray();
-        $kindergartens = Kindergarten::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
+        $kindergartens = Kindergarten::select('id as key', 'name as value')->orderBy('name')->where('status', 'active')->get()->toArray();
         $roles = Role::select('name as key', 'name as value')->where('name', '!=', 'admin')->get()->toArray();
         foreach ($roles as &$role) {
             $role['value'] = __('comon.' . $role['value']);
@@ -191,7 +191,7 @@ class StaffController extends Controller
     {
         $staff = User::findOrFail($id);
         $managers = User::select('id as key', 'name as value')->role('manager')->where('status', 'active')->get()->toArray();
-        $kindergartens = Kindergarten::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
+        $kindergartens = Kindergarten::select('id as key', 'name as value')->orderBy('name')->where('status', 'active')->get()->toArray();
         $roles = Role::select('name as key', 'name as value')->where('name', '!=', 'admin')->get()->toArray();
         $memberRoles = MemberRole::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
         $professions = Profession::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();

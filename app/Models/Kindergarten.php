@@ -16,17 +16,38 @@ class Kindergarten extends Model
     public function scopeFilter($query)
     {
         if (request('sort') && request('sorting')) {
-            $query->orderBy(request('sort'), request('sorting'));
+            if(request('sort') == 'cluster_id') {
+                $query->leftJoin('clusters', 'clusters.id', '=', 'kindergartens.cluster_id')
+                    ->orderBy('clusters.cluster', request('sorting'))
+                    ->select('kindergartens.*');
+            }elseif(request('sort') == 'cluster_manager_id') {
+                $query->leftJoin('clusters', 'clusters.id', '=', 'kindergartens.cluster_id')
+                    ->leftJoin('users', 'users.id', '=', 'clusters.manager_id')
+                    ->orderBy('users.name', request('sorting'))
+                    ->select('kindergartens.*');
+            }elseif(request('sort') == 'kindergarten_manager_id') {
+                $query->leftJoin('kindergarten_users', 'kindergarten_users.kindergarten_id', '=', 'kindergartens.id')
+                    ->leftJoin('users', 'users.id', '=', 'kindergarten_users.user_id')
+                    ->orderBy('users.name', request('sorting'))
+                    ->select('kindergartens.*');
+            }else {
+                $query->orderBy(request('sort'), request('sorting'));
+            }
         }else{
             $query->orderBy('name', 'ASC');
         }
         if (request('search')) {
             $query->where('name', 'like', '%'.request('search').'%');
         }
-        if (request('status')) {
-            $query->where('status', request('status'));
-        }else{
-            $query->where('status', 'active');
+        // if (request('status')) {
+        //     $query->where('status', request('status'));
+        // }else{
+        //     $query->where('status', 'active');
+        // }
+        if (request('status') == 'inactive') {
+            $query->whereIn('kindergartens.status', ['active', 'inactive']);
+        } else {
+            $query->where('kindergartens.status', 'active');
         }
         return $query;
     }

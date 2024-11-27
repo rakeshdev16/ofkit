@@ -22,18 +22,8 @@ $(document).on('click', '.search-button', function () {
 });
 
 $(document).on('click', '.print-button', function () {
-    //     // const originalContent = document.body.innerHTML;
-    //     // $('.table-search button').hide();
-    //     // $('.table-search input').hide();
-    //     // $('.page-info .mt-3').hide();
-    //     // $('.status').css('width', '300px');
 
-    //     // const printContent = document.querySelector('.page-content').innerHTML;
-
-    //     // document.body.innerHTML = printContent;
-    //     // window.print();
-    //     // document.body.innerHTML = originalContent;
-    //     // $(document).trigger('DOMContentLoaded');
+    var userAgent = navigator.userAgent;
 
     $('.table-search button').hide();
     $('.table-search input').hide();
@@ -43,23 +33,17 @@ $(document).on('click', '.print-button', function () {
     const originalContent = document.body.innerHTML;
     const printContent = document.querySelector('.page-content').innerHTML;
     document.body.innerHTML = printContent;
-    // Use window.print() to open the print dialog
     window.print();
     document.body.innerHTML = originalContent;
-    myprint()
-    // window.location.reload();
-    // After printing, restore the visibility of the hidden elements
-    $('.table-search button').show();
-    $('.table-search input').show();
-    $('.page-info .mt-3').show();
-    $('.status').css('width', 'auto'); // Or set to the original width
-});
 
-function myprint() {
-    window.onbeforeprint = function (event) {
-        window.location.href = '/'
-    };
-}
+    if (userAgent.indexOf("Firefox") > -1) {
+        const fullUrl = window.location.href;
+        console.log("Full URL:", fullUrl);
+        window.location.href = fullUrl;
+    }  else {
+        window.location.reload();
+    }
+});
 
 $(document).on('change', '.select-filter', function () {
     var kindergartenId = $(this).val();
@@ -69,19 +53,41 @@ $(document).on('change', '.select-filter', function () {
     filter(url);
 });
 
+// $(document).on('change', '.status', function () {
+//     var status = $(this).val();
+//     if (status == 'active') {
+//         $('.moveToArchive').text(inactiveInactiveBtnText);
+//         confirmButtonText = inactiveButtonText;
+//     } else {
+//         $('.moveToArchive').text(activeInactiveBtnText);
+//         confirmButtonText = activeButtonText;
+//     }
+//     queryParam('page', '');
+//     var url = queryParam('status', status);
+//     filter(url);
+// });
+
 $(document).on('change', '.status', function () {
-    var status = $(this).val();
-    if (status == 'active') {
-        $('.moveToArchive').text(inactiveInactiveBtnText);
-        confirmButtonText = inactiveButtonText;
-    } else {
+    var status = $(this).prop('checked') ? 'inactive' : 'active'; // Check if checked, then set status
+
+    if (status == 'inactive') {
+        $(this).prop('checked', true); // Make sure the checkbox is checked if inactive
+        $(this).val('inactive');
         $('.moveToArchive').text(activeInactiveBtnText);
         confirmButtonText = activeButtonText;
+    } else {
+        $(this).prop('checked', false); // Make sure the checkbox is unchecked if active
+        $(this).val('active');
+        $('.moveToArchive').text(inactiveInactiveBtnText);
+        confirmButtonText = inactiveButtonText;
     }
+
+    // Use queryParam to update the URL with the status value
     queryParam('page', '');
     var url = queryParam('status', status);
     filter(url);
 });
+
 
 $(document).on('change', '.doc-filter', function () {
     var name = $(this).attr('name');
@@ -189,6 +195,7 @@ $(document).on('change', '.mainCheckbox', function () {
             let param = searchParams.get('status');
             if (param != 'inactive') {
                 var name = $(this).data('name');
+                console.log(name);
 
                 if (name && name.trim() != '') {
                     console.log($(this).val());

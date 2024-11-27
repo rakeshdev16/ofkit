@@ -9,7 +9,7 @@ class ChildrenDocumentAndApproval extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['children_id', 'document', 'file_type_id', 'description'];
+    protected $fillable = ['children_id', 'document', 'file_type_id', 'description', 'user_id'];
 
     protected $appends = ['file_type'];
 
@@ -38,7 +38,13 @@ class ChildrenDocumentAndApproval extends Model
     public function scopeFilter($query)
     {
         if (request('sort') && request('sorting')) {
-            $query->orderBy(request('sort'), request('sorting'));
+            if(request('sort') == 'therapist') {
+                $query->leftJoin('users', 'users.id', '=', 'children_document_and_approvals.user_id')
+                ->orderBy('users.name', request('sorting'))
+                ->select('children_document_and_approvals.*');
+            }else {
+                $query->orderBy(request('sort'), request('sorting'));
+            }
         }
         if (request('search')) {
             $query->where('document', 'like', '%'.request('search').'%');
@@ -68,13 +74,23 @@ class ChildrenDocumentAndApproval extends Model
             //     $query->whereDate('created_at', $singleDate);
             // }
         }
-        if (request('status')) {
-            $query->where('status', request('status'));
-        }else{
-            $query->where('status', 'active');
+        // if (request('status')) {
+        //     $query->where('status', request('status'));
+        // }else{
+        //     $query->where('status', 'active');
+        // }
+         if (request('status')) {
+            $query->where('children_document_and_approvals.status', request('status'));
+        } else {
+            $query->where('children_document_and_approvals.status', 'active');
         }
 
         return $query;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function getFileTypeAttribute($value)

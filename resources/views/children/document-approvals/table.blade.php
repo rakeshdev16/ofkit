@@ -3,9 +3,9 @@
         <tr>
             <th style="width: 2%"><input type="checkbox" class="mainCheckbox"></th>
             @include('components.table-heading', ['label' => __('children.date'), 'key' => 'created_at', 'width' => '11.75%'])
-            {{-- @include('components.table-heading', ['label' => __('children.document'), 'key' => 'document', 'width' => '11.75%']) --}}
+            @include('components.table-heading', ['label' => __('comon.therapist'), 'key' => 'therapist', 'width' => '11.75%'])
             @include('components.table-heading', ['label' => __('children.fileType'), 'key' => 'file_type_id', 'width' => '11.75%'])
-            @include('components.table-heading', ['label' => __('children.documentDescription'), 'key' => 'desription', 'width' => '11.75%'])
+            @include('components.table-heading', ['label' => __('children.documentDescription'), 'width' => '11.75%'])
             @include('components.table-heading', ['label' => __('comon.action'), 'width' => '5%'])
         </tr>
     </thead>
@@ -17,6 +17,7 @@
             <tr class="tr-{{ $document->id }}">
                 <td><input type="checkbox" name="id[]" value="{{ $document->id }}" class="checkbox check-{{ $document->id }}" data-class="check-{{ $document->id }}"></td>
                 <td>{{ date('d/m/Y', strtotime($document->created_at)) }}</td>
+                <td>{{$document->user->name ?? ' '}}</td>
                 {{-- <td>
                     @if ($document->document)
                         <span>{{ \Str::limit($fileName, 15, '...') }}</span>

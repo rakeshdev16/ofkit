@@ -39,17 +39,25 @@
                                         <div class="row">
                                             <input type="hidden" name="children_id" value="{{ $childId }}">
                                             <div class="col-md-12">
-                                                {{-- <label for="file" class="form-label">{{ __('children.document') }}</label>
+                                                <label for="user_id" class="form-label">{{ __('comon.therapist') }}</label>
                                                 <div class="position-relative input-icon">
-                                                    <input type="file" class="form-control documents @error('document') is-invalid @enderror file" id="file" name="document" placeholder="Document">
-                                                </div>
-                                                @error('document')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
+                                                    <select name="user_id" class="form-control @error('user_id') is-invalid @enderror">
+                                                        <option value="" selected="">{{ __('comon.select') }}</option>
+                                                        @foreach ($therapists as $therapist)
+                                                            <option value="{{ $therapist['key'] }}" {{old('user_id') == $therapist['key'] ? 'selected' : ''}}>{{ $therapist['value'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <span class="position-absolute top-50 translate-middle-y">
+                                                        <i class="bx bx-buildings"></i>
                                                     </span>
-                                                @enderror
-                                                <div class="d-flex mt-2 choosenDocument" style="flex-wrap: wrap;"></div>
-                                                <input type="hidden" class="document" name="old_document" value=""> --}}
+                                                    @error('user_id')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 pt-3">
                                                 @include('components.file-input', [
                                                     'label' => __('children.document'),
                                                     'name' => 'document',
@@ -96,7 +104,6 @@
                                                             <strong>{{ $message }}</strong>
                                                         </span>
                                                     @enderror
-
                                                 </div>
                                             </div>
                                             <div class="col-md-12 pt-3">
