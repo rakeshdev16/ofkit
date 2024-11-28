@@ -12,44 +12,18 @@ use Illuminate\Support\Str;
 
 class TherapyScheduleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $therapists = User::role('therapist')->orderBy('name')->get(['id', 'name']);
         $childrens = Children::orderBy('name')->get(['id', 'name']);
-
         return view('therapy-schedule.index', compact('therapists', 'childrens'));
-    }
-
-    public function calenderView()
-    {
-        $events = TherapySchedule::orderBy('schedule_time')->get();
-        $formattedEvents = $events->map(function ($event) {
-            $scheduleTime = Carbon::parse($event->schedule_time);
-            return [
-                'id' => $event->id,
-                'text' => $event->description,
-                'start' => $event->schedule_time,
-                'end' => $event->schedule_time,
-                'resource' => $event->therapist_id.''.strtolower(date('l', strtotime($event->schedule_time))), // Ensure resource matches column IDs
-            ];
-        });
-
-        $data = compact('formattedEvents');
-        $result = view('therapy-schedule.calender', $data)->render();
-
-        return response()->json([
-            'success' => true,
-            'record' => $result,
-            'data'=> $data
-        ]);
-
     }
 
     public function create()
     {
         $therapists = User::role('therapist')->orderBy('name')->get(['id', 'name']);
         $childrens = Children::orderBy('name')->get(['id', 'name']);
-        return view('therapy-schedule.add', compact('therapists', 'childrens'));
+        return view('therapy-schedule.create', compact('therapists', 'childrens'));
     }
 
     public function store(Request $request)

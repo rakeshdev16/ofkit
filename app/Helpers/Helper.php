@@ -8,6 +8,7 @@ use App\Models\StaffKindergarten;
 use App\Models\User;
 use App\Models\ActivityLog;
 use App\Models\StaffSchedule;
+use App\Models\TherapySchedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
@@ -212,6 +213,22 @@ function calenderHeader()
             'children' => $members
         ];
     })->values()->toArray();
+}
+
+function calenderEvents()
+{
+    $schedules = TherapySchedule::orderBy('schedule_time')->get();
+    $events = $schedules->map(function ($schedule) {
+        $scheduleTime = Carbon::parse($schedule->schedule_time);
+        return [
+            'id' => $schedule->id,
+            'text' => $schedule->description,
+            'start' => $scheduleTime->format('Y-m-d H:i:s'),
+            'end' => $scheduleTime->format('Y-m-d H:i:s'),
+            'resource' => $schedule->therapist_id . strtolower(date('l', strtotime($schedule->schedule_time))),
+        ];
+    });
+    return $events;
 }
 
 
