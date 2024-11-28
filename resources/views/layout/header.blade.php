@@ -8,7 +8,7 @@
             <nav class="navbar navbar-expand gap-3">
                 <div class="topbar-logo-header d-none d-lg-flex">
                     <div class="">
-                        <img src="{{ asset('assets/images/5.png') }}" class="" width="160px" height="60px" alt="logo icon">
+                        <img src="{{ asset('assets/images/5.png') }}" class="" width="160px" height="73.5px" alt="logo icon">
                     </div>
                 </div>
                 <div class="mobile-toggle-menu d-block d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
@@ -81,7 +81,7 @@
                 <div class="offcanvas-header border-bottom">
                     <div class="d-flex align-items-center">
                         <div class="">
-                            <img src="{{ asset('assets/images/5.png') }}" width="100px" class="" alt="logo icon">
+                            <img src="{{ asset('assets/images/5.png') }}" width="160px" height="73.5px" class="" alt="logo icon">
                         </div>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>

@@ -32,9 +32,9 @@
                 <td>{{ ucfirst(str_replace('-', ' ', $documentation->type)) }}</td>
                 <td>
                     @if ($documentation->type == 'group' && $groupChildDetail)
-                        {{ $groupChildDetail->participated == 1 ? 'Yes' : 'No' }}
+                        {{ $groupChildDetail->participated == 1 ? __('comon.yes') : __('comon.no') }}
                     @else
-                        {{ $documentation->occured == 1 ? 'Yes' : 'No' }}
+                        {{ $documentation->occured == 1 ? __('comon.yes') : __('comon.no') }}
                     @endif
                 </td>
                 <td class="{{ $documentation->occured == 1 ? 'address-column' : '' }}">

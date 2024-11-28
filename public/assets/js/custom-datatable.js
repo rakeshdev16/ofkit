@@ -92,6 +92,7 @@ $(document).on('change', '.status', function () {
 $(document).on('change', '.doc-filter', function () {
     var name = $(this).attr('name');
     var value = $(this).val();
+    $(this).find(`option[value="${value}"]`).attr('selected', 'selected');
 
     var dateType = $(this).data('type');
     if (name == 'date') {
