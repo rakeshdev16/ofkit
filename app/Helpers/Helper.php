@@ -198,13 +198,13 @@ function activityLog($modelName, $modalId, $type)
 function calenderHeader()
 {
     $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    $staffSchedules = StaffSchedule::with(['user:id,name'])->whereIn('day', $days)->take(7)->get();
+    $staffSchedules = StaffSchedule::with(['user:id,name'])->whereIn('day', $days)->get();
     $groupedSchedules = $staffSchedules->groupBy('day');
     return $groupedSchedules->map(function ($records, $day) {
-        $members = $records->map(function ($record) {
+        $members = $records->map(function ($record) use($day) {
             return [
                 'name' => $record->user->name,
-                'id' => $record->user->id
+                'id' => $record->user->id.''.$day
             ];
         });
         return [
@@ -212,35 +212,6 @@ function calenderHeader()
             'children' => $members
         ];
     })->values()->toArray();
-
-    // $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    // $today = now(); // Current date
-    // $startOfWeek = $today->copy()->startOfWeek(Carbon::SUNDAY); // Start week from Sunday
-
-    // // Map days to corresponding dates in mm/dd/yyyy format
-    // $daysWithDates = collect($days)->mapWithKeys(function ($day, $index) use ($startOfWeek) {
-    //     return [strtolower($day) => $startOfWeek->copy()->addDays($index)->format('m/d/Y')];
-    // });
-
-    // $staffSchedules = StaffSchedule::with(['user:id,name'])->whereIn('day', $days)->get();
-    // $groupedSchedules = $staffSchedules->groupBy(function ($schedule) {
-    //     return strtolower($schedule->day); // Normalize case to match $daysWithDates keys
-    // });
-
-    // return $groupedSchedules->map(function ($records, $day) use ($daysWithDates) {
-    //     $members = $records->map(function ($record) use($day) {
-
-    //         return [
-    //             'name' => $record->user->name,
-    //             'id' => $record->user->id.$day
-    //         ];
-    //     });
-    //     return [
-    //         'name' => $daysWithDates[$day] ?? $day, // Replace day name with date in mm/dd/yyyy format
-    //         'children' => $members
-    //     ];
-    // })->values()->toArray();
-
 }
 
 
