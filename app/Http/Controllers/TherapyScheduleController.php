@@ -27,24 +27,15 @@ class TherapyScheduleController extends Controller
     }
 
     public function store(Request $request)
-    {   $photo = null;
+    {
         if ($request->hasFile('image')) {
-            $photo = uploadFile($request->image, 'public/therapy-schedule', $request->extension);
+            $request['file'] = uploadFile($request->image, 'public/therapy-schedule', $request->extension);
         }
+        $request['therapist_id'] = preg_match('/\d+/', $request->resource, $matches) ? $matches[0] : null;
 
-        TherapySchedule::create([
-            'type' => $request->type,
-            'schedule_time' => $request->schedule_time,
-            'frequency_repeat' => $request->frequency_repeat,
-            'start' => $request->start,
-            'group_name' => $request->group_name,
-            'therapist_id' => $request->therapist_id,
-            'children_ids' => json_encode($request->children_ids, true),
-            'description' => $request->description,
-            'file' => $photo
-        ]);
+        TherapySchedule::create($request->all());
 
-        return back()->with('success', 'Record Created');
+        return response()->json(['status' => true, 'message' => 'Event detail has been successfully saved!']);
 
     }
 }

@@ -84,106 +84,102 @@
         </div>
     </div>
 </div>
-<div class="modal" id="appointmentModal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                <h4 class="modal-title">Individual Intervention</h4>
-            </div>
 
-            <!-- Modal body -->
-            <div class="modal-body">
-                <select id="staffFilter" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
-                    <option value="">Choose Appointment</option>
-                    <option value="John">John</option>
-                    <option value="Ortal Remano">Ortal Remano</option>
-                </select>
-                <input type="date" class="w-100 mb-3 form-control border-1">
-                <select id="staffFilter" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
-                    <option value="">Add Frequency (Repeat)</option>
-                    <option value="John">John</option>
-                    <option value="Ortal Remano">Ortal Remano</option>
-                </select>
-                <select id="staffFilter" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
-                    <option value="">Therapist name</option>
-                    <option value="John">John</option>
-                    <option value="Ortal Remano">Ortal Remano</option>
-                </select>
-                <select id="staffFilter" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
-                    <option value="">Child</option>
-                    <option value="John">John</option>
-                    <option value="Ortal Remano">Ortal Remano</option>
-                </select>
-                <textarea class="form-control mb-3 w-100" placeholder="Add Description" rows="5" id="comment" name="text"></textarea>
-                <input type="file" class="mb-3">
-                <div class="d-flex gap-3">
-                    <button class="button p-2 px-4 rounded-pill border-0">Cancel</button>
-                    <button class="button p-2 px-4 rounded-pill border-0">Edit</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- new appointment -->
-<div class="modal" id="newAppointment">
+<div class="modal" id="eventTypeModal">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
-
-            <!-- Modal body -->
             <div class="modal-body d-flex gap-3 flex-column">
-                <button class="btn new-btn-appointment" data-bs-toggle="modal" data-bs-target="#appointmentModal">Individual</button>
-                <button class="btn new-btn-appointment" data-bs-toggle="modal" data-bs-target="#appointmentModal">Group</button>
-                <button class="btn new-btn-appointment" data-bs-toggle="modal" data-bs-target="#appointmentModal">Parental guidance</button>
-                <button class="btn new-btn-appointment" data-bs-toggle="modal" data-bs-target="#appointmentModal">Staff Meeting</button>
-                <button class="btn new-btn-appointment" data-bs-toggle="modal" data-bs-target="#appointmentModal">Documentation/break</button>
-                <button class="btn new-btn-appointment" data-bs-toggle="modal" data-bs-target="#appointmentModal">Preparation</button>
-                <button class="btn new-btn-appointment" data-bs-toggle="modal" data-bs-target="#appointmentModal">Tutorial</button>
-                <button class="btn new-btn-appointment" data-bs-toggle="modal" data-bs-target="#appointmentModal">Other</button>
+                <button class="btn new-btn-appointment eventType" data-type="individual">Individual</button>
+                <button class="btn new-btn-appointment eventType" data-type="group">Group</button>
+                <button class="btn new-btn-appointment eventType" data-type="parental-guidance">Parental Guidance</button>
+                <button class="btn new-btn-appointment eventType" data-type="staff-meeting">Staff Meeting</button>
+                <button class="btn new-btn-appointment eventType" data-type="initial-evaluation">Initial Evaluation</button>
+                <button class="btn new-btn-appointment eventType" data-type="final-evaluation">Final Evaluation</button>
             </div>
         </div>
     </div>
 </div>
-<!-- hours summary -->
-<div class="modal" id="appointmentModal">
+
+<div class="modal" id="createEventModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <!-- Modal Header -->
             <div class="modal-header">
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                <h4 class="modal-title">New Appointment</h4>
+                <h4 class="modal-title test">New Appointment</h4>
             </div>
-
-            <!-- Modal body -->
             <div class="modal-body">
-                <select id="staffFilter" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
-                    <option value="">Choose Appointment</option>
-                    <option value="John">John</option>
-                    <option value="Ortal Remano">Ortal Remano</option>
-                </select>
-                <input type="date" class="w-100 mb-3 form-control border-1">
-                <select id="staffFilter" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
-                    <option value="">Add Frequency (Repeat)</option>
-                    <option value="John">John</option>
-                    <option value="Ortal Remano">Ortal Remano</option>
-                </select>
-                <select id="staffFilter" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
-                    <option value="">Therapist name</option>
-                    <option value="John">John</option>
-                    <option value="Ortal Remano">Ortal Remano</option>
-                </select>
-                <select id="staffFilter" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
-                    <option value="">Child</option>
-                    <option value="John">John</option>
-                    <option value="Ortal Remano">Ortal Remano</option>
-                </select>
-                <textarea class="form-control mb-3 w-100" placeholder="Add Description" rows="5" id="comment" name="text"></textarea>
-                <input type="file" class="mb-3">
+                <form action="" id="addEventForm" enctype="multipart/form-data">
+                    <select id="appointmentType" name="type" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
+                        <option value="">Choose Appointment</option>
+                        <option value="individual">Individual</option>
+                        <option value="group">Group</option>
+                        <option value="parental-guidance">Parental Guidance</option>
+                        <option value="staff-meeting">Staff Meeting</option>
+                        <option value="initial-evaluation">Initial Evaluation</option>
+                        <option value="final-evaluation">Final Evaluation</option>
+                    </select>
+                    <input type="datetime-local" name="schedule_time" id="appointmentDate" class="w-100 mb-3 form-control border-1">
+                    <select id="appointmentFrequency" name="frequency_repeat" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
+                        <option value="">Select Frequency (Repeat)</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="by_weekly">By Weekly</option>
+                    </select>
+                    <select id="monthlyFrequency" name="start" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select" style="display: none">
+                        <option value="">Select Monthly option</option>
+                        <option value="start_week">Start Week</option>
+                        <option value="after_one_week">After 1 Week</option>
+                        <option value="after_second_week">After 2 Week</option>
+                        <option value="after_third_week">After 3 Week</option>
+                    </select>
+                    <select id="weeklyFrequency" name="start" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select" style="display: none">
+                        <option value="">Select Weekly Option</option>
+                        <option value="one_week_ofset">One Week Ofset</option>
+                        <option value="from_start_week">From Start Week</option>
+                    </select>
+                    <input type="text" name="group_name" id="appointmentGroupName" class="w-100 mb-3 form-control border-1" placeholder="Group Name">
+                    <select id="therapist" name="therapist_id" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
+                        <option value="">Therapist name</option>
+                        @foreach ($therapists as $therapist)
+                            <option value="{{ $therapist->id }}">{{ $therapist->name }}</option>
+                        @endforeach
+                    </select>
+                    <select id="children" name="children_id" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
+                        <option value="">Child</option>
+                        @foreach ($childrens as $children)
+                            <option value="{{ $children->id }}">{{ $children->name }}</option>
+                        @endforeach
+                    </select>
+                    <textarea class="form-control mb-3 w-100" placeholder="Add Description" rows="5" id="comment" name="description"></textarea>
+                    <input type="file" name="image" class="mb-3">
+    
+                    <input type="hidden" name="resource" id="resource">
+                    <input type="hidden" name="start_date" id="startDate">
+                    <input type="hidden" name="end_date" id="endDate">
+                    <input type="hidden" name="draft_name" id="draftName">
+                    <input type="hidden" name="is_draft" id="isDraft" value="0">
+                    <div class="d-flex gap-3">
+                        <button class="button p-2 px-4 rounded-pill border-0" id="createEventModalBtn">Save</button>
+                        <button class="button p-2 px-4 rounded-pill border-0">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="eventDateModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <h4 class="modal-title test">When do you want to start?</h4>
+            </div>
+            <div class="modal-body">
+                <input type="datetime-local" name="start_date" id="appointmentDate" placeholder="Start Date" class="w-100 mb-3 form-control border-1">
+                <input type="datetime-local" name="end_date" id="appointmentDate" placeholder="End Date" class="w-100 mb-3 form-control border-1">
                 <div class="d-flex gap-3">
+                    <button class="button p-2 px-4 rounded-pill border-0" id="">Save</button>
                     <button class="button p-2 px-4 rounded-pill border-0">Cancel</button>
-                    <button class="button p-2 px-4 rounded-pill border-0">Save</button>
                 </div>
             </div>
         </div>
