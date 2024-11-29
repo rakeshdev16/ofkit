@@ -8,9 +8,9 @@
     </thead>
     <tbody>
         @forelse ($fileTypes as $fileType)
-            <tr class="tr-{{ $fileType->id }}">
+            <tr class="tr-{{ $fileType->id }} {{$fileType->status == 'inactive' ? $fileType->status : ''}}">
                 <td>
-                    <input type="checkbox" name="id[]" value="{{ $fileType->id }}" class="checkbox" data-name="{{ $fileType->is_assign ? $fileType->name . ' has assigned to children' : '' }}">
+                    <input type="checkbox" name="id[]" value="{{ $fileType->id }}" class="checkbox check-{{ $fileType->id }}" data-name="{{ $fileType->is_assign ? $fileType->name . ' has assigned to children' : '' }}">
                 </td>
                 <td>{{ $fileType->name }}</td>
                 <td>

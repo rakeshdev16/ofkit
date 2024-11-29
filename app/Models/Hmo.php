@@ -23,8 +23,8 @@ class Hmo extends Model
         if (request('search')) {
             $query->where('name', 'like', '%'.request('search').'%');
         }
-        if (request('status')) {
-            $query->where('status', request('status'));
+        if (request('status') == 'inactive') {
+            $query->whereIn('status', ['active', 'inactive']);
         }else{
             $query->where('status', 'active');
         }

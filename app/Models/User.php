@@ -119,13 +119,13 @@ class User extends Authenticatable
         }else{
             Session::forget('staff_kindergarten');
         }
-        if (request('status')) {
-            $query->where('status', request('status'));
+        if (request('status') == 'inactive') {
+            $query->whereIn('status', ['active', 'inactive']);
         }else{
             $query->where('status', 'active');
         }
         if (request('search')) {
-            $query->where('name', 'like', '%'.request('search').'%')->orWhere('email', 'like', '%'.request('search').'%');
+            $query->whereNot('id', Auth::id())->where('name', 'like', '%'.request('search').'%')->orWhere('email', 'like', '%'.request('search').'%');
         }
         if (Auth::user()->hasRole('admin')) {
             $query->whereNot('id', Auth::id());

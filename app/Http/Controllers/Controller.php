@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Auth;
 
 class Controller extends BaseController
 {
@@ -16,8 +18,14 @@ class Controller extends BaseController
         $model = app("App\\Models\\" . $request->model);
         $ids = explode(',', $request->ids);
         $status = $request->status == 'active' ? 'inactive' : 'active';
+        $recordStatus = $request->status == 'active' ? ['active'] : ['active','inactive'];
+
         if ($model->whereIn('id', $ids)->update(['status' => $status])) {
-            $count = $model->where('status',  $request->status)->count();
+            if($request->model == 'User'){
+                $count = User::whereIn('status',  $recordStatus)->whereNot('id', Auth::id())->count();
+            }else{
+                $count = $model->whereIn('status',  $recordStatus)->whereNot('id', Auth::id())->count();
+            }
             if($status == 'active'){
                 $message = __('comon.activeMsg');
             }else{

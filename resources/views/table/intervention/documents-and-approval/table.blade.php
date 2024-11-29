@@ -8,9 +8,9 @@
     </thead>
     <tbody>
         @forelse ($documents as $document)
-            <tr class="tr-{{ $document->id }}">
+            <tr class="tr-{{ $document->id }} {{$document->status == 'inactive' ? $document->status : ''}}">
                 <td>
-                    <input type="checkbox" name="id[]" value="{{ $document->id }}" class="checkbox" data-name="{{ $document->is_assign ? $document->name . ' has assigned to children document' : '' }}">
+                    <input type="checkbox" name="id[]" value="{{ $document->id }}" class="checkbox check-{{ $document->id }}" data-name="{{ $document->is_assign ? $document->name . ' has assigned to children document' : '' }}">
                 </td>
                 <td>{{ @$document->name ?? '-' }}</td>
                 <td>

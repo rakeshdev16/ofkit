@@ -8,13 +8,13 @@
     </thead>
     <tbody>
         @forelse ($frameworkTypes as $frameworkType)
-            <tr class="tr-{{ $frameworkType->id }}">
+            <tr class="tr-{{ $frameworkType->id }} {{$frameworkType->status == 'inactive' ? $frameworkType->status : ''}}">
                 <td>
                     <input
                         type="checkbox"
                         name="id[]"
                         value="{{ $frameworkType->id }}"
-                        class="checkbox"
+                        class="checkbox check-{{ $frameworkType->id }}"
                         data-name="{{ $frameworkType->is_assign ? $frameworkType->name.' has assigned to kindergarten' : '' }}"
                     >
                 </td>

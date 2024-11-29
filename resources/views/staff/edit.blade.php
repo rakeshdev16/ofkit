@@ -194,7 +194,7 @@
                                                 'class' => 'kindergarten',
                                                 'icon' => 'buildings',
                                                 'options' => $kindergartens,
-                                                'value' => old('kindergarten_id') ?? @$staff->staffKindergartens->pluck('kindergarten_id')->toArray(),
+                                                'value' => old('kindergarten_id') ?? @$staffKindergartens,
                                                 'disabled' => Auth::user()->hasRole('admin') ? '' : 'disabled',
                                             ])
                                         </div>

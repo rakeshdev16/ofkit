@@ -17,7 +17,7 @@
     </thead>
     <tbody>
         @forelse ($members as $member)
-            <tr class="tr-{{ $member->id }}">
+            <tr class="tr-{{ $member->id }}  {{$member->status == 'inactive' ? $member->status : ''}}">
                 @if (Auth::user()->hasRole('admin'))
                     <td>
                         <input type="checkbox" name="id[]" value="{{ $member->id }}" class="checkbox check-{{ $member->id }}" data-class="check-{{ $member->id }}" data-name="{{ $member->is_assign ? $member->first_name . ' has assigned to kindergarten or cluster' : '' }}">

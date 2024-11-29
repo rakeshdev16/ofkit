@@ -7,7 +7,7 @@
             <div class="mb-4 page-info">
                 <div>
                     <h3 class="mb-2 text-uppercase">{{ __('kindergarten.kindergarten') }} </h3>
-                    @include('components.active-inactive')
+                    {{-- @include('components.active-inactive') --}}
                 </div>
                 <div class="mt-3">
                     @if (Auth::user()->hasRole('admin'))

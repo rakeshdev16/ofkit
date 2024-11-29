@@ -8,9 +8,9 @@
     </thead>
     <tbody>
         @forelse ($diagnosises as $diagnosis)
-            <tr class="tr-{{ $diagnosis->id }}">
+            <tr class="tr-{{ $diagnosis->id }}  {{$diagnosis->status == 'inactive' ? $diagnosis->status : ''}}">
                 <td>
-                    <input type="checkbox" name="id[]" value="{{ $diagnosis->id }}" class="checkbox" data-name="{{ $diagnosis->is_assign ? $diagnosis->name . ' has assigned to children' : '' }}">
+                    <input type="checkbox" name="id[]" value="{{ $diagnosis->id }}" class="checkbox check-{{ $diagnosis->id }}" data-name="{{ $diagnosis->is_assign ? $diagnosis->name . ' has assigned to children' : '' }}">
                 </td>
                 <td>{{ $diagnosis->name }}</td>
                 <td>

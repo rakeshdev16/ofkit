@@ -66,6 +66,7 @@
         var halfYear = "{{__('children.halfYear')}}";
         $(document).on('click', '.toggle-text', function() {
             var status = $(this).data('status');
+
             var truncatedText = $(this).siblings('.truncated-text');
             var fullText = $(this).siblings('.full-text');
 

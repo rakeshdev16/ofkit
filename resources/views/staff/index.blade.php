@@ -21,7 +21,7 @@
                             @endforeach
                         </select>
                     </div>
-                    @include('components.active-inactive')
+                    {{-- @include('components.active-inactive') --}}
                 </div>
                 <div class="mt-3">
                     @if (Auth::user()->hasRole('admin'))

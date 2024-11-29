@@ -8,9 +8,9 @@
     </thead>
     <tbody>
         @forelse ($professions as $profession)
-            <tr class="tr-{{ $profession->id }}">
+            <tr class="tr-{{ $profession->id }}  {{$profession->status == 'inactive' ? $profession->status : ''}}">
                 <td>
-                    <input type="checkbox" name="id[]" value="{{ $profession->id }}" class="checkbox" data-name="{{ $profession->is_assign ? $profession->name . ' has assigned to staff members' : '' }}">
+                    <input type="checkbox" name="id[]" value="{{ $profession->id }}" class="checkbox check-{{ $profession->id }}" data-name="{{ $profession->is_assign ? $profession->name . ' has assigned to staff members' : '' }}">
                 </td>
                 <td>{{ @$profession->name ?? '-' }}</td>
                 <td>

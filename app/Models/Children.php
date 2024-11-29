@@ -63,8 +63,13 @@ class Children extends Model
             Session::forget('children_kindergarten');
         }
 
-        if (request('status')) {
-            $query->where('status', request('status'));
+        // if (request('status')) {
+        //     $query->where('status', request('status'));
+        // }else{
+        //     $query->where('status', 'active');
+        // }
+        if (request('status') == 'inactive') {
+            $query->whereIn('status', ['active', 'inactive']);
         }else{
             $query->where('status', 'active');
         }

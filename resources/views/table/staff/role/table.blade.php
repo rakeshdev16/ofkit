@@ -8,12 +8,12 @@
     </thead>
     <tbody>
         @forelse ($roles as $role)
-            <tr class="tr-{{ $role->id }}">
+            <tr class="tr-{{ $role->id }}  {{$role->status == 'inactive' ? $role->status : ''}}">
                 @php
                     $checkRecord = $role->is_assign ? $role->name . " has assigned to staff members" : '';
                 @endphp
                 <td>
-                    <input type="checkbox" name="id[]" value="{{ $role->id }}" class="checkbox" data-name="{{request()->status == 'inactive' ? '' : $checkRecord}}">
+                    <input type="checkbox" name="id[]" value="{{ $role->id }}" class="checkbox check-{{ $role->id }}" data-name="{{request()->status == 'inactive' ? '' : $checkRecord}}">
                 </td>
                 <td>{{ $role->name }}</td>
                 <td>

@@ -8,13 +8,13 @@
     </thead>
     <tbody>
         @forelse ($kindergartenTypes as $kindergartenType)
-            <tr class="tr-{{ $kindergartenType->id }}">
+            <tr class="tr-{{ $kindergartenType->id }} {{$kindergartenType->status == 'inactive' ? $kindergartenType->status : ''}}">
                 <td>
                     <input
                         type="checkbox"
                         name="id[]"
                         value="{{ $kindergartenType->id }}"
-                        class="checkbox"
+                        class="checkbox check-{{ $kindergartenType->id }}"
                         data-name="{{ $kindergartenType->is_assign ? $kindergartenType->name.' has assigned to kindergarten' : '' }}"
                     >
                 </td>

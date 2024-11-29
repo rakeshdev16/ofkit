@@ -8,9 +8,9 @@
     </thead>
     <tbody>
         @forelse ($associations as $association)
-            <tr class="tr-{{ $association->id }}">
+            <tr class="tr-{{ $association->id }}  {{$association->status == 'inactive' ? $association->status : ''}}">
                 <td>
-                    <input type="checkbox" name="id[]" value="{{ $association->id }}" class="checkbox" data-name="{{ $association->is_assign ? $association->name . ' has assigned to staff members' : '' }}">
+                    <input type="checkbox" name="id[]" value="{{ $association->id }}" class="checkbox check-{{ $association->id }}" data-name="{{ $association->is_assign ? $association->name . ' has assigned to staff members' : '' }}">
                 </td>
                 <td>{{ @$association->name ?? '-' }}</td>
                 <td>

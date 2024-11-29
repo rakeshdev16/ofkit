@@ -16,7 +16,7 @@
             @php
                 $truncatedAddress = \Str::limit($children->address, 80, '...');
             @endphp
-            <tr class="tr-{{ $children->id }}">
+            <tr class="tr-{{ $children->id }} {{$children->status == 'inactive' ? $children->status : ''}}">
                 <td><input type="checkbox" name="id[]" value="{{ $children->id }}" class="checkbox check-{{ $children->id }}" data-class="check-{{ $children->id }}" ></td>
                 <td>{{ $children->name }}</td>
                 <td>{{ $children->family_name }}</td>

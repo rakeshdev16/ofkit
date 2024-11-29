@@ -156,6 +156,14 @@ class StaffController extends Controller
             if (isset($request->kindergarten) && count($request->kindergarten)) {
                 $user->staffKindergartens()->createMany($request->kindergarten);
             }
+
+            foreach ($request->kindergarten as $kindergarten) {
+                KindergartenUser::updateOrCreate([
+                    'kindergarten_id' => $kindergarten['kindergarten_id'],
+                    'user_id' => $user->id
+                ]);
+            }
+
             if (isset($request->schedule) && count($request->schedule)) {
                 $user->days()->createMany($request->schedule);
             }
@@ -190,13 +198,15 @@ class StaffController extends Controller
     public function edit($id)
     {
         $staff = User::findOrFail($id);
+        $kindergartenIds = KindergartenUser::where('user_id', $id)->pluck('kindergarten_id')->toArray();
+        $staffKindergartens = array_merge($kindergartenIds, $staff->staffKindergartens->pluck('kindergarten_id')->toArray());
         $managers = User::select('id as key', 'name as value')->role('manager')->where('status', 'active')->get()->toArray();
         $kindergartens = Kindergarten::select('id as key', 'name as value')->orderBy('name')->where('status', 'active')->get()->toArray();
         $roles = Role::select('name as key', 'name as value')->where('name', '!=', 'admin')->get()->toArray();
         $memberRoles = MemberRole::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
         $professions = Profession::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
         $associations = Association::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
-        return view('staff.edit', compact('staff', 'kindergartens', 'managers', 'roles', 'memberRoles', 'professions', 'associations'));
+        return view('staff.edit', compact('staff', 'kindergartens', 'managers', 'roles', 'memberRoles', 'professions', 'associations', 'staffKindergartens'));
     }
 
     public function update(Request $request, $id)
@@ -280,6 +290,12 @@ class StaffController extends Controller
             $user->staffKindergartens()->delete();
             if (isset($request->kindergarten) && count($request->kindergarten)) {
                 $user->staffKindergartens()->createMany($request->kindergarten);
+            }
+            foreach ($request->kindergarten as $kindergarten) {
+                KindergartenUser::updateOrCreate([
+                    'kindergarten_id' => $kindergarten['kindergarten_id'],
+                    'user_id' => $user->id
+                ]);
             }
             if (isset($request->schedule) && count($request->schedule)) {
                 foreach ($request->schedule as $schedule) {
