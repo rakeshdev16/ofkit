@@ -223,8 +223,8 @@ function calenderEvents()
         return [
             'id' => $schedule->id,
             'text' => $schedule->description,
-            'start' => $scheduleTime->format('Y-m-d H:i:s'),
-            'end' => $scheduleTime->format('Y-m-d H:i:s'),
+            'start' => Carbon::parse($schedule->start_date)->format('Y-m-d H:i:s'),
+            'end' => Carbon::parse($schedule->end_date)->format('Y-m-d H:i:s'),
             'resource' => $schedule->therapist_id . strtolower(date('l', strtotime($schedule->schedule_time))),
         ];
     });

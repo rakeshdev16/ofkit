@@ -30,10 +30,14 @@
             if (type == 'view') {
                 dp.clearSelection();
             } else {
-                $('#newAppointment').modal('toggle');
-                console.log(args);
-                console.log(args.start);
-                console.log(args.end);
+                $('#resource').val(args.resource);
+                $('#appointmentDate').val(args.start);
+                $('#startDate').val(args.start);
+                $('#endDate').val(args.end);
+                $('#eventTypeModal').modal('toggle');
+                // console.log(args);
+                // console.log(args.start);
+                // console.log(args.end);
                 
                 // var name = prompt("New event name:", "Event");
                 // if (!name) return;
