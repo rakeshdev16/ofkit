@@ -89,7 +89,7 @@
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                             <h6 class="mb-0">{{ __('children.occured') }}</h6>
-                                            <span class="text-secondary">{{ @$document->occured == 1 ? 'Yes' : 'No' }}</span>
+                                            <span class="text-secondary">{{ @$document->occured == 1 ? __('comon.yes') : __('comon.no') }}</span>
                                         </li>
                                         @if ($document->occured == 1 && $document->type == 'group')
                                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
