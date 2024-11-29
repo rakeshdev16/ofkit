@@ -47,7 +47,6 @@
             }).then(list => {
                 var events = {!! json_encode(calenderEvents()) !!};
                 schedules(events, list);
-                console.log('Response from PHP:', list);
             }).catch(error => {
                 console.error('Error:', error);
             });
