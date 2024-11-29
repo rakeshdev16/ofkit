@@ -157,11 +157,13 @@ class StaffController extends Controller
                 $user->staffKindergartens()->createMany($request->kindergarten);
             }
 
-            foreach ($request->kindergarten as $kindergarten) {
-                KindergartenUser::updateOrCreate([
-                    'kindergarten_id' => $kindergarten['kindergarten_id'],
-                    'user_id' => $user->id
-                ]);
+            if($request->kindergarten){
+                foreach ($request->kindergarten as $kindergarten) {
+                    KindergartenUser::updateOrCreate([
+                        'kindergarten_id' => $kindergarten['kindergarten_id'],
+                        'user_id' => $user->id
+                    ]);
+                }
             }
 
             if (isset($request->schedule) && count($request->schedule)) {
