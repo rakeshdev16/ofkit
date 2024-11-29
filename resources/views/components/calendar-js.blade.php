@@ -1,5 +1,5 @@
 <script>
-    function schedules(events = '') {
+    function schedules(events = '', list) {
         var type = "{{ $type }}";
         if (window.dp) {
             window.dp.dispose();
@@ -21,7 +21,7 @@
         dp.allDayEventHeight = 100;
         dp.viewType = "Resources";
         dp.headerLevels = 2;
-        dp.columns.list = {!! json_encode(calenderHeader()) !!};
+        dp.columns.list = list;
         dp.columnWidthSpec = "Fixed";
         dp.columnMinWidth = 20;
         dp.events.list = events;
@@ -30,6 +30,8 @@
             if (type == 'view') {
                 dp.clearSelection();
             } else {
+                const therapistId = args.resource.match(/\d+/)[0];                
+                $('#therapist').val(therapistId);
                 $('#resource').val(args.resource);
                 $('#appointmentDate').val(args.start);
                 $('#startDate').val(args.start);
@@ -68,7 +70,21 @@
         };
 
         dp.onBeforeEventRender = function(args) {
-            args.data.html = `<div class="p-3 event-box bg-danger">
+            const colors = [
+                "background-color: #ff0000;",
+                "background-color: #00ff00;",
+                "background-color: #0000ff;",
+                "background-color: #ff9900;",
+                "background-color: #cccccc;",
+                "background-color: #095F59;",
+                "background-color: #FFD681;",
+            ];
+
+            // Dynamically assign a class based on the event ID
+            const colorIndex = args.data.id % colors.length;
+            const assignedColor = colors[colorIndex];
+            
+            args.data.html = `<div class="p-3 event-box" style="${assignedColor}">
                     <p class="text-start fw-bold text-end mb-0"> ${args.data.text} <i class="fa fa-user" aria-hidden="true"></i></p>
                     <div class="d-flex">
                     <span>${args.data.start.toString("HH:mm")}</span>

@@ -3,10 +3,10 @@
         @case('therapy-schedule.index')
             <div class="filters d-flex flex-wrap  gap-3">
                 <select id="kindergartenFilter" class="form-select rounded-pill px-5 w-auto">
-                    <option value="">Kindergarten Name</option>
-                    <option value="Hatsav">Hatsav</option>
-                    <option value="Nitzan">Nitzan</option>
-                    <option value="Alwan">Alwan</option>
+                    <option value="20">Select Kindergarten</option>
+                    @foreach ($kindergartens as $kindergarten)
+                        <option value="{{ $kindergarten->staffKindergartens->pluck('user_id') }}">{{ $kindergarten->name }}</option>
+                    @endforeach
                 </select>
                 <select id="childrenFilter" class="form-select rounded-pill px-5 w-auto">
                     <option value="">Children</option>
@@ -20,6 +20,7 @@
                 </select>
             </div>
             <div class="d-flex flex-wrap gap-3">
+                <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer test">Test</span>
                 <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#draft">Draft</span>
                 <a href="/schedule-history" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">History</a>
                 <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Edit</span>

@@ -8,8 +8,12 @@
 
 <div class="container-fluid" style="margin-top: 130px;">
     <h3>Create New Schedule</h3>
-
-    @include('components.schedule-header')
+{{-- @php
+    echo '<pre>';
+        print_r(calenderHeader("[29,34,21]"));
+    echo '</pre>';
+@endphp --}}
+    @include('components.schedule-header', ['kindergartens' => $kindergartens])
 
     <div class="mb-5" id="calender-view">
         <div id="scheduleCalendar"></div>
@@ -23,81 +27,32 @@
     <script type="text/javascript">
         $(document).ready(function () {
             var events = {!! json_encode(calenderEvents()) !!};
-            schedules(events)
+            var list = {!! json_encode(calenderHeader()) !!};
+            schedules(events, list)
         })
-
-        $('#frequency_repeat').on('change', function (){
-            let value = $(this).val();
-            if(value == 'bi-weekly'){
-                $('.monthly').hide();
-                $('.bi-weekly').show();
-            }else{
-                $('.bi-weekly').hide();
-                $('.monthly').show();
-            }
-        });
-        $('.bi-weekly').hide();
-        $('.monthly').hide();
-        $('#group_name').hide();
-
-        $('#appointment_type').on('change', function (){
-            let value = $(this).val();
-            if(value == 'preparation' || value == 'documentation' || value == 'tutorial' || value == 'other'){
-                $('#comment').hide();
-                $('#image').hide();
-                $('#children_ids').hide();
-            }else{
-                $('#comment').show();
-                $('#image').show();
-                $('#children_ids').show();
-                if(value == 'group' || value == 'staff meeting'){
-                    $('#group_name').show();
-                }else{
-                    $('#group_name').hide();
-                }
-            }
-
-        });
-        $('#newAppointmentSubmit').on('click', function(e) {
-            e.preventDefault();
-
-            var url = "{{route('therapy-schedule.store')}}";
-            var formData = new FormData(); // Use FormData for handling file uploads
-
-            // Append form data
-            formData.append('type', $('#appointment_type').val());
-            formData.append('schedule_time', $('#schedule_time').val());
-            formData.append('frequency_repeat', $('#frequency_repeat').val());
-            formData.append('start', $('#start').val());
-            formData.append('group_name', $('#group_name').val());
-            formData.append('therapist_id', $('#therapist_id').val());
-            formData.append('children_ids', JSON.stringify($('#children_ids').val()));
-            formData.append('description', $('#comment').val());
-            formData.append('file', $('#image')[0].files[0]); // Access the file
-
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: formData,
-                processData: false, // Required for FormData
-                contentType: false, // Required for FormData
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    // Assuming refreshCalender() refreshes your DayPilot Calendar
-                    refreshCalender();
-                    $('#appointmentForm')[0].reset(); // Reset all fields in the form
-                    $('#children_ids').val(null).trigger('change');
-                    alert("Appointment created successfully!");
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.error("AJAX Error: ", textStatus, errorThrown);
-                    alert("Failed to create the appointment. Please try again.");
-                }
-            });
-        });
         
+        $(document).on('change', '#kindergartenFilter', function() {
+            var ids = $(this).val();
+            var url = `{{ route('test') }}?ids=${encodeURIComponent(ids)}`;
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            }).then(list => {
+                var events = {!! json_encode(calenderEvents()) !!};
+                schedules(events, list);
+                console.log('Response from PHP:', list);
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+            
+        });
     </script>
     @include('components.calendar-js', ['type' => 'view']);
 @endpush

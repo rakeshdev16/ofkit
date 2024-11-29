@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
+use \Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -132,7 +133,11 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
         Route::get('therapy-schedule/create','create')->name('therapy-schedule.create');
         Route::post('therapy-schedule', 'store')->name('therapy-schedule.store');
     });
-    Route::controller(UserController::class)->group(function () {
+    Route::get('filter-schedule', function(Request $request) {
+        $ids = json_decode($request->query('ids'), true);
+        return response()->json(calenderHeader($ids));
+
+    })->name('test');    Route::controller(UserController::class)->group(function () {
         Route::get('profile', 'index')->name('profile.index');
         Route::get('edit-profile', 'edit')->name('profile.edit');
         Route::post('profile', 'update')->name('profile.update');
@@ -148,7 +153,7 @@ Route::get('seed',function(){ \Artisan::call("db:seed"); });
 Route::get('migrate',function(){ \Artisan::call("migrate"); });
 Route::get('migrate-fresh',function(){ \Artisan::call("migrate:fresh"); });
 
-Route::get('migrate-refresh', function (\Illuminate\Http\Request $request) {
+Route::get('migrate-refresh', function (Request $request) {
     $migrationName = $request->query('migration');
     if (!$migrationName) {
         return response()->json(['message' => 'Migration name is required.']);
