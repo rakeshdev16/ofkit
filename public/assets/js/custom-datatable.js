@@ -68,21 +68,20 @@ $(document).on('change', '.select-filter', function () {
 // });
 
 $(document).on('change', '.status', function () {
-    var status = $(this).prop('checked') ? 'inactive' : 'active'; // Check if checked, then set status
+    var status = $(this).prop('checked') ? 'inactive' : 'active';
 
     if (status == 'inactive') {
-        $(this).prop('checked', true); // Make sure the checkbox is checked if inactive
+        $(this).prop('checked', true);
         $(this).val('inactive');
         $('.moveToArchive').text(activeInactiveBtnText);
         confirmButtonText = activeButtonText;
     } else {
-        $(this).prop('checked', false); // Make sure the checkbox is unchecked if active
+        $(this).prop('checked', false);
         $(this).val('active');
         $('.moveToArchive').text(inactiveInactiveBtnText);
         confirmButtonText = inactiveButtonText;
     }
 
-    // Use queryParam to update the URL with the status value
     queryParam('page', '');
     var url = queryParam('status', status);
     filter(url);
@@ -213,24 +212,27 @@ $(document).on('change', '.mainCheckbox', function () {
     }
 });
 
-$(document).on('change', '.checkbox', function () {
-    if ($('.checkbox').length != $('.checkbox:checked').length) {
-        $('.mainCheckbox').prop('checked', false);
-    } else {
-        $('.mainCheckbox').prop('checked', true);
-    }
-    var name = $(this).data('name');
-    if (name && name.trim() != '') {
-        $(this).prop('checked', false);
-        toastr.warning(name, null, { timeOut: 5000, extendedTimeOut: 5000 });
-    } else {
-        if ($(this).is(':checked') == true) {
-            $(this).prop('checked', true);
-        } else {
-            $(this).prop('checked', false);
-        }
-    }
-});
+// $(document).on('change', '.checkbox', function () {
+
+//     if ($('.checkbox').length != $('.checkbox:checked').length) {
+//         $('.mainCheckbox').prop('checked', false);
+//     } else {
+//         $('.mainCheckbox').prop('checked', true);
+//     }
+//     var name = $(this).data('name');
+//     console.log(name);
+
+//     if (name && name.trim() != '') {
+//         $(this).prop('checked', false);
+//         toastr.warning(name, null, { timeOut: 5000, extendedTimeOut: 5000 });
+//     } else {
+//         if ($(this).is(':checked') == true) {
+//             $(this).prop('checked', true);
+//         } else {
+//             $(this).prop('checked', false);
+//         }
+//     }
+// });
 
 $(document).on('change', '.mainAccordionCheckbox', function () {
     if ($(this).is(':checked') == true) {
@@ -255,6 +257,7 @@ $(document).on('change', '.mainAccordionCheckbox', function () {
 });
 
 $(document).on('change', '.accordionCheckbox', function () {
+
     let searchParams = new URLSearchParams(window.location.search);
     let param = searchParams.get('status');
 
