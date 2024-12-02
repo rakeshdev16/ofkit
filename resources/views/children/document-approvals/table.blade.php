@@ -14,7 +14,7 @@
             @php
                 $fileName = explode('child-document/', $document->document)[1];
             @endphp
-            <tr class="tr-{{ $document->id }}">
+            <tr class="tr-{{ $document->id }} {{$document->status == 'inactive' ? $document->status : ''}}">
                 <td><input type="checkbox" name="id[]" value="{{ $document->id }}" class="checkbox check-{{ $document->id }}" data-class="check-{{ $document->id }}"></td>
                 <td>{{ date('d/m/Y', strtotime($document->created_at)) }}</td>
                 <td>{{$document->user->name ?? ' '}}</td>

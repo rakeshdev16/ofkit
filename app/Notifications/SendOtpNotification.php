@@ -39,7 +39,7 @@ class SendOtpNotification extends Notification
         $logo = asset('assets/images/3.png');
 
         return (new MailMessage)
-            ->subject('אוטפ')
+            ->subject('קוד כניסה')
             ->view(
                 'emails.send-otp-notification', // Path to your custom Blade view
                 ['siteUrl' => url(config('app.url')), 'logo' => $logo, 'notifiable' => $notifiable, 'otp' => $this->otp] // Pass necessary data to the view

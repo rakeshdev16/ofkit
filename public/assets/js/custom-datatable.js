@@ -281,7 +281,7 @@ $(document).on('change', '.accordionCheckbox', function () {
     }
 });
 
-function moveToArchive(msg, status, model) {
+function moveToArchive(msg, status, model, children_id = null) {
     var ids = [];
     $(".checkbox:checked").each(function () {
         var value = $(this).val();
@@ -299,7 +299,15 @@ function moveToArchive(msg, status, model) {
     let searchParams = new URLSearchParams(window.location.search);
     status = searchParams.get('status') ?? 'active';
 
-    var url = activeInactive + "?ids=" + ids.join(',') + "&status=" + status + "&model=" + model;
+    let childrenId = children_id;
+    if(children_id){
+        childrenId = "&children_id=" + children_id
+    }
+    else{
+        childrenId = "&"
+    }
+
+    var url = activeInactive + "?ids=" + ids.join(',') + "&status=" + status + "&model=" + model + childrenId;
 
     Swal.fire({
         title: confirmMsgTitle,

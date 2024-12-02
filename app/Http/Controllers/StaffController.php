@@ -270,9 +270,11 @@ class StaffController extends Controller
 
             $request['name'] = $request->first_name . ' ' . $request->family_name;
             $user = User::findOrFail($id);
+
             $request['status'] = $request->status ?? 'inactive';
             $user->update($request->except('_token', '_method', 'kindergarten_id', 'schedule', 'query_string'));
             $user->syncRoles($request->role);
+
             $description = $request['document_description'];
             if (isset($request->deleted_document_ids) && !empty($request->deleted_document_ids)) {
                 $documentIds = explode(',', $request->deleted_document_ids);
@@ -293,11 +295,13 @@ class StaffController extends Controller
             if (isset($request->kindergarten) && count($request->kindergarten)) {
                 $user->staffKindergartens()->createMany($request->kindergarten);
             }
-            foreach ($request->kindergarten as $kindergarten) {
-                KindergartenUser::updateOrCreate([
-                    'kindergarten_id' => $kindergarten['kindergarten_id'],
-                    'user_id' => $user->id
-                ]);
+            if($request->kindergarten) {
+                foreach ($request->kindergarten as $kindergarten) {
+                    KindergartenUser::updateOrCreate([
+                        'kindergarten_id' => $kindergarten['kindergarten_id'],
+                        'user_id' => $user->id
+                    ]);
+                }
             }
             if (isset($request->schedule) && count($request->schedule)) {
                 foreach ($request->schedule as $schedule) {
@@ -310,6 +314,9 @@ class StaffController extends Controller
             return redirect()->route('staff.show', ['staff' => $id, 'kindergarten_id' => $request->query_string]);
         } catch (\Exception $e) {
             DB::rollback();
+             echo '<pre>';
+            print_r($e);
+            die;
             return redirect()->back();
         }
     }

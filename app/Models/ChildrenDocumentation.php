@@ -92,8 +92,8 @@ class ChildrenDocumentation extends Model
         if (request('type')) {
             $query->where('type', request('type'));
         }
-        if (request('status')) {
-            $query->where('status', request('status'));
+        if (request('status') == 'inactive') {
+            $query->whereIn('status', ['active', 'inactive']);
         }else{
             $query->where('status', 'active');
         }

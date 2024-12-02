@@ -79,9 +79,9 @@ class ChildrenDocumentAndApproval extends Model
         // }else{
         //     $query->where('status', 'active');
         // }
-         if (request('status')) {
-            $query->where('children_document_and_approvals.status', request('status'));
-        } else {
+        if (request('status') == 'inactive') {
+            $query->whereIn('children_document_and_approvals.status', ['active', 'inactive']);
+        }else{
             $query->where('children_document_and_approvals.status', 'active');
         }
 

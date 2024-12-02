@@ -1,3 +1,6 @@
+@php
+    header("Cache-Control: no-cache, must-revalidate");
+@endphp
 <!doctype html>
 <html lang="en" dir="rtl">
 

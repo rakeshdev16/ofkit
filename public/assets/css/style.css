@@ -44,7 +44,8 @@
     padding: 10px;
 }
 
-tr.inactive td {
+tr.inactive td,
+.accordion-item .inactive{
     background-color: #8080803b !important;
     border: 1px solid #ccc6c6 !important;
 }

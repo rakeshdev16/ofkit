@@ -5,12 +5,13 @@
     <div class="accordion accordion-flush tr-{{ $hmo->id }}" id="accordion{{ $loop->iteration }}">
         <div class="accordion-item">
             <h2 class="accordion-header" id="staff-listing-{{ $loop->iteration }}">
-                <button class="accordion-button accordion-screen collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false" aria-controls="flush-collapse{{ $loop->iteration }}">
+                <button class="accordion-button accordion-screen collapsed {{$hmo->status == 'inactive' ? $hmo->status : ''}}" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false" aria-controls="flush-collapse{{ $loop->iteration }}">
                     @include('components.accordion-label', [
                         'id' => $hmo->id,
                         'name' => $hmo->name,
                         'edit' => route('children-table.edit', $hmo->id) . '?type=hmo',
                         'dataName' => $hmo->is_assign ? $hmo->name . ' has assigned to children' : '',
+                        'checkClass' => "check-".$hmo->id
                     ])
                 </button>
             </h2>

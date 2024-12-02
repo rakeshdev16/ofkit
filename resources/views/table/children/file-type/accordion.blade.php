@@ -5,12 +5,13 @@
     <div class="accordion accordion-flush tr-{{ $fileType->id }}" id="accordion{{ $loop->iteration }}">
         <div class="accordion-item">
             <h2 class="accordion-header" id="staff-listing-{{ $loop->iteration }}">
-                <button class="accordion-button accordion-screen collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false" aria-controls="flush-collapse{{ $loop->iteration }}">
+                <button class="accordion-button accordion-screen collapsed {{$fileType->status == 'inactive' ? $fileType->status : ''}}" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false" aria-controls="flush-collapse{{ $loop->iteration }}">
                     @include('components.accordion-label', [
                         'id' => $fileType->id,
                         'name' => $fileType->name,
                         'edit' => route('children-table.edit', $fileType->id) . '?type=file-type',
                         'dataName' => $fileType->is_assign ? $fileType->name . ' has assigned to children' : '',
+                        'checkClass' => "check-".$fileType->id
                     ])
                 </button>
             </h2>

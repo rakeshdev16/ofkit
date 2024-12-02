@@ -5,7 +5,7 @@
     <div class="accordion accordion-flush tr-{{ $children->id }}" id="accordion{{ $loop->iteration }}">
         <div class="accordion-item">
             <h2 class="accordion-header" id="staff-listing-{{ $loop->iteration }}">
-                <button class="accordion-button accordion-screen collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false" aria-controls="flush-collapse{{ $loop->iteration }}">
+                <button class="accordion-button accordion-screen collapsed {{$children->status == 'inactive' ? $children->status : ''}}" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false" aria-controls="flush-collapse{{ $loop->iteration }}">
                     {{-- @include('components.accordion-label', [
                         'id' => $children->id,
                         'name' => $children->name,
@@ -14,7 +14,7 @@
                     ]) --}}
                     <div class="row w-100 align-items-center" style="margin-left: 0px;">
                         <div class="col-2 d-flex justify-content-center">
-                            <input type="checkbox" name="id[]" value="{{ $children->id }}" class="accordionCheckbox checkbox" data-name="{{ @$dataName }}">&nbsp;&nbsp;
+                            <input type="checkbox" name="id[]" value="{{ $children->id }}" class="accordionCheckbox checkbox check-{{ $document->id }}" data-name="{{ @$dataName }}">&nbsp;&nbsp;
                             {{-- <input type="checkbox" value="{{ @$id }}" class="accordionCheckbox check-{{ $id }}" data-class="check-{{ $id }}">&nbsp;&nbsp; --}}
                         </div>
                         {{-- <div class="col-8">{{ \Str::limit($children->name, 10, '...') ?? '-' }}</div> --}}

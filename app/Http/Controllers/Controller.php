@@ -24,7 +24,11 @@ class Controller extends BaseController
             if($request->model == 'User'){
                 $count = User::whereIn('status',  $recordStatus)->whereNot('id', Auth::id())->count();
             }else{
-                $count = $model->whereIn('status',  $recordStatus)->count();
+                if($request->children_id){
+                    $count = $model->whereIn('status',  $recordStatus)->where('children_id', $request->children_id)->count();
+                }else{
+                    $count = $model->whereIn('status',  $recordStatus)->count();
+                }
             }
             if($status == 'active'){
                 $message = __('comon.activeMsg');

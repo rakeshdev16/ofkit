@@ -182,7 +182,8 @@
             var msg = "{{ __('cluster.selectMsg') }}";
             var status = $('.status').val();
             var model = "ChildrenDocumentAndApproval";
-            moveToArchive( msg, status , model);
+            var children_id = "{{$children->id}}"
+            moveToArchive( msg, status , model, children_id);
         });
 
         $(document).on('click', '.addDocument', function() {

@@ -33,7 +33,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive full-width-table">
-                        @include('components.table-search', ['label' => __('staff.staff'), 'count' => $count])
+                        @include('components.table-search', ['label' => __('staff.totalStaff'), 'count' => $count])
                         <div id="dataTable">
                             @include('staff.table', ['members' => $members])
                         </div>

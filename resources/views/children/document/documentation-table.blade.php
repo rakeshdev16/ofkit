@@ -18,7 +18,7 @@
                 $therapist_ids = $documentation->groupTherapist->pluck('therapist_id')->toArray();
                 $groupChildDetail = getDocGroupChildDetail($documentation->id, $children->id);
             @endphp
-            <tr class="tr-{{ $documentation->id }}">
+            <tr class="tr-{{ $documentation->id }} {{$documentation->status == 'inactive' ? $documentation->status : ''}}">
                 <td><input type="checkbox" name="id[]" value="{{ $documentation->id }}" class="checkbox check-{{ $documentation->id }}" data-class="check-{{ $documentation->id }}"></td>
                 <td>{{ date('d/m/Y', strtotime($documentation->date)) }}</td>
                 <td>

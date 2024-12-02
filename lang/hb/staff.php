@@ -2,7 +2,8 @@
 
 return [
 
-    'staff' => 'סה"כ צוות',
+    'staff' => 'צוות',
+    'totalStaff' => 'סה"כ צוות',
     'manager' => 'מנהל',
     'select' => 'בחר',
     'back' => 'חזור',
