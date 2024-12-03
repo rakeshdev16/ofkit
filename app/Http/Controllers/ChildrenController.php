@@ -829,9 +829,6 @@ class ChildrenController extends Controller
     {
         $children = Children::findOrFail($childId);
         $documents = ChildrenDocumentAndApproval::with('user')->where('children_id', $childId)->filter()->orderBy('id', 'DESC')->paginate(50);
-        // echo "<pre>";
-        // print_r($documents);
-        // die;
         $count = ChildrenDocumentAndApproval::where('children_id', $childId)->filter()->count();
         $fileTypes = FileType::select('id as key', 'name as value')->where('status', 'active')->orderBY('id', 'desc')->get();
 
@@ -862,9 +859,6 @@ class ChildrenController extends Controller
 
     public function saveDocumentsAndApprovals(Request $request)
     {
-        // echo "<pre>";
-        // print_r($request->all());
-        // die;
         if ($request->has('document')) {
             $request['file'] = uploadFile($request->document, 'public/child-document');
         } else {
