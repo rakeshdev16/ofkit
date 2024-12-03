@@ -10,7 +10,7 @@
     <div class="accordion accordion-flush tr-{{ $documentation->id }}" id="accordion{{ $loop->iteration }}">
         <div class="accordion-item">
             <h2 class="accordion-header" id="staff-listing-{{ $loop->iteration }}">
-                <button class="accordion-button accordion-screen collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false" aria-controls="flush-collapse{{ $loop->iteration }}">
+                <button class="accordion-button accordion-screen collapsed {{$documentation->status == 'inactive' ? $documentation->status : ''}}" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $loop->iteration }}" aria-expanded="false" aria-controls="flush-collapse{{ $loop->iteration }}">
                     @php
                         $data = [
                             'id' => $documentation->id,
@@ -18,7 +18,16 @@
                             'show' => route('children-documentation.show', [$documentation->children_id, $documentation->id, Request::segment(2)]),
                         ];
 
-                        if (Auth::user()->hasRole(['admin', 'manager']) || (Auth::user()->hasRole(['therapist']) && \Carbon\Carbon::parse($documentation->created_at)->isToday() && Auth::id() == $documentation->therapist_id)) {
+                        $authKindergartens = Auth::user()->staffKindergartens->pluck('kindergarten_id')->toArray();
+                        if (Auth::user()->hasRole('manager') && $documentation->created_at->diffInHours() < 24 && in_array($documentation->kindergarten_id, $authKindergartens)){
+                            $data['edit'] = route('children-documentation.get', [$documentation->type, Request::segment(2), $documentation->id]);
+                        }
+
+                        if (Auth::user()->hasRole('therapist') && Auth::id() == $documentation->therapist_id && $documentation->created_at->diffInHours() < 24){
+                            $data['edit'] = route('children-documentation.get', [$documentation->type, Request::segment(2), $documentation->id]);
+                        }
+
+                        if (Auth::user()->hasRole('admin')){
                             $data['edit'] = route('children-documentation.get', [$documentation->type, Request::segment(2), $documentation->id]);
                         }
 
@@ -60,9 +69,9 @@
                         <div class="w-50 label">{{ __('children.occurred') }}</div>
                         <div class="w-50">
                             @if ($documentation->type == 'group' && $groupChildDetail)
-                                {{ $groupChildDetail->participated == 1 ? 'Yes' : 'No' }}
+                                {{ $groupChildDetail->participated == 1 ? __('comon.yes') : __('comon.no') }}
                             @else
-                                {{ $documentation->occured == 1 ? 'Yes' : 'No' }}
+                                {{ $documentation->occured == 1 ? __('comon.yes') : __('comon.no') }}
                             @endif
                         </div>
                     </div>
