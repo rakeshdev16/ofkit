@@ -14,7 +14,7 @@
                     ]) --}}
                     <div class="row w-100 align-items-center" style="margin-left: 0px;">
                         <div class="col-2 d-flex justify-content-center">
-                            <input type="checkbox" name="id[]" value="{{ $children->id }}" class="accordionCheckbox checkbox check-{{ $document->id }}" data-name="{{ @$dataName }}">&nbsp;&nbsp;
+                            <input type="checkbox" name="id[]" value="{{ $children->id }}" class="accordionCheckbox checkbox check-{{ $children->id }}" data-name="{{ @$dataName }}">&nbsp;&nbsp;
                             {{-- <input type="checkbox" value="{{ @$id }}" class="accordionCheckbox check-{{ $id }}" data-class="check-{{ $id }}">&nbsp;&nbsp; --}}
                         </div>
                         {{-- <div class="col-8">{{ \Str::limit($children->name, 10, '...') ?? '-' }}</div> --}}
