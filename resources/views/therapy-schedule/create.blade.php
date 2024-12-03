@@ -23,7 +23,8 @@
     <script type="text/javascript" src="{{ asset('assets/js/jquery.validate.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            schedules()
+            var list = {!! json_encode(calenderHeader()) !!};
+            schedules('', list);
         })
 
         $(document).on('click', '.eventType', function() {

@@ -196,10 +196,18 @@ function activityLog($modelName, $modalId, $type)
     ]);
 }
 
-function calenderHeader()
+function calenderHeader($userId = null)
 {
     $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    $staffSchedules = StaffSchedule::with(['user:id,name'])->whereIn('day', $days)->get();
+    $staffSchedules = StaffSchedule::whereIn('day', $days);
+    if (isset($userId)) {
+        // return $userId;
+        // $dd = json_decode($userId);
+        // return $dd;
+        // return count($dd);
+        $staffSchedules->whereIn('user_id', $userId)->with(['user:id,name']);
+    }
+    $staffSchedules = $staffSchedules->get();
     $groupedSchedules = $staffSchedules->groupBy('day');
     return $groupedSchedules->map(function ($records, $day) {
         $members = $records->map(function ($record) use($day) {

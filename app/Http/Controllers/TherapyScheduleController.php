@@ -6,6 +6,7 @@ use App\Models\Children;
 use App\Models\StaffSchedule;
 use App\Models\TherapySchedule;
 use App\Models\User;
+use App\Models\Kindergarten;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -16,7 +17,8 @@ class TherapyScheduleController extends Controller
     {
         $therapists = User::role('therapist')->orderBy('name')->get(['id', 'name']);
         $childrens = Children::orderBy('name')->get(['id', 'name']);
-        return view('therapy-schedule.index', compact('therapists', 'childrens'));
+        $kindergartens = Kindergarten::select('id', 'name')->get();
+        return view('therapy-schedule.index', compact('therapists', 'childrens', 'kindergartens'));
     }
 
     public function create()
@@ -31,7 +33,6 @@ class TherapyScheduleController extends Controller
         if ($request->hasFile('image')) {
             $request['file'] = uploadFile($request->image, 'public/therapy-schedule', $request->extension);
         }
-        $request['therapist_id'] = preg_match('/\d+/', $request->resource, $matches) ? $matches[0] : null;
 
         TherapySchedule::create($request->all());
 

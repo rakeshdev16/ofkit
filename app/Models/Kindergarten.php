@@ -76,4 +76,9 @@ class Kindergarten extends Model
     {
         return $this->hasOne(KindergartenUser::class, 'kindergarten_id', 'id');
     }
+    
+    public function staffKindergartens()
+    {
+        return $this->hasMany(StaffKindergarten::class, 'kindergarten_id', 'id');
+    }
 }
