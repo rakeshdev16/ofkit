@@ -75,8 +75,9 @@
                                                         </div>
                                                     </div>
                                                     <input type="hidden" class="document oldDocument" name="old_document" value="{{ $document->document }}">
+                                                @else
+                                                    <input type="hidden" class="document oldDocument" name="old_document" value="{{ $document->document }}">
                                                 @endif
-                                                <input type="hidden" class="document oldDocument" name="old_document" value="{{ $document->document }}">
                                             </div>
                                             <div class="col-md-12 pt-3">
                                                 <label for="file_type_id" class="form-label">{{ __('children.fileType') }}</label>

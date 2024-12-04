@@ -894,7 +894,7 @@ class ChildrenController extends Controller
             if ($request->has('document')) {
                 $document = uploadFile($request->document, 'public/child-document');
             } else {
-                $document = explode('storage/', $request->old_document)[0];
+                $document = explode('storage/', $request->old_document)[1] ?? $request->old_document;
             }
 
             ChildrenDocumentAndApproval::updateOrCreate(['id' => $request->id], [

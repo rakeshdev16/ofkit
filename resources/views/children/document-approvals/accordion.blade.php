@@ -3,7 +3,7 @@
 </div>
 @forelse ($documents as $document)
     @php
-        $fileName = explode('child-document/', $document->document)[1];
+        $fileName = explode('child-document/', $document->document)[1] ?? $document->document;
     @endphp
     <div class="accordion accordion-flush tr-{{ $document->id }}" id="accordion{{ $loop->iteration }}">
         <div class="accordion-item">

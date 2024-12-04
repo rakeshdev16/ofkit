@@ -12,7 +12,7 @@
     <tbody>
         @forelse ($documents as $document)
             @php
-                $fileName = explode('child-document/', $document->document)[1];
+                $fileName = explode('child-document/', $document->document)[1] ?? $document->document;
             @endphp
             <tr class="tr-{{ $document->id }} {{$document->status == 'inactive' ? $document->status : ''}}">
                 <td><input type="checkbox" name="id[]" value="{{ $document->id }}" class="checkbox check-{{ $document->id }}" data-class="check-{{ $document->id }}"></td>
