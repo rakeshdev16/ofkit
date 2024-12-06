@@ -20,23 +20,27 @@
 @endsection
 @push('customScript')
     <script type="text/javascript">
+        var events = {!! json_encode(calenderEvents()) !!};
+        var list = {!! json_encode(calenderHeader()) !!};
         $(document).ready(function () {
-            var events = {!! json_encode(calenderEvents()) !!};
-            var list = {!! json_encode(calenderHeader()) !!};
             schedules(events, list);
         })
         
         $(document).on('change', '#kindergartenFilter', function() {
             var ids = $(this).val();
-            $.ajax({
-                type : 'GET',
-                url : "{{ route('therapy-schedule.index') }}",
-                data : { user_id: ids },
-                dataType: 'json',
-                success : function(data){
-                    schedules(data.calenderEvents, data.calenderHeader);
-                }
-            });
+            if (ids) {
+                $.ajax({
+                    type : 'GET',
+                    url : "{{ route('therapy-schedule.index') }}",
+                    data : { user_id: ids },
+                    dataType: 'json',
+                    success : function(data){
+                        schedules(data.calenderEvents, data.calenderHeader);
+                    }
+                });
+            } else {
+                schedules(events, list);
+            }
         });
 
     </script>

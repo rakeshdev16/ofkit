@@ -3,7 +3,7 @@
         @case('therapy-schedule.index')
             <div class="filters d-flex flex-wrap  gap-3">
                 <select id="kindergartenFilter" class="form-select rounded-pill px-5 w-auto">
-                    <option value="20">Select Kindergarten</option>
+                    <option value="">Select Kindergarten</option>
                     @foreach ($kindergartens as $kindergarten)
                         <option value="{{ $kindergarten->staffKindergartens->pluck('user_id') }}">{{ $kindergarten->name }}</option>
                     @endforeach
