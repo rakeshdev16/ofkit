@@ -21,10 +21,45 @@
         dp.allDayEventHeight = 100;
         dp.viewType = "Resources";
         dp.headerLevels = 2;
-        dp.columns.list = list;
         dp.columnWidthSpec = "Fixed";
         dp.columnMinWidth = 20;
         dp.events.list = events;
+        dp.dayBeginsHour = 8;
+        dp.timeHeaderCellDuration = 15;
+        dp.cellDuration = 15;
+        dp.hourWidth = 100;
+        dp.cellHeight = 50;
+        dp.headerHeightAutoFit = true;
+        console.log(list);
+        console.log(events);
+
+        dp.columns.list = list;
+        dp.onBeforeCellRender = function (args) {
+            // Find the column for the current cell
+            const resourceColumn = dp.columns.list.find(col => col.name === args.resource);
+
+            if (!resourceColumn || !resourceColumn.children) {
+                return; // Skip if no children are found for the resource
+            }
+
+            // Check each child under the current column
+            resourceColumn.children.forEach(resource => {
+                if (resource.workingHours && resource.id === args.resource) {
+                    const startTime = DayPilot.Date.today()
+                        .addHours(parseInt(resource.workingHours.start.split(":")[0]))
+                        .addMinutes(parseInt(resource.workingHours.start.split(":")[1]));
+                    const endTime = DayPilot.Date.today()
+                        .addHours(parseInt(resource.workingHours.end.split(":")[0]))
+                        .addMinutes(parseInt(resource.workingHours.end.split(":")[1]));
+
+                    // Check if the current cell falls within the working hours
+                    if (args.start >= startTime && args.start < endTime) {
+                        args.cell.backColor = "#f0f0f0"; // Highlight cell in light gray
+                    }
+                }
+            });
+        };
+
 
         dp.onTimeRangeSelected = function(args) {
             if (type == 'view') {
@@ -58,18 +93,13 @@
             }
         };
 
-        dp.dayBeginsHour = 8;
-        dp.timeHeaderCellDuration = 15;
-        dp.cellDuration = 15;
-        dp.hourWidth = 100;
-        dp.cellHeight = 50;
-
         dp.onBeforeTimeHeaderRender = function(args) {
             var hour = DayPilot.Date.today().addTime(args.header.time);
             args.header.html = hour.toString("h:mm");
         };
 
         dp.onBeforeEventRender = function(args) {
+            
             const colors = [
                 "background-color: #ff0000;",
                 "background-color: #00ff00;",
@@ -85,7 +115,7 @@
             const assignedColor = colors[colorIndex];
             
             args.data.html = `<div class="p-3 event-box" style="${assignedColor}">
-                    <p class="text-start fw-bold text-end mb-0"> ${args.data.text} <i class="fa fa-user" aria-hidden="true"></i></p>
+                    <p class="text-start fw-bold text-end mb-0"> ${args.data.therapistName} <i class="fa fa-user" aria-hidden="true"></i></p>
                     <div class="d-flex">
                     <span>${args.data.start.toString("HH:mm")}</span>
                 </div>
@@ -93,30 +123,27 @@
             args.data.bubbleHtml = `<div class="p-3 calendar-event-overlay">
                 <ul>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
-                        ${args.data.text} <i class="fa fa-user"></i>
+                        ${args.data.therapistName} <i class="fa fa-user"></i>
                     </li>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
-                        ${args.data.start.toString("HH:mm")} <i class="fa fa-calendar"></i>
+                        ${args.data.start.toString("HH:mm")} - ${args.data.end.toString("HH:mm")} <i class="fa fa-calendar"></i>
                     </li>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
-                    1 Week, 16-08-2024  <i class="fa fa-clock-o"></i>
+                        ${args.data.frequencyRepeat}, ${args.data.frequencyRepeatAt}  <i class="fa fa-clock-o"></i>
                     </li>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
-                        John Bride <i class="fa fa-briefcase"></i>
+                        ${args.data.therapistName} <i class="fa fa-briefcase"></i>
                     </li>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
 
                     <div class="text-end">
-                    <p class="mb-2">Marina</p>
-                    <p class="mt-2">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. </p>
+                    <p class="mt-2">${args.data.description}</p>
                     </div>
                         <i class="fa fa-user"></i>
                     </li>
                 </ul>
             </div>`;
         };
-
-        dp.headerHeightAutoFit = true;
 
         dp.init();
     }

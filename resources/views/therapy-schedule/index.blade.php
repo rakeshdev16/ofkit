@@ -8,11 +8,6 @@
 
 <div class="container-fluid" style="margin-top: 130px;">
     <h3>Create New Schedule</h3>
-{{-- @php
-    echo '<pre>';
-        print_r(calenderHeader("[29,34,21]"));
-    echo '</pre>';
-@endphp --}}
     @include('components.schedule-header', ['kindergartens' => $kindergartens])
 
     <div class="mb-5" id="calender-view">
@@ -28,30 +23,22 @@
         $(document).ready(function () {
             var events = {!! json_encode(calenderEvents()) !!};
             var list = {!! json_encode(calenderHeader()) !!};
-            schedules(events, list)
+            schedules(events, list);
         })
         
         $(document).on('change', '#kindergartenFilter', function() {
             var ids = $(this).val();
-            var url = `{{ route('test') }}?ids=${encodeURIComponent(ids)}`;
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }).then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+            $.ajax({
+                type : 'GET',
+                url : "{{ route('therapy-schedule.index') }}",
+                data : { user_id: ids },
+                dataType: 'json',
+                success : function(data){
+                    schedules(data.calenderEvents, data.calenderHeader);
                 }
-                return response.json();
-            }).then(list => {
-                var events = {!! json_encode(calenderEvents()) !!};
-                schedules(events, list);
-            }).catch(error => {
-                console.error('Error:', error);
             });
-            
         });
+
     </script>
     @include('components.calendar-js', ['type' => 'view']);
 @endpush

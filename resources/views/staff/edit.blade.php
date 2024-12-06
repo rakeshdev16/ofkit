@@ -32,7 +32,7 @@
                             <div class="card">
                                 <div class="card-body p-4">
                                     <h5 class="mb-4">{{ __('staff.editStaffDetail') }}</h5>
-                                    <form class="row g-3" action="{{ route('staff.update', $staff->id) }}" method="POST" enctype="multipart/form-data">
+                                    <form class="row g-3" id="addStaffForm" action="{{ route('staff.update', $staff->id) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
                                         @include('components.upload-profile', [
@@ -243,7 +243,64 @@
                                                 @php
                                                     $days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
                                                 @endphp
-                                                <div class="table-responsive" style="display: block !important;">
+                                                <div class="bg-white p-2">
+                                                    <div class="row">
+                                                        <div class="col-md-2"><h5>Day</h5></div>
+                                                        <div class="col-md-10"><h5>Kindergarten</h5></div>
+                                                    </div>
+                                                    @foreach ($days as $day)
+                                                        @php
+                                                            $index = $loop->index;
+                                                            $startTime = 'schedule.' . $index . '.start_time';
+                                                            $endTime = 'schedule.' . $index . '.end_time';
+                                                            $schedule = $staff->days()->where('day', $day)->get();
+                                                        @endphp
+                                                        <div class="row my-2">
+                                                            <div class="col-md-2"><h6 class="pt-2">{{ __('staff.' . $day) }}</h6></div>
+                                                            <div class="col-md-10"> 
+                                                                @include('components.multi-select-input', [
+                                                                    'name' => "weekly[$day][]",
+                                                                    'class' => 'scheduleKindergarten',
+                                                                    'icon' => 'buildings',
+                                                                    'options' => $scheduledkindergartens,
+                                                                    'value' => count($schedule) > 0 ? @$schedule->pluck('kindergarten_id')->toArray() : [],
+                                                                    'dataName' => $day
+                                                                ])
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-12 my-2 {{ $day }}-section" style="display: {{ count($schedule->pluck('kindergarten_id')->toArray()) > 0 ? 'block' : 'none' }}">
+                                                                    <div class="time-table">
+                                                                        <div class="table-responsive" style="display: block !important;">
+                                                                            <table class="table table-borderd" style="width:100%;">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th>{{ __('staff.name') }}</th>
+                                                                                        <th>{{ __('staff.start') }}</th>
+                                                                                        <th>{{ __('staff.end') }}</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody class="{{ $day }}-body">
+                                                                                    @if ($schedule)
+                                                                                        @foreach ($schedule as $data)
+                                                                                            @include('components.staff-schedule', [
+                                                                                                'id' => $data['kindergarten_id'],
+                                                                                                'day' => $day,
+                                                                                                'index' => $loop->index,
+                                                                                                'name' => getKindergartenNameById($data['kindergarten_id']),
+                                                                                                'data' => $data
+                                                                                            ])
+                                                                                        @endforeach
+                                                                                    @endif
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                                {{-- <div class="table-responsive" style="display: block !important;">
                                                     <table class="table table-borderd" style="width:100%;">
                                                         <tr>
                                                             <th>{{ __('staff.day') }}</th>
@@ -281,7 +338,7 @@
                                                             </tr>
                                                         @endforeach
                                                     </table>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
                                         @include('components.active-inactive-toggle', ['statusCheck' => @$staff, 'dataName' => $staff->is_assign ? $staff->first_name . ' has assigned to kindergarten or cluster' : '' ])
@@ -290,7 +347,7 @@
                                             <div class="d-md-flex d-grid align-items-center gap-3">
                                                 <input type="hidden" name="deleted_document_ids" id="deletedDocumentIds">
                                                 <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">
-                                                <button type="submit" class="btn button submitBtn px-4">{{ __('staff.updateBtnText') }}</button>
+                                                <button type="submit" class="btn button px-4">{{ __('staff.updateBtnText') }}</button>
                                             </div>
                                         </div>
                                     </form>
@@ -306,6 +363,7 @@
     @push('customScript')
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('assets/js/jquery.validate.js') }}"></script>
         <script src="{{ asset('assets/js/cropper.min.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('assets/css/cropper.min.css') }}" />
         @include('components.cropper-script')
@@ -322,8 +380,6 @@
                 if ($('.choosenDocument > .row').length == 0) {
                     $('.document-section').hide();
                 }
-                console.log(ids);
-
                 // Swal.fire({
                 //     title: "Are you sure?",
                 //     text: "You won't be able to revert this!",

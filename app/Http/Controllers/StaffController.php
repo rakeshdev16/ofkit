@@ -68,12 +68,36 @@ class StaffController extends Controller
         return view('staff.create', compact('kindergartens', 'managers', 'roles', 'professions', 'associations', 'memberRoles'));
     }
 
+    public function validateField(Request $request)
+    {
+        if ($request->field == 'identification') {
+            $identificationExists = User::where('identification', $request->value);
+            if (isset($request->id)) {
+                $identificationExists->where('id', '!=', $request->id);
+            }
+            $identificationExists = $identificationExists->exists();
+            return response()->json(!$identificationExists);
+        }
+
+        if ($request->field == 'email') {
+            $emailExists = User::where('email', $request->value);
+            if (isset($request->id)) {
+                $emailExists->where('id', '!=', $request->id);
+            }
+            $emailExists = $emailExists->exists();
+            return response()->json(!$emailExists);
+        }
+
+        return response()->json(['message' => 'Invalid field'], 422);
+    }
+
+
+
     public function store(Request $request)
     {
         $rules = [
             'first_name' => 'required',
             'identification' => 'nullable|digits:9|unique:users',
-            // 'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
             'role' => 'required',
             'kindergarten.*.role_id' => 'required',
             'kindergarten.*.association_id' => 'required',
@@ -101,16 +125,6 @@ class StaffController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messages);
         $validator->after(function ($validator) use ($request) {
-            // if ($request->kindergarten_id && count($request->kindergarten_id) > 0) {
-            //     foreach ($request->kindergarten as $index => $kindergarten) {
-            //         if (empty($kindergarten['role_id'])) {
-            //             $validator->errors()->add("kindergarten.$index.role_id", 'Please choose role');
-            //         }
-            //         if (empty($kindergarten['association_id'])) {
-            //             $validator->errors()->add("kindergarten.$index.association_id", 'Please choose association');
-            //         }
-            //     }
-            // }
             if ($request->schedule && count($request->schedule) > 0) {
                 foreach ($request->schedule as $index => $schedule) {
                     if (!empty($schedule['start_time']) && empty($schedule['end_time'])) {
@@ -143,9 +157,6 @@ class StaffController extends Controller
             }
             $user->assignRole($request->role);
 
-            // if (filter_var(trim($request->email), FILTER_VALIDATE_EMAIL)) {
-            //     $user->notify(new AccountDetailNotification($user, $request['password']));
-            // }
             try {
                 if ($request->role != 'support') {
                     $user->notify(new AccountDetailNotification($user, $request['password']));
@@ -167,7 +178,13 @@ class StaffController extends Controller
             }
 
             if (isset($request->schedule) && count($request->schedule)) {
-                $user->days()->createMany($request->schedule);
+                // $user->days()->createMany($request->schedule);
+                foreach ($request->schedule as $day => $schedule) {
+                    foreach ($schedule as $data) {
+                        $data['day'] = $day;
+                        $user->days()->create($data);
+                    }
+                }
             }
             Session::forget('kindergartenIds');
 
@@ -175,7 +192,6 @@ class StaffController extends Controller
             return redirect()->route('staff.index');
         } catch (\Exception $e) {
             DB::rollback();
-            echo '<pre>'; print_r($e->getMessage()); print_r($e->__toString()); die;
             return redirect()->back();
         }
     }
@@ -200,15 +216,18 @@ class StaffController extends Controller
     public function edit($id)
     {
         $staff = User::findOrFail($id);
+        $staffKindergartenIds = $staff->staffKindergartens->pluck('kindergarten_id')->toArray();
         $kindergartenIds = KindergartenUser::where('user_id', $id)->pluck('kindergarten_id')->toArray();
-        $staffKindergartens = array_merge($kindergartenIds, $staff->staffKindergartens->pluck('kindergarten_id')->toArray());
+        $staffKindergartens = array_merge($kindergartenIds, $staffKindergartenIds);
         $managers = User::select('id as key', 'name as value')->role('manager')->where('status', 'active')->get()->toArray();
         $kindergartens = Kindergarten::select('id as key', 'name as value')->orderBy('name')->where('status', 'active')->get()->toArray();
+        $scheduledkindergartens = Kindergarten::whereIn('id', $staffKindergartenIds)->select('id as key', 'name as value')->orderBy('name')->where('status', 'active')->get()->toArray();
+        $staffKindergartens = array_unique($staffKindergartens);
         $roles = Role::select('name as key', 'name as value')->where('name', '!=', 'admin')->get()->toArray();
         $memberRoles = MemberRole::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
         $professions = Profession::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
         $associations = Association::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
-        return view('staff.edit', compact('staff', 'kindergartens', 'managers', 'roles', 'memberRoles', 'professions', 'associations', 'staffKindergartens'));
+        return view('staff.edit', compact('staff', 'kindergartens', 'managers', 'roles', 'memberRoles', 'professions', 'associations', 'staffKindergartens', 'scheduledkindergartens'));
     }
 
     public function update(Request $request, $id)
@@ -303,9 +322,15 @@ class StaffController extends Controller
                     ]);
                 }
             }
+            $user->days()->delete();
             if (isset($request->schedule) && count($request->schedule)) {
-                foreach ($request->schedule as $schedule) {
-                    $user->days()->updateOrCreate(['id' => $schedule['id']], $schedule);
+                foreach ($request->schedule as $day => $schedule) {
+                    // $user->days()->updateOrCreate(['id' => $schedule['id']], $schedule);
+
+                    foreach ($schedule as $data) {
+                        $data['day'] = $day;
+                        $user->days()->updateOrCreate(['id' => $data['id']], $data);
+                    }
                 }
             }
             Session::forget('kindergartenIds');
@@ -314,9 +339,6 @@ class StaffController extends Controller
             return redirect()->route('staff.show', ['staff' => $id, 'kindergarten_id' => $request->query_string]);
         } catch (\Exception $e) {
             DB::rollback();
-             echo '<pre>';
-            print_r($e);
-            die;
             return redirect()->back();
         }
     }
@@ -358,25 +380,6 @@ class StaffController extends Controller
             'data' => getStaffKindergarten($request->user_id, $request->id),
         ])->render();
         return response()->json(['status' => true, 'data' => $row]);
-
-        // if (isset($request->ids) && count($request->ids) > 0) {
-        //     foreach ($request->ids as $id) {
-        //         $staffKindergarten = StaffKindergarten::where(['user_id' => $request->user_id, 'kindergarten_id' => $id])->first();
-        //         $row = view('components.kindergarten-tr', [
-        //             'id' => $id,
-        //             'index' => $index,
-        //             'associations' => $associations,
-        //             'memberRoles' => $memberRoles,
-        //             'data' => $staffKindergarten,
-        //         ])->render();
-        //         $rows[] = $row;
-        //         $index++;
-        //     }
-        //     return response()->json(['status' => true, 'data' => $rows]);
-        // } else {
-        //     Session::forget('kindergartenIds');
-        //     return response()->json(['status' => false, 'data' => '']);
-        // }
     }
 
 
@@ -392,5 +395,11 @@ class StaffController extends Controller
     {
         StaffKindergarten::where(['user_id' => $request->user_id, 'kindergarten_id' => $request->id])->delete();
         return response()->json(['status' => true]);
+    }
+
+    public function scheduleTimeRow(Request $request)
+    {
+        $row = view('components.staff-schedule', ['id' => $request->id, 'index' => $request->index])->render();
+        return response()->json(['status' => true, 'data' => $row]);
     }
 }

@@ -151,6 +151,28 @@
                                                         <thead>
                                                             <tr>
                                                                 <th>{{ __('staff.day') }}</th>
+                                                                <th>{{ __('staff.kindergartenTh') }}</th>
+                                                                <th>{{ __('staff.start') }}</th>
+                                                                <th>{{ __('staff.end') }}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($staff->days()->get()->toArray() as $data)
+                                                                <tr>
+                                                                    <td><h6 class="pt-2">{{ __('staff.' . $data['day']) }}</h6></td>
+                                                                    <td><div>{{ @getKindergartenNameById($data['kindergarten_id']) ?? '-' }}</div></td>
+                                                                    <td><div><input type="time" class="form-control" value="{{ @$data['start_time'] }}" disabled></div></td>
+                                                                    <td><div><input type="time" class="form-control" value="{{ @$data['end_time'] }}" disabled></div></td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                {{-- <div class="table-responsive" style="display: block !important;">
+                                                    <table class="table table-borderd" style="width:100%;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>{{ __('staff.day') }}</th>
                                                                 <th>{{ __('staff.start') }}</th>
                                                                 <th>{{ __('staff.end') }}</th>
                                                             </tr>
@@ -174,7 +196,7 @@
                                                             @endforeach
                                                         </tbody>
                                                     </table>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
                                         @if (isset($staff->documents) && count($staff->documents) > 0)
@@ -220,4 +242,11 @@
         </div>
     @endsection
     @push('customScript')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/jquery.validate.js') }}"></script>
+    <script src="{{ asset('assets/js/cropper.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('assets/css/cropper.min.css') }}" />
+    @include('components.cropper-script')
+    @include('staff.script')
     @endpush

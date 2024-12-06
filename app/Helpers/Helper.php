@@ -196,31 +196,29 @@ function activityLog($modelName, $modalId, $type)
     ]);
 }
 
-function calenderHeader($userId = null)
+function calenderHeader()
 {
     $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    $staffSchedules = StaffSchedule::whereIn('day', $days);
-    if (isset($userId)) {
-        // return $userId;
-        // $dd = json_decode($userId);
-        // return $dd;
-        // return count($dd);
-        $staffSchedules->whereIn('user_id', $userId)->with(['user:id,name']);
-    }
-    $staffSchedules = $staffSchedules->get();
-    $groupedSchedules = $staffSchedules->groupBy('day');
-    return $groupedSchedules->map(function ($records, $day) {
-        $members = $records->map(function ($record) use($day) {
-            return [
-                'name' => $record->user->name,
-                'id' => $record->user->id.''.$day
-            ];
-        });
-        return [
+    $data = [];
+    foreach ($days as $day) {
+        $schedules = StaffSchedule::filter()->with('user')->where('day', $day)->get()
+            ->map(function ($schedule) use ($day) {
+                return [
+                    'id' => $schedule->user->id.''.strtolower($day),
+                    'name' => $schedule->user->name ?? 'N/A',
+                    'workingHours' => [
+                        'start' => date('H:i', strtotime($schedule->start_time)),
+                        'end' => date('H:i', strtotime($schedule->end_time))
+                    ]
+                ];
+            })->unique('id')->values()->toArray();
+
+        $data[] = [
             'name' => $day,
-            'children' => $members
+            'children' => $schedules,
         ];
-    })->values()->toArray();
+    }
+    return $data;
 }
 
 function calenderEvents()
@@ -230,10 +228,18 @@ function calenderEvents()
         $scheduleTime = Carbon::parse($schedule->schedule_time);
         return [
             'id' => $schedule->id,
-            'text' => $schedule->description,
+            'description' => $schedule->description,
             'start' => Carbon::parse($schedule->start_date)->format('Y-m-d H:i:s'),
             'end' => Carbon::parse($schedule->end_date)->format('Y-m-d H:i:s'),
             'resource' => $schedule->therapist_id . strtolower(date('l', strtotime($schedule->schedule_time))),
+            'therapistName' => getUserNameById($schedule->therapist_id),
+            'type' => $schedule->type,
+            'groupName' => $schedule->group_name,
+            'frequencyRepeat' => $schedule->frequency_repeat,
+            'frequencyRepeatAt' => $schedule->start,
+            'description' => $schedule->description,
+            'file' => $schedule->file,
+            'workingTime' => true
         ];
     });
     return $events;

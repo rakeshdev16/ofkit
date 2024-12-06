@@ -1,6 +1,99 @@
 <script>
     $(document).ready(function() {
         $('.kindergarten').select2();
+        $('.scheduleKindergarten').select2();
+
+        var selectedKindergartenOptions = $('.kindergarten').select2('data');
+        selectedKindergartenOptions.forEach(function(option, index) {
+            var id = option.id;
+            var name = option.text;
+            weeklyKindergartenOptions(id, name);
+        });
+
+        $("#addStaffForm").validate({
+            rules: {
+                first_name: {
+                    required: true
+                },
+                identification: {
+                    digits: true,
+                    minlength: 9,
+                    maxlength: 9,
+                    remote: {
+                        url: "{{ route('validate.staff.field') }}",
+                        type: "post",
+                        data: {
+                            _token: $('meta[name="csrf-token"]').attr('content'),
+                            id: "{{ @$staff->id }}",
+                            field: 'identification',
+                            value: function () {
+                                return $("input[name='identification']").val();
+                            }
+                        }
+                    }
+                },
+                email: {
+                    required: function () {
+                        return $("#role").val() !== "support";
+                    },
+                    email: true,
+                    remote: {
+                        url: "{{ route('validate.staff.field') }}",
+                        type: "post",
+                        data: {
+                            _token: $('meta[name="csrf-token"]').attr('content'),
+                            id: "{{ @$staff->id }}",
+                            field: 'email',
+                            value: function () {
+                                return $("input[name='email']").val();
+                            }
+                        }
+                    }
+                },
+                telephone: {
+                    required: function () {
+                        return $("#role").val() !== "support";
+                    },
+                    // pattern: new RegExp("^[0-9-]{8,14}$")
+                },
+                role: {
+                    required: true
+                },
+            },
+            messages: {
+                first_name: {
+                    required: "{{ __('staff.requiredName') }}"
+                },
+                identification: {
+                    digits: "{{ __('staff.nullableIdentification') }}",
+                    minlength: "{{ __('staff.nullableIdentification') }}",
+                    maxlength: "{{ __('staff.nullableIdentification') }}",
+                    remote: "This identification has already been taken",
+                },
+                email: {
+                    required: "{{ __('staff.requiredEmail') }}",
+                    email: "{{ __('staff.validEmail') }}",
+                    remote: "{{ __('staff.existsEmail') }}",
+                },
+                telephone: {
+                    required: "{{ __('staff.requiredTelephone') }}"
+                },
+                role: {
+                    required: "{{ __('staff.requiredRole') }}"
+                },
+            },
+            errorPlacement: function (error, element) {
+                var name = element.attr("name");
+                if (name == 'first_name' || name == 'identification' || name == 'email' || name == 'telephone' || name == 'role') {
+                    $('#'+name).html(error);
+                } else {
+                    error.insertAfter($(element));
+                }
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
 
         var allFiles = [];
 
@@ -60,20 +153,33 @@
 
     $('.kindergarten').on('select2:select', function(e) {
         var id = e.params.data.id;
+        var name = e.params.data.text;
         var user_id = $('#userId').val();
         var index = $('.selected-kindergarten tr').length;
         getKindergaternRow(id, user_id, index);
+        weeklyKindergartenOptions(id, name);
+        setTimeout(() => {
+            kindergartenValidationRules(index);
+        }, 100);
     });
 
     $('.kindergarten').on('select2:unselect', function(e) {
         var id = e.params.data.id;
         $('.tr-' + id).remove();
+        $('.scheduleKindergarten option[value="' + id + '"]').remove();
         updateIndexes();
         var length = $('.selected-kindergarten tr').length;
         if (length == 0) {
             $('.kindergarten-section').hide();
         }
     });
+
+    function weeklyKindergartenOptions(id, name) {
+        var $scheduleSelect = $('.scheduleKindergarten');
+        if (!$scheduleSelect.find(`option[value="${id}"]`).length) {
+            $scheduleSelect.append(`<option value="${id}">${name}</option>`);
+        }
+    }
 
     function getKindergaternRow(id, user_id, index) {
         $.ajax({
@@ -112,26 +218,71 @@
         });
     }
 
-    // $(document).on('change', '.kindergarten', function() {
-    //     var ids = $(this).val();
-    //     console.log(ids);
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: "{{ route('selected.kindergarten') }}",
-    //         data: { ids: ids },
-    //         success: function(data) {
-    //             if (data.status == true) {
-    //                 data.data.forEach(function(row, index) {
-    //                     if ($('.tr-' + ids[index]).length == 0) {
-    //                         $('.selected-kindergarten').append(row);
-    //                     }
-    //                 });
-    //                 $('.kindergarten-section').show();
-    //             } else {
-    //                 $('.selected-kindergarten').html('');
-    //                 $('.kindergarten-section').hide();
-    //             }
-    //         }
-    //     });
-    // });
+    // Weekly schedule script
+
+    $('.scheduleKindergarten').on('select2:select', function(e) {
+        var day = $(this).data('name');
+        var section = $('.'+day+'-section');
+        var body = $('.'+day+'-body');
+        var id = e.params.data.id;
+        var name = e.params.data.text;
+        var index = $('.'+day).length;
+        body.append(`@include('components.staff-schedule', [
+            'id' => '${id}',
+            'day' => '${day}',
+            'index' => '${index}',
+            'name' => '${name}',
+            'data' => ['start_time' => '', 'end_time' => '']
+        ])`);
+        section.show();
+        scheduleValidationRules(day, index);
+    });
+
+    $('.scheduleKindergarten').on('select2:unselect', function(e) {
+        var id = e.params.data.id;
+        var day = $(this).data('name');
+        $('.'+day+'-tr-' + id).remove();
+        if ($('.'+day).length == 0) {
+            $('.'+day+'-section').hide();
+        }
+    });
+
+    function kindergartenValidationRules(index) {
+        var professionalRole = `kindergarten[${index}][role_id]`;
+        var association = `kindergarten[${index}][association_id]`;
+        console.log(professionalRole);
+        console.log(association);
+        $(`[name="${professionalRole}"]`).rules("add", {
+            required: true,
+            messages: {
+                required: "{{ __('staff.requiredRoleId') }}"
+            }
+        });
+
+        $(`[name="${association}"]`).rules("add", {
+            required: true,
+            messages: {
+                required: "{{ __('staff.requiredAssociation') }}"
+            }
+        });
+    }
+
+    function scheduleValidationRules(day, index) {
+        var startTimeField = `schedule[${day}][${index}][start_time]`;
+        var endTimeField = `schedule[${day}][${index}][end_time]`;
+
+        $(`[name="${startTimeField}"]`).rules("add", {
+            required: true,
+            messages: {
+                required: "Please enter a start time."
+            }
+        });
+
+        $(`[name="${endTimeField}"]`).rules("add", {
+            required: true,
+            messages: {
+                required: "Please enter an end time."
+            }
+        });
+    }
 </script>

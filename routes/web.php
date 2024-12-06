@@ -102,6 +102,8 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
         Route::post('delete-document', 'deleteDocument')->name('document.delete');
         Route::post('delete-staff-kindergarten', 'deleteStaffKindergarten')->name('deleteStaffKindergarten');
         Route::get('send-message', 'sendMessage')->name('sendMessage');
+        Route::get('schedule-time-row', 'scheduleTimeRow')->name('scheduleTimeRow');
+        Route::post('validate-staff-field', 'validateField')->name('validate.staff.field');
     });
     Route::controller(ChildrenController::class)->group(function () {
         Route::post('upload-children-profile', 'uploadProfile')->name('uploadChildrenProfile');

@@ -69,9 +69,9 @@ class Children extends Model
         //     $query->where('status', 'active');
         // }
         if (request('status') == 'inactive') {
-            $query->whereIn('status', ['active', 'inactive']);
+            $query->whereIn('childrens.status', ['active', 'inactive']);
         }else{
-            $query->where('status', 'active');
+            $query->where('childrens.status', 'active');
         }
 
         if (request('search')) {

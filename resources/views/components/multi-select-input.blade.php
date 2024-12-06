@@ -8,6 +8,7 @@
         multiple
         {{ @$disabled }}
         {{ @$required }}
+        data-name="{{ @$dataName }}"
     >
     @if (isset($options))
         @foreach ($options as $option)

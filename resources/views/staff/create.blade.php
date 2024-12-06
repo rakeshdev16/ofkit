@@ -47,6 +47,7 @@
                                                 'name' => 'first_name',
                                                 'icon' => 'user',
                                             ])
+                                            <span id="first_name"></span>
                                         </div>
                                         <div class="col-md-6">
                                             @include('components.text-input', [
@@ -60,6 +61,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             @include('components.text-input', ['label' => __('staff.emailTh'), 'name' => 'email', 'icon' => 'envelope'])
+                                            <span id="email"></span>
                                         </div>
                                         <div class="col-md-6">
                                             @include('components.text-input', [
@@ -67,6 +69,7 @@
                                                 'name' => 'identification',
                                                 'icon' => 'search-alt',
                                             ])
+                                            <span id="identification"></span>
                                         </div>
                                         <div class="col-md-6">
                                             @include('components.text-input', [
@@ -75,6 +78,7 @@
                                                 'class' => 'numbers',
                                                 'icon' => 'phone',
                                             ])
+                                            <span id="telephone"></span>
                                         </div>
                                         <div class="col-md-6">
                                             @include('components.text-input', [
@@ -106,6 +110,7 @@
                                                 'icon' => 'user-check',
                                                 'options' => $roles,
                                             ])
+                                            <span id="role"></span>
                                         </div>
                                         <div class="col-md-12">
                                             @include('components.file-input', [
@@ -175,12 +180,67 @@
                                                 @php
                                                     $days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
                                                 @endphp
-                                                <div class="table-responsive" style="display: block !important;">
-                                                    <table class="table table-borderd" style="width:100%;">
+
+                                                <div class="bg-white p-2">
+                                                    <div class="row">
+                                                        <div class="col-md-2"><h5>Day</h5></div>
+                                                        <div class="col-md-10"><h5>Kindergarten</h5></div>
+                                                    </div>
+                                                    @foreach ($days as $day)
+                                                        @php
+                                                            $index = $loop->index;
+                                                            $startTime = 'schedule.' . $index . '.start_time';
+                                                            $endTime = 'schedule.' . $index . '.end_time';
+                                                        @endphp
+                                                        <div class="row my-2">
+                                                            <div class="col-md-2"><h6 class="pt-2">{{ __('staff.' . $day) }}</h6></div>
+                                                            <div class="col-md-10">
+                                                                @include('components.multi-select-input', [
+                                                                    'name' => "weekly[$day][]",
+                                                                    'class' => 'scheduleKindergarten',
+                                                                    'icon' => 'buildings',
+                                                                    'value' => old('weekly.'.$day),
+                                                                    'dataName' => $day
+                                                                ])
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-12 my-2 {{ $day }}-section" style="display: none">
+                                                                    <div class="time-table">
+                                                                        <div class="table-responsive" style="display: block !important;">
+                                                                            <table class="table table-borderd" style="width:100%;">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th>{{ __('staff.name') }}</th>
+                                                                                        <th>{{ __('staff.start') }}</th>
+                                                                                        <th>{{ __('staff.end') }}</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody class="{{ $day }}-body">
+                                                                                    {{-- @if ($kindergartenCount > 0)
+                                                                                        @for ($i = 0; $i < $kindergartenCount; $i++)
+                                                                                            @include('components.staff-schedule', [
+                                                                                                'id' => @old('kindergarten_id', [])[$i],
+                                                                                                'index' => $i,
+                                                                                            ])
+                                                                                        @endfor
+                                                                                    @endif --}}
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+
+                                                {{-- <div class="table-responsive" style="display: block !important;">
+                                                    <table class="table table-borderd weekly-schedule" style="width:100%;">
                                                         <tr>
                                                             <th>{{ __('staff.day') }}</th>
                                                             <th>{{ __('staff.start') }}</th>
                                                             <th>{{ __('staff.end') }}</th>
+                                                            <th>Kindergarten</th>
                                                         </tr>
                                                         @foreach ($days as $day)
                                                             @php
@@ -212,13 +272,13 @@
                                                             </tr>
                                                         @endforeach
                                                     </table>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="d-md-flex d-grid align-items-center gap-3">
                                                 <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">
-                                                <button type="submit" class="btn button submitBtn px-4">{{ __('staff.addBtnText') }}</button>
+                                                <button type="submit" class="btn button px-4">{{ __('staff.addBtnText') }}</button>
                                             </div>
                                         </div>
                                     </form>
@@ -238,5 +298,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/cropper.min.css') }}" />
         @include('components.cropper-script')
         @include('staff.script')
-        <script></script>
+        <script>
+            
+        </script>
     @endpush

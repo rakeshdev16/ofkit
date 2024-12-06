@@ -9,7 +9,16 @@ class StaffSchedule extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'day', 'start_time', 'end_time'];
+    protected $fillable = ['user_id', 'day', 'start_time', 'end_time', 'kindergarten_id'];
+
+    public function scopeFilter($query)
+    {
+        if (request('user_id')) {
+            $userIds = json_decode(request('user_id'));
+            $query->whereIn('user_id', $userIds);
+        }
+        return $query;
+    }
 
     public function user()
     {

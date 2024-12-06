@@ -18,6 +18,11 @@ class TherapyScheduleController extends Controller
         $therapists = User::role('therapist')->orderBy('name')->get(['id', 'name']);
         $childrens = Children::orderBy('name')->get(['id', 'name']);
         $kindergartens = Kindergarten::select('id', 'name')->get();
+        if ($request->ajax()) {
+            $calenderHeader = calenderHeader();
+            $calenderEvents = calenderEvents();
+            return response()->json(['calenderHeader' => $calenderHeader, 'calenderEvents' => $calenderEvents]);
+        }
         return view('therapy-schedule.index', compact('therapists', 'childrens', 'kindergartens'));
     }
 
