@@ -63,6 +63,7 @@ class TherapyScheduleController extends Controller
                 ->map(function ($schedule) use ($day) {
                     return [
                         'id' => $schedule->user->id.''.strtolower($day),
+                        'user_id' => $schedule->user->id,
                         'name' => $schedule->user->name ?? 'N/A',
                         'workingHours' => [
                             'start' => date('H:i', strtotime($schedule->start_time)),

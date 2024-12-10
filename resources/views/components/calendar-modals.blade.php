@@ -140,9 +140,9 @@
                     <input type="text" name="group_name" id="appointmentGroupName" class="w-100 mb-3 form-control border-1" placeholder="Group Name">
                     <select id="therapist" name="therapist_id" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
                         <option value="">Therapist name</option>
-                        @foreach ($therapists as $therapist)
+                        {{-- @foreach ($therapists as $therapist)
                             <option value="{{ $therapist->id }}">{{ $therapist->name }}</option>
-                        @endforeach
+                        @endforeach --}}
                     </select>
                     <select id="children" name="children_id" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
                         <option value="">Child</option>

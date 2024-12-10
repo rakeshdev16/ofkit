@@ -38,6 +38,20 @@
     }
 
     function calendar(events = '', list) {
+        const dropdown = document.getElementById('therapist');
+        const users = list.flatMap(day =>
+            day.children.map(child => ({
+                user_id: child.user_id,
+                name: child.name
+            }))
+        );
+        users.forEach(user => {
+            const option = document.createElement('option');
+            option.value = user.user_id;
+            option.textContent = user.name;
+            dropdown.appendChild(option);
+        });
+
         var type = "{{ $type }}";
         if (window.dp) {
             window.dp.dispose();
