@@ -201,7 +201,7 @@ function calenderHeader()
     $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     $data = [];
     foreach ($days as $day) {
-        $schedules = StaffSchedule::filter()->with('user')->where('day', $day)->get()
+        $schedules = StaffSchedule::filter('')->with('user')->where('day', $day)->get()
             ->map(function ($schedule) use ($day) {
                 return [
                     'id' => $schedule->user->id.''.strtolower($day),
@@ -223,15 +223,16 @@ function calenderHeader()
 
 function calenderEvents()
 {
-    $schedules = TherapySchedule::orderBy('schedule_time')->get();
+    $schedules = TherapySchedule::filter()->orderBy('start_date')->get();
     $events = $schedules->map(function ($schedule) {
-        $scheduleTime = Carbon::parse($schedule->schedule_time);
+        $scheduleTime = Carbon::parse($schedule->start_date);
         return [
             'id' => $schedule->id,
             'description' => $schedule->description,
             'start' => Carbon::parse($schedule->start_date)->format('Y-m-d H:i:s'),
             'end' => Carbon::parse($schedule->end_date)->format('Y-m-d H:i:s'),
-            'resource' => $schedule->therapist_id . strtolower(date('l', strtotime($schedule->schedule_time))),
+            // 'resource' => $schedule->therapist_id . strtolower(date('l', strtotime($schedule->start_date))),
+            'resource' => $schedule->therapist_id . strtolower($schedule->day),
             'therapistName' => getUserNameById($schedule->therapist_id),
             'type' => $schedule->type,
             'groupName' => $schedule->group_name,

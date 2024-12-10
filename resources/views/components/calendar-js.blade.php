@@ -1,5 +1,43 @@
 <script>
-    function schedules(events = '', list) {
+    $(document).on('change', '.kindergartenFilter', function() {
+        var value = $(this).val();
+        var status = '';
+        if ("{{ Route::currentRouteName() }}" == 'therapy-schedule.index') {
+            status = 'published';
+        } else {
+            status = 'created';
+        }
+        var url = queryParam({
+            'therapist[user_id]': value,
+            'event[status]': status
+        });
+        filterCalendar(url);
+    });
+
+    $(document).on('change', '.calendarFilter', function() {
+        var key = $(this).data('key');
+        var value = $(this).val();
+        var url = queryParam({ [key]: value });
+        filterCalendar(url);
+    });
+
+    function filterCalendar(url) {
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            type: 'GET',
+            url: url,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success : function(data){
+                calendar(data.calenderEvents, data.calenderHeader);
+            }
+        });
+    }
+
+    function calendar(events = '', list) {
         var type = "{{ $type }}";
         if (window.dp) {
             window.dp.dispose();
@@ -30,66 +68,27 @@
         dp.hourWidth = 100;
         dp.cellHeight = 50;
         dp.headerHeightAutoFit = true;
-        console.log(list);
-        console.log(events);
-
         dp.columns.list = list;
-        dp.onBeforeCellRender = function (args) {
-            // Find the column for the current cell
-            const resourceColumn = dp.columns.list.find(col => col.name === args.resource);
-
-            if (!resourceColumn || !resourceColumn.children) {
-                return; // Skip if no children are found for the resource
-            }
-
-            // Check each child under the current column
-            resourceColumn.children.forEach(resource => {
-                if (resource.workingHours && resource.id === args.resource) {
-                    const startTime = DayPilot.Date.today()
-                        .addHours(parseInt(resource.workingHours.start.split(":")[0]))
-                        .addMinutes(parseInt(resource.workingHours.start.split(":")[1]));
-                    const endTime = DayPilot.Date.today()
-                        .addHours(parseInt(resource.workingHours.end.split(":")[0]))
-                        .addMinutes(parseInt(resource.workingHours.end.split(":")[1]));
-
-                    // Check if the current cell falls within the working hours
-                    if (args.start >= startTime && args.start < endTime) {
-                        args.cell.backColor = "#f0f0f0"; // Highlight cell in light gray
-                    }
-                }
-            });
-        };
-
 
         dp.onTimeRangeSelected = function(args) {
             if (type == 'view') {
                 dp.clearSelection();
             } else {
-                const therapistId = args.resource.match(/\d+/)[0];                
+                var therapistId = null;
+                var day = null;
+                const resource = args.resource.match(/^(\d+)([a-zA-Z]+)$/);
+                if (resource) {
+                    therapistId = resource[1];
+                    day = resource[2].charAt(0).toUpperCase() + resource[2].slice(1);
+                }
+                var time = args.start.value.split("T")[1].slice(0, 5);
                 $('#therapist').val(therapistId);
                 $('#resource').val(args.resource);
-                $('#appointmentDate').val(args.start);
+                $('#appointmentDate').val(day+' '+time);
+                $('#appointmentDay').val(day);
                 $('#startDate').val(args.start);
                 $('#endDate').val(args.end);
                 $('#eventTypeModal').modal('toggle');
-                // console.log(args);
-                // console.log(args.start);
-                // console.log(args.end);
-                
-                // var name = prompt("New event name:", "Event");
-                // if (!name) return;
-    
-                // var e = new DayPilot.Event({
-                //     start: args.start,
-                //     end: args.end,
-                //     id: DayPilot.guid(),
-                //     resource: args.resource,
-                //     text: name
-                // });
-    
-                // dp.events.add(e);
-                // dp.clearSelection();
-                // dp.message("Created: " + name);
             }
         };
 
@@ -148,5 +147,19 @@
         dp.init();
     }
 
+    function queryParam(params = {}) {
+        // Create a URL object
+        var currentUrl = new URL("{{ route('therapy-schedule.calendar') }}");
+        var searchParams = currentUrl.searchParams;
 
+        // Iterate over the params object and set each key-value pair
+        for (const [key, value] of Object.entries(params)) {
+            if (key && value) {
+                searchParams.set(key, value);
+            }
+        }
+
+        // Return the updated URL as a string
+        return currentUrl.toString();
+    }
 </script>

@@ -11,10 +11,10 @@ class StaffSchedule extends Model
 
     protected $fillable = ['user_id', 'day', 'start_time', 'end_time', 'kindergarten_id'];
 
-    public function scopeFilter($query)
+    public function scopeFilter($query, $data)
     {
-        if (request('user_id')) {
-            $userIds = json_decode(request('user_id'));
+        if (isset($data['user_id'])) {
+            $userIds = json_decode($data['user_id']);
             $query->whereIn('user_id', $userIds);
         }
         return $query;

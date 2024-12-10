@@ -9,7 +9,7 @@ class TherapySchedule extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'therapist_id', 'type', 'schedule_time', 'frequency_repeat', 'start', 'group_name', 'description', 'file', 'start_date', 'end_date', 'draft_name', 'is_draft'];
+    protected $fillable = [ 'therapist_id', 'type', 'day', 'frequency_repeat', 'start', 'group_name', 'description', 'file', 'start_date', 'end_date', 'draft_name', 'is_draft'];
 
     // public function getFileAttribute()
     // {
@@ -19,6 +19,14 @@ class TherapySchedule extends Model
     public function getChildrenIdsAttribute()
     {
         return isset($this->attributes['children_ids']) ? json_decode($this->attributes['children_ids'], true) : null;
+    }
+
+    public function scopeFilter($query, $data)
+    {
+        if (isset($data['status'])) {
+            $query->where('status', $data['status']);
+        }
+        return $query;
     }
 
 }

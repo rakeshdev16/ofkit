@@ -118,7 +118,8 @@
                         <option value="initial-evaluation">Initial Evaluation</option>
                         <option value="final-evaluation">Final Evaluation</option>
                     </select>
-                    <input type="datetime-local" name="schedule_time" id="appointmentDate" class="w-100 mb-3 form-control border-1">
+                    <input type="datetime-local" name="" id="appointmentDate" class="w-100 mb-3 form-control border-1">
+                    {{-- <input type="text" id="appointmentDate" class="w-100 mb-3 form-control border-1" placeholder="Pick a day and time"> --}}
                     <select id="appointmentFrequency" name="frequency_repeat" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
                         <option value="">Select Frequency (Repeat)</option>
                         <option value="monthly">Monthly</option>
@@ -153,10 +154,10 @@
                     <input type="file" name="image" class="mb-3">
     
                     <input type="hidden" name="resource" id="resource">
+                    <input type="hidden" name="day" id="appointmentDay">
                     <input type="hidden" name="start_date" id="startDate">
                     <input type="hidden" name="end_date" id="endDate">
                     <input type="hidden" name="draft_name" id="draftName">
-                    <input type="hidden" name="is_draft" id="isDraft" value="0">
                     <div class="d-flex gap-3">
                         <button class="button p-2 px-4 rounded-pill border-0" id="createEventModalBtn">Save</button>
                         <button class="button p-2 px-4 rounded-pill border-0">Cancel</button>

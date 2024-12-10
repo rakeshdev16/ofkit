@@ -132,8 +132,10 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
     });
     Route::controller(TherapyScheduleController::class)->group(function (){
         Route::get('therapy-schedule', 'index')->name('therapy-schedule.index');
+        Route::get('therapy-schedule-calendar', 'calendar')->name('therapy-schedule.calendar');
         Route::get('therapy-schedule/create','create')->name('therapy-schedule.create');
         Route::post('therapy-schedule', 'store')->name('therapy-schedule.store');
+        Route::post('therapy-schedule-status', 'update')->name('therapy-schedule.update');
     });
     Route::get('filter-schedule', function(Request $request) {
         $ids = json_decode($request->query('ids'), true);
