@@ -109,54 +109,76 @@
             </div>
             <div class="modal-body">
                 <form action="" id="addEventForm" enctype="multipart/form-data">
-                    <select id="appointmentType" name="type" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
-                        <option value="">Choose Appointment</option>
-                        <option value="individual">Individual</option>
-                        <option value="group">Group</option>
-                        <option value="parental-guidance">Parental Guidance</option>
-                        <option value="staff-meeting">Staff Meeting</option>
-                        <option value="initial-evaluation">Initial Evaluation</option>
-                        <option value="final-evaluation">Final Evaluation</option>
-                    </select>
-                    <input type="datetime-local" name="" id="appointmentDate" class="w-100 mb-3 form-control border-1">
-                    {{-- <input type="text" id="appointmentDate" class="w-100 mb-3 form-control border-1" placeholder="Pick a day and time"> --}}
-                    <select id="appointmentFrequency" name="frequency_repeat" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
-                        <option value="">Select Frequency (Repeat)</option>
-                        <option value="monthly">Monthly</option>
-                        <option value="by_weekly">By Weekly</option>
-                    </select>
-                    <select id="monthlyFrequency" name="start" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select" style="display: none">
-                        <option value="">Select Monthly option</option>
-                        <option value="start_week">Start Week</option>
-                        <option value="after_one_week">After 1 Week</option>
-                        <option value="after_second_week">After 2 Week</option>
-                        <option value="after_third_week">After 3 Week</option>
-                    </select>
-                    <select id="weeklyFrequency" name="start" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select" style="display: none">
-                        <option value="">Select Weekly Option</option>
-                        <option value="one_week_ofset">One Week Ofset</option>
-                        <option value="from_start_week">From Start Week</option>
-                    </select>
-                    <input type="text" name="group_name" id="appointmentGroupName" class="w-100 mb-3 form-control border-1" placeholder="Group Name">
-                    <select id="therapist" name="therapist_id" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
-                        <option value="">Therapist name</option>
-                        {{-- @foreach ($therapists as $therapist)
-                            <option value="{{ $therapist->id }}">{{ $therapist->name }}</option>
-                        @endforeach --}}
-                    </select>
-                    <select id="children" name="children_id" class="btn btn-outline-secondary mb-3 text-start rounded w-100 form-select">
-                        <option value="">Child</option>
-                        @foreach ($childrens as $children)
-                            <option value="{{ $children->id }}">{{ $children->name }}</option>
-                        @endforeach
-                    </select>
-                    <textarea class="form-control mb-3 w-100" placeholder="Add Description" rows="5" id="comment" name="description"></textarea>
-                    <input type="file" name="image" class="mb-3">
-    
+                    <div class="mb-3">
+                        <select id="appointmentType" name="type" class="btn btn-outline-secondary text-start rounded w-100 form-select">
+                            <option value="">Choose Appointment</option>
+                            <option value="individual">Individual</option>
+                            <option value="group">Group</option>
+                            <option value="parental-guidance">Parental Guidance</option>
+                            <option value="staff-meeting">Staff Meeting</option>
+                            <option value="initial-evaluation">Initial Evaluation</option>
+                            <option value="final-evaluation">Final Evaluation</option>
+                        </select>
+                    </div>
+                    <div class="d-flex mb-3">
+                        <div class="w-100">
+                            <select id="day" name="day" class="form-control border-1">
+                                <option value="Sunday">Sunday</option>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                                <option value="Saturday">Saturday</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <select id="appointmentFrequency" name="frequency_repeat" class="form-control">
+                            <option value="Weekly">Weekly</option>
+                            <option value="Bi-weekly">Bi-weekly</option>
+                            <option value="Monthly">Monthly</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <select id="Monthly" name="start" class="form-control" style="display: none">
+                            <option value="Start Week">Start Week</option>
+                            <option value="After 1 Week">After 1 Week</option>
+                            <option value="After 2 Week">After 2 Week</option>
+                            <option value="After 3 Week">After 3 Week</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <select id="Bi-weekly" name="start" class="form-control" style="display: none">
+                            <option value="One Week Ofset">One Week Ofset</option>
+                            <option value="From Start Week">From Start Week</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" name="group_name" id="appointmentGroupName" class="w-100 form-control border-1" placeholder="Group Name">
+                    </div>
+                    <div class="mb-3" id="therapistDropdownDiv">
+                        {{-- <select id="therapist" name="therapist_id" class="multipleTherapist form-control" multiple>
+                            <option value="">Therapist name</option>
+                        </select> --}}
+                    </div>
+                    <div class="mb-3" id="childrenDropdownDiv">
+                        {{-- <select id="children" name="children_id[]" class="form-control">
+                            <option value="">Child</option>
+                        </select> --}}
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control w-100" placeholder="Add Description" rows="5" name="description" id="description"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <input type="file" id="eventFile" name="image" class="form-control">
+                        <input type="hidden" id="eventOldFile" name="old_image" class="form-control">
+                        <div class="event-file" style="display: none"></div>
+                    </div>
+                    <input type="hidden" name="id" id="eventId">
                     <input type="hidden" name="resource" id="resource">
-                    <input type="hidden" name="day" id="appointmentDay">
-                    <input type="hidden" name="start_date" id="startDate">
-                    <input type="hidden" name="end_date" id="endDate">
+                    <input type="hidden" name="start_time" id="startTime">
+                    <input type="hidden" name="end_time" id="endTime">
                     <input type="hidden" name="draft_name" id="draftName">
                     <div class="d-flex gap-3">
                         <button class="button p-2 px-4 rounded-pill border-0" id="createEventModalBtn">Save</button>
@@ -176,12 +198,20 @@
                 <h4 class="modal-title test">When do you want to start?</h4>
             </div>
             <div class="modal-body">
-                <input type="datetime-local" name="start_date" id="appointmentDate" placeholder="Start Date" class="w-100 mb-3 form-control border-1">
-                <input type="datetime-local" name="end_date" id="appointmentDate" placeholder="End Date" class="w-100 mb-3 form-control border-1">
-                <div class="d-flex gap-3">
-                    <button class="button p-2 px-4 rounded-pill border-0" id="">Save</button>
-                    <button class="button p-2 px-4 rounded-pill border-0">Cancel</button>
-                </div>
+                <form action="" id="publishEventForm" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <input type="datetime-local" name="start_date" placeholder="Start Date" class="w-100 form-control border-1">
+                    </div>
+                    <div class="mb-3">
+                        <input type="datetime-local" name="end_date" placeholder="End Date" class="w-100 mb-3 form-control border-1">
+                    </div>
+                    <input type="hidden" name="status" value="published">
+                    <input type="hidden" name="ids" id="eventIds">
+                    <div class="d-flex gap-3">
+                        <button class="button p-2 px-4 rounded-pill border-0" id="publishEventFormBtn">Save</button>
+                        <button class="button p-2 px-4 rounded-pill border-0">Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

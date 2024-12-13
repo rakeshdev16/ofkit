@@ -206,10 +206,6 @@ function calenderHeader()
                 return [
                     'id' => $schedule->user->id.''.strtolower($day),
                     'name' => $schedule->user->name ?? 'N/A',
-                    'workingHours' => [
-                        'start' => date('H:i', strtotime($schedule->start_time)),
-                        'end' => date('H:i', strtotime($schedule->end_time))
-                    ]
                 ];
             })->unique('id')->values()->toArray();
 
@@ -240,7 +236,6 @@ function calenderEvents()
             'frequencyRepeatAt' => $schedule->start,
             'description' => $schedule->description,
             'file' => $schedule->file,
-            'workingTime' => true
         ];
     });
     return $events;

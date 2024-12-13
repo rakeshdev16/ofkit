@@ -111,7 +111,9 @@ class Children extends Model
 
     public function getCalclulatedAgeAttribute()
     {
-        return Carbon::parse($this->attributes['dob'])->diff(Carbon::now())->format('%y.%m');
+        if (isset($this->attributes['dob'])) {
+            return Carbon::parse($this->attributes['dob'])->diff(Carbon::now())->format('%y.%m');
+        }
     }
 
     public function documentation()

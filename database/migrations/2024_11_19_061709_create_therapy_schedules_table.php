@@ -16,15 +16,18 @@ return new class extends Migration
             $table->foreignId('therapist_id')->constrained('users')->onDelete('cascade');
             $table->string('type');
             $table->string('day');
-            $table->string('frequency_repeat');
+            $table->string('frequency_repeat')->nullable();
             $table->string('start')->nullable();
             $table->string('group_name')->nullable();
             $table->longText('description')->nullable();
             $table->string('file')->nullable();
+            $table->timestamp('start_time')->nullable();
+            $table->timestamp('end_time')->nullable();
             $table->timestamp('start_date')->nullable();
             $table->timestamp('end_date')->nullable();
             $table->string('draft_name')->nullable();
-            $table->enum('status', ['created', 'published', 'draft'])->default('created');
+            $table->enum('status', ['published', 'draft'])->default('draft');
+            $table->string('color')->nullable();
             $table->timestamps();
         });
     }

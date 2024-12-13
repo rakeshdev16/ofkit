@@ -13,8 +13,8 @@ class StaffSchedule extends Model
 
     public function scopeFilter($query, $data)
     {
-        if (isset($data['user_id'])) {
-            $userIds = json_decode($data['user_id']);
+        if (isset($data['kindergarten_id'])) {
+            $userIds = Kindergarten::findOrFail($data['kindergarten_id'])->staffKindergartens->pluck('user_id');
             $query->whereIn('user_id', $userIds);
         }
         return $query;

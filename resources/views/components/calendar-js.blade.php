@@ -1,27 +1,96 @@
 <script>
-    $(document).on('change', '.kindergartenFilter', function() {
-        var value = $(this).val();
-        var status = '';
-        if ("{{ Route::currentRouteName() }}" == 'therapy-schedule.index') {
-            status = 'published';
+    function setFieldValue(fieldId, value, defaultValue = '') {
+        const field = $(`#${fieldId}`);
+        if (field.is('select')) {
+            field.val(value || defaultValue).trigger('change');
         } else {
-            status = 'created';
+            field.val(value || defaultValue);
         }
-        var url = queryParam({
-            'therapist[user_id]': value,
-            'event[status]': status
+    }
+
+    function populateFormFields(data) {    
+        console.log(data);
+                
+        const formFieldMap = {
+            'eventId': data.id,
+            'appointmentType': data.type,
+            'day': `${data.day}`,
+            'appointmentFrequency': data.frequencyRepeat,
+            'therapist': data.therapistId,
+            'children': data.childrenId,
+            'description': data.description,
+            'resource': data.resource,
+            'startTime': data.start,
+            'endTime': data.end,
+            'eventOldFile': data.file,
+        };
+
+        // Set values for all mapped fields
+        Object.keys(formFieldMap).forEach(fieldId => {
+            setFieldValue(fieldId, formFieldMap[fieldId]);
         });
-        filterCalendar(url);
-    });
 
-    $(document).on('change', '.calendarFilter', function() {
-        var key = $(this).data('key');
-        var value = $(this).val();
-        var url = queryParam({ [key]: value });
-        filterCalendar(url);
-    });
+        if (data.type === 'group') {
+            $('#appointmentGroupName').val(data.groupName);
+            setFieldValue('appointmentGroupName', data.groupName);
+        }
 
-    function filterCalendar(url) {
+        if (data.frequencyRepeat !== null || data.frequencyRepeat !== undefined) {
+            $('#Monthly, #Bi-weekly').attr('name', '').hide();
+            $('#'+data.frequencyRepeat).attr('name', 'start').show();
+        }
+
+        // Handle file display
+        const fileName = data.file ? data.file.split('therapy-schedule/')[1] : '';
+        if (fileName) {
+            $('.event-file').show().html(`<div class="document my-1">${fileName}<i class="bx bx-x" onclick="removeEventFile()"></i></div>`);
+        } else {
+            $('.event-file').hide();
+        }
+    }
+
+    function editEvent(data) {
+        populateFormFields(data);
+        $('#createEventModal').modal('toggle');
+    }
+    
+    function deleteEvent(ids) {
+        if (ids == '' || ids == null) {
+            toastr.error('There are not any created event');
+            return true;
+        }            
+        Swal.fire({
+            title: confirmMsgTitle,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes cancel it",
+            cancelButtonText: cancelButtonText
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    type: 'POST',
+                    url: "{{ route('therapy-schedule.delete') }}",
+                    data: { ids: ids },
+                    success: function (data) {
+                        if (data.status == true) {
+                            filterCalendar({'event[status]': JSON.stringify(status)});
+                            toastr.success(data.message);
+                        } else {
+                            toastr.error(data.message);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function filterCalendar(params = {}) {        
+        var url = "{{ route('therapy-schedule.calendar') }}?"+queryParam(params);
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -32,26 +101,15 @@
             contentType: false,
             dataType: 'json',
             success : function(data){
+                $('#therapistDropdownDiv').html(data.therapistDropdown);
+                $('#childrenDropdownDiv').html(data.childrensDropdown);
+                $('.selectChildrens, .selectTherapist').select2({ dropdownParent: $("#createEventModal") });
                 calendar(data.calenderEvents, data.calenderHeader);
             }
         });
     }
 
-    function calendar(events = '', list) {
-        const dropdown = document.getElementById('therapist');
-        const users = list.flatMap(day =>
-            day.children.map(child => ({
-                user_id: child.user_id,
-                name: child.name
-            }))
-        );
-        users.forEach(user => {
-            const option = document.createElement('option');
-            option.value = user.user_id;
-            option.textContent = user.name;
-            dropdown.appendChild(option);
-        });
-
+    function calendar(events = '', list, childrens) {
         var type = "{{ $type }}";
         if (window.dp) {
             window.dp.dispose();
@@ -73,14 +131,14 @@
         dp.allDayEventHeight = 100;
         dp.viewType = "Resources";
         dp.headerLevels = 2;
-        dp.columnWidthSpec = "Fixed";
+        // dp.columnWidthSpec = "Fixed";
         dp.columnMinWidth = 20;
         dp.events.list = events;
         dp.dayBeginsHour = 8;
         dp.timeHeaderCellDuration = 15;
         dp.cellDuration = 15;
         dp.hourWidth = 100;
-        dp.cellHeight = 50;
+        dp.cellHeight = 45;
         dp.headerHeightAutoFit = true;
         dp.columns.list = list;
 
@@ -88,20 +146,23 @@
             if (type == 'view') {
                 dp.clearSelection();
             } else {
+                
+                if (args.resource == '' || args.resource == undefined || args.resource == null) {
+                    toastr.error("The chosen resource dosen't have any user");
+                    return true;
+                }
+                
+                resetForm();
+
                 var therapistId = null;
                 var day = null;
                 const resource = args.resource.match(/^(\d+)([a-zA-Z]+)$/);
                 if (resource) {
-                    therapistId = resource[1];
-                    day = resource[2].charAt(0).toUpperCase() + resource[2].slice(1);
+                    args.therapistId = resource[1];
+                    args.day = resource[2].charAt(0).toUpperCase() + resource[2].slice(1);
                 }
-                var time = args.start.value.split("T")[1].slice(0, 5);
-                $('#therapist').val(therapistId);
-                $('#resource').val(args.resource);
-                $('#appointmentDate').val(day+' '+time);
-                $('#appointmentDay').val(day);
-                $('#startDate').val(args.start);
-                $('#endDate').val(args.end);
+                args.startTime = args.start.value.split("T")[1].slice(0, 5);
+                populateFormFields(args);
                 $('#eventTypeModal').modal('toggle');
             }
         };
@@ -112,23 +173,15 @@
         };
 
         dp.onBeforeEventRender = function(args) {
-            
-            const colors = [
-                "background-color: #ff0000;",
-                "background-color: #00ff00;",
-                "background-color: #0000ff;",
-                "background-color: #ff9900;",
-                "background-color: #cccccc;",
-                "background-color: #095F59;",
-                "background-color: #FFD681;",
-            ];
-
-            // Dynamically assign a class based on the event ID
-            const colorIndex = args.data.id % colors.length;
-            const assignedColor = colors[colorIndex];
-            
-            args.data.html = `<div class="p-3 event-box" style="${assignedColor}">
-                    <p class="text-start fw-bold text-end mb-0"> ${args.data.therapistName} <i class="fa fa-user" aria-hidden="true"></i></p>
+            args.data.html = `<div class="p-1 event-box" style="${args.data.color[0]}; ${args.data.color[1]}">
+                    <p class="text-start fw-bold text-end mb-0">
+                        ${type === 'create' ? `
+                            <i class="fa fa-edit" onclick='editEvent(${JSON.stringify(args.data)})'></i>&nbsp;
+                            <i class="fa fa-trash" onclick='deleteEvent([${args.data.id}])'></i>&nbsp;
+                        ` : ''}
+                        ${args.data.therapistName} 
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                    </p>
                     <div class="d-flex">
                     <span>${args.data.start.toString("HH:mm")}</span>
                 </div>
@@ -161,19 +214,24 @@
         dp.init();
     }
 
+    function resetForm() {
+        $('#addEventForm').trigger("reset");
+        $('#addEventForm .error').html('').removeClass('error');
+    }
+    
     function queryParam(params = {}) {
-        // Create a URL object
-        var currentUrl = new URL("{{ route('therapy-schedule.calendar') }}");
+        var currentUrl = new URL(window.location.href);
         var searchParams = currentUrl.searchParams;
-
-        // Iterate over the params object and set each key-value pair
         for (const [key, value] of Object.entries(params)) {
-            if (key && value) {
+            if (value === null || value === undefined || value === '') {
+                searchParams.delete(key);
+            } else {
                 searchParams.set(key, value);
             }
         }
-
-        // Return the updated URL as a string
-        return currentUrl.toString();
+        var newUrl = currentUrl.origin + currentUrl.pathname + '?' + searchParams.toString();
+        history.replaceState(null, '', newUrl);
+        return searchParams.toString();
     }
+
 </script>

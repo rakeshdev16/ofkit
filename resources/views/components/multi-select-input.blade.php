@@ -5,6 +5,7 @@
     <select
         name="{{ $name }}"
         class="form-control @error($name) is-invalid @enderror {{ @$class }}"
+        id="{{ @$id }}"
         multiple
         {{ @$disabled }}
         {{ @$required }}

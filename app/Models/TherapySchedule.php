@@ -4,12 +4,29 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class TherapySchedule extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'therapist_id', 'type', 'day', 'frequency_repeat', 'start', 'group_name', 'description', 'file', 'start_date', 'end_date', 'draft_name', 'is_draft'];
+    protected $fillable = [
+        'therapist_id',
+        'type',
+        'day',
+        'frequency_repeat',
+        'start',
+        'group_name',
+        'description',
+        'file',
+        'start_time',
+        'end_time',
+        'start_date',
+        'end_date',
+        'draft_name',
+        'status',
+        'color',
+    ];
 
     // public function getFileAttribute()
     // {
@@ -24,9 +41,34 @@ class TherapySchedule extends Model
     public function scopeFilter($query, $data)
     {
         if (isset($data['status'])) {
-            $query->where('status', $data['status']);
+            $query->whereIn('status', json_decode($data['status']));
         }
         return $query;
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $backgroundColor = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+            $rgb = sscanf($backgroundColor, "#%02x%02x%02x");
+            $luminance = (0.299 * $rgb[0] + 0.587 * $rgb[1] + 0.114 * $rgb[2]) / 255;
+            $textColor = $luminance > 0.5 ? '#000000' : '#FFFFFF';
+            $model->color = json_encode([
+                "background-color: $backgroundColor",
+                "color: $textColor"
+            ]);
+        });
+    }
+
+    public function getColorAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function childrens()
+    {
+        return $this->hasMany(TherapyScheduleChildren::class, 'therapy_schedule_id');
+    }
 }
