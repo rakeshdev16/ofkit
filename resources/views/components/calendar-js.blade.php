@@ -8,9 +8,7 @@
         }
     }
 
-    function populateFormFields(data) {    
-        console.log(data);
-                
+    function populateFormFields(data) {
         const formFieldMap = {
             'eventId': data.id,
             'appointmentType': data.type,
@@ -101,9 +99,11 @@
             contentType: false,
             dataType: 'json',
             success : function(data){
-                $('#therapistDropdownDiv').html(data.therapistDropdown);
-                $('#childrenDropdownDiv').html(data.childrensDropdown);
-                $('.selectChildrens, .selectTherapist').select2({ dropdownParent: $("#createEventModal") });
+                if ("{{ Route::currentRouteName() }}" == 'therapy-schedule.create') {
+                    $('#therapistDropdownDiv').html(data.therapistDropdown);
+                    $('#childrenDropdownDiv').html(data.childrensDropdown);
+                    $('.selectChildrens, .selectTherapist').select2({ dropdownParent: $("#createEventModal") });
+                }
                 calendar(data.calenderEvents, data.calenderHeader);
             }
         });
