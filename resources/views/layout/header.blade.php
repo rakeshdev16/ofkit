@@ -107,7 +107,7 @@
                                 'width' => '250px',
                                 'icon' => 'fi_2887367.png',
                                 'active' => in_array($currentRoute, ['staff.index', 'staff.create']) ? 'active-menu' : '',
-                                'route' => route('staff.index')."?kindergarten_id=".Session::get('staff_kindergarten') . "&sort=" . (Session::get('staff_sorting.key', '')) . "&sorting=" . (Session::get('staff_sorting.value', '')),
+                                'route' => route('staff.index')."?profession_id=".Session::get('staff_profession') ."&kindergarten_id=".Session::get('staff_kindergarten') . "&sort=" . (Session::get('staff_sorting.key', '')) . "&sorting=" . (Session::get('staff_sorting.value', '')),
                                 // 'options' => [
                                 //     ['icon' => 'fi_1478254.png', 'name' => __('menu.staffList'), 'route' => route('staff.index')],
                                 //     ['icon' => 'fi_6212658.png', 'name' => __('menu.addStaff'), 'route' => route('staff.create')],

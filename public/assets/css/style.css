@@ -754,6 +754,10 @@ span.select2-dropdown.select2-dropdown--below.event-dropdown-class {
     left: -15px;
 }
 
+.select2-container .select2-selection--single{
+    height: auto !important;
+}
+
 @media screen and (max-width:576px) {
     .calendar-event-overlay {
         width: 80vw;

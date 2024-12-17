@@ -28,6 +28,7 @@ return [
     'activeButtonText' => "Yes, activate it!",
     'inactiveButtonText' => "Yes, deactivate it!",
     'allKindergartens' => "All Kindergartens",
+    'allProfession' => "All Profession",
     'invalidImageFormat' => 'Invalid image format',
     'forgetPassowrd' => 'Forgot Your Password?',
     'action' => 'Action',
@@ -49,5 +50,6 @@ return [
     'active' => 'Activate',
     'inactive' => 'Deactivate',
     'activeMsg' => 'Selected record has been activated',
-    'inactiveMsg' => 'Selected record has been inactivated'
+    'inactiveMsg' => 'Selected record has been inactivated',
+    'errorMsg' => 'Form is missing details (see below). Please enter them then press Submit again'
 ];

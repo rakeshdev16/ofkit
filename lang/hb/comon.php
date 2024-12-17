@@ -28,6 +28,7 @@ return [
     'activeButtonText' => "כן, פעיל את זה!",
     'inactiveButtonText' => "כן, זה לא פעיל!",
     'allKindergartens' => "כל הגנים",
+    'allProfession' => "כל המקצוע",
     'invalidImageFormat' => 'פורמט תמונה לא חוקי',
     'forgetPassowrd' => 'שכחת את הסיסמה שלך?',
     'action' => 'פעולה',
@@ -50,4 +51,6 @@ return [
     'inactive' => 'לֹא פָּעִיל',
     'activeMsg' => 'הרשומה שנבחרה הופעלה',
     'inactiveMsg' => 'הרשומה שנבחרה הושבתה',
+    'errorMsg' => 'חסרים פרטים בטופס (ראה להלן). אנא הזן אותם ולאחר מכן לחץ שוב על שלח'
+
 ];

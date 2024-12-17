@@ -107,7 +107,13 @@ class User extends Authenticatable
                 'key' => request('sort'),
                 'value' => request('sorting'),
             ]);
-            $query->orderBy(request('sort'), request('sorting'));
+            if(request('sort') == 'profession_id') {
+                $query->leftJoin('professions', 'professions.id', '=', 'users.profession_id')
+                    ->orderBy('professions.name', request('sorting'))
+                    ->select('users.*');
+            }else{
+                $query->orderBy(request('sort'), request('sorting'));
+            }
         }else{
             $query->orderBy('name', 'ASC');
         }
@@ -119,16 +125,30 @@ class User extends Authenticatable
         }else{
             Session::forget('staff_kindergarten');
         }
-        if (request('status') == 'inactive') {
-            $query->whereIn('status', ['active', 'inactive']);
+        if (request('kindergarten_id')) {
+            Session::put('staff_kindergarten', request('kindergarten_id'));
+            $userIds = StaffKindergarten::whereIn('kindergarten_id', explode(',',request('kindergarten_id')))
+                ->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
+            $query->whereIn('users.id', $userIds);
         }else{
-            $query->where('status', 'active');
+            Session::forget('staff_kindergarten');
+        }
+        if (request('profession_id')) {
+            Session::put('staff_profession', request('profession_id'));
+            $query->where('profession_id', request('profession_id'));
+        }else{
+            Session::forget('staff_profession');
+        }
+        if (request('status') == 'inactive') {
+            $query->whereIn('users.status', ['active', 'inactive']);
+        }else{
+            $query->where('users.status', 'active');
         }
         if (request('search')) {
             $query->whereNot('id', Auth::id())->where('name', 'like', '%'.request('search').'%')->orWhere('email', 'like', '%'.request('search').'%');
         }
         if (Auth::user()->hasRole('admin')) {
-            $query->whereNot('id', Auth::id());
+            $query->whereNot('users.id', Auth::id());
         }
         return $query;
     }

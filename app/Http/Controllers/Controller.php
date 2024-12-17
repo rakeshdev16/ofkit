@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ChildrenDocumentation;
+use App\Models\GroupChildren;
+use App\Models\StaffMeetingChildren;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -19,13 +22,20 @@ class Controller extends BaseController
         $ids = explode(',', $request->ids);
         $status = $request->status == 'active' ? 'inactive' : 'active';
         $recordStatus = $request->status == 'active' ? ['active'] : ['active','inactive'];
-
         if ($model->whereIn('id', $ids)->update(['status' => $status])) {
             if($request->model == 'User'){
                 $count = User::whereIn('status',  $recordStatus)->whereNot('id', Auth::id())->count();
             }else{
                 if($request->children_id){
-                    $count = $model->whereIn('status',  $recordStatus)->where('children_id', $request->children_id)->count();
+                    if($request->model == 'ChildrenDocumentAndApproval'){
+                        $count = $model->whereIn('status',  $recordStatus)->where('children_id', $request->children_id)->count();
+                    }else{
+                        $childDocIds = ChildrenDocumentation::where('children_id', $request->children_id)->pluck('id')->toArray();
+                        $staffMeetingDocIds = StaffMeetingChildren::where('children_id', $request->children_id)->pluck('children_doc_id')->toArray();
+                        $groupDocIds = GroupChildren::where('children_id', $request->children_id)->pluck('children_documentation_id')->toArray();
+                        $docIds = array_merge(array_unique($childDocIds), array_unique($staffMeetingDocIds), array_unique($groupDocIds));
+                        $count = $model->whereIn('status',  $recordStatus)->whereIn('id', $docIds)->count();
+                    }
                 }else{
                     $count = $model->whereIn('status',  $recordStatus)->count();
                 }

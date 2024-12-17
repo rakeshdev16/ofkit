@@ -52,6 +52,12 @@
     <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
     @stack('customScript')
 
+    @if (session()->get('errors'))
+        <script>
+            let errorMsg = "{{__('comon.errorMsg')}}"
+            toastr.error(errorMsg, null, { timeOut: 5000, extendedTimeOut: 5000 });
+        </script>
+    @endif
     <script>
         var activeInactiveBtnText = "{{ __('comon.active') }}";
         var inactiveInactiveBtnText = "{{ __('comon.inactive') }}";

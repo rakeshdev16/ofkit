@@ -44,6 +44,7 @@ class StaffController extends Controller
     {
         $members = User::filter()->orderBy('id', 'DESC')->paginate(50);
         $count = User::filter()->count();
+        $professions = Profession::where('status', 'active')->select('id as key', 'name as value')->orderBy('name', 'ASC')->get()->toArray();
         if ($request->ajax()) {
             return response()->json([
                 'table' => view('staff.table', ['members' => $members])->render(),
@@ -51,7 +52,7 @@ class StaffController extends Controller
                 'count' => $count
             ]);
         }
-        return view('staff.index', compact('members', 'count'));
+        return view('staff.index', compact('members', 'count', 'professions'));
     }
 
     public function create()

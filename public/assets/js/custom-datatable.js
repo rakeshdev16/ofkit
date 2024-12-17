@@ -53,6 +53,14 @@ $(document).on('change', '.select-filter', function () {
     filter(url);
 });
 
+$(document).on('change', '.select-filter-profession', function () {
+    var professionId = $(this).val();
+
+    queryParam('page', '');
+    var url = queryParam('profession_id', professionId);
+    filter(url);
+});
+
 // $(document).on('change', '.status', function () {
 //     var status = $(this).val();
 //     if (status == 'active') {

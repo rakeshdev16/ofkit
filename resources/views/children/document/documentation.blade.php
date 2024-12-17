@@ -166,7 +166,8 @@
             var msg = "{{ __('cluster.selectMsg') }}";
             var status = $('.status').val();
             var model = "ChildrenDocumentation";
-            moveToArchive( msg, status , model);
+            var children_id = "{{$children->id}}";
+            moveToArchive( msg, status , model, children_id);
         });
     </script>
     <script src="{{ asset('assets/js/custom-datatable.js') }}"></script>

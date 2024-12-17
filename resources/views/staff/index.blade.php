@@ -21,6 +21,14 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="select2-width align-self-end ms-2">
+                        <select name="[]" class="select-filter-profession professionFilter form-select">
+                            <option value="">{{ __('comon.allProfession') }}</option>
+                            @foreach ($professions as $profession)
+                                <option {{ in_array($profession['key'], explode(',', request()->profession_id)) ? 'selected' : '' }} value="{{ $profession['key'] }}">{{ $profession['value'] }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     {{-- @include('components.active-inactive') --}}
                 </div>
                 <div class="mt-3">
@@ -56,6 +64,11 @@
         $(".kindergardenFilter").select2({
             width: '100%',
             placeholder: "{{ __('comon.allKindergartens') }}",
+        });
+
+        $(".professionFilter").select2({
+            width: '100%',
+            placeholder: "{{ __('comon.allProfession') }}",
         });
 
         $(document).on('click', '.button', function() {
