@@ -177,6 +177,7 @@
                     </div>
                     <input type="hidden" name="id" id="eventId">
                     <input type="hidden" name="resource" id="resource">
+                    <input type="hidden" name="therapist_id" id="therapistId">
                     <input type="hidden" name="start_time" id="startTime">
                     <input type="hidden" name="end_time" id="endTime">
                     <input type="hidden" name="draft_name" id="draftName">

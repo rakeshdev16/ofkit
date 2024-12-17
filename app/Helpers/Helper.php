@@ -56,6 +56,11 @@ function getChildrenNameById($id)
     return $children->name.' '.$children->family_name;
 }
 
+function getChildrenNamesById($ids)
+{
+    return Children::whereIn('id', $ids)->pluck('name')->implode(', ');
+}
+
 function getKindergartenNameById($id)
 {
     return Kindergarten::where('id', $id)->pluck('name')->first();

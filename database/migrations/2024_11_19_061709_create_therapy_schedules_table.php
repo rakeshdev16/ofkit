@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('therapy_schedules', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('kindergarten_id')->constrained('kindergartens')->onDelete('cascade');
             $table->foreignId('therapist_id')->constrained('users')->onDelete('cascade');
             $table->string('type');
             $table->string('day');

@@ -30,7 +30,6 @@ class TherapyScheduleController extends Controller
 
     public function store(Request $request)
     {
-        // echo '<pre>'; print_r($request->all()); die;
         DB::beginTransaction();
         try {
 
@@ -41,9 +40,15 @@ class TherapyScheduleController extends Controller
             }
 
             $event = TherapySchedule::updateOrCreate(['id' => $request->id], $request->all());
+            $event->therapists()->delete();
+            if (isset($request->therapist_ids) && count($request->therapist_ids) > 0) {
+                foreach ($request->therapist_ids as $therapistId) {
+                    $event->therapists()->create(['therapist_id' => $therapistId]);
+                }
+            }
             $event->childrens()->delete();
-            if (isset($request->children_id) && count($request->children_id) > 0) {
-                foreach ($request->children_id as $childrenId) {
+            if (isset($request->children_ids) && count($request->children_ids) > 0) {
+                foreach ($request->children_ids as $childrenId) {
                     $event->childrens()->create(['children_id' => $childrenId]);
                 }
             }
@@ -108,8 +113,11 @@ class TherapyScheduleController extends Controller
                 'end' => Carbon::parse($schedule->end_time)->format('Y-m-d H:i:s'),
                 'resource' => $schedule->therapist_id . strtolower($schedule->day),
                 'therapistId' => $schedule->therapist_id,
-                'childrenId' => $schedule->childrens->pluck('children_id')->toArray(),
                 'therapistName' => getUserNameById($schedule->therapist_id),
+                'therapistIds' => $schedule->therapists->pluck('therapist_id')->toArray(),
+                'therapistNames' => getUserNameByIds($schedule->therapists->pluck('therapist_id')->toArray()),
+                'childrenId' => $schedule->childrens->pluck('children_id')->toArray(),
+                'childrenNames' => getChildrenNamesById($schedule->childrens->pluck('children_id')->toArray()),
                 'type' => $schedule->type,
                 'groupName' => $schedule->group_name,
                 'frequencyRepeat' => $schedule->frequency_repeat,
@@ -128,10 +136,10 @@ class TherapyScheduleController extends Controller
                 ];
             })->toArray();       
         $therapistDropdown = view('components.multi-select-input', [
-            'name' => "therapist_id", 'class' => 'selectTherapist', 'id' => 'therapist', 'icon' => 'buildings', 'options' => $users,
+            'name' => "therapist_ids[]", 'class' => 'selectTherapist', 'id' => 'therapist', 'icon' => 'buildings', 'options' => $users,
         ])->render();
         $childrensDropdown = view('components.multi-select-input', [
-            'name' => "children_id[]", 'class' => 'selectChildrens', 'id' => 'children', 'icon' => 'buildings', 'options' => $childrens,
+            'name' => "children_ids[]", 'class' => 'selectChildrens', 'id' => 'children', 'icon' => 'buildings', 'options' => $childrens,
         ])->render();
         
         return response()->json([
