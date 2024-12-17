@@ -14,7 +14,8 @@
             'appointmentType': data.type,
             'day': `${data.day}`,
             'appointmentFrequency': data.frequencyRepeat,
-            'therapist': data.therapistId,
+            'therapistId': data.therapistId,
+            'therapist': data.therapistIds,
             'children': data.childrenId,
             'description': data.description,
             'resource': data.resource,
@@ -199,7 +200,10 @@
                         ${args.data.frequencyRepeat || ''} ${args.data.frequencyRepeatAt || ''}  <i class="fa fa-clock-o"></i>
                     </li>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
-                        ${args.data.therapistName} <i class="fa fa-briefcase"></i>
+                        ${args.data.therapistNames.trim()} <i class="fa fa-users"></i>
+                    </li>
+                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
+                        ${args.data.childrenNames.trim()} <i class="fa fa-users"></i>
                     </li>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
 

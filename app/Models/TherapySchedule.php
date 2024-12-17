@@ -67,6 +67,11 @@ class TherapySchedule extends Model
         return json_decode($value);
     }
 
+    public function therapists()
+    {
+        return $this->hasMany(TherapyScheduleTherapist::class, 'therapy_schedule_id');
+    }
+    
     public function childrens()
     {
         return $this->hasMany(TherapyScheduleChildren::class, 'therapy_schedule_id');
