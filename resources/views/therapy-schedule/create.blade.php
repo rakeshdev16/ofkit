@@ -64,8 +64,10 @@
 
         $(document).on('click', '.eventType', function() {
             var type = $(this).data('type');
-
-            var isMultiple = type === 'group' || type === 'staff-meeting';
+            console.log(type);
+            
+            var isMultiple = (type === 'group' || type === 'staff-meeting');
+            console.log(isMultiple);
             $('.selectChildrens, .selectTherapist').select2('destroy');
             $('.selectChildrens, .selectTherapist').select2({
                 dropdownParent: $("#createEventModal"),
@@ -86,6 +88,12 @@
         });
 
         $(document).on('change', '#appointmentFrequency', function() {
+            var frequency = $(this).val();
+            $('#Monthly, #Bi-weekly').attr('name', '').hide();
+            $('#'+frequency).attr('name', 'start').show();
+        });
+        
+        $(document).on('change', '#kindergarten', function() {
             var frequency = $(this).val();
             $('#Monthly, #Bi-weekly').attr('name', '').hide();
             $('#'+frequency).attr('name', 'start').show();
