@@ -133,7 +133,7 @@
         dp.allDayEventHeight = 100;
         dp.viewType = "Resources";
         dp.headerLevels = 2;
-        dp.columnWidthSpec = "Fixed";
+        // dp.columnWidthSpec = "Fixed";
         dp.columnMinWidth = 20;
         dp.events.list = events;
         dp.dayBeginsHour = 8;
