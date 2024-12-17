@@ -5,6 +5,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="{{ asset('assets/js/daypilot-all.min.js')}}"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .select2-container[dir="rtl"] .select2-selection--single .select2-selection__rendered {
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+    </style>
 @endpush
 @section('section')
 
@@ -47,7 +53,6 @@
         $(document).ready(function () {
             var kindergartenId = $('#kindergarten').val();
             filterCalendar({ 'event[status]': JSON.stringify(status), 'therapist[kindergarten_id]': kindergartenId });
-            // $('.multipleTherapist').select2();
 
             flatpickr("#appointmentDate", {
                 enableTime: true,
@@ -55,30 +60,20 @@
                 minDate: "today",
                 time_24hr: true
             });
-
-            // $('#testDrop').select2();
-
-        // Data to populate the dropdown
-            // const options = [
-            //     { id: 1, text: 'Option 1' },
-            //     { id: 2, text: 'Option 2' },
-            //     { id: 3, text: 'Option 3' }
-            // ];
-
-            // Clear existing options
-            // $('#testDrop').empty();
-
-            // Add new options
-            // options.forEach(option => {
-            //     const newOption = new Option(option.text, option.id, false, false);
-            //     $('#testDrop').append(newOption).trigger('change');
-            // });
-
-            // $('#testDrop').select2();
         })
 
         $(document).on('click', '.eventType', function() {
             var type = $(this).data('type');
+
+            var isMultiple = type === 'group' || type === 'staff-meeting';
+            $('.selectChildrens, .selectTherapist').select2('destroy');
+            $('.selectChildrens, .selectTherapist').select2({
+                dropdownParent: $("#createEventModal"),
+                multiple: isMultiple
+            }).on('select2:open', function() {
+                $('.select2-dropdown').addClass('event-dropdown-class');
+            })
+
             setTimeout(function () {
                 $('#appointmentGroupName').show();
                 if (type !== 'group') {

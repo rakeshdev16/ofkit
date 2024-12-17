@@ -102,7 +102,8 @@
                 if ("{{ Route::currentRouteName() }}" == 'therapy-schedule.create') {
                     $('#therapistDropdownDiv').html(data.therapistDropdown);
                     $('#childrenDropdownDiv').html(data.childrensDropdown);
-                    $('.selectChildrens, .selectTherapist').select2({ dropdownParent: $("#createEventModal") });
+                    $('.selectChildrens, .selectTherapist').select2({ dropdownParent: $("#createEventModal"), containerCssClass: 'event-dropdown',
+                dropdownCssClass: 'event-dropdown' });
                 }
                 calendar(data.calenderEvents, data.calenderHeader);
             }
@@ -131,7 +132,7 @@
         dp.allDayEventHeight = 100;
         dp.viewType = "Resources";
         dp.headerLevels = 2;
-        // dp.columnWidthSpec = "Fixed";
+        dp.columnWidthSpec = "Fixed";
         dp.columnMinWidth = 20;
         dp.events.list = events;
         dp.dayBeginsHour = 8;
@@ -195,7 +196,7 @@
                         ${args.data.start.toString("HH:mm")} - ${args.data.end.toString("HH:mm")} <i class="fa fa-calendar"></i>
                     </li>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
-                        ${args.data.frequencyRepeat}, ${args.data.frequencyRepeatAt}  <i class="fa fa-clock-o"></i>
+                        ${args.data.frequencyRepeat || ''} ${args.data.frequencyRepeatAt || ''}  <i class="fa fa-clock-o"></i>
                     </li>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
                         ${args.data.therapistName} <i class="fa fa-briefcase"></i>
@@ -203,7 +204,7 @@
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
 
                     <div class="text-end">
-                    <p class="mt-2">${args.data.description}</p>
+                    <p class="mt-2">${args.data.description || ''}</p>
                     </div>
                         <i class="fa fa-user"></i>
                     </li>

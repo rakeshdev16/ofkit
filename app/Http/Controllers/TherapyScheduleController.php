@@ -41,12 +41,12 @@ class TherapyScheduleController extends Controller
             }
 
             $event = TherapySchedule::updateOrCreate(['id' => $request->id], $request->all());
-            // $event->childrens()->delete();
-            // if (isset($request->children_id) && count($request->children_id) > 0) {
-            //     foreach ($request->children_id as $childrenId) {
-            //         $event->childrens()->create(['children_id' => $childrenId]);
-            //     }
-            // }
+            $event->childrens()->delete();
+            if (isset($request->children_id) && count($request->children_id) > 0) {
+                foreach ($request->children_id as $childrenId) {
+                    $event->childrens()->create(['children_id' => $childrenId]);
+                }
+            }
             $event->resource = $request->therapist_id . strtolower($request->day);
             $event->isCreated = isset($request->id) ? false : true;
 
@@ -127,22 +127,13 @@ class TherapyScheduleController extends Controller
                     'value' => $schedule->user->name ?? 'N/A',
                 ];
             })->toArray();       
-        $therapistDropdown = view('components.select-input', [
-            'name' => "therapist_id",
-            'class' => 'selectTherapist',
-            'id' => 'therapist',
-            'icon' => 'buildings',
-            'value' => '',
-            'options' => $users,
+        $therapistDropdown = view('components.multi-select-input', [
+            'name' => "therapist_id", 'class' => 'selectTherapist', 'id' => 'therapist', 'icon' => 'buildings', 'options' => $users,
         ])->render();
-        $childrensDropdown = view('components.select-input', [
-            'name' => "children_id",
-            'class' => 'selectChildrens',
-            'id' => 'children',
-            'icon' => 'buildings',
-            'value' => '',
-            'options' => $childrens,
+        $childrensDropdown = view('components.multi-select-input', [
+            'name' => "children_id[]", 'class' => 'selectChildrens', 'id' => 'children', 'icon' => 'buildings', 'options' => $childrens,
         ])->render();
+        
         return response()->json([
             'calenderHeader' => $header,
             'calenderEvents' => $events,
