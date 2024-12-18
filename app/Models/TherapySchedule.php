@@ -11,6 +11,7 @@ class TherapySchedule extends Model
     use HasFactory;
 
     protected $fillable = [
+        'kindergarten_id',
         'therapist_id',
         'type',
         'day',
@@ -42,6 +43,10 @@ class TherapySchedule extends Model
     {
         if (isset($data['status'])) {
             $query->whereIn('status', json_decode($data['status']));
+        }
+
+        if (isset($data['kindergarten_id'])) {
+            $query->where('kindergarten_id', $data['kindergarten_id']);
         }
         return $query;
     }

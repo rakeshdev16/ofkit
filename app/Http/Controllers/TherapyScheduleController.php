@@ -65,7 +65,7 @@ class TherapyScheduleController extends Controller
 
     public function update(Request $request)
     {
-        if (TherapySchedule::whereIn('id', json_decode($request->ids))->update(['status' => $request->status])) {
+        if (TherapySchedule::whereIn('id', json_decode($request->ids))->where('kindergarten_id', $request->kindergarten_id)->update(['status' => $request->status])) {
             return response()->json(['status' => true, 'message' => 'Event detail has been successfully published!']);
         }
         return response()->json(['status' => false, 'message' => 'Something went wrong please try again!']);

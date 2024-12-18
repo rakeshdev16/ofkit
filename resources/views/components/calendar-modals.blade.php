@@ -176,6 +176,7 @@
                         <div class="event-file" style="display: none"></div>
                     </div>
                     <input type="hidden" name="id" id="eventId">
+                    <input type="hidden" name="kindergarten_id" id="kindergartenId">
                     <input type="hidden" name="resource" id="resource">
                     <input type="hidden" name="therapist_id" id="therapistId">
                     <input type="hidden" name="start_time" id="startTime">
@@ -208,6 +209,7 @@
                     </div>
                     <input type="hidden" name="status" value="published">
                     <input type="hidden" name="ids" id="eventIds">
+                    <input type="hidden" name="kindergarten_id" id="selectedKindergartenId">
                     <div class="d-flex gap-3">
                         <button class="button p-2 px-4 rounded-pill border-0" id="publishEventFormBtn">Save</button>
                         <button class="button p-2 px-4 rounded-pill border-0">Cancel</button>

@@ -11,6 +11,7 @@
     function populateFormFields(data) {
         const formFieldMap = {
             'eventId': data.id,
+            'kindergartenId': $('#kindergarten').val(),
             'appointmentType': data.type,
             'day': `${data.day}`,
             'appointmentFrequency': data.frequencyRepeat,
@@ -28,6 +29,10 @@
         Object.keys(formFieldMap).forEach(fieldId => {
             setFieldValue(fieldId, formFieldMap[fieldId]);
         });
+
+        if (therapistId) {
+            $()
+        }
 
         if (data.type === 'group') {
             $('#appointmentGroupName').val(data.groupName);
@@ -161,6 +166,7 @@
                 const resource = args.resource.match(/^(\d+)([a-zA-Z]+)$/);
                 if (resource) {
                     args.therapistId = resource[1];
+                    args.therapistIds = resource[1];
                     args.day = resource[2].charAt(0).toUpperCase() + resource[2].slice(1);
                 }
                 args.startTime = args.start.value.split("T")[1].slice(0, 5);

@@ -13,7 +13,7 @@
     @endphp
     <div class="d-flex justify-content-between my-3">
         <div class="filters d-flex flex-wrap  gap-3">
-            <select id="kindergarten" onchange="filterCalendar({ 'therapist[kindergarten_id]': this.value })" class="form-select rounded-pill px-5 w-auto">
+            <select id="kindergarten" onchange="filterCalendar({ 'therapist[kindergarten_id]': this.value, 'event[kindergarten_id]': this.value })" class="form-select rounded-pill px-5 w-auto">
                 @foreach ($kindergartens as $kindergarten)
                     @php
                         $value = $kindergarten->id;
@@ -58,8 +58,13 @@
     <script type="text/javascript">
         const status = ["{{$status}}"];          
         $(document).ready(function () {
-            var kindergartenId = $('#kindergarten').val();            
-            filterCalendar({ 'event[status]': JSON.stringify(status), 'therapist[kindergarten_id]': kindergartenId });
+            var kindergartenId = $('#kindergarten').val();
+            var params = {
+                'event[status]': JSON.stringify(status),
+                'event[kindergarten_id]': kindergartenId,
+                'therapist[kindergarten_id]': kindergartenId
+            };
+            filterCalendar(params);
         })
     </script>
     @include('components.calendar-js', ['type' => 'view']);

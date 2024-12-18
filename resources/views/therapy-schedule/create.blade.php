@@ -18,7 +18,7 @@
     <h3>Create New Schedule</h3>
     <div class="d-flex justify-content-between my-3">
         <div class="filters">
-            <select id="kindergarten" onchange="filterCalendar({ 'therapist[kindergarten_id]': this.value })" class="form-select rounded-pill px-5 w-auto">
+            <select id="kindergarten" onchange="filterCalendar({ 'therapist[kindergarten_id]': this.value, 'event[kindergarten_id]': this.value })" class="form-select rounded-pill px-5 w-auto">
                 @foreach ($kindergartens as $kindergarten)
                     <option value="{{ $kindergarten->id }}" {{ (request('therapist')['kindergarten_id'] ?? '') == $kindergarten->id ? 'selected' : '' }}>{{ $kindergarten->name }}</option>
                 @endforeach
@@ -52,7 +52,14 @@
         
         $(document).ready(function () {
             var kindergartenId = $('#kindergarten').val();
-            filterCalendar({ 'event[status]': JSON.stringify(status), 'therapist[kindergarten_id]': kindergartenId });
+            $('#kindergartenId').val(kindergartenId);
+            $('#selectedKindergartenId').val($('#kindergarten').val());
+            var params = {
+                'event[status]': JSON.stringify(status),
+                'event[kindergarten_id]': kindergartenId,
+                'therapist[kindergarten_id]': kindergartenId
+            };
+            filterCalendar(params);
 
             flatpickr("#appointmentDate", {
                 enableTime: true,
@@ -64,10 +71,7 @@
 
         $(document).on('click', '.eventType', function() {
             var type = $(this).data('type');
-            console.log(type);
-            
             var isMultiple = (type === 'group' || type === 'staff-meeting');
-            console.log(isMultiple);
             $('.selectChildrens, .selectTherapist').select2('destroy');
             $('.selectChildrens, .selectTherapist').select2({
                 dropdownParent: $("#createEventModal"),
@@ -88,12 +92,6 @@
         });
 
         $(document).on('change', '#appointmentFrequency', function() {
-            var frequency = $(this).val();
-            $('#Monthly, #Bi-weekly').attr('name', '').hide();
-            $('#'+frequency).attr('name', 'start').show();
-        });
-        
-        $(document).on('change', '#kindergarten', function() {
             var frequency = $(this).val();
             $('#Monthly, #Bi-weekly').attr('name', '').hide();
             $('#'+frequency).attr('name', 'start').show();
@@ -189,6 +187,7 @@
                 return true;
             }            
             $('#eventIds').val(ids);
+            $('#selectedKindergartenId').val($('#kindergarten').val());
             $('#eventDateModal').modal('toggle');
         });
 
