@@ -69,6 +69,7 @@
         $(".professionFilter").select2({
             width: '100%',
             placeholder: "{{ __('comon.allProfession') }}",
+            allowClear: true,
         });
 
         $(document).on('click', '.button', function() {
