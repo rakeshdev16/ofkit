@@ -16,11 +16,11 @@
 
 <div class="container-fluid" style="margin-top: 130px;">
     <h3>Create New Schedule</h3>
-    <div class="d-flex justify-content-between my-3">
-        <div class="filters">
+    <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between my-3">
+        <div class="filters d-flex flex-wrap  gap-3">
             @include('components.schedule-filter', ['kindergartens' => $kindergartens])
         </div>
-        <div class="d-flex gap-3">
+        <div class="d-flex flex-wrap gap-3">
             {{-- <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#">Export as PDf</button> --}}
             <a href="{{ route('therapy-schedule.index') }}" class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Save</a>
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="deleteEvent({{ $createdEventIds }})">Cancel</button>

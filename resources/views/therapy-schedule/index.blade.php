@@ -11,7 +11,7 @@
     @php
         $status = @json_decode(request('event')['status'])[0] ?? 'published';
     @endphp
-    <div class="d-flex justify-content-between my-3">
+    <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between my-3">
         <div class="filters d-flex flex-wrap  gap-3">
             @include('components.schedule-filter', ['kindergartens' => $kindergartens])
         </div>

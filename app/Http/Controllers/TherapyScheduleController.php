@@ -86,7 +86,6 @@ class TherapyScheduleController extends Controller
         $therapyScheduleFilter = $request->only('kindergarten_id', 'status', 'children_id');
         $dropdownFilter = $request->only('kindergarten_id', 'status', 'children_id', 'user_id');
 
-        $therapist = $request->input('therapist');
         $event = $request->input('event');
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         $header = []; 
