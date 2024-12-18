@@ -18,11 +18,7 @@
     <h3>Create New Schedule</h3>
     <div class="d-flex justify-content-between my-3">
         <div class="filters">
-            <select id="kindergarten" onchange="filterCalendar({ 'therapist[kindergarten_id]': this.value, 'event[kindergarten_id]': this.value })" class="form-select rounded-pill px-5 w-auto">
-                @foreach ($kindergartens as $kindergarten)
-                    <option value="{{ $kindergarten->id }}" {{ (request('therapist')['kindergarten_id'] ?? '') == $kindergarten->id ? 'selected' : '' }}>{{ $kindergarten->name }}</option>
-                @endforeach
-            </select>
+            @include('components.schedule-filter', ['kindergartens' => $kindergartens])
         </div>
         <div class="d-flex gap-3">
             {{-- <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#">Export as PDf</button> --}}
@@ -51,16 +47,6 @@
         const status = "{{ request('edit') }}" == 'true' ? ["published", "draft"] : ["draft"];
         
         $(document).ready(function () {
-            var kindergartenId = $('#kindergarten').val();
-            $('#kindergartenId').val(kindergartenId);
-            $('#selectedKindergartenId').val($('#kindergarten').val());
-            var params = {
-                'event[status]': JSON.stringify(status),
-                'event[kindergarten_id]': kindergartenId,
-                'therapist[kindergarten_id]': kindergartenId
-            };
-            filterCalendar(params);
-
             flatpickr("#appointmentDate", {
                 enableTime: true,
                 dateFormat: "l H:i",
@@ -145,22 +131,7 @@
                         $('#createEventModalBtn').html('Save');
                         if (data.status == true) {                            
                             toastr.success(data.message);
-                            // if (data.isCreated) {
-                            //     var newEvent = new DayPilot.Event({
-                            //         start: data.event.start_time,
-                            //         end: data.event.end_time,
-                            //         id: data.event.id,
-                            //         resource: data.event.resource,
-                            //         therapistName: data.event.therapistName,
-                            //         frequencyRepeat: data.event.frequency_repeat,
-                            //         frequencyRepeatAt: data.event.start,
-                            //         description: data.event.description,
-                            //     });
-                            //     dp.events.add(newEvent);
-                            //     dp.message("Created: " + newEvent.description);
-                            //     dp.clearSelection();
-                            // }
-                            filterCalendar({ 'event[status]': JSON.stringify(status) });
+                            filterCalendar({ 'status': JSON.stringify(status) });
                             $('#createEventModal').modal('toggle');
 
                             const hiddenInput = $('#createdEventIds');
@@ -187,7 +158,7 @@
                 return true;
             }            
             $('#eventIds').val(ids);
-            $('#selectedKindergartenId').val($('#kindergarten').val());
+            $('#associatedKindergartenId').val($('#kindergarten').val());
             $('#eventDateModal').modal('toggle');
         });
 
@@ -220,7 +191,7 @@
                             toastr.success(data.message);
                             $('#publishEventForm').trigger("reset");
                             $('#eventDateModal').modal('toggle');
-                            filterCalendar({'event[status]': JSON.stringify(status)});
+                            filterCalendar({'status': JSON.stringify(status)});
                         } else {
                             toastr.error(data.message);
                         }

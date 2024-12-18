@@ -1,4 +1,15 @@
 <script>
+    $(document).ready(function () {
+        var kindergartenId = $('#kindergartenFilter').val();
+        $('#kindergartenId').val(kindergartenId);
+        $('#associatedKindergartenId').val($('#kindergartenFilter').val());
+        var params = {
+            'status': JSON.stringify(status),
+            'kindergarten_id': kindergartenId,
+        };
+        filterCalendar(params);
+    });
+
     function setFieldValue(fieldId, value, defaultValue = '') {
         const field = $(`#${fieldId}`);
         if (field.is('select')) {
@@ -11,7 +22,7 @@
     function populateFormFields(data) {
         const formFieldMap = {
             'eventId': data.id,
-            'kindergartenId': $('#kindergarten').val(),
+            'kindergartenId': $('#kindergartenFilter').val(),
             'appointmentType': data.type,
             'day': `${data.day}`,
             'appointmentFrequency': data.frequencyRepeat,
@@ -105,18 +116,29 @@
             contentType: false,
             dataType: 'json',
             success : function(data){
+                if ("{{ Route::currentRouteName() }}" == 'therapy-schedule.index') {
+                    $('#childrenFilter').html('<option value="">Select Children</option>')
+                        .append(data.childrens.map((item) =>
+                            `<option ${data.childrenId == item.key ? 'selected' : ''} value="${item.key}">${item.value}</option>`
+                        ).join(''));
+
+                    $('#staffFilter').html('<option value="">Select Staff</option>')
+                        .append(data.users.map((item) =>
+                            `<option ${data.usersId == item.id ? 'selected' : ''} value="${item.id}">${item.name}</option>`
+                        ).join(''));
+                }
+
                 if ("{{ Route::currentRouteName() }}" == 'therapy-schedule.create') {
                     $('#therapistDropdownDiv').html(data.therapistDropdown);
                     $('#childrenDropdownDiv').html(data.childrensDropdown);
-                    $('.selectChildrens, .selectTherapist').select2({ dropdownParent: $("#createEventModal"), containerCssClass: 'event-dropdown',
-                dropdownCssClass: 'event-dropdown' });
+                    $('.selectChildrens, .selectTherapist').select2({ dropdownParent: $("#createEventModal") });
                 }
                 calendar(data.calenderEvents, data.calenderHeader);
             }
         });
     }
 
-    function calendar(events = '', list, childrens) {
+    function calendar(events = '', list) {
         var type = "{{ $type }}";
         if (window.dp) {
             window.dp.dispose();
@@ -229,6 +251,13 @@
         $('#addEventForm').trigger("reset");
         $('#addEventForm .error').html('').removeClass('error');
     }
+
+    $(document).on('change', '#kindergartenFilter', function() {
+        let url = new URL(window.location.href);
+        url.searchParams.delete('user_id');
+        url.searchParams.delete('children_id');
+        return history.replaceState(null, '', url.toString());
+    });
     
     function queryParam(params = {}) {
         var currentUrl = new URL(window.location.href);

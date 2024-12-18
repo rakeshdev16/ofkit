@@ -7,10 +7,11 @@ use App\Models\StaffSchedule;
 use App\Models\TherapySchedule;
 use App\Models\User;
 use App\Models\Kindergarten;
+use App\Models\StaffKindergarten;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use DB;
+use DB, Auth;
 
 class TherapyScheduleController extends Controller
 {
@@ -81,12 +82,16 @@ class TherapyScheduleController extends Controller
 
     public function calendar(Request $request)
     {
+        $staffScheduleFilter = $request->only('kindergarten_id', 'user_id');
+        $therapyScheduleFilter = $request->only('kindergarten_id', 'status', 'children_id');
+        $dropdownFilter = $request->only('kindergarten_id', 'status', 'children_id', 'user_id');
+
         $therapist = $request->input('therapist');
         $event = $request->input('event');
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         $header = []; 
         foreach ($days as $day) {
-            $schedules = StaffSchedule::filter($therapist)->with('user')->where('day', $day)->get()
+            $schedules = StaffSchedule::filter($staffScheduleFilter)->with('user')->where('day', $day)->get()
                 ->map(function ($schedule) use ($day) {
                     return [
                         'id' => $schedule->user->id.''.strtolower($day),
@@ -101,7 +106,7 @@ class TherapyScheduleController extends Controller
             ];
         }
 
-        $schedules = TherapySchedule::filter($event)->orderBy('start_time')->get();
+        $schedules = TherapySchedule::filter($therapyScheduleFilter)->orderBy('start_time')->get();
         $events = $schedules->map(function ($schedule) {
             $scheduleTime = Carbon::parse($schedule->start_time);
             return [
@@ -127,8 +132,18 @@ class TherapyScheduleController extends Controller
                 'color' => $schedule->color,
             ];
         });
-        $childrens = Children::select('id as key', 'name as value')->where('kindergarten_id', $therapist['kindergarten_id'])->orderBy('name')->get()->toArray();
-        $users = StaffSchedule::filter($therapist)->with('user')->select('user_id')->distinct('user_id')->get()
+
+        $options = $this->filterDropdown($dropdownFilter);
+        $data = ['calenderHeader' => $header, 'calenderEvents' => $events];
+
+        return response()->json(array_merge($data, $options));
+    }
+
+    public function filterDropdown($data)
+    {
+        $kindergartenId = $data['kindergarten_id'];
+        $childrens = Children::select('id as key', 'name as value')->where('kindergarten_id', $kindergartenId)->orderBy('name')->get()->toArray();
+        $therapists = StaffSchedule::filter($data)->with('user')->select('user_id')->distinct('user_id')->get()
             ->map(function ($schedule) {
                 return [
                     'key' => $schedule->user_id,
@@ -136,18 +151,21 @@ class TherapyScheduleController extends Controller
                 ];
             })->toArray();       
         $therapistDropdown = view('components.multi-select-input', [
-            'name' => "therapist_ids[]", 'class' => 'selectTherapist', 'id' => 'therapist', 'icon' => 'buildings', 'options' => $users,
+            'name' => "therapist_ids[]", 'class' => 'selectTherapist', 'id' => 'therapist', 'icon' => 'buildings', 'options' => $therapists,
         ])->render();
         $childrensDropdown = view('components.multi-select-input', [
             'name' => "children_ids[]", 'class' => 'selectChildrens', 'id' => 'children', 'icon' => 'buildings', 'options' => $childrens,
         ])->render();
-        
-        return response()->json([
-            'calenderHeader' => $header,
-            'calenderEvents' => $events,
+        $userIds = StaffKindergarten::where('kindergarten_id', $kindergartenId)->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
+        $users = User::whereIn('id', $userIds)->select('id', 'name')->get()->toArray();
+
+        return [
             'childrens' => $childrens,
+            'childrenId' => @$data['children_id'],
+            'users' => $users,
+            'usersId' => @$data['user_id'],
             'therapistDropdown' => $therapistDropdown,
             'childrensDropdown' => $childrensDropdown
-        ]);
+        ];
     }
 }

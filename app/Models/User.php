@@ -121,14 +121,6 @@ class User extends Authenticatable
             Session::put('staff_kindergarten', request('kindergarten_id'));
             $userIds = StaffKindergarten::whereIn('kindergarten_id', explode(',',request('kindergarten_id')))
                 ->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
-            $query->whereIn('id', $userIds);
-        }else{
-            Session::forget('staff_kindergarten');
-        }
-        if (request('kindergarten_id')) {
-            Session::put('staff_kindergarten', request('kindergarten_id'));
-            $userIds = StaffKindergarten::whereIn('kindergarten_id', explode(',',request('kindergarten_id')))
-                ->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
             $query->whereIn('users.id', $userIds);
         }else{
             Session::forget('staff_kindergarten');

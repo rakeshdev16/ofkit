@@ -17,6 +17,9 @@ class StaffSchedule extends Model
             $userIds = Kindergarten::findOrFail($data['kindergarten_id'])->staffKindergartens->pluck('user_id');
             $query->whereIn('user_id', $userIds);
         }
+        if (isset($data['user_id'])) {
+            $query->where('user_id', $data['user_id']);
+        }
         return $query;
     }
 

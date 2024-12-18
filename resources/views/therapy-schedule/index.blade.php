@@ -13,29 +13,7 @@
     @endphp
     <div class="d-flex justify-content-between my-3">
         <div class="filters d-flex flex-wrap  gap-3">
-            <select id="kindergarten" onchange="filterCalendar({ 'therapist[kindergarten_id]': this.value, 'event[kindergarten_id]': this.value })" class="form-select rounded-pill px-5 w-auto">
-                @foreach ($kindergartens as $kindergarten)
-                    @php
-                        $value = $kindergarten->id;
-                    @endphp
-                    <option value="{{ $value }}" {{ (request('therapist')['kindergarten_id'] ?? '') == $value ? 'selected' : '' }}>{{ $kindergarten->name }}</option>
-                @endforeach
-            </select>
-            {{-- <select data-key="event[status]" class="calendarFilter form-select rounded-pill px-5 w-auto">
-                <option value="">Children</option>
-                <option value="Child1">Child 1</option>
-                <option value="Child2">Child 2</option>
-            </select>
-            <select data-key="event[status]" class="calendarFilter form-select rounded-pill px-5 w-auto">
-                <option value="">Staff</option>
-                <option value="John">John</option>
-                <option value="Ortal Remano">Ortal Remano</option>
-            </select> --}}
-            <select onchange="filterCalendar({ 'event[status]': JSON.stringify([this.value]) })" class="form-select rounded-pill px-5 w-auto">
-                <option value="published" {{ ($status ?? '') == 'published' ? 'selected' : '' }}>Published</option>
-                <option value="draft" {{ ($status ?? '') == 'draft' ? 'selected' : '' }}>Saved as Draft</option>
-            </select>
-
+            @include('components.schedule-filter', ['kindergartens' => $kindergartens])
         </div>
         <div class="d-flex flex-wrap gap-3">
             {{-- <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#draft">Draft</span> --}}
@@ -56,16 +34,7 @@
 @endsection
 @push('customScript')
     <script type="text/javascript">
-        const status = ["{{$status}}"];          
-        $(document).ready(function () {
-            var kindergartenId = $('#kindergarten').val();
-            var params = {
-                'event[status]': JSON.stringify(status),
-                'event[kindergarten_id]': kindergartenId,
-                'therapist[kindergarten_id]': kindergartenId
-            };
-            filterCalendar(params);
-        })
+        const status = ["{{$status}}"];
     </script>
     @include('components.calendar-js', ['type' => 'view']);
 @endpush

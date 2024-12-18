@@ -209,7 +209,7 @@
                     </div>
                     <input type="hidden" name="status" value="published">
                     <input type="hidden" name="ids" id="eventIds">
-                    <input type="hidden" name="kindergarten_id" id="selectedKindergartenId">
+                    <input type="hidden" name="kindergarten_id" id="associatedKindergartenId">
                     <div class="d-flex gap-3">
                         <button class="button p-2 px-4 rounded-pill border-0" id="publishEventFormBtn">Save</button>
                         <button class="button p-2 px-4 rounded-pill border-0">Cancel</button>
