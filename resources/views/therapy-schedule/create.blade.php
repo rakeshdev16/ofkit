@@ -158,7 +158,7 @@
                 return true;
             }            
             $('#eventIds').val(ids);
-            $('#associatedKindergartenId').val($('#kindergarten').val());
+            $('#associatedKindergartenId').val($('#kindergartenFilter').val());
             $('#eventDateModal').modal('toggle');
         });
 
