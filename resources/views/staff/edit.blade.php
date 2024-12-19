@@ -211,14 +211,14 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody class="selected-kindergarten">
-                                                            @if (count(old('kindergarten_id', [])) > 0)
-                                                                @foreach (old('kindergarten', []) as $data)
+                                                            @if (count(old('kindergarten_id', @$staffKindergartens ?? [])) > 0)
+                                                                @foreach (old('kindergarten', @$staffKindergartens ?? []) as $data)
                                                                     @include('components.kindergarten-tr', [
-                                                                        'id' => @$data['kindergarten_id'],
+                                                                        'id' => @$data,
                                                                         'index' => $loop->index,
                                                                         'professions' => $professions,
                                                                         'memberRoles' => $memberRoles,
-                                                                        'data' => getStaffKindergarten($staff->id, $data['kindergarten_id']),
+                                                                        'data' => getStaffKindergarten($staff->id, @$data),
                                                                     ])
                                                                 @endforeach
                                                             @else
@@ -257,7 +257,7 @@
                                                         @endphp
                                                         <div class="row my-2">
                                                             <div class="col-md-2"><h6 class="pt-2">{{ __('staff.' . $day) }}</h6></div>
-                                                            <div class="col-md-10"> 
+                                                            <div class="col-md-10">
                                                                 @include('components.multi-select-input', [
                                                                     'name' => "weekly[$day][]",
                                                                     'class' => 'scheduleKindergarten',

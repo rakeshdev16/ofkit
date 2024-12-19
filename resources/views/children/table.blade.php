@@ -25,7 +25,7 @@
                 <td class="address-column">
                     <span data-toggle="tooltip" data-placement="bottom" title="{{ $children->address }}">{{ $truncatedAddress }}</span>
                 </td>
-                <td>{{ @getKindergartenNameById($children->kindergarten_id) ?? '-' }}</td>
+                <td>{{ @getKindergartenNameById($children->kindergarten_id) ?? '-' }} @include('components.kindergarten-info', ['kindergarten_id' => $children->kindergarten_id])</td>
                 <td>
                     <a href="{{ route('children.show', $children->id) }}?kindergarten_id={{ request()->kindergarten_id }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('comon.view') }}">
                         <img src="{{ asset('assets/icons/child-icon-new.png') }}" width="30px" alt="">

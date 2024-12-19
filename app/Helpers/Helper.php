@@ -66,6 +66,18 @@ function getKindergartenNameById($id)
     return Kindergarten::where('id', $id)->pluck('name')->first();
 }
 
+function getKindergartenInfoById($id)
+{
+   $info = Kindergarten::where('id', $id)->select('name', 'telephone')->first();
+
+    if ($info) {
+        $infomation = $info->telephone ;
+        return $infomation;
+    }
+
+    return "Kindergarten not found";
+}
+
 function getKindergartenNamesById($ids)
 {
     return Kindergarten::whereIn('id', $ids)->pluck('name')->toArray();

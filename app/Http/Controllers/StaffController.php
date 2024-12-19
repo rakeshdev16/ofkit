@@ -205,6 +205,10 @@ class StaffController extends Controller
                 return array_merge($item->toArray(), ['role_id' => 4, 'association_id' => 1]);
             })->toArray();
         $staffKindergartens = array_merge($kindergartenIds, $staff->staffKindergartens->toArray());
+        // $kindergartenIds = KindergartenUser::where('user_id', $id)->select('kindergarten_id')->get()
+        //     ->map(function ($item) { return array_merge($item->toArray(), [ 'role_id' => 4, 'association_id' => 1,]); })->toArray();
+
+        // $staffKindergartens = collect(array_merge($staff->staffKindergartens->toArray(), $kindergartenIds))->unique('kindergarten_id')->values()->toArray();
         $managers = User::select('id as key', 'name as value')->role('manager')->get()->toArray();
         $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
         $roles = Role::select('name as key', 'name as value')->where('name', '!=', 'admin')->get()->toArray();

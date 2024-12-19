@@ -1,0 +1,1 @@
+<button type="button" class="btn" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content={{ @getKindergartenInfoById($kindergarten_id) ?? '-' }}><i class="fadeIn animated bx bx-info-circle"></i></button>
