@@ -99,7 +99,7 @@ class LoginController extends Controller
             //     return redirect()->route('otp.verify');
             // }
         }else{
-            return back()->with('error', 'אישורים לא חוקיים');
+            return back()->with('error', 'פרטי כניסה שגויים, אנא נסה שוב');
         }
     }
 

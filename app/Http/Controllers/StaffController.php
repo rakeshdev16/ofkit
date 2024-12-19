@@ -57,15 +57,15 @@ class StaffController extends Controller
 
     public function create()
     {
-        $managers = User::select('id as key', 'name as value')->role('manager')->where('status', 'active')->get()->toArray();
+        $managers = User::select('id as key', 'name as value')->role('manager')->orderBy('name')->where('status', 'active')->get()->toArray();
         $kindergartens = Kindergarten::select('id as key', 'name as value')->orderBy('name')->where('status', 'active')->get()->toArray();
-        $roles = Role::select('name as key', 'name as value')->where('name', '!=', 'admin')->get()->toArray();
+        $roles = Role::select('name as key', 'name as value')->where('name', '!=', 'admin')->orderBy('name')->get()->toArray();
         foreach ($roles as &$role) {
             $role['value'] = __('comon.' . $role['value']);
         }
-        $professions = Profession::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
-        $associations = Association::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
-        $memberRoles = MemberRole::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
+        $professions = Profession::select('id as key', 'name as value')->where('status', 'active')->orderBy('name')->get()->toArray();
+        $associations = Association::select('id as key', 'name as value')->where('status', 'active')->orderBy('name')->get()->toArray();
+        $memberRoles = MemberRole::select('id as key', 'name as value')->where('status', 'active')->orderBy('name')->get()->toArray();
         return view('staff.create', compact('kindergartens', 'managers', 'roles', 'professions', 'associations', 'memberRoles'));
     }
 
@@ -220,14 +220,14 @@ class StaffController extends Controller
         $staffKindergartenIds = $staff->staffKindergartens->pluck('kindergarten_id')->toArray();
         $kindergartenIds = KindergartenUser::where('user_id', $id)->pluck('kindergarten_id')->toArray();
         $staffKindergartens = array_merge($kindergartenIds, $staffKindergartenIds);
-        $managers = User::select('id as key', 'name as value')->role('manager')->where('status', 'active')->get()->toArray();
-        $kindergartens = Kindergarten::select('id as key', 'name as value')->orderBy('name')->where('status', 'active')->get()->toArray();
+        $managers = User::select('id as key', 'name as value')->role('manager')->where('status', 'active')->orderBy('name')->get()->toArray();
+        $kindergartens = Kindergarten::select('id as key', 'name as value')->orderBy('name')->where('status', 'active')->orderBy('name')->get()->toArray();
         $scheduledkindergartens = Kindergarten::whereIn('id', $staffKindergartenIds)->select('id as key', 'name as value')->orderBy('name')->where('status', 'active')->get()->toArray();
         $staffKindergartens = array_unique($staffKindergartens);
-        $roles = Role::select('name as key', 'name as value')->where('name', '!=', 'admin')->get()->toArray();
-        $memberRoles = MemberRole::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
-        $professions = Profession::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
-        $associations = Association::select('id as key', 'name as value')->where('status', 'active')->get()->toArray();
+        $roles = Role::select('name as key', 'name as value')->where('name', '!=', 'admin')->orderBy('name')->get()->toArray();
+        $memberRoles = MemberRole::select('id as key', 'name as value')->where('status', 'active')->orderBy('name')->get()->toArray();
+        $professions = Profession::select('id as key', 'name as value')->where('status', 'active')->orderBy('name')->get()->toArray();
+        $associations = Association::select('id as key', 'name as value')->where('status', 'active')->orderBy('name')->get()->toArray();
         return view('staff.edit', compact('staff', 'kindergartens', 'managers', 'roles', 'memberRoles', 'professions', 'associations', 'staffKindergartens', 'scheduledkindergartens'));
     }
 

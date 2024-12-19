@@ -331,9 +331,9 @@ class ChildrenController extends Controller
     {
         $children = Children::findOrFail($id);
         // $roles = Role::get();
-        $roles = Profession::where('status', 'active')->get();
+        $roles = Profession::where('status', 'active')->orderBy('name')->get();
         $therapistIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
-        $therapists = User::role(['manager', 'therapist'])->whereIn('id', $therapistIds)->where('status', 'active')->select('id', 'name')->get();
+        $therapists = User::role(['manager', 'therapist'])->whereIn('id', $therapistIds)->where('status', 'active')->select('id', 'name')->orderBy('name')->get();
 
         $docIds = [];
         $childDocIds = ChildrenDocumentation::where('children_id', $id)->pluck('id')->toArray();
@@ -844,8 +844,10 @@ class ChildrenController extends Controller
 
     public function documentsAndApprovalsCreate(Request $request, $childId)
     {
-        $fileTypes = FileType::select('id as key', 'name as value')->orderBY('id', 'desc')->get();
-        $therapists = User::role(['therapist'])->select('id as key', 'name as value')->get();
+        $fileTypes = FileType::select('id as key', 'name as value')->orderBy('name')->get();
+        $childrenKindergartenId = Children::where('id', $childId)->pluck('kindergarten_id')->first();
+        $therapistIds = StaffKindergarten::where('kindergarten_id', $childrenKindergartenId)->pluck('user_id')->toArray();
+        $therapists = User::role(['manager', 'therapist'])->whereIn('id', $therapistIds)->where('status', 'active')->select('id as key', 'name as value')->orderBy('name')->get();
         return view('children.document-approvals.create', compact('fileTypes', 'childId', 'therapists'));
     }
 
@@ -853,7 +855,9 @@ class ChildrenController extends Controller
     {
         $fileTypes = FileType::select('id as key', 'name as value')->orderBY('id', 'desc')->get();
         $document = ChildrenDocumentAndApproval::where('id', $docId)->first();
-        $therapists = User::role(['therapist'])->select('id as key', 'name as value')->get();
+        $childrenKindergartenId = Children::where('id', $document->children_id)->pluck('kindergarten_id')->first();
+        $therapistIds = StaffKindergarten::where('kindergarten_id', $childrenKindergartenId)->pluck('user_id')->toArray();
+        $therapists = User::role(['manager', 'therapist'])->whereIn('id', $therapistIds)->where('status', 'active')->select('id as key', 'name as value')->orderBy('name')->get();
         return view('children.document-approvals.edit', compact('fileTypes', 'document', 'therapists'));
     }
 

@@ -38,9 +38,9 @@
                         $docExt = pathinfo($document->document, PATHINFO_EXTENSION);
                     @endphp
                     @if ($docExt == 'xlsx' || $docExt == 'docx' || $docExt == 'odt')
-                        <a href="#" onclick="window.open('https://docs.google.com/gview?url={{ $document->document }}&embedded=true', '_blank')">
+                        {{-- <a href="#" onclick="window.open('https://docs.google.com/gview?url={{ $document->document }}&embedded=true', '_blank')">
                             <i class="bx bx-file icon"></i>
-                        </a>
+                        </a> --}}
                     @else
                         <a href="{{ $document->document }}" target="__blank" data-toggle="tooltip" data-placement="bottom" title="{{ __('comon.view') }}">
                             <i class="bx bx-file icon"></i>

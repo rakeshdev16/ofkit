@@ -158,8 +158,11 @@ $(document).on('click', '.sortTable', function () {
     var value = $(this).data('value') == 'desc' ? 'asc' : 'desc';
     queryParam('sort', key);
     var url = queryParam('sorting', value);
-    filter(url);
     $(this).attr('data-value', value);
+    if (url.includes('page=')) {
+        url = queryParam('page', 1);
+    }
+    filter(url);
 });
 
 $(document).on('click', '.paginationBtn', function () {
@@ -167,6 +170,7 @@ $(document).on('click', '.paginationBtn', function () {
     page = page.split('page=');
     var url = queryParam('page', page[1]);
     filter(url);
+    $('html, body').animate({ scrollTop: 0 }, 'slow');
 });
 
 function filter(url) {
@@ -308,10 +312,10 @@ function moveToArchive(msg, status, model, children_id = null) {
     status = searchParams.get('status') ?? 'active';
 
     let childrenId = children_id;
-    if(children_id){
+    if (children_id) {
         childrenId = "&children_id=" + children_id
     }
-    else{
+    else {
         childrenId = "&"
     }
 

@@ -6,12 +6,12 @@
             </li>
         @else
             <li class="paginate_button page-item previous">
-                <button data-page="{{ $paginate->previousPageUrl() }}" class="page-link paginationBtn" rel="prev" aria-label="@lang('pagination.previous')">Prev</button>
+                <button data-page="{{ $paginate->previousPageUrl() }}" class="page-link paginationBtn" rel="prev" aria-label="@lang('pagination.previous')">{{ __('comon.previous') }}</button>
             </li>
         @endif
 
         @php
-            $currentPage = $paginate->currentPage();
+            $currentPage = request()->page ?? $paginate->currentPage();
             $lastPage = $paginate->lastPage();
             $start = max($currentPage - 1, 1);
             $end = min($currentPage + 1, $lastPage);
@@ -53,7 +53,7 @@
 
         @if ($paginate->hasMorePages())
             <li class="paginate_button page-item next">
-                <button data-page="{{ $paginate->nextPageUrl() }}" class="page-link paginationBtn" rel="next" aria-label="@lang('pagination.next')">Next</button>
+                <button data-page="{{ $paginate->nextPageUrl() }}" class="page-link paginationBtn" rel="next" aria-label="@lang('pagination.next')">{{ __('comon.next') }}</button>
             </li>
         @else
             <li class="paginate_button page-item next disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
