@@ -20,6 +20,9 @@ class StaffSchedule extends Model
         if (isset($data['user_id'])) {
             $query->where('user_id', $data['user_id']);
         }
+        if (isset($data['day'])) {
+            $query->where('day', $data['day']);
+        }
         return $query;
     }
 

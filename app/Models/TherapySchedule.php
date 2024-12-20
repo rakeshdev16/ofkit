@@ -48,6 +48,10 @@ class TherapySchedule extends Model
         if (isset($data['kindergarten_id'])) {
             $query->where('kindergarten_id', $data['kindergarten_id']);
         }
+
+        if (isset($data['children_id'])) {
+            $query->where('children_id', $data['children_id']);
+        }
         return $query;
     }
 

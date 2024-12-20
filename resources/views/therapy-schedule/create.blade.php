@@ -65,7 +65,7 @@
             }).on('select2:open', function() {
                 $('.select2-dropdown').addClass('event-dropdown-class');
             })
-
+            $('#unSelectedTherapistId').val('');
             setTimeout(function () {
                 $('#appointmentGroupName').show();
                 if (type !== 'group') {
