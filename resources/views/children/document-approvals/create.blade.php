@@ -41,7 +41,7 @@
                                             <div class="col-md-12">
                                                 <label for="user_id" class="form-label">{{ __('comon.therapist') }}</label>
                                                 <div class="position-relative input-icon">
-                                                    @role('admin')
+                                                    @hasanyrole('manager|admin')
                                                         <select name="user_id" class="form-control @error('user_id') is-invalid @enderror">
                                                             <option value="" selected="">{{ __('comon.select') }}</option>
                                                             @foreach ($therapists as $therapist)
@@ -51,7 +51,7 @@
                                                     @else
                                                         <input type="text" class="form-control" value="{{auth()->user()->name}}" disabled>
                                                         <input type="hidden" name="user_id" value="{{auth()->user()->id}}">
-                                                    @endrole
+                                                    @endhasanyrole
                                                     <span class="position-absolute top-50 translate-middle-y">
                                                         <i class="bx bx-buildings"></i>
                                                     </span>
