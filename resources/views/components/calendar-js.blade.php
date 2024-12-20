@@ -58,13 +58,21 @@
         }
     }
 
+    // function editEvent(data) {
+    //     filterDropdown(data.day);
+    //     $('#unSelectedTherapistId').val(data.therapistIds);
+    //     setTimeout(function () {
+    //         populateFormFields(data);
+    //         $('#createEventModal').modal('toggle');
+    //     }, 200);
+    // }
+
     function editEvent(data) {
-        filterDropdown(data.day);
-        $('#unSelectedTherapistId').val(data.therapistIds);
-        setTimeout(function () {
+        filterDropdown(data.day, function () {
+            $('#unSelectedTherapistId').val(data.therapistIds);
             populateFormFields(data);
             $('#createEventModal').modal('toggle');
-        }, 200);
+        });
     }
     
     function deleteEvent(ids) {
@@ -182,12 +190,16 @@
                     args.therapistIds = resource[1];
                     args.day = resource[2].charAt(0).toUpperCase() + resource[2].slice(1);
                 }
-                filterDropdown(args.day);
 
                 args.startTime = args.start.value.split("T")[1].slice(0, 5);
                 args.endTime = args.end.value.split("T")[1].slice(0, 5);
-                populateFormFields(args);
-                $('#eventTypeModal').modal('toggle');
+                // populateFormFields(args);
+                // $('#eventTypeModal').modal('toggle');
+
+                filterDropdown(args.day, function () {
+                    populateFormFields(args);
+                    $('#eventTypeModal').modal('toggle');
+                });
             }
         };
 
@@ -241,26 +253,45 @@
         dp.init();
     }
 
-    function filterDropdown(day) {
+    function filterDropdown(day, callback) {
         var kindergartenId = $('#kindergartenFilter').val();
         $.ajax({
             type: 'GET',
             url: "{{ route('therapy-schedule.filter-dropdown') }}",
             data: { kindergarten_id: kindergartenId, day: day },
-            success : function(data){
-                $('#therapistDropdownDiv').html('').html(data.therapistDropdown);
-                $('#childrenDropdownDiv').html('').html(data.childrensDropdown);
-                $('.selectChildrens, .selectTherapist').select2({ 
+            success: function (data) {
+                $('#therapistDropdownDiv').html(data.therapistDropdown);
+                $('#childrenDropdownDiv').html(data.childrensDropdown);
+                $('.selectChildrens, .selectTherapist').select2({
                     dropdownParent: $("#createEventModal"),
-                    // containerCssClass: "error",
-                    // dropdownCssClass: "test" 
                 });
+
+                // Execute callback if provided
+                if (callback) callback();
             }
         });
     }
 
+
+    // function filterDropdown(day) {
+    //     var kindergartenId = $('#kindergartenFilter').val();
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: "{{ route('therapy-schedule.filter-dropdown') }}",
+    //         data: { kindergarten_id: kindergartenId, day: day },
+    //         success : function(data){
+    //             $('#therapistDropdownDiv').html('').html(data.therapistDropdown);
+    //             $('#childrenDropdownDiv').html('').html(data.childrensDropdown);
+    //             $('.selectChildrens, .selectTherapist').select2({ 
+    //                 dropdownParent: $("#createEventModal"),
+    //                 // containerCssClass: "error",
+    //                 // dropdownCssClass: "test" 
+    //             });
+    //         }
+    //     });
+    // }
+
     function resetForm() {
-        filterDropdown('');
         $('#addEventForm').trigger("reset");
         $('#addEventForm .error').html('').removeClass('error');
     }
