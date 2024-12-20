@@ -29,8 +29,8 @@
             'children': data.childrenId,
             'description': data.description,
             'resource': data.resource,
-            'startTime': data.start,
-            'endTime': data.end,
+            'startTime': data.startTime,
+            'endTime': data.endTime,
             'eventOldFile': data.file,
         };
 
@@ -152,7 +152,7 @@
         dp.allDayEventHeight = 100;
         dp.viewType = "Resources";
         dp.headerLevels = 2;
-        // dp.columnWidthSpec = "Fixed";
+        dp.columnWidthSpec = "Fixed";
         dp.columnMinWidth = 20;
         dp.events.list = events;
         dp.dayBeginsHour = 8;
@@ -185,6 +185,7 @@
                 filterDropdown(args.day);
 
                 args.startTime = args.start.value.split("T")[1].slice(0, 5);
+                args.endTime = args.end.value.split("T")[1].slice(0, 5);
                 populateFormFields(args);
                 $('#eventTypeModal').modal('toggle');
             }
@@ -249,13 +250,17 @@
             success : function(data){
                 $('#therapistDropdownDiv').html('').html(data.therapistDropdown);
                 $('#childrenDropdownDiv').html('').html(data.childrensDropdown);
-                $('.selectChildrens, .selectTherapist').select2({ dropdownParent: $("#createEventModal") });
+                $('.selectChildrens, .selectTherapist').select2({ 
+                    dropdownParent: $("#createEventModal"),
+                    // containerCssClass: "error",
+                    // dropdownCssClass: "test" 
+                });
             }
         });
     }
 
     function resetForm() {
-        filterDropdown('Sunday');
+        filterDropdown('');
         $('#addEventForm').trigger("reset");
         $('#addEventForm .error').html('').removeClass('error');
     }

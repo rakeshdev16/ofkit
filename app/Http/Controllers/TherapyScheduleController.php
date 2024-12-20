@@ -11,7 +11,7 @@ use App\Models\StaffKindergarten;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use DB, Auth;
+use DB, Auth, DateTime;
 
 class TherapyScheduleController extends Controller
 {
@@ -49,10 +49,12 @@ class TherapyScheduleController extends Controller
 
             foreach ($request->therapist_ids as $key => $therapistId) {
                 $request['therapist_id'] = $therapistId;
+                // $request['start_time'] = date('Y-m-d H:i:s', strtotime($request->start_time));
+                // $request['end_time'] = date('Y-m-d H:i:s', strtotime($request->end_time));
                 $condition = ['therapist_id' => $therapistId, 'kindergarten_id' => $request->kindergarten_id, 'day' => $request->day, 'start_time' => $request->start_time];
                 $event = TherapySchedule::where($condition);
                 if ($event->exists()) {
-                    $event->update($request->except('unselected_therapist_id', 'therapist_ids', 'old_image', 'resource'));
+                    $event->update($request->except('unselected_therapist_id', 'therapist_ids', 'children_ids', 'old_image', 'resource'));
                     $event = TherapySchedule::where($condition)->first();
                 } else {
                     $event = TherapySchedule::create($request->all());
@@ -68,7 +70,7 @@ class TherapyScheduleController extends Controller
                 $event->isCreated = isset($request->id) ? false : true;
             }
 
-        DB::commit();
+            DB::commit();
             return response()->json(['status' => true, 'message' => 'Event detail has been successfully saved!', 'event' => $event]);
         } catch (\Exception $e) {
             echo '<pre>'; print_r($e->getMessage()); die;
@@ -118,18 +120,20 @@ class TherapyScheduleController extends Controller
         $schedules = TherapySchedule::filter($filter)->orderBy('start_time')->get();
         $events = $schedules->map(function ($schedule) use($schedules) {
             $scheduleTime = Carbon::parse($schedule->start_time);
+            $therapistIds = $schedules->where('day', $schedule->day)->where('start_time', $schedule->start_time)->pluck('therapist_id')->toArray();
             return [
                 'id' => $schedules->where('day', $schedule->day)->where('start_time', $schedule->start_time)->pluck('id')->toArray(),
                 'day' => $schedule->day,
                 'description' => $schedule->description,
-                'start' => Carbon::parse($schedule->start_time)->format('Y-m-d H:i:s'),
+                'start' => $this->getDateTime($schedule->day, $schedule->start_time),
+                'end' => $this->getDateTime($schedule->day, $schedule->end_time),
                 'startTime' => Carbon::parse($schedule->start_time)->format('H:i'),
-                'end' => Carbon::parse($schedule->end_time)->format('Y-m-d H:i:s'),
+                'endTime' => Carbon::parse($schedule->end_time)->format('H:i'),
                 'resource' => $schedule->therapist_id . strtolower($schedule->day),
                 'therapistId' => $schedule->therapist_id,
                 'therapistName' => getUserNameById($schedule->therapist_id),
-                'therapistIds' => $schedules->where('day', $schedule->day)->where('start_time', $schedule->start_time)->pluck('therapist_id')->toArray(),
-                'therapistNames' => getUserNameByIds($schedule->therapists->pluck('therapist_id')->toArray()),
+                'therapistIds' => $therapistIds,
+                'therapistNames' => getUserNameByIds($therapistIds),
                 'childrenId' => $schedule->childrens->pluck('children_id')->toArray(),
                 'childrenNames' => getChildrenNamesById($schedule->childrens->pluck('children_id')->toArray()),
                 'type' => $schedule->type,
@@ -173,8 +177,21 @@ class TherapyScheduleController extends Controller
         ])->render();
 
         return [
-            'therapistDropdown' => $therapistDropdown,
+            'therapistDropdown' => !empty($request->day) ? $therapistDropdown : [],
             'childrensDropdown' => $childrensDropdown
         ];
+    }
+
+    function getDateTime($day, $time)
+    {
+        $today = new DateTime();
+        $sunday = clone $today;
+        $sunday->modify('last Sunday');
+        $daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        $dayIndex = array_search(ucfirst(strtolower($day)), $daysOfWeek);
+        $targetDate = clone $sunday;
+        $targetDate->modify("+$dayIndex day");
+        $dateTime = $targetDate->format('Y-m-d') . ' ' . $time;
+        return (new DateTime($dateTime))->format('Y-m-d H:i:s');
     }
 }
