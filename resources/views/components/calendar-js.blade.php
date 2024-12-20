@@ -29,8 +29,8 @@
             'children': data.childrenId,
             'description': data.description,
             'resource': data.resource,
-            'startTime': data.start,
-            'endTime': data.end,
+            'startTime': data.startTime,
+            'endTime': data.endTime,
             'eventOldFile': data.file,
         };
 
@@ -58,13 +58,21 @@
         }
     }
 
+    // function editEvent(data) {
+    //     filterDropdown(data.day);
+    //     $('#unSelectedTherapistId').val(data.therapistIds);
+    //     setTimeout(function () {
+    //         populateFormFields(data);
+    //         $('#createEventModal').modal('toggle');
+    //     }, 200);
+    // }
+
     function editEvent(data) {
-        filterDropdown(data.day);
-        $('#unSelectedTherapistId').val(data.therapistIds);
-        setTimeout(function () {
+        filterDropdown(data.day, function () {
+            $('#unSelectedTherapistId').val(data.therapistIds);
             populateFormFields(data);
             $('#createEventModal').modal('toggle');
-        }, 150);
+        });
     }
     
     function deleteEvent(ids) {
@@ -152,7 +160,7 @@
         dp.allDayEventHeight = 100;
         dp.viewType = "Resources";
         dp.headerLevels = 2;
-        // dp.columnWidthSpec = "Fixed";
+        dp.columnWidthSpec = "Fixed";
         dp.columnMinWidth = 20;
         dp.events.list = events;
         dp.dayBeginsHour = 8;
@@ -182,11 +190,16 @@
                     args.therapistIds = resource[1];
                     args.day = resource[2].charAt(0).toUpperCase() + resource[2].slice(1);
                 }
-                filterDropdown(args.day);
 
                 args.startTime = args.start.value.split("T")[1].slice(0, 5);
-                populateFormFields(args);
-                $('#eventTypeModal').modal('toggle');
+                args.endTime = args.end.value.split("T")[1].slice(0, 5);
+                // populateFormFields(args);
+                // $('#eventTypeModal').modal('toggle');
+
+                filterDropdown(args.day, function () {
+                    populateFormFields(args);
+                    $('#eventTypeModal').modal('toggle');
+                });
             }
         };
 
@@ -240,22 +253,45 @@
         dp.init();
     }
 
-    function filterDropdown(day) {
+    function filterDropdown(day, callback) {
         var kindergartenId = $('#kindergartenFilter').val();
         $.ajax({
             type: 'GET',
             url: "{{ route('therapy-schedule.filter-dropdown') }}",
             data: { kindergarten_id: kindergartenId, day: day },
-            success : function(data){
-                $('#therapistDropdownDiv').html('').html(data.therapistDropdown);
-                $('#childrenDropdownDiv').html('').html(data.childrensDropdown);
-                $('.selectChildrens, .selectTherapist').select2({ dropdownParent: $("#createEventModal") });
+            success: function (data) {
+                $('#therapistDropdownDiv').html(data.therapistDropdown);
+                $('#childrenDropdownDiv').html(data.childrensDropdown);
+                $('.selectChildrens, .selectTherapist').select2({
+                    dropdownParent: $("#createEventModal"),
+                });
+
+                // Execute callback if provided
+                if (callback) callback();
             }
         });
     }
 
+
+    // function filterDropdown(day) {
+    //     var kindergartenId = $('#kindergartenFilter').val();
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: "{{ route('therapy-schedule.filter-dropdown') }}",
+    //         data: { kindergarten_id: kindergartenId, day: day },
+    //         success : function(data){
+    //             $('#therapistDropdownDiv').html('').html(data.therapistDropdown);
+    //             $('#childrenDropdownDiv').html('').html(data.childrensDropdown);
+    //             $('.selectChildrens, .selectTherapist').select2({ 
+    //                 dropdownParent: $("#createEventModal"),
+    //                 // containerCssClass: "error",
+    //                 // dropdownCssClass: "test" 
+    //             });
+    //         }
+    //     });
+    // }
+
     function resetForm() {
-        filterDropdown('Sunday');
         $('#addEventForm').trigger("reset");
         $('#addEventForm .error').html('').removeClass('error');
     }

@@ -123,6 +123,7 @@
                     <div class="d-flex mb-3">
                         <div class="w-100">
                             <select id="day" name="day" class="form-control border-1">
+                                <option value="">Select Day</option>
                                 <option value="Sunday">Sunday</option>
                                 <option value="Monday">Monday</option>
                                 <option value="Tuesday">Tuesday</option>
@@ -132,6 +133,8 @@
                                 <option value="Saturday">Saturday</option>
                             </select>
                         </div>
+                        <div><input type="time" class="form-control" name="start_time" id="startTime"></div>
+                        <div><input type="time" class="form-control" name="end_time" id="endTime"></div>
                     </div>
                     <div class="mb-3">
                         <select id="appointmentFrequency" name="frequency_repeat" class="form-control">
@@ -171,8 +174,8 @@
                     <input type="hidden" name="kindergarten_id" id="kindergartenId">
                     <input type="hidden" name="unselected_therapist_id" id="unSelectedTherapistId">
                     <input type="hidden" name="resource" id="resource">
-                    <input type="hidden" name="start_time" id="startTime">
-                    <input type="hidden" name="end_time" id="endTime">
+                    {{-- <input type="hidden" name="start_time" id="startTime">
+                    <input type="hidden" name="end_time" id="endTime"> --}}
                     <input type="hidden" name="draft_name" id="draftName">
                     <div class="d-flex gap-3">
                         <button class="button p-2 px-4 rounded-pill border-0" id="createEventModalBtn">Save</button>

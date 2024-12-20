@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('group_name')->nullable();
             $table->longText('description')->nullable();
             $table->string('file')->nullable();
-            $table->timestamp('start_time')->nullable();
-            $table->timestamp('end_time')->nullable();
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
             $table->timestamp('start_date')->nullable();
             $table->timestamp('end_date')->nullable();
             $table->string('draft_name')->nullable();
