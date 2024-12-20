@@ -160,8 +160,9 @@
                     <div class="mb-3">
                         <input type="text" name="group_name" id="appointmentGroupName" class="w-100 form-control border-1" placeholder="Group Name">
                     </div>
-                    <div class="mb-3" id="therapistDropdownDiv"></div>
-                    <div class="mb-3" id="childrenDropdownDiv"></div>
+                    <div class="" id="therapistDropdownDiv"></div>
+                    <span class="therapists mb-3"></span>
+                    <div class="my-3" id="childrenDropdownDiv"></div>
                     <div class="mb-3">
                         <textarea class="form-control w-100" placeholder="Add Description" rows="5" name="description" id="description"></textarea>
                     </div>

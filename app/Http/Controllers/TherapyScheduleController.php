@@ -168,7 +168,7 @@ class TherapyScheduleController extends Controller
                     'key' => $schedule->user_id,
                     'value' => $schedule->user->name ?? 'N/A',
                 ];
-            })->toArray();       
+            })->toArray();
         $therapistDropdown = view('components.multi-select-input', [
             'name' => "therapist_ids[]", 'class' => 'selectTherapist', 'id' => 'therapist', 'icon' => 'buildings', 'options' => $therapists,
         ])->render();

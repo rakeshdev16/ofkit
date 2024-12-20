@@ -56,6 +56,8 @@
         } else {
             $('.event-file').hide();
         }
+
+        $('#day').attr('onchange', 'filterDropdown(this.value)');
     }
 
     function editEvent(data) {
@@ -64,6 +66,7 @@
             populateFormFields(data);
             $('#createEventModal').modal('toggle');
         });
+        $('#day').attr('onchange', '');
     }
     
     function deleteEvent(ids) {
@@ -271,6 +274,19 @@
         url.searchParams.delete('children_id');
         return history.replaceState(null, '', url.toString());
     });
+
+    function selectVisibility(type) {
+        var isMultiple = (type === 'group' || type === 'staff-meeting');
+        $('.selectChildrens, .selectTherapist').select2('destroy');
+        $('.selectChildrens, .selectTherapist').select2({
+            dropdownParent: $("#createEventModal"),
+            multiple: isMultiple
+        }).on('select2:open', function() {
+            // $('.select2-container').addClass('event-dropdown');
+            // $('.select2-dropdown').addClass('event-dropdown-class');
+            // $('.select2-results').addClass('custom-results-class');
+        });
+    }
     
     function queryParam(params = {}) {
         var currentUrl = new URL(window.location.href);
