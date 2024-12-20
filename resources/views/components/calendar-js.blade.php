@@ -64,7 +64,7 @@
         setTimeout(function () {
             populateFormFields(data);
             $('#createEventModal').modal('toggle');
-        }, 150);
+        }, 200);
     }
     
     function deleteEvent(ids) {
