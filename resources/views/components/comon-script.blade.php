@@ -109,21 +109,6 @@
         });
     });
 
-    setInterval(function () {
-        $.ajax({
-            url: '/check-session',
-            type: 'GET',
-            success: function (response) {
-                if (!response.isAuthenticated) {
-                    window.location.href = "{{ route('page.expired') }}";
-                }
-            },
-            error: function () {
-                window.location.href = "{{ route('page.expired') }}";
-            }
-        });
-    }, 60000);
-
     $(document).on('change', '.checkbox', function () {
         if ($('.checkbox').length != $('.checkbox:checked').length) {
             $('.mainCheckbox').prop('checked', false);
