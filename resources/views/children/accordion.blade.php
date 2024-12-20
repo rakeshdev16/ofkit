@@ -58,7 +58,7 @@
                     <hr>
                     <div class="d-flex accordion-row">
                         <div class="w-50 label">{{ __('children.kindergarten') }}</div>
-                        <div class="w-50">{{ @getKindergartenNameById($children->kindergarten_id) ?? '-' }}</div>
+                        <div class="w-50">{{ @getKindergartenNameById($children->kindergarten_id) ?? '-' }} @include('components.kindergarten-info', ['kindergarten_id' => $children->kindergarten_id])</div>
                     </div>
                 </div>
             </div>

@@ -51,5 +51,5 @@ return [
     'inactive' => 'Deactivate',
     'activeMsg' => 'Selected record has been activated',
     'inactiveMsg' => 'Selected record has been inactivated',
-    'errorMsg' => 'Form is missing details (see below). Please enter them then press Submit again'
+    'errorMsg' => 'Form is missing details (see below). Please enter them then press Submit again.'
 ];

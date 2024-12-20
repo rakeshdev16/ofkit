@@ -46,9 +46,10 @@ class Children extends Model
                 } else {
                     $kindergartenIds = Kindergarten::pluck('id')->toArray();
                 }
-                $query->join('kindergartens', 'childrens.kindergarten_id', '=', 'kindergartens.id')
-                    ->whereIn('kindergartens.id', $kindergartenIds)
-                    ->orderBy('kindergartens.name', request('sorting'));
+                $query->select('childrens.*', 'kindergartens.name as kindergarten_name')
+                        ->join('kindergartens', 'childrens.kindergarten_id', '=', 'kindergartens.id')
+                        ->whereIn('kindergartens.id', $kindergartenIds)
+                        ->orderBy('kindergarten_name', request('sorting'));
             } else {
                 $query->orderBy(request('sort'), request('sorting'));
             }
