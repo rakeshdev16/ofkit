@@ -21,12 +21,10 @@
 
     function populateFormFields(data) {
         const formFieldMap = {
-            'eventId': data.id,
             'kindergartenId': $('#kindergartenFilter').val(),
             'appointmentType': data.type,
             'day': `${data.day}`,
             'appointmentFrequency': data.frequencyRepeat,
-            'therapistId': data.therapistId,
             'therapist': data.therapistIds,
             'children': data.childrenId,
             'description': data.description,
@@ -40,10 +38,6 @@
         Object.keys(formFieldMap).forEach(fieldId => {
             setFieldValue(fieldId, formFieldMap[fieldId]);
         });
-
-        if (therapistId) {
-            $()
-        }
 
         if (data.type === 'group') {
             $('#appointmentGroupName').val(data.groupName);
@@ -65,8 +59,12 @@
     }
 
     function editEvent(data) {
-        populateFormFields(data);
-        $('#createEventModal').modal('toggle');
+        filterDropdown(data.day);
+        $('#unSelectedTherapistId').val(data.therapistIds);
+        setTimeout(function () {
+            populateFormFields(data);
+            $('#createEventModal').modal('toggle');
+        }, 150);
     }
     
     function deleteEvent(ids) {
@@ -127,12 +125,6 @@
                             `<option ${data.usersId == item.id ? 'selected' : ''} value="${item.id}">${item.name}</option>`
                         ).join(''));
                 }
-
-                if ("{{ Route::currentRouteName() }}" == 'therapy-schedule.create') {
-                    $('#therapistDropdownDiv').html(data.therapistDropdown);
-                    $('#childrenDropdownDiv').html(data.childrensDropdown);
-                    $('.selectChildrens, .selectTherapist').select2({ dropdownParent: $("#createEventModal") });
-                }
                 calendar(data.calenderEvents, data.calenderHeader);
             }
         });
@@ -182,7 +174,6 @@
                 }
                 
                 resetForm();
-
                 var therapistId = null;
                 var day = null;
                 const resource = args.resource.match(/^(\d+)([a-zA-Z]+)$/);
@@ -191,6 +182,8 @@
                     args.therapistIds = resource[1];
                     args.day = resource[2].charAt(0).toUpperCase() + resource[2].slice(1);
                 }
+                filterDropdown(args.day);
+
                 args.startTime = args.start.value.split("T")[1].slice(0, 5);
                 populateFormFields(args);
                 $('#eventTypeModal').modal('toggle');
@@ -247,7 +240,22 @@
         dp.init();
     }
 
+    function filterDropdown(day) {
+        var kindergartenId = $('#kindergartenFilter').val();
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('therapy-schedule.filter-dropdown') }}",
+            data: { kindergarten_id: kindergartenId, day: day },
+            success : function(data){
+                $('#therapistDropdownDiv').html('').html(data.therapistDropdown);
+                $('#childrenDropdownDiv').html('').html(data.childrensDropdown);
+                $('.selectChildrens, .selectTherapist').select2({ dropdownParent: $("#createEventModal") });
+            }
+        });
+    }
+
     function resetForm() {
+        filterDropdown('Sunday');
         $('#addEventForm').trigger("reset");
         $('#addEventForm .error').html('').removeClass('error');
     }

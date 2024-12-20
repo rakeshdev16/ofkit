@@ -157,16 +157,8 @@
                     <div class="mb-3">
                         <input type="text" name="group_name" id="appointmentGroupName" class="w-100 form-control border-1" placeholder="Group Name">
                     </div>
-                    <div class="mb-3" id="therapistDropdownDiv">
-                        {{-- <select id="therapist" name="therapist_id" class="multipleTherapist form-control" multiple>
-                            <option value="">Therapist name</option>
-                        </select> --}}
-                    </div>
-                    <div class="mb-3" id="childrenDropdownDiv">
-                        {{-- <select id="children" name="children_id[]" class="form-control">
-                            <option value="">Child</option>
-                        </select> --}}
-                    </div>
+                    <div class="mb-3" id="therapistDropdownDiv"></div>
+                    <div class="mb-3" id="childrenDropdownDiv"></div>
                     <div class="mb-3">
                         <textarea class="form-control w-100" placeholder="Add Description" rows="5" name="description" id="description"></textarea>
                     </div>
@@ -175,10 +167,10 @@
                         <input type="hidden" id="eventOldFile" name="old_image" class="form-control">
                         <div class="event-file" style="display: none"></div>
                     </div>
-                    <input type="hidden" name="id" id="eventId">
+                    {{-- <input type="hidden" name="id" id="eventId"> --}}
                     <input type="hidden" name="kindergarten_id" id="kindergartenId">
+                    <input type="hidden" name="unselected_therapist_id" id="unSelectedTherapistId">
                     <input type="hidden" name="resource" id="resource">
-                    <input type="hidden" name="therapist_id" id="therapistId">
                     <input type="hidden" name="start_time" id="startTime">
                     <input type="hidden" name="end_time" id="endTime">
                     <input type="hidden" name="draft_name" id="draftName">
