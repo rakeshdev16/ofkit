@@ -110,7 +110,7 @@
             <div class="modal-body">
                 <form action="" id="addEventForm" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <select id="appointmentType" name="type" class="btn btn-outline-secondary text-start rounded w-100 form-select">
+                        <select id="appointmentType" name="type" class="form-control border-1">
                             <option value="">Choose Appointment</option>
                             <option value="individual">Individual</option>
                             <option value="group">Group</option>
