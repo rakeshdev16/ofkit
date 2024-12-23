@@ -34,7 +34,7 @@
                 },
                 email: {
                     required: function () {
-                        return $("#role").val() !== "support";
+                        return $("#roles").val() !== "support";
                     },
                     email: true,
                     remote: {
@@ -52,7 +52,7 @@
                 },
                 telephone: {
                     required: function () {
-                        return $("#role").val() !== "support";
+                        return $("#roles").val() !== "support";
                     },
                     // pattern: new RegExp("^[0-9-]{8,14}$")
                 },

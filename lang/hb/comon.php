@@ -18,7 +18,7 @@ return [
     'back' => "יציאה",
     'emptyTableMsg' => 'לא נמצאו נתונים',
     'previous' => 'הקודם',
-    'next' => 'הַבָּא',
+    'next' => 'הבא',
     'admin' => 'מנהל',
     'manager' => 'רכז',
     'therapist' => 'מטפל',

@@ -830,7 +830,7 @@ class ChildrenController extends Controller
         $children = Children::findOrFail($childId);
         $documents = ChildrenDocumentAndApproval::with('user')->where('children_id', $childId)->filter()->orderBy('id', 'DESC')->paginate(50);
         $count = ChildrenDocumentAndApproval::where('children_id', $childId)->filter()->count();
-        $fileTypes = FileType::select('id as key', 'name as value')->where('status', 'active')->orderBY('id', 'desc')->get();
+        $fileTypes = FileType::select('id as key', 'name as value')->where('status', 'active')->orderBY('name')->get();
 
         if ($request->ajax()) {
             return response()->json([

@@ -117,12 +117,34 @@
                     <div class="d-flex accordion-row">
                         <div class="w-50 label">{{ __('children.attactedFile') }}</div>
                         <div class="w-50">
-                            @if (!empty($documentation->file))
+                            <!-- @if (!empty($documentation->file))
                                 <a href="{{ $documentation->file }}" target="_blank">
                                     <h4><i class="bx bx-file"></i></h4>
                                 </a>
                             @else
                                 -
+                            @endif -->
+                            @php
+                                $docExt = pathinfo($documentation->file, PATHINFO_EXTENSION);
+                                $groupDocExt = pathinfo(@$groupChildDetail->file, PATHINFO_EXTENSION);
+                            @endphp
+                            @if ($documentation->file)
+                                @if ($docExt == 'xlsx' || $docExt == 'docx' || $docExt == 'odt')
+                                    
+                                @else
+                                    <a href="{{ $documentation->file }}" target="_blank">
+                                        <h4><i class="bx bx-file"></i></h4>
+                                    </a>
+                                @endif
+                            @endif
+                            @if ($groupChildDetail && $groupChildDetail->file)
+                                @if ($docExt == 'xlsx' || $docExt == 'docx' || $docExt == 'odt')
+                                    
+                                @else
+                                    <a href="{{ asset('storage/' . @$groupChildDetail->file) }}" target="_blank">
+                                        <h4><i class="bx bx-file"></i></h4>
+                                    </a>
+                                @endif
                             @endif
                         </div>
                     </div>

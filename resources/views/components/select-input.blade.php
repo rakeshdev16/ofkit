@@ -4,6 +4,7 @@
 <div class="position-relative input-icon">
     <select
         name="{{ $name }}"
+        id="{{@$id}}"
         class="form-control @error($name) is-invalid @enderror {{ @$class }}"
         {{ @$disabled }}
         {{ @$required }}
