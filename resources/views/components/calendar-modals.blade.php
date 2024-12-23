@@ -179,8 +179,8 @@
                     <input type="hidden" name="end_time" id="endTime"> --}}
                     <input type="hidden" name="draft_name" id="draftName">
                     <div class="d-flex gap-3">
-                        <button class="button p-2 px-4 rounded-pill border-0" id="createEventModalBtn">Save</button>
-                        <button class="button p-2 px-4 rounded-pill border-0">Cancel</button>
+                        <button type="submit" class="button p-2 px-4 rounded-pill border-0" id="createEventModalBtn">Save</button>
+                        <button type="button" onclick="resetForm();" data-bs-dismiss="modal" class="button p-2 px-4 rounded-pill border-0">Cancel</button>
                     </div>
                 </form>
             </div>
