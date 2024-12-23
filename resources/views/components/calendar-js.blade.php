@@ -148,8 +148,7 @@
             }
         };
         var today = new Date();
-        var startOfWeek = new Date(today.setDate(today.getDate() - today.getDay())); // Sunday is the first day of the week
-        var startDate = startOfWeek.getFullYear() + '-' + (startOfWeek.getMonth() + 1).toString().padStart(2, '0') + '-' + startOfWeek.getDate().toString().padStart(2, '0');
+        var startDate = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
         dp.startDate = startDate;
         dp.allDayEventHeight = 100;
         dp.viewType = "Resources";

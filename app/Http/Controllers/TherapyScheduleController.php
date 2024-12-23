@@ -125,8 +125,8 @@ class TherapyScheduleController extends Controller
                 'id' => $schedules->where('day', $schedule->day)->where('start_time', $schedule->start_time)->pluck('id')->toArray(),
                 'day' => $schedule->day,
                 'description' => $schedule->description,
-                'start' => $this->getDateTime($schedule->day, $schedule->start_time),
-                'end' => $this->getDateTime($schedule->day, $schedule->end_time),
+                'start' => date('Y-m-d').' '.$schedule->start_time,
+                'end' => date('Y-m-d').' '.$schedule->end_time,
                 'startTime' => Carbon::parse($schedule->start_time)->format('H:i'),
                 'endTime' => Carbon::parse($schedule->end_time)->format('H:i'),
                 'resource' => $schedule->therapist_id . strtolower($schedule->day),
@@ -143,6 +143,7 @@ class TherapyScheduleController extends Controller
                 'description' => $schedule->description,
                 'file' => $schedule->file,
                 'color' => $schedule->color,
+                // "allday" => true
             ];
         });
         $userIds = StaffKindergarten::where('kindergarten_id', $filter['kindergarten_id'])->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
