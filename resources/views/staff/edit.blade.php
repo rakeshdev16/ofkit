@@ -133,6 +133,7 @@
                                                 @include('components.select-input', [
                                                     'label' => __('staff.roleTh'),
                                                     'name' => 'role',
+                                                    'id' => 'roles',
                                                     'icon' => 'user-check',
                                                     'options' => $roles,
                                                     'value' => $staff->getRoleNames()->first(),
@@ -211,6 +212,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody class="selected-kindergarten">
+                                                            
                                                             @if (count(old('kindergarten_id', @$staffKindergartens ?? [])) > 0)
                                                                 @foreach (old('kindergarten', @$staffKindergartens ?? []) as $data)
                                                                     @include('components.kindergarten-tr', [

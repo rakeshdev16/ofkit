@@ -73,16 +73,28 @@
                     @endif --}}
                 </td>
                 {{-- <td>{{ $documentation->occured == 1 ? \Str::limit($documentation->occured_description, 20, '...') : $documentation->occured_reason }}</td> --}}
-                <td class="d-flex">
+                <td class="">
+                    @php
+                        $docExt = pathinfo($documentation->file, PATHINFO_EXTENSION);
+                        $groupDocExt = pathinfo(@$groupChildDetail->file, PATHINFO_EXTENSION);
+                    @endphp
                     @if ($documentation->file)
-                        <a href="{{ $documentation->file }}" target="_blank">
-                            <h4><i class="bx bx-file"></i></h4>
-                        </a>
+                        @if ($docExt == 'xlsx' || $docExt == 'docx' || $docExt == 'odt')
+                            
+                        @else
+                            <a href="{{ $documentation->file }}" target="_blank">
+                                <h4><i class="bx bx-file"></i></h4>
+                            </a>
+                        @endif
                     @endif
                     @if ($groupChildDetail && $groupChildDetail->file)
-                        <a href="{{ asset('storage/' . @$groupChildDetail->file) }}" target="_blank">
-                            <h4><i class="bx bx-file"></i></h4>
-                        </a>
+                        @if ($docExt == 'xlsx' || $docExt == 'docx' || $docExt == 'odt')
+                            
+                        @else
+                            <a href="{{ asset('storage/' . @$groupChildDetail->file) }}" target="_blank">
+                                <h4><i class="bx bx-file"></i></h4>
+                            </a>
+                        @endif
                     @endif
                 </td>
                 <td>

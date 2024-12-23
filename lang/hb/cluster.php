@@ -15,8 +15,8 @@ return [
     'clusterTh' => 'אשכול',
     'managerTh' => 'רכז/ת',
     'selectMsg' => "בחר אשכול אחד לפחות",
-    'requiredCluster' => "נא להזין את שם האשכול",
+    'requiredCluster' => "שדה חובה",
     'uniqueCluster' => "שם האשכול הזה כבר קיים בבקשה נסה שם אחר",
-    'requiredManager' => "נא להזין את שם המנהל",
+    'requiredManager' => "שדה חובה",
 
 ];

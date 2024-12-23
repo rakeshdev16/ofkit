@@ -107,6 +107,7 @@
                                             @include('components.select-input', [
                                                 'label' => __('staff.roleTh'),
                                                 'name' => 'role',
+                                                'id' => 'roles',
                                                 'icon' => 'user-check',
                                                 'options' => $roles,
                                             ])

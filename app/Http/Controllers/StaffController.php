@@ -114,6 +114,7 @@ class StaffController extends Controller
             'kindergarten.*.association_id.required' => __('staff.requiredAssociation'),
             'licence_number.regex' => __('staff.licenceRegex'),
         ];
+
         if ($request->role != 'support') {
             $rules['email'] = ['required', 'string', 'email', 'max:255', 'unique:users'];
             $rules['telephone'] = ['required', 'regex:/^[0-9-]{8,14}$/'];
@@ -240,7 +241,6 @@ class StaffController extends Controller
         $rules = [
             'first_name' => 'required',
             'identification' => ['nullable', 'digits:9', Rule::unique('users')->ignore($id)],
-            'telephone' => ['required', 'regex:/^[0-9-]{8,14}$/'],
             'role' => 'required',
             'kindergarten.*.role_id' => 'required',
             'kindergarten.*.association_id' => 'required',
@@ -258,6 +258,7 @@ class StaffController extends Controller
         ];
         if ($request->role != 'support') {
             $rules['email'] = ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($id)];
+            $rules['telephone'] = ['required', 'regex:/^[0-9-]{8,14}$/'];
             $messages['email.required'] = __('staff.requiredEmail');
             $messages['email.email'] = __('staff.validEmail');
             $messages['email.unique'] = __('staff.existsEmail');
@@ -294,7 +295,6 @@ class StaffController extends Controller
 
             $request['name'] = $request->first_name . ' ' . $request->family_name;
             $user = User::findOrFail($id);
-
             $request['status'] = $request->status ?? 'inactive';
             $user->update($request->except('_token', '_method', 'kindergarten_id', 'schedule', 'query_string'));
             $user->syncRoles($request->role);
