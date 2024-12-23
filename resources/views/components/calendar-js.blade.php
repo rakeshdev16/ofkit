@@ -148,7 +148,10 @@
             }
         };
         var today = new Date();
-        var startDate = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+        var startDate = today.getFullYear() + '-' 
+                    + String(today.getMonth() + 1).padStart(2, '0') + '-' 
+                    + String(today.getDate()).padStart(2, '0') 
+                    + "T00:00:00";  // Add time portion to make it a valid ISO8601 string
         dp.startDate = startDate;
         dp.allDayEventHeight = 100;
         dp.viewType = "Resources";
