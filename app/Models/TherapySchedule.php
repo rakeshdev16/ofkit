@@ -53,9 +53,13 @@ class TherapySchedule extends Model
         if (isset($data['children_id'])) {
             $query->where('children_id', $data['children_id']);
         }
-        $weekStartDate = Carbon::now()->startOfWeek()->subDays(1)->format('Y-m-d H:i');
-        $weekEndDate = Carbon::now()->endOfWeek()->format('Y-m-d H:i');
-        return $query->whereDate('start_date', '>=', $weekStartDate)->whereDate('end_date', '<=', $weekEndDate);
+
+        if (isset($data['published']) && $data['published'] == 'true') {
+            $weekStartDate = Carbon::now()->startOfWeek()->subDays(1)->format('Y-m-d H:i');
+            $weekEndDate = Carbon::now()->endOfWeek()->format('Y-m-d H:i');
+            $query->whereDate('start_date', '>=', date('Y-m-d'))->whereDate('end_date', '<=', $weekEndDate);
+        }
+        return $query;
     }
 
     protected static function boot()

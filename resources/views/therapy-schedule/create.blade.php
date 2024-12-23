@@ -34,6 +34,7 @@
     </div>
 
     <input type="hidden" id="createdEventIds" value="{{ $createdEventIds }}">
+    <input type="hidden" id="published" value="false">
 </div>
 
 @include('components.calendar-modals')
