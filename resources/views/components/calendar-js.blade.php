@@ -56,16 +56,9 @@
         } else {
             $('.event-file').hide();
         }
-    }
 
-    // function editEvent(data) {
-    //     filterDropdown(data.day);
-    //     $('#unSelectedTherapistId').val(data.therapistIds);
-    //     setTimeout(function () {
-    //         populateFormFields(data);
-    //         $('#createEventModal').modal('toggle');
-    //     }, 200);
-    // }
+        $('#day').attr('onchange', 'filterDropdown(this.value)');
+    }
 
     function editEvent(data) {
         filterDropdown(data.day, function () {
@@ -73,6 +66,7 @@
             populateFormFields(data);
             $('#createEventModal').modal('toggle');
         });
+        $('#day').attr('onchange', '');
     }
     
     function deleteEvent(ids) {
@@ -154,8 +148,10 @@
             }
         };
         var today = new Date();
-        var startOfWeek = new Date(today.setDate(today.getDate() - today.getDay())); // Sunday is the first day of the week
-        var startDate = startOfWeek.getFullYear() + '-' + (startOfWeek.getMonth() + 1).toString().padStart(2, '0') + '-' + startOfWeek.getDate().toString().padStart(2, '0');
+        var startDate = today.getFullYear() + '-' 
+                    + String(today.getMonth() + 1).padStart(2, '0') + '-' 
+                    + String(today.getDate()).padStart(2, '0') 
+                    + "T00:00:00";  // Add time portion to make it a valid ISO8601 string
         dp.startDate = startDate;
         dp.allDayEventHeight = 100;
         dp.viewType = "Resources";
@@ -193,8 +189,6 @@
 
                 args.startTime = args.start.value.split("T")[1].slice(0, 5);
                 args.endTime = args.end.value.split("T")[1].slice(0, 5);
-                // populateFormFields(args);
-                // $('#eventTypeModal').modal('toggle');
 
                 filterDropdown(args.day, function () {
                     populateFormFields(args);
@@ -266,30 +260,10 @@
                     dropdownParent: $("#createEventModal"),
                 });
 
-                // Execute callback if provided
                 if (callback) callback();
             }
         });
     }
-
-
-    // function filterDropdown(day) {
-    //     var kindergartenId = $('#kindergartenFilter').val();
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: "{{ route('therapy-schedule.filter-dropdown') }}",
-    //         data: { kindergarten_id: kindergartenId, day: day },
-    //         success : function(data){
-    //             $('#therapistDropdownDiv').html('').html(data.therapistDropdown);
-    //             $('#childrenDropdownDiv').html('').html(data.childrensDropdown);
-    //             $('.selectChildrens, .selectTherapist').select2({ 
-    //                 dropdownParent: $("#createEventModal"),
-    //                 // containerCssClass: "error",
-    //                 // dropdownCssClass: "test" 
-    //             });
-    //         }
-    //     });
-    // }
 
     function resetForm() {
         $('#addEventForm').trigger("reset");
@@ -302,6 +276,19 @@
         url.searchParams.delete('children_id');
         return history.replaceState(null, '', url.toString());
     });
+
+    function selectVisibility(type) {
+        var isMultiple = (type === 'group' || type === 'staff-meeting');
+        $('.selectChildrens, .selectTherapist').select2('destroy');
+        $('.selectChildrens, .selectTherapist').select2({
+            dropdownParent: $("#createEventModal"),
+            multiple: isMultiple
+        }).on('select2:open', function() {
+            // $('.select2-container').addClass('event-dropdown');
+            // $('.select2-dropdown').addClass('event-dropdown-class');
+            // $('.select2-results').addClass('custom-results-class');
+        });
+    }
     
     function queryParam(params = {}) {
         var currentUrl = new URL(window.location.href);

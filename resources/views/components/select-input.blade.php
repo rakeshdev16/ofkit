@@ -9,7 +9,7 @@
         {{ @$disabled }}
         {{ @$required }}
     >
-        <option value="" selected>{{ __('comon.select') }}</option>
+        {{-- <option value="" selected>{{ __('comon.select') }}</option> --}}
         @foreach (collect($options)->sortBy('value') as $option)
             <option
                 {{ (old($name) ?? @$value) == $option['key'] ? 'selected' : '' }}

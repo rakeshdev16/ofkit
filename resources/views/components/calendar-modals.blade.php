@@ -110,7 +110,7 @@
             <div class="modal-body">
                 <form action="" id="addEventForm" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <select id="appointmentType" name="type" class="btn btn-outline-secondary text-start rounded w-100 form-select">
+                        <select id="appointmentType" name="type" class="form-control border-1">
                             <option value="">Choose Appointment</option>
                             <option value="individual">Individual</option>
                             <option value="group">Group</option>
@@ -160,8 +160,9 @@
                     <div class="mb-3">
                         <input type="text" name="group_name" id="appointmentGroupName" class="w-100 form-control border-1" placeholder="Group Name">
                     </div>
-                    <div class="mb-3" id="therapistDropdownDiv"></div>
-                    <div class="mb-3" id="childrenDropdownDiv"></div>
+                    <div class="" id="therapistDropdownDiv"></div>
+                    <span class="therapists mb-3"></span>
+                    <div class="my-3" id="childrenDropdownDiv"></div>
                     <div class="mb-3">
                         <textarea class="form-control w-100" placeholder="Add Description" rows="5" name="description" id="description"></textarea>
                     </div>
@@ -178,8 +179,8 @@
                     <input type="hidden" name="end_time" id="endTime"> --}}
                     <input type="hidden" name="draft_name" id="draftName">
                     <div class="d-flex gap-3">
-                        <button class="button p-2 px-4 rounded-pill border-0" id="createEventModalBtn">Save</button>
-                        <button class="button p-2 px-4 rounded-pill border-0">Cancel</button>
+                        <button type="submit" class="button p-2 px-4 rounded-pill border-0" id="createEventModalBtn">Save</button>
+                        <button type="button" onclick="resetForm();" data-bs-dismiss="modal" class="button p-2 px-4 rounded-pill border-0">Cancel</button>
                     </div>
                 </form>
             </div>

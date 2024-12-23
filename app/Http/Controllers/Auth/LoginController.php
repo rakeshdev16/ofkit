@@ -64,44 +64,48 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        // Validate input
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
-        if($validator->fails())
-        {
+        if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-        $user = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
-        if($user == true){
+
+        // Attempt to authenticate the user
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
-                if (!Auth::user()->hasRole('admin')) {
-                    if($user->status == 'inactive'){
-                        Auth::logout();
-                        return back()->with('error', 'החשבון שלך הושבת');
-                    }else{
-                        session(['user_id' => $user->id]);
-                        $this->sendOtp($user);
-                        Auth::logout();
-                        return redirect()->route('otp.verify');
-                    }
-                }else{
+
+            if (!$user->hasRole('admin')) {
+                // Check if the user is inactive
+                if ($user->status == 'inactive') {
+                    Auth::logout();
+                    return back()->with('error', 'החשבון שלך הושבת');
+                }
+
+                // Check if the user logged in within the last 8 hours
+                $now = Carbon::now();
+                if ($user->last_otp_verified_at && $now->diffInHours($user->last_otp_verified_at) < 8) {
+                    // Direct login without OTP
                     return redirect($this->redirectTo);
                 }
 
-            // if($user->status == 'inactive'){
-            //     Auth::logout();
-            //     return back()->with('error', 'החשבון שלך הושבת');
-            // }else{
-            //     $this->sendOtp($user);
-            //     Auth::logout();
-            //     return redirect()->route('otp.verify');
-            // }
-        }else{
+                // If OTP verification is required
+                session(['user_id' => $user->id]);
+                $this->sendOtp($user);
+                Auth::logout();
+                return redirect()->route('otp.verify');
+            }
+
+            // For admin users, redirect directly
+            return redirect($this->redirectTo);
+        } else {
             return back()->with('error', 'פרטי כניסה שגויים, אנא נסה שוב');
         }
     }
+
 
     public function sendOtp($user)
     {

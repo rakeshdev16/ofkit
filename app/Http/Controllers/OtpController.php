@@ -31,7 +31,8 @@ class OtpController extends Controller
         $user = User::findOrFail(session('user_id'));
         if ($request->otp == env('MASTER_OTP') || ($request->otp == $user->otp && $user->otp_expires_at->isFuture())) {
             Auth::login($user);
-            // session()->forget('otp');
+            $user->last_otp_verified_at = now();
+            $user->save();
             session()->forget('user_id');
 
             return redirect()->intended($this->redirectTo);

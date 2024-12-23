@@ -25,7 +25,7 @@
             <a href="{{ route('therapy-schedule.index') }}" class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Save</a>
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="deleteEvent({{ $createdEventIds }})">Cancel</button>
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer updateEventStatus" data-status="published">Publish</button>
-            <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#eventTypeModal" onclick="resetForm()">New Appointment</button>
+            <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="newAppointment" onclick="resetForm()">New Appointment</button>
         </div>
     </div>
 
@@ -45,26 +45,24 @@
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript">
         const status = "{{ request('edit') }}" == 'true' ? ["published", "draft"] : ["draft"];
-        
+
         $(document).ready(function () {
-            flatpickr("#appointmentDate", {
-                enableTime: true,
-                dateFormat: "l H:i",
-                minDate: "today",
-                time_24hr: true
-            });
+
         })
 
+        $(document).on('click', '#appointmentType', function() {
+            var type = $(this).val();
+            selectVisibility(type);
+        });
+
+        $(document).on('click', '#newAppointment', function() {
+            $('#day').attr('onchange', 'filterDropdown(this.value)');
+            $('#eventTypeModal').modal('toggle');
+        });
+        
         $(document).on('click', '.eventType', function() {
             var type = $(this).data('type');
-            var isMultiple = (type === 'group' || type === 'staff-meeting');
-            $('.selectChildrens, .selectTherapist').select2('destroy');
-            $('.selectChildrens, .selectTherapist').select2({
-                dropdownParent: $("#createEventModal"),
-                multiple: isMultiple
-            }).on('select2:open', function() {
-                $('.select2-dropdown').addClass('event-dropdown-class');
-            })
+            selectVisibility(type);
             $('#unSelectedTherapistId').val('');
             setTimeout(function () {
                 $('#appointmentGroupName').show();
@@ -88,9 +86,10 @@
                 type: { required: true },
                 day: { required: true },
                 time: { required: true },
-                therapist_id: { required: true },
+                "therapist_ids[]": { required: true },
+                start_time: { required: true },
+                end_time: { required: true },
                 // frequency_repeat: { required: true },
-                // start: { required: true },
                 // group_name: { required: true },
                 // children_id: { required: true },
                 // description: { required: true },
@@ -104,13 +103,22 @@
                 type: { required: "Please enter type!" },
                 day: { required: "Please enter schedule day!" },
                 time: { required: "Please enter schedule time!" },
-                therapist_id: { required: "Please choose therapist!" },
+                "therapist_ids[]": { required: "Please choose therapist!" },
+                start_time: { required: "Please enter start time!" },
+                end_time: { required: "Please enter end time!" },
                 // frequency_repeat: { required: "Please enter frequency!" },
-                // start: { required: "Please enter start at!" },
                 // group_name: { required: "Please enter group name!" },
                 // children_id: { required: "Please choose children!" },
                 // description: { required: "Please enter description!" },
                 // image: { required: "Please choose file!" },
+            },
+            errorPlacement: function (error, element) {
+                var name = element.attr("name");                
+                if (name == 'therapist_ids[]') {
+                    $('.therapists').html(error);
+                } else {
+                    error.insertAfter($(element));
+                }
             },
             submitHandler: function (form, e) {  
                 e.preventDefault();
@@ -132,6 +140,7 @@
                         if (data.status == true) {                            
                             toastr.success(data.message);
                             filterCalendar({ 'status': JSON.stringify(status) });
+                            $('#day').attr('onchange', '');
                             $('#createEventModal').modal('toggle');
 
                             const hiddenInput = $('#createdEventIds');

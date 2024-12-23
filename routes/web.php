@@ -52,18 +52,18 @@ Route::get('/check-session', function () {
         }
     }
 });
-Route::get('/expire-session', function() {
-    try {
-        //code...
-        \Auth::logout();
-        session()->invalidate();
-        session()->regenerateToken();
-        return response()->json(['isLogOut' => true]);
-    } catch (\Exception $e) {
-        //throw $th;
-        Log::info('Expire Session', $e->getMessage());
-    }
-});
+// Route::get('/expire-session', function() {
+//     try {
+//         //code...
+//         \Auth::logout();
+//         session()->invalidate();
+//         session()->regenerateToken();
+//         return response()->json(['isLogOut' => true]);
+//     } catch (\Exception $e) {
+//         //throw $th;
+//         Log::info('Expire Session', $e->getMessage());
+//     }
+// });
 
 Route::controller(Controller::class)->group(function () {
     Route::post('active-inactive', 'activeInactive')->name('activeInactive.records');

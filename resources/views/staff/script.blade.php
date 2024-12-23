@@ -274,14 +274,14 @@
         $(`[name="${startTimeField}"]`).rules("add", {
             required: true,
             messages: {
-                required: "Please enter a start time."
+                required: "Please enter start time."
             }
         });
 
         $(`[name="${endTimeField}"]`).rules("add", {
             required: true,
             messages: {
-                required: "Please enter an end time."
+                required: "Please enter end time."
             }
         });
     }
