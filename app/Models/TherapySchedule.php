@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class TherapySchedule extends Model
 {
@@ -52,7 +53,9 @@ class TherapySchedule extends Model
         if (isset($data['children_id'])) {
             $query->where('children_id', $data['children_id']);
         }
-        return $query;
+        $weekStartDate = Carbon::now()->startOfWeek()->subDays(1)->format('Y-m-d H:i');
+        $weekEndDate = Carbon::now()->endOfWeek()->format('Y-m-d H:i');
+        return $query->whereDate('start_date', '>=', $weekStartDate)->whereDate('end_date', '<=', $weekEndDate);
     }
 
     protected static function boot()

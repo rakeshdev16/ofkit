@@ -223,6 +223,10 @@
             $('#eventFile').val('');
             $('.event-file').html('');
         }
+
+        $(document).on('change', '#publishStartDate', function() {
+            $('#publishEndDate').val('').attr('min', $(this).val());
+        });
         
     </script>
     @include('components.calendar-js', ['type' => 'create']);

@@ -198,10 +198,10 @@
             <div class="modal-body">
                 <form action="" id="publishEventForm" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <input type="datetime-local" name="start_date" placeholder="Start Date" class="w-100 form-control border-1">
+                        <input type="date" name="start_date" id="publishStartDate" placeholder="Start Date" class="w-100 form-control border-1" min="{{ date('Y-m-d') }}">
                     </div>
                     <div class="mb-3">
-                        <input type="datetime-local" name="end_date" placeholder="End Date" class="w-100 mb-3 form-control border-1">
+                        <input type="date" name="end_date" id="publishEndDate" placeholder="End Date" class="w-100 mb-3 form-control border-1">
                     </div>
                     <input type="hidden" name="status" value="published">
                     <input type="hidden" name="ids" id="eventIds">
