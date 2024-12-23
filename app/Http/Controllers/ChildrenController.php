@@ -872,17 +872,20 @@ class ChildrenController extends Controller
         $rules= [
             'file_type_id' => 'required',
             'description' => 'required',
+            'therapist' => 'required'
+
         ];
 
         if (empty($request->old_document) && empty($request->document)) {
             $rules['document'] = 'required';
         }
         $messages = [
-            'file_type_id.required' => 'Please choose file type',
-            'description.required' => 'Please enter description',
+            'file_type_id.required' => __('children.requiredFileType'),
+            'description.required' => __('children.requiredDescription'),
+            'therapist.required' => __('children.requiredTherapist'),
         ];
         if ((!isset($request->id) && empty($request->id) || (isset($request->id) && empty($request->old_document)))) {
-            $messages['document.required'] = 'Please choose document';
+            $messages['document.required'] = __('children.requiredDocument');
         }
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
@@ -906,7 +909,7 @@ class ChildrenController extends Controller
                 'document' => $document,
                 'file_type_id' => $request->file_type_id,
                 'description' => $request->description,
-                'user_id' => $request->user_id,
+                'user_id' => $request->therapist,
             ]);
             DB::commit();
             return redirect()->route('documents-approvals.get', $request->children_id);

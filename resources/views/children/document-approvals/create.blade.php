@@ -39,23 +39,23 @@
                                         <div class="row">
                                             <input type="hidden" name="children_id" value="{{ $childId }}">
                                             <div class="col-md-12">
-                                                <label for="user_id" class="form-label">{{ __('comon.therapist') }}</label>
+                                                <label for="therapist" class="form-label">{{ __('comon.therapist') }}</label>
                                                 <div class="position-relative input-icon">
                                                     @hasanyrole('manager|admin')
-                                                        <select name="user_id" class="form-control @error('user_id') is-invalid @enderror">
+                                                        <select name="therapist" class="form-control @error('therapist') is-invalid @enderror">
                                                             <option value="" selected="">{{ __('comon.select') }}</option>
                                                             @foreach ($therapists as $therapist)
-                                                                <option value="{{ $therapist['key'] }}" {{old('user_id') == $therapist['key'] ? 'selected' : ''}}>{{ $therapist['value'] }}</option>
+                                                                <option value="{{ $therapist['key'] }}" {{old('therapist') == $therapist['key'] ? 'selected' : ''}}>{{ $therapist['value'] }}</option>
                                                             @endforeach
                                                         </select>
                                                     @else
                                                         <input type="text" class="form-control" value="{{auth()->user()->name}}" disabled>
-                                                        <input type="hidden" name="user_id" value="{{auth()->user()->id}}">
+                                                        <input type="hidden" name="therapist" value="{{auth()->user()->id}}">
                                                     @endhasanyrole
                                                     <span class="position-absolute top-50 translate-middle-y">
                                                         <i class="bx bx-buildings"></i>
                                                     </span>
-                                                    @error('user_id')
+                                                    @error('therapist')
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $message }}</strong>
                                                         </span>
