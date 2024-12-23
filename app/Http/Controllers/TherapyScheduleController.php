@@ -143,7 +143,6 @@ class TherapyScheduleController extends Controller
                 'description' => $schedule->description,
                 'file' => $schedule->file,
                 'color' => $schedule->color,
-                // "allday" => true
             ];
         });
         $userIds = StaffKindergarten::where('kindergarten_id', $filter['kindergarten_id'])->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
