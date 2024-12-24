@@ -134,10 +134,10 @@
                             </select>
                         </div>
                         <div>
-                            <input type="text" class="form-control" name="start_time" id="startTime" placeholder="Select Start Time">
+                            <input type="text" class="form-control" name="start_time" id="startTime" placeholder="Start Time">
                         </div>
                         <div>
-                            <input type="text" class="form-control" name="end_time" id="endTime" placeholder="Select End Time">
+                            <input type="text" class="form-control" name="end_time" id="endTime" placeholder="End Time">
                         </div>
                     </div>
                     <div class="mb-3">
