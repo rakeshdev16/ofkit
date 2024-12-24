@@ -44,10 +44,10 @@ class TherapySchedule extends Model
     {
         if (isset($data['status'])) {
             $query->whereIn('status', json_decode($data['status']));
-            if (in_array('published', json_decode($data['status']))) {
-                $weekEndDate = Carbon::now()->endOfWeek()->format('Y-m-d H:i');
-                $query->whereDate('start_date', '>=', date('Y-m-d'))->whereDate('end_date', '<=', $weekEndDate);
-            }
+            // if (in_array('published', json_decode($data['status']))) {
+            //     $weekEndDate = Carbon::now()->endOfWeek()->format('Y-m-d H:i');
+            //     $query->whereDate('end_date', '<=', $weekEndDate);
+            // }
         }
 
         if (isset($data['kindergarten_id'])) {

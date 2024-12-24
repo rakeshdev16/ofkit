@@ -157,7 +157,7 @@
         dp.headerLevels = 2;
         dp.columnWidthSpec = "Fixed";
         dp.columnMinWidth = 20;
-        dp.columnWidth = 255;
+        dp.columnWidth = 300;
         dp.events.list = events;
         dp.dayBeginsHour = 8;
         dp.timeHeaderCellDuration = 15;
