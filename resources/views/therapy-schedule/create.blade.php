@@ -52,14 +52,16 @@
             enableTime: true, 
             noCalendar: true, 
             dateFormat: "H:i", // 24-hour format
-            time_24hr: true // Forces 24-hour format
+            time_24hr: true, // Forces 24-hour format
+            minuteIncrement: 15
         });
 
         flatpickr("#endTime", { 
             enableTime: true, 
             noCalendar: true, 
             dateFormat: "H:i", // 24-hour format
-            time_24hr: true // Forces 24-hour format
+            time_24hr: true, // Forces 24-hour format
+            minuteIncrement: 15
         });
         $(document).ready(function () {
 
