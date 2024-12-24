@@ -45,10 +45,11 @@
 @push('customScript')
     <script type="text/javascript" src="{{ asset('assets/js/jquery.validate.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript">
         const status = "{{ request('edit') }}" == 'true' ? ["published", "draft"] : ["draft"];
-
+        flatpickr("#startTime", { enableTime: true, noCalendar: true, dateFormat: "H:i" });
+        flatpickr("#endTime", { enableTime: true, noCalendar: true, dateFormat: "H:i" });
         $(document).ready(function () {
 
         })

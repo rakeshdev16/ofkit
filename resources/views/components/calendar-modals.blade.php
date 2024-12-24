@@ -133,8 +133,12 @@
                                 <option value="Saturday">Saturday</option>
                             </select>
                         </div>
-                        <div><input type="time" class="form-control" name="start_time" id="startTime"></div>
-                        <div><input type="time" class="form-control" name="end_time" id="endTime"></div>
+                        <div>
+                            <input type="text" class="form-control" name="start_time" id="startTime" placeholder="Select Start Time">
+                        </div>
+                        <div>
+                            <input type="text" class="form-control" name="end_time" id="endTime" placeholder="Select End Time">
+                        </div>
                     </div>
                     <div class="mb-3">
                         <select id="appointmentFrequency" name="frequency_repeat" class="form-control">
