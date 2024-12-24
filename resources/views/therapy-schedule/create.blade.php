@@ -10,6 +10,9 @@
             padding-right: 20px;
             padding-left: 20px;
         }
+        .select2-container .select2-selection--multiple {
+            min-height: 38px !important;
+        }
     </style>
 @endpush
 @section('section')
@@ -77,8 +80,11 @@
 
         $(document).on('change', '#appointmentFrequency', function() {
             var frequency = $(this).val();
-            $('#Monthly, #Bi-weekly').attr('name', '').hide();
-            $('#'+frequency).attr('name', 'start').show();
+            console.log(frequency);
+            if (frequency) {
+                $('#Monthly, #Bi-weekly').attr('name', '').hide();
+                $('#'+frequency).attr('name', 'start').show();
+            }
         });
 
         $("#addEventForm").validate({

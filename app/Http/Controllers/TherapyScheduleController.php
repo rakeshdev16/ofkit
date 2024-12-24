@@ -46,16 +46,16 @@ class TherapyScheduleController extends Controller
                     TherapySchedule::whereIn('therapist_id', $unselectedTherapistIds)->where('kindergarten_id', $request->kindergarten_id)->where('day', $request->day)->delete();
                 }
             }
-
+            $status = json_decode($request->status);
             foreach ($request->therapist_ids as $key => $therapistId) {
                 $request['therapist_id'] = $therapistId;
                 $condition = ['therapist_id' => $therapistId, 'kindergarten_id' => $request->kindergarten_id, 'day' => $request->day, 'start_time' => $request->start_time];
-                $event = TherapySchedule::where($condition);
+                $event = TherapySchedule::where($condition)->whereIn('status', $status);
                 if ($event->exists()) {
-                    $event->update($request->except('unselected_therapist_id', 'therapist_ids', 'children_ids', 'old_image', 'resource'));
-                    $event = TherapySchedule::where($condition)->first();
+                    $event->update($request->except('unselected_therapist_id', 'therapist_ids', 'children_ids', 'old_image', 'resource', 'status'));
+                    $event = TherapySchedule::where($condition)->whereIn('status', $status)->first();
                 } else {
-                    $event = TherapySchedule::create($request->all());
+                    $event = TherapySchedule::create($request->except('status'));
                 }
 
                 $event->childrens()->delete();
@@ -172,10 +172,10 @@ class TherapyScheduleController extends Controller
                 ];
             })->toArray();
         $therapistDropdown = view('components.multi-select-input', [
-            'name' => "therapist_ids[]", 'class' => 'selectTherapist', 'id' => 'therapist', 'icon' => 'buildings', 'options' => $therapists,
+            'name' => "therapist_ids[]", 'class' => 'selectTherapist', 'id' => 'therapist', 'icon' => 'buildings', 'options' => $therapists
         ])->render();
         $childrensDropdown = view('components.multi-select-input', [
-            'name' => "children_ids[]", 'class' => 'selectChildrens', 'id' => 'children', 'icon' => 'buildings', 'options' => $childrens,
+            'name' => "children_ids[]", 'class' => 'selectChildrens', 'id' => 'children', 'icon' => 'buildings', 'options' => $childrens
         ])->render();
 
         return [

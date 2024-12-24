@@ -138,6 +138,7 @@
                     </div>
                     <div class="mb-3">
                         <select id="appointmentFrequency" name="frequency_repeat" class="form-control">
+                            <option value="">Select frequency</option>
                             <option value="Weekly">Weekly</option>
                             <option value="Bi-weekly">Bi-weekly</option>
                             <option value="Monthly">Monthly</option>
@@ -171,13 +172,11 @@
                         <input type="hidden" id="eventOldFile" name="old_image" class="form-control">
                         <div class="event-file" style="display: none"></div>
                     </div>
-                    {{-- <input type="hidden" name="id" id="eventId"> --}}
                     <input type="hidden" name="kindergarten_id" id="kindergartenId">
                     <input type="hidden" name="unselected_therapist_id" id="unSelectedTherapistId">
                     <input type="hidden" name="resource" id="resource">
-                    {{-- <input type="hidden" name="start_time" id="startTime">
-                    <input type="hidden" name="end_time" id="endTime"> --}}
                     <input type="hidden" name="draft_name" id="draftName">
+                    <input type="hidden" name="status" value="{{ request('status') }}">
                     <div class="d-flex gap-3">
                         <button type="submit" class="button p-2 px-4 rounded-pill border-0" id="createEventModalBtn">Save</button>
                         <button type="button" onclick="resetForm();" data-bs-dismiss="modal" class="button p-2 px-4 rounded-pill border-0">Cancel</button>

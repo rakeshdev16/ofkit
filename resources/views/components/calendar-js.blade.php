@@ -157,12 +157,13 @@
         dp.headerLevels = 2;
         dp.columnWidthSpec = "Fixed";
         dp.columnMinWidth = 20;
+        dp.columnWidth = 255;
         dp.events.list = events;
         dp.dayBeginsHour = 8;
         dp.timeHeaderCellDuration = 15;
         dp.cellDuration = 15;
-        dp.hourWidth = 100;
-        dp.cellHeight = 45;
+        dp.hourWidth = 80;
+        dp.cellHeight = 30;
         dp.headerHeightAutoFit = true;
         dp.columns.list = list;
 
@@ -255,8 +256,15 @@
             success: function (data) {
                 $('#therapistDropdownDiv').html(data.therapistDropdown);
                 $('#childrenDropdownDiv').html(data.childrensDropdown);
-                $('.selectChildrens, .selectTherapist').select2({
+                $('.selectChildrens').select2({
                     dropdownParent: $("#createEventModal"),
+                    placeholder: "Select Children",
+                    allowClear: true
+                });
+                $('.selectTherapist').select2({
+                    dropdownParent: $("#createEventModal"),
+                    placeholder: "Select Therapist",
+                    allowClear: true
                 });
 
                 if (callback) callback();

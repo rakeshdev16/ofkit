@@ -11,6 +11,9 @@
         {{ @$required }}
         data-name="{{ @$dataName }}"
     >
+    @isset($placeholder)
+        <option value="" disabled>{{ $placeholder }}</option> <!-- Add placeholder -->
+    @endisset
     @if (isset($options))
         @foreach ($options as $option)
             <option
