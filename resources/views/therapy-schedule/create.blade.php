@@ -48,8 +48,19 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript">
         const status = "{{ request('edit') }}" == 'true' ? ["published", "draft"] : ["draft"];
-        flatpickr("#startTime", { enableTime: true, noCalendar: true, dateFormat: "H:i" });
-        flatpickr("#endTime", { enableTime: true, noCalendar: true, dateFormat: "H:i" });
+        flatpickr("#startTime", { 
+            enableTime: true, 
+            noCalendar: true, 
+            dateFormat: "H:i", // 24-hour format
+            time_24hr: true // Forces 24-hour format
+        });
+
+        flatpickr("#endTime", { 
+            enableTime: true, 
+            noCalendar: true, 
+            dateFormat: "H:i", // 24-hour format
+            time_24hr: true // Forces 24-hour format
+        });
         $(document).ready(function () {
 
         })
