@@ -44,6 +44,10 @@ class TherapySchedule extends Model
     {
         if (isset($data['status'])) {
             $query->whereIn('status', json_decode($data['status']));
+            if (in_array('published', json_decode($data['status']))) {
+                $weekEndDate = Carbon::now()->endOfWeek()->format('Y-m-d H:i');
+                $query->whereDate('start_date', '>=', date('Y-m-d'))->whereDate('end_date', '<=', $weekEndDate);
+            }
         }
 
         if (isset($data['kindergarten_id'])) {
@@ -54,11 +58,6 @@ class TherapySchedule extends Model
             $query->where('children_id', $data['children_id']);
         }
 
-        if (isset($data['published']) && $data['published'] == 'true') {
-            $weekStartDate = Carbon::now()->startOfWeek()->subDays(1)->format('Y-m-d H:i');
-            $weekEndDate = Carbon::now()->endOfWeek()->format('Y-m-d H:i');
-            $query->whereDate('start_date', '>=', date('Y-m-d'))->whereDate('end_date', '<=', $weekEndDate);
-        }
         return $query;
     }
 

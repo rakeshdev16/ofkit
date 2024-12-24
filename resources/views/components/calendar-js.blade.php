@@ -150,10 +150,7 @@
             }
         };
         var today = new Date();
-        var startDate = today.getFullYear() + '-' 
-                    + String(today.getMonth() + 1).padStart(2, '0') + '-' 
-                    + String(today.getDate()).padStart(2, '0') 
-                    + "T00:00:00";  // Add time portion to make it a valid ISO8601 string
+        var startDate = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0') + "T00:00:00";
         dp.startDate = startDate;
         dp.allDayEventHeight = 100;
         dp.viewType = "Resources";
@@ -201,7 +198,7 @@
 
         dp.onBeforeTimeHeaderRender = function(args) {
             var hour = DayPilot.Date.today().addTime(args.header.time);
-            args.header.html = hour.toString("h:mm");
+            args.header.html = hour.toString("HH:mm");
         };
 
         dp.onBeforeEventRender = function(args) {

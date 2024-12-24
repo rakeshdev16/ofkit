@@ -49,8 +49,6 @@ class TherapyScheduleController extends Controller
 
             foreach ($request->therapist_ids as $key => $therapistId) {
                 $request['therapist_id'] = $therapistId;
-                // $request['start_time'] = date('Y-m-d H:i:s', strtotime($request->start_time));
-                // $request['end_time'] = date('Y-m-d H:i:s', strtotime($request->end_time));
                 $condition = ['therapist_id' => $therapistId, 'kindergarten_id' => $request->kindergarten_id, 'day' => $request->day, 'start_time' => $request->start_time];
                 $event = TherapySchedule::where($condition);
                 if ($event->exists()) {

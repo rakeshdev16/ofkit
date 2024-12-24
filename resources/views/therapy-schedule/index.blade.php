@@ -27,7 +27,6 @@
     <div class="mb-5" id="calender-view">
         <div id="scheduleCalendar"></div>
     </div>
-    <input type="hidden" id="published" value="true">
 </div>
 
 @include('components.calendar-modals')
