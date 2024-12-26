@@ -272,8 +272,7 @@
         });
     }
 
-    function resetForm() {        
-        $('#form-div').load(location.href + " #form-div > *");
+    function resetForm() {
         $('#addEventForm').trigger("reset");
         $('#addEventForm .error').html('').removeClass('error');
     }

@@ -87,7 +87,6 @@
 
         $(document).on('click', '#newAppointment', function() {
             resetForm();
-            $('#form-div').load(location.href + " #form-div > *");
             $('#eventTypeModal').modal('toggle');
         });
         
