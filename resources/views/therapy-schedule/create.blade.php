@@ -87,11 +87,12 @@
 
         $(document).on('click', '#newAppointment', function() {
             resetForm();
-            $('#day').attr('onchange', 'filterDropdown(this.value)');
+            $('#form-div').load(location.href + " #form-div > *");
             $('#eventTypeModal').modal('toggle');
         });
         
         $(document).on('click', '.eventType', function() {
+            $('#day').attr('onchange', 'filterDropdown(this.value)');
             var type = $(this).data('type');
             selectVisibility(type);
             $('#unSelectedTherapistId').val('');
