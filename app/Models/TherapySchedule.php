@@ -28,6 +28,7 @@ class TherapySchedule extends Model
         'draft_name',
         'status',
         'color',
+        'unique_id',
     ];
 
     // public function getFileAttribute()

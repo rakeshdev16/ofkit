@@ -34,6 +34,7 @@
             'startTime': data.startTime,
             'endTime': data.endTime,
             'eventOldFile': data.file,
+            'uniqueId': data.uniqueId,
         };
 
         // Set values for all mapped fields

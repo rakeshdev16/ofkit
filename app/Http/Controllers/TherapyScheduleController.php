@@ -31,7 +31,6 @@ class TherapyScheduleController extends Controller
 
     public function store(Request $request)
     {
-        // echo '<pre>'; print_r($request->all()); die;
         DB::beginTransaction();
         try {
 
@@ -44,21 +43,15 @@ class TherapyScheduleController extends Controller
                 $therapistIds = explode(',', $request->unselected_therapist_id);
                 $unselectedTherapistIds = array_diff($therapistIds, $request->therapist_ids ?? []);
                 if (!empty($unselectedTherapistIds)) {
-                    TherapySchedule::whereIn('therapist_id', $unselectedTherapistIds)->where('kindergarten_id', $request->kindergarten_id)->where('day', $request->day)->delete();
+                    TherapySchedule::whereIn('therapist_id', $unselectedTherapistIds)->where('unique_id', $request->unique_id)->delete();
                 }
             }
+
+            $request['unique_id'] = $request->unique_id ? $request->unique_id : Str::uuid();
             $status = json_decode($request->status);
             foreach ($request->therapist_ids as $key => $therapistId) {
                 $request['therapist_id'] = $therapistId;
-                $condition = ['therapist_id' => $therapistId, 'kindergarten_id' => $request->kindergarten_id, 'day' => $request->day, 'start_time' => $request->start_time];
-                $event = TherapySchedule::where($condition)->whereIn('status', $status);
-                if ($event->exists()) {
-                    $event->update($request->except('unselected_therapist_id', 'therapist_ids', 'children_ids', 'old_image', 'resource', 'status', 'image'));
-                    $event = TherapySchedule::where($condition)->whereIn('status', $status)->first();
-                } else {
-                    $event = TherapySchedule::create($request->except('status'));
-                }
-
+                $event = TherapySchedule::updateOrCreate(['therapist_id' => $therapistId, 'unique_id' => $request->unique_id], $request->except('status'));
                 $event->childrens()->delete();
                 if (isset($request->children_ids) && count($request->children_ids) > 0) {
                     foreach ($request->children_ids as $childrenId) {
@@ -146,6 +139,7 @@ class TherapyScheduleController extends Controller
                 'description' => $schedule->description,
                 'file' => $schedule->file,
                 'color' => $schedule->color,
+                'uniqueId' => $schedule->unique_id,
             ];
         });
         $userIds = StaffKindergarten::where('kindergarten_id', $filter['kindergarten_id'])->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();

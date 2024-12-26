@@ -181,6 +181,7 @@
                     <input type="hidden" name="resource" id="resource">
                     <input type="hidden" name="draft_name" id="draftName">
                     <input type="hidden" name="status" value="{{ request('status') }}">
+                    <input type="hidden" name="unique_id" id="uniqueId">
                     <div class="d-flex gap-3">
                         <button type="submit" class="button p-2 px-4 rounded-pill border-0" id="createEventModalBtn">Save</button>
                         <button type="button" onclick="resetForm();" data-bs-dismiss="modal" class="button p-2 px-4 rounded-pill border-0">Cancel</button>

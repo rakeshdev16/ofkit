@@ -139,11 +139,8 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
         Route::post('therapy-schedule/delete', 'delete')->name('therapy-schedule.delete');
         Route::get('therapy-schedule/filter-dropdown', 'filterDropdown')->name('therapy-schedule.filter-dropdown');
     });
-    Route::get('filter-schedule', function(Request $request) {
-        $ids = json_decode($request->query('ids'), true);
-        return response()->json(calenderHeader($ids));
 
-    })->name('test');    Route::controller(UserController::class)->group(function () {
+    Route::controller(UserController::class)->group(function () {
         Route::get('profile', 'index')->name('profile.index');
         Route::get('edit-profile', 'edit')->name('profile.edit');
         Route::post('profile', 'update')->name('profile.update');
