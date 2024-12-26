@@ -132,6 +132,7 @@ class TherapyScheduleController extends Controller
                 'therapistNames' => getUserNameByIds($therapistIds),
                 'childrenId' => $schedule->childrens->pluck('children_id')->toArray(),
                 'childrenNames' => getChildrenNamesById($schedule->childrens->pluck('children_id')->toArray()),
+                'twoChildrenNames' => getChildrenNamesById($schedule->childrens->pluck('children_id')->take(2)->toArray()),
                 'type' => $schedule->type,
                 'groupName' => $schedule->group_name,
                 'frequencyRepeat' => $schedule->frequency_repeat,

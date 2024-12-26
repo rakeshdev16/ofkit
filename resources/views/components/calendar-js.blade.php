@@ -59,7 +59,7 @@
         } else {
             $('.event-file').hide();
         }
-
+        // selectVisibility(data.type);
         $('#day').attr('onchange', 'filterDropdown(this.value)');
     }
 
@@ -180,11 +180,9 @@
                 }
                 
                 resetForm();
-                var therapistId = null;
                 var day = null;
                 const resource = args.resource.match(/^(\d+)([a-zA-Z]+)$/);
                 if (resource) {
-                    args.therapistId = resource[1];
                     args.therapistIds = resource[1];
                     args.day = resource[2].charAt(0).toUpperCase() + resource[2].slice(1);
                 }
@@ -211,7 +209,7 @@
                             <i class="fa fa-edit" onclick='editEvent(${JSON.stringify(args.data)})'></i>&nbsp;
                             <i class="fa fa-trash" onclick='deleteEvent([${args.data.id}])'></i>&nbsp;
                         ` : ''}
-                        ${args.data.therapistName} 
+                        ${args.data.twoChildrenNames}
                         <i class="fa fa-user" aria-hidden="true"></i>
                     </p>
                     <div class="d-flex">
@@ -274,7 +272,8 @@
         });
     }
 
-    function resetForm() {
+    function resetForm() {        
+        $('#form-div').load(location.href + " #form-div > *");
         $('#addEventForm').trigger("reset");
         $('#addEventForm .error').html('').removeClass('error');
     }

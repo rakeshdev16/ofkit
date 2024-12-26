@@ -63,9 +63,22 @@
             time_24hr: true, // Forces 24-hour format
             minuteIncrement: 15
         });
-        $(document).ready(function () {
 
-        })
+        $(document).ready(function () {
+            $.validator.addMethod(
+                "minChildren",
+                function (value, element) {
+                    if ($('#appointmentType').val() === 'group') {
+                        if ($(element).is('select')) {
+                            return $(element).val() && $(element).val().length >= 2;
+                        }
+                    } else {
+                        return true;
+                    }
+                },
+                "Please choose at least two children!"
+            );
+        });
 
         $(document).on('click', '#appointmentType', function() {
             var type = $(this).val();
@@ -73,6 +86,7 @@
         });
 
         $(document).on('click', '#newAppointment', function() {
+            resetForm();
             $('#day').attr('onchange', 'filterDropdown(this.value)');
             $('#eventTypeModal').modal('toggle');
         });
@@ -81,6 +95,7 @@
             var type = $(this).data('type');
             selectVisibility(type);
             $('#unSelectedTherapistId').val('');
+            $('#uniqueId').val('');
             setTimeout(function () {
                 $('#appointmentGroupName').show();
                 if (type !== 'group') {
@@ -94,7 +109,6 @@
 
         $(document).on('change', '#appointmentFrequency', function() {
             var frequency = $(this).val();
-            console.log(frequency);
             if (frequency) {
                 $('#Monthly, #Bi-weekly').attr('name', '').hide();
                 $('#'+frequency).attr('name', 'start').show();
@@ -107,30 +121,24 @@
                 day: { required: true },
                 time: { required: true },
                 "therapist_ids[]": { required: true },
+                "children_ids[]": {
+                    required: true,
+                    minChildren: true
+                },
                 start_time: { required: true },
                 end_time: { required: true },
-                // frequency_repeat: { required: true },
-                // group_name: { required: true },
-                // children_id: { required: true },
-                // description: { required: true },
-                // image: {
-                //     required: function () {
-                //        return $("#eventOldFile").val() == '';
-                //     }
-                // },
             },
             messages: {
                 type: { required: "Please enter type!" },
                 day: { required: "Please enter schedule day!" },
                 time: { required: "Please enter schedule time!" },
                 "therapist_ids[]": { required: "Please choose therapist!" },
+                "children_ids[]": {
+                    required: "Please choose at least one child!",
+                    minChildren: "Please choose at least two children!"
+                },
                 start_time: { required: "Please enter start time!" },
                 end_time: { required: "Please enter end time!" },
-                // frequency_repeat: { required: "Please enter frequency!" },
-                // group_name: { required: "Please enter group name!" },
-                // children_id: { required: "Please choose children!" },
-                // description: { required: "Please enter description!" },
-                // image: { required: "Please choose file!" },
             },
             errorPlacement: function (error, element) {
                 var name = element.attr("name");                
