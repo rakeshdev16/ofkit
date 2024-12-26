@@ -63,6 +63,7 @@
     }
 
     function editEvent(data) {
+        resetForm();
         filterDropdown(data.day, function () {
             $('#unSelectedTherapistId').val(data.therapistIds);
             populateFormFields(data);

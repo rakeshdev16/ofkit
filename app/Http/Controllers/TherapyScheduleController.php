@@ -31,11 +31,12 @@ class TherapyScheduleController extends Controller
 
     public function store(Request $request)
     {
+        // echo '<pre>'; print_r($request->all()); die;
         DB::beginTransaction();
         try {
 
             if ($request->hasFile('image')) {
-                $request['file'] = uploadFile($request->image, 'public/therapy-schedule', $request->extension);
+                $request['file'] = uploadFile($request->image, 'public/therapy-schedule');
             } else {
                 $request['file'] = $request->old_image;
             }
@@ -52,7 +53,7 @@ class TherapyScheduleController extends Controller
                 $condition = ['therapist_id' => $therapistId, 'kindergarten_id' => $request->kindergarten_id, 'day' => $request->day, 'start_time' => $request->start_time];
                 $event = TherapySchedule::where($condition)->whereIn('status', $status);
                 if ($event->exists()) {
-                    $event->update($request->except('unselected_therapist_id', 'therapist_ids', 'children_ids', 'old_image', 'resource', 'status'));
+                    $event->update($request->except('unselected_therapist_id', 'therapist_ids', 'children_ids', 'old_image', 'resource', 'status', 'image'));
                     $event = TherapySchedule::where($condition)->whereIn('status', $status)->first();
                 } else {
                     $event = TherapySchedule::create($request->except('status'));
@@ -73,7 +74,7 @@ class TherapyScheduleController extends Controller
         } catch (\Exception $e) {
             echo '<pre>'; print_r($e->getMessage()); die;
             DB::rollback();
-            return redirect()->back();
+            return response()->json(['status' => false, 'message' => $e->getMessage()]);
         }
     }
 
