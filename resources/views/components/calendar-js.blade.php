@@ -178,7 +178,7 @@
                     toastr.error("The chosen resource dosen't have any user");
                     return true;
                 }
-                $('#form-div').load(location.href + " #form-div > *");
+
                 resetForm();
                 var day = null;
                 const resource = args.resource.match(/^(\d+)([a-zA-Z]+)$/);
@@ -273,7 +273,7 @@
     }
 
     function resetForm() {        
-        // $('#form-div').load(location.href + " #form-div > *");
+        $('#form-div').load(location.href + " #form-div > *");
         $('#addEventForm').trigger("reset");
         $('#addEventForm .error').html('').removeClass('error');
     }
