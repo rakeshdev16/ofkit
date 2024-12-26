@@ -144,6 +144,8 @@
                 var name = element.attr("name");                
                 if (name == 'therapist_ids[]') {
                     $('.therapists').html(error);
+                } else if (name == 'children_ids[]') {
+                    $('.childrens').html(error);
                 } else {
                     error.insertAfter($(element));
                 }

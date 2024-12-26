@@ -168,8 +168,9 @@
                         </div>
                         <div class="" id="therapistDropdownDiv"></div>
                         <span class="therapists mb-3"></span>
-                        <div class="my-3" id="childrenDropdownDiv"></div>
-                        <div class="mb-3">
+                        <div class="mt-3" id="childrenDropdownDiv"></div>
+                        <span class="childrens mb-3"></span>
+                        <div class="my-3">
                             <textarea class="form-control w-100" placeholder="Add Description" rows="5" name="description" id="description"></textarea>
                         </div>
                         <div class="mb-3">
