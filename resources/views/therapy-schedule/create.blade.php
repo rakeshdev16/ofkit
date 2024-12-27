@@ -161,7 +161,7 @@
 
                             const hiddenInput = $('#createdEventIds');
                             let currentIds = hiddenInput.val() ? JSON.parse(hiddenInput.val()) : [];
-                            currentIds = [...new Set([...currentIds, data.event.id])];
+                            currentIds = [...new Set([...currentIds, data.event.unique_id])];
                             hiddenInput.val(JSON.stringify(currentIds));
                         } else {
                             toastr.error(data.message);
@@ -183,7 +183,7 @@
                 return true;
             }            
             $('#eventIds').val(ids);
-            $('#associatedKindergartenId').val($('#kindergartenFilter').val());
+            // $('#associatedKindergartenId').val($('#kindergartenFilter').val());
             $('#eventDateModal').modal('toggle');
         });
 

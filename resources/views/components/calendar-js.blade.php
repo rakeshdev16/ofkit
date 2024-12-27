@@ -3,7 +3,7 @@
         var kindergartenId = $('#kindergartenFilter').val();
         var published = $('#published').val();
         // $('#kindergartenId').val(kindergartenId);
-        $('#associatedKindergartenId').val($('#kindergartenFilter').val());
+        // $('#associatedKindergartenId').val($('#kindergartenFilter').val());
         var params = {
             'status': JSON.stringify(status),
             'kindergarten_id': kindergartenId,

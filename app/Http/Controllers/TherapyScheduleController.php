@@ -73,7 +73,7 @@ class TherapyScheduleController extends Controller
 
     public function update(Request $request)
     {
-        if (TherapySchedule::whereIn('unique_id', json_decode($request->ids))->where('kindergarten_id', $request->kindergarten_id)->update([
+        if (TherapySchedule::whereIn('unique_id', json_decode($request->ids))->update([
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'status' => $request->status,

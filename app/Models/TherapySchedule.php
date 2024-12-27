@@ -55,7 +55,8 @@ class TherapySchedule extends Model
         }
 
         if (isset($data['children_id'])) {
-            $query->where('children_id', $data['children_id']);
+            $scheduleIds = TherapyScheduleChildren::where('children_id', $data['children_id'])->pluck('therapy_schedule_id')->toArray();
+            $query->whereIn('id', $scheduleIds);
         }
 
         return $query;
