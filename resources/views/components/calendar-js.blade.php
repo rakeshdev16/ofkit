@@ -138,8 +138,6 @@
     }
 
     function calendar(events = '', list) {
-                    console.log(events);
-
         var type = "{{ $type }}";
         if (window.dp) {
             window.dp.dispose();
@@ -339,6 +337,11 @@
         var newUrl = currentUrl.origin + currentUrl.pathname + '?' + searchParams.toString();
         history.replaceState(null, '', newUrl);
         return searchParams.toString();
+    }
+
+    function getQueryParam(query) {
+        var currentUrl = new URLSearchParams(window.location.search);
+        return currentUrl.get(query);
     }
 
 </script>

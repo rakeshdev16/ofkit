@@ -18,7 +18,7 @@
         <div class="d-flex flex-wrap gap-3">
             {{-- <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#draft">Draft</span> --}}
             <a href="/schedule-history" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">History</a>
-            <a href="{{ route('therapy-schedule.create') }}?edit=true&kindergarten_id={{ request('kindergarten_id') }}" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Edit</a>
+            <button id="editEvents" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Edit</button>
             <a href="{{ route('therapy-schedule.create') }}" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Create New</a>
             <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#scoreSummary">Hours</span>
         </div>
@@ -35,6 +35,11 @@
 @push('customScript')
     <script type="text/javascript">
         const status = ["{{$status}}"];
+        $(document).on('click', '#editEvents', function() {
+            var kindergartenId = getQueryParam('kindergarten_id');
+            var url = "{{ route('therapy-schedule.create') }}?edit=true&kindergarten_id="+kindergartenId;
+            window.location.href = url;
+        });
     </script>
     @include('components.calendar-js', ['type' => 'view']);
 @endpush
