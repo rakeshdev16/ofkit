@@ -318,6 +318,8 @@
             dropdownParent: $("#createEventModal"),
             multiple: isMultiple
         }).on('select2:open', function() {
+            // $('.select2-container--open').css('left', '719.5px');
+
             // $('.select2-container').addClass('event-dropdown');
             // $('.select2-dropdown').addClass('event-dropdown-class');
             // $('.select2-results').addClass('custom-results-class');
