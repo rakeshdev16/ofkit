@@ -247,7 +247,12 @@
         dp.init();
     }
 
-    function filterDropdown(day, type, callback) {
+    function filterDropdown(day, type = null, callback) {
+        if (type !== null) {
+            type = type;
+        } else {
+            var type = $('#appointmentType').val();
+        }
         var kindergartenId = $('#kindergartenFilter').val();
         var isMultiple = (type === 'group' || type === 'staff-meeting');
         $.ajax({

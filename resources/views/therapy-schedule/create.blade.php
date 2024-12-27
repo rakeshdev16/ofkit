@@ -78,10 +78,11 @@
         
         $(document).on('click', '.eventType', function() {
             var type = $(this).data('type');
-            $('#day').attr('onchange', 'filterDropdown(this.value, type)');
+            $('#day').attr('onchange', `filterDropdown(this.value, $('#appointmentType').val())`);
             $('#unSelectedTherapistId').val('');
             $('#uniqueId').val('');
             setTimeout(function () {
+                selectVisibility(type);
                 $('#appointmentGroupName').show();
                 if (type !== 'group') {
                     $('#appointmentGroupName').hide();
