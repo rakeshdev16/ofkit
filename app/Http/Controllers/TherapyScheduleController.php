@@ -63,7 +63,7 @@ class TherapyScheduleController extends Controller
             }
 
             DB::commit();
-            return response()->json(['status' => true, 'message' => 'Event detail has been successfully saved!', 'event' => $event]);
+            return response()->json(['status' => true, 'message' => 'Event detail has been successfully saved as draft!', 'event' => $event]);
         } catch (\Exception $e) {
             echo '<pre>'; print_r($e->getMessage()); die;
             DB::rollback();
