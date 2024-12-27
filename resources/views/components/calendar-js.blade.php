@@ -1,7 +1,6 @@
 <script>
     $(document).ready(function () {
         var kindergartenId = $('#kindergartenFilter').val();
-        var published = $('#published').val();
         // $('#kindergartenId').val(kindergartenId);
         // $('#associatedKindergartenId').val($('#kindergartenFilter').val());
         var params = {

@@ -116,7 +116,7 @@ class TherapyScheduleController extends Controller
         $schedules = TherapySchedule::filter($filter)->orderBy('start_time')->get();
         $events = $schedules->map(function ($schedule) use($schedules) {
             $scheduleTime = Carbon::parse($schedule->start_time);
-            $therapistIds = $schedules->where('day', $schedule->day)->where('start_time', $schedule->start_time)->pluck('therapist_id')->toArray();
+            $therapistIds = $schedules->where('unique_id', $schedule->unique_id)->pluck('therapist_id')->toArray();
             return [
                 'id' => $schedules->where('day', $schedule->day)->where('start_time', $schedule->start_time)->pluck('id')->toArray(),
                 'day' => $schedule->day,
