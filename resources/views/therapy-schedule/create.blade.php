@@ -6,6 +6,11 @@
     <script src="{{ asset('assets/js/daypilot-all.min.js')}}"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
+        .select2-container[dir="rtl"] .select2-selection--single .select2-selection__rendered {
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+
         .select2-container .select2-selection--multiple {
             min-height: 38px !important;
         }
@@ -134,8 +139,7 @@
             },
             submitHandler: function (form, e) {  
                 e.preventDefault();
-                var currentUrl = new URLSearchParams(window.location.search);
-                var kindergartenId = currentUrl.get('kindergarten_id');
+                var kindergartenId = getQueryParam('kindergarten_id');
 
                 var formData = new FormData(form);
                 formData.append('kindergarten_id', kindergartenId);

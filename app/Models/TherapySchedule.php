@@ -45,7 +45,7 @@ class TherapySchedule extends Model
     {
         if (isset($data['status'])) {
             $query->whereIn('status', json_decode($data['status']));
-            if (in_array('published', json_decode($data['status']))) {
+            if (count(json_decode($data['status'])) == 1 && json_decode($data['status'])[0] == 'published') {
                 $query->whereDate('start_date', '<=', date('Y-m-d'))->whereDate('end_date', '>=', date('Y-m-d'));
             }
         }

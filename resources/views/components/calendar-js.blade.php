@@ -7,7 +7,6 @@
         var params = {
             'status': JSON.stringify(status),
             'kindergarten_id': kindergartenId,
-            'published': published,
         };
         filterCalendar(params);
     });
