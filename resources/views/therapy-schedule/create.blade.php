@@ -48,21 +48,6 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript">
         const status = "{{ request('edit') }}" == 'true' ? ["published", "draft"] : ["draft"];
-        flatpickr("#startTime", { 
-            enableTime: true, 
-            noCalendar: true, 
-            dateFormat: "H:i", // 24-hour format
-            time_24hr: true, // Forces 24-hour format
-            minuteIncrement: 15
-        });
-
-        flatpickr("#endTime", { 
-            enableTime: true, 
-            noCalendar: true, 
-            dateFormat: "H:i", // 24-hour format
-            time_24hr: true, // Forces 24-hour format
-            minuteIncrement: 15
-        });
 
         $(document).ready(function () {
             $.validator.addMethod(
@@ -86,14 +71,14 @@
         });
 
         $(document).on('click', '#newAppointment', function() {
-            resetForm();
-            $('#eventTypeModal').modal('toggle');
+            resetForm(function() {
+                $('#eventTypeModal').modal('toggle');
+            });
         });
         
         $(document).on('click', '.eventType', function() {
-            $('#day').attr('onchange', 'filterDropdown(this.value)');
             var type = $(this).data('type');
-            selectVisibility(type);
+            $('#day').attr('onchange', 'filterDropdown(this.value, type)');
             $('#unSelectedTherapistId').val('');
             $('#uniqueId').val('');
             setTimeout(function () {

@@ -60,17 +60,18 @@
             $('.event-file').hide();
         }
         // selectVisibility(data.type);
-        $('#day').attr('onchange', 'filterDropdown(this.value)');
+        $('#day').attr('onchange', 'filterDropdown(this.value, data.type)');
     }
 
     function editEvent(data) {
-        resetForm();
-        filterDropdown(data.day, function () {
-            $('#unSelectedTherapistId').val(data.therapistIds);
-            populateFormFields(data);
-            $('#createEventModal').modal('toggle');
+        resetForm(function() {
+            filterDropdown(data.day, data.type, function () {
+                $('#unSelectedTherapistId').val(data.therapistIds);
+                populateFormFields(data);
+                $('#createEventModal').modal('toggle');
+            });
+            $('#day').attr('onchange', '');
         });
-        $('#day').attr('onchange', '');
     }
     
     function deleteEvent(ids) {
@@ -179,20 +180,19 @@
                     return true;
                 }
 
-                resetForm();
-                var day = null;
-                const resource = args.resource.match(/^(\d+)([a-zA-Z]+)$/);
-                if (resource) {
-                    args.therapistIds = resource[1];
-                    args.day = resource[2].charAt(0).toUpperCase() + resource[2].slice(1);
-                }
-
-                args.startTime = args.start.value.split("T")[1].slice(0, 5);
-                args.endTime = args.end.value.split("T")[1].slice(0, 5);
-
-                filterDropdown(args.day, function () {
-                    populateFormFields(args);
-                    $('#eventTypeModal').modal('toggle');
+                resetForm(function() {
+                    var day = null;
+                    const resource = args.resource.match(/^(\d+)([a-zA-Z]+)$/);
+                    if (resource) {
+                        args.therapistIds = resource[1];
+                        args.day = resource[2].charAt(0).toUpperCase() + resource[2].slice(1);
+                    }
+                    args.startTime = args.start.value.split("T")[1].slice(0, 5);
+                    args.endTime = args.end.value.split("T")[1].slice(0, 5);
+                    filterDropdown(args.day, args.type, function () {
+                        populateFormFields(args);
+                        $('#eventTypeModal').modal('toggle');
+                    });
                 });
             }
         };
@@ -247,8 +247,9 @@
         dp.init();
     }
 
-    function filterDropdown(day, callback) {
+    function filterDropdown(day, type, callback) {
         var kindergartenId = $('#kindergartenFilter').val();
+        var isMultiple = (type === 'group' || type === 'staff-meeting');
         $.ajax({
             type: 'GET',
             url: "{{ route('therapy-schedule.filter-dropdown') }}",
@@ -259,11 +260,13 @@
                 $('.selectChildrens').select2({
                     dropdownParent: $("#createEventModal"),
                     placeholder: "Select Children",
+                    multiple: isMultiple,
                     allowClear: true
                 });
                 $('.selectTherapist').select2({
                     dropdownParent: $("#createEventModal"),
                     placeholder: "Select Therapist",
+                    multiple: isMultiple,
                     allowClear: true
                 });
 
@@ -272,7 +275,24 @@
         });
     }
 
-    function resetForm() {
+    function resetForm(callback) {
+        $('#form-div').load(location.href + " #form-div > *", function() {
+            flatpickr("#startTime", {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true,
+                minuteIncrement: 15
+            });
+            flatpickr("#endTime", {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true,
+                minuteIncrement: 15
+            });
+            if (callback) callback();
+        });
         $('#addEventForm').trigger("reset");
         $('#addEventForm .error').html('').removeClass('error');
     }
