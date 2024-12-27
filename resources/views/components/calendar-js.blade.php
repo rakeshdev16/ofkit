@@ -158,7 +158,7 @@
         dp.headerLevels = 2;
         dp.columnWidthSpec = "Fixed";
         dp.columnMinWidth = 20;
-        dp.columnWidth = 300;
+        dp.columnWidth = 200;
         dp.events.list = events;
         dp.dayBeginsHour = 8;
         dp.timeHeaderCellDuration = 15;
@@ -253,6 +253,8 @@
         }
         var kindergartenId = $('#kindergartenFilter').val();
         var isMultiple = (type === 'group' || type === 'staff-meeting');
+        console.log(isMultiple);
+
         $.ajax({
             type: 'GET',
             url: "{{ route('therapy-schedule.filter-dropdown') }}",
@@ -260,13 +262,25 @@
             success: function (data) {
                 $('#therapistDropdownDiv').html(data.therapistDropdown);
                 $('#childrenDropdownDiv').html(data.childrensDropdown);
-                $('.selectChildrens').select2({
+
+                const $selectChildrens = $('.selectChildrens');
+                if ($selectChildrens.data('select2')) {
+                    $selectChildrens.select2('destroy');
+                }
+                $selectChildrens.prop('multiple', isMultiple);
+                $selectChildrens.select2({
                     dropdownParent: $("#createEventModal"),
                     placeholder: "Select Children",
-                    multiple: true,
+                    multiple: isMultiple,
                     allowClear: true
                 });
-                $('.selectTherapist').select2({
+
+                const $selectTherapist = $('.selectTherapist');
+                if ($selectTherapist.data('select2')) {
+                    $selectTherapist.select2('destroy');
+                }
+                $selectTherapist.prop('multiple', isMultiple);
+                $selectTherapist.select2({
                     dropdownParent: $("#createEventModal"),
                     placeholder: "Select Therapist",
                     multiple: isMultiple,
@@ -277,6 +291,8 @@
             }
         });
     }
+
+
 
     function resetForm(callback) {
         $('#form-div').load(location.href + " #form-div > *", function() {

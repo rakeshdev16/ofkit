@@ -630,7 +630,7 @@ button.accordion-button.accordion-screen.collapsed {
     color: #000 !important;
     text-align: center !important;
     font-weight: 500;
-    font-size: 1rem !important;
+    font-size: 15px !important;
 }
 
 /* .calendar_default_main>div>div>div:nth-child(1) {
