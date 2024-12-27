@@ -2,7 +2,7 @@
     $(document).ready(function () {
         var kindergartenId = $('#kindergartenFilter').val();
         var published = $('#published').val();
-        $('#kindergartenId').val(kindergartenId);
+        // $('#kindergartenId').val(kindergartenId);
         $('#associatedKindergartenId').val($('#kindergartenFilter').val());
         var params = {
             'status': JSON.stringify(status),

@@ -138,7 +138,11 @@
             },
             submitHandler: function (form, e) {  
                 e.preventDefault();
+                var currentUrl = new URLSearchParams(window.location.search);
+                var kindergartenId = currentUrl.get('kindergarten_id');
+
                 var formData = new FormData(form);
+                formData.append('kindergarten_id', kindergartenId);
                 $('#createEventModalBtn').html('Processing');
                 
                 $.ajax({

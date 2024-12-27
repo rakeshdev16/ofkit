@@ -178,7 +178,7 @@
                             <input type="hidden" id="eventOldFile" name="old_image" class="form-control">
                             <div class="event-file" style="display: none"></div>
                         </div>
-                        <input type="hidden" name="kindergarten_id" id="kindergartenId">
+                        {{-- <input type="hidden" name="kindergarten_id" id="kindergartenId"> --}}
                         <input type="hidden" name="unselected_therapist_id" id="unSelectedTherapistId">
                         <input type="hidden" name="resource" id="resource">
                         <input type="hidden" name="draft_name" id="draftName">
