@@ -24,7 +24,7 @@ class TherapyScheduleController extends Controller
     public function create()
     {
         $kindergartens = Kindergarten::select('id', 'name')->get();
-        $createdEventIds = TherapySchedule::where('status', 'draft')->pluck('id')->toArray();
+        $createdEventIds = TherapySchedule::where('status', 'draft')->pluck('unique_id')->toArray();
         $createdEventIds = count($createdEventIds) > 0 ? json_encode($createdEventIds) : null;
         return view('therapy-schedule.create', compact('kindergartens', 'createdEventIds'));
     }
@@ -85,7 +85,7 @@ class TherapyScheduleController extends Controller
     
     public function delete(Request $request)
     {
-        if (TherapySchedule::whereIn('id', $request->ids)->delete()) {
+        if (TherapySchedule::whereIn('unique_id', $request->ids)->delete()) {
             return response()->json(['status' => true, 'message' => 'Event detail has been successfully deleted!']);
         }
         return response()->json(['status' => false, 'message' => 'Something went wrong please try again!']);

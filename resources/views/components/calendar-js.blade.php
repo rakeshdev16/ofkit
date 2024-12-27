@@ -138,6 +138,8 @@
     }
 
     function calendar(events = '', list) {
+                    console.log(events);
+
         var type = "{{ $type }}";
         if (window.dp) {
             window.dp.dispose();
@@ -207,7 +209,7 @@
                     <p class="text-start fw-bold text-end mb-0">
                         ${type === 'create' ? `
                             <i class="fa fa-edit" onclick='editEvent(${JSON.stringify(args.data)})'></i>&nbsp;
-                            <i class="fa fa-trash" onclick='deleteEvent([${args.data.id}])'></i>&nbsp;
+                            <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])'></i>&nbsp;
                         ` : ''}
                         ${args.data.twoChildrenNames}
                         <i class="fa fa-user" aria-hidden="true"></i>
