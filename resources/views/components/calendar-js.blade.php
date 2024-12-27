@@ -267,7 +267,7 @@
                 $('.selectChildrens').select2({
                     dropdownParent: $("#createEventModal"),
                     placeholder: "Select Children",
-                    multiple: isMultiple,
+                    multiple: true,
                     allowClear: true
                 });
                 $('.selectTherapist').select2({
