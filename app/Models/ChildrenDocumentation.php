@@ -89,9 +89,9 @@ class ChildrenDocumentation extends Model
             $query->where('therapist_id', request('therapist_id'));
         }
         if (request('type')) {
-            $childirenIds = ChildrenDocumentTherapist::where('therapist_id', request('therapist_id'))->pluck('children_documentation_id')->toArray();
             $query->where('type', request('type'));
-            if (request('type') == 'group') {
+            if (request('type') == 'group' && !empty(request('therapist_id'))) {
+                $childirenIds = ChildrenDocumentTherapist::where('therapist_id', request('therapist_id'))->pluck('children_documentation_id')->toArray();
                 $query->orWhereIn('id', $childirenIds);
             }
         }
