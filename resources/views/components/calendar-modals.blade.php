@@ -109,86 +109,12 @@
             </div>
             <div class="modal-body">
                 <form action="" id="addEventForm" enctype="multipart/form-data">
-                    <div id="form-div">
-                        <div class="mb-3">
-                            <select id="appointmentType" name="type" class="form-control border-1">
-                                <option value="">Choose Appointment</option>
-                                <option value="individual">Individual</option>
-                                <option value="group">Group</option>
-                                <option value="parental-guidance">Parental Guidance</option>
-                                <option value="staff-meeting">Staff Meeting</option>
-                                <option value="initial-evaluation">Initial Evaluation</option>
-                                <option value="final-evaluation">Final Evaluation</option>
-                            </select>
-                        </div>
-                        <div class="d-flex mb-3">
-                            <div class="w-100">
-                                <select id="day" name="day" class="form-control border-1">
-                                    <option value="">Select Day</option>
-                                    <option value="Sunday">Sunday</option>
-                                    <option value="Monday">Monday</option>
-                                    <option value="Tuesday">Tuesday</option>
-                                    <option value="Wednesday">Wednesday</option>
-                                    <option value="Thursday">Thursday</option>
-                                    <option value="Friday">Friday</option>
-                                    <option value="Saturday">Saturday</option>
-                                </select>
-                            </div>
-                            <div>
-                                <input type="text" class="form-control" name="start_time" id="startTime" placeholder="Start Time">
-                            </div>
-                            <div>
-                                <input type="text" class="form-control" name="end_time" id="endTime" placeholder="End Time">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <select id="appointmentFrequency" name="frequency_repeat" class="form-control">
-                                <option value="">Select frequency</option>
-                                <option value="Weekly">Weekly</option>
-                                <option value="Bi-weekly">Bi-weekly</option>
-                                <option value="Monthly">Monthly</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <select id="Monthly" name="start" class="form-control" style="display: none">
-                                <option value="Start Week">Start Week</option>
-                                <option value="After 1 Week">After 1 Week</option>
-                                <option value="After 2 Week">After 2 Week</option>
-                                <option value="After 3 Week">After 3 Week</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <select id="Bi-weekly" name="start" class="form-control" style="display: none">
-                                <option value="One Week Ofset">One Week Ofset</option>
-                                <option value="From Start Week">From Start Week</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <input type="text" name="group_name" id="appointmentGroupName" class="w-100 form-control border-1" placeholder="Group Name">
-                        </div>
-                        <div class="" id="therapistDropdownDiv"></div>
-                        <span class="therapists mb-3"></span>
-                        <div class="mt-3" id="childrenDropdownDiv"></div>
-                        <span class="childrens mb-3"></span>
-                        <div class="my-3">
-                            <textarea class="form-control w-100" placeholder="Add Description" rows="5" name="description" id="description"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <input type="file" id="eventFile" name="image" class="form-control">
-                            <input type="hidden" id="eventOldFile" name="old_image" class="form-control">
-                            <div class="event-file" style="display: none"></div>
-                        </div>
-                        {{-- <input type="hidden" name="kindergarten_id" id="kindergartenId"> --}}
-                        <input type="hidden" name="unselected_therapist_id" id="unSelectedTherapistId">
-                        <input type="hidden" name="resource" id="resource">
-                        <input type="hidden" name="draft_name" id="draftName">
-                        <input type="hidden" name="status" value="{{ request('status') }}">
-                        <input type="hidden" name="unique_id" id="uniqueId">
-                        <div class="d-flex gap-3">
-                            <button type="submit" class="button p-2 px-4 rounded-pill border-0" id="createEventModalBtn">Save</button>
-                            <button type="button" onclick="resetForm();" data-bs-dismiss="modal" class="button p-2 px-4 rounded-pill border-0">Cancel</button>
+                    <div class="card" id="formLoader">
+                        <div class="card-body text-center">
+                            <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"> <span class="visually-hidden">Loading...</span></div>
                         </div>
                     </div>
+                    <div id="appointmentFormDiv"></div>
                 </form>
             </div>
         </div>

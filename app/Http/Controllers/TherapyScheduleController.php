@@ -39,11 +39,12 @@ class TherapyScheduleController extends Controller
             } else {
                 $request['file'] = $request->old_image;
             }
-            if (!empty($request->unselected_therapist_id)) {
-                $therapistIds = explode(',', $request->unselected_therapist_id);
-                $unselectedTherapistIds = array_diff($therapistIds, $request->therapist_ids ?? []);
-                if (!empty($unselectedTherapistIds)) {
-                    TherapySchedule::whereIn('therapist_id', $unselectedTherapistIds)->where('unique_id', $request->unique_id)->delete();
+
+            if (($request->type == 'group' || $request->type == 'staff-meeting') && !empty($request->unique_id)) {
+                $scheduleTherapistIds = TherapySchedule::where('unique_id', $request->unique_id)->pluck('therapist_id')->toArray();
+                $therapistGoingToBeDelete = array_diff($scheduleTherapistIds, $request->therapist_ids ?? []);
+                 if (!empty($therapistGoingToBeDelete)) {
+                    TherapySchedule::whereIn('therapist_id', $therapistGoingToBeDelete)->where('unique_id', $request->unique_id)->delete();
                 }
             }
 
@@ -58,8 +59,6 @@ class TherapyScheduleController extends Controller
                         $event->childrens()->create(['children_id' => $childrenId]);
                     }
                 }
-                $event->resource = $request->therapist_id . strtolower($request->day);
-                $event->isCreated = isset($request->id) ? false : true;
             }
 
             DB::commit();
@@ -157,39 +156,19 @@ class TherapyScheduleController extends Controller
         ]);
     }
 
-    public function filterDropdown(Request $request)
+    public function filterFormData(Request $request)
     {
-        $childrens = Children::select('id as key', 'name as value')->where('kindergarten_id', $request->kindergarten_id)->orderBy('name')->get()->toArray();
-        $therapists = StaffSchedule::filter($request->all())->with('user')->select('user_id')->distinct('user_id')->get()
+        $data = $request['eventData'];
+        $data['childrens'] = Children::select('id as key', 'name as value')->where('kindergarten_id', $data['kindergarten_id'])->orderBy('name')->get()->toArray();
+        $data['therapists'] = StaffSchedule::filter($data)->with('user')->select('user_id')->distinct('user_id')->get()
             ->map(function ($schedule) {
                 return [
                     'key' => $schedule->user_id,
                     'value' => $schedule->user->name ?? 'N/A',
                 ];
             })->toArray();
-        $therapistDropdown = view('components.multi-select-input', [
-            'name' => "therapist_ids[]", 'class' => 'selectTherapist', 'id' => 'therapist', 'icon' => 'buildings', 'options' => $therapists
-        ])->render();
-        $childrensDropdown = view('components.multi-select-input', [
-            'name' => "children_ids[]", 'class' => 'selectChildrens', 'id' => 'children', 'icon' => 'buildings', 'options' => $childrens
-        ])->render();
 
-        return [
-            'therapistDropdown' => !empty($request->day) ? $therapistDropdown : [],
-            'childrensDropdown' => $childrensDropdown
-        ];
-    }
-
-    function getDateTime($day, $time)
-    {
-        $today = new DateTime();
-        $sunday = clone $today;
-        $sunday->modify('last Sunday');
-        $daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        $dayIndex = array_search(ucfirst(strtolower($day)), $daysOfWeek);
-        $targetDate = clone $sunday;
-        $targetDate->modify("+$dayIndex day");
-        $dateTime = $targetDate->format('Y-m-d') . ' ' . $time;
-        return (new DateTime($dateTime))->format('Y-m-d H:i:s');
+        $view = view('components.schedule-form', ['data' => $data])->render();
+        return response()->json($view);
     }
 }

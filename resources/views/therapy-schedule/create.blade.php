@@ -38,6 +38,7 @@
     </div>
 
     <input type="hidden" id="createdEventIds" value="{{ $createdEventIds }}">
+    <input type="hidden" id="eventData">
 </div>
 
 @include('components.calendar-modals')
@@ -49,7 +50,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript">
         const status = "{{ request('edit') }}" == 'true' ? ["published", "draft"] : ["draft"];
-
+        let eventData = {};
         $(document).ready(function () {
             $.validator.addMethod(
                 "minChildren",
@@ -71,27 +72,25 @@
             selectVisibility(type);
         });
 
+        $(document).on('click', '#day', function() {
+            var type = $('#appointmentType').val();
+            eventData.day = $(this).val();
+            eventData.type = type;
+            filterFormData(type);
+        });
+
         $(document).on('click', '#newAppointment', function() {
-            resetForm(function() {
-                $('#eventTypeModal').modal('toggle');
-            });
+            Object.keys(eventData).forEach(key => delete eventData[key]);
+            $('#eventTypeModal').modal('toggle');
         });
         
         $(document).on('click', '.eventType', function() {
             var type = $(this).data('type');
-            $('#day').attr('onchange', `filterDropdown(this.value, $('#appointmentType').val())`);
-            $('#unSelectedTherapistId').val('');
-            $('#uniqueId').val('');
-            setTimeout(function () {
-                selectVisibility(type);
-                $('#appointmentGroupName').show();
-                if (type !== 'group') {
-                    $('#appointmentGroupName').hide();
-                }
+            eventData.type = type;
+            filterFormData(function() {
                 $('#eventTypeModal').modal('toggle');
                 $('#createEventModal').modal('toggle');
-                $('#appointmentType').val(type);
-            }, 200);
+            });
         });
 
         $(document).on('change', '#appointmentFrequency', function() {
@@ -160,7 +159,6 @@
                         if (data.status == true) {                            
                             toastr.success(data.message);
                             filterCalendar({ 'status': JSON.stringify(status) });
-                            $('#day').attr('onchange', '');
                             $('#createEventModal').modal('toggle');
 
                             const hiddenInput = $('#createdEventIds');
