@@ -70,11 +70,14 @@
             selectVisibility(type);
         });
 
-        $(document).on('click', '#day', function() {
+        $(document).on('change', '#day', function() {
             var type = $('#appointmentType').val();
-            eventData.day = $(this).val();
+            var day = $(this).val();
+            eventData.day = day;
             eventData.type = type;
-            filterFormData();
+            if (day) {
+                filterFormData();
+            }
         });
 
         $(document).on('click', '#newAppointment', function() {
