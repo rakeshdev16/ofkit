@@ -89,12 +89,30 @@
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
             <div class="modal-body d-flex gap-3 flex-column">
-                <button class="btn new-btn-appointment eventType" data-type="individual">Individual</button>
-                <button class="btn new-btn-appointment eventType" data-type="group">Group</button>
-                <button class="btn new-btn-appointment eventType" data-type="parental-guidance">Parental Guidance</button>
-                <button class="btn new-btn-appointment eventType" data-type="staff-meeting">Staff Meeting</button>
-                <button class="btn new-btn-appointment eventType" data-type="initial-evaluation">Initial Evaluation</button>
-                <button class="btn new-btn-appointment eventType" data-type="final-evaluation">Final Evaluation</button>
+                <button class="btn new-btn-appointment eventType" data-type="individual">
+                    <img src="{{ asset('assets/icons/Individual.svg') }}" width="18" > Individual
+                </button>
+                <button class="btn new-btn-appointment eventType" data-type="group">
+                    <img src="{{ asset('assets/icons/Group.svg') }}" width="18" > Group
+                </button>
+                <button class="btn new-btn-appointment eventType" data-type="parental-guidance">
+                    <img src="{{ asset('assets/icons/ParentalGuide.svg') }}" width="18" > Parental Guidance
+                </button>
+                <button class="btn new-btn-appointment eventType" data-type="staff-meeting">
+                    <img src="{{ asset('assets/icons/StaffMeating.svg') }}" width="18"> Staff Meeting
+                </button>
+                <button class="btn new-btn-appointment eventType" data-type="documentation-break">
+                    <img src="{{ asset('assets/icons/DocumentBreak.svg') }}" width="18" > Documentation/break
+                </button>
+                <button class="btn new-btn-appointment eventType" data-type="preparation">
+                    <img src="{{ asset('assets/icons/Prepare.svg') }}" width="18" > Preparation
+                </button>
+                <button class="btn new-btn-appointment eventType" data-type="tutorial">
+                    <img src="{{ asset('assets/icons/tutorials.svg') }}" width="18" > Tutorial
+                </button>
+                <button class="btn new-btn-appointment eventType" data-type="other">
+                    <img src="{{ asset('assets/icons/Other.svg') }}" width="18" > Other
+                </button>
             </div>
         </div>
     </div>

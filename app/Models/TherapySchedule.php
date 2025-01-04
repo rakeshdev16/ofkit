@@ -31,6 +31,8 @@ class TherapySchedule extends Model
         'unique_id',
     ];
 
+    protected $appends = ['icon'];
+
     // public function getFileAttribute()
     // {
     //     return asset('storage/' . $this->attributes['file']) ?? null;
@@ -81,6 +83,37 @@ class TherapySchedule extends Model
     public function getColorAttribute($value)
     {
         return json_decode($value);
+    }
+
+    public function getIconAttribute()
+    {
+        switch ($this->attributes['type']) {
+            case 'individual':
+                $icon = asset('assets/icons/Individual.svg');
+            break;
+            case 'group':
+                $icon = asset('assets/icons/Group.svg');
+            break;
+            case 'parental-guidance':
+                $icon = asset('assets/icons/ParentalGuide.svg');
+            break;
+            case 'staff-meeting':
+                $icon = asset('assets/icons/StaffMeating.svg');
+            break;
+            case 'documentation-break':
+                $icon = asset('assets/icons/DocumentBreak.svg');
+            break;
+            case 'preparation':
+                $icon = asset('assets/icons/Prepare.svg');
+            break;
+            case 'tutorial':
+                $icon = asset('assets/icons/tutorials.svg');
+            break;
+            case 'other':
+                $icon = asset('assets/icons/Other.svg');
+            break;
+        }
+        return $icon;
     }
 
     // public function therapists()

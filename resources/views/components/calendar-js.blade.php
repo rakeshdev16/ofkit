@@ -11,7 +11,6 @@
     });
 
     function editEvent(data) {
-        console.log("Edit event",data);
         Object.keys(eventData).forEach(key => delete eventData[key]);
         eventData.id = data.id;
         eventData.resource = data.resource;
@@ -114,18 +113,26 @@
         dp.startDate = startDate;
         dp.allDayEventHeight = 100;
         dp.viewType = "Resources";
+        dp.eventMoveHandling = "Disabled";
         dp.headerLevels = 2;
         dp.columnWidthSpec = "Fixed";
         dp.columnMinWidth = 20;
         dp.columnWidth = 200;
         dp.events.list = events;
-        dp.dayBeginsHour = 8;
+        dp.dayBeginsHour = 7;
+        dp.dayEndsHour = 17;
+        dp.businessBeginsHour = 7; // Start at 7:00
+        dp.businessEndsHour = 18; // End at 18:00
         dp.timeHeaderCellDuration = 15;
         dp.cellDuration = 15;
         dp.hourWidth = 80;
         dp.cellHeight = 30;
         dp.headerHeightAutoFit = true;
         dp.columns.list = list;
+
+        dp.onBeforeRender = function () {
+            this.scrollTo("07:00");
+        };
 
         dp.onTimeRangeSelected = function(args) {
             if (type == 'view') {
@@ -140,7 +147,7 @@
                 const resource = args.resource.match(/^(\d+)([a-zA-Z]+)$/);
                 Object.keys(eventData).forEach(key => delete eventData[key]);
                 eventData.day = resource[2].charAt(0).toUpperCase() + resource[2].slice(1);
-                eventDataresource = args.resource;
+                eventData.resource = args.resource;
                 eventData.startTime = args.start.value.split("T")[1].slice(0, 5);
                 eventData.endTime = args.end.value.split("T")[1].slice(0, 5);
                 eventData.therapistIds = [resource[1]];
@@ -161,7 +168,7 @@
                             <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])'></i>&nbsp;
                         ` : ''}
                         ${args.data.twoChildrenNames}
-                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <img src="${args.data.icon}" width="18">
                     </p>
                     <div class="d-flex">
                     <span>${args.data.start.toString("HH:mm")}</span>
@@ -169,6 +176,9 @@
             </div>`,
             args.data.bubbleHtml = `<div class="p-3 calendar-event-overlay">
                 <ul>
+                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
+                        ${args.data.type === 'group' ? `${args.data.groupName} <i class="fa fa-users"></i>` : ''}
+                    </li>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
                         ${args.data.therapistName} <i class="fa fa-user"></i>
                     </li>
@@ -199,6 +209,8 @@
     }
 
     function filterFormData(callback) {
+        $('#formLoader').show();
+        $('#appointmentFormDiv').html('');
         eventData.kindergarten_id = $('#kindergartenFilter').val();
         $.ajax({
             headers: {
@@ -208,9 +220,10 @@
             url: "{{ route('therapy-schedule.filter-form-data') }}",
             data: { eventData },
             success : function(data){
-                $('#appointmentFormDiv').html('');
-                $('#appointmentFormDiv').html(data);
-                $('#formLoader').hide();
+                setTimeout(() => {
+                    $('#appointmentFormDiv').html(data);
+                    $('#formLoader').hide();
+                }, 500);
                 if (callback) callback();
             }
         });

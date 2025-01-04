@@ -26,7 +26,6 @@
         </div>
         <div class="d-flex flex-wrap gap-3">
             {{-- <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#">Export as PDf</button> --}}
-            <a href="{{ route('therapy-schedule.index') }}" class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Save</a>
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="deleteEvent({{ $createdEventIds }})">Cancel</button>
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer updateEventStatus" data-status="published">Publish</button>
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="newAppointment" onclick="resetForm()">New Appointment</button>
@@ -38,7 +37,6 @@
     </div>
 
     <input type="hidden" id="createdEventIds" value="{{ $createdEventIds }}">
-    <input type="hidden" id="eventData">
 </div>
 
 @include('components.calendar-modals')
@@ -108,7 +106,7 @@
                 time: { required: true },
                 "therapist_ids[]": { required: true },
                 "children_ids[]": {
-                    required: true,
+                    required: false,
                     minChildren: true
                 },
                 start_time: { required: true },

@@ -5,8 +5,10 @@
         <option {{ @$data['type'] == 'group' ? 'selected' : '' }} value="group">Group</option>
         <option {{ @$data['type'] == 'parental-guidance' ? 'selected' : '' }} value="parental-guidance">Parental Guidance</option>
         <option {{ @$data['type'] == 'staff-meeting' ? 'selected' : '' }} value="staff-meeting">Staff Meeting</option>
-        <option {{ @$data['type'] == 'initial-evaluation' ? 'selected' : '' }} value="initial-evaluation">Initial Evaluation</option>
-        <option {{ @$data['type'] == 'final-evaluation' ? 'selected' : '' }} value="final-evaluation">Final Evaluation</option>
+        <option {{ @$data['type'] == 'documentation-break' ? 'selected' : '' }} value="documentation-break">Documentation/break</option>
+        <option {{ @$data['type'] == 'preparation' ? 'selected' : '' }} value="preparation">Preparation</option>
+        <option {{ @$data['type'] == 'tutorial' ? 'selected' : '' }} value="tutorial">Tutorial</option>
+        <option {{ @$data['type'] == 'other' ? 'selected' : '' }} value="other">Other</option>
     </select>
 </div>
 <div class="d-flex mb-3">
@@ -31,7 +33,6 @@
 </div>
 <div class="mb-3">
     <select id="appointmentFrequency" name="frequency_repeat" class="form-control">
-        <option value="">Select frequency</option>
         <option {{ @$data['frequencyRepeat'] == 'Weekly' ? 'selected' : '' }} value="Weekly">Weekly</option>
         <option {{ @$data['frequencyRepeat'] == 'Bi-weekly' ? 'selected' : '' }} value="Bi-weekly">Bi-weekly</option>
         <option {{ @$data['frequencyRepeat'] == 'Monthly' ? 'selected' : '' }} value="Monthly">Monthly</option>
@@ -56,13 +57,13 @@
         <input type="text" name="group_name" id="appointmentGroupName" class="w-100 form-control border-1" placeholder="Group Name" value="{{ @$data['groupName'] }}">
     </div>
 @endif
-<div class="mb-3">
+<div class="">
     @include('components.multi-select-input', [
         'name' => "therapist_ids[]", 'class' => 'selectTherapist', 'id' => 'therapist', 'icon' => 'buildings', 'options' => @$data['therapists'], 'value' => @$data['therapistIds']
     ])
 </div>
-<span class="therapists mb-3"></span>
-<div class="mb-3">
+<span class="therapists"></span>
+<div class="my-3">
     @include('components.multi-select-input', [
         'name' => "children_ids[]", 'class' => 'selectChildrens', 'id' => 'children', 'icon' => 'buildings', 'options' => @$data['childrens'], 'value' => @$data['childrenId']
     ])
@@ -90,15 +91,72 @@
         noCalendar: true,
         dateFormat: "H:i",
         time_24hr: true,
-        minuteIncrement: 15
+        minuteIncrement: 15,
+        allowInput: true,
+        onClose: function (selectedDates, dateStr, instance) {
+            const isValid = validateTime(dateStr);
+            if (!isValid) {
+                toastr.error("Please enter a valid time in the format HH:mm. Minutes should be 00, 15, 30, or 45.");
+                instance.clear();
+            }
+        }
     });
+
     flatpickr("#endTime", {
         enableTime: true,
         noCalendar: true,
         dateFormat: "H:i",
         time_24hr: true,
-        minuteIncrement: 15
+        minuteIncrement: 15,
+        allowInput: true,
+        onClose: function (selectedDates, dateStr, instance) {
+            const isValid = validateTime(dateStr);
+
+            if (!isValid) {
+                toastr.error("Please enter a valid time in the format HH:mm. Minutes should be 00, 15, 30, or 45.");
+                instance.clear();
+                return;
+            }
+
+            const startTime = document.querySelector("#startTime").value;
+
+            if (startTime && !isEndTimeAfterStartTime(startTime, dateStr)) {
+                toastr.error("End time cannot be earlier than or equal to the start time.");
+                instance.clear();
+            }
+        }
     });
+
+    // Function to validate HH:mm time format
+    function validateTime(timeStr) {
+        const timeRegex = /^([01]?\d|2[0-3]):([0-5]\d)$/; // Valid HH:mm format
+        if (timeRegex.test(timeStr)) {
+            const [hours, minutes] = timeStr.split(":").map(Number);
+            const validMinutes = [0, 15, 30, 45]; // Allowable minute values
+            if (validMinutes.includes(minutes)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    // Function to compare startTime and endTime
+    function isEndTimeAfterStartTime(startTime, endTime) {
+        const [startHours, startMinutes] = startTime.split(":").map(Number);
+        const [endHours, endMinutes] = endTime.split(":").map(Number);
+
+        // Compare time values
+        if (endHours > startHours) {
+            return true;
+        } else if (endHours === startHours && endMinutes > startMinutes) {
+            return true;
+        }
+        return false;
+    }
+
+
     $('.selectChildrens').select2({
         dropdownParent: $("#createEventModal"),
         placeholder: "Select Children",

@@ -23,6 +23,13 @@ class StaffSchedule extends Model
         if (isset($data['day'])) {
             $query->where('day', $data['day']);
         }
+        if (isset($data['startTime']) && isset($data['endTime'])) {
+            $therapistIds = TherapySchedule::where('start_time', '<=', $data['startTime'])
+                ->where('end_time', '>=', $data['endTime'])
+                ->where('therapist_id', $data['therapistIds'][0])
+                ->pluck('therapist_id')->toArray();
+            $query->whereNotIn('user_id', $therapistIds);
+        }
         return $query;
     }
 
