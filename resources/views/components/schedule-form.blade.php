@@ -63,7 +63,7 @@
     ])
 </div>
 <span class="therapists"></span>
-<div class="my-3">
+<div class="mt-3">
     @include('components.multi-select-input', [
         'name' => "children_ids[]", 'class' => 'selectChildrens', 'id' => 'children', 'icon' => 'buildings', 'options' => @$data['childrens'], 'value' => @$data['childrenId']
     ])
