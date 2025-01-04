@@ -104,8 +104,7 @@
             const endTimeValue = endTime.value;
 
             if (endTimeValue && !isEndTimeAfterStartTime(dateStr, endTimeValue)) {
-                toastr.error("End time cannot be earlier than or equal to the start time.");
-                endTime.value = ''; // Correct way to clear the value
+                endTime.value = '';
             }
         }
     });
