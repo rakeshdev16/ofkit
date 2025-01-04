@@ -222,7 +222,9 @@
         });
 
         $(function () {
-			$('[data-bs-toggle="popover"]').popover();
+			$('[data-bs-toggle="popover"]').popover({
+                trigger: 'hover' // Change trigger to hover
+            });
 		})
     </script>
 </body>

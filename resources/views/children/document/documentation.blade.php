@@ -55,9 +55,9 @@
                         <option {{ request()->type == 'final-evaluation' ? 'selected' : '' }} value="final-evaluation">{{ __('children.finalEvaluation') }}</option>
                     </select>
                 </div>
-                <div class="col-xl-2 col-lg-4 align-self-end py-1 my-1">
+                {{-- <div class="col-xl-2 col-lg-4 align-self-end py-1 my-1">
                     @include('components.active-inactive')
-                </div>
+                </div> --}}
             </div>
             <div class="card">
                 <div class="card-body">
