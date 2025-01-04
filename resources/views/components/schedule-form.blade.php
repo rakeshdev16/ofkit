@@ -99,6 +99,14 @@
                 toastr.error("Please enter a valid time in the format HH:mm. Minutes should be 00, 15, 30, or 45.");
                 instance.clear();
             }
+
+            const endTime = document.querySelector("#endTime");
+            const endTimeValue = endTime.value;
+
+            if (endTimeValue && !isEndTimeAfterStartTime(dateStr, endTimeValue)) {
+                toastr.error("End time cannot be earlier than or equal to the start time.");
+                endTime.value = ''; // Correct way to clear the value
+            }
         }
     });
 
