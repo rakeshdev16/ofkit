@@ -351,12 +351,13 @@ function moveToArchive(msg, status, model, children_id = null) {
                                 $('.check-' + id).prop('checked', false);
                             });
                         }
-                        // console.log(data.count);
-                        console.log(data);
-
-
+                        
                         $('.totalCount').text(data.count);
-                        toastr.success(data.message);
+                        if(status == 'active'){
+                            toastr.success(inactiveMsg);
+                        }else{
+                            toastr.success(activeMsg);
+                        }
                     }
                 }
             });
