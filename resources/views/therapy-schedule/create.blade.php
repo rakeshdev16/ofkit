@@ -74,7 +74,7 @@
             var type = $('#appointmentType').val();
             eventData.day = $(this).val();
             eventData.type = type;
-            filterFormData(type);
+            filterFormData();
         });
 
         $(document).on('click', '#newAppointment', function() {
