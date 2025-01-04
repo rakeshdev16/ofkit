@@ -74,6 +74,8 @@
         var month = "{{__('children.month')}}";
         var month3 = "{{__('children.month3')}}";
         var halfYear = "{{__('children.halfYear')}}";
+        var activeMsg = "{{__('comon.activeMsg')}}";
+        var inactiveMsg = "{{__('comon.inactiveMsg')}}";
         $(document).on('click', '.toggle-text', function() {
             var status = $(this).data('status');
 

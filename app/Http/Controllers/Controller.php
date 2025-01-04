@@ -40,12 +40,8 @@ class Controller extends BaseController
                     $count = $model->whereIn('status',  $recordStatus)->count();
                 }
             }
-            if($status == 'active'){
-                $message = __('comon.activeMsg');
-            }else{
-                $message = __('comon.inactiveMsg');
-            }
-            return response()->json(['status' => true, 'ids' => $ids, 'count' => $count, 'message' => $message]);
+            
+            return response()->json(['status' => true, 'ids' => $ids, 'count' => $count]);
         }
 
         return response()->json(['status' => false]);
