@@ -224,9 +224,9 @@
                     $('#appointmentFormDiv').html(data);
                     $('#formLoader').hide();
                 }, 500);
-                if (callback) callback();
             }
         });
+        if (callback) callback();
     }
 
     $(document).on('change', '#kindergartenFilter', function() {
