@@ -7,6 +7,7 @@
             'status': JSON.stringify(status),
             'kindergarten_id': kindergartenId,
         };
+        $('.page-loader').fadeOut('slow');
         filterCalendar(params);
     });
 
@@ -25,6 +26,7 @@
         eventData.childrenId = data.childrenId;
         eventData.description = data.description;
         eventData.uniqueId = data.uniqueId;
+        eventData.mode = 'edit';
         filterFormData(function() {
             $('#createEventModal').modal('toggle');
         });
@@ -64,7 +66,7 @@
         });
     }
 
-    function filterCalendar(params = {}) {        
+    function filterCalendar(params = {}) {
         var url = "{{ route('therapy-schedule.calendar') }}?"+queryParam(params);
         fetch(url).then((response) => response.json()).then((data) => {
             if ("{{ Route::currentRouteName() }}" == 'therapy-schedule.index') {
@@ -79,6 +81,8 @@
                     ).join(''));
             }
             calendar(data.calenderEvents, data.calenderHeader);
+            $(window).scrollTop(scrollingPosition);
+            // $('.page-loader').fadeOut('slow');
         });
     }
 
@@ -140,6 +144,7 @@
                 eventData.startTime = args.start.value.split("T")[1].slice(0, 5);
                 eventData.endTime = args.end.value.split("T")[1].slice(0, 5);
                 eventData.therapistIds = [resource[1]];
+                eventData.mode = 'create';
                 $('#eventTypeModal').modal('toggle');
             }
         };
@@ -156,14 +161,14 @@
                             <i class="fa fa-edit" onclick='editEvent(${JSON.stringify(args.data)})'></i>&nbsp;
                             <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])'></i>&nbsp;
                         ` : ''}
-                        ${args.data.twoChildrenNames}
+                        ${args.data.type === 'staff-meeting' ? 'Staff Meeting' : args.data.twoChildrenNames}
                         <i class="fa fa-${args.data.icon}"></i>
                     </p>
                     <div class="d-flex">
                     <span>${args.data.start.toString("HH:mm")}</span>
                 </div>
             </div>`,
-            args.data.bubbleHtml = `<div class="p-3 calendar-event-overlay">
+            args.data.bubbleHtml = `<div class="p-3 calendar-event-overlay tooltip-left">
                 <ul>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
                         ${args.data.type === 'group' ? `${args.data.groupName} <i class="fa fa-users"></i>` : ''}
@@ -201,6 +206,7 @@
         $('#formLoader').show();
         $('#appointmentFormDiv').html('');
         eventData.kindergarten_id = $('#kindergartenFilter').val();
+
         fetch("{{ route('therapy-schedule.filter-form-data') }}", {
             method: 'POST',
             headers: {
@@ -212,10 +218,47 @@
             setTimeout(() => {
                 $('#appointmentFormDiv').html(data);
                 $('#formLoader').hide();
+                $('#appointmentFormDiv').off('select2:select', '#therapist, #children');
+                $('#appointmentFormDiv').on('select2:select', '#therapist, #children', function(e) {
+                    const selectedOption = e.params.data;
+                    const selectedId = selectedOption.id;
+                    const selectedElementId = $(this).attr('id');
+                    if ($('#startTime').val() == '' || $('#endTime').val() == ''  || $('#day').val() == '') {
+                        $(this).val(null).trigger('change');
+                        return toastr.error('Please select day, start time and end time first for checking time slot');
+                    }
+                    Object.keys(timeSlotData).forEach(key => delete timeSlotData[key]);
+                    checkTimeSlot(selectedElementId, selectedId, $(this));
+                });
             }, 500);
         });
+
         if (callback) callback();
     }
+
+    function checkTimeSlot(type, id, dropdown) {
+        timeSlotData['id'] = id;
+        timeSlotData['type'] = type;
+        timeSlotData['startTime'] = $('#startTime').val();
+        timeSlotData['endTime'] = $('#endTime').val();
+
+        fetch("{{ route('therapy-schedule.time-slot') }}", {
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                'Content-Type': 'application/json',
+            },
+            method: 'POST',
+            body: JSON.stringify(timeSlotData)
+        }).then(response => response.json()).then(data => {
+            if (data.status == true) {
+                const selectedOptions = dropdown.val();
+                const updatedOptions = selectedOptions.filter(option => option !== id);
+                dropdown.val(updatedOptions).trigger('change');
+                toastr.error(data.message);
+            }
+        });
+    }
+
 
     $(document).on('change', '#kindergartenFilter', function() {
         let url = new URL(window.location.href);

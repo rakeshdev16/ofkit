@@ -138,6 +138,7 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
         Route::post('therapy-schedule/status', 'update')->name('therapy-schedule.update');
         Route::post('therapy-schedule/delete', 'delete')->name('therapy-schedule.delete');
         Route::post('therapy-schedule/filter-form-data', 'filterFormData')->name('therapy-schedule.filter-form-data');
+        Route::post('therapy-schedule/time-slot', 'checkTimeSlot')->name('therapy-schedule.time-slot');
     });
 
     Route::controller(UserController::class)->group(function () {

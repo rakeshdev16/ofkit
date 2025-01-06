@@ -25,10 +25,10 @@
         </select>
     </div>
     <div>
-        <input type="text" class="form-control" name="start_time" id="startTime" placeholder="Start Time" value="{{ @$data['startTime'] }}">
+        <input type="text" class="form-control" name="start_time" id="startTime" placeholder="Start Time" value="{{ @$data['startTime'] }}" onchange="$('#therapist, #children').val(null).trigger('change')">
     </div>
     <div>
-        <input type="text" class="form-control" name="end_time" id="endTime" placeholder="End Time" value="{{ @$data['endTime'] }}">
+        <input type="text" class="form-control" name="end_time" id="endTime" placeholder="End Time" value="{{ @$data['endTime'] }}" onchange="$('#therapist, #children').val(null).trigger('change')">
     </div>
 </div>
 <div class="mb-3">
@@ -40,16 +40,16 @@
 </div>
 <div class="mb-3">
     <select id="Monthly" name="start" class="form-control" style="display: {{ @$data['frequencyRepeat'] == 'Monthly' ? 'block' : 'none' }}">
-        <option {{ @$data['frequencyRepeatAt'] == 'Start Week' ? 'selected' : '' }} value="Start Week">Start Week</option>
-        <option {{ @$data['frequencyRepeatAt'] == 'After 1 Week' ? 'selected' : '' }} value="After 1 Week">After 1 Week</option>
-        <option {{ @$data['frequencyRepeatAt'] == 'After 2 Week' ? 'selected' : '' }} value="After 2 Week">After 2 Week</option>
-        <option {{ @$data['frequencyRepeatAt'] == 'After 3 Week' ? 'selected' : '' }} value="After 3 Week">After 3 Week</option>
+        <option {{ @$data['frequencyRepeatAt'] == 'Week 1' ? 'selected' : '' }} value="Week 1">{{ __('schedule.monthly1') }}</option>
+        <option {{ @$data['frequencyRepeatAt'] == 'Week 2' ? 'selected' : '' }} value="Week 2">{{ __('schedule.monthly2') }}</option>
+        <option {{ @$data['frequencyRepeatAt'] == 'Week 3' ? 'selected' : '' }} value="Week 3">{{ __('schedule.monthly3') }}</option>
+        <option {{ @$data['frequencyRepeatAt'] == 'Week 4' ? 'selected' : '' }} value="Week 4">{{ __('schedule.monthly4') }}</option>
     </select>
 </div>
 <div class="mb-3">
     <select id="Bi-weekly" name="start" class="form-control" style="display: {{ @$data['frequencyRepeat'] == 'Bi-weekly' ? 'block' : 'none' }}">
-        <option {{ @$data['frequencyRepeatAt'] == 'One Week Ofset' ? 'selected' : '' }} value="One Week Ofset">One Week Ofset</option>
-        <option {{ @$data['frequencyRepeatAt'] == 'From Start Week' ? 'selected' : '' }} value="From Start Week">From Start Week</option>
+        <option {{ @$data['frequencyRepeatAt'] == 'One Week Ofset' ? 'selected' : '' }} value="One Week Ofset">{{ __('schedule.biweekly1') }}</option>
+        <option {{ @$data['frequencyRepeatAt'] == 'From Start Week' ? 'selected' : '' }} value="From Start Week">{{ __('schedule.biweekly2') }}</option>
     </select>
 </div>
 @if (@$data['type'] == 'group')

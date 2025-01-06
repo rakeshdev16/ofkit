@@ -763,6 +763,24 @@ span.event-dropdown-class {
     margin-top: 2px !important;
 }
 
+.tooltip-left {
+    position: absolute;
+    transform: translateX(-100%);
+    /* Move the tooltip to the left */
+    left: -15px;
+    /* Adjust spacing */
+    top: 50%;
+    /* Center vertically relative to the event */
+    transform: translateY(-50%) translateX(-100%);
+    white-space: nowrap;
+    z-index: 1000;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
 @media screen and (max-width:576px) {
     .calendar-event-overlay {
         width: 80vw;

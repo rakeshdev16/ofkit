@@ -52,7 +52,7 @@ class TherapyScheduleController extends Controller
             $status = json_decode($request->status);
             foreach ($request->therapist_ids as $key => $therapistId) {
                 $request['therapist_id'] = $therapistId;
-                $event = TherapySchedule::updateOrCreate(['therapist_id' => $therapistId, 'unique_id' => $request->unique_id], $request->except('status'));
+                $event = TherapySchedule::updateOrCreate(['therapist_id' => $therapistId, 'unique_id' => $request->unique_id], $request->except('status', 'mode'));
                 $event->childrens()->delete();
                 if (isset($request->children_ids) && count($request->children_ids) > 0) {
                     foreach ($request->children_ids as $childrenId) {
@@ -171,5 +171,26 @@ class TherapyScheduleController extends Controller
 
         $view = view('components.schedule-form', ['data' => $data])->render();
         return response()->json($view);
+    }
+
+    public function checkTimeSlot(Request $request)
+    {
+        $checkSlot = TherapySchedule::where('start_time', '<=', $request['startTime'])->where('end_time', '>=', $request['endTime']);
+        switch ($request->type) {
+            case 'therapist':
+                $checkSlot = $checkSlot->where('frequency_repeat', '!=', 'Bi-weekly')->where('therapist_id', $request['id'])->exists();
+            break;
+
+            case 'children':
+                $checkSlot = $checkSlot->whereHas('childrens', function ($query) use ($request) {
+                        $query->where('children_id', $request['id']);
+                    })->exists();
+            break;
+        }
+
+        return response()->json([
+            'status' => $checkSlot,
+            'message' => $checkSlot ? 'This ' . $request->type . ' is already assigned to another on the same time' : ''
+        ]);
     }
 }

@@ -14,6 +14,57 @@
         .select2-container .select2-selection--multiple {
             min-height: 38px !important;
         }
+
+        .page-loader{
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            background: #272727;
+            z-index: 1000;
+            .txt{
+                color: #666;
+                text-align: center;
+                top: 40%;
+                position: relative;
+                text-transform: uppercase;
+                letter-spacing: 0.3rem;
+                font-weight: bold;
+                line-height: 1.5;
+            }
+        }
+
+        /* SPINNER ANIMATION */
+        .spinner {
+            position: relative;
+            top: 35%;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+        background-color: #fff;
+
+        border-radius: 100%;  
+        -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+        animation: sk-scaleout 1.0s infinite ease-in-out;
+        }
+
+        @-webkit-keyframes sk-scaleout {
+        0% { -webkit-transform: scale(0) }
+        100% {
+            -webkit-transform: scale(1.0);
+            opacity: 0;
+        }
+        }
+
+        @keyframes sk-scaleout {
+        0% { 
+            -webkit-transform: scale(0);
+            transform: scale(0);
+        } 100% {
+            -webkit-transform: scale(1.0);
+            transform: scale(1.0);
+            opacity: 0;
+        }
+        }
     </style>
 @endpush
 @section('section')
@@ -31,7 +82,9 @@
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="newAppointment">New Appointment</button>
         </div>
     </div>
-
+    <div class="page-loader">
+        <div class="spinner"></div>
+    </div>
     <div class="mb-5" id="calender-view">
         <div id="scheduleCalendar"></div>
     </div>
@@ -49,6 +102,8 @@
     <script type="text/javascript">
         const status = "{{ request('edit') }}" == 'true' ? ["published", "draft"] : ["draft"];
         let eventData = {};
+        let timeSlotData = {};
+        let scrollingPosition = 0;
         $(document).ready(function () {
             $.validator.addMethod(
                 "minChildren",
@@ -63,6 +118,10 @@
                 },
                 "Please choose at least two children!"
             );
+
+            window.addEventListener('scroll', function() {
+                scrollingPosition = this.scrollY;
+            });
         });
 
         $(document).on('click', '#appointmentType', function() {
