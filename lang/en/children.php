@@ -177,6 +177,7 @@ return [
     'validEmail' => 'Please enter valid email address',
     'uniqueEmail' => 'This email is already exists',
     'childAbsent' => 'Child absent',
+    'parentAbsent' => 'Parent absent',
     'therapistAbsent' => 'Therapist absent',
     'kindergartenClosed' => 'Kindergarten closed',
     'other' => 'Other',

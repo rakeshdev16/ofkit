@@ -51,18 +51,18 @@
     //     $(this).attr('disabled', false);
     // });
 
-    $(document).on('change', '.occured', function() {
-        var value = $(this).val();
-        if (value == 0) {
-            $('.occuredReason').find('input, select, textarea').attr('value', '');
-            $('.occuredDescription').hide();
-            $('.occuredReason').show();
-        } else {
-            $('.occuredDescription').find('input, select, textarea').attr('value', '');
-            $('.occuredReason').hide();
-            $('.occuredDescription').show();
-        }
-    });
+    // $(document).on('change', '.occured', function() {
+    //     var value = $(this).val();
+    //     if (value == 0) {
+    //         $('.occuredReason').find('input, select, textarea').attr('value', '');
+    //         $('.occuredDescription').hide();
+    //         $('.occuredReason').show();
+    //     } else {
+    //         $('.occuredDescription').find('input, select, textarea').attr('value', '');
+    //         $('.occuredReason').hide();
+    //         $('.occuredDescription').show();
+    //     }
+    // });
 
     $('#file').change(function(event) {
         const file = event.target.files[0];

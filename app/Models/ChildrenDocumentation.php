@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -96,6 +97,15 @@ class ChildrenDocumentation extends Model
             $query->where('status', 'active');
         }
         return $query;
+    }
+
+    public function setDateAttribute($value)
+    {
+        if (is_string($value)) {
+            // Try to parse the string into a Carbon instance using the correct format
+            $value = Carbon::createFromFormat('d/m/Y', $value);
+        }
+        $this->attributes['date'] = $value->format('Y-m-d');
     }
 
     public function getStartTimeAttribute($value)

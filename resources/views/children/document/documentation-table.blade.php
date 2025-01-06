@@ -40,19 +40,21 @@
                 <td class="{{ $documentation->occured == 1 ? 'address-column' : '' }}">
                     @if (!empty($documentation->group_name))
                         @php
-                            if (isset($groupChildDetail) && isset($groupChildDetail->participated) && $groupChildDetail->participated == 1) {
-                                $description = $groupChildDetail->description;
+                            if (isset($groupChildDetail) && isset($groupChildDetail->participated) && $groupChildDetail->participated == 1 || $documentation->occured_description) {
+                                $description = $groupChildDetail->description ? $groupChildDetail->description : $documentation->occured_description;
                             } else {
                                 $description = @$groupChildDetail->reason;
                             }
                         @endphp
                         {!! description($description, 80) !!} :{{ $documentation->group_name }}
                     @else
-                        @if ($documentation->occured == 1)
-                            {!! description($documentation->occured_description, 80) !!}
-                        @else
+                        {{-- @if ($documentation->occured == 1) --}}
+                        {{-- {{$documentation->occured_description}} ? {!! description($documentation->occured_description, 80) !!} : {{ $documentation->occured_reason }} --}}
+                        {!! $documentation->occured_description ? description($documentation->occured_description, 80) : $documentation->occured_reason !!}
+
+                        {{-- @else
                             {{ $documentation->occured_reason }}
-                        @endif
+                        @endif --}}
                     @endif
 
                     {{-- @if ($documentation->occured == 1)
@@ -80,7 +82,7 @@
                     @endphp
                     @if ($documentation->file)
                         @if ($docExt == 'xlsx' || $docExt == 'docx' || $docExt == 'odt')
-                            
+
                         @else
                             <a href="{{ $documentation->file }}" target="_blank">
                                 <h4><i class="bx bx-file"></i></h4>
@@ -89,7 +91,7 @@
                     @endif
                     @if ($groupChildDetail && $groupChildDetail->file)
                         @if ($docExt == 'xlsx' || $docExt == 'docx' || $docExt == 'odt')
-                            
+
                         @else
                             <a href="{{ asset('storage/' . @$groupChildDetail->file) }}" target="_blank">
                                 <h4><i class="bx bx-file"></i></h4>

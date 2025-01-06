@@ -177,6 +177,7 @@ return [
     'validEmail' => 'נא להזין דוא"ל תקין',
     'uniqueEmail' => 'כתובת הדוא"ל כבר בשימוש',
     'childAbsent' => 'היעדרות ילד/ה',
+    'parentAbsent' => 'היעדרות הורה',
     'therapistAbsent' => 'היעדרות מטפל/ת',
     'kindergartenClosed' => 'הגן סגור',
     'other' => 'אחר',

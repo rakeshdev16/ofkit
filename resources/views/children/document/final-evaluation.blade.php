@@ -135,16 +135,16 @@
                                                             'value' => @$document->occured,
                                                         ])
                                                     </div>
-                                                    <div class="col-md-12 occuredReason" style="display: {{ (old('occured') ?? @$document->occured) == '0' ? 'block' : 'none' }};">
+                                                    <div class="col-md-12 occuredReason">
                                                         @include('components.select-input', [
                                                             'label' => __('children.occuredReason'),
                                                             'name' => 'occured_reason',
                                                             'icon' => 'buildings',
                                                             'value' => @$document->occured_reason,
-                                                            'options' => [['key' => 'Child absent', 'value' => __('children.childAbsent')], ['key' => 'Therapist absent', 'value' => __('children.therapistAbsent')], ['key' => 'Kindergarten closed', 'value' => __('children.kindergartenClosed')], ['key' => 'Other', 'value' => __('children.other')]],
+                                                            'options' => [['key' => 'Child absent', 'value' => __('children.childAbsent')], ['key' => 'Therapist absent', 'value' => __('children.therapistAbsent')], ['key' => 'Kindergarten closed', 'value' => __('children.kindergartenClosed')], ['key' => 'Parent absent', 'value' => __('children.parentAbsent')], ['key' => 'Other', 'value' => __('children.other')]],
                                                         ])
                                                     </div>
-                                                    <div class="col-md-12 occuredDescription" style="display: {{ (old('occured') ?? @$document->occured) == '1' ? 'block' : 'none' }};">
+                                                    <div class="col-md-12 occuredDescription">
                                                         @include('components.textarea-input', [
                                                             'label' => __('children.description'),
                                                             'name' => 'occured_description',
