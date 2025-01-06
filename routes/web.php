@@ -137,7 +137,7 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
         Route::get('therapy-schedule/create','create')->name('therapy-schedule.create');
         Route::post('therapy-schedule/status', 'update')->name('therapy-schedule.update');
         Route::post('therapy-schedule/delete', 'delete')->name('therapy-schedule.delete');
-        Route::get('therapy-schedule/filter-form-data', 'filterFormData')->name('therapy-schedule.filter-form-data');
+        Route::post('therapy-schedule/filter-form-data', 'filterFormData')->name('therapy-schedule.filter-form-data');
     });
 
     Route::controller(UserController::class)->group(function () {

@@ -128,7 +128,7 @@
                 end_time: { required: "Please enter end time!" },
             },
             errorPlacement: function (error, element) {
-                var name = element.attr("name");                
+                var name = element.attr("name");
                 if (name == 'therapist_ids[]') {
                     $('.therapists').html(error);
                 } else if (name == 'children_ids[]') {
@@ -137,46 +137,36 @@
                     error.insertAfter($(element));
                 }
             },
-            submitHandler: function (form, e) {  
+            submitHandler: function (form, e) {
                 e.preventDefault();
                 var kindergartenId = getQueryParam('kindergarten_id');
-
                 var formData = new FormData(form);
                 formData.append('kindergarten_id', kindergartenId);
                 $('#createEventModalBtn').html('Processing');
-                
-                $.ajax({
+                fetch("{{ route('therapy-schedule.store') }}", {
+                    method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': "{{ csrf_token() }}"
                     },
-                    type: 'POST',
-                    url: "{{ route('therapy-schedule.store') }}",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        $('#createEventModalBtn').html('Save');
-                        if (data.status == true) {                            
-                            toastr.success(data.message);
-                            filterCalendar({ 'status': JSON.stringify(status) });
-                            $('#createEventModal').modal('toggle');
+                    body: formData
+                }).then(response => response.json()).then(data => {
+                    $('#createEventModalBtn').html('Save');
+                    if (data.status == true) {
+                        toastr.success(data.message);
+                        filterCalendar({ 'status': JSON.stringify(status) });
+                        $('#createEventModal').modal('toggle');
 
-                            const hiddenInput = $('#createdEventIds');
-                            let currentIds = hiddenInput.val() ? JSON.parse(hiddenInput.val()) : [];
-                            currentIds = [...new Set([...currentIds, data.event.unique_id])];
-                            hiddenInput.val(JSON.stringify(currentIds));
-                        } else {
-                            toastr.error(data.message);
-                        }
-                    },
-                    error: function (xhr) {
-                        $('#createEventModalBtn').html('Save');
-                        toastr.error('An error occurred. Please try again.');
+                        const hiddenInput = $('#createdEventIds');
+                        let currentIds = hiddenInput.val() ? JSON.parse(hiddenInput.val()) : [];
+                        currentIds = [...new Set([...currentIds, data.event.unique_id])];
+                        hiddenInput.val(JSON.stringify(currentIds));
+                    } else {
+                        toastr.error(data.message);
                     }
-                });
+                }).catch(error => toastr.error('An error occurred while processing the request.'));
             }
         });
+
         
         $(document).on('click', '.updateEventStatus', function() {
             $('#createEventModalBtn').html('Processing').attr('disabled', true);
@@ -203,31 +193,27 @@
                 e.preventDefault();
                 var formData = new FormData(form);
                 $('#publishEventFormBtn').html('Processing');
-                $.ajax({
+
+                fetch("{{ route('therapy-schedule.update') }}", {
+                    method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': "{{ csrf_token() }}"
                     },
-                    type: 'POST',
-                    url: "{{ route('therapy-schedule.update') }}",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        $('#publishEventFormBtn').html('Save').attr('disabled', false);
-                        if (data.status == true) {
-                            toastr.success(data.message);
-                            $('#publishEventForm').trigger("reset");
-                            $('#eventDateModal').modal('toggle');
-                            filterCalendar({'status': JSON.stringify(status)});
-                        } else {
-                            toastr.error(data.message);
-                        }
-                    },
-                    error: function (xhr) {
-                        $('#publishEventFormBtn').html('Save').attr('disabled', false);
-                        toastr.error('An error occurred. Please try again.');
+                    body: formData
+                }).then(response => response.json()).then(data => {
+                    $('#createEventModalBtn').html('Save');
+                    $('#publishEventFormBtn').html('Save').attr('disabled', false);
+                    if (data.status == true) {
+                        toastr.success(data.message);
+                        $('#publishEventForm').trigger("reset");
+                        $('#eventDateModal').modal('toggle');
+                        filterCalendar({'status': JSON.stringify(status)});
+                    } else {
+                        toastr.error(data.message);
                     }
+                }).catch(error => {
+                    $('#publishEventFormBtn').html('Save').attr('disabled', false);
+                    toastr.error('An error occurred. Please try again.');
                 });
             }
         });

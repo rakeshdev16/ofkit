@@ -263,4 +263,18 @@ function calenderEvents()
     return $events;
 }
 
+function appointmentIcon($icon)
+{
+    $icons = [
+        'individual' => 'user',
+        'group' => 'users',
+        'parental-guidance' => 'child',
+        'staff-meeting' => 'handshake-o',
+        'documentation-break' => 'book',
+        'preparation' => 'cogs',
+        'tutorial' => 'laptop',
+        'other' => 'th'
+    ];
 
+    return $icons[$icon];
+}

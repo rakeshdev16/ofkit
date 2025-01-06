@@ -139,7 +139,7 @@ class TherapyScheduleController extends Controller
                 'description' => $schedule->description,
                 'file' => $schedule->file,
                 'color' => $schedule->color,
-                'icon' => $schedule->icon,
+                'icon' => appointmentIcon($schedule->type),
                 'uniqueId' => $schedule->unique_id,
             ];
         });
@@ -159,7 +159,7 @@ class TherapyScheduleController extends Controller
 
     public function filterFormData(Request $request)
     {
-        $data = $request['eventData'];
+        $data = $request->all();
         $data['childrens'] = Children::select('id as key', DB::raw('CONCAT(name, " ", family_name) as value'))->where('kindergarten_id', $data['kindergarten_id'])->orderBy('name')->get()->toArray();
         $data['therapists'] = StaffSchedule::filter($data)->with('user')->select('user_id')->distinct('user_id')->get()
             ->map(function ($schedule) {

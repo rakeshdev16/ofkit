@@ -90,28 +90,28 @@
         <div class="modal-content">
             <div class="modal-body d-flex gap-3 flex-column">
                 <button class="btn new-btn-appointment eventType" data-type="individual">
-                    <img src="{{ asset('assets/icons/Individual.svg') }}" width="18" > Individual
+                    <i class="fa fa-user"></i> Individual
                 </button>
                 <button class="btn new-btn-appointment eventType" data-type="group">
-                    <img src="{{ asset('assets/icons/Group.svg') }}" width="18" > Group
+                    <i class="fa fa-users"></i> Group
                 </button>
                 <button class="btn new-btn-appointment eventType" data-type="parental-guidance">
-                    <img src="{{ asset('assets/icons/ParentalGuide.svg') }}" width="18" > Parental Guidance
+                    <i class="fa fa-child"></i> Parental Guidance
                 </button>
                 <button class="btn new-btn-appointment eventType" data-type="staff-meeting">
-                    <img src="{{ asset('assets/icons/StaffMeating.svg') }}" width="18"> Staff Meeting
+                    <i class="fa fa-handshake-o"></i> Staff Meeting
                 </button>
                 <button class="btn new-btn-appointment eventType" data-type="documentation-break">
-                    <img src="{{ asset('assets/icons/DocumentBreak.svg') }}" width="18" > Documentation/break
+                    <i class="fa fa-book"></i> Documentation/break
                 </button>
                 <button class="btn new-btn-appointment eventType" data-type="preparation">
-                    <img src="{{ asset('assets/icons/Prepare.svg') }}" width="18" > Preparation
+                    <i class="fa fa-cogs"></i> Preparation
                 </button>
                 <button class="btn new-btn-appointment eventType" data-type="tutorial">
-                    <img src="{{ asset('assets/icons/tutorials.svg') }}" width="18" > Tutorial
+                    <i class="fa fa-laptop"></i> Tutorial
                 </button>
                 <button class="btn new-btn-appointment eventType" data-type="other">
-                    <img src="{{ asset('assets/icons/Other.svg') }}" width="18" > Other
+                    <i class="fa fa-th"></i> Other
                 </button>
             </div>
         </div>

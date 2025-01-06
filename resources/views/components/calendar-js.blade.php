@@ -32,64 +32,53 @@
     
     function deleteEvent(ids) {
         if (ids == '' || ids == null) {
-            toastr.error('There are not any created event');
+            toastr.error('There are not any created events');
             return true;
-        }            
+        }
         Swal.fire({
             title: confirmMsgTitle,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes cancel it",
+            confirmButtonText: "Yes, cancel it",
             cancelButtonText: cancelButtonText
         }).then((result) => {
             if (result.isConfirmed) {
-                $.ajax({
+                fetch("{{ route('therapy-schedule.delete') }}", {
+                    method: 'POST',
                     headers: {
-                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                        'Content-Type': 'application/json',
                     },
-                    type: 'POST',
-                    url: "{{ route('therapy-schedule.delete') }}",
-                    data: { ids: ids },
-                    success: function (data) {
-                        if (data.status == true) {
-                            filterCalendar({'event[status]': JSON.stringify(status)});
-                            toastr.success(data.message);
-                        } else {
-                            toastr.error(data.message);
-                        }
+                    body: JSON.stringify({ ids: ids })
+                }).then(response => response.json()).then(data => {
+                    if (data.status == true) {
+                        filterCalendar({ 'event[status]': JSON.stringify(status) });
+                        toastr.success(data.message);
+                    } else {
+                        toastr.error(data.message);
                     }
-                });
+                }).catch(error => toastr.error('An error occurred while processing the request.'));
             }
         });
     }
 
     function filterCalendar(params = {}) {        
         var url = "{{ route('therapy-schedule.calendar') }}?"+queryParam(params);
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': "{{ csrf_token() }}"
-            },
-            type: 'GET',
-            url: url,
-            processData: false,
-            contentType: false,
-            dataType: 'json',
-            success : function(data){
-                if ("{{ Route::currentRouteName() }}" == 'therapy-schedule.index') {
-                    $('#childrenFilter').html('<option value="">Select Children</option>')
-                        .append(data.childrens.map((item) =>
-                            `<option ${data.childrenId == item.key ? 'selected' : ''} value="${item.key}">${item.value}</option>`
-                        ).join(''));
+        fetch(url).then((response) => response.json()).then((data) => {
+            if ("{{ Route::currentRouteName() }}" == 'therapy-schedule.index') {
+                $('#childrenFilter').html('<option value="">Select Children</option>')
+                    .append(data.childrens.map((item) =>
+                        `<option ${data.childrenId == item.key ? 'selected' : ''} value="${item.key}">${item.value}</option>`
+                    ).join(''));
 
-                    $('#staffFilter').html('<option value="">Select Staff</option>')
-                        .append(data.users.map((item) =>
-                            `<option ${data.usersId == item.id ? 'selected' : ''} value="${item.id}">${item.name}</option>`
-                        ).join(''));
-                }
-                calendar(data.calenderEvents, data.calenderHeader);
+                $('#staffFilter').html('<option value="">Select Staff</option>')
+                    .append(data.users.map((item) =>
+                        `<option ${data.usersId == item.id ? 'selected' : ''} value="${item.id}">${item.name}</option>`
+                    ).join(''));
             }
+            calendar(data.calenderEvents, data.calenderHeader);
         });
     }
 
@@ -168,7 +157,7 @@
                             <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])'></i>&nbsp;
                         ` : ''}
                         ${args.data.twoChildrenNames}
-                        <img src="${args.data.icon}" width="18">
+                        <i class="fa fa-${args.data.icon}"></i>
                     </p>
                     <div class="d-flex">
                     <span>${args.data.start.toString("HH:mm")}</span>
@@ -212,19 +201,18 @@
         $('#formLoader').show();
         $('#appointmentFormDiv').html('');
         eventData.kindergarten_id = $('#kindergartenFilter').val();
-        $.ajax({
+        fetch("{{ route('therapy-schedule.filter-form-data') }}", {
+            method: 'POST',
             headers: {
-                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                'Content-Type': 'application/json',
             },
-            type: 'GET',
-            url: "{{ route('therapy-schedule.filter-form-data') }}",
-            data: { eventData },
-            success : function(data){
-                setTimeout(() => {
-                    $('#appointmentFormDiv').html(data);
-                    $('#formLoader').hide();
-                }, 500);
-            }
+            body: JSON.stringify(eventData)
+        }).then((response) => response.json()).then((data) => {
+            setTimeout(() => {
+                $('#appointmentFormDiv').html(data);
+                $('#formLoader').hide();
+            }, 500);
         });
         if (callback) callback();
     }
