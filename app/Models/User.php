@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -69,6 +71,14 @@ class User extends Authenticatable
         $this->notify(new \App\Notifications\ResetPassword($token));
     }
 
+    public function setDobAttribute($value)
+    {
+        if (is_string($value)) {
+            // Try to parse the string into a Carbon instance using the correct format
+            $value = Carbon::createFromFormat('d/m/Y', $value);
+        }
+        $this->attributes['dob'] = $value->format('Y-m-d');
+    }
 
     public function getIsAssignAttribute()
     {

@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/header-colors.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/toastr.min.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
     <title>אופקית - טיפול ויעוץ</title>
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
@@ -47,10 +48,11 @@
     <script src="{{ asset('assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
     <script src="{{ asset('assets/plugins/chartjs/js/chart.js') }}"></script>
-    <script src="{{ asset('assets/js/index.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/index.js') }}"></script> --}}
     <script src="{{ asset('assets/js/app.js') }}"></script>
     <script src="{{ asset('assets/js/toastr.min.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     @stack('customScript')
 
     @if (session()->get('errors'))
@@ -226,6 +228,10 @@
         $(function () {
 			$('[data-bs-toggle="popover"]').popover({
                 trigger: 'hover' // Change trigger to hover
+            });
+
+            $(".datepicker").flatpickr({
+                dateFormat: "d/m/Y",
             });
 		})
     </script>

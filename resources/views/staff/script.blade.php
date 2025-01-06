@@ -10,6 +10,14 @@
             weeklyKindergartenOptions(id, name);
         });
 
+        $.validator.addMethod("regex", function (value, element, param) {
+            if (this.optional(element)) {
+                return true;
+            }
+            const pattern = new RegExp(param);
+            return pattern.test(value);
+        });
+
         $("#addStaffForm").validate({
             rules: {
                 first_name: {
@@ -50,6 +58,10 @@
                         }
                     }
                 },
+                licence_number: {
+                    required: false,
+                    regex: "^[0-9-]+$",
+                },
                 telephone: {
                     required: function () {
                         return $("#roles").val() !== "support";
@@ -75,6 +87,9 @@
                     email: "{{ __('staff.validEmail') }}",
                     remote: "{{ __('staff.existsEmail') }}",
                 },
+                licence_number: {
+                    regex: "{{ __('staff.licenceRegex') }}",
+                },
                 telephone: {
                     required: "{{ __('staff.requiredTelephone') }}"
                 },
@@ -84,8 +99,9 @@
             },
             errorPlacement: function (error, element) {
                 var name = element.attr("name");
-                if (name == 'first_name' || name == 'identification' || name == 'email' || name == 'telephone' || name == 'role') {
-                    $('#'+name).html(error);
+                if (name == 'first_name' || name == 'identification' || name == 'email' || name == 'telephone' || name == 'role' || name == 'licence_number') {
+                    $('<div>', { id: name + '_error', class: 'error' }).insertAfter(element);
+                    $('#' + name + '_error').html(error);
                 } else {
                     error.insertAfter($(element));
                 }
