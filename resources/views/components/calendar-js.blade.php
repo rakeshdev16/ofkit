@@ -173,6 +173,9 @@
                     title = args.data.twoChildrenNames;
                 break;
             }
+            function escapeJson(json) {
+                return JSON.stringify(json).replace(/'/g, '&#39;');
+            }
             args.data.html = `<div class="p-1 event-box" style="${args.data.color[0]}; ${args.data.color[1]}">
                     <div class="d-flex justify-content-between">
                         <span>${args.data.start.toString("HH:mm")}</span>
@@ -181,13 +184,13 @@
                     <div class="text-center" style="font-size: 12px;">${title}</div>
                 <div class="">
                     ${type === 'create' ? `
-                        <i class="fa fa-edit" onclick='editEvent(${JSON.stringify(args.data)})'></i>&nbsp;
+                        <i class="fa fa-edit" onclick='editEvent(${escapeJson(args.data)})'></i>&nbsp;
                         <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])'></i>&nbsp;
                     ` : ''}
                 </div>
             </div>`,
             args.data.bubbleHtml = `
-            <div class="p-3 calendar-event-overlay tooltip-left" style="direction: rtl; text-align: right;">
+            <div class="p-3 calendar-event-overlay tooltip-left" style="word-wrap: break-word; white-space: normal; direction: rtl; text-align: right;">
                 <ul>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
                         <i class="fa fa-${args.data.icon}"></i>${title}
@@ -209,7 +212,7 @@
                     </li>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
                         <i class="fa fa-align-justify"></i>
-                        <p class="m-0" style="word-wrap: break-word; white-space: normal;">${args.data.description || ''}</p>
+                        <p class="m-0">${args.data.description || ''}</p>
                     </li>
 
                 </ul>
