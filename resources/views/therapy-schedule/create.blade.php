@@ -56,14 +56,14 @@
         }
 
         @keyframes sk-scaleout {
-        0% { 
-            -webkit-transform: scale(0);
-            transform: scale(0);
-        } 100% {
-            -webkit-transform: scale(1.0);
-            transform: scale(1.0);
-            opacity: 0;
-        }
+            0% {
+                -webkit-transform: scale(0);
+                transform: scale(0);
+            } 100% {
+                -webkit-transform: scale(1.0);
+                transform: scale(1.0);
+                opacity: 0;
+            }
         }
     </style>
 @endpush
@@ -235,7 +235,6 @@
                 return true;
             }            
             $('#eventIds').val(ids);
-            // $('#associatedKindergartenId').val($('#kindergartenFilter').val());
             $('#eventDateModal').modal('toggle');
         });
 

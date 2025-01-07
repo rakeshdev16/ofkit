@@ -1,8 +1,6 @@
 <script>
     $(document).ready(function () {
         var kindergartenId = $('#kindergartenFilter').val();
-        // $('#kindergartenId').val(kindergartenId);
-        // $('#associatedKindergartenId').val($('#kindergartenFilter').val());
         var params = {
             'status': JSON.stringify(status),
             'kindergarten_id': kindergartenId,
@@ -106,11 +104,13 @@
         dp.startDate = startDate;
         dp.allDayEventHeight = 100;
         dp.viewType = "Resources";
+        // dp.headerHeight = 5;
+        // dp.headerMinHeight = 5;
         dp.eventMoveHandling = "Disabled";
         dp.headerLevels = 2;
         dp.columnWidthSpec = "Fixed";
         dp.columnMinWidth = 20;
-        dp.columnWidth = 200;
+        dp.columnWidth = 100;
         dp.events.list = events;
         dp.dayBeginsHour = 7;
         dp.dayEndsHour = 17;
@@ -155,48 +155,66 @@
         };
 
         dp.onBeforeEventRender = function(args) {
+            let title = '';
+            switch (args.data.type) {
+                case 'staff-meeting':
+                    title = 'Staff Meeting: ' + args.data.twoChildrenNames;
+                    break;
+                case 'group':
+                    title = args.data.groupName + ': ' + args.data.twoChildrenNames;
+                    break;
+                case 'individual':
+                    title = `<p style="font-size: 16px; margin-bottom: 0px;">${args.data.twoChildrenNames}</p>`;
+                    break;
+                case 'parental-guidance':
+                    title = `<p style="font-size: 16px; margin-bottom: 0px;">${args.data.twoChildrenNames}</p>`;
+                    break;
+                default:
+                    title = args.data.twoChildrenNames;
+                break;
+            }
             args.data.html = `<div class="p-1 event-box" style="${args.data.color[0]}; ${args.data.color[1]}">
-                    <p class="text-start fw-bold text-end mb-0">
-                        ${type === 'create' ? `
-                            <i class="fa fa-edit" onclick='editEvent(${JSON.stringify(args.data)})'></i>&nbsp;
-                            <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])'></i>&nbsp;
-                        ` : ''}
-                        ${args.data.type === 'staff-meeting' ? 'Staff Meeting' : args.data.twoChildrenNames}
+                    <div class="d-flex justify-content-between">
+                        <span>${args.data.start.toString("HH:mm")}</span>
                         <i class="fa fa-${args.data.icon}"></i>
-                    </p>
-                    <div class="d-flex">
-                    <span>${args.data.start.toString("HH:mm")}</span>
+                    </div>
+                    <div class="text-center" style="font-size: 12px;">${title}</div>
+                <div class="">
+                    ${type === 'create' ? `
+                        <i class="fa fa-edit" onclick='editEvent(${JSON.stringify(args.data)})'></i>&nbsp;
+                        <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])'></i>&nbsp;
+                    ` : ''}
                 </div>
             </div>`,
-            args.data.bubbleHtml = `<div class="p-3 calendar-event-overlay tooltip-left">
+            args.data.bubbleHtml = `
+            <div class="p-3 calendar-event-overlay tooltip-left" style="direction: rtl; text-align: right;">
                 <ul>
-                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
-                        ${args.data.type === 'group' ? `${args.data.groupName} <i class="fa fa-users"></i>` : ''}
+                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                        <i class="fa fa-${args.data.icon}"></i>${title}
                     </li>
-                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
-                        ${args.data.therapistName} <i class="fa fa-user"></i>
+                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                        <i class="fa fa-user"></i>${args.data.therapistName}
                     </li>
-                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
-                        ${args.data.start.toString("HH:mm")} - ${args.data.end.toString("HH:mm")} <i class="fa fa-calendar"></i>
+                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                        <i class="fa fa-calendar"></i>${args.data.start.toString("HH:mm")} - ${args.data.end.toString("HH:mm")}
                     </li>
-                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
-                        ${args.data.frequencyRepeat || ''} ${args.data.frequencyRepeatAt || ''}  <i class="fa fa-clock-o"></i>
+                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                        <i class="fa fa-clock-o"></i>${args.data.frequencyRepeat || ''} ${args.data.frequencyRepeatAt || ''}
                     </li>
-                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
-                        ${args.data.therapistNames.trim()} <i class="fa fa-users"></i>
+                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                        <i class="fa fa-users"></i>${args.data.therapistNames.trim()}
                     </li>
-                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
-                        ${args.data.childrenNames.trim()} <i class="fa fa-users"></i>
+                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                        <i class="fa fa-users"></i>${args.data.childrenNames.trim()}
                     </li>
-                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-end">
+                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                        <i class="fa fa-align-justify"></i>
+                        <p class="m-0" style="word-wrap: break-word; white-space: normal;">${args.data.description || ''}</p>
+                    </li>
 
-                    <div class="text-end">
-                    <p class="mt-2">${args.data.description || ''}</p>
-                    </div>
-                        <i class="fa fa-user"></i>
-                    </li>
                 </ul>
             </div>`;
+
         };
 
         dp.init();
