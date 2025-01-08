@@ -1,4 +1,5 @@
 <script>
+    let scrollingPosition = 0;
     $(document).ready(function () {
         var kindergartenId = $('#kindergartenFilter').val();
         var params = {
@@ -6,20 +7,10 @@
             'kindergarten_id': kindergartenId,
         };
         $('.page-loader').fadeOut('slow');
+        window.addEventListener('scroll', function() {
+            scrollingPosition = this.scrollY;
+        });
         filterCalendar(params);
-        setTimeout(() => {
-            $('.calendar_default_scroll  > div > div:nth-of-type(2)').css("height", "1215px");
-            const buttonRight = document.getElementById('slideRight');
-            const buttonLeft = document.getElementById('slideLeft');
-
-            const targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0]; // Convert to DOM element
-            buttonRight.onclick = function () {
-                targetElement.scrollLeft += 200;
-            };
-            buttonLeft.onclick = function () {
-                targetElement.scrollLeft -= 200;
-            };
-        }, 1500);
     });
 
     function editEvent(data) {
@@ -94,6 +85,19 @@
             calendar(data.calenderEvents, data.calenderHeader);
             $(window).scrollTop(scrollingPosition);
             // $('.page-loader').fadeOut('slow');
+            setTimeout(() => {
+                $('.calendar_default_scroll  > div > div:nth-of-type(2)').css("height", "1215px");
+                const buttonRight = document.getElementById('slideRight');
+                const buttonLeft = document.getElementById('slideLeft');
+
+                const targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0]; // Convert to DOM element
+                buttonRight.onclick = function () {
+                    targetElement.scrollLeft += 200;
+                };
+                buttonLeft.onclick = function () {
+                    targetElement.scrollLeft -= 200;
+                };
+            }, 1500);
         });
     }
 
@@ -123,7 +127,7 @@
         dp.headerLevels = 2;
         dp.columnWidthSpec = "Fixed";
         dp.columnMinWidth = 20;
-        dp.columnWidth = 200;
+        dp.columnWidth = 100;
         dp.events.list = events;
         dp.dayBeginsHour = 7;
         dp.dayEndsHour = 17;
