@@ -262,6 +262,7 @@
         timeSlotData['type'] = type;
         timeSlotData['startTime'] = $('#startTime').val();
         timeSlotData['endTime'] = $('#endTime').val();
+        timeSlotData['frequencyRepeat'] = $('#appointmentFrequency').val();
 
         fetch("{{ route('therapy-schedule.time-slot') }}", {
             headers: {

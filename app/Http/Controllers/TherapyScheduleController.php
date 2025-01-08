@@ -175,11 +175,16 @@ class TherapyScheduleController extends Controller
 
     public function checkTimeSlot(Request $request)
     {
-        $checkSlot = TherapySchedule::where('start_time', '<=', $request['startTime'])->where('end_time', '>=', $request['endTime']);
+        $checkSlot = TherapySchedule::where('start_time', '<=', $request['endTime'])->where('end_time', '>=', $request['startTime']);
         switch ($request->type) {
             case 'therapist':
-                $checkSlot = $checkSlot->where('frequency_repeat', '!=', 'Bi-weekly')->where('therapist_id', $request['id'])->exists();
-            break;
+                $checkSlot = $checkSlot->where('therapist_id', $request['id']);
+                if ($request['frequencyRepeat'] === 'Weekly') {
+                    $checkSlot = $checkSlot->where('frequency_repeat', 'Weekly')->exists();
+                } else {
+                    $checkSlot = false;
+                }
+                break;
 
             case 'children':
                 $checkSlot = $checkSlot->whereHas('childrens', function ($query) use ($request) {
@@ -193,4 +198,5 @@ class TherapyScheduleController extends Controller
             'message' => $checkSlot ? 'This ' . $request->type . ' is already assigned to another on the same time' : ''
         ]);
     }
+
 }

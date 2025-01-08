@@ -32,7 +32,7 @@
     </div>
 </div>
 <div class="mb-3">
-    <select id="appointmentFrequency" name="frequency_repeat" class="form-control">
+    <select id="appointmentFrequency" name="frequency_repeat" class="form-control" onchange="$('#therapist, #children').val(null).trigger('change')">
         <option {{ @$data['frequencyRepeat'] == 'Weekly' ? 'selected' : '' }} value="Weekly">Weekly</option>
         <option {{ @$data['frequencyRepeat'] == 'Bi-weekly' ? 'selected' : '' }} value="Bi-weekly">Bi-weekly</option>
         <option {{ @$data['frequencyRepeat'] == 'Monthly' ? 'selected' : '' }} value="Monthly">Monthly</option>
