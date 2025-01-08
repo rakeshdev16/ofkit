@@ -7,6 +7,19 @@
         };
         $('.page-loader').fadeOut('slow');
         filterCalendar(params);
+        setTimeout(() => {
+            $('.calendar_default_scroll  > div > div:nth-of-type(2)').css("height", "1215px");
+            const buttonRight = document.getElementById('slideRight');
+            const buttonLeft = document.getElementById('slideLeft');
+
+            const targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0]; // Convert to DOM element
+            buttonRight.onclick = function () {
+                targetElement.scrollLeft += 200;
+            };
+            buttonLeft.onclick = function () {
+                targetElement.scrollLeft -= 200;
+            };
+        }, 1500);
     });
 
     function editEvent(data) {
@@ -110,7 +123,7 @@
         dp.headerLevels = 2;
         dp.columnWidthSpec = "Fixed";
         dp.columnMinWidth = 20;
-        dp.columnWidth = 100;
+        dp.columnWidth = 200;
         dp.events.list = events;
         dp.dayBeginsHour = 7;
         dp.dayEndsHour = 17;
@@ -128,6 +141,7 @@
         };
 
         dp.onTimeRangeSelected = function(args) {
+            // dp.keyboard.focusCell(args.end.addTime(-1), args.resource);
             if (type == 'view') {
                 dp.clearSelection();
             } else {

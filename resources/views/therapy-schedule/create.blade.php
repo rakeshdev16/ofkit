@@ -77,6 +77,8 @@
         </div>
         <div class="d-flex flex-wrap gap-3">
             {{-- <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#">Export as PDf</button> --}}
+            <button id="slideRight" type="button" class="btn button"><i class="fa fa-arrow-right"></i></button>
+            <button id="slideLeft" type="button" class="btn button"><i class="fa fa-arrow-left"></i></button>
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="deleteEvent({{ $createdEventIds }})">Cancel</button>
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer updateEventStatus" data-status="published">Publish</button>
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="newAppointment">New Appointment</button>
