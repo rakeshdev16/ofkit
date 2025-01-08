@@ -101,10 +101,8 @@
                 toastr.error("Please enter a valid time in the format HH:mm. Minutes should be 00, 15, 30, or 45.");
                 instance.clear();
             }
-
             const endTime = document.querySelector("#endTime");
             const endTimeValue = endTime.value;
-
             if (endTimeValue && !isEndTimeAfterStartTime(dateStr, endTimeValue)) {
                 endTime.value = '';
             }
@@ -120,15 +118,12 @@
         allowInput: true,
         onClose: function (selectedDates, dateStr, instance) {
             const isValid = validateTime(dateStr);
-
             if (!isValid) {
                 toastr.error("Please enter a valid time in the format HH:mm. Minutes should be 00, 15, 30, or 45.");
                 instance.clear();
                 return;
             }
-
             const startTime = document.querySelector("#startTime").value;
-
             if (startTime && !isEndTimeAfterStartTime(startTime, dateStr)) {
                 toastr.error("End time cannot be earlier than or equal to the start time.");
                 instance.clear();
@@ -136,12 +131,11 @@
         }
     });
 
-    // Function to validate HH:mm time format
     function validateTime(timeStr) {
-        const timeRegex = /^([01]?\d|2[0-3]):([0-5]\d)$/; // Valid HH:mm format
+        const timeRegex = /^([01]?\d|2[0-3]):([0-5]\d)$/;
         if (timeRegex.test(timeStr)) {
             const [hours, minutes] = timeStr.split(":").map(Number);
-            const validMinutes = [0, 15, 30, 45]; // Allowable minute values
+            const validMinutes = [0, 15, 30, 45];
             if (validMinutes.includes(minutes)) {
                 return true;
             } else {
@@ -151,12 +145,9 @@
         return false;
     }
 
-    // Function to compare startTime and endTime
     function isEndTimeAfterStartTime(startTime, endTime) {
         const [startHours, startMinutes] = startTime.split(":").map(Number);
         const [endHours, endMinutes] = endTime.split(":").map(Number);
-
-        // Compare time values
         if (endHours > startHours) {
             return true;
         } else if (endHours === startHours && endMinutes > startMinutes) {
@@ -169,13 +160,15 @@
     $('.selectChildrens').select2({
         dropdownParent: $("#createEventModal"),
         placeholder: "Select Children",
-        multiple: isMultiple,
-        allowClear: true
+        // multiple: isMultiple,
+        allowClear: true,
+        maximumSelectionLength: !isMultiple ?? 1
     });
     $('.selectTherapist').select2({
         dropdownParent: $("#createEventModal"),
         placeholder: "Select Therapist",
-        multiple: isMultiple,
-        allowClear: true
+        // multiple: isMultiple,
+        allowClear: true,
+        maximumSelectionLength: !isMultiple ?? 1
     });
 </script>

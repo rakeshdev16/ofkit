@@ -150,6 +150,11 @@
             filterFormData(function() {
                 $('#eventTypeModal').modal('toggle');
                 $('#createEventModal').modal('toggle');
+                setTimeout(() => {
+                    const dropdown = $('#therapist');
+                    const id = dropdown.val()[0];
+                    checkTimeSlot('therapist', id, dropdown);
+                }, 1000);
             });
         });
 

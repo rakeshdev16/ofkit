@@ -263,7 +263,6 @@
         timeSlotData['startTime'] = $('#startTime').val();
         timeSlotData['endTime'] = $('#endTime').val();
         timeSlotData['frequencyRepeat'] = $('#appointmentFrequency').val();
-
         fetch("{{ route('therapy-schedule.time-slot') }}", {
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}",
@@ -280,7 +279,6 @@
             }
         });
     }
-
 
     $(document).on('change', '#kindergartenFilter', function() {
         let url = new URL(window.location.href);

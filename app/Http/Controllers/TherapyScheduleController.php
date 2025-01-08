@@ -185,11 +185,10 @@ class TherapyScheduleController extends Controller
                     $checkSlot = false;
                 }
                 break;
-
             case 'children':
                 $checkSlot = $checkSlot->whereHas('childrens', function ($query) use ($request) {
-                                $query->where('children_id', $request['id']);
-                            })->exists();
+                    $query->where('children_id', $request['id']);
+                })->exists();
             break;
         }
 
