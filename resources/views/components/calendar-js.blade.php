@@ -89,7 +89,6 @@
                 $('.calendar_default_scroll  > div > div:nth-of-type(2)').css("height", "1215px");
                 const buttonRight = document.getElementById('slideRight');
                 const buttonLeft = document.getElementById('slideLeft');
-
                 const targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0]; // Convert to DOM element
                 buttonRight.onclick = function () {
                     targetElement.scrollLeft += 200;
@@ -127,7 +126,7 @@
         dp.headerLevels = 2;
         dp.columnWidthSpec = "Fixed";
         dp.columnMinWidth = 20;
-        dp.columnWidth = 100;
+        dp.columnWidth = 200;
         dp.events.list = events;
         dp.dayBeginsHour = 7;
         dp.dayEndsHour = 17;
