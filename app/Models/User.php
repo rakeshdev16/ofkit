@@ -84,10 +84,9 @@ class User extends Authenticatable
     {
         if (!empty($value)) {
             if (is_string($value)) {
-                // Try to parse the string into a Carbon instance using the correct format
                 $value = Carbon::createFromFormat('d/m/Y', $value);
             }
-            $this->attributes['dob'] = $value->format('Y-m-d');
+            $this->attributes['work_start_date'] = $value->format('Y-m-d');
         }
     }
 
