@@ -90,7 +90,6 @@
                                             @include('components.date-input', [
                                                 'label' => __('staff.birthDateTh'),
                                                 'name' => 'dob',
-                                                'max' => date('Y-m-d'),
                                                 'value' => $user->dob ? date('Y-m-d', strtotime($user->dob)) : '',
                                             ])
                                         </div>

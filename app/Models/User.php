@@ -40,6 +40,7 @@ class User extends Authenticatable
         'last_activity_at',
         'status',
         'last_otp_verified_at',
+        'work_start_date',
     ];
 
     protected $appends = ['date_of_birth', 'profile', 'is_assign'];
@@ -74,10 +75,17 @@ class User extends Authenticatable
     public function setDobAttribute($value)
     {
         if (is_string($value)) {
-            // Try to parse the string into a Carbon instance using the correct format
             $value = Carbon::createFromFormat('d/m/Y', $value);
+            $this->attributes['dob'] = $value->format('Y-m-d');
         }
-        $this->attributes['dob'] = $value->format('Y-m-d');
+    }
+
+    public function setWorkStartDateAttribute($value)
+    {
+        if (is_string($value)) {
+            $value = Carbon::createFromFormat('d/m/Y', $value);
+            $this->attributes['work_start_date'] = $value->format('Y-m-d');
+        }
     }
 
     public function getIsAssignAttribute()
@@ -159,6 +167,16 @@ class User extends Authenticatable
     public function getDateOfBirthAttribute()
     {
         return isset($this->attributes['dob']) ? @date('d/m/Y', strtotime($this->attributes['dob'])) : NULL;
+    }
+
+    public function getWorkStartDateAttribute()
+    {
+        return isset($this->attributes['work_start_date']) ? Carbon::parse($this->attributes['work_start_date'])->format('d/m/Y') : null;
+    }
+
+    public function getDobAttribute()
+    {
+        return isset($this->attributes['dob']) ? Carbon::parse($this->attributes['dob'])->format('d/m/Y') : null;
     }
 
     public function getProfileAttribute($value)

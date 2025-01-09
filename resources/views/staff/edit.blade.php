@@ -123,8 +123,7 @@
                                             @include('components.date-input', [
                                                 'label' => __('staff.birthDateTh'),
                                                 'name' => 'dob',
-                                                'max' => date('Y-m-d'),
-                                                'value' => $staff->dob ? date('Y-m-d', strtotime($staff->dob)) : '',
+                                                'value' => $staff->dob ?? '',
                                                 'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
                                         </div>
@@ -148,7 +147,14 @@
                                                 </div>
                                             @endif
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            @include('components.date-input', [
+                                                'label' => __('staff.workStartDate'),
+                                                'name' => 'work_start_date',
+                                                'value' => $staff->work_start_date ?? '',
+                                            ])
+                                        </div>
+                                        <div class="col-md-6">
                                             @include('components.file-input', [
                                                 'label' => __('staff.document'),
                                                 'name' => 'documents[]',
@@ -212,7 +218,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody class="selected-kindergarten">
-                                                            
+
                                                             @if (count(old('kindergarten_id', @$staffKindergartens ?? [])) > 0)
                                                                 @foreach (old('kindergarten', @$staffKindergartens ?? []) as $data)
                                                                     @include('components.kindergarten-tr', [

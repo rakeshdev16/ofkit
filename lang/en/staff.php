@@ -69,5 +69,6 @@ return [
     'requiredAssociation' => 'Please choose association',
     'nullableIdentification' => 'Please enter only 9 digits',
     'changePassword' => 'Change Password',
+    'workStartDate' => 'Work start date',
 
 ];

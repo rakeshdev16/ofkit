@@ -100,7 +100,6 @@
                                             @include('components.date-input', [
                                                 'label' => __('staff.birthDateTh'),
                                                 'name' => 'dob',
-                                                'max' => date('Y-m-d'),
                                             ])
                                         </div>
                                         <div class="col-md-6">
@@ -113,7 +112,13 @@
                                             ])
                                             <span id="role"></span>
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            @include('components.date-input', [
+                                                'label' => __('staff.workStartDate'),
+                                                'name' => 'work_start_date',
+                                            ])
+                                        </div>
+                                        <div class="col-md-6">
                                             @include('components.file-input', [
                                                 'label' => __('staff.document'),
                                                 'name' => 'documents[]',
@@ -300,6 +305,6 @@
         @include('components.cropper-script')
         @include('staff.script')
         <script>
-            
+
         </script>
     @endpush

@@ -94,6 +94,21 @@ class Children extends Model
         return $query;
     }
 
+    public function setServiceStartDateAttribute($value)
+    {
+        if (is_string($value)) {
+            $value = Carbon::createFromFormat('d/m/Y', $value);
+            $this->attributes['service_start_date'] = $value->format('Y-m-d');
+        }
+    }
+
+    public function setDobAttribute($value)
+    {
+        if (is_string($value)) {
+            $value = Carbon::createFromFormat('d/m/Y', $value);
+            $this->attributes['dob'] = $value->format('Y-m-d');
+        }
+    }
 
     public function kindergarten()
     {

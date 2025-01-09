@@ -90,6 +90,10 @@
                                                     <span class="text-secondary">{{ @ucfirst($staff->getRoleNames()->first()) ?? '-' }}</span>
                                                 </li>
                                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                    <h6 class="mb-0"><i class="bx bx-calendar"></i> {{ __('staff.workStartDate') }}</h6>
+                                                    <span class="text-secondary">{{ @$staff->work_start_date ? $staff->work_start_date : '-' }}</span>
+                                                </li>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                                     <h6 class="mb-0"><i class="bx bx-calendar"></i> {{ __('comon.createdOn') }}</h6>
                                                     <span class="text-secondary">{{ date('d/m/Y', strtotime($staff->created_at)) ?? '-' }}</span>
                                                 </li>

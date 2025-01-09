@@ -69,4 +69,5 @@ return [
     'requiredAssociation' => "שדה חובה",
     'nullableIdentification' => 'נא להזין 9 ספרות בלבד',
     'changePassword' => 'שנה סיסמה',
+    'workStartDate' => 'תאריך תחילת העבודה',
 ];

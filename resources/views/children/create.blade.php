@@ -84,7 +84,6 @@
                                                                 'label' => __('children.dob'),
                                                                 'name' => 'dob',
                                                                 'class' => 'date-of-birth',
-                                                                'max' => date('Y-m-d'),
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -364,7 +363,8 @@
             });
 
             $(document).on('change', '.date-of-birth', function() {
-                var start = moment(new Date($(this).val()));
+                // var start = moment(new Date($(this).val()));
+                var start = moment($(this).val(), 'DD/MM/YYYY');
                 var end = moment(new Date());
                 var years = end.diff(start, 'years');
                 start.add(years, 'years');
