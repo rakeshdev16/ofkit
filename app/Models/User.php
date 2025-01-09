@@ -73,7 +73,7 @@ class User extends Authenticatable
 
     public function setDobAttribute($value)
     {
-        if (!empty($this->attributes['dob'])) {
+        if (!empty($value)) {
             if (is_string($value)) {
                 // Try to parse the string into a Carbon instance using the correct format
                 $value = Carbon::createFromFormat('d/m/Y', $value);

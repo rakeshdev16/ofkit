@@ -48,7 +48,12 @@ class TherapyScheduleController extends Controller
                 }
             }
 
-            $request['unique_id'] = $request->unique_id ? $request->unique_id : Str::uuid();
+            if ($request->type === 'staff-meeting') {
+                $request['color'] = json_encode(["background-color: #095F59;", "color: #fff;"]);
+            } else {
+                $request['color'] = json_encode(Children::where('id', $request->children_ids[0] ?? null)->pluck('color')->first());
+            }
+
             $status = json_decode($request->status);
             foreach ($request->therapist_ids as $key => $therapistId) {
                 $request['therapist_id'] = $therapistId;

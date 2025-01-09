@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use \Illuminate\Http\Request;
-
+use App\Models\Children;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -52,18 +52,6 @@ Route::get('/check-session', function () {
         }
     }
 });
-// Route::get('/expire-session', function() {
-//     try {
-//         //code...
-//         \Auth::logout();
-//         session()->invalidate();
-//         session()->regenerateToken();
-//         return response()->json(['isLogOut' => true]);
-//     } catch (\Exception $e) {
-//         //throw $th;
-//         Log::info('Expire Session', $e->getMessage());
-//     }
-// });
 
 Route::controller(Controller::class)->group(function () {
     Route::post('active-inactive', 'activeInactive')->name('activeInactive.records');
@@ -174,4 +162,20 @@ Route::get('migrate-refresh', function (Request $request) {
         'message' => 'Migration refreshed successfully!',
         'output' => $output,
     ]);
+});
+
+
+Route::get('update-child-color', function (Request $request) {
+    foreach (Children::get() as $children) {
+        $backgroundColor = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+        $rgb = sscanf($backgroundColor, "#%02x%02x%02x");
+        $luminance = (0.299 * $rgb[0] + 0.587 * $rgb[1] + 0.114 * $rgb[2]) / 255;
+        $textColor = $luminance > 0.5 ? '#000000' : '#FFFFFF';
+        $children->update([
+            'color' => json_encode([
+                "background-color: $backgroundColor",
+                "color: $textColor"
+            ])
+        ]);
+    }
 });
