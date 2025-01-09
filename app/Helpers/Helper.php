@@ -58,8 +58,13 @@ function getChildrenNameById($id)
 
 function getChildrenNamesById($ids)
 {
-    return Children::whereIn('id', $ids)->pluck('name')->implode(', ');
+    return Children::whereIn('id', $ids)
+        ->get(['name', 'family_name'])
+        ->map(function ($child) {
+            return "{$child->name} {$child->family_name}";
+        })->implode(', ');
 }
+
 
 function getKindergartenNameById($id)
 {
@@ -258,4 +263,30 @@ function calenderEvents()
     return $events;
 }
 
+function appointmentIcon($icon)
+{
+    $icons = [
+        'individual' => 'user',
+        'group' => 'users',
+        'parental-guidance' => 'child',
+        'staff-meeting' => 'handshake-o',
+        'documentation-break' => 'book',
+        'preparation' => 'cogs',
+        'tutorial' => 'laptop',
+        'other' => 'th'
+    ];
 
+    return $icons[$icon];
+}
+
+function generateColor()
+{
+    $backgroundColor = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+    $rgb = sscanf($backgroundColor, "#%02x%02x%02x");
+    $luminance = (0.299 * $rgb[0] + 0.587 * $rgb[1] + 0.114 * $rgb[2]) / 255;
+    $textColor = $luminance > 0.5 ? '#000000' : '#FFFFFF';
+    return  json_encode([
+                "background-color: $backgroundColor",
+                "color: $textColor"
+            ]);
+}

@@ -24,7 +24,7 @@ class TherapyScheduleController extends Controller
     public function create()
     {
         $kindergartens = Kindergarten::select('id', 'name')->get();
-        $createdEventIds = TherapySchedule::where('status', 'draft')->pluck('id')->toArray();
+        $createdEventIds = TherapySchedule::where('status', 'draft')->pluck('unique_id')->toArray();
         $createdEventIds = count($createdEventIds) > 0 ? json_encode($createdEventIds) : null;
         return view('therapy-schedule.create', compact('kindergartens', 'createdEventIds'));
     }
@@ -35,53 +35,56 @@ class TherapyScheduleController extends Controller
         try {
 
             if ($request->hasFile('image')) {
-                $request['file'] = uploadFile($request->image, 'public/therapy-schedule', $request->extension);
+                $request['file'] = uploadFile($request->image, 'public/therapy-schedule');
             } else {
                 $request['file'] = $request->old_image;
             }
-            if (!empty($request->unselected_therapist_id)) {
-                $therapistIds = explode(',', $request->unselected_therapist_id);
-                $unselectedTherapistIds = array_diff($therapistIds, $request->therapist_ids ?? []);
-                if (!empty($unselectedTherapistIds)) {
-                    TherapySchedule::whereIn('therapist_id', $unselectedTherapistIds)->where('kindergarten_id', $request->kindergarten_id)->where('day', $request->day)->delete();
+
+            if (($request->type == 'group' || $request->type == 'staff-meeting') && !empty($request->unique_id)) {
+                $scheduleTherapistIds = TherapySchedule::where('unique_id', $request->unique_id)->pluck('therapist_id')->toArray();
+                $therapistGoingToBeDelete = array_diff($scheduleTherapistIds, $request->therapist_ids ?? []);
+                 if (!empty($therapistGoingToBeDelete)) {
+                    TherapySchedule::whereIn('therapist_id', $therapistGoingToBeDelete)->where('unique_id', $request->unique_id)->delete();
+                }
+            }
+            if (empty($request->unique_id)) {
+                if ($request->type === 'staff-meeting') {
+                    $request['color'] = json_encode(["background-color: #095F59;", "color: #fff;"]);
+                } elseif (isset( $request->children_ids)) {
+                    $request['color'] = json_encode(Children::where('id', $request->children_ids[0] ?? null)->pluck('color')->first());
+                } else {
+                    $request['color'] = generateColor();
                 }
             }
 
+            $status = json_decode($request->status);
             foreach ($request->therapist_ids as $key => $therapistId) {
                 $request['therapist_id'] = $therapistId;
-                // $request['start_time'] = date('Y-m-d H:i:s', strtotime($request->start_time));
-                // $request['end_time'] = date('Y-m-d H:i:s', strtotime($request->end_time));
-                $condition = ['therapist_id' => $therapistId, 'kindergarten_id' => $request->kindergarten_id, 'day' => $request->day, 'start_time' => $request->start_time];
-                $event = TherapySchedule::where($condition);
-                if ($event->exists()) {
-                    $event->update($request->except('unselected_therapist_id', 'therapist_ids', 'children_ids', 'old_image', 'resource'));
-                    $event = TherapySchedule::where($condition)->first();
-                } else {
-                    $event = TherapySchedule::create($request->all());
-                }
-
+                $event = TherapySchedule::updateOrCreate(['therapist_id' => $therapistId, 'unique_id' => $request->unique_id], $request->except('status', 'mode'));
                 $event->childrens()->delete();
                 if (isset($request->children_ids) && count($request->children_ids) > 0) {
                     foreach ($request->children_ids as $childrenId) {
                         $event->childrens()->create(['children_id' => $childrenId]);
                     }
                 }
-                $event->resource = $request->therapist_id . strtolower($request->day);
-                $event->isCreated = isset($request->id) ? false : true;
             }
 
             DB::commit();
-            return response()->json(['status' => true, 'message' => 'Event detail has been successfully saved!', 'event' => $event]);
+            return response()->json(['status' => true, 'message' => 'Event detail has been successfully saved as draft!', 'event' => $event]);
         } catch (\Exception $e) {
             echo '<pre>'; print_r($e->getMessage()); die;
             DB::rollback();
-            return redirect()->back();
+            return response()->json(['status' => false, 'message' => $e->getMessage()]);
         }
     }
 
     public function update(Request $request)
     {
-        if (TherapySchedule::whereIn('id', json_decode($request->ids))->where('kindergarten_id', $request->kindergarten_id)->update(['status' => $request->status])) {
+        if (TherapySchedule::whereIn('unique_id', json_decode($request->ids))->update([
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'status' => $request->status,
+        ])) {
             return response()->json(['status' => true, 'message' => 'Event detail has been successfully published!']);
         }
         return response()->json(['status' => false, 'message' => 'Something went wrong please try again!']);
@@ -89,7 +92,7 @@ class TherapyScheduleController extends Controller
     
     public function delete(Request $request)
     {
-        if (TherapySchedule::whereIn('id', $request->ids)->delete()) {
+        if (TherapySchedule::whereIn('unique_id', $request->ids)->delete()) {
             return response()->json(['status' => true, 'message' => 'Event detail has been successfully deleted!']);
         }
         return response()->json(['status' => false, 'message' => 'Something went wrong please try again!']);
@@ -120,9 +123,9 @@ class TherapyScheduleController extends Controller
         $schedules = TherapySchedule::filter($filter)->orderBy('start_time')->get();
         $events = $schedules->map(function ($schedule) use($schedules) {
             $scheduleTime = Carbon::parse($schedule->start_time);
-            $therapistIds = $schedules->where('day', $schedule->day)->where('start_time', $schedule->start_time)->pluck('therapist_id')->toArray();
+            $therapistIds = $schedules->where('unique_id', $schedule->unique_id)->pluck('therapist_id')->toArray();
             return [
-                'id' => $schedules->where('day', $schedule->day)->where('start_time', $schedule->start_time)->pluck('id')->toArray(),
+                'id' => $schedule->id,
                 'day' => $schedule->day,
                 'description' => $schedule->description,
                 'start' => date('Y-m-d').' '.$schedule->start_time,
@@ -136,6 +139,7 @@ class TherapyScheduleController extends Controller
                 'therapistNames' => getUserNameByIds($therapistIds),
                 'childrenId' => $schedule->childrens->pluck('children_id')->toArray(),
                 'childrenNames' => getChildrenNamesById($schedule->childrens->pluck('children_id')->toArray()),
+                'twoChildrenNames' => getChildrenNamesById($schedule->childrens->pluck('children_id')->take(2)->toArray()),
                 'type' => $schedule->type,
                 'groupName' => $schedule->group_name,
                 'frequencyRepeat' => $schedule->frequency_repeat,
@@ -143,6 +147,8 @@ class TherapyScheduleController extends Controller
                 'description' => $schedule->description,
                 'file' => $schedule->file,
                 'color' => $schedule->color,
+                'icon' => appointmentIcon($schedule->type),
+                'uniqueId' => $schedule->unique_id,
             ];
         });
         $userIds = StaffKindergarten::where('kindergarten_id', $filter['kindergarten_id'])->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
@@ -159,39 +165,45 @@ class TherapyScheduleController extends Controller
         ]);
     }
 
-    public function filterDropdown(Request $request)
+    public function filterFormData(Request $request)
     {
-        $childrens = Children::select('id as key', 'name as value')->where('kindergarten_id', $request->kindergarten_id)->orderBy('name')->get()->toArray();
-        $therapists = StaffSchedule::filter($request->all())->with('user')->select('user_id')->distinct('user_id')->get()
+        $data = $request->all();
+        $data['childrens'] = Children::select('id as key', DB::raw('CONCAT(name, " ", family_name) as value'))->where('kindergarten_id', $data['kindergarten_id'])->orderBy('name')->get()->toArray();
+        $data['therapists'] = StaffSchedule::filter($data)->with('user')->select('user_id')->distinct('user_id')->get()
             ->map(function ($schedule) {
                 return [
                     'key' => $schedule->user_id,
                     'value' => $schedule->user->name ?? 'N/A',
                 ];
             })->toArray();
-        $therapistDropdown = view('components.multi-select-input', [
-            'name' => "therapist_ids[]", 'class' => 'selectTherapist', 'id' => 'therapist', 'icon' => 'buildings', 'options' => $therapists,
-        ])->render();
-        $childrensDropdown = view('components.multi-select-input', [
-            'name' => "children_ids[]", 'class' => 'selectChildrens', 'id' => 'children', 'icon' => 'buildings', 'options' => $childrens,
-        ])->render();
 
-        return [
-            'therapistDropdown' => !empty($request->day) ? $therapistDropdown : [],
-            'childrensDropdown' => $childrensDropdown
-        ];
+        $view = view('components.schedule-form', ['data' => $data])->render();
+        return response()->json($view);
     }
 
-    function getDateTime($day, $time)
+    public function checkTimeSlot(Request $request)
     {
-        $today = new DateTime();
-        $sunday = clone $today;
-        $sunday->modify('last Sunday');
-        $daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        $dayIndex = array_search(ucfirst(strtolower($day)), $daysOfWeek);
-        $targetDate = clone $sunday;
-        $targetDate->modify("+$dayIndex day");
-        $dateTime = $targetDate->format('Y-m-d') . ' ' . $time;
-        return (new DateTime($dateTime))->format('Y-m-d H:i:s');
+        $checkSlot = TherapySchedule::where('start_time', '<=', $request['endTime'])->where('end_time', '>=', $request['startTime']);
+        switch ($request->type) {
+            case 'therapist':
+                $checkSlot = $checkSlot->where('therapist_id', $request['id']);
+                if ($request['frequencyRepeat'] === 'Weekly') {
+                    $checkSlot = $checkSlot->where('frequency_repeat', 'Weekly')->exists();
+                } else {
+                    $checkSlot = false;
+                }
+                break;
+            case 'children':
+                $checkSlot = $checkSlot->whereHas('childrens', function ($query) use ($request) {
+                    $query->where('children_id', $request['id']);
+                })->exists();
+            break;
+        }
+
+        return response()->json([
+            'status' => $checkSlot,
+            'message' => $checkSlot ? 'This ' . $request->type . ' is already assigned to another on the same time' : ''
+        ]);
     }
+
 }

@@ -630,7 +630,7 @@ button.accordion-button.accordion-screen.collapsed {
     color: #000 !important;
     text-align: center !important;
     font-weight: 500;
-    font-size: 1rem !important;
+    font-size: 12px !important;
 }
 
 /* .calendar_default_main>div>div>div:nth-child(1) {
@@ -723,7 +723,7 @@ button.accordion-button.accordion-screen.collapsed {
     border: 1px solid #D0D0D0;
     border-radius: 5px;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 900;
     color: #AAAAAA;
 
     &:hover {
@@ -761,6 +761,32 @@ span.event-dropdown-class {
 .select2-container--default[dir="rtl"] .select2-selection--single .select2-selection__clear {
     margin-left: 15px !important;
     margin-top: 2px !important;
+}
+
+.tooltip-left {
+    position: absolute;
+    transform: translateX(-100%);
+    /* Move the tooltip to the left */
+    left: -15px;
+    /* Adjust spacing */
+    top: 50%;
+    /* Center vertically relative to the event */
+    transform: translateY(-50%) translateX(-100%);
+    white-space: nowrap;
+    z-index: 1000;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.calendar_default_scroll {
+    height: 1216px !important;
+}
+
+.calendar_default_main {
+    height: 1302px !important;
 }
 
 @media screen and (max-width:576px) {

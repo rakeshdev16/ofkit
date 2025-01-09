@@ -29,6 +29,7 @@ class Children extends Model
         'hmo_id',
         'photo',
         'status',
+        'color',
     ];
 
     protected $appends = ['date_of_birth', 'profile', 'calclulated_age'];
@@ -102,12 +103,34 @@ class Children extends Model
         }
     }
 
+    // public function setDobAttribute($value)
+    // {
+    //     if (is_string($value)) {
+    //         $value = Carbon::createFromFormat('d/m/Y', $value);
+    //         $this->attributes['dob'] = $value->format('Y-m-d');
+    //     }
+    // }
     public function setDobAttribute($value)
     {
-        if (is_string($value)) {
-            $value = Carbon::createFromFormat('d/m/Y', $value);
+        if (!empty($value)) {
+            if (is_string($value)) {
+                $value = Carbon::createFromFormat('d/m/Y', $value);
+            }
             $this->attributes['dob'] = $value->format('Y-m-d');
         }
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->color = generateColor();
+        });
+    }
+
+    public function getColorAttribute($value)
+    {
+        return json_decode($value);
     }
 
     public function kindergarten()

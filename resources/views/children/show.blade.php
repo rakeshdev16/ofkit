@@ -442,6 +442,14 @@
                                                                 @include('components.medicine-detail', ['index' => $loop->iteration, 'data' => $medicine, 'disabled' => 'disabled'])
                                                             @endforeach
                                                         </div>
+                                                        <div class="col-md-6">
+                                                            <label for="">Background Color</label><br>
+                                                            <input type="text" class="form-control w-100" disabled style="{{ $children->color[0] }}">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="">Text Color</label><br>
+                                                            <input type="text" class="form-control w-100" disabled style="background-{{ $children->color[1] }}">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

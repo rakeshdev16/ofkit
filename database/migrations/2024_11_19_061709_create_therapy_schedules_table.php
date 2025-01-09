@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('draft_name')->nullable();
             $table->enum('status', ['published', 'draft'])->default('draft');
             $table->string('color')->nullable();
+            $table->uuid('unique_id');
             $table->timestamps();
         });
     }

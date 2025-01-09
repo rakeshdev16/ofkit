@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class TherapySchedule extends Model
 {
@@ -27,6 +28,7 @@ class TherapySchedule extends Model
         'draft_name',
         'status',
         'color',
+        'unique_id',
     ];
 
     // public function getFileAttribute()
@@ -43,6 +45,9 @@ class TherapySchedule extends Model
     {
         if (isset($data['status'])) {
             $query->whereIn('status', json_decode($data['status']));
+            if (count(json_decode($data['status'])) == 1 && json_decode($data['status'])[0] == 'published') {
+                $query->whereDate('start_date', '<=', date('Y-m-d'))->whereDate('end_date', '>=', date('Y-m-d'));
+            }
         }
 
         if (isset($data['kindergarten_id'])) {
@@ -50,25 +55,16 @@ class TherapySchedule extends Model
         }
 
         if (isset($data['children_id'])) {
-            $query->where('children_id', $data['children_id']);
+            $scheduleIds = TherapyScheduleChildren::where('children_id', $data['children_id'])->pluck('therapy_schedule_id')->toArray();
+            $query->whereIn('id', $scheduleIds);
         }
+
         return $query;
     }
 
-    protected static function boot()
+    public function setUniqueIdAttribute($value)
     {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $backgroundColor = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
-            $rgb = sscanf($backgroundColor, "#%02x%02x%02x");
-            $luminance = (0.299 * $rgb[0] + 0.587 * $rgb[1] + 0.114 * $rgb[2]) / 255;
-            $textColor = $luminance > 0.5 ? '#000000' : '#FFFFFF';
-            $model->color = json_encode([
-                "background-color: $backgroundColor",
-                "color: $textColor"
-            ]);
-        });
+        return $this->attributes['unique_id'] = $value ? $value : Str::uuid();
     }
 
     public function getColorAttribute($value)

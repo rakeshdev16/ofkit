@@ -89,12 +89,30 @@
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
             <div class="modal-body d-flex gap-3 flex-column">
-                <button class="btn new-btn-appointment eventType" data-type="individual">Individual</button>
-                <button class="btn new-btn-appointment eventType" data-type="group">Group</button>
-                <button class="btn new-btn-appointment eventType" data-type="parental-guidance">Parental Guidance</button>
-                <button class="btn new-btn-appointment eventType" data-type="staff-meeting">Staff Meeting</button>
-                <button class="btn new-btn-appointment eventType" data-type="initial-evaluation">Initial Evaluation</button>
-                <button class="btn new-btn-appointment eventType" data-type="final-evaluation">Final Evaluation</button>
+                <button class="btn new-btn-appointment eventType" data-type="individual">
+                    <i class="fa fa-user"></i> Individual
+                </button>
+                <button class="btn new-btn-appointment eventType" data-type="group">
+                    <i class="fa fa-users"></i> Group
+                </button>
+                <button class="btn new-btn-appointment eventType" data-type="parental-guidance">
+                    <i class="fa fa-child"></i> Parental Guidance
+                </button>
+                <button class="btn new-btn-appointment eventType" data-type="staff-meeting">
+                    <i class="fa fa-handshake-o"></i> Staff Meeting
+                </button>
+                <button class="btn new-btn-appointment eventType" data-type="documentation-break">
+                    <i class="fa fa-book"></i> Documentation/break
+                </button>
+                <button class="btn new-btn-appointment eventType" data-type="preparation">
+                    <i class="fa fa-cogs"></i> Preparation
+                </button>
+                <button class="btn new-btn-appointment eventType" data-type="tutorial">
+                    <i class="fa fa-laptop"></i> Tutorial
+                </button>
+                <button class="btn new-btn-appointment eventType" data-type="other">
+                    <i class="fa fa-th"></i> Other
+                </button>
             </div>
         </div>
     </div>
@@ -109,79 +127,12 @@
             </div>
             <div class="modal-body">
                 <form action="" id="addEventForm" enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <select id="appointmentType" name="type" class="form-control border-1">
-                            <option value="">Choose Appointment</option>
-                            <option value="individual">Individual</option>
-                            <option value="group">Group</option>
-                            <option value="parental-guidance">Parental Guidance</option>
-                            <option value="staff-meeting">Staff Meeting</option>
-                            <option value="initial-evaluation">Initial Evaluation</option>
-                            <option value="final-evaluation">Final Evaluation</option>
-                        </select>
-                    </div>
-                    <div class="d-flex mb-3">
-                        <div class="w-100">
-                            <select id="day" name="day" class="form-control border-1">
-                                <option value="">Select Day</option>
-                                <option value="Sunday">Sunday</option>
-                                <option value="Monday">Monday</option>
-                                <option value="Tuesday">Tuesday</option>
-                                <option value="Wednesday">Wednesday</option>
-                                <option value="Thursday">Thursday</option>
-                                <option value="Friday">Friday</option>
-                                <option value="Saturday">Saturday</option>
-                            </select>
+                    <div class="card" id="formLoader">
+                        <div class="card-body text-center">
+                            <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"> <span class="visually-hidden">Loading...</span></div>
                         </div>
-                        <div><input type="time" class="form-control" name="start_time" id="startTime"></div>
-                        <div><input type="time" class="form-control" name="end_time" id="endTime"></div>
                     </div>
-                    <div class="mb-3">
-                        <select id="appointmentFrequency" name="frequency_repeat" class="form-control">
-                            <option value="Weekly">Weekly</option>
-                            <option value="Bi-weekly">Bi-weekly</option>
-                            <option value="Monthly">Monthly</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <select id="Monthly" name="start" class="form-control" style="display: none">
-                            <option value="Start Week">Start Week</option>
-                            <option value="After 1 Week">After 1 Week</option>
-                            <option value="After 2 Week">After 2 Week</option>
-                            <option value="After 3 Week">After 3 Week</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <select id="Bi-weekly" name="start" class="form-control" style="display: none">
-                            <option value="One Week Ofset">One Week Ofset</option>
-                            <option value="From Start Week">From Start Week</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <input type="text" name="group_name" id="appointmentGroupName" class="w-100 form-control border-1" placeholder="Group Name">
-                    </div>
-                    <div class="" id="therapistDropdownDiv"></div>
-                    <span class="therapists mb-3"></span>
-                    <div class="my-3" id="childrenDropdownDiv"></div>
-                    <div class="mb-3">
-                        <textarea class="form-control w-100" placeholder="Add Description" rows="5" name="description" id="description"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <input type="file" id="eventFile" name="image" class="form-control">
-                        <input type="hidden" id="eventOldFile" name="old_image" class="form-control">
-                        <div class="event-file" style="display: none"></div>
-                    </div>
-                    {{-- <input type="hidden" name="id" id="eventId"> --}}
-                    <input type="hidden" name="kindergarten_id" id="kindergartenId">
-                    <input type="hidden" name="unselected_therapist_id" id="unSelectedTherapistId">
-                    <input type="hidden" name="resource" id="resource">
-                    {{-- <input type="hidden" name="start_time" id="startTime">
-                    <input type="hidden" name="end_time" id="endTime"> --}}
-                    <input type="hidden" name="draft_name" id="draftName">
-                    <div class="d-flex gap-3">
-                        <button type="submit" class="button p-2 px-4 rounded-pill border-0" id="createEventModalBtn">Save</button>
-                        <button type="button" onclick="resetForm();" data-bs-dismiss="modal" class="button p-2 px-4 rounded-pill border-0">Cancel</button>
-                    </div>
+                    <div id="appointmentFormDiv"></div>
                 </form>
             </div>
         </div>
@@ -198,10 +149,10 @@
             <div class="modal-body">
                 <form action="" id="publishEventForm" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <input type="datetime-local" name="start_date" placeholder="Start Date" class="w-100 form-control border-1">
+                        <input type="date" name="start_date" id="publishStartDate" placeholder="Start Date" class="w-100 form-control border-1" min="{{ date('Y-m-d') }}">
                     </div>
                     <div class="mb-3">
-                        <input type="datetime-local" name="end_date" placeholder="End Date" class="w-100 mb-3 form-control border-1">
+                        <input type="date" name="end_date" id="publishEndDate" placeholder="End Date" class="w-100 mb-3 form-control border-1">
                     </div>
                     <input type="hidden" name="status" value="published">
                     <input type="hidden" name="ids" id="eventIds">

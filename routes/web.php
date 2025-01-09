@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use \Illuminate\Http\Request;
-
+use App\Models\Children;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -52,18 +52,6 @@ Route::get('/check-session', function () {
         }
     }
 });
-// Route::get('/expire-session', function() {
-//     try {
-//         //code...
-//         \Auth::logout();
-//         session()->invalidate();
-//         session()->regenerateToken();
-//         return response()->json(['isLogOut' => true]);
-//     } catch (\Exception $e) {
-//         //throw $th;
-//         Log::info('Expire Session', $e->getMessage());
-//     }
-// });
 
 Route::controller(Controller::class)->group(function () {
     Route::post('active-inactive', 'activeInactive')->name('activeInactive.records');
@@ -137,13 +125,11 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
         Route::get('therapy-schedule/create','create')->name('therapy-schedule.create');
         Route::post('therapy-schedule/status', 'update')->name('therapy-schedule.update');
         Route::post('therapy-schedule/delete', 'delete')->name('therapy-schedule.delete');
-        Route::get('therapy-schedule/filter-dropdown', 'filterDropdown')->name('therapy-schedule.filter-dropdown');
+        Route::post('therapy-schedule/filter-form-data', 'filterFormData')->name('therapy-schedule.filter-form-data');
+        Route::post('therapy-schedule/time-slot', 'checkTimeSlot')->name('therapy-schedule.time-slot');
     });
-    Route::get('filter-schedule', function(Request $request) {
-        $ids = json_decode($request->query('ids'), true);
-        return response()->json(calenderHeader($ids));
 
-    })->name('test');    Route::controller(UserController::class)->group(function () {
+    Route::controller(UserController::class)->group(function () {
         Route::get('profile', 'index')->name('profile.index');
         Route::get('edit-profile', 'edit')->name('profile.edit');
         Route::post('profile', 'update')->name('profile.update');
@@ -176,4 +162,20 @@ Route::get('migrate-refresh', function (Request $request) {
         'message' => 'Migration refreshed successfully!',
         'output' => $output,
     ]);
+});
+
+
+Route::get('update-child-color', function (Request $request) {
+    foreach (Children::get() as $children) {
+        $backgroundColor = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+        $rgb = sscanf($backgroundColor, "#%02x%02x%02x");
+        $luminance = (0.299 * $rgb[0] + 0.587 * $rgb[1] + 0.114 * $rgb[2]) / 255;
+        $textColor = $luminance > 0.5 ? '#000000' : '#FFFFFF';
+        $children->update([
+            'color' => json_encode([
+                "background-color: $backgroundColor",
+                "color: $textColor"
+            ])
+        ]);
+    }
 });
