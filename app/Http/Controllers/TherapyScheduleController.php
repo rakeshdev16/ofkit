@@ -47,11 +47,14 @@ class TherapyScheduleController extends Controller
                     TherapySchedule::whereIn('therapist_id', $therapistGoingToBeDelete)->where('unique_id', $request->unique_id)->delete();
                 }
             }
-
-            if ($request->type === 'staff-meeting') {
-                $request['color'] = json_encode(["background-color: #095F59;", "color: #fff;"]);
-            } else {
-                $request['color'] = json_encode(Children::where('id', $request->children_ids[0] ?? null)->pluck('color')->first());
+            if (empty($request->unique_id)) {
+                if ($request->type === 'staff-meeting') {
+                    $request['color'] = json_encode(["background-color: #095F59;", "color: #fff;"]);
+                } elseif (isset( $request->children_ids)) {
+                    $request['color'] = json_encode(Children::where('id', $request->children_ids[0] ?? null)->pluck('color')->first());
+                } else {
+                    $request['color'] = generateColor();
+                }
             }
 
             $status = json_decode($request->status);

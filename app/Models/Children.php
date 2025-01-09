@@ -109,14 +109,7 @@ class Children extends Model
     {
         parent::boot();
         static::creating(function ($model) {
-            $backgroundColor = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
-            $rgb = sscanf($backgroundColor, "#%02x%02x%02x");
-            $luminance = (0.299 * $rgb[0] + 0.587 * $rgb[1] + 0.114 * $rgb[2]) / 255;
-            $textColor = $luminance > 0.5 ? '#000000' : '#FFFFFF';
-            $model->color = json_encode([
-                "background-color: $backgroundColor",
-                "color: $textColor"
-            ]);
+            $model->color = generateColor();
         });
     }
 
