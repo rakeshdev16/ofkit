@@ -25,10 +25,10 @@
                 </div>
             </div>
             <div class="row my-2">
-                <div class="col-xl-3 col-lg-4 col-md-6  my-1">
+                <div class="col-xl-2 col-lg-4 col-md-6  my-1">
                     @include('components.date-range-filter', ['date' => request('date')])
                 </div>
-                <div class="col-xl-3 col-lg-4 col-md-6  my-1">
+                <div class="col-xl-2 col-lg-4 col-md-6  my-1">
                     <select class="form-control doc-filter" name="role">
                         <option value="">{{ __('children.selectProfession') }}</option>
                         @foreach ($roles as $role)

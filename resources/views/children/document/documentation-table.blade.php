@@ -29,7 +29,7 @@
                     @endif
                 </td>
                 <td>{{ $documentation->therapist->profession->name ?? '-' }}</td>
-                <td>{{ ucfirst(str_replace('-', ' ', $documentation->type)) }}</td>
+                <td>{{ ucfirst(str_replace('-', ' ', $documentation->type ? __('children.'.$documentation->type) : '-')) }}</td>
                 <td>
                     @if ($documentation->type == 'group' && $groupChildDetail)
                         {{ $groupChildDetail->participated == 1 ? __('comon.yes') : __('comon.no') }}

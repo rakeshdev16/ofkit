@@ -14,7 +14,7 @@
                     @php
                         $data = [
                             'id' => $documentation->id,
-                            'name' => ucfirst(str_replace('-', ' ', $documentation->type)),
+                            'name' => ucfirst(str_replace('-', ' ', $documentation->type ? __('children.'.$documentation->type) : '-')),
                             'show' => route('children-documentation.show', [$documentation->children_id, $documentation->id, Request::segment(2)]),
                         ];
 
@@ -62,7 +62,7 @@
                     <hr>
                     <div class="d-flex accordion-row">
                         <div class="w-50 label">{{ __('children.intervention') }}</div>
-                        <div class="w-50">{{ @ucfirst(str_replace('-', ' ', $documentation->type)) }}</div>
+                        <div class="w-50">{{ ucfirst(str_replace('-', ' ', $documentation->type ? __('children.'.$documentation->type) : '-')) }}</div>
                     </div>
                     <hr>
                     <div class="d-flex accordion-row">

@@ -158,7 +158,7 @@ class User extends Authenticatable
             $query->where('users.status', 'active');
         }
         if (request('search')) {
-            $query->whereNot('id', Auth::id())->where('name', 'like', '%'.request('search').'%')->orWhere('email', 'like', '%'.request('search').'%');
+            $query->where('name', 'like', '%'.request('search').'%')->orWhere('email', 'like', '%'.request('search').'%');
         }
         if (Auth::user()->hasRole('admin')) {
             $query->whereNot('users.id', Auth::id());
