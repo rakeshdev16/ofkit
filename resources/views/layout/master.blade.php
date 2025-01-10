@@ -233,6 +233,10 @@
             $(".datepicker").flatpickr({
                 dateFormat: "d/m/Y",
             });
+
+            $(".filterDateRange").flatpickr({
+                dateFormat: "Y/m/d",
+            });
 		})
     </script>
 </body>
