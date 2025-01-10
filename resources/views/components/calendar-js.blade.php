@@ -126,7 +126,7 @@
         dp.headerLevels = 2;
         dp.columnWidthSpec = "Fixed";
         dp.columnMinWidth = 20;
-        dp.columnWidth = 100;
+        dp.columnWidth = 300;
         dp.events.list = events;
         dp.dayBeginsHour = 7;
         dp.dayEndsHour = 17;
@@ -138,6 +138,17 @@
         dp.cellHeight = 30;
         dp.headerHeightAutoFit = true;
         dp.columns.list = list;
+        // dp.columns.list = list.map(column => {
+        //     return {
+        //         name: column.name,
+        //         id: column.id,
+        //         children: column.children.map(child => ({
+        //             name: `${child.name} (${child.start_time} - ${child.end_time})`,
+        //             id: child.id,
+        //             backColor: child.color // Set background color for time slots
+        //         })),
+        //     };
+        // });
 
         dp.onBeforeRender = function () {
             this.scrollTo("07:00");
@@ -173,21 +184,30 @@
 
         dp.onBeforeEventRender = function(args) {
             let title = '';
+            function eventName(fullNames) {
+                return fullNames.split(", ").map(fullName => {
+                    const nameParts = fullName.trim().split(" ");
+                    const firstName = nameParts[0];
+                    const lastNameInitial = nameParts.length > 1 ? nameParts[1][0] : "";
+                    return `${firstName} ${lastNameInitial}`;
+                }).join(", ");
+            }
+
             switch (args.data.type) {
                 case 'staff-meeting':
-                    title = 'Staff Meeting: ' + args.data.twoChildrenNames;
+                    title = 'Staff Meeting: ' + eventName(args.data.twoChildrenNames);
                     break;
                 case 'group':
-                    title = args.data.groupName + ': ' + args.data.twoChildrenNames;
+                    title = args.data.groupName + ': ' + eventName(args.data.twoChildrenNames);
                     break;
                 case 'individual':
-                    title = `<p style="font-size: 16px; margin-bottom: 0px;">${args.data.twoChildrenNames}</p>`;
+                    title = `<p style="font-size: 16px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>`;
                     break;
                 case 'parental-guidance':
-                    title = `<p style="font-size: 16px; margin-bottom: 0px;">${args.data.twoChildrenNames}</p>`;
+                    title = `<p style="font-size: 16px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>`;
                     break;
                 default:
-                    title = args.data.twoChildrenNames;
+                    title = eventName(args.data.twoChildrenNames);
                 break;
             }
             function escapeJson(json) {
@@ -234,7 +254,6 @@
 
                 </ul>
             </div>`;
-
         };
 
         dp.init();
