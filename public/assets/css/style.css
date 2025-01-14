@@ -789,6 +789,16 @@ span.event-dropdown-class {
     height: 1420px !important;
 }
 
+.wrap-text {
+    max-width: 100px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.2;
+}
+
 @media screen and (max-width:576px) {
     .calendar-event-overlay {
         width: 80vw;

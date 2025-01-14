@@ -146,7 +146,7 @@
                 id: column.id,
                 children: column.children.map(child => ({
                     id: child.id,
-                    name: `<span class="user-name text-center">${child.first_name ?? '-'} <br> ${child.family_name ?? '-'} <br>${child.profession ?? '-'}<br>${child.association ?? '-'}</span>`
+                    name: `<div class="user-name text-center wrap-text">${child.first_name ?? '-'}<br>${child.family_name ?? '-'}<br>${child.profession ?? '-'}<br>${child.association ?? '-'}</div>`
                 })),
             };
         });
