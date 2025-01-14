@@ -48,8 +48,8 @@
 </div>
 <div class="mb-3">
     <select id="Bi-weekly" name="start" class="form-control" style="display: {{ @$data['frequencyRepeat'] == 'Bi-weekly' ? 'block' : 'none' }}">
-        <option {{ @$data['frequencyRepeatAt'] == 'One Week Ofset' ? 'selected' : '' }} value="One Week Ofset">{{ __('schedule.biweekly1') }}</option>
-        <option {{ @$data['frequencyRepeatAt'] == 'From Start Week' ? 'selected' : '' }} value="From Start Week">{{ __('schedule.biweekly2') }}</option>
+        <option {{ @$data['frequencyRepeatAt'] == 'Week 1' ? 'selected' : '' }} value="Week 1">{{ __('schedule.biweekly1') }}</option>
+        <option {{ @$data['frequencyRepeatAt'] == 'Week 2' ? 'selected' : '' }} value="Week 2">{{ __('schedule.biweekly2') }}</option>
     </select>
 </div>
 <div class="mb-3">

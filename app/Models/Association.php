@@ -35,4 +35,9 @@ class Association extends Model
     {
         return StaffKindergarten::where('association_id', @$this->attributes['id'])->exists();
     }
+
+    public function staffKindergarten()
+    {
+        return $this->hasMany(StaffKindergarten::class);
+    }
 }

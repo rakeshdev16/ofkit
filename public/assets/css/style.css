@@ -782,11 +782,11 @@ span.event-dropdown-class {
 }
 
 .calendar_default_scroll {
-    height: 1216px !important;
+    height: 1320px !important;
 }
 
 .calendar_default_main {
-    height: 1302px !important;
+    height: 1420px !important;
 }
 
 @media screen and (max-width:576px) {
