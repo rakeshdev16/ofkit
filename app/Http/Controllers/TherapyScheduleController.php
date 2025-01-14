@@ -58,8 +58,8 @@ class TherapyScheduleController extends Controller
                     $request['color'] = generateColor();
                 }
             }
-
             $status = json_decode($request->status);
+            $request['unique_id'] = $request->unique_id ? $request->unique_id : Str::uuid();
             foreach ($request->therapist_ids as $key => $therapistId) {
                 $request['therapist_id'] = $therapistId;
                 $event = TherapySchedule::updateOrCreate(['therapist_id' => $therapistId, 'unique_id' => $request->unique_id], $request->except('status', 'mode'));

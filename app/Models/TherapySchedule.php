@@ -62,10 +62,10 @@ class TherapySchedule extends Model
         return $query;
     }
 
-    public function setUniqueIdAttribute($value)
-    {
-        return $this->attributes['unique_id'] = $value ? $value : Str::uuid();
-    }
+    // public function setUniqueIdAttribute($value)
+    // {
+    //     return $this->attributes['unique_id'] = $value ? $value : Str::uuid();
+    // }
 
     public function getColorAttribute($value)
     {

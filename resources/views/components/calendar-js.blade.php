@@ -14,6 +14,7 @@
     });
 
     function editEvent(data) {
+        console.log("data", data);
         Object.keys(eventData).forEach(key => delete eventData[key]);
         eventData.id = data.id;
         eventData.resource = data.resource;
@@ -28,6 +29,7 @@
         eventData.childrenId = data.childrenId;
         eventData.description = data.description;
         eventData.uniqueId = data.uniqueId;
+        eventData.color = data.color;
         eventData.mode = 'edit';
         filterFormData(function() {
             $('#createEventModal').modal('toggle');
