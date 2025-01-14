@@ -189,7 +189,10 @@ class TherapyScheduleController extends Controller
 
     public function checkTimeSlot(Request $request)
     {
-        $checkSlot = TherapySchedule::where('start_time', '<=', $request['endTime'])->where('end_time', '>=', $request['startTime']);
+        $checkSlot = TherapySchedule::where('day', $request['day'])
+            ->where('start_time', '<=', $request['endTime'])
+            ->where('end_time', '>=', $request['startTime'])
+            ->whereIn('status', json_decode($request->status));
         switch ($request->type) {
             case 'therapist':
                 $checkSlot = $checkSlot->where('therapist_id', $request['id']);

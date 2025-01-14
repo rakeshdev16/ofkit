@@ -297,6 +297,7 @@
         timeSlotData['startTime'] = $('#startTime').val();
         timeSlotData['endTime'] = $('#endTime').val();
         timeSlotData['frequencyRepeat'] = $('#appointmentFrequency').val();
+        timeSlotData['status'] = getQueryParam('status');
         fetch("{{ route('therapy-schedule.time-slot') }}", {
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}",
