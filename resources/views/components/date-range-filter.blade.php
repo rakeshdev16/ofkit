@@ -36,7 +36,7 @@
     <button id="clearFilters" class="btn btn-clear-filter">X</button>
 </div> --}}
 
-<div class="dropdown filter-date-dropdown">
+<div class="dropdown filter-date-dropdown position-relative">
     <button class="btn dropdown-toggle show w-100 text-start bg-white text-dark" id="filter-date-dropdown-text" type="button" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">{{request('dateType') ?? 'Select Date'}}</button>
     <ul class="dropdown-menu w-100" data-popper-placement="bottom-end" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 40px);">
         <li><a class="dropdown-item this-filter {{ request('dateType') == 'lastWeek' ? 'active-filter' : '' }}" onclick="dateFilter({{ filterDate()['lastWeek'] }}, 'lastWeek');" href="#">{{ __('children.lastWeek') }}</a></li>
@@ -48,10 +48,11 @@
                 <h5>Custom range</h5>
                 <input type="text" class="form-control filterDateRange mt-2" id="startDate" placeholder="From yyyy/mm/dd" />
                 <input type="text" class="form-control filterDateRange mt-2" id="endDate" placeholder="To yyyy/mm/dd" />
-                <button class="btn btn-primary mt-3" onclick="dateFilter([$('#startDate').val(), $('#endDate').val()], 'dateRange')">Display</button>
+                <button class="btn custom-date-range btn-primary mt-3" onclick="dateFilter([$('#startDate').val(), $('#endDate').val()], 'dateRange')">Display</button>
             </div>
         </li>
     </ul>
+    <button id="clearFilters" class="btn btn-clear-filter position-absolute end-0">X</button>
 </div>
 
 @push('customScript')
@@ -61,6 +62,17 @@
         });
         $(".filter-date-dropdown li a").click(function(){
             $("#filter-date-dropdown-text").text($(this).text());
+        });
+        $(".custom-date-range").click(function(){
+            let start = $('#startDate').val();
+            let end = $('#endDate').val();
+            $("#filter-date-dropdown-text").text(start + ' - ' + end);
+        });
+        $("#clearFilters").click(function(){
+            $("#filter-date-dropdown-text").text('Select Date');
+            var url = queryParam('dateType', '');
+            url = queryParam('date', '', url);
+            filter(url);
         });
     </script>
 @endpush

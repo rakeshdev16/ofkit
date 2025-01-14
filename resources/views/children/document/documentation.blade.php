@@ -83,52 +83,52 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('.ranges ul li').addClass('active');
-        });
-        $(function() {
-            var selectedDate = "{{ request('date') }}";
-            var date = selectedDate.split(',');
-            var start = moment().subtract(29, 'days');
-            var end = moment();
-            var isUserInteraction = false;
+        // $(document).ready(function() {
+        //     $('.ranges ul li').addClass('active');
+        // });
+        // $(function() {
+        //     var selectedDate = "{{ request('date') }}";
+        //     var date = selectedDate.split(',');
+        //     var start = moment().subtract(29, 'days');
+        //     var end = moment();
+        //     var isUserInteraction = false;
 
-            function cb(start, end, label) {
-                $('#reportrange span').html(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
-                if (isUserInteraction) {
-                    var url = queryParam('date', [start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')]);
-                    filter(url);
-                }
-            }
+        //     function cb(start, end, label) {
+        //         $('#reportrange span').html(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
+        //         if (isUserInteraction) {
+        //             var url = queryParam('date', [start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')]);
+        //             filter(url);
+        //         }
+        //     }
 
-            $('#reportrange').daterangepicker({
-                startDate: start,
-                endDate: end,
-                ranges: {
-                    'Last Week': [moment().subtract(6, 'days'), moment()],
-                    'Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Month 3': [moment().subtract(3, 'months').startOf('month'), moment().endOf('month')],
-                    'Half a Year': [moment().subtract(6, 'months').startOf('month'), moment().endOf('month')],
-                },
-                locale: {
-                    format: 'DD/MM/YYYY'
-                }
-            }, function(start, end, label) {
-                isUserInteraction = true;
-                cb(start, end, label);
-            });
-            if (isNaN(date[0]) && isNaN(date[1])) {
-                $('#reportrange span').html(moment(date[0]).format('DD/MM/YYYY') + ' - ' + moment(date[1]).format('DD/MM/YYYY'));
-            } else {
-                $('#reportrange span').html('Select Date');
-            }
-        });
+        //     $('#reportrange').daterangepicker({
+        //         startDate: start,
+        //         endDate: end,
+        //         ranges: {
+        //             'Last Week': [moment().subtract(6, 'days'), moment()],
+        //             'Month': [moment().startOf('month'), moment().endOf('month')],
+        //             'Month 3': [moment().subtract(3, 'months').startOf('month'), moment().endOf('month')],
+        //             'Half a Year': [moment().subtract(6, 'months').startOf('month'), moment().endOf('month')],
+        //         },
+        //         locale: {
+        //             format: 'DD/MM/YYYY'
+        //         }
+        //     }, function(start, end, label) {
+        //         isUserInteraction = true;
+        //         cb(start, end, label);
+        //     });
+        //     if (isNaN(date[0]) && isNaN(date[1])) {
+        //         $('#reportrange span').html(moment(date[0]).format('DD/MM/YYYY') + ' - ' + moment(date[1]).format('DD/MM/YYYY'));
+        //     } else {
+        //         $('#reportrange span').html('Select Date');
+        //     }
+        // });
 
-        $(document).on('click', '.btn-clear-filter', function() {
-            var url = queryParam('date', '');
-            filter(url);
-            $('#reportrange span').html('Select Date');
-        });
+        // $(document).on('click', '.btn-clear-filter', function() {
+        //     var url = queryParam('date', '');
+        //     filter(url);
+        //     $('#reportrange span').html('Select Date');
+        // });
         // $('.dateRangePicker').daterangepicker({
         //     locale: {
         //         format: 'DD/MM/YYYY'
