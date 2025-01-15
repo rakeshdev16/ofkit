@@ -239,15 +239,11 @@
                 dateFormat: "Y/m/d",
             });
 
-            // ........back page refresh........
-            window.addEventListener('popstate', function (e) {
-                var state = e.state;
-                if (state !== null) {
+            window.addEventListener('pageshow', function(event) {
+                if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+                    location.reload();
                 }
             });
-            if (window.performance && window.performance.navigation.type == window.performance.navigation.TYPE_BACK_FORWARD) {
-            window.location.reload();
-            }
 		})
 
     </script>
