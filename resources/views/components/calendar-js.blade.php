@@ -194,7 +194,7 @@
                     return `${firstName} ${lastNameInitial}`;
                 }).join(", ");
             }
-
+            let cellTitle = args.data.type.split('-').map((item, index) => item[0].toUpperCase()+''+item.slice(1) ).join(' ');
             switch (args.data.type) {
                 case 'staff-meeting':
                     title = 'Staff Meeting: ' + eventName(args.data.twoChildrenNames);
@@ -209,7 +209,7 @@
                     title = `<p style="font-size: 16px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>`;
                     break;
                 default:
-                    title = args.data.type;
+                    title = cellTitle;
                 break;
             }
             function escapeJson(json) {
@@ -234,11 +234,13 @@
             <div class="p-3 calendar-event-overlay tooltip-left" style="word-wrap: break-word; white-space: normal; direction: rtl; text-align: right;">
                 <ul>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                        <i class="fa fa-info fa-lg"></i>${args.data.type}
+                        <i class="fa fa-info fa-lg"></i>${cellTitle}
                     </li>
-                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                        <i class="fa fa-${args.data.icon}"></i>${args.data.childrenNames.trim()}
-                    </li>
+                    ${['individual', 'group', 'staff-meeting', 'parental-guidance'].includes(args.data.type) ? `
+                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                            <i class="fa fa-${args.data.icon}"></i>${args.data.childrenNames.trim()}
+                        </li>
+                    ` : ''}
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
                         <i class="fa fa-calendar"></i>${args.data.start.toString("HH:mm")} - ${args.data.end.toString("HH:mm")}
                     </li>

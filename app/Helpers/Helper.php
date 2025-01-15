@@ -233,51 +233,6 @@ function activityLog($modelName, $modalId, $type)
     ]);
 }
 
-function calenderHeader()
-{
-    $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    $data = [];
-    foreach ($days as $day) {
-        $schedules = StaffSchedule::filter('')->with('user')->where('day', $day)->get()
-            ->map(function ($schedule) use ($day) {
-                return [
-                    'id' => $schedule->user->id.''.strtolower($day),
-                    'name' => $schedule->user->name ?? 'N/A',
-                ];
-            })->unique('id')->values()->toArray();
-
-        $data[] = [
-            'name' => $day,
-            'children' => $schedules,
-        ];
-    }
-    return $data;
-}
-
-function calenderEvents()
-{
-    $schedules = TherapySchedule::filter()->orderBy('start_date')->get();
-    $events = $schedules->map(function ($schedule) {
-        $scheduleTime = Carbon::parse($schedule->start_date);
-        return [
-            'id' => $schedule->id,
-            'description' => $schedule->description,
-            'start' => Carbon::parse($schedule->start_date)->format('Y-m-d H:i:s'),
-            'end' => Carbon::parse($schedule->end_date)->format('Y-m-d H:i:s'),
-            // 'resource' => $schedule->therapist_id . strtolower(date('l', strtotime($schedule->start_date))),
-            'resource' => $schedule->therapist_id . strtolower($schedule->day),
-            'therapistName' => getUserNameById($schedule->therapist_id),
-            'type' => $schedule->type,
-            'groupName' => $schedule->group_name,
-            'frequencyRepeat' => $schedule->frequency_repeat,
-            'frequencyRepeatAt' => $schedule->start,
-            'description' => $schedule->description,
-            'file' => $schedule->file,
-        ];
-    });
-    return $events;
-}
-
 function appointmentIcon($icon)
 {
     $icons = [
@@ -292,16 +247,4 @@ function appointmentIcon($icon)
     ];
 
     return $icons[$icon];
-}
-
-function generateColor()
-{
-    $backgroundColor = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
-    $rgb = sscanf($backgroundColor, "#%02x%02x%02x");
-    $luminance = (0.299 * $rgb[0] + 0.587 * $rgb[1] + 0.114 * $rgb[2]) / 255;
-    $textColor = $luminance > 0.5 ? '#000000' : '#FFFFFF';
-    return  json_encode([
-                "background-color: $backgroundColor",
-                "color: $textColor"
-            ]);
 }
