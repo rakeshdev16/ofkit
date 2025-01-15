@@ -3,7 +3,8 @@
     <link href="{{ asset('assets/css/main.css')}}" type="text/css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <link href="{{ asset('assets/js/daypilot/helpers/v2/main.css?v=2025.1.6333') }}" type="text/css" rel="stylesheet" />
-    <script src="{{ asset('assets/js/daypilot/daypilot-all.min.js')}}"></script>
+    {{-- <script src="{{ asset('assets/js/daypilot/daypilot-all.min.js')}}"></script> --}}
+    <script src="{{ asset('assets/js/daypilot-all-2024.min.js')}}"></script>
 @endpush
 @section('section')
 

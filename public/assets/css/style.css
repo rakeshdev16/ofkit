@@ -781,13 +781,14 @@ span.event-dropdown-class {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.calendar_default_scroll {
+/* .calendar_default_scroll {
     height: 1320px !important;
 }
 
 .calendar_default_main {
     height: 1420px !important;
-}
+} */
+
 
 .wrap-text {
     max-width: 100px;
@@ -798,6 +799,11 @@ span.event-dropdown-class {
     font-size: 12px;
     line-height: 1.2;
 }
+
+/* .days-header-row {
+    height: 50px !important;
+    line-height: 50px !important;
+} */
 
 @media screen and (max-width:576px) {
     .calendar-event-overlay {

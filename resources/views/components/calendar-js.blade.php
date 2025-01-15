@@ -98,6 +98,15 @@
                 buttonLeft.onclick = function () {
                     targetElement.scrollLeft -= 200;
                 };
+
+                // const headers = document.querySelectorAll('.days-header');
+                // headers.forEach(header => {
+                //     header.closest('.calendar_default_colheader').classList.add('your-class-name');
+                // });
+
+                // $('.days-header').parent().parent().parent().css('height', '50px');
+                // $('.days-header').parent().css('height', '35px');
+                // $('.schedule-user-name').parent().parent().parent().css('top', '51px');
             }, 1500);
         });
     }
@@ -133,7 +142,7 @@
         dp.dayBeginsHour = 7;
         dp.dayEndsHour = 17;
         dp.businessBeginsHour = 7; // Start at 7:00
-        dp.businessEndsHour = 18; // End at 18:00
+        dp.businessEndsHour = 17; // End at 18:00
         dp.timeHeaderCellDuration = 15;
         dp.cellDuration = 15;
         dp.hourWidth = 80;
@@ -142,11 +151,11 @@
         // dp.columns.list = list;
         dp.columns.list = list.map(column => {
             return {
-                name: column.name,
+                name: `<span class="days-header">${column.name}</span>`,
                 id: column.id,
                 children: column.children.map(child => ({
                     id: child.id,
-                    name: `<div class="user-name text-center wrap-text">${child.first_name ?? '-'}<br>${child.family_name ?? '-'}<br>${child.profession ?? '-'}<br>${child.association ?? '-'}</div>`
+                    name: `<div class="schedule-user-name text-center wrap-text">${child.first_name ?? '-'}<br>${child.family_name ?? '-'}<br>${child.profession ?? '-'}<br>${child.association ?? '-'}</div>`
                 })),
             };
         });
