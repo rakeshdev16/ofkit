@@ -124,30 +124,29 @@ class Children extends Model
     {
         parent::boot();
 
-        static $colors = [
-            json_encode(["background-color: #a7a7a7;", "color: #ffffff;"]),
-            json_encode(["background-color: #ff5733;", "color: #ffffff;"]),
-            json_encode(["background-color: #33c4ff;", "color: #000000;"]),
-            json_encode(["background-color: #f9c50b;", "color: #000000;"]),
-            json_encode(["background-color: #7d33ff;", "color: #ffffff;"]),
-            json_encode(["background-color: #ff33b5;", "color: #000000;"]),
-            json_encode(["background-color: #33ff8a;", "color: #000000;"]),
-            json_encode(["background-color: #c70039;", "color: #ffffff;"]),
-            json_encode(["background-color: #ffc300;", "color: #000000;"]),
-            json_encode(["background-color: #900c3f;", "color: #ffffff;"]),
-            json_encode(["background-color: #1d8348;", "color: #ffffff;"]),
-            json_encode(["background-color: #2874a6;", "color: #ffffff;"]),
-            json_encode(["background-color: #fffcf1;", "color: #000000;"]),
-            json_encode(["background-color: #76448a;", "color: #ffffff;"]),
-            json_encode(["background-color: #af7ac5;", "color: #000000;"]),
-            json_encode(["background-color: #e74c3c;", "color: #ffffff;"]),
-            json_encode(["background-color: #16a085;", "color: #ffffff;"]),
-            json_encode(["background-color: #2ecc71;", "color: #000000;"]),
-            json_encode(["background-color: #3498db;", "color: #ffffff;"]),
-            json_encode(["background-color: #9b59b6;", "color: #ffffff;"]),
-        ];
-
-        static::creating(function ($model) use ($colors) {
+        static::creating(function ($model) {
+            $colors = [
+                json_encode(["background-color: #a7a7a7;", "color: #ffffff;"]),
+                json_encode(["background-color: #ff5733;", "color: #ffffff;"]),
+                json_encode(["background-color: #33c4ff;", "color: #000000;"]),
+                json_encode(["background-color: #f9c50b;", "color: #000000;"]),
+                json_encode(["background-color: #7d33ff;", "color: #ffffff;"]),
+                json_encode(["background-color: #ff33b5;", "color: #000000;"]),
+                json_encode(["background-color: #33ff8a;", "color: #000000;"]),
+                json_encode(["background-color: #c70039;", "color: #ffffff;"]),
+                json_encode(["background-color: #ffc300;", "color: #000000;"]),
+                json_encode(["background-color: #900c3f;", "color: #ffffff;"]),
+                json_encode(["background-color: #1d8348;", "color: #ffffff;"]),
+                json_encode(["background-color: #2874a6;", "color: #ffffff;"]),
+                json_encode(["background-color: #fffcf1;", "color: #000000;"]),
+                json_encode(["background-color: #76448a;", "color: #ffffff;"]),
+                json_encode(["background-color: #af7ac5;", "color: #000000;"]),
+                json_encode(["background-color: #e74c3c;", "color: #ffffff;"]),
+                json_encode(["background-color: #16a085;", "color: #ffffff;"]),
+                json_encode(["background-color: #2ecc71;", "color: #000000;"]),
+                json_encode(["background-color: #3498db;", "color: #ffffff;"]),
+                json_encode(["background-color: #9b59b6;", "color: #ffffff;"]),
+            ];
             $lastRecord = self::latest('id')->first();
             $lastIndex = 0;
             if ($lastRecord && $lastRecord->color) {
