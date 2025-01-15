@@ -98,15 +98,6 @@
                 buttonLeft.onclick = function () {
                     targetElement.scrollLeft -= 200;
                 };
-
-                // const headers = document.querySelectorAll('.days-header');
-                // headers.forEach(header => {
-                //     header.closest('.calendar_default_colheader').classList.add('your-class-name');
-                // });
-
-                // $('.days-header').parent().parent().parent().css('height', '50px');
-                // $('.days-header').parent().css('height', '35px');
-                // $('.schedule-user-name').parent().parent().parent().css('top', '51px');
             }, 1500);
         });
     }
@@ -218,7 +209,7 @@
                     title = `<p style="font-size: 16px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>`;
                     break;
                 default:
-                    title = eventName(args.data.twoChildrenNames);
+                    title = args.data.type;
                 break;
             }
             function escapeJson(json) {
@@ -242,6 +233,9 @@
             args.data.bubbleHtml = `
             <div class="p-3 calendar-event-overlay tooltip-left" style="word-wrap: break-word; white-space: normal; direction: rtl; text-align: right;">
                 <ul>
+                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                        <i class="fa fa-info fa-lg"></i>${args.data.type}
+                    </li>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
                         <i class="fa fa-${args.data.icon}"></i>${args.data.childrenNames.trim()}
                     </li>

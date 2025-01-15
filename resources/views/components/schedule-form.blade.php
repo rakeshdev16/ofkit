@@ -84,7 +84,7 @@
 <input type="hidden" name="color" value="{{ @json_encode($data['color']) }}">
 <div class="d-flex gap-3">
     <button type="submit" class="button p-2 px-4 rounded-pill border-0" id="createEventModalBtn">Save</button>
-    <button type="button" data-bs-dismiss="modal" class="button p-2 px-4 rounded-pill border-0">Cancel</button>
+    <button type="button" class="button p-2 px-4 rounded-pill border-0" id="cancelEventModalBtn">Cancel</button>
 </div>
 <script>    
     var type = $('#appointmentType').val();
