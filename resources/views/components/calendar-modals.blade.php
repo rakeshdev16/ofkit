@@ -1,57 +1,71 @@
 <!-- Modal: Hours Summary -->
 <div class="modal fade" id="scoreSummary" tabindex="-1" aria-labelledby="scoreSummaryLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="scoreSummaryLabel">Hours Summary</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="d-flex flex-wrap gap-3 mb-3">
-                    <span class="badge button rounded-pill p-2 px-4 fs-6 fw-normal">Staff</span>
-                    <span class="badge button rounded-pill p-2 px-4 fs-6 fw-normal">Children</span>
+                <div class="d-flex flex-wrap gap-3 mb-2">
+                    <ul class="nav nav-pills nav-pills-warning mb-2" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link btn button active" data-bs-toggle="pill" href="#childrenHoursTab" role="tab" aria-selected="true">
+                                <div class="d-flex align-items-center"><div class="tab-title">Children</div></div>
+                            </a>
+                        </li>&nbsp;
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link btn button" data-bs-toggle="pill" href="#staffHoursTab" role="tab" aria-selected="false" tabindex="-1">
+                                <div class="d-flex align-items-center"><div class="tab-title">Staff</div></div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th colspan="3" class="text-center">Matia</th>
-                                <th colspan="3" class="text-center">Tabam</th>
-                                <th colspan="3" class="text-center">Total Hours</th>
-                                <th colspan="3" class="text-center">Children</th>
-                            </tr>
-                            <tr>
-                                <th class="text-center">Grp</th>
-                                <th class="text-center">Indv</th>
-                                <th class="text-center">Total</th>
-                                <th class="text-center">Grp</th>
-                                <th class="text-center">Indv</th>
-                                <th class="text-center">Total</th>
-                                <th class="text-center">Grp</th>
-                                <th class="text-center">Indv</th>
-                                <th class="text-center">Total</th>
-                                <th class="text-center">Grp</th>
-                                <th class="text-center">Indv</th>
-                                <th class="text-center">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="text-center">Example</td>
-                                <td class="text-center">Example</td>
-                                <td class="text-center">Example</td>
-                                <td class="text-center">Example</td>
-                                <td class="text-center">Example</td>
-                                <td class="text-center">Example</td>
-                                <td class="text-center">Example</td>
-                                <td class="text-center">Example</td>
-                                <td class="text-center">Example</td>
-                                <td class="text-center">Example</td>
-                                <td class="text-center">Example</td>
-                                <td class="text-center">Example</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="tab-content">
+                        <div class="tab-pane fade active show" id="childrenHoursTab" role="tabpanel">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3" class="text-center">Children</th>
+                                        <th colspan="3" class="text-center">Total Hours</th>
+                                        <th colspan="3" class="text-center">Matia</th>
+                                        <th colspan="3" class="text-center">Tabam</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center" colspan="3"></th>
+                                        <th class="text-center">Grp</th>
+                                        <th class="text-center">Indv</th>
+                                        <th class="text-center">Total</th>
+                                        <th class="text-center">Grp</th>
+                                        <th class="text-center">Indv</th>
+                                        <th class="text-center">Total</th>
+                                        <th class="text-center">Grp</th>
+                                        <th class="text-center">Indv</th>
+                                        <th class="text-center">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="childrenSummary"></tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="staffHoursTab" role="tabpanel">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Staff</th>
+                                        <th class="text-center">Total</th>
+                                        <th class="text-center">Indv</th>
+                                        <th class="text-center">Group</th>
+                                        <th class="text-center">Staff Metting</th>
+                                        <th class="text-center">Tutorial</th>
+                                        <th class="text-center">Prep</th>
+                                        <th class="text-center">Other</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="staffHours"></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -15,4 +15,14 @@ class StaffKindergarten extends Model
     {
         return $this->hasOne(Kindergarten::class, 'id', 'kindergarten_id');
     }
+
+    public function association()
+    {
+        return $this->hasOne(Association::class, 'id', 'association_id');
+    }
+
+    public function profession()
+    {
+        return $this->hasOne(Profession::class, 'id', 'role_id');
+    }
 }

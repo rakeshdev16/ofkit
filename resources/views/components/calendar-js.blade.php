@@ -14,6 +14,7 @@
     });
 
     function editEvent(data) {
+        console.log("data", data);
         Object.keys(eventData).forEach(key => delete eventData[key]);
         eventData.id = data.id;
         eventData.resource = data.resource;
@@ -28,6 +29,7 @@
         eventData.childrenId = data.childrenId;
         eventData.description = data.description;
         eventData.uniqueId = data.uniqueId;
+        eventData.color = data.color;
         eventData.mode = 'edit';
         filterFormData(function() {
             $('#createEventModal').modal('toggle');
@@ -131,24 +133,24 @@
         dp.dayBeginsHour = 7;
         dp.dayEndsHour = 17;
         dp.businessBeginsHour = 7; // Start at 7:00
-        dp.businessEndsHour = 18; // End at 18:00
+        dp.businessEndsHour = 17; // End at 18:00
         dp.timeHeaderCellDuration = 15;
         dp.cellDuration = 15;
         dp.hourWidth = 80;
         dp.cellHeight = 30;
         dp.headerHeightAutoFit = true;
-        dp.columns.list = list;
-        // dp.columns.list = list.map(column => {
-        //     return {
-        //         name: column.name,
-        //         id: column.id,
-        //         children: column.children.map(child => ({
-        //             name: `${child.name} (${child.start_time} - ${child.end_time})`,
-        //             id: child.id,
-        //             backColor: child.color // Set background color for time slots
-        //         })),
-        //     };
-        // });
+        // dp.columns.list = list;
+        dp.columns.list = list.map(column => {
+            return {
+                name: `<span class="days-header">${column.name}</span>`,
+                id: column.id,
+                children: column.children.map(child => ({
+                    id: child.id,
+                    name: `<div class="schedule-user-name text-center wrap-text">${child.first_name ?? '-'}<br>${child.family_name ?? '-'}<br>${child.profession ?? '-'}<br>${child.association ?? '-'}</div>`
+                })),
+            };
+        });
+
 
         dp.onBeforeRender = function () {
             this.scrollTo("07:00");
@@ -207,33 +209,35 @@
                     title = `<p style="font-size: 16px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>`;
                     break;
                 default:
-                    title = eventName(args.data.twoChildrenNames);
+                    title = args.data.type;
                 break;
             }
             function escapeJson(json) {
                 return JSON.stringify(json).replace(/'/g, '&#39;');
             }
-            args.data.html = `<div class="p-1 event-box" style="${args.data.color[0]}; ${args.data.color[1]}">
-                    <div class="d-flex justify-content-between">
-                        <span>${args.data.start.toString("HH:mm")}</span>
-                        <i class="fa fa-${args.data.icon}"></i>
-                    </div>
-                    <div class="text-center" style="font-size: 12px;">${title}</div>
-                <div class="">
-                    ${type === 'create' ? `
+            args.data.html = `
+            <div class="p-1 event-box d-flex flex-column justify-content-between" style="${args.data.color[0]}; ${args.data.color[1]}">
+                <div class="d-flex justify-content-between">
+                    <span>${args.data.start.toString("HH:mm")}</span>
+                    <span><i class="fa fa-${args.data.icon}"></i></span>
+                </div>
+                <div class="text-center" style="font-size: 12px;">${title}</div>
+                ${type === 'create' ? `
+                    <div class="d-flex justify-content-start mt-auto" style="position: relative; bottom: 0;">
                         <i class="fa fa-edit" onclick='editEvent(${escapeJson(args.data)})'></i>&nbsp;
                         <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])'></i>&nbsp;
-                    ` : ''}
-                </div>
-            </div>`,
+                    </div>
+                ` : ''}
+            </div>`;
+
             args.data.bubbleHtml = `
             <div class="p-3 calendar-event-overlay tooltip-left" style="word-wrap: break-word; white-space: normal; direction: rtl; text-align: right;">
                 <ul>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                        <i class="fa fa-${args.data.icon}"></i>${title}
+                        <i class="fa fa-info fa-lg"></i>${args.data.type}
                     </li>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                        <i class="fa fa-user"></i>${args.data.therapistName}
+                        <i class="fa fa-${args.data.icon}"></i>${args.data.childrenNames.trim()}
                     </li>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
                         <i class="fa fa-calendar"></i>${args.data.start.toString("HH:mm")} - ${args.data.end.toString("HH:mm")}
@@ -243,9 +247,6 @@
                     </li>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
                         <i class="fa fa-users"></i>${args.data.therapistNames.trim()}
-                    </li>
-                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                        <i class="fa fa-users"></i>${args.data.childrenNames.trim()}
                     </li>
                     <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
                         <i class="fa fa-align-justify"></i>
@@ -299,6 +300,7 @@
         timeSlotData['startTime'] = $('#startTime').val();
         timeSlotData['endTime'] = $('#endTime').val();
         timeSlotData['frequencyRepeat'] = $('#appointmentFrequency').val();
+        timeSlotData['status'] = getQueryParam('status');
         fetch("{{ route('therapy-schedule.time-slot') }}", {
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}",
@@ -343,6 +345,16 @@
         });
     }
     
+    function hourSummary(kindergartenId) {
+        const url = "{{ route('therapy-schedule.hour-summary') }}?kindergarten_id="+kindergartenId;
+        fetch(url).then((response) => response.json()).then((data) => {
+            console.log(data);
+            $('#childrenSummary').html(data.childrenSummary);
+            $('#staffHours').html(data.staffSummary);
+            $('#scoreSummary').modal('toggle');
+        });
+    }
+
     function queryParam(params = {}) {
         var currentUrl = new URL(window.location.href);
         var searchParams = currentUrl.searchParams;

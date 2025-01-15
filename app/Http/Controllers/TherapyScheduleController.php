@@ -8,6 +8,8 @@ use App\Models\TherapySchedule;
 use App\Models\User;
 use App\Models\Kindergarten;
 use App\Models\StaffKindergarten;
+use App\Models\TherapyScheduleChildren;
+use App\Models\Association;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -53,11 +55,17 @@ class TherapyScheduleController extends Controller
                 } elseif (isset( $request->children_ids)) {
                     $request['color'] = json_encode(Children::where('id', $request->children_ids[0] ?? null)->pluck('color')->first());
                 } else {
-                    $request['color'] = generateColor();
+                    $colors = [
+                        'documentation-break' => json_encode(["background-color: #8a8584;", "color: #0a0100;"]),
+                        'preparation' => json_encode(["background-color: #c20c06;", "color: #fcfcfc;"]),
+                        'tutorial' => json_encode(["background-color: #f2fa05;", "color: #0a0100;"]),
+                        'other' => json_encode(["background-color: #05fa94;", "color: #0a0100;"]),
+                    ];
+                    $request['color'] = $colors[$request->type];
                 }
             }
-
             $status = json_decode($request->status);
+            $request['unique_id'] = $request->unique_id ? $request->unique_id : Str::uuid();
             foreach ($request->therapist_ids as $key => $therapistId) {
                 $request['therapist_id'] = $therapistId;
                 $event = TherapySchedule::updateOrCreate(['therapist_id' => $therapistId, 'unique_id' => $request->unique_id], $request->except('status', 'mode'));
@@ -106,11 +114,15 @@ class TherapyScheduleController extends Controller
         $header = []; 
         foreach ($days as $day) {
             $schedules = StaffSchedule::filter($filter)->with('user')->where('day', $day)->get()
-                ->map(function ($schedule) use ($day) {
+                ->map(function ($schedule) use ($day, $request) {
                     return [
                         'id' => $schedule->user->id.''.strtolower($day),
                         'user_id' => $schedule->user->id,
                         'name' => $schedule->user->name ?? 'N/A',
+                        'first_name' => $schedule->user->first_name ?? 'N/A',
+                        'family_name' => $schedule->user->family_name ?? 'N/A',
+                        'association' => @StaffKindergarten::where(['user_id' => $schedule->user_id, 'kindergarten_id' => $request->kindergarten_id])->first()->association->name,
+                        'profession' => @StaffKindergarten::where(['user_id' => $schedule->user_id, 'kindergarten_id' => $request->kindergarten_id])->first()->profession->name,
                     ];
                 })->unique('id')->values()->toArray();
 
@@ -125,7 +137,7 @@ class TherapyScheduleController extends Controller
             $scheduleTime = Carbon::parse($schedule->start_time);
             $therapistIds = $schedules->where('unique_id', $schedule->unique_id)->pluck('therapist_id')->toArray();
             return [
-                'id' => $schedule->id,
+                'id' => $schedule->therapist_id . strtolower($schedule->day),
                 'day' => $schedule->day,
                 'description' => $schedule->description,
                 'start' => date('Y-m-d').' '.$schedule->start_time,
@@ -183,7 +195,10 @@ class TherapyScheduleController extends Controller
 
     public function checkTimeSlot(Request $request)
     {
-        $checkSlot = TherapySchedule::where('start_time', '<=', $request['endTime'])->where('end_time', '>=', $request['startTime']);
+        $checkSlot = TherapySchedule::where('day', $request['day'])
+            ->where('start_time', '<=', $request['endTime'])
+            ->where('end_time', '>=', $request['startTime'])
+            ->whereIn('status', json_decode($request->status));
         switch ($request->type) {
             case 'therapist':
                 $checkSlot = $checkSlot->where('therapist_id', $request['id']);
@@ -206,4 +221,54 @@ class TherapyScheduleController extends Controller
         ]);
     }
 
+    public function hourSummary(Request $request)
+    {
+        $associations = Association::whereIn('name', ['Matia', 'Tabam'])->with('staffKindergarten:user_id,association_id')->get()->keyBy('name');
+        $matiaTherapistIds = $associations['Matia']->staffKindergarten->pluck('user_id')->toArray();
+        $tabamTherapistIds = $associations['Tabam']->staffKindergarten->pluck('user_id')->toArray();
+        $childrens = Children::select('id', 'name', 'kindergarten_id')->where('kindergarten_id', $request->kindergarten_id)->get()->toArray();
+        $childrenSummary = '';
+
+        foreach ($childrens as $children) {
+            $tabamScheduls = TherapySchedule::whereIn('therapist_id', array_unique($tabamTherapistIds))->whereHas('childrens', function ($query) use ($children) {
+                    $query->where('children_id', $children['id']);
+                })->get();
+            $matiaScheduls = TherapySchedule::whereIn('therapist_id', array_unique($matiaTherapistIds))->whereHas('childrens', function ($query) use ($children) {
+                    $query->where('children_id', $children['id']);
+                })->get();
+            $summary = [
+                'tabam' => [
+                    'individual' => $tabamScheduls->where('type', 'individual')->count(),
+                    'group' => $tabamScheduls->where('type', 'group')->count(),
+                ],
+                'matia' => [
+                    'individual' => $matiaScheduls->where('type', 'individual')->count(),
+                    'group' => $matiaScheduls->where('type', 'group')->count(),
+                ]
+            ];
+            $childrenSummary .= view('components.children-hour-summary', ['children' => $children, 'summary' => $summary]);
+        }
+
+        $staffSummary = '';
+        $users = User::select('id', 'name')->whereHas('staffKindergartens', function ($query) use ($request) {
+                    $query->where('kindergarten_id', $request->kindergarten_id);
+                })->get();
+        foreach ($users as $user) {
+            $staffScheduls = TherapySchedule::where('therapist_id', $user->id)->get();
+            $summary = [
+                'individual' => $staffScheduls->where('type', 'individual')->count(),
+                'group' => $staffScheduls->where('type', 'group')->count(),
+                'staff-meeting' => $staffScheduls->where('type', 'staff-meeting')->count(),
+                'tutorial' => $staffScheduls->where('type', 'tutorial')->count(),
+                'preparation' => $staffScheduls->where('type', 'preparation')->count(),
+                'other' => $staffScheduls->where('type', 'other')->count(),
+            ];
+            $staffSummary .= view('components.staff-hour-summary', ['user' => $user, 'summary' => $summary]);
+        }
+
+        return response()->json([
+            'childrenSummary' => $childrenSummary,
+            'staffSummary' => $staffSummary,
+        ]);
+    }
 }

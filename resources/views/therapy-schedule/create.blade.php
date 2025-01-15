@@ -4,7 +4,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <link href="{{ asset('assets/js/daypilot/helpers/v2/main.css?v=2025.1.6333') }}" type="text/css" rel="stylesheet" />
-    <script src="{{ asset('assets/js/daypilot/daypilot-all.min.js')}}"></script>
+    <script src="{{ asset('assets/js/daypilot-all-2024.min.js')}}"></script>
+        {{-- <script src="{{ asset('assets/js/daypilot/daypilot-all.min.js')}}"></script> --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         .select2-container[dir="rtl"] .select2-selection--single .select2-selection__rendered {
@@ -82,6 +83,7 @@
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="deleteEvent({{ $createdEventIds }})">Cancel</button>
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer updateEventStatus" data-status="published">Publish</button>
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="newAppointment">New Appointment</button>
+            <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="hourSummary($('#kindergartenFilter').val());">Hours</span>
         </div>
     </div>
     <div class="page-loader">
@@ -90,7 +92,6 @@
     <div class="mb-5" id="calender-view">
         <div id="scheduleCalendar"></div>
     </div>
-
     <input type="hidden" id="createdEventIds" value="{{ $createdEventIds }}">
 </div>
 
@@ -119,6 +120,22 @@
                 },
                 "Please choose at least two children!"
             );
+        });
+
+        $(document).on('click', '#cancelEventModalBtn', function() {
+            Swal.fire({
+                title: confirmMsgTitle,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, cancel it",
+                cancelButtonText: cancelButtonText
+            }).then((result) => {
+                if (result.isConfirmed) {
+                   $('#createEventModal').modal('toggle');
+                }
+            });
         });
 
         $(document).on('click', '#appointmentType', function() {

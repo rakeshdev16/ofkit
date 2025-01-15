@@ -3,7 +3,8 @@
     <link href="{{ asset('assets/css/main.css')}}" type="text/css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <link href="{{ asset('assets/js/daypilot/helpers/v2/main.css?v=2025.1.6333') }}" type="text/css" rel="stylesheet" />
-    <script src="{{ asset('assets/js/daypilot/daypilot-all.min.js')}}"></script>
+    {{-- <script src="{{ asset('assets/js/daypilot/daypilot-all.min.js')}}"></script> --}}
+    <script src="{{ asset('assets/js/daypilot-all-2024.min.js')}}"></script>
 @endpush
 @section('section')
 
@@ -23,7 +24,7 @@
             <a href="/schedule-history" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">History</a>
             <button id="editEvents" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Edit</button>
             <a href="{{ route('therapy-schedule.create') }}" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Create New</a>
-            <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#scoreSummary">Hours</span>
+            <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="hourSummary($('#kindergartenFilter').val());">Hours</span>
         </div>
     </div>
 
