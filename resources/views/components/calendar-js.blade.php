@@ -92,12 +92,23 @@
                 const buttonRight = document.getElementById('slideRight');
                 const buttonLeft = document.getElementById('slideLeft');
                 const targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0]; // Convert to DOM element
-                buttonRight.onclick = function () {
-                    targetElement.scrollLeft += 200;
-                };
-                buttonLeft.onclick = function () {
-                    targetElement.scrollLeft -= 200;
-                };
+                // buttonRight.onclick = function () {
+                //     targetElement.scrollLeft += 200;
+                // };
+                // buttonLeft.onclick = function () {
+                //     targetElement.scrollLeft -= 200;
+                // };
+
+                $(window).keyup(function (e) {
+                    var key = e.which;
+                    if(key == 13 || key == 39) { // the enter key code or right arrow
+                        console.log('right key');
+                        targetElement.scrollLeft += 200;
+                    } else if(key == 37) { // left arrow
+                        console.log('left key');
+                        targetElement.scrollLeft -= 200;
+                    }
+                });
             }, 1500);
         });
     }
