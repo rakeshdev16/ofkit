@@ -77,8 +77,6 @@
             @include('components.schedule-filter', ['kindergartens' => $kindergartens])
         </div>
         <div class="d-flex flex-wrap gap-3">
-            <button id="slideRight" type="button" class="btn button"><i class="fa fa-angle-right"></i></button>
-            <button id="slideLeft" type="button" class="btn button"><i class="fa fa-angle-left"></i></button>
             {{-- <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#">Export as PDf</button> --}}
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="deleteEvent({{ $createdEventIds }})">Cancel</button>
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer updateEventStatus" data-status="published">Publish</button>
