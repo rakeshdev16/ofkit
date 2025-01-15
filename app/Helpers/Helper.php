@@ -76,16 +76,31 @@ function getKindergartenInfoById($id)
    $info = Kindergarten::where('id', $id)->select('name', 'telephone')->first();
 
     if ($info) {
-        $infomation = $info->telephone ;
+        $infomation = __('kindergarten.telephoneTh') . ': ' . $info->telephone;
         return $infomation;
     }
 
-    return "Kindergarten not found";
+    return null;
 }
 
 function getKindergartenNamesById($ids)
 {
     return Kindergarten::whereIn('id', $ids)->pluck('name')->toArray();
+}
+
+function getKindergartenInfoByIds($ids)
+{
+    $kindergartens = Kindergarten::whereIn('id', $ids)
+        ->select('name', 'telephone')
+        ->get();
+
+    $htmlOutput = "<div dir='rtl'>";
+    foreach ($kindergartens as $kindergarten) {
+        $htmlOutput .= '<ul>'.$kindergarten->name.'<li>'.__('kindergarten.telephoneTh').': '.$kindergarten->telephone.'</li></ul>';
+    }
+    $htmlOutput .= '</div>';
+
+    return $htmlOutput;
 }
 
 function uploadFile($file, $path, $extension = null)

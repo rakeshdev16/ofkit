@@ -227,7 +227,8 @@
 
         $(function () {
 			$('[data-bs-toggle="popover"]').popover({
-                trigger: 'hover' // Change trigger to hover
+                trigger: 'hover',
+                html: true,
             });
 
             $(".datepicker").flatpickr({
@@ -237,7 +238,18 @@
             $(".filterDateRange").flatpickr({
                 dateFormat: "Y/m/d",
             });
+
+            // ........back page refresh........
+            window.addEventListener('popstate', function (e) {
+                var state = e.state;
+                if (state !== null) {
+                }
+            });
+            if (window.performance && window.performance.navigation.type == window.performance.navigation.TYPE_BACK_FORWARD) {
+            window.location.reload();
+            }
 		})
+
     </script>
 </body>
 

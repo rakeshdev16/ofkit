@@ -68,9 +68,17 @@
                     <div class="d-flex accordion-row">
                         <div class="w-50 label">{{ __('staff.kindergartenTh') }}</div>
                         <div class="w-50">
-                            @foreach ($member->staffKindergartens as $staffKindergarten)
+                            {{-- @foreach ($member->staffKindergartens as $staffKindergarten)
                                 {{ @$staffKindergarten->kindergartens->name }} {{ !$loop->last ? ',' : '' }}
-                            @endforeach
+                            @endforeach --}}
+                            @if ($member->staffKindergartens->count() > 0)
+                                @php
+                                    $kindergartens = getKindergartenNamesById($member->staffKindergartens->pluck('kindergarten_id')->toArray());
+                                @endphp
+                                {{ \Str::limit(implode(', ', $kindergartens), 35, '...') ?? '-' }} @include('components.kindergarten-info', ['kindergarten_id' => $member->staffKindergartens->pluck('kindergarten_id')->toArray()])
+                            @else
+                                -
+                            @endif
                         </div>
                     </div>
                     <hr>

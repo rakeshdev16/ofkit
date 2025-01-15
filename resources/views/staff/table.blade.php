@@ -34,7 +34,7 @@
                         @php
                             $kindergartens = getKindergartenNamesById($member->staffKindergartens->pluck('kindergarten_id')->toArray());
                         @endphp
-                        {{ \Str::limit(implode(', ', $kindergartens), 35, '...') ?? '-' }}
+                        {{ \Str::limit(implode(', ', $kindergartens), 35, '...') ?? '-' }} @include('components.kindergarten-info', ['kindergarten_id' => $member->staffKindergartens->pluck('kindergarten_id')->toArray()])
                     @else
                         -
                     @endif
