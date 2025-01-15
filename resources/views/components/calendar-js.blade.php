@@ -101,11 +101,9 @@
 
                 $(window).keyup(function (e) {
                     var key = e.which;
-                    if(key == 13 || key == 39) { // the enter key code or right arrow
-                        console.log('right key');
+                    if(key == 13 || key == 39) {
                         targetElement.scrollLeft += 200;
-                    } else if(key == 37) { // left arrow
-                        console.log('left key');
+                    } else if(key == 37) {
                         targetElement.scrollLeft -= 200;
                     }
                 });
