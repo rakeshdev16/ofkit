@@ -230,6 +230,10 @@
                         toastr.success(data.message);
                         // filterCalendar({ 'status': JSON.stringify(status) });
                         data.event.map((item, index) => {
+                            let existEvent = window.dp.events.find(item.id);
+                            if (existEvent) {
+                                window.dp.events.remove(existEvent);
+                            }
                             window.dp.events.add(item);
                         });
                         dp.clearSelection();

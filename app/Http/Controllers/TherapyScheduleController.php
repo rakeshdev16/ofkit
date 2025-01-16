@@ -249,7 +249,7 @@ class TherapyScheduleController extends Controller
         return $schedules->map(function ($schedule) use($schedules) {
             $therapistIds = $schedules->where('unique_id', $schedule->unique_id)->pluck('therapist_id')->toArray();
             return [
-                'id' => $schedule->therapist_id . strtolower($schedule->day),
+                'id' => $schedule->unique_id,
                 'day' => $schedule->day,
                 'description' => $schedule->description,
                 'start' => date('Y-m-d').' '.$schedule->start_time,
