@@ -106,137 +106,162 @@
     }
 
     function calendar(events = '', list) {
+        var type = "{{ $type }}";
         if (window.dp) {
             window.dp.dispose();
         }
-        var type = "{{ $type }}";
-        window.dp = new DayPilot.Calendar("scheduleCalendar", {
-            rtl: true,
-            startDate: DayPilot.Date.today(),
-            viewType: "Resources",
-            columnWidthSpec: "Fixed",
-            headerLevels: 2,
-            heightSpec: "BusinessHoursNoScroll",
-            height: 800,
-            columnWidth: 100,
-            businessBeginsHour: 7,
-            businessEndsHour: 17,
-            timeHeaderCellDuration: 15,
-            cellDuration: 15,
-            events: events,
-            columns: list.map(column => {
-                return {
-                    name: `<span class="days-header">${column.name}</span>`,
-                    id: column.id,
-                    children: column.children.map(child => ({
-                        id: child.id,
-                        name: `<div class="schedule-user-name text-center wrap-text">${child.first_name ?? '-'}<br>${child.family_name ?? '-'}<br>${child.profession ?? '-'}<br>${child.association ?? '-'}</div>`
-                    })),
-                };
-            }),
-            onBeforeTimeHeaderRender: function (args) {
-                var hour = DayPilot.Date.today().addTime(args.header.time);
-                args.header.html = hour.toString("HH:mm");
-            },
-            onTimeRangeSelected: async args => {
-                if (type == 'view') {
-                    dp.clearSelection();
-                } else {
-                    if (args.resource == '' || args.resource == undefined || args.resource == null) {
-                        toastr.error("The chosen resource dosen't have any user");
-                        return true;
-                    }
-                    const resource = args.resource.match(/^(\d+)([a-zA-Z]+)$/);
-                    Object.keys(eventData).forEach(key => delete eventData[key]);
-                    eventData.day = resource[2].charAt(0).toUpperCase() + resource[2].slice(1);
-                    eventData.resource = args.resource;
-                    eventData.startTime = args.start.value.split("T")[1].slice(0, 5);
-                    eventData.endTime = args.end.value.split("T")[1].slice(0, 5);
-                    eventData.therapistIds = [resource[1]];
-                    eventData.start = args.start;
-                    eventData.end = args.end;
-                    eventData.id = args.resource;
-                    eventData.mode = 'create';
-                    $('#eventTypeModal').modal('toggle');
-                }
-            },
-             onBeforeEventRender: function(args) {
-                let title = '';
-                function eventName(fullNames) {
-                    return fullNames.split(", ").map(fullName => {
-                        const nameParts = fullName.trim().split(" ");
-                        const firstName = nameParts[0];
-                        const lastNameInitial = nameParts.length > 1 ? nameParts[1][0] : "";
-                        return `${firstName} ${lastNameInitial}`;
-                    }).join(", ");
-                }
-                let cellTitle = args.data.type.split('-').map((item, index) => item[0].toUpperCase()+''+item.slice(1) ).join(' ');
-                switch (args.data.type) {
-                    case 'staff-meeting':
-                        title = 'Staff Meeting: ' + eventName(args.data.twoChildrenNames);
-                        break;
-                    case 'group':
-                        title = args.data.groupName + ': ' + eventName(args.data.twoChildrenNames);
-                        break;
-                    case 'individual':
-                        title = `<p style="font-size: 16px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>`;
-                        break;
-                    case 'parental-guidance':
-                        title = `<p style="font-size: 16px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>`;
-                        break;
-                    default:
-                        title = cellTitle;
-                    break;
-                }
-                function escapeJson(json) {
-                    return JSON.stringify(json).replace(/'/g, '&#39;');
-                }
-                args.data.html = `
-                <div class="p-1 event-box d-flex flex-column justify-content-between" style="${args.data.color[0]}; ${args.data.color[1]}">
-                    <div class="d-flex justify-content-between">
-                        <span>${args.data.start.toString("HH:mm")}</span>
-                        <span><i class="fa fa-${args.data.icon}"></i></span>
-                    </div>
-                    <div class="text-center" style="font-size: 12px;">${title}</div>
-                    ${type === 'create' ? `
-                        <div class="d-flex justify-content-start mt-auto" style="position: relative; bottom: 0;">
-                            <i class="fa fa-edit" onclick='editEvent(${escapeJson(args.data)})'></i>&nbsp;
-                            <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])'></i>&nbsp;
-                        </div>
-                    ` : ''}
-                </div>`;
 
-                args.data.bubbleHtml = `
-                <div class="p-3 calendar-event-overlay tooltip-left" style="word-wrap: break-word; white-space: normal; direction: rtl; text-align: right;">
-                    <ul>
-                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                            <i class="fa fa-info fa-lg"></i>${cellTitle}
-                        </li>
-                        ${['individual', 'group', 'staff-meeting', 'parental-guidance'].includes(args.data.type) ? `
-                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                                <i class="fa fa-${args.data.icon}"></i>${args.data.childrenNames.trim()}
-                            </li>
-                        ` : ''}
-                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                            <i class="fa fa-calendar"></i>${args.data.start.toString("HH:mm")} - ${args.data.end.toString("HH:mm")}
-                        </li>
-                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                            <i class="fa fa-clock-o"></i>${args.data.frequencyRepeat || ''} ${args.data.frequencyRepeatAt || ''}
-                        </li>
-                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                            <i class="fa fa-users"></i>${args.data.therapistNames.trim()}
-                        </li>
-                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                            <i class="fa fa-align-justify"></i>
-                            <p class="m-0">${args.data.description || ''}</p>
-                        </li>
+        // Create a new DayPilot instance
+        window.dp = new DayPilot.Calendar("scheduleCalendar");
+        dp.rtl = true;
 
-                    </ul>
-                </div>`;
-            },
-            headerHeightAutoFit: true,
-            showCurrentTime: false
+        dp.onColumnFilter = function(args) {
+            if (args.column.name.toUpperCase().indexOf(args.filter.toUpperCase()) === -1) {
+                args.visible = false;
+            }
+        };
+        var today = new Date();
+        var startDate = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0') + "T00:00:00";
+        dp.startDate = startDate;
+        dp.allDayEventHeight = 100;
+        dp.viewType = "Resources";
+        // dp.headerHeight = 5;
+        // dp.headerMinHeight = 5;
+        dp.eventMoveHandling = "Disabled";
+        dp.headerLevels = 2;
+        dp.columnWidthSpec = "Fixed";
+        dp.columnMinWidth = 20;
+        dp.columnWidth = 100;
+        dp.events.list = events;
+        dp.dayBeginsHour = 7;
+        dp.dayEndsHour = 17;
+        dp.businessBeginsHour = 7; // Start at 7:00
+        dp.businessEndsHour = 17; // End at 18:00
+        dp.timeHeaderCellDuration = 15;
+        dp.cellDuration = 15;
+        dp.hourWidth = 80;
+        dp.cellHeight = 30;
+        dp.headerHeightAutoFit = true;
+        // dp.columns.list = list;
+        dp.columns.list = list.map(column => {
+            return {
+                name: `<span class="days-header">${column.name}</span>`,
+                id: column.id,
+                children: column.children.map(child => ({
+                    id: child.id,
+                    name: `<div class="schedule-user-name text-center wrap-text">${child.first_name ?? '-'}<br>${child.family_name ?? '-'}<br>${child.profession ?? '-'}<br>${child.association ?? '-'}</div>`
+                })),
+            };
         });
+
+
+        dp.onBeforeRender = function () {
+            this.scrollTo("07:00");
+        };
+
+        dp.onTimeRangeSelected = function(args) {
+            // dp.keyboard.focusCell(args.end.addTime(-1), args.resource);
+            if (type == 'view') {
+                dp.clearSelection();
+            } else {
+                
+                if (args.resource == '' || args.resource == undefined || args.resource == null) {
+                    toastr.error("The chosen resource dosen't have any user");
+                    return true;
+                }
+
+                const resource = args.resource.match(/^(\d+)([a-zA-Z]+)$/);
+                Object.keys(eventData).forEach(key => delete eventData[key]);
+                eventData.day = resource[2].charAt(0).toUpperCase() + resource[2].slice(1);
+                eventData.resource = args.resource;
+                eventData.startTime = args.start.value.split("T")[1].slice(0, 5);
+                eventData.endTime = args.end.value.split("T")[1].slice(0, 5);
+                eventData.therapistIds = [resource[1]];
+                eventData.mode = 'create';
+                $('#eventTypeModal').modal('toggle');
+            }
+        };
+
+        dp.onBeforeTimeHeaderRender = function(args) {
+            var hour = DayPilot.Date.today().addTime(args.header.time);
+            args.header.html = hour.toString("HH:mm");
+        };
+
+        dp.onBeforeEventRender = function(args) {
+            let title = '';
+            function eventName(fullNames) {
+                return fullNames.split(", ").map(fullName => {
+                    const nameParts = fullName.trim().split(" ");
+                    const firstName = nameParts[0];
+                    const lastNameInitial = nameParts.length > 1 ? nameParts[1][0] : "";
+                    return `${firstName} ${lastNameInitial}`;
+                }).join(", ");
+            }
+            let cellTitle = args.data.type.split('-').map((item, index) => item[0].toUpperCase()+''+item.slice(1) ).join(' ');
+            switch (args.data.type) {
+                case 'staff-meeting':
+                    title = 'Staff Meeting: ' + eventName(args.data.twoChildrenNames);
+                    break;
+                case 'group':
+                    title = args.data.groupName + ': ' + eventName(args.data.twoChildrenNames);
+                    break;
+                case 'individual':
+                    title = `<p style="font-size: 16px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>`;
+                    break;
+                case 'parental-guidance':
+                    title = `<p style="font-size: 16px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>`;
+                    break;
+                default:
+                    title = cellTitle;
+                break;
+            }
+            function escapeJson(json) {
+                return JSON.stringify(json).replace(/'/g, '&#39;');
+            }
+            args.data.html = `
+            <div class="p-1 event-box d-flex flex-column justify-content-between" style="${args.data.color[0]}; ${args.data.color[1]}">
+                <div class="d-flex justify-content-between">
+                    <span>${args.data.start.toString("HH:mm")}</span>
+                    <span><i class="fa fa-${args.data.icon}"></i></span>
+                </div>
+                <div class="text-center" style="font-size: 12px;">${title}</div>
+                ${type === 'create' ? `
+                    <div class="d-flex justify-content-start mt-auto" style="position: relative; bottom: 0;">
+                        <i class="fa fa-edit" onclick='editEvent(${escapeJson(args.data)})'></i>&nbsp;
+                        <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])'></i>&nbsp;
+                    </div>
+                ` : ''}
+            </div>`;
+
+            args.data.bubbleHtml = `
+            <div class="p-3 calendar-event-overlay tooltip-left" style="word-wrap: break-word; white-space: normal; direction: rtl; text-align: right;">
+                <ul>
+                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                        <i class="fa fa-info fa-lg"></i>${cellTitle}
+                    </li>
+                    ${['individual', 'group', 'staff-meeting', 'parental-guidance'].includes(args.data.type) ? `
+                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                            <i class="fa fa-${args.data.icon}"></i>${args.data.childrenNames.trim()}
+                        </li>
+                    ` : ''}
+                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                        <i class="fa fa-calendar"></i>${args.data.start.toString("HH:mm")} - ${args.data.end.toString("HH:mm")}
+                    </li>
+                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                        <i class="fa fa-clock-o"></i>${args.data.frequencyRepeat || ''} ${args.data.frequencyRepeatAt || ''}
+                    </li>
+                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                        <i class="fa fa-users"></i>${args.data.therapistNames.trim()}
+                    </li>
+                    <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                        <i class="fa fa-align-justify"></i>
+                        <p class="m-0">${args.data.description || ''}</p>
+                    </li>
+
+                </ul>
+            </div>`;
+        };
+
         dp.init();
     }
 

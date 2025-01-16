@@ -2,9 +2,8 @@
 @push('customLink')
     <link href="{{ asset('assets/css/main.css')}}" type="text/css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-    <link href="{{ asset('assets/js/daypilot/helpers/v2/main.css?v=2025.1.6333') }}" type="text/css" rel="stylesheet" />
-    {{-- <script src="{{ asset('assets/js/daypilot/daypilot-all.min.js')}}"></script> --}}
-    <script src="{{ asset('assets/js/daypilot-all-2024.min.js')}}"></script>
+    <link href="{{ asset('assets/js/daypilot/helpers/v2/main.css') }}" type="text/css" rel="stylesheet" />
+    <script src="{{ asset('assets/js/daypilot/daypilot-all.min.js')}}"></script>
 @endpush
 @section('section')
 
@@ -44,5 +43,5 @@
         });
     </script>
     @include('components.calendar-js', ['type' => 'view']);
-    <script src="{{ asset('assets/js/daypilot/helpers/v2/app.js?v=2025.1.6333')}}"></script>
+    <script src="{{ asset('assets/js/daypilot/helpers/v2/app.js')}}"></script>
 @endpush
