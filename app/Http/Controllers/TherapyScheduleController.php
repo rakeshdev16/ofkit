@@ -52,7 +52,7 @@ class TherapyScheduleController extends Controller
             if (empty($request->unique_id)) {
                 if ($request->type === 'staff-meeting') {
                     $request['color'] = json_encode(["background-color: #095F59;", "color: #fff;"]);
-                } elseif (isset( $request->children_ids)) {
+                } elseif (isset($request->children_ids)) {
                     $request['color'] = json_encode(Children::where('id', $request->children_ids[0] ?? null)->pluck('color')->first());
                 } else {
                     $colors = [
@@ -60,8 +60,9 @@ class TherapyScheduleController extends Controller
                         'preparation' => json_encode(["background-color: #c20c06;", "color: #fcfcfc;"]),
                         'tutorial' => json_encode(["background-color: #f2fa05;", "color: #0a0100;"]),
                         'other' => json_encode(["background-color: #05fa94;", "color: #0a0100;"]),
+                        'no-child' => json_encode(["background-color:rgb(250, 5, 176);", "color: #0a0100;"]),
                     ];
-                    $request['color'] = $colors[$request->type];
+                    $request['color'] = empty($request->children_ids) ? $colors['no-child'] : $colors[$request->type];
                 }
             }
             $status = json_decode($request->status);
