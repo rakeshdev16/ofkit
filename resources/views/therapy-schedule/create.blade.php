@@ -228,7 +228,11 @@
                     $('#createEventModalBtn').html('Save');
                     if (data.status == true) {
                         toastr.success(data.message);
-                        filterCalendar({ 'status': JSON.stringify(status) });
+                        // filterCalendar({ 'status': JSON.stringify(status) });
+                        data.event.map((item, index) => {
+                            window.dp.events.add(item);
+                        });
+                        dp.clearSelection();
                         $('#createEventModal').modal('toggle');
 
                         const hiddenInput = $('#createdEventIds');
