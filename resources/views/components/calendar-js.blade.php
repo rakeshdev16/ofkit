@@ -118,7 +118,7 @@
             headerLevels: 2,
             heightSpec: "BusinessHoursNoScroll",
             height: 800,
-            // columnWidth: 100,
+            columnWidth: 100,
             businessBeginsHour: 7,
             businessEndsHour: 17,
             timeHeaderCellDuration: 15,
