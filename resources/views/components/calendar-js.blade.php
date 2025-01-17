@@ -97,7 +97,7 @@
                 const buttonRight = document.getElementById('slideRight');
                 const buttonLeft = document.getElementById('slideLeft');
                 const targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0];
-
+                container = targetElement;
                 $(window).keyup(function (e) {
                     var key = e.which;
                     if(key == 13 || key == 39) {
