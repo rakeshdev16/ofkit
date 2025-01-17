@@ -51,6 +51,10 @@ class TherapyScheduleController extends Controller
                     TherapySchedule::whereIn('therapist_id', $therapistGoingToBeDelete)->where('unique_id', $request->unique_id)->delete();
                 }
             }
+            if (in_array($request->type, ['individual', 'parental-guidance', 'documentation-break', 'preparation', 'tutorial', 'other']) && !empty($request->unique_id)) {
+                $deletedIds = TherapySchedule::whereNotIn('therapist_id', $request->therapist_ids)->where('unique_id', $request->unique_id)->pluck('id')->toArray();
+                TherapySchedule::whereNotIn('therapist_id', $request->therapist_ids)->where('unique_id', $request->unique_id)->delete();
+            }
             if (empty($request->unique_id)) {
                 if ($request->type === 'staff-meeting') {
                     $request['color'] = json_encode(["background-color: #095F59;", "color: #fff;"]);
