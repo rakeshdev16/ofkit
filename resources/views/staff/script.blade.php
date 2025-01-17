@@ -182,6 +182,11 @@
     var unselectedKindergarten = [];
     $('.kindergarten').on('select2:unselect', function(e) {
         var id = e.params.data.id;
+        var day = $('.scheduleKindergarten').data('name');
+        $('.'+day+'-tr-' + id).remove();
+        if ($('.'+day).length == 0) {
+            $('.'+day+'-section').hide();
+        }
         if (id) {
             unselectedKindergarten.push(id);
         }
