@@ -161,15 +161,25 @@
     $('.selectChildrens').select2({
         dropdownParent: $("#createEventModal"),
         placeholder: "Select Children",
-        // multiple: isMultiple,
         allowClear: true,
-        maximumSelectionLength: !isMultiple ?? 1
+        maximumSelectionLength: !isMultiple ?? 1,
+        language: {
+            maximumSelected: function (args) {
+                return "You can only select one children";
+            }
+        }
     });
+
     $('.selectTherapist').select2({
         dropdownParent: $("#createEventModal"),
         placeholder: "Select Therapist",
-        // multiple: isMultiple,
         allowClear: true,
-        maximumSelectionLength: !isMultiple ?? 1
+        maximumSelectionLength: !isMultiple ?? 1,
+        language: {
+            maximumSelected: function (args) {
+                return "You can only select one therapist";
+            }
+        }
     });
+
 </script>
