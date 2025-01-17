@@ -80,7 +80,7 @@
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="deleteEvent({{ $createdEventIds }})">Cancel</button>
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer updateEventStatus" data-status="published">Publish</button>
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="newAppointment">New Appointment</button>
-            <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="hourSummary($('#kindergartenFilter').val());">Hours</span>
+            <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="appointmentSummary($('#kindergartenFilter').val());">Appointment Summary</span>
         </div>
     </div>
     <div class="page-loader">
