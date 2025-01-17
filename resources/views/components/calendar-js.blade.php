@@ -241,41 +241,41 @@
         });
         dp.init();
 
-        const app = {
-            elements: {
-                export: document.getElementById("export"),
-                exportButton: document.getElementById("export-button"),
-                downloadButton: document.getElementById("download-button"),
-                area: document.getElementById("area"),
-            },
-            init: function (events) {
-                this.elements.exportButton.addEventListener("click", (ev) => {
-                    ev.preventDefault();
-                    const area = this.elements.area.value;
-                    const element = dp.exportAs("jpeg", {
-                        area: area,
-                    }).toElement();
-                    app.elements.export.innerHTML = '';
-                    app.elements.export.appendChild(element);
-                });
-                this.elements.downloadButton.addEventListener("click", (ev) => {
-                    ev.preventDefault();
-                    const area = this.elements.area.value;
-                    dp.exportAs("svg", {
-                        area: area,
-                        includeStyles: true
-                    }).download();
-                });
-                this.loadEventData(events);
-            },
-            loadEventData(events) {
-                events.map((item, index) => {
-                    item.text = `<b>${item.type}</b>`;
-                });
-                dp.update({events});
-            }
-        };
-        app.init(events);
+        // const app = {
+        //     elements: {
+        //         export: document.getElementById("export"),
+        //         exportButton: document.getElementById("export-button"),
+        //         downloadButton: document.getElementById("download-button"),
+        //         area: document.getElementById("area"),
+        //     },
+        //     init: function (events) {
+        //         this.elements.exportButton.addEventListener("click", (ev) => {
+        //             ev.preventDefault();
+        //             const area = this.elements.area.value;
+        //             const element = dp.exportAs("jpeg", {
+        //                 area: area,
+        //             }).toElement();
+        //             app.elements.export.innerHTML = '';
+        //             app.elements.export.appendChild(element);
+        //         });
+        //         this.elements.downloadButton.addEventListener("click", (ev) => {
+        //             ev.preventDefault();
+        //             const area = this.elements.area.value;
+        //             dp.exportAs("svg", {
+        //                 area: area,
+        //                 includeStyles: true
+        //             }).download();
+        //         });
+        //         this.loadEventData(events);
+        //     },
+        //     loadEventData(events) {
+        //         events.map((item, index) => {
+        //             item.text = `<b>${item.type}</b>`;
+        //         });
+        //         dp.update({events});
+        //     }
+        // };
+        // app.init(events);
     }
 
     function filterFormData(callback) {
