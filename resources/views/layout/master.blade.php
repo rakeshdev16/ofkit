@@ -245,13 +245,30 @@
             //     }
             // });
 
-            window.addEventListener('pageshow', function(event) {
-                if (event.persisted || window.performance.navigation.type === 2 ) {
-                    console.log('it working');
+            // window.addEventListener('pageshow', function(event) {
+            //     if (event.persisted || window.performance.navigation.type === 2 ) {
+            //         console.log('it working');
 
+            //         window.location.reload();
+            //     }
+            // });
+
+            window.addEventListener('pageshow', function (event) {
+                // Check if the page was restored from the cache
+                if (event.persisted) {
+                    console.log('Page restored from cache, reloading...');
                     window.location.reload();
+                } else {
+                    console.log('Normal page load');
                 }
             });
+
+            // Fallback for browsers where `event.persisted` is unreliable
+            if (performance.getEntriesByType("navigation")[0]?.type === "back_forward") {
+                console.log('Navigated back, reloading...');
+                window.location.reload();
+            }
+
 		})
 
     </script>
