@@ -1,0 +1,220 @@
+@media print {
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .modal {
+        .modal-header {
+            background-color: #095F59;
+            justify-content: space-between;
+
+            h5,
+            h4 {
+                color: #fff;
+            }
+
+            button.btn-close {
+                filter: invert(1);
+                margin: 0;
+            }
+
+        }
+
+        .draft-list {
+            td {
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+
+    .calendar_default_rowheader_inner,
+    .calendar_default_cornerright_inner,
+    .calendar_default_corner_inner,
+    .calendar_default_colheader_inner,
+    .calendar_default_alldayheader_inner {
+        background: #095F59 !important;
+        color: #fff !important;
+        padding: 10px;
+    }
+
+    .calendar_default_main.calendar_default_direction_rtl>div>div>div:nth-child(2)>div:nth-child(2)>div>div:nth-last-child(-n+14)>.calendar_default_colheader>.calendar_default_colheader_inner {
+        /* background: none !important; */
+        /* color: #000 !important; */
+    }
+
+    .calendar_default_rowheader_inner {
+        background: none !important;
+        color: #000 !important;
+        text-align: center !important;
+        font-weight: 500;
+        font-size: 12px !important;
+    }
+
+    /* .calendar_default_main>div>div>div:nth-child(1) {
+        float: right !important;
+    }
+    
+    .calendar_default_main>div>div>div:nth-child(2) {
+        margin: 0 !important;
+    
+        div>div>div:nth-child(3) {
+            margin: 0 !important;
+        }
+    } */
+
+    /* event template */
+
+    .event-box {
+
+        height: 100%;
+    }
+
+    .calendar_default_event_inner {
+        padding: 0 !important;
+        color: #000 !important;
+    }
+
+    .calendar_default_event_bar {
+        display: none !important;
+    }
+
+    .calendar-event-overlay {
+        width: 20vw;
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    .table-container table {
+        margin: 20px 0;
+        border-radius: 20px;
+        background-color: #f8f7f4;
+    }
+
+    .table-header th {
+        background-color: #095F59 !important;
+        color: white;
+    }
+
+    .table th,
+    .table td {
+        text-align: center;
+        padding: 15px;
+        vertical-align: middle;
+    }
+
+    .weekly-schedule th,
+    .weekly-schedule td {
+        text-align: right;
+    }
+
+    .icon {
+        cursor: pointer;
+        font-size: 18px !important;
+        color: #095F59;
+    }
+
+    .table-checkbox {
+        width: 20px;
+        height: 20px;
+    }
+
+    .avatar-img {
+        width: 122px;
+        height: 134px;
+
+        img {
+            object-fit: cover;
+            border-radius: 10px;
+        }
+    }
+
+    .green-light {
+        color: #00AEA7;
+    }
+
+    .new-btn-appointment {
+        border: 1px solid #D0D0D0;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: 900;
+        color: #AAAAAA;
+
+        &:hover {
+            background: #FFD681;
+            color: #000000;
+        }
+    }
+
+    #appointmentModal {
+
+        input,
+        select,
+        textarea {
+            border: 1px solid #F0F0F0 !important;
+        }
+    }
+
+    .select2-container--default {
+        width: 100% !important;
+    }
+
+    .schedule-time {
+        padding: 20px;
+        background: #f5f5f5;
+    }
+
+    span.event-dropdown-class {
+        left: -15px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: auto !important;
+    }
+
+    .select2-container--default[dir="rtl"] .select2-selection--single .select2-selection__clear {
+        margin-left: 15px !important;
+        margin-top: 2px !important;
+    }
+
+    .tooltip-left {
+        position: absolute;
+        transform: translateX(-100%);
+        /* Move the tooltip to the left */
+        left: -15px;
+        /* Adjust spacing */
+        top: 50%;
+        /* Center vertically relative to the event */
+        transform: translateY(-50%) translateX(-100%);
+        white-space: nowrap;
+        z-index: 1000;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* .calendar_default_scroll {
+        height: 1320px !important;
+    }
+    
+    .calendar_default_main {
+        height: 1420px !important;
+    } */
+
+
+    .wrap-text {
+        max-width: 100px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+        text-align: center;
+        font-size: 12px;
+        line-height: 1.2;
+    }
+}

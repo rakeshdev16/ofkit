@@ -42,10 +42,12 @@ class TherapyScheduleController extends Controller
                 $request['file'] = $request->old_image;
             }
 
+            $deletedIds = '';
             if (($request->type == 'group' || $request->type == 'staff-meeting') && !empty($request->unique_id)) {
                 $scheduleTherapistIds = TherapySchedule::where('unique_id', $request->unique_id)->pluck('therapist_id')->toArray();
                 $therapistGoingToBeDelete = array_diff($scheduleTherapistIds, $request->therapist_ids ?? []);
                  if (!empty($therapistGoingToBeDelete)) {
+                    $deletedIds = TherapySchedule::whereIn('therapist_id', $therapistGoingToBeDelete)->where('unique_id', $request->unique_id)->pluck('id')->toArray();
                     TherapySchedule::whereIn('therapist_id', $therapistGoingToBeDelete)->where('unique_id', $request->unique_id)->delete();
                 }
             }
@@ -54,7 +56,7 @@ class TherapyScheduleController extends Controller
                     $request['color'] = json_encode(["background-color: #095F59;", "color: #fff;"]);
                 } elseif (isset($request->children_ids)) {
                     $request['color'] = json_encode(Children::where('id', $request->children_ids[0] ?? null)->pluck('color')->first());
-                } else {
+                } elseif (in_array($request->type, ['documentation-break', 'preparation', 'tutorial', 'other'])) {
                     $colors = [
                         'documentation-break' => json_encode(["background-color: #8a8584;", "color: #0a0100;"]),
                         'preparation' => json_encode(["background-color: #c20c06;", "color: #fcfcfc;"]),
@@ -62,7 +64,9 @@ class TherapyScheduleController extends Controller
                         'other' => json_encode(["background-color: #05fa94;", "color: #0a0100;"]),
                         'no-child' => json_encode(["background-color:rgb(250, 5, 176);", "color: #0a0100;"]),
                     ];
-                    $request['color'] = empty($request->children_ids) ? $colors['no-child'] : $colors[$request->type];
+                    $request['color'] = $colors[$request->type];
+                } else {
+                    $request['color'] = json_encode(["background-color:rgb(250, 5, 176);", "color: #0a0100;"]);
                 }
             }
             $status = json_decode($request->status);
@@ -80,7 +84,7 @@ class TherapyScheduleController extends Controller
             $schedules = TherapySchedule::where('unique_id', $request->unique_id)->get();
             $event = $this->scheduleResponse($schedules);
             DB::commit();
-            return response()->json(['status' => true, 'message' => 'Event detail has been successfully saved as draft!', 'event' => $event]);
+            return response()->json(['status' => true, 'message' => 'Event detail has been successfully saved as draft!', 'event' => $event, 'deletedIds' => $deletedIds]);
         } catch (\Exception $e) {
             echo '<pre>'; print_r($e->getMessage()); die;
             DB::rollback();
@@ -102,8 +106,9 @@ class TherapyScheduleController extends Controller
     
     public function delete(Request $request)
     {
+        $ids = TherapySchedule::whereIn('unique_id', $request->ids)->pluck('id')->toArray();
         if (TherapySchedule::whereIn('unique_id', $request->ids)->delete()) {
-            return response()->json(['status' => true, 'message' => 'Event detail has been successfully deleted!']);
+            return response()->json(['status' => true, 'message' => 'Event detail has been successfully deleted!', 'ids' => $ids]);
         }
         return response()->json(['status' => false, 'message' => 'Something went wrong please try again!']);
     }
@@ -250,7 +255,7 @@ class TherapyScheduleController extends Controller
         return $schedules->map(function ($schedule) use($schedules) {
             $therapistIds = $schedules->where('unique_id', $schedule->unique_id)->pluck('therapist_id')->toArray();
             return [
-                'id' => $schedule->unique_id,
+                'id' => $schedule->id,
                 'day' => $schedule->day,
                 'description' => $schedule->description,
                 'start' => date('Y-m-d').' '.$schedule->start_time,

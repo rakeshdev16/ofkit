@@ -89,6 +89,7 @@
     <div class="mb-5" id="calender-view">
         <div id="scheduleCalendar"></div>
     </div>
+    <div id="export"></div>
     <input type="hidden" id="createdEventIds" value="{{ $createdEventIds }}">
 </div>
 
@@ -228,7 +229,14 @@
                     $('#createEventModalBtn').html('Save');
                     if (data.status == true) {
                         toastr.success(data.message);
-                        // filterCalendar({ 'status': JSON.stringify(status) });
+                        if (data.deletedIds) {
+                            data.deletedIds.map((id, index) => {
+                                let existEvent = window.dp.events.find(id);
+                                if (existEvent) {
+                                    window.dp.events.remove(existEvent);
+                                }
+                            });
+                        }
                         data.event.map((item, index) => {
                             let existEvent = window.dp.events.find(item.id);
                             if (existEvent) {
