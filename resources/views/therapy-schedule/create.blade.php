@@ -97,7 +97,7 @@
     <input type="hidden" id="createdEventIds" value="{{ $createdEventIds }}">
 </div>
 
-@include('components.calendar-modals')
+@include('components.calendar-modals', ['createdEventIds' => $createdEventIds])
 
 @endsection
 @push('customScript')
