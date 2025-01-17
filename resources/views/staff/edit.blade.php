@@ -354,6 +354,7 @@
                                         <div class="col-md-6">
                                             <div class="d-md-flex d-grid align-items-center gap-3">
                                                 <input type="hidden" name="deleted_document_ids" id="deletedDocumentIds">
+                                                <input type="hidden" name="unselected_kindergarten" id="unselectedKindergarten">
                                                 <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">
                                                 <button type="submit" class="btn button px-4">{{ __('staff.updateBtnText') }}</button>
                                             </div>

@@ -239,9 +239,17 @@
                 dateFormat: "Y/m/d",
             });
 
+            // window.addEventListener('pageshow', function(event) {
+            //     if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+            //         location.reload();
+            //     }
+            // });
+
             window.addEventListener('pageshow', function(event) {
-                if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
-                    location.reload();
+                if (event.persisted || window.performance.navigation.type === 2 ) {
+                    console.log('it working');
+
+                    window.location.reload();
                 }
             });
 		})

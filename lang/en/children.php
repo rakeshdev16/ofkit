@@ -184,4 +184,5 @@ return [
     'dateRange' => 'Date Range',
     'selectDateRange' => 'Select Date Range',
     'totalDocuments' => 'Total Documents',
+    'reasonDescription' => 'Reason description',
 ];

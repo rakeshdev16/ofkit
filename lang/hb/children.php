@@ -184,4 +184,5 @@ return [
     'dateRange' => 'טווח תאריכים',
     'selectDateRange' => 'בחר טווח תאריכים',
     'totalDocuments' => 'סה"כ מסמכים',
+    'reasonDescription' => 'תיאור הסיבה',
 ];

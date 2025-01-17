@@ -137,7 +137,7 @@
                                                             'value' => @$document->occured,
                                                         ])
                                                     </div>
-                                                    <div class="col-md-12 occuredReason">
+                                                    <div class="col-md-12 occuredReason" style="{{old('occured',@$document->occured) ?? '1' == '1' ? 'display: none' : 'display: block' }}">
                                                         @include('components.select-input', [
                                                             'label' => __('children.occuredReason'),
                                                             'name' => 'occured_reason',
@@ -148,7 +148,7 @@
                                                     </div>
                                                     <div class="col-md-12 occuredDescription">
                                                         @include('components.textarea-input', [
-                                                            'label' => __('children.description'),
+                                                            'label' => __('children.reasonDescription'),
                                                             'name' => 'occured_description',
                                                             'icon' => 'network-chart',
                                                             'value' => @$document->occured_description,

@@ -316,6 +316,10 @@ class StaffController extends Controller
                 }
             }
             $user->staffKindergartens()->delete();
+            if (isset($request->unselected_kindergarten) && !empty($request->unselected_kindergarten)) {
+                $kindergartenIds = explode(',', $request->unselected_kindergarten);
+                KindergartenUser::whereIn('kindergarten_id', $kindergartenIds)->delete();
+            }
             if (isset($request->kindergarten) && count($request->kindergarten)) {
                 $user->staffKindergartens()->createMany($request->kindergarten);
             }

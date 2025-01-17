@@ -138,7 +138,7 @@
                                                             'value' => @$document->group_name,
                                                         ])
                                                     </div>
-                                                    <div class="col-md-12 occuredReason">
+                                                    <div class="col-md-12 occuredReason" style="{{old('occured',@$document->occured) ?? '1' == '1' ? 'display: none' : 'display: block' }}">
                                                         @include('components.select-input', [
                                                             'label' => __('children.occuredReason'),
                                                             'name' => 'occured_reason',
@@ -153,7 +153,7 @@
                                                         </div>
                                                         <div class="mt-3">
                                                             @include('components.textarea-input', [
-                                                                'label' => __('children.description'),
+                                                                'label' => __('children.reasonDescription'),
                                                                 'name' => 'occured_description',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$document->occured_description,
@@ -179,7 +179,7 @@
                                                         ])
                                                         @error('children_ids')
                                                             <span class="invalid-feedback" role="alert">
-                                                                <strong>Please choose children</strong>
+                                                                <strong>{{$message}}</strong>
                                                             </span>
                                                         @enderror
                                                     </div>

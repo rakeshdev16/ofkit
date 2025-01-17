@@ -179,8 +179,13 @@
         }, 100);
     });
 
+    var unselectedKindergarten = [];
     $('.kindergarten').on('select2:unselect', function(e) {
         var id = e.params.data.id;
+        if (id) {
+            unselectedKindergarten.push(id);
+        }
+        $('#unselectedKindergarten').val(unselectedKindergarten);
         $('.tr-' + id).remove();
         $('.scheduleKindergarten option[value="' + id + '"]').remove();
         updateIndexes();
