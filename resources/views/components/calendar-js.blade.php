@@ -47,7 +47,7 @@
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, cancel it",
+            confirmButtonText: "Yes, delete it",
             cancelButtonText: cancelButtonText
         }).then((result) => {
             if (result.isConfirmed) {
@@ -60,7 +60,12 @@
                     body: JSON.stringify({ ids: ids })
                 }).then(response => response.json()).then(data => {
                     if (data.status == true) {
-                        filterCalendar({ 'event[status]': JSON.stringify(status) });
+                        data.ids.map((id) => {
+                            let existEvent = window.dp.events.find(id);
+                            if (existEvent) {
+                                window.dp.events.remove(existEvent);
+                            }
+                        });
                         toastr.success(data.message);
                     } else {
                         toastr.error(data.message);
@@ -92,7 +97,7 @@
                 const buttonRight = document.getElementById('slideRight');
                 const buttonLeft = document.getElementById('slideLeft');
                 const targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0];
-
+                container = targetElement;
                 $(window).keyup(function (e) {
                     var key = e.which;
                     if(key == 13 || key == 39) {
@@ -115,7 +120,8 @@
             startDate: DayPilot.Date.today(),
             viewType: "Resources",
             columnWidthSpec: "Fixed",
-            headerLevels: 2,
+            headerLevels: "Auto",
+            headerLevelHeights: [ 50, 100 ],
             heightSpec: "BusinessHoursNoScroll",
             height: 800,
             columnWidth: 100,
@@ -157,7 +163,7 @@
                     $('#eventTypeModal').modal('toggle');
                 }
             },
-             onBeforeEventRender: function(args) {
+            onBeforeEventRender: function(args) {
                 let title = '';
                 function eventName(fullNames) {
                     return fullNames.split(", ").map(fullName => {
@@ -235,6 +241,42 @@
             showCurrentTime: false
         });
         dp.init();
+
+        // const app = {
+        //     elements: {
+        //         export: document.getElementById("export"),
+        //         exportButton: document.getElementById("export-button"),
+        //         downloadButton: document.getElementById("download-button"),
+        //         area: document.getElementById("area"),
+        //     },
+        //     init: function (events) {
+        //         this.elements.exportButton.addEventListener("click", (ev) => {
+        //             ev.preventDefault();
+        //             const area = this.elements.area.value;
+        //             const element = dp.exportAs("jpeg", {
+        //                 area: area,
+        //             }).toElement();
+        //             app.elements.export.innerHTML = '';
+        //             app.elements.export.appendChild(element);
+        //         });
+        //         this.elements.downloadButton.addEventListener("click", (ev) => {
+        //             ev.preventDefault();
+        //             const area = this.elements.area.value;
+        //             dp.exportAs("svg", {
+        //                 area: area,
+        //                 includeStyles: true
+        //             }).download();
+        //         });
+        //         this.loadEventData(events);
+        //     },
+        //     loadEventData(events) {
+        //         events.map((item, index) => {
+        //             item.text = `<b>${item.type}</b>`;
+        //         });
+        //         dp.update({events});
+        //     }
+        // };
+        // app.init(events);
     }
 
     function filterFormData(callback) {
@@ -322,7 +364,7 @@
         });
     }
     
-    function hourSummary(kindergartenId) {
+    function appointmentSummary(kindergartenId) {
         const url = "{{ route('therapy-schedule.hour-summary') }}?kindergarten_id="+kindergartenId;
         fetch(url).then((response) => response.json()).then((data) => {
             console.log(data);

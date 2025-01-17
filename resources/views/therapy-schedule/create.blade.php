@@ -6,6 +6,7 @@
     <link href="{{ asset('assets/js/daypilot/helpers/v2/main.css') }}" type="text/css" rel="stylesheet" />
     <script src="{{ asset('assets/js/daypilot/daypilot-all.min.js')}}"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <style>
         .select2-container[dir="rtl"] .select2-selection--single .select2-selection__rendered {
             padding-right: 20px;
@@ -77,10 +78,11 @@
         </div>
         <div class="d-flex flex-wrap gap-3">
             {{-- <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#">Export as PDf</button> --}}
-            <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="deleteEvent({{ $createdEventIds }})">Cancel</button>
+            {{-- <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer capture" onclick="exportData();">Export</button> --}}
+            <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="deleteEvent({{ $createdEventIds }})">Delete All</button>
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer updateEventStatus" data-status="published">Publish</button>
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="newAppointment">New Appointment</button>
-            <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="hourSummary($('#kindergartenFilter').val());">Hours</span>
+            <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="appointmentSummary($('#kindergartenFilter').val());">Appointment Summary</span>
         </div>
     </div>
     <div class="page-loader">
@@ -88,6 +90,9 @@
     </div>
     <div class="mb-5" id="calender-view">
         <div id="scheduleCalendar"></div>
+    </div>
+    <div class="container">
+    <img width="100%" class="screen">
     </div>
     <input type="hidden" id="createdEventIds" value="{{ $createdEventIds }}">
 </div>
@@ -103,6 +108,7 @@
         const status = "{{ request('edit') }}" == 'true' ? ["published", "draft"] : ["draft"];
         let eventData = {};
         let timeSlotData = {};
+        let container = '';
         $(document).ready(function () {
             $.validator.addMethod(
                 "minChildren",
@@ -118,6 +124,43 @@
                 "Please choose at least two children!"
             );
         });
+
+        // function adjustZoomToFit(div, section, callback) {
+        //     const maxZoomOut = 0.5; // Minimum zoom level (50%)
+        //     const step = 0.01; // Step size for zoom adjustment
+        //     let zoomLevel = 1.0; // Default zoom level (100%)
+        //     const html = document.documentElement;
+        //     console.log("scrollWidth", div.scrollWidth);
+        //     console.log("clientWidth", div.clientWidth);
+        //     while (zoomLevel > maxZoomOut) {
+        //         section.style.zoom = zoomLevel;
+        //         if (div.scrollWidth === div.clientWidth) {
+        //             break;
+        //         }
+        //         zoomLevel -= step;
+        //     }
+
+        //     console.log("Final zoom level:", zoomLevel);
+        //     if (callback) callback();
+        // }
+
+        // const exportData = async () => {
+        //     let region = document.querySelector("#scheduleCalendar"); // whole screen
+        //     adjustZoomToFit(container, region, function() {
+        //         setTimeout(() => {
+        //             html2canvas(region, {
+        //                 scrollX: 0,
+        //                 scrollY: 0,
+        //                 onrendered: function(canvas) {
+        //                     let pngUrl = canvas.toDataURL();
+        //                     let img = document.querySelector(".screen");
+        //                     img.src = pngUrl;
+        //                 },
+        //             });
+        //         }, 2000);
+        //     });
+            
+        // }
 
         $(document).on('click', '#cancelEventModalBtn', function() {
             Swal.fire({
@@ -228,17 +271,33 @@
                     $('#createEventModalBtn').html('Save');
                     if (data.status == true) {
                         toastr.success(data.message);
-                        // filterCalendar({ 'status': JSON.stringify(status) });
+                        const hiddenInput = $('#eventIds');
+                        if (data.deletedIds) {
+                            data.deletedIds.map((id, index) => {
+                                let existEvent = window.dp.events.find(id);
+                                if (existEvent) {
+                                    window.dp.events.remove(existEvent);
+                                }
+                            });
+                        }
                         data.event.map((item, index) => {
+                            let existEvent = window.dp.events.find(item.id);
+                            if (existEvent) {
+                                window.dp.events.remove(existEvent);
+                            }
                             window.dp.events.add(item);
+                            
+                            let currentIds = hiddenInput.val() ? JSON.parse(hiddenInput.val()) : [];
+                            console.log("currentIds", currentIds);
+                            currentIds = [...new Set([...currentIds, item.uniqueId])];
+                            console.log("newcurrentIds", currentIds);
+                            hiddenInput.val(JSON.stringify(currentIds));
                         });
                         dp.clearSelection();
                         $('#createEventModal').modal('toggle');
 
-                        const hiddenInput = $('#createdEventIds');
-                        let currentIds = hiddenInput.val() ? JSON.parse(hiddenInput.val()) : [];
-                        currentIds = [...new Set([...currentIds, data.event.unique_id])];
-                        hiddenInput.val(JSON.stringify(currentIds));
+                        
+                        
                     } else {
                         toastr.error(data.message);
                     }
@@ -254,7 +313,7 @@
                 toastr.error('There are not any created event');
                 return true;
             }            
-            $('#eventIds').val(ids);
+            // $('#eventIds').val(ids);
             $('#eventDateModal').modal('toggle');
         });
 
@@ -286,6 +345,7 @@
                         $('#publishEventForm').trigger("reset");
                         $('#eventDateModal').modal('toggle');
                         filterCalendar({'status': JSON.stringify(status)});
+                        $('#eventIds').val('');
                     } else {
                         toastr.error(data.message);
                     }

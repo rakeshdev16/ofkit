@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="scoreSummaryLabel">Hours Summary</h4>
+                <h4 class="modal-title" id="scoreSummaryLabel">Appointment Summary</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -169,7 +169,7 @@
                         <input type="date" name="end_date" id="publishEndDate" placeholder="End Date" class="w-100 mb-3 form-control border-1">
                     </div>
                     <input type="hidden" name="status" value="published">
-                    <input type="hidden" name="ids" id="eventIds">
+                    <input type="hidden" name="ids" id="eventIds" value="{{ @$createdEventIds }}">
                     <input type="hidden" name="kindergarten_id" id="associatedKindergartenId">
                     <div class="d-flex gap-3">
                         <button class="button p-2 px-4 rounded-pill border-0" id="publishEventFormBtn">Save</button>
