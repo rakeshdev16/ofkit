@@ -55,12 +55,13 @@
         var value = $(this).val();
         if (value == 0) {
             $('.occuredReason').find('input, select, textarea').attr('value', '');
-            // $('.occuredDescription').hide();
+            $('.occuredDescription > .form-label').text("{{__('children.reasonDescription')}}");
             $('.occuredReason').show();
         }
         else {
             $('.occuredDescription').find('input, select, textarea').attr('value', '');
             $('.occuredReason').hide();
+            $('.occuredDescription > .form-label').text("{{__('children.description')}}");
             // $('.occuredDescription').show();
         }
     });

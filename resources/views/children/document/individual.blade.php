@@ -144,17 +144,17 @@
                                                             'icon' => 'buildings',
                                                             'value' => @$document->occured_reason,
                                                             'options' => [
-                                                                ['key' => 'Child absent', 'value' => __('children.childAbsent')], 
-                                                                ['key' => 'Therapist absent', 'value' => __('children.therapistAbsent')], 
-                                                                ['key' => 'Kindergarten closed', 'value' => __('children.kindergartenClosed')], 
-                                                                ['key' => 'Parent absent', 'value' => __('children.parentAbsent')], 
+                                                                ['key' => 'Child absent', 'value' => __('children.childAbsent')],
+                                                                ['key' => 'Therapist absent', 'value' => __('children.therapistAbsent')],
+                                                                ['key' => 'Kindergarten closed', 'value' => __('children.kindergartenClosed')],
+                                                                ['key' => 'Parent absent', 'value' => __('children.parentAbsent')],
                                                                 ['key' => 'Other', 'value' => __('children.other')]
                                                             ],
                                                         ])
                                                     </div>
                                                     <div class="col-md-12 occuredDescription">
                                                         @include('components.textarea-input', [
-                                                            'label' => __('children.reasonDescription'),
+                                                            'label' => __('children.description'),
                                                             'name' => 'occured_description',
                                                             'icon' => 'network-chart',
                                                             'value' => @$document->occured_description,
