@@ -123,7 +123,7 @@
                                             @include('components.date-input', [
                                                 'label' => __('staff.birthDateTh'),
                                                 'name' => 'dob',
-                                                'value' => $staff->dob ?? '',
+                                                'value' => $staff->date_of_birth ?? '',
                                                 'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
                                         </div>

@@ -48,33 +48,9 @@
                         @endphp
                         {!! description($description, 80) !!} :{{ $documentation->group_name }}
                     @else
-                        {{-- @if ($documentation->occured == 1) --}}
-                        {{-- {{$documentation->occured_description}} ? {!! description($documentation->occured_description, 80) !!} : {{ $documentation->occured_reason }} --}}
                         {!! $documentation->occured_description ? description($documentation->occured_description, 80) : $documentation->occured_reason !!}
-
-                        {{-- @else
-                            {{ $documentation->occured_reason }}
-                        @endif --}}
                     @endif
-
-                    {{-- @if ($documentation->occured == 1)
-                        @if ($documentation->type == 'group')
-                            @if ($groupChildDetail)
-                                @php
-                                    $truncatedGroupDesc = $groupChildDetail->participated == 1 ? \Str::limit($groupChildDetail->description, 80, '...') : $groupChildDetail->reason;
-                                @endphp
-                                <span data-toggle="tooltip" data-placement="bottom" title="{{ $groupChildDetail->description }}">{{ $truncatedGroupDesc }}</span>
-                            @else
-                                <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $documentation->group_name }}: <br> {{ $truncatedDesc }}</span>
-                            @endif
-                        @else
-                            <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $truncatedDesc }}</span>dflsdj
-                        @endif
-                    @else
-                        {{ $documentation->occured_reason }}
-                    @endif --}}
                 </td>
-                {{-- <td>{{ $documentation->occured == 1 ? \Str::limit($documentation->occured_description, 20, '...') : $documentation->occured_reason }}</td> --}}
                 <td class="">
                     @php
                         $docExt = pathinfo($documentation->file, PATHINFO_EXTENSION);

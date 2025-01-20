@@ -79,38 +79,6 @@
                     <div class="d-flex accordion-row">
                         <div class="w-50 label">{{ __('children.description') }}</div>
                         <div class="w-50">
-                            {{-- @if ($documentation->occured == 1)
-                                @if ($documentation->type == 'group')
-                                    @if ($groupChildDetail)
-                                        @php
-                                            $truncatedGroupDesc = $groupChildDetail->participated == 1 ? \Str::limit($groupChildDetail->description, 80, '...') : $groupChildDetail->reason;
-                                        @endphp
-                                        <span data-toggle="tooltip" data-placement="bottom" title="{{ $groupChildDetail->description }}">{{ $truncatedGroupDesc }}</span>
-                                    @else
-                                        <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $documentation->group_name }}: <br> {{ $truncatedDesc }}</span>
-                                    @endif
-                                @else
-                                    <span data-toggle="tooltip" data-placement="bottom" title="{{ $documentation->occured_description }}">{{ $truncatedDesc }}</span>
-                                @endif
-                            @else
-                                {{ $documentation->occured_reason }}
-                            @endif --}}
-                            {{-- @if (!empty($documentation->group_name))
-                                @php
-                                    if (isset($groupChildDetail) && isset($groupChildDetail->participated) && $groupChildDetail->participated == 1) {
-                                        $description = $groupChildDetail->description;
-                                    } else {
-                                        $description = @$groupChildDetail->reason;
-                                    }
-                                @endphp
-                                {!! description($description, 80) !!} :{{ $documentation->group_name }}
-                            @else
-                                @if ($documentation->occured == 1)
-                                    {!! description($documentation->occured_description, 80) !!}
-                                @else
-                                    {{ $documentation->occured_reason }}
-                                @endif
-                            @endif --}}
                             @if (!empty($documentation->group_name))
                                 @php
                                     if (isset($groupChildDetail) && isset($groupChildDetail->participated) && $groupChildDetail->participated == 1 || $documentation->occured_description) {
@@ -121,13 +89,7 @@
                                 @endphp
                                 {!! description($description, 80) !!} :{{ $documentation->group_name }}
                             @else
-                                {{-- @if ($documentation->occured == 1) --}}
-                                {{-- {{$documentation->occured_description}} ? {!! description($documentation->occured_description, 80) !!} : {{ $documentation->occured_reason }} --}}
                                 {!! $documentation->occured_description ? description($documentation->occured_description, 80) : $documentation->occured_reason !!}
-
-                                {{-- @else
-                                    {{ $documentation->occured_reason }}
-                                @endif --}}
                             @endif
                         </div>
                     </div>

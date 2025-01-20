@@ -103,6 +103,11 @@ class Children extends Model
         }
     }
 
+    public function getServiceStartDateAttribute($value)
+    {
+        return isset($this->attributes['service_start_date']) ? @date('d/m/Y', strtotime($this->attributes['service_start_date'])) : NULL;
+    }
+
     // public function setDobAttribute($value)
     // {
     //     if (is_string($value)) {
