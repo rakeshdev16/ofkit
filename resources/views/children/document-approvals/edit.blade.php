@@ -43,7 +43,7 @@
                                                         <select name="therapist" class="form-control @error('therapist') is-invalid @enderror">
                                                             <option value="" selected="">{{ __('comon.select') }}</option>
                                                             @foreach ($therapists as $therapist)
-                                                                <option value="{{ $therapist['key'] }}" {{old('therapist', $document->therapist) == $therapist['key'] ? 'selected' : ''}}>{{ $therapist['value'] }}</option>
+                                                                <option value="{{ $therapist['key'] }}" {{old('therapist', $document->user_id) == $therapist['key'] ? 'selected' : ''}}>{{ $therapist['value'] }}</option>
                                                             @endforeach
                                                         </select>
                                                     @else

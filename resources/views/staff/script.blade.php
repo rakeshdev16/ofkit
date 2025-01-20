@@ -182,22 +182,24 @@
     var unselectedKindergarten = [];
     $('.kindergarten').on('select2:unselect', function(e) {
         var id = e.params.data.id;
-        var day = $('.scheduleKindergarten').data('name');
-        $('.'+day+'-tr-' + id).remove();
-        if ($('.'+day).length == 0) {
-            $('.'+day+'-section').hide();
-        }
+        const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        days.map((day) => {
+            console.log(day);
+            $('.scheduleKindergarten').find('option[value="' + id + '"]').remove();
+            $('.' + day + '-tr-' + id).remove();
+            if ($('.'+day).length == 0) {
+                $('.'+day+'-section').hide();
+            }
+        });
         if (id) {
             unselectedKindergarten.push(id);
         }
         $('#unselectedKindergarten').val(unselectedKindergarten);
         $('.tr-' + id).remove();
-        $('.scheduleKindergarten option[value="' + id + '"]').remove();
-        updateIndexes();
-        var length = $('.selected-kindergarten tr').length;
-        if (length == 0) {
+        if ($('.selected-kindergarten tr').length === 0) {
             $('.kindergarten-section').hide();
         }
+        updateIndexes();
     });
 
     function weeklyKindergartenOptions(id, name) {
