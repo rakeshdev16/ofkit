@@ -14,6 +14,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use DB, Auth, DateTime;
+use App\Exports\CalendarExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TherapyScheduleController extends Controller
 {
@@ -178,8 +180,8 @@ class TherapyScheduleController extends Controller
     public function checkTimeSlot(Request $request)
     {
         $checkSlot = TherapySchedule::where('day', $request['day'])
-            ->where('start_time', '<=', $request['endTime'])
-            ->where('end_time', '>=', $request['startTime'])
+            ->where('start_time', '>=', $request['startTime'])
+            ->where('end_time', '<=', $request['endTime'])
             ->whereIn('status', json_decode($request->status));
         switch ($request->type) {
             case 'therapist':
@@ -253,6 +255,29 @@ class TherapyScheduleController extends Controller
             'staffSummary' => $staffSummary,
         ]);
     }
+
+    public function export(Request $request)
+    {
+        $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        $timeSlots = [
+            '07:00', '07:15', '07:30', '07:45',
+            '08:00', '08:15', '08:30', '08:45',
+            '09:00', '09:15', '09:30', '09:45',
+            '10:00', '10:15', '10:30', '10:45',
+            '11:00', '11:15', '11:30', '11:45',
+            '12:00', '12:15', '12:30', '12:45',
+            '13:00', '13:15', '13:30', '13:45',
+            '14:00', '14:15', '14:30', '14:45',
+            '15:00', '15:15', '15:30', '15:45',
+            '16:00', '16:15', '16:30', '16:45',
+        ]; // Example time slots
+        // Fetch schedules for each day and time slot
+        $daySchedules = [];
+        $daySchedules = StaffSchedule::with('user')->whereIn('day', $days)->get()->groupBy('day');
+
+        return Excel::download(new CalendarExport($days, $timeSlots, $daySchedules), 'Calendar_Export.xlsx');
+    }
+
 
     public function scheduleResponse($schedules)
     {

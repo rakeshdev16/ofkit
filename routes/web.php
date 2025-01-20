@@ -128,6 +128,8 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
         Route::post('therapy-schedule/filter-form-data', 'filterFormData')->name('therapy-schedule.filter-form-data');
         Route::post('therapy-schedule/time-slot', 'checkTimeSlot')->name('therapy-schedule.time-slot');
         Route::get('therapy-schedule/hour-summary', 'hourSummary')->name('therapy-schedule.hour-summary');
+        Route::get('therapy-schedule/export', 'export')->name('therapy-schedule.export');
+
     });
 
     Route::controller(UserController::class)->group(function () {
