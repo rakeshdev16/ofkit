@@ -86,6 +86,11 @@ class ChildrenDocumentation extends Model
         return $query;
     }
 
+    public function getDateAttribute()
+    {
+        return isset($this->attributes['date']) ? date('d/m/Y', strtotime($this->attributes['date'])) : NULL;
+    }
+
     public function setDateAttribute($value)
     {
         if (is_string($value)) {
