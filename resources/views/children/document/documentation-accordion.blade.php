@@ -40,7 +40,7 @@
                 <div class="accordion-body">
                     <div class="d-flex accordion-row">
                         <div class="w-50 label">{{ __('children.date') }}</div>
-                        <div class="w-50">{{ @date('d/m/Y', strtotime($documentation->date)) ?? '-' }}</div>
+                        <div class="w-50">{{ $documentation->date ?? '-' }}</div>
                     </div>
                     <hr>
                     <div class="d-flex accordion-row">
