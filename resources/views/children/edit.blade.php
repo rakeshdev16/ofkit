@@ -93,7 +93,7 @@
                                                                 'label' => __('children.dob'),
                                                                 'name' => 'dob',
                                                                 'class' => 'date-of-birth',
-                                                                'value' => $children->dob,
+                                                                'value' => $children->date_of_birth,
                                                                 'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                                             ])
                                                         </div>
