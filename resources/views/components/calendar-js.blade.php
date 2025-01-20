@@ -14,7 +14,6 @@
     });
 
     function editEvent(data) {
-        console.log("data", data);
         Object.keys(eventData).forEach(key => delete eventData[key]);
         eventData.id = data.id;
         eventData.resource = data.resource;
@@ -93,11 +92,10 @@
             $(window).scrollTop(scrollingPosition);
             // $('.page-loader').fadeOut('slow');
             setTimeout(() => {
-                $('.calendar_default_scroll  > div > div:nth-of-type(2)').css("height", "1215px");
+                // $('.calendar_default_scroll  > div > div:nth-of-type(2)').css("height", "1215px");
                 const buttonRight = document.getElementById('slideRight');
                 const buttonLeft = document.getElementById('slideLeft');
                 const targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0];
-                container = targetElement;
                 $(window).keyup(function (e) {
                     var key = e.which;
                     if(key == 13 || key == 39) {
@@ -319,6 +317,7 @@
         timeSlotData['startTime'] = $('#startTime').val();
         timeSlotData['endTime'] = $('#endTime').val();
         timeSlotData['frequencyRepeat'] = $('#appointmentFrequency').val();
+        timeSlotData['day'] = $('#day').val();
         timeSlotData['status'] = getQueryParam('status');
         fetch("{{ route('therapy-schedule.time-slot') }}", {
             headers: {
@@ -367,7 +366,6 @@
     function appointmentSummary(kindergartenId) {
         const url = "{{ route('therapy-schedule.hour-summary') }}?kindergarten_id="+kindergartenId;
         fetch(url).then((response) => response.json()).then((data) => {
-            console.log(data);
             $('#childrenSummary').html(data.childrenSummary);
             $('#staffHours').html(data.staffSummary);
             $('#scoreSummary').modal('toggle');
