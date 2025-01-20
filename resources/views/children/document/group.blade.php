@@ -153,7 +153,7 @@
                                                         </div>
                                                         <div class="mt-3">
                                                             @include('components.textarea-input', [
-                                                                'label' => __('children.reasonDescription'),
+                                                                'label' => __('children.description'),
                                                                 'name' => 'occured_description',
                                                                 'icon' => 'network-chart',
                                                                 'value' => @$document->occured_description,
