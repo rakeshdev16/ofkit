@@ -40,7 +40,7 @@
                             'class' => 'reason',
                             'icon' => 'buildings',
                             'value' => old('participated.' . $index . '.reason') ?? @$data['reason'],
-                            'options' => [['key' => 'Child absent', 'value' => 'Child absent'], ['key' => 'Therapist absent', 'value' => 'Therapist absent'], ['key' => 'Kindergarten closed', 'value' => 'Kindergarten closed'], ['key' => 'Other', 'value' => 'Other']],
+                            'options' => [['key' => 'Child absent', 'value' => 'Child absent'], ['key' => 'Therapist absent', 'value' => 'Therapist absent'], ['key' => 'Kindergarten closed', 'value' => 'Kindergarten closed'], ['key' => 'Parent absent', 'value' => __('children.parentAbsent')], ['key' => 'Other', 'value' => 'Other']],
                         ])
                         @error('participated.' . $index . '.reason')
                             <span class="invalid-feedback" role="alert">

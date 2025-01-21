@@ -138,7 +138,7 @@
                                                                 @foreach ($document->groupChildrens as $child)
                                                                 <tr>
                                                                     <td>{{ getChildrenNameById($child->children_id) }}</td>
-                                                                    <td>{{ $child->participated == 1 ? 'Yes' : 'No' }}</td>
+                                                                    <td>{{ $child->participated == 1 ? __('comon.yes') : __('comon.no') }}</td>
                                                                     <td class="address-column">
                                                                         @if ($child->description)
                                                                             {!! description($child->description, 80) !!}

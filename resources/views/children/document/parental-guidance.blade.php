@@ -145,7 +145,7 @@
                                                     </div>
                                                     <div class="col-md-12 occuredDescription">
                                                         @include('components.textarea-input', [
-                                                            'label' => __('children.description'),
+                                                            'label' => @$document->occured ?? '1' == '1' ? __('children.description') : __('children.reasonDescription'),
                                                             'name' => 'occured_description',
                                                             'icon' => 'network-chart',
                                                             'value' => @$document->occured_description,

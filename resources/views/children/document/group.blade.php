@@ -148,17 +148,12 @@
                                                         ])
                                                     </div>
                                                     <div class="col-md-12 occuredDescription">
-                                                        <div>
-
-                                                        </div>
-                                                        <div class="mt-3">
-                                                            @include('components.textarea-input', [
-                                                                'label' => __('children.description'),
-                                                                'name' => 'occured_description',
-                                                                'icon' => 'network-chart',
-                                                                'value' => @$document->occured_description,
-                                                            ])
-                                                        </div>
+                                                        @include('components.textarea-input', [
+                                                            'label' => @$document->occured ?? '1' == '1' ? __('children.description') : __('children.reasonDescription'),
+                                                            'name' => 'occured_description',
+                                                            'icon' => 'network-chart',
+                                                            'value' => @$document->occured_description,
+                                                        ])
                                                     </div>
                                                     <hr>
                                                     <div class="col-md-12">
