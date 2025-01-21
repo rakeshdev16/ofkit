@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Children;
 use App\Models\TherapyScheduleChildren;
 use App\Models\TherapySchedule;
-use App\Models\Kindergarten;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -16,30 +15,30 @@ use Illuminate\Support\Facades\Route;
 use Carbon\Carbon;
 use Auth, DB;
 
-class TherapyScheduleController extends Controller
+class ChildrenScheduleController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, $id)
     {
-        $therapist = Auth::user();
-        $kindergartens = Kindergarten::select('id', 'name')->get();
-        return view('therapy-schedule.index', compact('therapist', 'kindergartens'));
+        $children = Children::where('id', $id)->first();
+        return view('children.schedule.index', compact('children'));
     }
 
     public function calendar(Request $request)
     {
         $filter = $request->all();
         $header = [
-            ['name' => 'Sunday', 'id' => Auth::id().'sunday'],
-            ['name' => 'Monday', 'id' => Auth::id().'monday'],
-            ['name' => 'Tuesday', 'id' => Auth::id().'tuesday'],
-            ['name' => 'Wednesday', 'id' => Auth::id().'wednesday'],
-            ['name' => 'Thursday', 'id' => Auth::id().'thursday'],
-            ['name' => 'Friday', 'id' => Auth::id().'friday'],
-            ['name' => 'Saturday', 'id' => Auth::id().'saturday'],
+            ['name' => 'Sunday', 'id' => $filter['children_id'].'sunday'],
+            ['name' => 'Monday', 'id' => $filter['children_id'].'monday'],
+            ['name' => 'Tuesday', 'id' => $filter['children_id'].'tuesday'],
+            ['name' => 'Wednesday', 'id' => $filter['children_id'].'wednesday'],
+            ['name' => 'Thursday', 'id' => $filter['children_id'].'thursday'],
+            ['name' => 'Friday', 'id' => $filter['children_id'].'friday'],
+            ['name' => 'Saturday', 'id' => $filter['children_id'].'saturday'],
         ];
 
-        $schedules = TherapySchedule::filter($filter)->where(['therapist_id' => Auth::id(), 'status' => 'published'])->get();
-        $events = $this->scheduleResponse($schedules);
+        $scheduleIds = TherapyScheduleChildren::where('children_id', $filter['children_id'])->pluck('therapy_schedule_id')->toArray();
+        $schedules = TherapySchedule::whereIn('id', $scheduleIds)->where('status', 'published')->get();
+        $events = $this->scheduleResponse($schedules, $filter['children_id']);
 
         return response()->json([
             'calenderHeader' => $header,
@@ -47,9 +46,9 @@ class TherapyScheduleController extends Controller
         ]);
     }
 
-    public function scheduleResponse($schedules)
+    public function scheduleResponse($schedules, $childId)
     {
-        return $schedules->map(function ($schedule) use($schedules) {
+        return $schedules->map(function ($schedule) use($schedules, $childId) {
             $therapistIds = $schedules->where('unique_id', $schedule->unique_id)->pluck('therapist_id')->toArray();
             return [
                 'id' => $schedule->id,
@@ -59,7 +58,7 @@ class TherapyScheduleController extends Controller
                 'end' => date('Y-m-d').' '.$schedule->end_time,
                 'startTime' => Carbon::parse($schedule->start_time)->format('H:i'),
                 'endTime' => Carbon::parse($schedule->end_time)->format('H:i'),
-                'resource' => $schedule->therapist_id . strtolower($schedule->day),
+                'resource' => $childId . strtolower($schedule->day),
                 'therapistId' => $schedule->therapist_id,
                 'therapistName' => getUserNameById($schedule->therapist_id),
                 'therapistIds' => $therapistIds,

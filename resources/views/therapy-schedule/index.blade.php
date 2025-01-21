@@ -7,21 +7,33 @@
 @endpush
 @section('section')
 
-<div class="container-fluid" style="margin-top: 130px;">
-    <h3>Weekly Therapy Schedule</h3>
-    @php
-        $status = @json_decode(request('event')['status'])[0] ?? 'published';
-    @endphp
-    <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between my-3">
-        <div class="filters d-flex flex-wrap  gap-3">
-            @include('components.schedule-filter', ['kindergartens' => $kindergartens])
-        </div>
-        <div class="d-flex flex-wrap gap-3">
-            {{-- <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#draft">Draft</span> --}}
-            <a href="/schedule-history" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">History</a>
-            <button id="editEvents" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Edit</button>
-            <a href="{{ route('therapy-schedule.create') }}" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Create New</a>
-            <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="appointmentSummary($('#kindergartenFilter').val());">Appointment Summary</span>
+<div class="container-fluid" style="margin-top: 140px;">
+    <div class="filters d-flex flex-wrap  gap-3">
+        <select id="kindergartenFilter" onchange="filterCalendar({ 'kindergarten_id': this.value })" class="form-select rounded-pill px-5 my-2 w-auto">
+            @foreach ($kindergartens as $kindergarten)
+                @php
+                    $value = $kindergarten->id;
+                @endphp
+                <option value="{{ $value }}" {{ (request('kindergarten_id') ?? '') == $value ? 'selected' : '' }}>{{ $kindergarten->name }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div class="card">
+        <div class="row">
+            <div class="col-md-9">
+                <ul class="child-info">
+                    <li><label>First Name: </label><b>{{ $therapist->first_name }}</b></li>
+                    <li><label>Last Name: </label><b>{{ $therapist->family_name }}</b></li>
+                    <li><label>ID: </label><b>{{ $therapist->identification }}</b></li>
+                    <li><label>Profession: </label><b>{{ @$therapist->profession->name }}</b></li>
+                </ul>
+                <ul class="child-info">
+                    {{-- <li><label>Association: </label><b>{{ $therapist->date_of_birth }}</b></li> --}}
+                </ul>
+            </div>
+            <div class="col-md-3" style="text-align: left">
+                <img src="{{ $therapist->profile }}" width="120" height="140" alt="">
+            </div>
         </div>
     </div>
 
@@ -30,18 +42,11 @@
     </div>
 </div>
 
-@include('components.calendar-modals')
-
 @endsection
 @push('customScript')
     <script type="text/javascript">
-        const status = ["{{$status}}"];
-        $(document).on('click', '#editEvents', function() {
-            var kindergartenId = getQueryParam('kindergarten_id');
-            var url = "{{ route('therapy-schedule.create') }}?edit=true&kindergarten_id="+kindergartenId;
-            window.location.href = url;
-        });
+        
     </script>
-    @include('components.calendar-js', ['type' => 'view']);
+    @include('therapy-schedule.calendar-js', ['type' => 'view']);
     <script src="{{ asset('assets/js/daypilot/helpers/v2/app.js')}}"></script>
 @endpush

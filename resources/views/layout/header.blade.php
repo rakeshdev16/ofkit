@@ -169,18 +169,22 @@
                                 ],
                             ])
                         @endif
-                        @if ($user->hasAnyPermission(['therapy-schedule.index']))
-                            @include('components.menu', [
-                                'name' => __('menu.therapySchedule'),
-                                'width' => '250px',
-                                'icon' => 'fi_16650601.png',
-                                'active' => in_array($currentRoute, ['therapy-schedule.index']) ? 'active-menu' : '',
-                                'route' => route('therapy-schedule.index'),
-                                // 'options' => [
-                                //     ['icon' => 'fi_2887367.png', 'name' => __('menu.allTherapySchedule'), 'route' => ''],
-                                //     ['icon' => 'fi_2887367.png', 'name' => __('menu.addTherapySchedule'), 'route' => '']
-                                // ],
-                            ])
+                        @if ($user->hasAnyPermission(['schedule.index', 'therapy-schedule.index']))
+                            @php
+                                $data = [
+                                    'name' => __('menu.therapySchedule'),
+                                    'width' => '250px',
+                                    'icon' => 'fi_16650601.png',
+                                    'active' => in_array($currentRoute, ['schedule.index']) ? 'active-menu' : '',
+                                ];
+                                if (Auth::user()->hasRole('admin')) {
+                                    $data['route'] = route('schedule.index');
+                                } else {
+                                    $data['route'] = route('therapy-schedule.index');
+                                }
+                                
+                            @endphp
+                            @include('components.menu', $data)
                         @endif
                         @if ($user->hasAnyPermission(['dashboard']))
                             @include('components.menu', [

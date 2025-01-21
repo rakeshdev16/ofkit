@@ -223,7 +223,7 @@
                 var formData = new FormData(form);
                 formData.append('kindergarten_id', kindergartenId);
                 $('#createEventModalBtn').html('Processing');
-                fetch("{{ route('therapy-schedule.store') }}", {
+                fetch("{{ route('schedule.store') }}", {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -291,7 +291,7 @@
                 var formData = new FormData(form);
                 $('#publishEventFormBtn').html('Processing');
 
-                fetch("{{ route('therapy-schedule.update') }}", {
+                fetch("{{ route('schedule.update') }}", {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': "{{ csrf_token() }}"

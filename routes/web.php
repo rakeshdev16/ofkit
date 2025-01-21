@@ -12,6 +12,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\ChildrenScheduleController;
 use App\Http\Controllers\TherapyScheduleController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
@@ -56,19 +58,13 @@ Route::get('/check-session', function () {
 Route::controller(Controller::class)->group(function () {
     Route::post('active-inactive', 'activeInactive')->name('activeInactive.records');
 });
-Route::get('test', fn() => view('schedule.test'))->name('test');
 
 Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout'])->group(function () {
-    Route::get('weekly-schedule', fn() => view('schedule.weekly-schedule'))->name('weekly-schedule');
-    Route::get('create-schedule', fn() => view('schedule.create-schedule'))->name('create-schedule');
-    Route::get('schedule-history', fn() => view('schedule.history'))->name('schedule-history');
-    Route::get('child-record', fn() => view('schedule.child-record'))->name('child-record');
     Route::controller(UserController::class)->group(function () {
         Route::post('set-locale', 'setLocale')->name('set.locale');
     });
     // Route::get('/', fn() => redirect()->route('children.index'))->name('dashboard');
     Route::get('/', [HomeController::class, 'index'])->name('dashboard');
-    Route::get('therapy-schedule', fn() => view('dashboard.index'))->name('therapy-schedule.index');
     Route::resource('staff', StaffController::class);
     Route::resource('cluster', ClusterController::class);
     Route::resource('kindergarten', KindergartenController::class);
@@ -118,18 +114,28 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
     Route::controller(InterventionTableController::class)->group(function () {
         Route::get('intervention-tab', 'interventionTableTab')->name('intervention.tab');
     });
+    Route::controller(ScheduleController::class)->group(function (){
+        Route::get('schedule', 'index')->name('schedule.index');
+        Route::post('schedule', 'store')->name('schedule.store');
+        Route::get('schedule/calendar', 'calendar')->name('schedule.calendar');
+        Route::get('schedule/create','create')->name('schedule.create');
+        Route::post('schedule/status', 'update')->name('schedule.update');
+        Route::post('schedule/delete', 'delete')->name('schedule.delete');
+        Route::post('schedule/filter-form-data', 'filterFormData')->name('schedule.filter-form-data');
+        Route::post('schedule/time-slot', 'checkTimeSlot')->name('schedule.time-slot');
+        Route::get('schedule/hour-summary', 'hourSummary')->name('schedule.hour-summary');
+        Route::get('schedule/export', 'export')->name('schedule.export');
+
+    });
+
+    Route::controller(ChildrenScheduleController::class)->group(function (){
+        Route::get('children-schedule/{id}', 'index')->name('children-schedule.index');
+        Route::get('children-schedule', 'calendar')->name('children-schedule.calendar');
+    });
+
     Route::controller(TherapyScheduleController::class)->group(function (){
         Route::get('therapy-schedule', 'index')->name('therapy-schedule.index');
-        Route::post('therapy-schedule', 'store')->name('therapy-schedule.store');
-        Route::get('therapy-schedule/calendar', 'calendar')->name('therapy-schedule.calendar');
-        Route::get('therapy-schedule/create','create')->name('therapy-schedule.create');
-        Route::post('therapy-schedule/status', 'update')->name('therapy-schedule.update');
-        Route::post('therapy-schedule/delete', 'delete')->name('therapy-schedule.delete');
-        Route::post('therapy-schedule/filter-form-data', 'filterFormData')->name('therapy-schedule.filter-form-data');
-        Route::post('therapy-schedule/time-slot', 'checkTimeSlot')->name('therapy-schedule.time-slot');
-        Route::get('therapy-schedule/hour-summary', 'hourSummary')->name('therapy-schedule.hour-summary');
-        Route::get('therapy-schedule/export', 'export')->name('therapy-schedule.export');
-
+        Route::get('therapy-schedule-calendar', 'calendar')->name('therapy-schedule.calendar');
     });
 
     Route::controller(UserController::class)->group(function () {
