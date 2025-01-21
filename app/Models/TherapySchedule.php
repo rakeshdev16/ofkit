@@ -43,9 +43,16 @@ class TherapySchedule extends Model
 
     public function scopeFilter($query, $data)
     {
+        // if (isset($data['status'])) {
+        //     $query->whereIn('status', json_decode($data['status']));
+        //     if (count(json_decode($data['status'])) == 1 && json_decode($data['status'])[0] == 'published') {
+        //         $query->whereDate('start_date', '<=', date('Y-m-d'))->whereDate('end_date', '>=', date('Y-m-d'));
+        //     }
+        // }
+
         if (isset($data['status'])) {
-            $query->whereIn('status', json_decode($data['status']));
-            if (count(json_decode($data['status'])) == 1 && json_decode($data['status'])[0] == 'published') {
+            $query->where('status', $data['status']);
+            if ($data['status'] == 'published') {
                 $query->whereDate('start_date', '<=', date('Y-m-d'))->whereDate('end_date', '>=', date('Y-m-d'));
             }
         }

@@ -10,7 +10,8 @@
 <div class="container-fluid" style="margin-top: 130px;">
     <h3>Weekly Therapy Schedule</h3>
     @php
-        $status = @json_decode(request('event')['status'])[0] ?? 'published';
+        // $status = @json_decode(request('event')['status'])[0] ?? 'published';
+        $status = request('status') ?? 'published';
     @endphp
     <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between my-3">
         <div class="filters d-flex flex-wrap  gap-3">
@@ -20,7 +21,7 @@
             {{-- <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#draft">Draft</span> --}}
             <a href="/schedule-history" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">History</a>
             <button id="editEvents" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Edit</button>
-            <a href="{{ route('schedule.create') }}" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Create New</a>
+            <a href="{{ route('schedule.create') }}?status=draft" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Create New</a>
             <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="appointmentSummary($('#kindergartenFilter').val());">Appointment Summary</span>
         </div>
     </div>
@@ -37,7 +38,8 @@
         const status = ["{{$status}}"];
         $(document).on('click', '#editEvents', function() {
             var kindergartenId = getQueryParam('kindergarten_id');
-            var url = "{{ route('schedule.create') }}?edit=true&kindergarten_id="+kindergartenId;
+            var status = getQueryParam('status');
+            var url = "{{ route('schedule.create') }}?edit=true&kindergarten_id="+kindergartenId+"&status="+status;
             window.location.href = url;
         });
     </script>
