@@ -182,7 +182,7 @@ class ScheduleController extends Controller
         $checkSlot = TherapySchedule::where('day', $request['day'])
             ->where('start_time', '>=', $request['startTime'])
             ->where('end_time', '<=', $request['endTime'])
-            ->whereIn('status', json_decode($request->status));
+            ->where('status', $request->status);
         switch ($request->type) {
             case 'therapist':
                 $checkSlot = $checkSlot->where('therapist_id', $request['id']);
