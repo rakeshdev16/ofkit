@@ -7,7 +7,7 @@
         <option value="{{ $value }}" {{ (request('kindergarten_id') ?? '') == $value ? 'selected' : '' }}>{{ $kindergarten->name }}</option>
     @endforeach
 </select>
-@if (Route::currentRouteName() == 'therapy-schedule.index')
+@if (Route::currentRouteName() == 'schedule.index')
     <select id="childrenFilter" onchange="filterCalendar({ 'children_id': this.value })" class="form-select rounded-pill px-5 w-auto"></select>
     <select id="staffFilter" onchange="filterCalendar({ 'user_id': this.value })" class="form-select rounded-pill px-5 w-auto"></select>
     <select onchange="filterCalendar({ 'status': JSON.stringify([this.value]) })" class="form-select rounded-pill px-5 w-auto">

@@ -36,7 +36,9 @@
                                         <div class="card-body">
                                             <ul class="list-group list-group-flush child-menu">
                                                 <li class="list-group-item text-center">
-                                                    <h6 class="mb-0">{{ __('children.weeklyTherapySchedule') }}</h6>
+                                                    <h6 class="mb-0">
+                                                        <a href="{{ route('children-schedule.index', $children->id) }}">{{ __('children.weeklyTherapySchedule') }}</a>
+                                                    </h6>
                                                 </li>
                                                 <li class="list-group-item text-center">
                                                     <h6 class="mb-0">

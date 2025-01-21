@@ -14,7 +14,6 @@
     });
 
     function editEvent(data) {
-        console.log("data", data);
         Object.keys(eventData).forEach(key => delete eventData[key]);
         eventData.id = data.id;
         eventData.resource = data.resource;
@@ -51,7 +50,7 @@
             cancelButtonText: cancelButtonText
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch("{{ route('therapy-schedule.delete') }}", {
+                fetch("{{ route('schedule.delete') }}", {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': "{{ csrf_token() }}",
@@ -76,9 +75,9 @@
     }
 
     function filterCalendar(params = {}) {
-        var url = "{{ route('therapy-schedule.calendar') }}?"+queryParam(params);
+        var url = "{{ route('schedule.calendar') }}?"+queryParam(params);
         fetch(url).then((response) => response.json()).then((data) => {
-            if ("{{ Route::currentRouteName() }}" == 'therapy-schedule.index') {
+            if ("{{ Route::currentRouteName() }}" == 'schedule.index') {
                 $('#childrenFilter').html('<option value="">Select Children</option>')
                     .append(data.childrens.map((item) =>
                         `<option ${data.childrenId == item.key ? 'selected' : ''} value="${item.key}">${item.value}</option>`
@@ -93,11 +92,10 @@
             $(window).scrollTop(scrollingPosition);
             // $('.page-loader').fadeOut('slow');
             setTimeout(() => {
-                $('.calendar_default_scroll  > div > div:nth-of-type(2)').css("height", "1215px");
+                // $('.calendar_default_scroll  > div > div:nth-of-type(2)').css("height", "1215px");
                 const buttonRight = document.getElementById('slideRight');
                 const buttonLeft = document.getElementById('slideLeft');
                 const targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0];
-                container = targetElement;
                 $(window).keyup(function (e) {
                     var key = e.which;
                     if(key == 13 || key == 39) {
@@ -284,7 +282,7 @@
         $('#appointmentFormDiv').html('');
         eventData.kindergarten_id = $('#kindergartenFilter').val();
 
-        fetch("{{ route('therapy-schedule.filter-form-data') }}", {
+        fetch("{{ route('schedule.filter-form-data') }}", {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}",
@@ -319,8 +317,9 @@
         timeSlotData['startTime'] = $('#startTime').val();
         timeSlotData['endTime'] = $('#endTime').val();
         timeSlotData['frequencyRepeat'] = $('#appointmentFrequency').val();
+        timeSlotData['day'] = $('#day').val();
         timeSlotData['status'] = getQueryParam('status');
-        fetch("{{ route('therapy-schedule.time-slot') }}", {
+        fetch("{{ route('schedule.time-slot') }}", {
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}",
                 'Content-Type': 'application/json',
@@ -365,9 +364,8 @@
     }
     
     function appointmentSummary(kindergartenId) {
-        const url = "{{ route('therapy-schedule.hour-summary') }}?kindergarten_id="+kindergartenId;
+        const url = "{{ route('schedule.hour-summary') }}?kindergarten_id="+kindergartenId;
         fetch(url).then((response) => response.json()).then((data) => {
-            console.log(data);
             $('#childrenSummary').html(data.childrenSummary);
             $('#staffHours').html(data.staffSummary);
             $('#scoreSummary').modal('toggle');

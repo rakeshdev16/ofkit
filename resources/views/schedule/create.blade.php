@@ -77,7 +77,6 @@
             @include('components.schedule-filter', ['kindergartens' => $kindergartens])
         </div>
         <div class="d-flex flex-wrap gap-3">
-            {{-- <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" data-bs-toggle="modal" data-bs-target="#">Export as PDf</button> --}}
             {{-- <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer capture" onclick="exportData();">Export</button> --}}
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="deleteEvent({{ $createdEventIds }})">Delete All</button>
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer updateEventStatus" data-status="published">Publish</button>
@@ -124,43 +123,6 @@
                 "Please choose at least two children!"
             );
         });
-
-        // function adjustZoomToFit(div, section, callback) {
-        //     const maxZoomOut = 0.5; // Minimum zoom level (50%)
-        //     const step = 0.01; // Step size for zoom adjustment
-        //     let zoomLevel = 1.0; // Default zoom level (100%)
-        //     const html = document.documentElement;
-        //     console.log("scrollWidth", div.scrollWidth);
-        //     console.log("clientWidth", div.clientWidth);
-        //     while (zoomLevel > maxZoomOut) {
-        //         section.style.zoom = zoomLevel;
-        //         if (div.scrollWidth === div.clientWidth) {
-        //             break;
-        //         }
-        //         zoomLevel -= step;
-        //     }
-
-        //     console.log("Final zoom level:", zoomLevel);
-        //     if (callback) callback();
-        // }
-
-        // const exportData = async () => {
-        //     let region = document.querySelector("#scheduleCalendar"); // whole screen
-        //     adjustZoomToFit(container, region, function() {
-        //         setTimeout(() => {
-        //             html2canvas(region, {
-        //                 scrollX: 0,
-        //                 scrollY: 0,
-        //                 onrendered: function(canvas) {
-        //                     let pngUrl = canvas.toDataURL();
-        //                     let img = document.querySelector(".screen");
-        //                     img.src = pngUrl;
-        //                 },
-        //             });
-        //         }, 2000);
-        //     });
-            
-        // }
 
         $(document).on('click', '#cancelEventModalBtn', function() {
             Swal.fire({
@@ -261,7 +223,7 @@
                 var formData = new FormData(form);
                 formData.append('kindergarten_id', kindergartenId);
                 $('#createEventModalBtn').html('Processing');
-                fetch("{{ route('therapy-schedule.store') }}", {
+                fetch("{{ route('schedule.store') }}", {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -288,9 +250,7 @@
                             window.dp.events.add(item);
                             
                             let currentIds = hiddenInput.val() ? JSON.parse(hiddenInput.val()) : [];
-                            console.log("currentIds", currentIds);
                             currentIds = [...new Set([...currentIds, item.uniqueId])];
-                            console.log("newcurrentIds", currentIds);
                             hiddenInput.val(JSON.stringify(currentIds));
                         });
                         dp.clearSelection();
@@ -331,7 +291,7 @@
                 var formData = new FormData(form);
                 $('#publishEventFormBtn').html('Processing');
 
-                fetch("{{ route('therapy-schedule.update') }}", {
+                fetch("{{ route('schedule.update') }}", {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': "{{ csrf_token() }}"
