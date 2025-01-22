@@ -43,7 +43,7 @@
             window.location.href = url;
         });
     </script>
-    @include('components.calendar-js', ['type' => 'create', 'filterRoute' => route('schedule.calendar')]);
+    @include('components.calendar-js', ['type' => 'view', 'filterRoute' => route('schedule.calendar')]);
     @include('schedule.script');
     <script src="{{ asset('assets/js/daypilot/helpers/v2/app.js')}}"></script>
 @endpush

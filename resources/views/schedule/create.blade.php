@@ -240,6 +240,8 @@
                 var kindergartenId = getQueryParam('kindergarten_id');
                 var formData = new FormData(form);
                 formData.append('kindergarten_id', kindergartenId);
+                formData.append('edit', getQueryParam('edit'));
+                formData.append('status', getQueryParam('status'));
                 $('#createEventModalBtn').html('Processing');
                 fetch("{{ route('schedule.store') }}", {
                     method: 'POST',

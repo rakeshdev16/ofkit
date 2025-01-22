@@ -75,11 +75,19 @@ class ScheduleController extends Controller
                     $request['color'] = json_encode(["background-color:rgb(250, 5, 176);", "color: #0a0100;"]);
                 }
             }
+            if (isset($request->edit) && $request->edit == true) {
+                $date = TherapySchedule::select('start_date', 'end_date')->whereDate('start_date', '<=', date('Y-m-d'))->whereDate('end_date', '>=', date('Y-m-d'))->first();
+                $request['status'] = 'published';
+                $request['start_date'] = $date->start_date;
+                $request['end_date'] = $date->end_date;
+            } else {
+                unset($request['status']);
+            }
             $status = json_decode($request->status);
             $request['unique_id'] = $request->unique_id ? $request->unique_id : Str::uuid();
             foreach ($request->therapist_ids as $key => $therapistId) {
                 $request['therapist_id'] = $therapistId;
-                $event = TherapySchedule::updateOrCreate(['therapist_id' => $therapistId, 'unique_id' => $request->unique_id], $request->except('status', 'mode'));
+                $event = TherapySchedule::updateOrCreate(['therapist_id' => $therapistId, 'unique_id' => $request->unique_id], $request->except('mode'));
                 $event->childrens()->delete();
                 if (isset($request->children_ids) && count($request->children_ids) > 0) {
                     foreach ($request->children_ids as $childrenId) {
@@ -232,10 +240,10 @@ class ScheduleController extends Controller
         $childrenSummary = '';
 
         foreach ($childrens as $children) {
-            $tabamScheduls = TherapySchedule::whereIn('therapist_id', array_unique($tabamTherapistIds))->whereHas('childrens', function ($query) use ($children) {
+            $tabamScheduls = TherapySchedule::filter(['status' => 'published'])->whereIn('therapist_id', array_unique($tabamTherapistIds))->whereHas('childrens', function ($query) use ($children) {
                     $query->where('children_id', $children['id']);
                 })->get();
-            $matiaScheduls = TherapySchedule::whereIn('therapist_id', array_unique($matiaTherapistIds))->whereHas('childrens', function ($query) use ($children) {
+            $matiaScheduls = TherapySchedule::filter(['status' => 'published'])->whereIn('therapist_id', array_unique($matiaTherapistIds))->whereHas('childrens', function ($query) use ($children) {
                     $query->where('children_id', $children['id']);
                 })->get();
             $summary = [
@@ -256,7 +264,7 @@ class ScheduleController extends Controller
                     $query->where('kindergarten_id', $request->kindergarten_id);
                 })->get();
         foreach ($users as $user) {
-            $staffScheduls = TherapySchedule::where('therapist_id', $user->id)->get();
+            $staffScheduls = TherapySchedule::filter(['status' => 'published'])->where('therapist_id', $user->id)->get();
             $summary = [
                 'individual' => $staffScheduls->where('type', 'individual')->count(),
                 'group' => $staffScheduls->where('type', 'group')->count(),
@@ -295,7 +303,6 @@ class ScheduleController extends Controller
 
         return Excel::download(new CalendarExport($days, $timeSlots, $daySchedules), 'Calendar_Export.xlsx');
     }
-
 
     public function scheduleResponse($schedules)
     {

@@ -92,16 +92,16 @@
                         const nameParts = fullName.trim().split(" ");
                         const firstName = nameParts[0];
                         const lastNameInitial = nameParts.length > 1 ? nameParts[1][0]+'.' : "";
-                        return `${firstName} ${lastNameInitial}`;
+                        return `${lastNameInitial} ${firstName}`;
                     }).join(", ");
                 }
                 let cellTitle = args.data.type.split('-').map((item, index) => item[0].toUpperCase()+''+item.slice(1) ).join(' ');
                 switch (args.data.type) {
                     case 'staff-meeting':
-                        title = 'Staff Meeting: ' + eventName(args.data.twoChildrenNames);
+                        title = eventName(args.data.twoChildrenNames)+' :Staff Meeting';
                         break;
                     case 'group':
-                        title = args.data.groupName + ': ' + eventName(args.data.twoChildrenNames);
+                        title = eventName(args.data.twoChildrenNames)+ ': '+args.data.groupName;
                         break;
                     case 'individual':
                         title = `<p style="font-size: 16px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>`;
