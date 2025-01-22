@@ -479,6 +479,7 @@ class ChildrenController extends Controller
     public function individual(array $data, $id)
     {
         $rules = [
+            'therapist_id' => 'required',
             'date' => 'required',
             'occured' => 'required',
             'occured_description' => 'required_if:occured,==,1',
@@ -492,6 +493,7 @@ class ChildrenController extends Controller
 
         $messages = [
             'date.required' => __('children.requiredDate'),
+            'therapist_id.required' => __('children.requiredTherapist'),
             'occured.required' => __('children.requiredOccured'),
             'end_time.required_with' => __('children.requiredEndTime'),
             'occured_description.required_if' => __('children.requiredOccuredDescription'),
@@ -520,6 +522,7 @@ class ChildrenController extends Controller
     {
         $rules = [
             'date' => 'required',
+            'therapist_id' => 'required',
             'occured' => 'required',
             'group_name' => 'required_if:occured,==,0',
             'occured_description' => 'required_if:occured,==,1',
@@ -538,6 +541,7 @@ class ChildrenController extends Controller
 
         $messages = [
             'date.required' => __('children.requiredDate'),
+            'therapist_id.required' => __('children.requiredTherapist'),
             'occured.required' => __('children.requiredOccured'),
             'end_time.required_with' => __('children.requiredEndTime'),
             'group_name.required_if' => __('children.requiredGroupName'),
@@ -599,6 +603,7 @@ class ChildrenController extends Controller
     {
         $rules = [
             'date' => 'required',
+            'therapist_id' => 'required',
             'occured' => 'required',
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
@@ -611,6 +616,7 @@ class ChildrenController extends Controller
 
         $messages = [
             'date.required' => __('children.requiredDate'),
+            'therapist_id.required' => __('children.requiredTherapist'),
             'occured.required' => __('children.requiredOccured'),
             'end_time.required_with' => __('children.requiredEndTime'),
             'occured_description.required_if' => __('children.occuredDescription'),
@@ -647,6 +653,7 @@ class ChildrenController extends Controller
     {
         $rules = [
             'date' => 'required',
+            'therapist_id' => 'required',
             'occured' => 'required',
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
@@ -667,6 +674,7 @@ class ChildrenController extends Controller
 
         $messages = [
             'date.required' => __('children.requiredDate'),
+            'therapist_id.required' => __('children.requiredTherapist'),
             'occured.required' => __('children.requiredOccured'),
             'end_time.required_with' => __('children.requiredEndTime'),
             'therapist_ids.required_if' => __('children.requiredTherapistIds'),
@@ -732,6 +740,7 @@ class ChildrenController extends Controller
     {
         $rules = [
             'date' => 'required',
+            'therapist_id' => 'required',
             'occured' => 'required',
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
@@ -746,6 +755,7 @@ class ChildrenController extends Controller
         }
 
         $messages = [
+            'therapist_id.required' => __('children.requiredTherapist'),
             'occured_description.required_if' => __('children.requiredOccuredDescription'),
             'occured_reason.required_if' => __('children.requiredOccuredReason'),
         ];
@@ -769,6 +779,7 @@ class ChildrenController extends Controller
     {
         $rules = [
             'date' => 'required',
+            'therapist_id' => 'required',
             'occured' => 'required',
             'occured_description' => 'required_if:occured,==,1',
             'occured_reason' => "required_if:occured,==,0",
@@ -781,6 +792,7 @@ class ChildrenController extends Controller
 
         $messages = [
             'date.required' => __('children.requiredDate'),
+            'therapist_id.required' => __('children.requiredTherapist'),
             'occured_description.required_if' => __('children.requiredOccuredDescription'),
             'occured_reason.required_if' => __('children.requiredOccuredReason'),
         ];

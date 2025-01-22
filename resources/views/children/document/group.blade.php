@@ -76,6 +76,11 @@
                                                                 // 'value' => old('therapist_id') ? old('therapist_id') : @$therapist,
                                                                 'value' => old('therapist_id', $therapist ?? []),
                                                             ])
+                                                            @error('therapist_id')
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{$message}}</strong>
+                                                                </span>
+                                                            @enderror
                                                         </div>
                                                     @else
                                                         <div class="col-md-6">

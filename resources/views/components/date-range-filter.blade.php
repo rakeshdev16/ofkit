@@ -59,9 +59,8 @@
     <script>
         $(".filter-date-dropdown li a").click(function(){
             $("#filter-date-dropdown-text").text($(this).text());
-        });
-        $(".filter-date-dropdown li a").click(function(){
-            $("#filter-date-dropdown-text").text($(this).text());
+            $('#startDate').val('');
+            $('#endDate').val('');
         });
         $(".custom-date-range").click(function(){
             let start = $('#startDate').val();
@@ -70,6 +69,8 @@
         });
         $("#clearFilters").click(function(){
             $("#filter-date-dropdown-text").text('Select Date');
+            $('#startDate').val('');
+            $('#endDate').val('');
             var url = queryParam('dateType', '');
             url = queryParam('date', '', url);
             filter(url);
