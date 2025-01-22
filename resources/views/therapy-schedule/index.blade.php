@@ -8,15 +8,15 @@
 @section('section')
 
 <div class="container-fluid" style="margin-top: 140px;">
-    <div class="filters d-flex flex-wrap  gap-3">
-        <select id="kindergartenFilter" onchange="filterCalendar({ 'kindergarten_id': this.value })" class="form-select rounded-pill px-5 my-2 w-auto">
-            @foreach ($kindergartens as $kindergarten)
-                @php
-                    $value = $kindergarten->id;
-                @endphp
-                <option value="{{ $value }}" {{ (request('kindergarten_id') ?? '') == $value ? 'selected' : '' }}>{{ $kindergarten->name }}</option>
-            @endforeach
-        </select>
+    <div class="filters d-flex flex-wrap  gap-3 my-2">
+         @include('components.select-input', [
+            'name' => '',
+            'id' => 'kindergartenFilter',
+            'icon' => 'buildings',
+            'value' => request('kindergarten_id'),
+            'onchange' => "filterCalendar({ 'kindergarten_id': this.value })",
+            'options' => $kindergartens,
+        ])
     </div>
     <div class="card">
         <div class="row">
@@ -45,8 +45,10 @@
 @endsection
 @push('customScript')
     <script type="text/javascript">
-        
+        $(document).ready(function () {
+            filterCalendar({ 'kindergarten_id': $('#kindergartenFilter').val() });
+        });
     </script>
-    @include('therapy-schedule.calendar-js', ['type' => 'view']);
+    @include('components.calendar-js', ['type' => 'view', 'filterRoute' => route('therapy-schedule.calendar')]);
     <script src="{{ asset('assets/js/daypilot/helpers/v2/app.js')}}"></script>
 @endpush

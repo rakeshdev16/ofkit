@@ -634,6 +634,11 @@ button.accordion-button.accordion-screen.collapsed {
     padding: 10px;
 }
 
+/* .calendar_default_main {
+    background: none !important;
+    height: 500px !important;
+} */
+
 .calendar_default_main.calendar_default_direction_rtl>div>div>div:nth-child(2)>div:nth-child(2)>div>div:nth-last-child(-n+14)>.calendar_default_colheader>.calendar_default_colheader_inner {
     /* background: none !important; */
     /* color: #000 !important; */

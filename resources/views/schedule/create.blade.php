@@ -90,9 +90,6 @@
     <div class="mb-5" id="calender-view">
         <div id="scheduleCalendar"></div>
     </div>
-    <div class="container">
-    <img width="100%" class="screen">
-    </div>
     <input type="hidden" id="createdEventIds" value="{{ $createdEventIds }}">
 </div>
 
@@ -109,6 +106,26 @@
         let eventData = {};
         let timeSlotData = {};
         let container = '';
+
+        // $(window).on('scroll', function () {
+        //     var scrollTop = $(window).scrollTop(); // Current scroll position
+        //     console.log("scrollTop", scrollTop);
+
+        //     if (scrollTop >= 180) {
+        //         $('#calender-view').css({
+        //             position: 'fixed',
+        //             top: '100px', // Set to the header height or desired offset
+        //             zIndex: 1000, // Ensure it stays above other content
+        //             width: '100%', // Optional: Maintain layout
+        //         });
+        //     } else {
+        //         $('#calender-view').css({
+        //             position: 'static', // Reset to original flow
+        //         });
+        //     }
+        // });
+
+
         $(document).ready(function () {
             $.validator.addMethod(
                 "minChildren",
@@ -269,12 +286,11 @@
         
         $(document).on('click', '.updateEventStatus', function() {
             $('#createEventModalBtn').html('Processing').attr('disabled', true);
-            var ids = $('#createdEventIds').val();
+            var ids = $('#eventIds').val();
             if (ids == '' || ids == null) {
                 toastr.error('There are not any created event');
                 return true;
             }            
-            // $('#eventIds').val(ids);
             $('#eventDateModal').modal('toggle');
         });
 
@@ -333,6 +349,7 @@
         });
         
     </script>
-    @include('components.calendar-js', ['type' => 'create']);
+    @include('components.calendar-js', ['type' => 'create', 'filterRoute' => route('schedule.calendar')]);
+    @include('schedule.script');
     <script src="{{ asset('assets/js/daypilot/helpers/v2/app.js')}}"></script>
 @endpush

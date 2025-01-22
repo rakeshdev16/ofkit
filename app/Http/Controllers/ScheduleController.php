@@ -21,13 +21,13 @@ class ScheduleController extends Controller
 {
     public function index(Request $request)
     {
-        $kindergartens = Kindergarten::select('id', 'name')->get();
+        $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
         return view('schedule.index', compact('kindergartens'));
     }
 
     public function create()
     {
-        $kindergartens = Kindergarten::select('id', 'name')->get();
+        $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
         $createdEventIds = TherapySchedule::where('status', 'draft')->pluck('unique_id')->toArray();
         $createdEventIds = count($createdEventIds) > 0 ? json_encode($createdEventIds) : null;
         return view('schedule.create', compact('kindergartens', 'createdEventIds'));
@@ -148,8 +148,26 @@ class ScheduleController extends Controller
         $schedules = TherapySchedule::filter($filter)->orderBy('start_time')->get();
         $events = $this->scheduleResponse($schedules);
         $userIds = StaffKindergarten::where('kindergarten_id', $filter['kindergarten_id'])->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
-        $users = User::whereIn('id', $userIds)->select('id', 'name')->get()->toArray();
+        $users = User::whereIn('id', $userIds)->select('id as key', 'name as value')->get()->toArray();
         $childrens = Children::select('id as key', 'name as value')->where('kindergarten_id', $filter['kindergarten_id'])->orderBy('name')->get()->toArray();
+        $childrens = view('components.select-input', [
+            'name' => '',
+            'id' => 'childrenFilter',
+            'icon' => 'buildings',
+            'value' => @$filter['children_id'],
+            'onchange' => "filterCalendar({ 'children_id': this.value })",
+            'isSelectOption' => 'Select Children',
+            'options' => $childrens,
+        ])->render();
+        $users = view('components.select-input', [
+            'name' => '',
+            'id' => 'staffFilter',
+            'icon' => 'buildings',
+            'value' => @$filter['user_id'],
+            'onchange' => "filterCalendar({ 'user_id': this.value })",
+            'isSelectOption' => 'Select Staff',
+            'options' => $users,
+        ])->render();
 
         return response()->json([
             'calenderHeader' => $header,

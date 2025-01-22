@@ -21,7 +21,7 @@ class TherapyScheduleController extends Controller
     public function index(Request $request)
     {
         $therapist = Auth::user();
-        $kindergartens = Kindergarten::select('id', 'name')->get();
+        $kindergartens = Kindergarten::select('id as key', 'name as value')->get();
         return view('therapy-schedule.index', compact('therapist', 'kindergartens'));
     }
 

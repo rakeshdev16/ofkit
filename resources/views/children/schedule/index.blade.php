@@ -40,8 +40,10 @@
 @endsection
 @push('customScript')
     <script type="text/javascript">
-        
+        $(document).ready(function () {
+            filterCalendar();
+        });
     </script>
-    @include('children.schedule.calendar-js', ['type' => 'view']);
+    @include('components.calendar-js', ['type' => 'view', 'filterRoute' => route('children-schedule.calendar').'?children_id='.Request::segment(2)]);
     <script src="{{ asset('assets/js/daypilot/helpers/v2/app.js')}}"></script>
 @endpush

@@ -8,8 +8,11 @@
         class="form-control @error($name) is-invalid @enderror {{ @$class }}"
         {{ @$disabled }}
         {{ @$required }}
+        onchange="{{ @$onchange }}"
     >
-        {{-- <option value="" selected>{{ __('comon.select') }}</option> --}}
+        @if (isset($isSelectOption))
+            <option value="" selected>{{ @$isSelectOption }}</option>
+        @endif
         @foreach (collect($options)->sortBy('value') as $option)
             <option
                 {{ (old($name) ?? @$value) == $option['key'] ? 'selected' : '' }}

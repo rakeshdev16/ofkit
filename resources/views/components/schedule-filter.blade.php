@@ -1,17 +1,21 @@
 
-<select id="kindergartenFilter" onchange="filterCalendar({ 'kindergarten_id': this.value })" class="form-select rounded-pill px-5 w-auto">
-    @foreach ($kindergartens as $kindergarten)
-        @php
-            $value = $kindergarten->id;
-        @endphp
-        <option value="{{ $value }}" {{ (request('kindergarten_id') ?? '') == $value ? 'selected' : '' }}>{{ $kindergarten->name }}</option>
-    @endforeach
-</select>
+@include('components.select-input', [
+    'name' => '',
+    'id' => 'kindergartenFilter',
+    'icon' => 'buildings',
+    'value' => request('kindergarten_id'),
+    'onchange' => "filterCalendar({ 'kindergarten_id': this.value })",
+    'options' => $kindergartens,
+])
 @if (Route::currentRouteName() == 'schedule.index')
-    <select id="childrenFilter" onchange="filterCalendar({ 'children_id': this.value })" class="form-select rounded-pill px-5 w-auto"></select>
-    <select id="staffFilter" onchange="filterCalendar({ 'user_id': this.value })" class="form-select rounded-pill px-5 w-auto"></select>
-    <select onchange="filterCalendar({ 'status': this.value })" class="form-select rounded-pill px-5 w-auto">
-        <option value="published" {{ ($status ?? '') == 'published' ? 'selected' : '' }}>Published</option>
-        <option value="draft" {{ ($status ?? '') == 'draft' ? 'selected' : '' }}>Saved as Draft</option>
-    </select>
+    <div id="childrenFilter"></div>
+    <div id="staffFilter"></div>
+    @include('components.select-input', [
+        'name' => '',
+        'id' => 'childrenFilter',
+        'icon' => 'buildings',
+        'value' => request('status'),
+        'onchange' => "filterCalendar({ 'status': this.value })",
+        'options' => [['key' => 'published', 'value' => 'Published'], ['key' => 'draft', 'value' => 'Saved as Draft']],
+    ])
 @endif
