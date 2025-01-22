@@ -3,7 +3,7 @@
     $(document).ready(function () {
         var kindergartenId = $('#kindergartenFilter').val();
         var params = {
-            'status': JSON.stringify(status),
+            'status': status,
             'kindergarten_id': kindergartenId,
         };
         $('.page-loader').fadeOut('slow');
