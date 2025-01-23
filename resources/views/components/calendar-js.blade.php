@@ -37,7 +37,7 @@
             viewType: "Resources",
             columnWidthSpec: "Fixed",
             headerLevels: "Auto",
-            headerLevelHeights: [ 40, 60 ],
+            headerLevelHeights: [ 40, 70 ],
             heightSpec: "BusinessHoursNoScroll",
             height: 500,
             columnWidth: 100,
