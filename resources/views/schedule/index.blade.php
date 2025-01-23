@@ -35,11 +35,12 @@
 @endsection
 @push('customScript')
     <script type="text/javascript">
-        const status = ["{{$status}}"];
+        const status = "published";
+        const scheduleId = "{{ @$schedule->id }}";
         $(document).on('click', '#editEvents', function() {
             var kindergartenId = getQueryParam('kindergarten_id');
             var status = getQueryParam('status');
-            var url = "{{ route('schedule.create') }}?edit=true&kindergarten_id="+kindergartenId+"&status="+status;
+            var url = "{{ route('schedule.create') }}?schedule_id="+scheduleId+"&kindergarten_id="+kindergartenId+"&status="+status;
             window.location.href = url;
         });
     </script>

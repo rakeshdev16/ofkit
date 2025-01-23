@@ -79,7 +79,9 @@
         <div class="d-flex flex-wrap gap-3">
             {{-- <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer capture" onclick="exportData();">Export</button> --}}
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="deleteEvent({{ $createdEventIds }})">Delete All</button>
-            <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer updateEventStatus" data-status="published">Publish</button>
+            @if (!request('schedule_id'))
+                <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer updateEventStatus" data-status="published">Publish</button>
+            @endif
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="newAppointment">New Appointment</button>
             <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="appointmentSummary($('#kindergartenFilter').val());">Appointment Summary</span>
         </div>
@@ -106,25 +108,6 @@
         let eventData = {};
         let timeSlotData = {};
         let container = '';
-
-        // $(window).on('scroll', function () {
-        //     var scrollTop = $(window).scrollTop(); // Current scroll position
-        //     console.log("scrollTop", scrollTop);
-
-        //     if (scrollTop >= 180) {
-        //         $('#calender-view').css({
-        //             position: 'fixed',
-        //             top: '100px', // Set to the header height or desired offset
-        //             zIndex: 1000, // Ensure it stays above other content
-        //             width: '100%', // Optional: Maintain layout
-        //         });
-        //     } else {
-        //         $('#calender-view').css({
-        //             position: 'static', // Reset to original flow
-        //         });
-        //     }
-        // });
-
 
         $(document).ready(function () {
             $.validator.addMethod(
@@ -240,8 +223,8 @@
                 var kindergartenId = getQueryParam('kindergarten_id');
                 var formData = new FormData(form);
                 formData.append('kindergarten_id', kindergartenId);
+                formData.append('schedule_id', getQueryParam('schedule_id'));
                 formData.append('edit', getQueryParam('edit'));
-                formData.append('status', getQueryParam('status'));
                 $('#createEventModalBtn').html('Processing');
                 fetch("{{ route('schedule.store') }}", {
                     method: 'POST',

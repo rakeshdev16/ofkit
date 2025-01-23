@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Children;
 use App\Models\StaffSchedule;
 use App\Models\TherapySchedule;
-use App\Models\ScheduleEvent;
 use App\Models\User;
-use App\Models\Schedule;
 use App\Models\Kindergarten;
 use App\Models\StaffKindergarten;
 use App\Models\TherapyScheduleChildren;
@@ -24,8 +22,7 @@ class ScheduleController extends Controller
     public function index(Request $request)
     {
         $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
-        $schedule = Schedule::where('status', 'published')->first();
-        return view('schedule.index', compact('kindergartens', 'schedule'));
+        return view('schedule.index', compact('kindergartens'));
     }
 
     public function create()
@@ -47,20 +44,50 @@ class ScheduleController extends Controller
                 $request['file'] = $request->old_image;
             }
 
-            if ($request->schedule_id == 'null') {
-                $schedule = Schedule::firstOrCreate(['status' => 'draft']);
-            } else {
-                $schedule = Schedule::where('id', $request->schedule_id)->first();
+            $deletedIds = '';
+            if (($request->type == 'group' || $request->type == 'staff-meeting') && !empty($request->unique_id)) {
+                $scheduleTherapistIds = TherapySchedule::where('unique_id', $request->unique_id)->pluck('therapist_id')->toArray();
+                $therapistGoingToBeDelete = array_diff($scheduleTherapistIds, $request->therapist_ids ?? []);
+                 if (!empty($therapistGoingToBeDelete)) {
+                    $deletedIds = TherapySchedule::whereIn('therapist_id', $therapistGoingToBeDelete)->where('unique_id', $request->unique_id)->pluck('id')->toArray();
+                    TherapySchedule::whereIn('therapist_id', $therapistGoingToBeDelete)->where('unique_id', $request->unique_id)->delete();
+                }
             }
-
-            $deletedIds = $schedule->events()->removeUnselectedUser($request->all());
+            if (in_array($request->type, ['individual', 'parental-guidance', 'documentation-break', 'preparation', 'tutorial', 'other']) && !empty($request->unique_id)) {
+                $deletedIds = TherapySchedule::whereNotIn('therapist_id', $request->therapist_ids)->where('unique_id', $request->unique_id)->pluck('id')->toArray();
+                TherapySchedule::whereNotIn('therapist_id', $request->therapist_ids)->where('unique_id', $request->unique_id)->delete();
+            }
+            if (empty($request->unique_id)) {
+                if ($request->type === 'staff-meeting') {
+                    $request['color'] = json_encode(["background-color: #095F59;", "color: #fff;"]);
+                } elseif (isset($request->children_ids)) {
+                    $request['color'] = json_encode(Children::where('id', $request->children_ids[0] ?? null)->pluck('color')->first());
+                } elseif (in_array($request->type, ['documentation-break', 'preparation', 'tutorial', 'other'])) {
+                    $colors = [
+                        'documentation-break' => json_encode(["background-color: #8a8584;", "color: #0a0100;"]),
+                        'preparation' => json_encode(["background-color: #c20c06;", "color: #fcfcfc;"]),
+                        'tutorial' => json_encode(["background-color: #f2fa05;", "color: #0a0100;"]),
+                        'other' => json_encode(["background-color: #05fa94;", "color: #0a0100;"]),
+                        'no-child' => json_encode(["background-color:rgb(250, 5, 176);", "color: #0a0100;"]),
+                    ];
+                    $request['color'] = $colors[$request->type];
+                } else {
+                    $request['color'] = json_encode(["background-color:rgb(250, 5, 176);", "color: #0a0100;"]);
+                }
+            }
+            if (isset($request->edit) && $request->edit == true) {
+                $date = TherapySchedule::select('start_date', 'end_date')->whereDate('start_date', '<=', date('Y-m-d'))->whereDate('end_date', '>=', date('Y-m-d'))->first();
+                $request['status'] = 'published';
+                $request['start_date'] = $date->start_date;
+                $request['end_date'] = $date->end_date;
+            } else {
+                unset($request['status']);
+            }
+            $status = json_decode($request->status);
             $request['unique_id'] = $request->unique_id ? $request->unique_id : Str::uuid();
             foreach ($request->therapist_ids as $key => $therapistId) {
                 $request['therapist_id'] = $therapistId;
-                $event = $schedule->events()->updateOrCreate(
-                    ['therapist_id' => $therapistId, 'unique_id' => $request->unique_id],
-                    $request->except('mode', 'schedule_id')
-                );
+                $event = TherapySchedule::updateOrCreate(['therapist_id' => $therapistId, 'unique_id' => $request->unique_id], $request->except('mode'));
                 $event->childrens()->delete();
                 if (isset($request->children_ids) && count($request->children_ids) > 0) {
                     foreach ($request->children_ids as $childrenId) {
@@ -68,7 +95,7 @@ class ScheduleController extends Controller
                     }
                 }
             }
-            $schedules = $schedule->events()->where('unique_id', $request->unique_id)->get();
+            $schedules = TherapySchedule::where('unique_id', $request->unique_id)->get();
             $event = $this->scheduleResponse($schedules);
             DB::commit();
             return response()->json(['status' => true, 'message' => 'Event detail has been successfully saved as draft!', 'event' => $event, 'deletedIds' => $deletedIds]);
@@ -81,11 +108,10 @@ class ScheduleController extends Controller
 
     public function update(Request $request)
     {
-        $schedule = Schedule::where('status', 'draft');
-        if ($schedule->exists() && $schedule->update([
+        if (TherapySchedule::whereIn('unique_id', json_decode($request->ids))->update([
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-            'status' => 'published',
+            'status' => $request->status,
         ])) {
             return response()->json(['status' => true, 'message' => 'Event detail has been successfully published!']);
         }
@@ -94,8 +120,8 @@ class ScheduleController extends Controller
     
     public function delete(Request $request)
     {
-        $ids = ScheduleEvent::whereIn('unique_id', $request->ids)->pluck('id')->toArray();
-        if (ScheduleEvent::whereIn('unique_id', $request->ids)->delete()) {
+        $ids = TherapySchedule::whereIn('unique_id', $request->ids)->pluck('id')->toArray();
+        if (TherapySchedule::whereIn('unique_id', $request->ids)->delete()) {
             return response()->json(['status' => true, 'message' => 'Event detail has been successfully deleted!', 'ids' => $ids]);
         }
         return response()->json(['status' => false, 'message' => 'Something went wrong please try again!']);
@@ -127,8 +153,8 @@ class ScheduleController extends Controller
             ];
         }
 
-        $schedule = Schedule::filter($filter)->first();
-        $events = !empty($schedule) ? $this->scheduleResponse($schedule->events) : [];
+        $schedules = TherapySchedule::filter($filter)->orderBy('start_time')->get();
+        $events = $this->scheduleResponse($schedules);
         $userIds = StaffKindergarten::where('kindergarten_id', $filter['kindergarten_id'])->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
         $users = User::whereIn('id', $userIds)->select('id as key', 'name as value')->get()->toArray();
         $childrens = Children::select('id as key', 'name as value')->where('kindergarten_id', $filter['kindergarten_id'])->orderBy('name')->get()->toArray();
@@ -155,7 +181,9 @@ class ScheduleController extends Controller
             'calenderHeader' => $header,
             'calenderEvents' => $events,
             'childrens' => $childrens,
+            'childrenId' => @$filter['children_id'],
             'users' => $users,
+            'usersId' => @$filter['user_id'],
         ]);
     }
 
@@ -177,32 +205,30 @@ class ScheduleController extends Controller
 
     public function checkTimeSlot(Request $request)
     {
-        if (Schedule::where('status', $request->status)->exists()) {
-            $checkSlot = Schedule::where('status', $request->status)->first()->events()
-                ->where('day', $request['day'])
-                ->where('start_time', '>=', $request['startTime'])
-                ->where('end_time', '<=', $request['endTime']);
-            switch ($request->type) {
-                case 'therapist':
-                    $checkSlot = $checkSlot->where('therapist_id', $request['id']);
-                    if ($request['frequencyRepeat'] === 'Weekly') {
-                        $checkSlot = $checkSlot->where('frequency_repeat', 'Weekly')->exists();
-                    } else {
-                        $checkSlot = false;
-                    }
-                    break;
-                case 'children':
-                    $checkSlot = $checkSlot->whereHas('childrens', function ($query) use ($request) {
-                        $query->where('children_id', $request['id']);
-                    })->exists();
+        $checkSlot = TherapySchedule::where('day', $request['day'])
+            ->where('start_time', '>=', $request['startTime'])
+            ->where('end_time', '<=', $request['endTime'])
+            ->where('status', $request->status);
+        switch ($request->type) {
+            case 'therapist':
+                $checkSlot = $checkSlot->where('therapist_id', $request['id']);
+                if ($request['frequencyRepeat'] === 'Weekly') {
+                    $checkSlot = $checkSlot->where('frequency_repeat', 'Weekly')->exists();
+                } else {
+                    $checkSlot = false;
+                }
                 break;
-            }
-
-            return response()->json([
-                'status' => $checkSlot,
-                'message' => $checkSlot ? 'This ' . $request->type . ' is already assigned to another on the same time' : ''
-            ]);
+            case 'children':
+                $checkSlot = $checkSlot->whereHas('childrens', function ($query) use ($request) {
+                    $query->where('children_id', $request['id']);
+                })->exists();
+            break;
         }
+
+        return response()->json([
+            'status' => $checkSlot,
+            'message' => $checkSlot ? 'This ' . $request->type . ' is already assigned to another on the same time' : ''
+        ]);
     }
 
     public function hourSummary(Request $request)
@@ -211,45 +237,43 @@ class ScheduleController extends Controller
         $matiaTherapistIds = $associations['Matia']->staffKindergarten->pluck('user_id')->toArray();
         $tabamTherapistIds = $associations['Tabam']->staffKindergarten->pluck('user_id')->toArray();
         $childrens = Children::select('id', 'name', 'kindergarten_id')->where('kindergarten_id', $request->kindergarten_id)->get()->toArray();
-        $schedule = Schedule::where('status', 'published')->first();
         $childrenSummary = '';
-        $staffSummary = '';
-        if ($schedule && $schedule->events() !== null) {
-            foreach ($childrens as $children) {
-                $tabamScheduls = $schedule->events()->whereIn('therapist_id', array_unique($tabamTherapistIds))->whereHas('childrens', function ($query) use ($children) {
-                        $query->where('children_id', $children['id']);
-                    })->get();
-                $matiaScheduls = $schedule->events()->whereIn('therapist_id', array_unique($matiaTherapistIds))->whereHas('childrens', function ($query) use ($children) {
-                        $query->where('children_id', $children['id']);
-                    })->get();
-                $summary = [
-                    'tabam' => [
-                        'individual' => $tabamScheduls->where('type', 'individual')->count(),
-                        'group' => $tabamScheduls->where('type', 'group')->count(),
-                    ],
-                    'matia' => [
-                        'individual' => $matiaScheduls->where('type', 'individual')->count(),
-                        'group' => $matiaScheduls->where('type', 'group')->count(),
-                    ]
-                ];
-                $childrenSummary .= view('components.children-hour-summary', ['children' => $children, 'summary' => $summary]);
-            }
 
-            $users = User::select('id', 'name')->whereHas('staffKindergartens', function ($query) use ($request) {
-                        $query->where('kindergarten_id', $request->kindergarten_id);
-                    })->get();
-            foreach ($users as $user) {
-                $staffScheduls = $schedule->events()->where('therapist_id', $user->id)->get();
-                $summary = [
-                    'individual' => $staffScheduls->where('type', 'individual')->count(),
-                    'group' => $staffScheduls->where('type', 'group')->count(),
-                    'staff-meeting' => $staffScheduls->where('type', 'staff-meeting')->count(),
-                    'tutorial' => $staffScheduls->where('type', 'tutorial')->count(),
-                    'preparation' => $staffScheduls->where('type', 'preparation')->count(),
-                    'other' => $staffScheduls->where('type', 'other')->count(),
-                ];
-                $staffSummary .= view('components.staff-hour-summary', ['user' => $user, 'summary' => $summary]);
-            }
+        foreach ($childrens as $children) {
+            $tabamScheduls = TherapySchedule::filter(['status' => 'published'])->whereIn('therapist_id', array_unique($tabamTherapistIds))->whereHas('childrens', function ($query) use ($children) {
+                    $query->where('children_id', $children['id']);
+                })->get();
+            $matiaScheduls = TherapySchedule::filter(['status' => 'published'])->whereIn('therapist_id', array_unique($matiaTherapistIds))->whereHas('childrens', function ($query) use ($children) {
+                    $query->where('children_id', $children['id']);
+                })->get();
+            $summary = [
+                'tabam' => [
+                    'individual' => $tabamScheduls->where('type', 'individual')->count(),
+                    'group' => $tabamScheduls->where('type', 'group')->count(),
+                ],
+                'matia' => [
+                    'individual' => $matiaScheduls->where('type', 'individual')->count(),
+                    'group' => $matiaScheduls->where('type', 'group')->count(),
+                ]
+            ];
+            $childrenSummary .= view('components.children-hour-summary', ['children' => $children, 'summary' => $summary]);
+        }
+
+        $staffSummary = '';
+        $users = User::select('id', 'name')->whereHas('staffKindergartens', function ($query) use ($request) {
+                    $query->where('kindergarten_id', $request->kindergarten_id);
+                })->get();
+        foreach ($users as $user) {
+            $staffScheduls = TherapySchedule::filter(['status' => 'published'])->where('therapist_id', $user->id)->get();
+            $summary = [
+                'individual' => $staffScheduls->where('type', 'individual')->count(),
+                'group' => $staffScheduls->where('type', 'group')->count(),
+                'staff-meeting' => $staffScheduls->where('type', 'staff-meeting')->count(),
+                'tutorial' => $staffScheduls->where('type', 'tutorial')->count(),
+                'preparation' => $staffScheduls->where('type', 'preparation')->count(),
+                'other' => $staffScheduls->where('type', 'other')->count(),
+            ];
+            $staffSummary .= view('components.staff-hour-summary', ['user' => $user, 'summary' => $summary]);
         }
 
         return response()->json([
@@ -303,7 +327,7 @@ class ScheduleController extends Controller
                 'type' => $schedule->type,
                 'groupName' => $schedule->group_name,
                 'frequencyRepeat' => $schedule->frequency_repeat,
-                'frequencyRepeatAt' => $schedule->frequency_repeat_at,
+                'frequencyRepeatAt' => $schedule->start,
                 'description' => $schedule->description,
                 'file' => $schedule->file,
                 'color' => $schedule->color,

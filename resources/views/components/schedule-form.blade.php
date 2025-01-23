@@ -39,7 +39,7 @@
     </select>
 </div>
 <div class="mb-3">
-    <select id="Monthly" name="start" class="form-control" style="display: {{ @$data['frequencyRepeat'] == 'Monthly' ? 'block' : 'none' }}">
+    <select id="Monthly" name="{{ @$data['frequencyRepeat'] == 'Monthly' ? 'frequency_repeat_at' : '' }}" class="form-control" style="display: {{ @$data['frequencyRepeat'] == 'Monthly' ? 'block' : 'none' }}">
         <option {{ @$data['frequencyRepeatAt'] == 'Week 1' ? 'selected' : '' }} value="Week 1">{{ __('schedule.monthly1') }}</option>
         <option {{ @$data['frequencyRepeatAt'] == 'Week 2' ? 'selected' : '' }} value="Week 2">{{ __('schedule.monthly2') }}</option>
         <option {{ @$data['frequencyRepeatAt'] == 'Week 3' ? 'selected' : '' }} value="Week 3">{{ __('schedule.monthly3') }}</option>
@@ -47,7 +47,7 @@
     </select>
 </div>
 <div class="mb-3">
-    <select id="Bi-weekly" name="start" class="form-control" style="display: {{ @$data['frequencyRepeat'] == 'Bi-weekly' ? 'block' : 'none' }}">
+    <select id="Bi-weekly" name="{{ @$data['frequencyRepeat'] == 'Bi-weekly' ? 'frequency_repeat_at' : '' }}" class="form-control" style="display: {{ @$data['frequencyRepeat'] == 'Bi-weekly' ? 'block' : 'none' }}">
         <option {{ @$data['frequencyRepeatAt'] == 'Week 1' ? 'selected' : '' }} value="Week 1">{{ __('schedule.biweekly1') }}</option>
         <option {{ @$data['frequencyRepeatAt'] == 'Week 2' ? 'selected' : '' }} value="Week 2">{{ __('schedule.biweekly2') }}</option>
     </select>
