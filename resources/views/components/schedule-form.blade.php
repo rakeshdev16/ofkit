@@ -58,7 +58,26 @@
     ])
 </div>
 <span class="therapists"></span>
-@if (in_array(@$data['type'], ['individual', 'group', 'parental-guidance', 'staff-meeting']))
+<div id="otherFields" style="display: {{ in_array(@$data['type'], ['individual', 'group', 'parental-guidance', 'staff-meeting']) ? 'block' : 'none' }}">
+    <div class="mb-3" id="groupName" style="display: {{ @$data['type'] == 'group' ? 'block' : 'none' }}">
+        <input type="text" name="group_name" id="appointmentGroupName" class="w-100 form-control border-1" placeholder="Group Name" value="{{ @$data['groupName'] }}">
+    </div>
+    <div class="mt-3">
+        @include('components.multi-select-input', [
+            'name' => "children_ids[]", 'class' => 'selectChildrens', 'id' => 'children', 'icon' => 'buildings', 'options' => @$data['childrens'], 'value' => @$data['childrenId']
+        ])
+    </div>
+    <span class="childrens mb-3"></span>
+    <div class="my-3">
+        <textarea class="form-control w-100" placeholder="Add Description" rows="5" name="description" id="description">{{ @$data['description'] }}</textarea>
+    </div>
+    <div class="mb-3">
+        <input type="file" id="eventFile" name="image" class="form-control">
+        <input type="hidden" id="eventOldFile" name="old_image" class="form-control">
+        <div class="event-file" style="display: none"></div>
+    </div>
+</div>
+{{-- @if (in_array(@$data['type'], ['individual', 'group', 'parental-guidance', 'staff-meeting']))
     @if (@$data['type'] == 'group')
         <div class="mb-3">
             <input type="text" name="group_name" id="appointmentGroupName" class="w-100 form-control border-1" placeholder="Group Name" value="{{ @$data['groupName'] }}">
@@ -78,7 +97,7 @@
         <input type="hidden" id="eventOldFile" name="old_image" class="form-control">
         <div class="event-file" style="display: none"></div>
     </div>
-@endif
+@endif --}}
 <input type="hidden" name="resource" id="resource" value="{{ @$data['resource'] }}">
 <input type="hidden" name="unique_id" id="uniqueId" value="{{ @$data['uniqueId'] }}">
 <input type="hidden" name="color" value="{{ @json_encode($data['color']) }}">

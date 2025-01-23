@@ -143,20 +143,39 @@
     function selectVisibility(type) {
         var isMultiple = (type === 'group' || type === 'staff-meeting');
         if (type === 'group') {
-            $('#appointmentGroupName').show();
+            $('#groupName').show();
         } else {
-            $('#appointmentGroupName').hide();
+            $('#groupName').hide();
         }
-        $('.selectChildrens, .selectTherapist').select2('destroy');
-        $('.selectChildrens, .selectTherapist').select2({
-            dropdownParent: $("#createEventModal"),
-            multiple: isMultiple
-        }).on('select2:open', function() {
-            // $('.select2-container--open').css('left', '719.5px');
 
-            // $('.select2-container').addClass('event-dropdown');
-            // $('.select2-dropdown').addClass('event-dropdown-class');
-            // $('.select2-results').addClass('custom-results-class');
+        if (['individual', 'group', 'parental-guidance', 'staff-meeting', ''].includes(type)) {
+            $('#otherFields').show();
+        } else {
+            $('#otherFields').hide();
+        }
+
+        $('.selectChildrens').select2({
+            dropdownParent: $("#createEventModal"),
+            placeholder: "Select Children",
+            allowClear: true,
+            maximumSelectionLength: !isMultiple ?? 1,
+            language: {
+                maximumSelected: function (args) {
+                    return "You can only select one children";
+                }
+            }
+        });
+
+        $('.selectTherapist').select2({
+            dropdownParent: $("#createEventModal"),
+            placeholder: "Select Therapist",
+            allowClear: true,
+            maximumSelectionLength: !isMultiple ?? 1,
+            language: {
+                maximumSelected: function (args) {
+                    return "You can only select one therapist";
+                }
+            }
         });
     }
     

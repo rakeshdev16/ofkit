@@ -47,6 +47,14 @@ class ScheduleEvent extends Model
             }
             $schedule->color = $color;
         });
+
+        static::updating(function ($schedule) {
+            if (in_array($schedule->type, ['documentation-break', 'preparation', 'tutorial', 'other'])) {
+                $schedule->group_name = NULL;
+                $schedule->description = NULL;
+                $schedule->file = NULL;
+            }
+        });
     }
 
     public function scopeRemoveUnselectedUser($query, $data)
