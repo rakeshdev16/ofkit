@@ -86,10 +86,14 @@
             },
             onBeforeEventRender: function(args) {
                 let title = '';
-                console.log("eventCount", args.data.eventCount);
-                console.log("therapistId", args.data.therapistId);
+                let startTime = new Date(args.data.start);
+                let endTime = new Date(args.data.end);
+                let timeDiff = ((endTime.getTime() - startTime.getTime()) / 1000)/60;
 
                 function eventName(fullNames) {
+                    if (args.data.eventCount > 2) {
+                        return '';
+                    }
                     return fullNames.split(", ").map(fullName => {
                         const nameParts = fullName.trim().split(" ");
                         const firstName = nameParts[0];
@@ -100,32 +104,49 @@
                 let cellTitle = args.data.type.split('-').map((item, index) => item[0].toUpperCase()+''+item.slice(1) ).join(' ');
                 switch (args.data.type) {
                     case 'staff-meeting':
-                        title = ' :Staff Meeting<br>'+eventName(args.data.twoChildrenNames);
+                        title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">: Staff Meeting<br>${eventName(args.data.twoChildrenNames)}</div>`;
                         break;
                     case 'group':
-                        title = ': '+args.data.groupName+'<br>'+eventName(args.data.twoChildrenNames);
+                        title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">: ${args.data.groupName}<br>${eventName(args.data.twoChildrenNames)}</div>`;
                         break;
                     case 'individual':
-                        title = `<p style="font-size: 16px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>`;
+                        title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">
+                                    <p style="font-size: 16px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>
+                                </div>`;
                         break;
                     case 'parental-guidance':
-                        title = `<p style="font-size: 16px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>`;
+                        title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">
+                                    <p style="font-size: 16px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>
+                                </div>`;
                         break;
                     default:
-                        title = cellTitle;
-                    break;
+                        title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">${cellTitle}</div>`;
+                        break;
                 }
+
                 function escapeJson(json) {
                     return JSON.stringify(json).replace(/'/g, '&#39;');
                 }
                 args.data.html = `
                 <div class="p-1 event-box d-flex flex-column justify-content-between" style="${args.data.color[0]}; ${args.data.color[1]}">
-                    <div class="d-flex justify-content-between">
-                        <span>${args.data.start.toString("HH:mm")}</span>
-                        <span><i class="fa fa-${args.data.icon}"></i></span>
-                    </div>
-                    <div class="text-center" style="font-size: 12px;">${title}</div>
-                    ${type === 'create' ? `
+                    ${args.data.eventCount >= 3 ? `
+                        <div class="position-absolute" style="text-align: left;">
+                            <span style="display: block; font-size: 14px;">
+                                <i class="fa fa-${args.data.icon}"></i>
+                            </span>
+                            <span style="display: block; font-size: 12px; margin-top: 4px;">
+                                ${args.data.start.toString("HH:mm")}
+                            </span>
+                        </div>
+                    ` : `
+                        <div class="d-flex justify-content-between">
+                            <span>${args.data.start.toString("HH:mm")}</span>
+                            <span><i class="fa fa-${args.data.icon}"></i></span>
+                        </div>
+                    `}
+
+                    <div class="d-flex align-items-center justify-content-center h-100" style="font-size: 12px; text-align: center;">${title}</div>
+                    ${type === 'create' && args.data.eventCount !== 3 && timeDiff != 30 ? `
                         <div class="d-flex justify-content-start mt-auto" style="position: relative; bottom: 0;">
                             <i class="fa fa-edit" onclick='editEvent(${escapeJson(args.data)})'></i>&nbsp;
                             <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])'></i>&nbsp;
