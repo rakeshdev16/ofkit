@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Children;
 use App\Models\TherapyScheduleChildren;
 use App\Models\TherapySchedule;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -36,9 +37,14 @@ class ChildrenScheduleController extends Controller
             ['name' => 'Saturday', 'id' => $filter['children_id'].'saturday'],
         ];
 
-        $scheduleIds = TherapyScheduleChildren::where('children_id', $filter['children_id'])->pluck('therapy_schedule_id')->toArray();
-        $schedules = TherapySchedule::whereIn('id', $scheduleIds)->where('status', 'published')->get();
-        $events = $this->scheduleResponse($schedules, $filter['children_id']);
+        $events = [];
+        $schedule = Schedule::where('status', 'published')->first();
+        if (!empty($schedule) && $schedule->events() !== null) {
+            $scheduleEvents = $schedule->events()->whereHas('childrens', function($query) use ($filter) {
+                $query->where('children_id', $filter['children_id']);
+            })->get();
+            $events = $this->scheduleResponse($scheduleEvents, $filter['children_id']);
+        }
 
         return response()->json([
             'calenderHeader' => $header,

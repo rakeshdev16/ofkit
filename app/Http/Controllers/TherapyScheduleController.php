@@ -6,6 +6,7 @@ use App\Models\Children;
 use App\Models\TherapyScheduleChildren;
 use App\Models\TherapySchedule;
 use App\Models\Kindergarten;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -38,8 +39,12 @@ class TherapyScheduleController extends Controller
             ['name' => 'Saturday', 'id' => Auth::id().'saturday'],
         ];
 
-        $schedules = TherapySchedule::filter($filter)->where(['therapist_id' => Auth::id(), 'status' => 'published'])->get();
-        $events = $this->scheduleResponse($schedules);
+        $events = [];
+        $schedule = Schedule::filter($filter)->where('status', 'published')->first();
+        if (!empty($schedule) && $schedule->events() !== null) {
+            $scheduleEvents = $schedule->events()->where('therapist_id', Auth::id())->get();
+            $events = $this->scheduleResponse($scheduleEvents);
+        }
 
         return response()->json([
             'calenderHeader' => $header,
