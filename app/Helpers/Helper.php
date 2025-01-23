@@ -146,7 +146,6 @@ function getDocGroupChildDetail($docId, $childId)
 function getCurrentLang()
 {
     return Setting::where('key', 'lang')->pluck('value')->first();
-    // return session('lang');
 }
 
 function description($desc, $length)
@@ -167,31 +166,17 @@ function description($desc, $length)
 
 function filterDate()
 {
-    // Get start and end date of last week in d/m/Y format
-    // $startOfLastWeek = Carbon::now()->subWeek()->startOfWeek()->format('d/m/Y');
-    // $endOfLastWeek = Carbon::now()->subWeek()->endOfWeek()->format('d/m/Y');
-    // $lastWeek = json_encode([$startOfLastWeek, $endOfLastWeek]);
-
-    $startOfLast7Days = Carbon::now()->subDays(6)->format('Y-m-d'); // 6 days before today (including today)
+    $startOfLast7Days = Carbon::now()->subDays(6)->format('Y-m-d');
     $endOfLast7Days = Carbon::now()->format('Y-m-d'); // today
     $last7Days = json_encode([$startOfLast7Days, $endOfLast7Days]);
-
-    // Get start and end date of current month in d/m/Y format
-    // $startOfMonth = Carbon::now()->startOfMonth()->format('d/m/Y');
-    // $endOfMonth = Carbon::now()->endOfMonth()->format('d/m/Y');
-    // $month = json_encode([$startOfMonth, $endOfMonth]);
 
     $startOfLast30Days = Carbon::now()->subDays(29)->format('Y-m-d'); // 29 days before today (including today)
     $endOfLast30Days = Carbon::now()->format('Y-m-d'); // today
     $last30Days = json_encode([$startOfLast30Days, $endOfLast30Days]);
 
-    // Get start and end date of past three months in d/m/Y format
-    // $startDateOfPast3Month = Carbon::now()->subMonths(3)->startOfMonth()->format('d/m/Y');
     $startDateOfPast3Month = Carbon::now()->subMonths(3)->format('Y-m-d');
     $pastThreeMonth = json_encode([$startDateOfPast3Month, $endOfLast30Days]);
 
-    // Get start and end date of past six months in d/m/Y format
-    // $startDateOfPast6Month = Carbon::now()->subMonths(6)->startOfMonth()->format('d/m/Y');
     $startDateOfPast6Month = Carbon::now()->subMonths(6)->format('Y-m-d');
     $pastSixMonth = json_encode([$startDateOfPast6Month, $endOfLast30Days]);
 
@@ -247,4 +232,39 @@ function appointmentIcon($icon)
     ];
 
     return $icons[$icon];
+}
+
+function scheduleResponse($schedules, $childId = null)
+{
+    return $schedules->map(function ($schedule) use($schedules, $childId) {
+        $therapistIds = $schedules->where('unique_id', $schedule->unique_id)->pluck('therapist_id')->toArray();
+        $eventCount = $schedules->where('therapist_id', $schedule->therapist_id)->where('day', $schedule->day)->where('start_time', $schedule->start_time)->count();
+        return [
+            'id' => $schedule->id,
+            'day' => $schedule->day,
+            'description' => $schedule->description,
+            'start' => date('Y-m-d').' '.$schedule->start_time,
+            'end' => date('Y-m-d').' '.$schedule->end_time,
+            'startTime' => Carbon::parse($schedule->start_time)->format('H:i'),
+            'endTime' => Carbon::parse($schedule->end_time)->format('H:i'),
+            'resource' => ($childId ?? $schedule->therapist_id) . strtolower($schedule->day),
+            'therapistId' => $schedule->therapist_id,
+            'therapistName' => getUserNameById($schedule->therapist_id),
+            'therapistIds' => $therapistIds,
+            'therapistNames' => getUserNameByIds($therapistIds),
+            'childrenId' => $schedule->childrens->pluck('children_id')->toArray(),
+            'childrenNames' => getChildrenNamesById($schedule->childrens->pluck('children_id')->toArray()),
+            'twoChildrenNames' => getChildrenNamesById($schedule->childrens->pluck('children_id')->take(2)->toArray()),
+            'type' => $schedule->type,
+            'groupName' => $schedule->group_name,
+            'frequencyRepeat' => $schedule->frequency_repeat,
+            'frequencyRepeatAt' => $schedule->frequency_repeat_at,
+            'description' => $schedule->description,
+            'file' => $schedule->file,
+            'color' => $schedule->color,
+            'icon' => appointmentIcon($schedule->type),
+            'uniqueId' => $schedule->unique_id,
+            'eventCount' => $eventCount,
+        ];
+    });
 }

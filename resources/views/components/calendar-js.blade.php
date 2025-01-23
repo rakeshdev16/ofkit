@@ -37,7 +37,7 @@
             viewType: "Resources",
             columnWidthSpec: "Fixed",
             headerLevels: "Auto",
-            headerLevelHeights: [ 50, 100 ],
+            headerLevelHeights: [ 40, 60 ],
             heightSpec: "BusinessHoursNoScroll",
             height: 500,
             columnWidth: 100,
@@ -53,9 +53,8 @@
                     children: Array.isArray(column.children) ? column.children.map(child => ({
                             id: child.id,
                             name: `<div class="schedule-user-name text-center wrap-text">
-                                ${child.first_name ?? '-'}<br>
-                                ${child.family_name ?? '-'}<br>
-                                ${child.profession ?? '-'}<br>
+                                ${child.first_name ?? '-'} ${child.family_name ?? '-'}<br>
+                                ${child.profession ?? '-'}<br><hr style="margin: 0rem;">
                                 ${child.association ?? '-'}
                             </div>`
                         })) : undefined,
@@ -87,6 +86,9 @@
             },
             onBeforeEventRender: function(args) {
                 let title = '';
+                console.log("eventCount", args.data.eventCount);
+                console.log("therapistId", args.data.therapistId);
+
                 function eventName(fullNames) {
                     return fullNames.split(", ").map(fullName => {
                         const nameParts = fullName.trim().split(" ");
@@ -98,10 +100,10 @@
                 let cellTitle = args.data.type.split('-').map((item, index) => item[0].toUpperCase()+''+item.slice(1) ).join(' ');
                 switch (args.data.type) {
                     case 'staff-meeting':
-                        title = eventName(args.data.twoChildrenNames)+' :Staff Meeting';
+                        title = ' :Staff Meeting<br>'+eventName(args.data.twoChildrenNames);
                         break;
                     case 'group':
-                        title = eventName(args.data.twoChildrenNames)+ ': '+args.data.groupName;
+                        title = ': '+args.data.groupName+'<br>'+eventName(args.data.twoChildrenNames);
                         break;
                     case 'individual':
                         title = `<p style="font-size: 16px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>`;
@@ -134,8 +136,18 @@
                 args.data.bubbleHtml = `
                 <div class="p-3 calendar-event-overlay tooltip-left" style="word-wrap: break-word; white-space: normal; direction: rtl; text-align: right;">
                     <ul>
-                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                            <i class="fa fa-info fa-lg"></i>${cellTitle}
+                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-between">
+                            <div class="d-flex justify-content-start">
+                                <div class="d-flex gap-2 justify-content-end">
+                                    <i class="fa fa-info fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<div>${cellTitle.trim()}</div>
+                                </div>
+                            </div>
+                            ${type === 'create' ? `
+                                <div class="d-flex gap-2 justify-content-end">
+                                    <i class="fa fa-edit" onclick='editEvent(${escapeJson(args.data)})' style="cursor: pointer;"></i>
+                                    <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])' style="cursor: pointer;"></i>
+                                </div>
+                            ` : ''}
                         </li>
                         ${['individual', 'group', 'staff-meeting', 'parental-guidance'].includes(args.data.type) ? `
                             <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">

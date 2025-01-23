@@ -631,7 +631,7 @@ button.accordion-button.accordion-screen.collapsed {
 .calendar_default_alldayheader_inner {
     background: #095F59 !important;
     color: #fff !important;
-    padding: 10px;
+    /* padding: 10px; */
 }
 
 /* .calendar_default_main {

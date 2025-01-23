@@ -43,45 +43,12 @@ class ChildrenScheduleController extends Controller
             $scheduleEvents = $schedule->events()->whereHas('childrens', function($query) use ($filter) {
                 $query->where('children_id', $filter['children_id']);
             })->get();
-            $events = $this->scheduleResponse($scheduleEvents, $filter['children_id']);
+            $events = scheduleResponse($scheduleEvents, $filter['children_id']);
         }
 
         return response()->json([
             'calenderHeader' => $header,
             'calenderEvents' => $events,
         ]);
-    }
-
-    public function scheduleResponse($schedules, $childId)
-    {
-        return $schedules->map(function ($schedule) use($schedules, $childId) {
-            $therapistIds = $schedules->where('unique_id', $schedule->unique_id)->pluck('therapist_id')->toArray();
-            return [
-                'id' => $schedule->id,
-                'day' => $schedule->day,
-                'description' => $schedule->description,
-                'start' => date('Y-m-d').' '.$schedule->start_time,
-                'end' => date('Y-m-d').' '.$schedule->end_time,
-                'startTime' => Carbon::parse($schedule->start_time)->format('H:i'),
-                'endTime' => Carbon::parse($schedule->end_time)->format('H:i'),
-                'resource' => $childId . strtolower($schedule->day),
-                'therapistId' => $schedule->therapist_id,
-                'therapistName' => getUserNameById($schedule->therapist_id),
-                'therapistIds' => $therapistIds,
-                'therapistNames' => getUserNameByIds($therapistIds),
-                'childrenId' => $schedule->childrens->pluck('children_id')->toArray(),
-                'childrenNames' => getChildrenNamesById($schedule->childrens->pluck('children_id')->toArray()),
-                'twoChildrenNames' => getChildrenNamesById($schedule->childrens->pluck('children_id')->take(2)->toArray()),
-                'type' => $schedule->type,
-                'groupName' => $schedule->group_name,
-                'frequencyRepeat' => $schedule->frequency_repeat,
-                'frequencyRepeatAt' => $schedule->start,
-                'description' => $schedule->description,
-                'file' => $schedule->file,
-                'color' => $schedule->color,
-                'icon' => appointmentIcon($schedule->type),
-                'uniqueId' => $schedule->unique_id,
-            ];
-        });
     }
 }

@@ -69,7 +69,7 @@ class ScheduleController extends Controller
                 }
             }
             $schedules = $schedule->events()->where('unique_id', $request->unique_id)->get();
-            $event = $this->scheduleResponse($schedules);
+            $event = scheduleResponse($schedules);
             DB::commit();
             return response()->json(['status' => true, 'message' => 'Event detail has been successfully saved as draft!', 'event' => $event, 'deletedIds' => $deletedIds]);
         } catch (\Exception $e) {
@@ -128,7 +128,7 @@ class ScheduleController extends Controller
         }
 
         $schedule = Schedule::filter($filter)->first();
-        $events = !empty($schedule) ? $this->scheduleResponse($schedule->events) : [];
+        $events = !empty($schedule) ? scheduleResponse($schedule->events) : [];
         $userIds = StaffKindergarten::where('kindergarten_id', $filter['kindergarten_id'])->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
         $users = User::whereIn('id', $userIds)->select('id as key', 'name as value')->get()->toArray();
         $childrens = Children::select('id as key', 'name as value')->where('kindergarten_id', $filter['kindergarten_id'])->orderBy('name')->get()->toArray();
@@ -278,38 +278,5 @@ class ScheduleController extends Controller
         $daySchedules = StaffSchedule::with('user')->whereIn('day', $days)->get()->groupBy('day');
 
         return Excel::download(new CalendarExport($days, $timeSlots, $daySchedules), 'Calendar_Export.xlsx');
-    }
-
-    public function scheduleResponse($schedules)
-    {
-        return $schedules->map(function ($schedule) use($schedules) {
-            $therapistIds = $schedules->where('unique_id', $schedule->unique_id)->pluck('therapist_id')->toArray();
-            return [
-                'id' => $schedule->id,
-                'day' => $schedule->day,
-                'description' => $schedule->description,
-                'start' => date('Y-m-d').' '.$schedule->start_time,
-                'end' => date('Y-m-d').' '.$schedule->end_time,
-                'startTime' => Carbon::parse($schedule->start_time)->format('H:i'),
-                'endTime' => Carbon::parse($schedule->end_time)->format('H:i'),
-                'resource' => $schedule->therapist_id . strtolower($schedule->day),
-                'therapistId' => $schedule->therapist_id,
-                'therapistName' => getUserNameById($schedule->therapist_id),
-                'therapistIds' => $therapistIds,
-                'therapistNames' => getUserNameByIds($therapistIds),
-                'childrenId' => $schedule->childrens->pluck('children_id')->toArray(),
-                'childrenNames' => getChildrenNamesById($schedule->childrens->pluck('children_id')->toArray()),
-                'twoChildrenNames' => getChildrenNamesById($schedule->childrens->pluck('children_id')->take(2)->toArray()),
-                'type' => $schedule->type,
-                'groupName' => $schedule->group_name,
-                'frequencyRepeat' => $schedule->frequency_repeat,
-                'frequencyRepeatAt' => $schedule->frequency_repeat_at,
-                'description' => $schedule->description,
-                'file' => $schedule->file,
-                'color' => $schedule->color,
-                'icon' => appointmentIcon($schedule->type),
-                'uniqueId' => $schedule->unique_id,
-            ];
-        });
     }
 }
