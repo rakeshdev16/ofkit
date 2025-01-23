@@ -666,16 +666,6 @@ button.accordion-button.accordion-screen.collapsed {
 
 /* event template */
 
-.tooltip-left {
-    position: absolute;
-    left: -200px;
-}
-
-.tooltip-right {
-    position: absolute;
-    right: -200px;
-}
-
 .event-box {
 
     height: 100%;
