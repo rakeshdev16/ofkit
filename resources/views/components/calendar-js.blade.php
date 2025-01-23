@@ -107,7 +107,7 @@
                         title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">: Staff Meeting<br>${eventName(args.data.twoChildrenNames)}</div>`;
                         break;
                     case 'group':
-                        title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">: ${args.data.groupName}<br>${eventName(args.data.twoChildrenNames)}</div>`;
+                        title = `<div><div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">: ${args.data.groupName}</div>${eventName(args.data.twoChildrenNames)}</div>`;
                         break;
                     case 'individual':
                         title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">
