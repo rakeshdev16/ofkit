@@ -111,12 +111,12 @@
                         break;
                     case 'individual':
                         title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">
-                                    <p style="font-size: 16px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>
+                                    <p style="font-size: 12px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>
                                 </div>`;
                         break;
                     case 'parental-guidance':
                         title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">
-                                    <p style="font-size: 16px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>
+                                    <p style="font-size: 12px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>
                                 </div>`;
                         break;
                     default:
