@@ -40,7 +40,7 @@
             headerLevelHeights: [ 40, 60 ],
             heightSpec: "BusinessHoursNoScroll",
             height: 500,
-            columnWidth: 100,
+            // columnWidth: 100,
             businessBeginsHour: 7,
             businessEndsHour: 17,
             timeHeaderCellDuration: 15,
@@ -154,43 +154,104 @@
                     ` : ''}
                 </div>`;
 
-                args.data.bubbleHtml = `
-                <div class="p-3 calendar-event-overlay tooltip-left" style="word-wrap: break-word; white-space: normal; direction: rtl; text-align: right;">
-                    <ul>
-                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-between">
-                            <div class="d-flex justify-content-start">
-                                <div class="d-flex gap-2 justify-content-end">
-                                    <i class="fa fa-info fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<div>${cellTitle.trim()}</div>
-                                </div>
-                            </div>
-                            ${type === 'create' ? `
-                                <div class="d-flex gap-2 justify-content-end">
-                                    <i class="fa fa-edit" onclick='editEvent(${escapeJson(args.data)})' style="cursor: pointer;"></i>
-                                    <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])' style="cursor: pointer;"></i>
-                                </div>
-                            ` : ''}
-                        </li>
-                        ${['individual', 'group', 'staff-meeting', 'parental-guidance'].includes(args.data.type) ? `
-                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                                <i class="fa fa-${args.data.icon}"></i>${args.data.childrenNames.trim()}
-                            </li>
-                        ` : ''}
-                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                            <i class="fa fa-calendar"></i>${args.data.start.toString("HH:mm")} - ${args.data.end.toString("HH:mm")}
-                        </li>
-                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                            <i class="fa fa-clock-o"></i>${args.data.frequencyRepeat || ''} ${args.data.frequencyRepeatAt || ''}
-                        </li>
-                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                            <i class="fa fa-users"></i>${args.data.therapistNames.trim()}
-                        </li>
-                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                            <i class="fa fa-align-justify"></i>
-                            <p class="m-0">${args.data.description || ''}</p>
-                        </li>
+                // args.data.bubbleHtml = `
+                // <div class="p-3 calendar-event-overlay tooltip-left" style="word-wrap: break-word; white-space: normal; direction: rtl; text-align: right;">
+                //     <ul>
+                //         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-between">
+                //             <div class="d-flex justify-content-start">
+                //                 <div class="d-flex gap-2 justify-content-end">
+                //                     <i class="fa fa-info fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<div>${cellTitle.trim()}</div>
+                //                 </div>
+                //             </div>
+                //             ${type === 'create' ? `
+                //                 <div class="d-flex gap-2 justify-content-end">
+                //                     <i class="fa fa-edit" onclick='editEvent(${escapeJson(args.data)})' style="cursor: pointer;"></i>
+                //                     <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])' style="cursor: pointer;"></i>
+                //                 </div>
+                //             ` : ''}
+                //         </li>
+                //         ${['individual', 'group', 'staff-meeting', 'parental-guidance'].includes(args.data.type) ? `
+                //             <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                //                 <i class="fa fa-${args.data.icon}"></i>${args.data.childrenNames.trim()}
+                //             </li>
+                //         ` : ''}
+                //         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                //             <i class="fa fa-calendar"></i>${args.data.start.toString("HH:mm")} - ${args.data.end.toString("HH:mm")}
+                //         </li>
+                //         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                //             <i class="fa fa-clock-o"></i>${args.data.frequencyRepeat || ''} ${args.data.frequencyRepeatAt || ''}
+                //         </li>
+                //         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                //             <i class="fa fa-users"></i>${args.data.therapistNames.trim()}
+                //         </li>
+                //         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                //             <i class="fa fa-align-justify"></i>
+                //             <p class="m-0">${args.data.description || ''}</p>
+                //         </li>
 
-                    </ul>
-                </div>`;
+                //     </ul>
+                // </div>`;
+
+                args.data.bubbleHtml = `
+                    <div id="event-tooltip-${args.data.uniqueId}" 
+                        class="p-3 calendar-event-overlay tooltip-left" 
+                        style="word-wrap: break-word; white-space: normal; direction: rtl; text-align: right;">
+                        <ul>
+                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-between">
+                                <div class="d-flex justify-content-start">
+                                    <div class="d-flex gap-2 justify-content-end">
+                                        <i class="fa fa-info fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<div>${cellTitle.trim()}</div>
+                                    </div>
+                                </div>
+                                ${type === 'create' ? `
+                                    <div class="d-flex gap-2 justify-content-end">
+                                        <i class="fa fa-edit" onclick='editEvent(${escapeJson(args.data)})' style="cursor: pointer;"></i>
+                                        <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])' style="cursor: pointer;"></i>
+                                    </div>
+                                ` : ''}
+                            </li>
+                            ${['individual', 'group', 'staff-meeting', 'parental-guidance'].includes(args.data.type) ? `
+                                <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                                    <i class="fa fa-${args.data.icon}"></i>${args.data.childrenNames.trim()}
+                                </li>
+                            ` : ''}
+                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                                <i class="fa fa-calendar"></i>${args.data.start.toString("HH:mm")} - ${args.data.end.toString("HH:mm")}
+                            </li>
+                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                                <i class="fa fa-clock-o"></i>${args.data.frequencyRepeat || ''} ${args.data.frequencyRepeatAt || ''}
+                            </li>
+                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                                <i class="fa fa-users"></i>${args.data.therapistNames.trim()}
+                            </li>
+                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                                <i class="fa fa-align-justify"></i>
+                                <p class="m-0">${args.data.description || ''}</p>
+                            </li>
+                        </ul>
+                    </div>`;
+
+                // Dynamic tooltip positioning
+                setTimeout(() => {
+                    const tooltip = document.getElementById(`event-tooltip-${args.data.uniqueId}`);
+                    const rect = tooltip.getBoundingClientRect();
+                    const viewportWidth = window.innerWidth;
+
+                    // Adjust tooltip position if it overflows to the left
+                    if (rect.left < 0) {
+                        tooltip.classList.remove('tooltip-left');
+                        tooltip.classList.add('tooltip-right');
+                        tooltip.style.textAlign = 'left'; // Adjust text alignment
+                    }
+
+                    // Optional: Adjust position if it overflows the right edge
+                    if (rect.right > viewportWidth) {
+                        tooltip.classList.remove('tooltip-right');
+                        tooltip.classList.add('tooltip-left');
+                        tooltip.style.textAlign = 'right';
+                    }
+                }, 0);
+
             },
             headerHeightAutoFit: true,
             showCurrentTime: false
