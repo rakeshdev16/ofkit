@@ -20,7 +20,7 @@
             @include('components.schedule-filter', ['kindergartens' => $kindergartens])
         </div>
         <div class="d-flex flex-wrap gap-3">
-            <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="export">Export</button>
+            {{-- <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="export">Export</button> --}}
             <a href="/schedule-history" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">History</a>
             <button id="editEvents" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Edit</button>
             <a href="{{ route('schedule.create') }}?status=draft" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Create New</a>
