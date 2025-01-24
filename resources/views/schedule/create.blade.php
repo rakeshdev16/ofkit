@@ -6,7 +6,7 @@
     <link href="{{ asset('assets/js/daypilot/helpers/v2/main.css') }}" type="text/css" rel="stylesheet" />
     <script src="{{ asset('assets/js/daypilot/daypilot-all.min.js')}}"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script> --}}
     <style>
         .select2-container[dir="rtl"] .select2-selection--single .select2-selection__rendered {
             padding-right: 20px;
@@ -77,7 +77,6 @@
             @include('components.schedule-filter', ['kindergartens' => $kindergartens])
         </div>
         <div class="d-flex flex-wrap gap-3">
-            {{-- <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer capture" onclick="exportData();">Export</button> --}}
             <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="deleteEvent({{ $createdEventIds }})">Delete All</button>
             @if (!request('schedule_id'))
                 <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer updateEventStatus" data-status="published">Publish</button>

@@ -624,6 +624,11 @@ button.accordion-button.accordion-screen.collapsed {
     }
 }
 
+#scheduleCalendar {
+    border: none !important;
+    /* height: 500px !important; */
+}
+
 .calendar_default_rowheader_inner,
 .calendar_default_cornerright_inner,
 .calendar_default_corner_inner,

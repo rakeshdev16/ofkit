@@ -13,6 +13,9 @@
             calendar(data.calenderEvents, data.calenderHeader);
             $(window).scrollTop(scrollingPosition);
             setTimeout(() => {
+                $('.calendar_default_scroll > div > div:nth-of-type(2)').css('height', '500px');
+                $('.calendar_default_scroll > div > div:nth-of-type(1)').css('height', '500px');
+                $('.calendar_default_scroll').css('height', '500px');
                 const targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0];
                 $(window).keyup(function (e) {
                     var key = e.which;
@@ -23,21 +26,38 @@
                     }
                 });
                 $('#export').on('click', function() {
+                    $(this).attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
                     let div = $('#scheduleCalendar')[0];
                     let targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0];
                     html2canvas(div, {
-                        scrollX: 0,
-                        scrollY: 0,
-                        width: targetElement.scrollWidth, // Full scrollable width
-                        height: targetElement.scrollHeight, // Full scrollable height
-                        windowWidth: targetElement.scrollWidth,
+                        useCORS: true,
+                        scrollX: -window.scrollX,
+                        scrollY: -window.scrollY,
+                        allowTaint: true,
+                        logging: true,
+                        width: targetElement.scrollWidth + 30,
+                        height: targetElement.scrollHeight + 110,
+                        windowWidth: targetElement.scrollWidth + 60,
                         windowHeight: targetElement.scrollHeight,
                     }).then(function(canvas) {
                         $('#output').empty();
-                        document.getElementById('output').appendChild(canvas);
+                        let containerWidth = $('#output').width();
+                        let aspectRatio = canvas.width / canvas.height;
+                        let newWidth = containerWidth;
+                        let newHeight = newWidth / aspectRatio;
+                        let resizedCanvas = document.createElement('canvas');
+                        let ctx = resizedCanvas.getContext('2d');
+                        resizedCanvas.width = newWidth;
+                        resizedCanvas.height = newHeight;
+                        ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, newWidth, newHeight);
+                        $('#output')[0].appendChild(resizedCanvas);
+                        $('#export').attr('disabled', false).html('Export');
+                        $('#exportBtns').show();
+                        $('html, body').animate({
+                            scrollTop: $("#output").offset().top
+                        }, 500);
                     });
                 });
-
 
             }, 1500);
         });
