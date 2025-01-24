@@ -227,8 +227,8 @@
                     <div class="d-flex align-items-center justify-content-center h-100" style="font-size: 12px; text-align: center;">${title}</div>
                     ${type === 'create' && args.data.eventCount !== 3 && timeDiff != 30 ? `
                         <div class="d-flex justify-content-start mt-auto" style="position: relative; bottom: 0;">
-                            <i class="fa fa-edit" onclick='editEvent(${escapeJson(args.data)})'></i>&nbsp;
-                            <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])'></i>&nbsp;
+                            <i class="fa fa-edit" onclick='event.stopPropagation(); editEvent(${escapeJson(args.data)})'></i>&nbsp;
+                            <i class="fa fa-trash" onclick="event.stopPropagation(); deleteEvent(['${args.data.uniqueId}'])"></i>&nbsp;
                         </div>
                     ` : ''}
                 </div>`;
