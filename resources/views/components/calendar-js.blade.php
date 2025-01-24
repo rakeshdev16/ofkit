@@ -19,11 +19,8 @@
                 const targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0];
                 $(window).keyup(function (e) {
                     var key = e.which;
-                    if(key == 13 || key == 39) {
-                        targetElement.scrollLeft += 200;
-                    } else if(key == 37) {
-                        targetElement.scrollLeft -= 200;
-                    }
+                    if(key == 13 || key == 39) targetElement.scrollLeft += 200;
+                    if(key == 37) targetElement.scrollLeft -= 200;
                 });
                 // $('#export').on('click', function() {
                 //     $(this).attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
