@@ -666,6 +666,24 @@ button.accordion-button.accordion-screen.collapsed {
 
 /* event template */
 
+.modal_default_content {
+    padding: 0px !important;
+}
+
+.modal_default_buttons {
+    padding-right: 6px !important;
+}
+
+.modal_default_buttons button {
+    background-color: #FFD681;
+    border-color: #FFD681;
+    border: 1px;
+    border-radius: 15px;
+    color: #000000;
+    line-height: 20px;
+    outline: none;
+}
+
 .event-box {
 
     height: 100%;

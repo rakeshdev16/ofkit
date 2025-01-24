@@ -84,6 +84,54 @@
                     $('#eventTypeModal').modal('toggle');
                 }
             },
+            onEventClicked: (args) => {
+                const event = args.e.data;
+                const handleAction = (type) => {
+                    DayPilot.Modal.close();
+                    if (type == 'edit') editEvent(event);
+                    if (type == 'delete') deleteEvent([event.uniqueId]);
+                };
+                const content = `
+                    <div class="" style="word-wrap: break-word; white-space: normal; direction: rtl; text-align: right;">
+                        <ul class="p-2" style="">
+                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-between">
+                                <div class="d-flex justify-content-start">
+                                    <div class="d-flex gap-2 justify-content-end">
+                                        <i class="fa fa-info fa-lg" style="margin-right: 5px"></i>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <div>${eventType(event.type)}</div>
+                                    </div>
+                                </div>
+                                ${type === 'create' ? `
+                                    <div class="d-flex gap-2 justify-content-end">
+                                        <i class="fa fa-edit" onclick="window.handleAction('edit')" style="cursor: pointer;"></i>
+                                        <i class="fa fa-trash" onclick="window.handleAction('delete')" style="cursor: pointer;"></i>
+                                    </div>
+                                ` : ''}
+                            </li>
+                            ${['individual', 'group', 'staff-meeting', 'parental-guidance'].includes(event.type) ? `
+                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                                <i class="fa fa-${event.icon}"></i>${event.childrenNames?.trim() || ''}
+                            </li>` : ''}
+                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                                <i class="fa fa-calendar"></i>${event.startTime} - ${event.endTime}
+                            </li>
+                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                                <i class="fa fa-clock-o"></i>${event.frequencyRepeat || ''} ${event.frequencyRepeatAt || ''}
+                            </li>
+                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                                <i class="fa fa-users"></i>${event.therapistNames?.trim() || ''}
+                            </li>
+                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                                <i class="fa fa-align-justify"></i>
+                                <p class="m-0">${event.description || ''}</p>
+                            </li>
+                        </ul>
+                    </div>
+                `;
+                window.handleAction = handleAction;
+                DayPilot.Modal.alert(content);
+            },
             onBeforeEventRender: function(args) {
                 let title = '';
                 let startTime = new Date(args.data.start);
@@ -101,7 +149,6 @@
                         return `${lastNameInitial} ${firstName}`;
                     }).join(", ");
                 }
-                let cellTitle = args.data.type.split('-').map((item, index) => item[0].toUpperCase()+''+item.slice(1) ).join(' ');
                 switch (args.data.type) {
                     case 'staff-meeting':
                         title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">: Staff Meeting<br>${eventName(args.data.twoChildrenNames)}</div>`;
@@ -120,12 +167,8 @@
                                 </div>`;
                         break;
                     default:
-                        title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">${cellTitle}</div>`;
+                        title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">${eventType(args.data.type)}</div>`;
                         break;
-                }
-
-                function escapeJson(json) {
-                    return JSON.stringify(json).replace(/'/g, '&#39;');
                 }
                 args.data.html = `
                 <div class="p-1 event-box d-flex flex-column justify-content-between" style="${args.data.color[0]}; ${args.data.color[1]}">
@@ -160,7 +203,7 @@
                         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-between">
                             <div class="d-flex justify-content-start">
                                 <div class="d-flex gap-2 justify-content-end">
-                                    <i class="fa fa-info fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<div>${cellTitle.trim()}</div>
+                                    <i class="fa fa-info fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<div>${eventType(args.data.type)}</div>
                                 </div>
                             </div>
                             ${type === 'create' ? `
@@ -196,6 +239,15 @@
             showCurrentTime: false
         });
         dp.init();
+    }
+
+    function escapeJson(json) {
+        return JSON.stringify(json).replace(/'/g, '&#39;');
+    }
+
+    function eventType(type) {
+        return type.split('-').map((item, index) => item[0].toUpperCase()+''+item.slice(1) ).join(' ');
+
     }
 
     function queryParam(params = {}) {
