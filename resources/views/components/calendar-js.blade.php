@@ -22,6 +22,23 @@
                         targetElement.scrollLeft -= 200;
                     }
                 });
+                $('#export').on('click', function() {
+                    let div = $('#scheduleCalendar')[0];
+                    let targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0];
+                    html2canvas(div, {
+                        scrollX: 0,
+                        scrollY: 0,
+                        width: targetElement.scrollWidth, // Full scrollable width
+                        height: targetElement.scrollHeight, // Full scrollable height
+                        windowWidth: targetElement.scrollWidth,
+                        windowHeight: targetElement.scrollHeight,
+                    }).then(function(canvas) {
+                        $('#output').empty();
+                        document.getElementById('output').appendChild(canvas);
+                    });
+                });
+
+
             }, 1500);
         });
     }
@@ -45,6 +62,8 @@
             businessEndsHour: 17,
             timeHeaderCellDuration: 15,
             cellDuration: 15,
+            eventMoveHandling: "Disabled",
+            eventResizeHandling: "Disabled",
             events: events,
             columns: list.map(column => {
                 return {
