@@ -31,6 +31,14 @@
     <div class="mb-5" id="calender-view">
         <div id="scheduleCalendar" style="height: 30% !important;"></div>
     </div>
+    {{-- <div class="mb-5" id="export-calender">
+        <div class="d-flex gap-2 pb-3" id="exportBtns" style="display: none !important;">
+            <button class="button btn" id="exportPDF">Export as PDF</button>
+            <button class="button btn" id="exportPng">Export as Png</button>
+            <button class="button btn" id="exportSVG">Export as SVG</button>
+        </div>
+        <div id="output" style="width: 100%; height: 100%; margin-bottom: 100px"></div>
+    </div> --}}
 </div>
 @include('components.calendar-modals')
 

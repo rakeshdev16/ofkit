@@ -25,39 +25,39 @@
                         targetElement.scrollLeft -= 200;
                     }
                 });
-                $('#export').on('click', function() {
-                    $(this).attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
-                    let div = $('#scheduleCalendar')[0];
-                    let targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0];
-                    html2canvas(div, {
-                        useCORS: true,
-                        scrollX: -window.scrollX,
-                        scrollY: -window.scrollY,
-                        allowTaint: true,
-                        logging: true,
-                        width: targetElement.scrollWidth + 30,
-                        height: targetElement.scrollHeight + 110,
-                        windowWidth: targetElement.scrollWidth + 60,
-                        windowHeight: targetElement.scrollHeight,
-                    }).then(function(canvas) {
-                        $('#output').empty();
-                        let containerWidth = $('#output').width();
-                        let aspectRatio = canvas.width / canvas.height;
-                        let newWidth = containerWidth;
-                        let newHeight = newWidth / aspectRatio;
-                        let resizedCanvas = document.createElement('canvas');
-                        let ctx = resizedCanvas.getContext('2d');
-                        resizedCanvas.width = newWidth;
-                        resizedCanvas.height = newHeight;
-                        ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, newWidth, newHeight);
-                        $('#output')[0].appendChild(resizedCanvas);
-                        $('#export').attr('disabled', false).html('Export');
-                        $('#exportBtns').show();
-                        $('html, body').animate({
-                            scrollTop: $("#output").offset().top
-                        }, 500);
-                    });
-                });
+                // $('#export').on('click', function() {
+                //     $(this).attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+                //     let div = $('#scheduleCalendar')[0];
+                //     let targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0];
+                //     html2canvas(div, {
+                //         useCORS: true,
+                //         scrollX: -window.scrollX,
+                //         scrollY: -window.scrollY,
+                //         allowTaint: true,
+                //         logging: true,
+                //         width: targetElement.scrollWidth + 30,
+                //         height: targetElement.scrollHeight + 110,
+                //         windowWidth: targetElement.scrollWidth + 60,
+                //         windowHeight: targetElement.scrollHeight,
+                //     }).then(function(canvas) {
+                //         $('#output').empty();
+                //         let containerWidth = $('#output').width();
+                //         let aspectRatio = canvas.width / canvas.height;
+                //         let newWidth = containerWidth;
+                //         let newHeight = newWidth / aspectRatio;
+                //         let resizedCanvas = document.createElement('canvas');
+                //         let ctx = resizedCanvas.getContext('2d');
+                //         resizedCanvas.width = newWidth;
+                //         resizedCanvas.height = newHeight;
+                //         ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, newWidth, newHeight);
+                //         $('#output')[0].appendChild(resizedCanvas);
+                //         $('#export').attr('disabled', false).html('Export');
+                //         $('#exportBtns').show();
+                //         $('html, body').animate({
+                //             scrollTop: $("#output").offset().top
+                //         }, 500);
+                //     });
+                // });
 
             }, 1500);
         });
