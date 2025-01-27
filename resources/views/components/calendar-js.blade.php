@@ -90,7 +90,7 @@
                             id: child.id,
                             name: `<div class="schedule-user-name text-center wrap-text">
                                 ${child.first_name ?? '-'} ${child.family_name ?? '-'}<br>
-                                ${child.profession ?? '-'}<br><hr style="margin: 0rem;">
+                                ${child.profession ?? '-'}<br><hr style="margin: 0rem; min-width: 100px">
                                 ${child.association ?? '-'}
                             </div>`
                         })) : undefined,
@@ -128,41 +128,41 @@
                     if (type == 'delete') deleteEvent([event.uniqueId]);
                 };
                 const content = `
-                    <div class="" style="word-wrap: break-word; white-space: normal; direction: rtl; text-align: right;">
-                        <ul class="p-2" style="">
-                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-between">
-                                <div class="d-flex justify-content-start">
-                                    <div class="d-flex gap-2 justify-content-end">
-                                        <i class="fa fa-info fa-lg" style="margin-right: 5px"></i>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <div>${eventType(event.type)}</div>
-                                    </div>
-                                </div>
+                    <div style="word-wrap: break-word; white-space: normal; direction: rtl; text-align: right;">
+                        <div class="row mb-2 fs-6 text-dark">
+                            <div class="col-md-1"><i class="fa fa-info fa-lg" style="margin-right: 5px"></i></div>
+                            <div class="col-md-9"><div>${eventType(event.type)}</div></div>
+                            <div class="col-md-2">
                                 ${type === 'create' ? `
                                     <div class="d-flex gap-2 justify-content-end">
                                         <i class="fa fa-edit" onclick="window.handleAction('edit')" style="cursor: pointer;"></i>
                                         <i class="fa fa-trash" onclick="window.handleAction('delete')" style="cursor: pointer;"></i>
                                     </div>
                                 ` : ''}
-                            </li>
-                            ${['individual', 'group', 'staff-meeting', 'parental-guidance'].includes(event.type) ? `
-                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                                <i class="fa fa-${event.icon}"></i>${event.childrenNames?.trim() || ''}
-                            </li>` : ''}
-                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                                <i class="fa fa-calendar"></i>${event.startTime} - ${event.endTime}
-                            </li>
-                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                                <i class="fa fa-clock-o"></i>${event.frequencyRepeat || ''} ${event.frequencyRepeatAt || ''}
-                            </li>
-                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                                <i class="fa fa-users"></i>${event.therapistNames?.trim() || ''}
-                            </li>
-                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                                <i class="fa fa-align-justify"></i>
-                                <p class="m-0">${event.description || ''}</p>
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
+                        ${['individual', 'group', 'staff-meeting', 'parental-guidance'].includes(event.type) ? `
+                            <div class="row mb-2 fs-6 text-dark">
+                                <div class="col-md-1"><i class="fa fa-${event.icon}"></i></i></div>
+                                <div class="col-md-11"><div>${event.childrenNames?.trim() || ''}</div></div>
+                            </div>
+                        ` : ''}
+                        <div class="row mb-2 fs-6 text-dark">
+                            <div class="col-md-1"><i class="fa fa-calendar"></i></div>
+                            <div class="col-md-11">${event.startTime} - ${event.endTime}</div>
+                        </div>
+                        <div class="row mb-2 fs-6 text-dark">
+                            <div class="col-md-1"><i class="fa fa-clock-o"></i></div>
+                            <div class="col-md-11">${event.frequencyRepeat || ''} ${event.frequencyRepeatAt || ''}</div>
+                        </div>
+                        <div class="row mb-2 fs-6 text-dark">
+                            <div class="col-md-1"><i class="fa fa-users"></i></div>
+                            <div class="col-md-11">${event.therapistNames?.trim() || ''}</div>
+                        </div>
+                        <div class="row mb-2 fs-6 text-dark">
+                            <div class="col-md-1"><i class="fa fa-align-justify"></i></div>
+                            <div class="col-md-11">${event.description || ''}</div>
+                        </div>
                     </div>
                 `;
                 window.handleAction = handleAction;
@@ -181,30 +181,33 @@
                     return fullNames.split(", ").map(fullName => {
                         const nameParts = fullName.trim().split(" ");
                         const firstName = nameParts[0];
-                        const lastNameInitial = nameParts.length > 1 ? nameParts[1][0]+'.' : "";
+                        const lastNameInitial = nameParts.length > 1 ? '.'+nameParts[1][0] : "";
                         return `${lastNameInitial} ${firstName}`;
                     }).join(", ");
                 }
                 switch (args.data.type) {
                     case 'staff-meeting':
-                        title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">: Staff Meeting<br>${eventName(args.data.twoChildrenNames)}</div>`;
-                        break;
+                        title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">Staff Meeting: <br>${eventName(args.data.twoChildrenNames)}</div>`;
+                    break;
                     case 'group':
-                        title = `<div><div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">: ${args.data.groupName}</div>${eventName(args.data.twoChildrenNames)}</div>`;
-                        break;
+                        title = `<div style="font-size: 14px;"">
+                            <div style="${timeDiff >= 30 ? "font-weight: bold;" : ""}">${args.data.groupName}: </div>
+                            ${eventName(args.data.twoChildrenNames)}
+                        </div>`;
+                    break;
                     case 'individual':
                         title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">
-                                    <p style="font-size: 12px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>
-                                </div>`;
-                        break;
+                            <p style="font-size: 12px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>
+                        </div>`;
+                    break;
                     case 'parental-guidance':
                         title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">
-                                    <p style="font-size: 12px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>
-                                </div>`;
-                        break;
+                            <p style="font-size: 12px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>
+                        </div>`;
+                    break;
                     default:
                         title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">${eventType(args.data.type)}</div>`;
-                        break;
+                    break;
                 }
                 args.data.html = `
                 <div class="p-1 event-box d-flex flex-column justify-content-between" style="${args.data.color[0]}; ${args.data.color[1]}">
@@ -223,53 +226,54 @@
                             <span><i class="fa fa-${args.data.icon}"></i></span>
                         </div>
                     `}
-
-                    <div class="d-flex align-items-center justify-content-center h-100" style="font-size: 12px; text-align: center;">${title}</div>
-                    ${type === 'create' && args.data.eventCount !== 3 && timeDiff != 30 ? `
-                        <div class="d-flex justify-content-start mt-auto" style="position: relative; bottom: 0;">
-                            <i class="fa fa-edit" onclick='event.stopPropagation(); editEvent(${escapeJson(args.data)})'></i>&nbsp;
-                            <i class="fa fa-trash" onclick="event.stopPropagation(); deleteEvent(['${args.data.uniqueId}'])"></i>&nbsp;
-                        </div>
+                    ${timeDiff !== 15 ? `
+                        <div class="d-flex align-items-center justify-content-center h-100" style="font-size: 12px; text-align: center;">${title}</div>
+                        ${type === 'create' && args.data.eventCount !== 3 && timeDiff != 30 ? `
+                            <div class="d-flex justify-content-start mt-auto" style="position: relative; bottom: 0;">
+                                <i class="fa fa-edit" onclick='event.stopPropagation(); editEvent(${escapeJson(args.data)})'></i>&nbsp;
+                                <i class="fa fa-trash" onclick="event.stopPropagation(); deleteEvent(['${args.data.uniqueId}'])"></i>&nbsp;
+                            </div>
+                        ` : ''}
                     ` : ''}
                 </div>`;
 
-                args.data.bubbleHtml = `
-                <div class="p-3 calendar-event-overlay tooltip-left" style="word-wrap: break-word; white-space: normal; direction: rtl; text-align: right;">
-                    <ul>
-                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-between">
-                            <div class="d-flex justify-content-start">
-                                <div class="d-flex gap-2 justify-content-end">
-                                    <i class="fa fa-info fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<div>${eventType(args.data.type)}</div>
-                                </div>
-                            </div>
-                            ${type === 'create' ? `
-                                <div class="d-flex gap-2 justify-content-end">
-                                    <i class="fa fa-edit" onclick='editEvent(${escapeJson(args.data)})' style="cursor: pointer;"></i>
-                                    <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])' style="cursor: pointer;"></i>
-                                </div>
-                            ` : ''}
-                        </li>
-                        ${['individual', 'group', 'staff-meeting', 'parental-guidance'].includes(args.data.type) ? `
-                            <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                                <i class="fa fa-${args.data.icon}"></i>${args.data.childrenNames.trim()}
-                            </li>
-                        ` : ''}
-                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                            <i class="fa fa-calendar"></i>${args.data.start.toString("HH:mm")} - ${args.data.end.toString("HH:mm")}
-                        </li>
-                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                            <i class="fa fa-clock-o"></i>${args.data.frequencyRepeat || ''} ${args.data.frequencyRepeatAt || ''}
-                        </li>
-                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                            <i class="fa fa-users"></i>${args.data.therapistNames.trim()}
-                        </li>
-                        <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                            <i class="fa fa-align-justify"></i>
-                            <p class="m-0">${args.data.description || ''}</p>
-                        </li>
+                // args.data.bubbleHtml = `
+                // <div class="p-3 calendar-event-overlay tooltip-left" style="word-wrap: break-word; white-space: normal; direction: rtl; text-align: right;">
+                //     <ul>
+                //         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-between">
+                //             <div class="d-flex justify-content-start">
+                //                 <div class="d-flex gap-2 justify-content-end">
+                //                     <i class="fa fa-info fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<div>${eventType(args.data.type)}</div>
+                //                 </div>
+                //             </div>
+                //             ${type === 'create' ? `
+                //                 <div class="d-flex gap-2 justify-content-end">
+                //                     <i class="fa fa-edit" onclick='editEvent(${escapeJson(args.data)})' style="cursor: pointer;"></i>
+                //                     <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])' style="cursor: pointer;"></i>
+                //                 </div>
+                //             ` : ''}
+                //         </li>
+                //         ${['individual', 'group', 'staff-meeting', 'parental-guidance'].includes(args.data.type) ? `
+                //             <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                //                 <i class="fa fa-${args.data.icon}"></i>${args.data.childrenNames.trim()}
+                //             </li>
+                //         ` : ''}
+                //         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                //             <i class="fa fa-calendar"></i>${args.data.start.toString("HH:mm")} - ${args.data.end.toString("HH:mm")}
+                //         </li>
+                //         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                //             <i class="fa fa-clock-o"></i>${args.data.frequencyRepeat || ''} ${args.data.frequencyRepeatAt || ''}
+                //         </li>
+                //         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                //             <i class="fa fa-users"></i>${args.data.therapistNames.trim()}
+                //         </li>
+                //         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
+                //             <i class="fa fa-align-justify"></i>
+                //             <p class="m-0">${args.data.description || ''}</p>
+                //         </li>
 
-                    </ul>
-                </div>`;
+                //     </ul>
+                // </div>`;
             },
             headerHeightAutoFit: true,
             showCurrentTime: false
