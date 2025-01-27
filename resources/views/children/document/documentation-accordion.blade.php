@@ -89,7 +89,7 @@
                                 @endphp
                                 {!! description($description, 80) !!} :{{ $documentation->group_name }}
                             @else
-                                {!! $documentation->occured_description ? description($documentation->occured_description, 80) : $documentation->occured_reason !!}
+                            {{$documentation->occured == 0 ? $documentation->occured_reason : ''}}@if ($documentation->occured == 0 && $documentation->occured_description != null): @endif {!! $documentation->occured_description ? description($documentation->occured_description, 80) : '' !!}
                             @endif
                         </div>
                     </div>

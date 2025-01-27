@@ -95,4 +95,13 @@
     @include('components.calendar-js', ['type' => 'view', 'filterRoute' => route('schedule.calendar')]);
     @include('schedule.script');
     <script src="{{ asset('assets/js/daypilot/helpers/v2/app.js')}}"></script>
+    <style>
+         .calender-view{
+            max-height: 500px !important;
+            overflow: hidden !important;
+         }
+        #scheduleCalendar {
+            height: 400% !important;
+        }
+    </style>
 @endpush
