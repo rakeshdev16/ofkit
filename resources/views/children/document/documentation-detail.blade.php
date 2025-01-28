@@ -97,9 +97,15 @@
                                                 <span class="text-secondary">{{ @$document->group_name ? $document->group_name : '-' }}</span>
                                             </li>
                                         @endif
+                                        @if(@$document->occured == 0)
+                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                <h6 class="mb-0">{{ __('children.occuredReason') }}</h6>
+                                                <span class="text-secondary">{{ @$document->occured_reason }}</span>
+                                            </li>
+                                        @endif
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 class="mb-0">{{ __('children.description') }}</h6>
-                                            <span class="text-secondary doc-desc">{{ @$document->occured_description ? $document->occured_description : $document->occured_reason }}</span>
+                                            <h6 class="mb-0">{{ @$document->occured == 0 ? __('children.reasonDescription') : __('children.description') }}</h6>
+                                            <span class="text-secondary doc-desc">{{ @$document->occured_description ? $document->occured_description : '-' }}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                             <h6 class="mb-0">{{ __('children.attactedFile') }}</h6>
