@@ -13,7 +13,7 @@
     </div>
     @if (in_array($data->type, ['individual', 'group', 'staff-meeting', 'parental-guidance']))
         <div class="row mb-2 fs-6 text-dark">
-            <div class="col-md-1"><i class="fa fa-${event.icon}"></i></i></div>
+            <div class="col-md-1"><i class="fa fa-{{ appointmentIcon($data->type) }}"></i></i></div>
             <div class="col-md-11"><div>{{ getChildrenNamesById($data->childrens->pluck('children_id')->toArray()) }}</div></div>
         </div>
     @endif
