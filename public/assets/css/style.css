@@ -671,6 +671,15 @@ button.accordion-button.accordion-screen.collapsed {
 
 /* event template */
 
+.calender-view {
+    max-height: 500px !important;
+    overflow: hidden !important;
+}
+
+#scheduleCalendar {
+    height: 400% !important;
+}
+
 .modal_default_content {
     padding: 0px !important;
 }
