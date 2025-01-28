@@ -110,14 +110,15 @@ class ScheduleController extends Controller
         foreach ($days as $day) {
             $schedules = StaffSchedule::filter($filter)->with('user')->where('day', $day)->get()
                 ->map(function ($schedule) use ($day, $request) {
+                    $f_name = $schedule->user->family_name;
                     return [
                         'id' => $schedule->user->id.''.strtolower($day),
                         'user_id' => $schedule->user->id,
                         'name' => $schedule->user->name ?? 'N/A',
                         'first_name' => $schedule->user->first_name ?? 'N/A',
-                        'family_name' => $schedule->user->family_name ?? 'N/A',
+                        'family_name' => $f_name ? mb_substr($f_name, 0, 1) . '.' : '',
                         'association' => @StaffKindergarten::where(['user_id' => $schedule->user_id, 'kindergarten_id' => $request->kindergarten_id])->first()->association->name,
-                        'profession' => @StaffKindergarten::where(['user_id' => $schedule->user_id, 'kindergarten_id' => $request->kindergarten_id])->first()->profession->name,
+                        'profession' => @StaffKindergarten::where(['user_id' => $schedule->user_id, 'kindergarten_id' => $request->kindergarten_id])->first()->profession->acronyms,
                     ];
                 })->unique('id')->values()->toArray();
 

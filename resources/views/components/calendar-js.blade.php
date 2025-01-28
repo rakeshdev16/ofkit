@@ -70,8 +70,8 @@
             startDate: DayPilot.Date.today(),
             viewType: "Resources",
             columnWidthSpec: "Fixed",
-            headerLevels: "Auto",
-            headerLevelHeights: [ 40, 70 ],
+            headerLevels: "4",
+            headerLevelHeights: [ 40, 40 ],
             heightSpec: "BusinessHoursNoScroll",
             height: 500,
             columnWidth: 100,
@@ -84,19 +84,22 @@
             events: events,
             columns: list.map(column => {
                 return {
-                    name: `<span class="days-header">${column.name}</span>`,
                     id: column.id,
+                    name: `<span class="days-header">${column.name}</span>`,
                     children: Array.isArray(column.children) ? column.children.map(child => ({
+                        id: child.id,
+                        name: `<span class="team-header">${child.first_name ?? '-'} ${child.family_name ?? '-'}</span>`,
+                        children: {
                             id: child.id,
-                            name: `<div class="schedule-user-name text-center wrap-text">
-                                ${child.first_name ?? '-'} ${child.family_name ?? '-'}<br>
-                                ${child.profession ?? '-'}<br><hr style="margin: 0rem; min-width: 100px">
-                                ${child.association ?? '-'}
-                            </div>`
-                        })) : undefined,
+                            name: child.profession ?? '-',
+                            children: {
+                                id: child.id,
+                                name: child.association ?? '-',
+                            }
+                        }
+                    })) : undefined,
                 };
             }),
-
             onBeforeTimeHeaderRender: function (args) {
                 var hour = DayPilot.Date.today().addTime(args.header.time);
                 args.header.html = hour.toString("HH:mm");

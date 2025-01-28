@@ -23,7 +23,7 @@ class StaffKindergarten extends Model
 
     public function profession()
     {
-        return $this->hasOne(Profession::class, 'id', 'role_id');
+        return $this->hasOne(MemberRole::class, 'id', 'role_id');
     }
 
     public function user()
