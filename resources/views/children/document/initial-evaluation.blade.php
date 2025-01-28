@@ -106,6 +106,11 @@
                                                             'value' => getKindergartenNameById($children->kindergarten_id),
                                                             'disabled' => 'disabled',
                                                         ])
+                                                        @error('kindergarten_id')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
                                                     </div>
                                                     <div class="col-md-4">
                                                         @include('components.text-input', [

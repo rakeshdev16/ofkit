@@ -174,6 +174,7 @@ return [
     'requiredEndTime' => "שדה חובה",
     'requiredTherapistIds' => "שדה חובה",
     'requiredTherapist' => 'נא לבחור מטפל',
+    'requiredKindergarten' => 'השדה חובה',
     'validEmail' => 'נא להזין דוא"ל תקין',
     'uniqueEmail' => 'כתובת הדוא"ל כבר בשימוש',
     'childAbsent' => 'היעדרות ילד/ה',

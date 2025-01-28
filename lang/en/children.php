@@ -174,6 +174,7 @@ return [
     'requiredEndTime' => 'The end time field is required when start time is present',
     'requiredTherapistIds' => 'Please choose participant',
     'requiredTherapist' => 'Please select therapist',
+    'requiredKindergarten' => 'The field is required',
     'validEmail' => 'Please enter valid email address',
     'uniqueEmail' => 'This email is already exists',
     'childAbsent' => 'Child absent',
