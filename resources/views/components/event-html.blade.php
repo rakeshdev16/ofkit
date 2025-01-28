@@ -15,7 +15,11 @@
         </div>
     @endif
     @if ($data->event_time !== 15)
-        <div class="d-flex align-items-center justify-content-center h-100" style="font-size: 12px; text-align: center;">{!! $data->cell_title !!}</div>
+        @if ($data['eventCount'] < 3)
+            <div class="d-flex align-items-center justify-content-center h-100" style="font-size: 12px; text-align: center;">
+                {!! $data->cell_title !!}
+            </div>
+        @endif
         @if ((request('status') == 'darft' || request('schedule_id') !== null) && $data['eventCount'] !== 3 && $data->event_time != 30)
             <div class="d-flex justify-content-start mt-auto" style="position: relative; bottom: 0;">
                 <i class="fa fa-edit" onclick='event.stopPropagation(); editEvent({{$data}})'></i>&nbsp;
