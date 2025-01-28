@@ -1,0 +1,26 @@
+ <div class="p-1 event-box d-flex flex-column justify-content-between" style="{{ $data->color[0] }}; {{ $data->color[1] }}">
+    @if ($data['eventCount'] >= 3)
+        <div class="position-absolute" style="text-align: left;">
+            <span style="display: block; font-size: 14px;">
+                <i class="fa fa-{{ appointmentIcon($data->type) }}"></i>
+            </span>
+            <span style="display: block; font-size: 12px; margin-top: 4px;">
+                {{ date('H:i', strtotime($data->start_time)) }}
+            </span>
+        </div>
+    @else
+        <div class="d-flex justify-content-between">
+            <span>{{ date('H:i', strtotime($data->start_time)) }}</span>
+            <span><i class="fa fa-{{ appointmentIcon($data->type) }}"></i></span>
+        </div>
+    @endif
+    @if ($data->event_time !== 15)
+        <div class="d-flex align-items-center justify-content-center h-100" style="font-size: 12px; text-align: center;">{!! $data->cell_title !!}</div>
+        @if ((request('status') == 'darft' || request('schedule_id') !== null) && $data['eventCount'] !== 3 && $data->event_time != 30)
+            <div class="d-flex justify-content-start mt-auto" style="position: relative; bottom: 0;">
+                <i class="fa fa-edit" onclick='event.stopPropagation(); editEvent({{$data}})'></i>&nbsp;
+                <i class="fa fa-trash" onclick='event.stopPropagation(); deleteEvent(["{{ $data["unique_id"]}}"])'></i>&nbsp;
+            </div>
+        @endif
+    @endif
+</div>

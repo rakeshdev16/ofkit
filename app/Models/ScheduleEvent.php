@@ -26,6 +26,8 @@ class ScheduleEvent extends Model
         'unique_id',
     ];
 
+    protected $appends = ['cell_title', 'event_time'];
+
     protected static function booted()
     {
         static::creating(function ($schedule) {
@@ -82,8 +84,33 @@ class ScheduleEvent extends Model
         return json_decode($value);
     }
 
+    public function getEventTimeAttribute()
+    {
+        return (strtotime($this->end_time) - strtotime($this->start_time)) / 60;
+    }
+
     public function childrens()
     {
         return $this->hasMany(ScheduleEventChildren::class, 'schedule_event_id');
+    }
+
+    public function getCellTitleAttribute()
+    {
+        $isBold = $this->event_time >= 30 ? "font-weight: bold;" : "";
+        $title = $this->childrens->pluck('children_id')->map(function ($childId) {
+            $name = Children::where('id', $childId)->select('name', 'family_name')->first();
+            $firstName = $name->name ?? '';
+            $lastName = $name->family_name ?? '';
+            $lastInitial = $lastName ? mb_substr($lastName, 0, 1) . '.' : '';
+            return $firstName . ' ' . $lastInitial;
+        })->take(2)->toArray();
+
+        $title = implode(' ', $title);
+        if ($this->type == 'staff-meeting') return '<div style="'.$isBold.'">Staff Metting: <br>'.$title.'</div>';
+        if ($this->type == 'group') return '<div style="font-size: 14px;""><div style="'.$isBold.'">'.$this->group_name.':</div>'.$title.'</div>';
+        if ($this->type == 'individual') return '<div style="'.$isBold.'">'.$title.'</div>';
+        if ($this->type == 'parental-guidance') return '<div style="'.$isBold.'">'.$title.'</div>';
+
+        return '<div>'.ucfirst(str_replace('-', ' ', $this->type)).'</div>';
     }
 }

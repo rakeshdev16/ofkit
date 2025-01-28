@@ -19,15 +19,15 @@
         eventData.resource = data.resource;
         eventData.type = data.type;
         eventData.day = data.day;
-        eventData.startTime = data.startTime;
-        eventData.endTime = data.endTime;
-        eventData.frequencyRepeat = data.frequencyRepeat;
-        eventData.frequencyRepeatAt = data.frequencyRepeatAt;
-        eventData.groupName = data.groupName;
+        eventData.startTime = data.start_time;
+        eventData.endTime = data.end_time;
+        eventData.frequencyRepeat = data.frequency_repeat;
+        eventData.frequencyRepeatAt = data.frequency_repeat_at;
+        eventData.groupName = data.group_name;
         eventData.therapistIds = data.therapistIds;
         eventData.childrenId = data.childrenId;
         eventData.description = data.description;
-        eventData.uniqueId = data.uniqueId;
+        eventData.uniqueId = data.unique_id;
         eventData.color = data.color;
         eventData.mode = 'edit';
         filterFormData(function() {

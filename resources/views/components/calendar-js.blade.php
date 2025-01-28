@@ -122,172 +122,21 @@
             },
             onEventClicked: (args) => {
                 const event = args.e.data;
-                const handleAction = (type) => {
+                const handleAction = (type, data) => {
                     DayPilot.Modal.close();
-                    if (type == 'edit') editEvent(event);
-                    if (type == 'delete') deleteEvent([event.uniqueId]);
+                    if (type == 'edit') editEvent(data);
+                    if (type == 'delete') deleteEvent([data]);
                 };
-                const content = `
-                    <div style="word-wrap: break-word; white-space: normal; direction: rtl; text-align: right;">
-                        <div class="row mb-2 fs-6 text-dark">
-                            <div class="col-md-1"><i class="fa fa-info fa-lg" style="margin-right: 5px"></i></div>
-                            <div class="col-md-9"><div>${eventType(event.type)}</div></div>
-                            <div class="col-md-2">
-                                ${type === 'create' ? `
-                                    <div class="d-flex gap-2 justify-content-end">
-                                        <i class="fa fa-edit" onclick="window.handleAction('edit')" style="cursor: pointer;"></i>
-                                        <i class="fa fa-trash" onclick="window.handleAction('delete')" style="cursor: pointer;"></i>
-                                    </div>
-                                ` : ''}
-                            </div>
-                        </div>
-                        ${['individual', 'group', 'staff-meeting', 'parental-guidance'].includes(event.type) ? `
-                            <div class="row mb-2 fs-6 text-dark">
-                                <div class="col-md-1"><i class="fa fa-${event.icon}"></i></i></div>
-                                <div class="col-md-11"><div>${event.childrenNames?.trim() || ''}</div></div>
-                            </div>
-                        ` : ''}
-                        <div class="row mb-2 fs-6 text-dark">
-                            <div class="col-md-1"><i class="fa fa-calendar"></i></div>
-                            <div class="col-md-11">${event.startTime} - ${event.endTime}</div>
-                        </div>
-                        <div class="row mb-2 fs-6 text-dark">
-                            <div class="col-md-1"><i class="fa fa-clock-o"></i></div>
-                            <div class="col-md-11">${event.frequencyRepeat || ''} ${event.frequencyRepeatAt || ''}</div>
-                        </div>
-                        <div class="row mb-2 fs-6 text-dark">
-                            <div class="col-md-1"><i class="fa fa-users"></i></div>
-                            <div class="col-md-11">${event.therapistNames?.trim() || ''}</div>
-                        </div>
-                        <div class="row mb-2 fs-6 text-dark">
-                            <div class="col-md-1"><i class="fa fa-align-justify"></i></div>
-                            <div class="col-md-11">${event.description || ''}</div>
-                        </div>
-                    </div>
-                `;
                 window.handleAction = handleAction;
-                DayPilot.Modal.alert(content);
+                DayPilot.Modal.alert(event.eventDetailSlotHtml);
             },
             onBeforeEventRender: function(args) {
-                let title = '';
-                let startTime = new Date(args.data.start);
-                let endTime = new Date(args.data.end);
-                let timeDiff = ((endTime.getTime() - startTime.getTime()) / 1000)/60;
-
-                function eventName(fullNames) {
-                    if (args.data.eventCount > 2) {
-                        return '';
-                    }
-                    return fullNames.split(", ").map(fullName => {
-                        const nameParts = fullName.trim().split(" ");
-                        const firstName = nameParts[0];
-                        const lastNameInitial = nameParts.length > 1 ? '.'+nameParts[1][0] : "";
-                        return `${lastNameInitial} ${firstName}`;
-                    }).join(", ");
-                }
-                switch (args.data.type) {
-                    case 'staff-meeting':
-                        title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">Staff Meeting: <br>${eventName(args.data.twoChildrenNames)}</div>`;
-                    break;
-                    case 'group':
-                        title = `<div style="font-size: 14px;"">
-                            <div style="${timeDiff >= 30 ? "font-weight: bold;" : ""}">${args.data.groupName}: </div>
-                            ${eventName(args.data.twoChildrenNames)}
-                        </div>`;
-                    break;
-                    case 'individual':
-                        title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">
-                            <p style="font-size: 12px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>
-                        </div>`;
-                    break;
-                    case 'parental-guidance':
-                        title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">
-                            <p style="font-size: 12px; margin-bottom: 0px;">${eventName(args.data.twoChildrenNames)}</p>
-                        </div>`;
-                    break;
-                    default:
-                        title = `<div style="${timeDiff >= 45 ? "font-weight: bold;" : ""}">${eventType(args.data.type)}</div>`;
-                    break;
-                }
-                args.data.html = `
-                <div class="p-1 event-box d-flex flex-column justify-content-between" style="${args.data.color[0]}; ${args.data.color[1]}">
-                    ${args.data.eventCount >= 3 ? `
-                        <div class="position-absolute" style="text-align: left;">
-                            <span style="display: block; font-size: 14px;">
-                                <i class="fa fa-${args.data.icon}"></i>
-                            </span>
-                            <span style="display: block; font-size: 12px; margin-top: 4px;">
-                                ${args.data.start.toString("HH:mm")}
-                            </span>
-                        </div>
-                    ` : `
-                        <div class="d-flex justify-content-between">
-                            <span>${args.data.start.toString("HH:mm")}</span>
-                            <span><i class="fa fa-${args.data.icon}"></i></span>
-                        </div>
-                    `}
-                    ${timeDiff !== 15 ? `
-                        <div class="d-flex align-items-center justify-content-center h-100" style="font-size: 12px; text-align: center;">${title}</div>
-                        ${type === 'create' && args.data.eventCount !== 3 && timeDiff != 30 ? `
-                            <div class="d-flex justify-content-start mt-auto" style="position: relative; bottom: 0;">
-                                <i class="fa fa-edit" onclick='event.stopPropagation(); editEvent(${escapeJson(args.data)})'></i>&nbsp;
-                                <i class="fa fa-trash" onclick="event.stopPropagation(); deleteEvent(['${args.data.uniqueId}'])"></i>&nbsp;
-                            </div>
-                        ` : ''}
-                    ` : ''}
-                </div>`;
-
-                // args.data.bubbleHtml = `
-                // <div class="p-3 calendar-event-overlay tooltip-left" style="word-wrap: break-word; white-space: normal; direction: rtl; text-align: right;">
-                //     <ul>
-                //         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-between">
-                //             <div class="d-flex justify-content-start">
-                //                 <div class="d-flex gap-2 justify-content-end">
-                //                     <i class="fa fa-info fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<div>${eventType(args.data.type)}</div>
-                //                 </div>
-                //             </div>
-                //             ${type === 'create' ? `
-                //                 <div class="d-flex gap-2 justify-content-end">
-                //                     <i class="fa fa-edit" onclick='editEvent(${escapeJson(args.data)})' style="cursor: pointer;"></i>
-                //                     <i class="fa fa-trash" onclick='deleteEvent(["${args.data.uniqueId}"])' style="cursor: pointer;"></i>
-                //                 </div>
-                //             ` : ''}
-                //         </li>
-                //         ${['individual', 'group', 'staff-meeting', 'parental-guidance'].includes(args.data.type) ? `
-                //             <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                //                 <i class="fa fa-${args.data.icon}"></i>${args.data.childrenNames.trim()}
-                //             </li>
-                //         ` : ''}
-                //         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                //             <i class="fa fa-calendar"></i>${args.data.start.toString("HH:mm")} - ${args.data.end.toString("HH:mm")}
-                //         </li>
-                //         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                //             <i class="fa fa-clock-o"></i>${args.data.frequencyRepeat || ''} ${args.data.frequencyRepeatAt || ''}
-                //         </li>
-                //         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                //             <i class="fa fa-users"></i>${args.data.therapistNames.trim()}
-                //         </li>
-                //         <li class="d-flex gap-4 text-dark fs-6 mb-2 justify-content-start">
-                //             <i class="fa fa-align-justify"></i>
-                //             <p class="m-0">${args.data.description || ''}</p>
-                //         </li>
-
-                //     </ul>
-                // </div>`;
+                args.data.html = `${args.data.eventSlotHtml}`;
             },
             headerHeightAutoFit: true,
             showCurrentTime: false
         });
         dp.init();
-    }
-
-    function escapeJson(json) {
-        return JSON.stringify(json).replace(/'/g, '&#39;');
-    }
-
-    function eventType(type) {
-        return type.split('-').map((item, index) => item[0].toUpperCase()+''+item.slice(1) ).join(' ');
-
     }
 
     function queryParam(params = {}) {
