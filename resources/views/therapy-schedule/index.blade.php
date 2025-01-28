@@ -45,7 +45,11 @@
 @endsection
 @push('customScript')
     <script type="text/javascript">
+        let scrollingPosition = 0;
         $(document).ready(function () {
+            window.addEventListener('scroll', function() {
+                scrollingPosition = this.scrollY;
+            });
             filterCalendar({ 'kindergarten_id': $('#kindergartenFilter').val() });
         });
     </script>
