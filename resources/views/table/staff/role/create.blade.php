@@ -37,6 +37,9 @@
                                             @include('components.text-input', ['label' => __('tables.name'), 'name' => 'name', 'icon' => 'user'])
                                         </div>
                                         <div class="col-md-12">
+                                            @include('components.text-input', ['label' => __('tables.acronyms'), 'name' => 'acronyms', 'icon' => 'user'])
+                                        </div>
+                                        <div class="col-md-12">
                                             <div class="d-md-flex d-grid align-items-center gap-3">
                                                 <input type="hidden" name="type" value="role">
                                                 <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">

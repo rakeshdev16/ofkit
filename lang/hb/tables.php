@@ -13,6 +13,7 @@ return [
     'updateAcademicProfessionDetail' => 'עדכון פרטים',
     'profession' => 'מקצוע',
     'name' => 'שם',
+    'acronyms' => 'ראשי תיבות',
     'addKindergartenDetail' => 'הוספת פרטים',
     'updateKindergartenDetail' => 'עדכן סוג גן',
     'addFrameworkDetail' => 'הוספת פרטים',

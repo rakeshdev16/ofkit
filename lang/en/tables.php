@@ -13,6 +13,7 @@ return [
     'updateAcademicProfessionDetail' => 'Update Academic Profession Detail',
     'profession' => 'Profession',
     'name' => 'Name',
+    'acronyms' => 'Acronyms',
     'addKindergartenDetail' => 'Add Kindergarten Type Detail',
     'updateKindergartenDetail' => 'Update Kindergarten Type Detail',
     'addFrameworkDetail' => 'Add Framework Type Detail',

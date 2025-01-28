@@ -3,6 +3,7 @@
         <tr>
             <th><input type="checkbox" class="mainCheckbox"></th>
             @include('components.table-heading', ['label' => __('tables.name'), 'key' => 'name'])
+            @include('components.table-heading', ['label' => __('tables.acronyms'), 'key' => 'acronyms'])
             @include('components.table-heading', ['label' => __('comon.action')])
         </tr>
     </thead>
@@ -16,6 +17,7 @@
                     <input type="checkbox" name="id[]" value="{{ $role->id }}" class="checkbox check-{{ $role->id }}" data-name="{{request()->status == 'inactive' ? '' : $checkRecord}}">
                 </td>
                 <td>{{ $role->name }}</td>
+                <td>{{ $role->acronyms }}</td>
                 <td>
                     <a href="{{ route('staff-table.edit', $role->id) }}?type=role" data-toggle="tooltip" data-placement="bottom" title="{{ __('comon.edit') }}"><i class="bx bx-edit icon"></i></a>
                 </td>
