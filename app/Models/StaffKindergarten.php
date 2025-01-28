@@ -25,4 +25,9 @@ class StaffKindergarten extends Model
     {
         return $this->hasOne(Profession::class, 'id', 'role_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

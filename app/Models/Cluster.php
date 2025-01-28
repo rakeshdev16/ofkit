@@ -36,7 +36,7 @@ class Cluster extends Model
 
     public function getIsAssignAttribute()
     {
-        return Kindergarten::where('cluster_id', @$this->attributes['id'])->exists();
+        return Kindergarten::where('cluster_id', @$this->attributes['id'])->where('status', 'active')->exists();
     }
 
     public function manager()

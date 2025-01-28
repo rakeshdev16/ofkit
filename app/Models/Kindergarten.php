@@ -53,9 +53,12 @@ class Kindergarten extends Model
     }
 
     public function getIsAssignAttribute()
-    {
-        return Children::where('kindergarten_id', @$this->attributes['id'])->exists() || StaffKindergarten::where('kindergarten_id', @$this->attributes['id'])->exists();
-    }
+{
+    return Children::where('kindergarten_id', @$this->attributes['id'])->where('status', 'active')->exists() ||
+            StaffKindergarten::where('kindergarten_id', @$this->attributes['id'])->whereHas('user', function ($query) {
+                $query->where('status', 'active');
+            })->exists();
+}
 
     public function getFrameworkTypeAttribute()
     {
@@ -76,9 +79,11 @@ class Kindergarten extends Model
     {
         return $this->hasOne(KindergartenUser::class, 'kindergarten_id', 'id');
     }
-    
+
     public function staffKindergartens()
     {
         return $this->hasMany(StaffKindergarten::class, 'kindergarten_id', 'id');
     }
+
+
 }
