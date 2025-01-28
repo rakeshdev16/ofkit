@@ -103,9 +103,8 @@ class ScheduleEvent extends Model
             $lastName = $name->family_name ?? '';
             $lastInitial = $lastName ? mb_substr($lastName, 0, 1) . '.' : '';
             return $firstName . ' ' . $lastInitial;
-        })->take(2)->toArray();
+        })->take(2)->join(' ');
 
-        $title = implode(' ', $title);
         if ($this->type == 'staff-meeting') return '<div style="'.$isBold.'">Staff Metting: <br>'.$title.'</div>';
         if ($this->type == 'group') return '<div style="font-size: 14px;""><div style="'.$isBold.'">'.$this->group_name.':</div>'.$title.'</div>';
         if ($this->type == 'individual') return '<div style="'.$isBold.'">'.$title.'</div>';
