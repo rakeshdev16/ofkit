@@ -48,6 +48,6 @@
             filterCalendar();
         });
     </script>
-    @include('components.calendar-js', ['type' => 'view', 'filterRoute' => route('children-schedule.calendar').'?children_id='.Request::segment(2)]);
+    @include('components.calendar-js', ['type' => 'view', 'filterRoute' => route('children-schedule.calendar').'?children_id='.Request::segment(2)])
     <script src="{{ asset('assets/js/daypilot/helpers/v2/app.js')}}"></script>
 @endpush

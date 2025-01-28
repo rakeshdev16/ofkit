@@ -53,6 +53,6 @@
             filterCalendar({ 'kindergarten_id': $('#kindergartenFilter').val() });
         });
     </script>
-    @include('components.calendar-js', ['type' => 'view', 'filterRoute' => route('therapy-schedule.calendar')]);
+    @include('components.calendar-js', ['type' => 'view', 'filterRoute' => route('therapy-schedule.calendar')])
     <script src="{{ asset('assets/js/daypilot/helpers/v2/app.js')}}"></script>
 @endpush
