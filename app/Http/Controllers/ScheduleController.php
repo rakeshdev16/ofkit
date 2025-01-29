@@ -217,9 +217,7 @@ class ScheduleController extends Controller
         $checkSlot = $schedule->events()
             ->where('day', $data['day'])
             ->where(function ($query) use ($data) {
-                $query->where(function ($query) use ($data) {
-                    $query->whereTime('start_time', '>=', $data['startTime'].':00')->whereTime('end_time', '<=', $data['endTime'].':00');
-                });
+                $query->whereTime('start_time', '<', $data['endTime'].':00')->whereTime('end_time', '>', $data['startTime'].':00');
             });
 
         if (isset($data['uniqueId'])) {
