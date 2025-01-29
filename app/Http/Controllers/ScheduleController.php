@@ -250,8 +250,8 @@ class ScheduleController extends Controller
             ]);
         }
 
-        if ($freqRepeat === 'Weekly') {
-            $checkSlot = $checkMonthlySlot->where('frequency_repeat', 'Bi-weekly')->orWhere('frequency_repeat', 'Monthly')->exists();
+        if ($freqRepeat === 'Weekly' && ($checkBiWeeklySlot->exists() || $checkMonthlySlot->exists())) {
+            $checkSlot = true;
         }
 
         if ($freqRepeat === 'Bi-weekly') {
