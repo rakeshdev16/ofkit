@@ -27,23 +27,21 @@
     <div>
         <input
             type="text"
-            class="form-control"
+            class="form-control event-time"
             name="start_time"
             id="startTime"
             placeholder="Start Time"
             value="{{ @$data['startTime'] }}"
-            onchange="$('#therapist, #children').val(null).trigger('change')"
         >
     </div>
     <div>
         <input
             type="text"
-            class="form-control"
+            class="form-control event-time"
             name="end_time"
             id="endTime"
             placeholder="End Time"
             value="{{ @$data['endTime'] }}"
-            onchange="$('#therapist, #children').val(null).trigger('change')"
         >
     </div>
 </div>

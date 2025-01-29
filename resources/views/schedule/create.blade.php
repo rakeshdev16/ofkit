@@ -145,6 +145,12 @@
             selectVisibility(type);
         });
 
+        $(document).on('change', '.event-time', function() {
+            if ($('#uniqueId').val() == '') {
+                $('#therapist, #children').val(null).trigger('change');
+            }
+        });
+
         $(document).on('change', '#day, #appointmentFrequency', function() {
             var type = $('#appointmentType').val();
             var appointmentFrequency = $('#appointmentFrequency').val();
