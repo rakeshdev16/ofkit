@@ -251,13 +251,17 @@ class ScheduleController extends Controller
         }
 
         if ($freqRepeat === 'Bi-weekly') {
-            if ($freqRepeatAt == 'Week 1') {
-                $checkSlot = $checkMonthlySlot->where('frequency_repeat_at', 'Week 2')->orWhere('frequency_repeat_at', 'Week 4')->exists();
+            switch ($freqRepeatAt) {
+                case 'Week 1':
+                    $checkSlot = $checkMonthlySlot->where('frequency_repeat_at', 'Week 2')->orWhere('frequency_repeat_at', 'Week 4')->exists();
+                break;
+                case 'Week 2':
+                    $checkSlot = $checkMonthlySlot->where('frequency_repeat_at', 'Week 1')->orWhere('frequency_repeat_at', 'Week 3')->exists();
+                break;
+                default:
+                    $checkSlot = $checkBiWeeklySlot->where('frequency_repeat_at', $freqRepeatAt)->exists();
+                break;
             }
-            if ($freqRepeatAt == 'Week 2') {
-                $checkSlot = $checkMonthlySlot->where('frequency_repeat_at', 'Week 1')->orWhere('frequency_repeat_at', 'Week 3')->exists();
-            }
-            $checkSlot = $checkBiWeeklySlot->where('frequency_repeat_at', $freqRepeatAt)->exists();
         }
 
         if ($freqRepeat === 'Monthly') {
