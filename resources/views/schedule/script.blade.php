@@ -76,9 +76,8 @@
 
     function filterFormData(callback) {
         $('#formLoader').show();
-        $('#appointmentFormDiv').html('');
         eventData.kindergarten_id = $('#kindergartenFilter').val();
-
+        $('#appointmentFormDiv').html('');
         fetch("{{ route('schedule.filter-form-data') }}", {
             method: 'POST',
             headers: {
@@ -109,13 +108,18 @@
     }
 
     function checkTimeSlot(type, id, dropdown) {
-        timeSlotData['id'] = id;
-        timeSlotData['type'] = type;
-        timeSlotData['startTime'] = $('#startTime').val();
-        timeSlotData['endTime'] = $('#endTime').val();
-        timeSlotData['frequencyRepeat'] = $('#appointmentFrequency').val();
-        timeSlotData['day'] = $('#day').val();
-        timeSlotData['status'] = getQueryParam('status');
+        Object.keys(timeSlotData).forEach(key => delete timeSlotData[key]);
+        let frequencyRepeat = $('#appointmentFrequency').val();
+        let frequencyRepeatAt = frequencyRepeat == 'Bi-weekly' ? $('#Bi-weekly').val() : $('#Monthly').val();
+        timeSlotData.id = id;
+        timeSlotData.type = type;
+        timeSlotData.startTime = $('#startTime').val();
+        timeSlotData.endTime = $('#endTime').val();
+        timeSlotData.frequencyRepeat = frequencyRepeat;
+        timeSlotData.frequencyRepeatAt = frequencyRepeatAt;
+        timeSlotData.day = $('#day').val();
+        timeSlotData.uniqueId = $('#uniqueId').val();
+        timeSlotData.status = getQueryParam('status');
         fetch("{{ route('schedule.time-slot') }}", {
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}",

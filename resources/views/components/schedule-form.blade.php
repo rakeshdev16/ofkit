@@ -25,21 +25,47 @@
         </select>
     </div>
     <div>
-        <input type="text" class="form-control" name="start_time" id="startTime" placeholder="Start Time" value="{{ @$data['startTime'] }}" onchange="$('#therapist, #children').val(null).trigger('change')">
+        <input
+            type="text"
+            class="form-control"
+            name="start_time"
+            id="startTime"
+            placeholder="Start Time"
+            value="{{ @$data['startTime'] }}"
+            onchange="$('#therapist, #children').val(null).trigger('change')"
+        >
     </div>
     <div>
-        <input type="text" class="form-control" name="end_time" id="endTime" placeholder="End Time" value="{{ @$data['endTime'] }}" onchange="$('#therapist, #children').val(null).trigger('change')">
+        <input
+            type="text"
+            class="form-control"
+            name="end_time"
+            id="endTime"
+            placeholder="End Time"
+            value="{{ @$data['endTime'] }}"
+            onchange="$('#therapist, #children').val(null).trigger('change')"
+        >
     </div>
 </div>
 <div class="mb-3">
-    <select id="appointmentFrequency" name="frequency_repeat" class="form-control" onchange="$('#therapist, #children').val(null).trigger('change')">
+    <select
+        id="appointmentFrequency"
+        name="frequency_repeat"
+        class="form-control"
+    >
         <option {{ @$data['frequencyRepeat'] == 'Weekly' ? 'selected' : '' }} value="Weekly">Weekly</option>
         <option {{ @$data['frequencyRepeat'] == 'Bi-weekly' ? 'selected' : '' }} value="Bi-weekly">Bi-weekly</option>
         <option {{ @$data['frequencyRepeat'] == 'Monthly' ? 'selected' : '' }} value="Monthly">Monthly</option>
     </select>
 </div>
 <div class="mb-3">
-    <select id="Monthly" name="{{ @$data['frequencyRepeat'] == 'Monthly' ? 'frequency_repeat_at' : '' }}" class="form-control" style="display: {{ @$data['frequencyRepeat'] == 'Monthly' ? 'block' : 'none' }}">
+    <select
+        id="Monthly"
+        name="{{ @$data['frequencyRepeat'] == 'Monthly' ? 'frequency_repeat_at' : '' }}"
+        class="form-control"
+        style="display: {{ @$data['frequencyRepeat'] == 'Monthly' ? 'block' : 'none' }}"
+        onchange="$('#therapist, #children').val(null).trigger('change')"
+    >
         <option {{ @$data['frequencyRepeatAt'] == 'Week 1' ? 'selected' : '' }} value="Week 1">{{ __('schedule.monthly1') }}</option>
         <option {{ @$data['frequencyRepeatAt'] == 'Week 2' ? 'selected' : '' }} value="Week 2">{{ __('schedule.monthly2') }}</option>
         <option {{ @$data['frequencyRepeatAt'] == 'Week 3' ? 'selected' : '' }} value="Week 3">{{ __('schedule.monthly3') }}</option>
@@ -47,24 +73,47 @@
     </select>
 </div>
 <div class="mb-3">
-    <select id="Bi-weekly" name="{{ @$data['frequencyRepeat'] == 'Bi-weekly' ? 'frequency_repeat_at' : '' }}" class="form-control" style="display: {{ @$data['frequencyRepeat'] == 'Bi-weekly' ? 'block' : 'none' }}">
+    <select
+        id="Bi-weekly"
+        name="{{ @$data['frequencyRepeat'] == 'Bi-weekly' ? 'frequency_repeat_at' : '' }}"
+        class="form-control"
+        style="display: {{ @$data['frequencyRepeat'] == 'Bi-weekly' ? 'block' : 'none' }}"
+        onchange="$('#therapist, #children').val(null).trigger('change')"
+    >
         <option {{ @$data['frequencyRepeatAt'] == 'Week 1' ? 'selected' : '' }} value="Week 1">{{ __('schedule.biweekly1') }}</option>
         <option {{ @$data['frequencyRepeatAt'] == 'Week 2' ? 'selected' : '' }} value="Week 2">{{ __('schedule.biweekly2') }}</option>
     </select>
 </div>
 <div class="mb-3">
     @include('components.multi-select-input', [
-        'name' => "therapist_ids[]", 'class' => 'selectTherapist', 'id' => 'therapist', 'icon' => 'buildings', 'options' => @$data['therapists'], 'value' => @$data['therapistIds']
+        'name' => "therapist_ids[]",
+        'class' => 'selectTherapist',
+        'id' => 'therapist',
+        'icon' => 'buildings',
+        'options' => @$data['therapists'],
+        'value' => @$data['therapistIds']
     ])
 </div>
 <span class="therapists"></span>
 <div id="otherFields" style="display: {{ in_array(@$data['type'], ['individual', 'group', 'parental-guidance', 'staff-meeting']) ? 'block' : 'none' }}">
     <div class="mb-3" id="groupName" style="display: {{ @$data['type'] == 'group' ? 'block' : 'none' }}">
-        <input type="text" name="group_name" id="appointmentGroupName" class="w-100 form-control border-1" placeholder="Group Name" value="{{ @$data['groupName'] }}">
+        <input
+            type="text"
+            name="group_name"
+            id="appointmentGroupName"
+            class="w-100 form-control border-1"
+            placeholder="Group Name"
+            value="{{ @$data['groupName'] }}"
+        >
     </div>
     <div class="mt-3">
         @include('components.multi-select-input', [
-            'name' => "children_ids[]", 'class' => 'selectChildrens', 'id' => 'children', 'icon' => 'buildings', 'options' => @$data['childrens'], 'value' => @$data['childrenId']
+            'name' => "children_ids[]",
+            'class' => 'selectChildrens',
+            'id' => 'children',
+            'icon' => 'buildings',
+            'options' => @$data['childrens'],
+            'value' => @$data['childrenId']
         ])
     </div>
     <span class="childrens mb-3"></span>
@@ -77,27 +126,6 @@
         <div class="event-file" style="display: none"></div>
     </div>
 </div>
-{{-- @if (in_array(@$data['type'], ['individual', 'group', 'parental-guidance', 'staff-meeting']))
-    @if (@$data['type'] == 'group')
-        <div class="mb-3">
-            <input type="text" name="group_name" id="appointmentGroupName" class="w-100 form-control border-1" placeholder="Group Name" value="{{ @$data['groupName'] }}">
-        </div>
-    @endif
-    <div class="mt-3">
-        @include('components.multi-select-input', [
-            'name' => "children_ids[]", 'class' => 'selectChildrens', 'id' => 'children', 'icon' => 'buildings', 'options' => @$data['childrens'], 'value' => @$data['childrenId']
-        ])
-    </div>
-    <span class="childrens mb-3"></span>
-    <div class="my-3">
-        <textarea class="form-control w-100" placeholder="Add Description" rows="5" name="description" id="description">{{ @$data['description'] }}</textarea>
-    </div>
-    <div class="mb-3">
-        <input type="file" id="eventFile" name="image" class="form-control">
-        <input type="hidden" id="eventOldFile" name="old_image" class="form-control">
-        <div class="event-file" style="display: none"></div>
-    </div>
-@endif --}}
 <input type="hidden" name="resource" id="resource" value="{{ @$data['resource'] }}">
 <input type="hidden" name="unique_id" id="uniqueId" value="{{ @$data['uniqueId'] }}">
 <input type="hidden" name="color" value="{{ @json_encode($data['color']) }}">

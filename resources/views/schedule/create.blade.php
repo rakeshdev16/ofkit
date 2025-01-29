@@ -145,11 +145,15 @@
             selectVisibility(type);
         });
 
-        $(document).on('change', '#day', function() {
+        $(document).on('change', '#day, #appointmentFrequency', function() {
             var type = $('#appointmentType').val();
-            var day = $(this).val();
+            var appointmentFrequency = $('#appointmentFrequency').val();
+            var day = $('#day').val();
             eventData.day = day;
+            eventData.frequencyRepeat = appointmentFrequency;
             eventData.type = type;
+            eventData.startTime = $('#startTime').val();
+            eventData.endTime = $('#endTime').val();
             if (day) {
                 filterFormData();
             }
