@@ -23,7 +23,12 @@
     </div>
     <div class="row mb-2 fs-6 text-dark">
         <div class="col-md-1"><i class="fa fa-clock-o"></i></div>
-        <div class="col-md-11">{{ $data->frequency_repeat }} {{ $data->frequency_repeat_at}}</div>
+        <div class="col-md-11">
+            {{ $data->frequency_repeat }}
+            @if ($data->frequency_repeat !== 'Weekly')
+                {{ $data->frequency_repeat_at}}
+            @endif
+        </div>
     </div>
     <div class="row mb-2 fs-6 text-dark">
         <div class="col-md-1"><i class="fa fa-users"></i></div>
