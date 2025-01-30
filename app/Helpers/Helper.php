@@ -238,7 +238,8 @@ function scheduleResponse($schedules, $childId = null)
 {
     return $schedules->map(function ($schedule) use($schedules, $childId) {
         $therapistIds = $schedules->where('unique_id', $schedule->unique_id)->pluck('therapist_id')->toArray();
-        $schedule->eventCount = $schedules->where('therapist_id', $schedule->therapist_id)->where('day', $schedule->day)->where('start_time', $schedule->start_time)->count();
+        $schedule->eventCount = $schedule->sameTimeEvents()->count();
+        $schedule->last_id = $schedule->sameTimeEvents()->orderBy('id', 'DESC')->pluck('id')->first();
         $schedule->therapistIds = $therapistIds;
         $schedule->childrenId = $schedule->childrens->pluck('children_id')->toArray();
         return [

@@ -113,6 +113,11 @@ class ScheduleEvent extends Model
         return '<div>'.ucfirst(str_replace('-', ' ', $this->type)).'</div>';
     }
 
+    public function scopeSameTimeEvents($query)
+    {
+        return $query->where('therapist_id', $this->therapist_id)->where('day', $this->day)->where('start_time', $this->start_time);
+    }
+
     public function scopeOverlappingWithTimeSlot($query, $data)
     {
         $startTime = $data['startTime'];

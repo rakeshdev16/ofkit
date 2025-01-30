@@ -1,10 +1,14 @@
  <div class="p-1 event-box d-flex flex-column justify-content-between" style="{{ $data->color[0] }}; {{ $data->color[1] }}">
     @if ($data['eventCount'] >= 3)
-        <div class="position-absolute" style="text-align: left;">
-            <span style="display: block; font-size: 14px;">
+        @php
+            $id = $data->id;
+            $lastId = $data->last_id;
+        @endphp
+        <div class="position-absolute {{ $lastId == $id ? 'last-event' : 'old-events' }}">
+            <span class="icon" style="display: block; font-size: 14px;">
                 <i class="fa fa-{{ appointmentIcon($data->type) }}"></i>
             </span>
-            <span style="display: block; font-size: 12px; margin-top: 4px;">
+            <span class="time" style="display: block; font-size: 8px; margin-top: 4px;">
                 {{ date('H:i', strtotime($data->start_time)) }}
             </span>
         </div>
