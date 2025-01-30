@@ -5,10 +5,10 @@
             $lastId = $data->last_id;
         @endphp
         <div class="position-absolute {{ $lastId == $id ? 'last-event' : 'old-events' }}">
-            <span class="icon" style="display: block; font-size: 14px;">
+            <span class="event-icon" style="display: block; font-size: 14px;">
                 <i class="fa fa-{{ appointmentIcon($data->type) }}"></i>
             </span>
-            <span class="time" style="display: block; font-size: 8px; margin-top: 4px;">
+            <span class="event-time" style="display: block; font-size: 8px; margin-top: 4px;">
                 {{ date('H:i', strtotime($data->start_time)) }}
             </span>
         </div>

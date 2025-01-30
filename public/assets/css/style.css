@@ -684,11 +684,11 @@ button.accordion-button.accordion-screen.collapsed {
     padding: 0px !important;
 }
 
-.old-events .icon {
+.old-events .event-icon {
     padding-right: 20px !important;
 }
 
-.old-events .time {
+.old-events .event-time {
     padding-right: 15px !important;
 }
 
