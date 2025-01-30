@@ -146,9 +146,7 @@
         });
 
         $(document).on('change', '.event-time', function() {
-            if ($('#uniqueId').val() == '') {
-                $('#therapist, #children').val(null).trigger('change');
-            }
+            $('#therapist, #children').val(null).trigger('change');
         });
 
         $(document).on('change', '#day, #appointmentFrequency', function() {

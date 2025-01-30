@@ -176,36 +176,6 @@ class ScheduleController extends Controller
         return response()->json($view);
     }
 
-    // public function checkTimeSlot(Request $request)
-    // {
-    //     if (Schedule::where('status', $request->status)->exists()) {
-    //         $checkSlot = Schedule::where('status', $request->status)->first()->events()
-    //             ->where('day', $request['day'])
-    //             ->where('start_time', '>=', $request['startTime'])
-    //             ->where('end_time', '<=', $request['endTime']);
-    //         switch ($request->type) {
-    //             case 'therapist':
-    //                 $checkSlot = $checkSlot->where('therapist_id', $request['id']);
-    //                 if ($request['frequencyRepeat'] === 'Weekly') {
-    //                     $checkSlot = $checkSlot->where('frequency_repeat', 'Weekly')->exists();
-    //                 } else {
-    //                     $checkSlot = false;
-    //                 }
-    //                 break;
-    //             case 'children':
-    //                 $checkSlot = $checkSlot->whereHas('childrens', function ($query) use ($request) {
-    //                     $query->where('children_id', $request['id']);
-    //                 })->exists();
-    //             break;
-    //         }
-
-    //         return response()->json([
-    //             'status' => $checkSlot,
-    //             'message' => $checkSlot ? 'This ' . $request->type . ' is already assigned to another on the same time' : ''
-    //         ]);
-    //     }
-    // }
-
     public function checkTimeSlot(Request $request)
     {
         $data = $request->all();
