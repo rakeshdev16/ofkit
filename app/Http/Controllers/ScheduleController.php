@@ -252,10 +252,10 @@ class ScheduleController extends Controller
                 break;
                 case 'Monthly':
                     $biWeeklySlot = '';
-                    if ($freqRepeatAt == 'Week 1') $biWeeklySlot = 'Week 2';
-                    if ($freqRepeatAt == 'Week 2') $biWeeklySlot = 'Week 1';
-                    if ($freqRepeatAt == 'Week 3') $biWeeklySlot = 'Week 2';
-                    if ($freqRepeatAt == 'Week 4') $biWeeklySlot = 'Week 1';
+                    if ($freqRepeatAt == 'Week 1') $biWeeklySlot = 'Week 1';
+                    if ($freqRepeatAt == 'Week 2') $biWeeklySlot = 'Week 2';
+                    if ($freqRepeatAt == 'Week 3') $biWeeklySlot = 'Week 1';
+                    if ($freqRepeatAt == 'Week 4') $biWeeklySlot = 'Week 2';
 
                     if (!empty($biWeeklySlot) && $biWeekly->where('frequency_repeat_at', $biWeeklySlot)->exists()) {
                         $checkSlot = true;
