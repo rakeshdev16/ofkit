@@ -61,6 +61,7 @@
     }
 
     function calendar(events = '', list) {
+        let headerLevel = "{{ Route::currentRouteName() }}" == 'therapy-schedule.index' ? "1" : "4";
         if (window.dp) {
             window.dp.dispose();
         }
@@ -70,7 +71,7 @@
             startDate: DayPilot.Date.today(),
             viewType: "Resources",
             columnWidthSpec: "Fixed",
-            headerLevels: "4",
+            headerLevels: headerLevel,
             headerLevelHeights: [ 40, 40 ],
             heightSpec: "BusinessHoursNoScroll",
             height: 500,

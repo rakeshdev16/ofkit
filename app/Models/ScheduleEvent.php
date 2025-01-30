@@ -122,7 +122,7 @@ class ScheduleEvent extends Model
     {
         $startTime = $data['startTime'];
         $endTime = $data['endTime'];
-        return $query->where('day', $data['day'])->where('therapist_id', $data['id'])
+        return $query->where('day', $data['day'])
             ->where(function ($query) use ($startTime, $endTime) {
                 $query->whereTime('start_time', '<', $endTime . ':00')->whereTime('end_time', '>', $startTime . ':00');
             });

@@ -6,6 +6,8 @@ use App\Models\Children;
 use App\Models\TherapyScheduleChildren;
 use App\Models\TherapySchedule;
 use App\Models\Schedule;
+use App\Models\StaffSchedule;
+use App\Models\StaffKindergarten;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -27,15 +29,28 @@ class ChildrenScheduleController extends Controller
     public function calendar(Request $request)
     {
         $filter = $request->all();
-        $header = [
-            ['name' => 'Sunday', 'id' => $filter['children_id'].'sunday'],
-            ['name' => 'Monday', 'id' => $filter['children_id'].'monday'],
-            ['name' => 'Tuesday', 'id' => $filter['children_id'].'tuesday'],
-            ['name' => 'Wednesday', 'id' => $filter['children_id'].'wednesday'],
-            ['name' => 'Thursday', 'id' => $filter['children_id'].'thursday'],
-            ['name' => 'Friday', 'id' => $filter['children_id'].'friday'],
-            ['name' => 'Saturday', 'id' => $filter['children_id'].'saturday'],
-        ];
+        $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        $header = [];
+        foreach ($days as $day) {
+            $schedules = StaffSchedule::with('user')->where('day', $day)->get()
+                ->map(function ($schedule) use ($day, $request) {
+                    $f_name = $schedule->user->family_name;
+                    return [
+                        'id' => $request['children_id'].''.strtolower($day),
+                        'user_id' => $schedule->user->id,
+                        'name' => $schedule->user->name ?? 'N/A',
+                        'first_name' => $schedule->user->first_name ?? 'N/A',
+                        'family_name' => $f_name ? mb_substr($f_name, 0, 1) . '.' : '',
+                        'association' => @StaffKindergarten::where(['user_id' => $schedule->user_id])->first()->association->name,
+                        'profession' => @StaffKindergarten::where(['user_id' => $schedule->user_id])->first()->profession->acronyms,
+                    ];
+                })->unique('id')->values()->toArray();
+
+            $header[] = [
+                'name' => $day,
+                'children' => $schedules,
+            ];
+        }
 
         $events = [];
         $schedule = Schedule::where('status', 'published')->first();

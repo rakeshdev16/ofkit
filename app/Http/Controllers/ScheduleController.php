@@ -214,90 +214,91 @@ class ScheduleController extends Controller
         if (!Schedule::where('status', $data['status'])->exists()) {
             return response()->json(['status' => false, 'message' => '']);
         }
+        $schedule = isset($data['schedule_id']) ? Schedule::find($data['schedule_id']) : Schedule::where('status', $data['status'])->first();
+        $events = $schedule->events()->overlappingWithTimeSlot($data)->where('therapist_id', $data['id']);
+        $weekly = (clone $events)->weekly();
+        $biWeekly = (clone $events)->biWeekly();
+        $monthly = (clone $events)->monthly();
 
-        if (isset($data['schedule_id'])) {
-            $schedule = Schedule::where('id', $data['schedule_id'])->first();
-        } else {
-            $schedule = Schedule::where('status', $data['status'])->first();
-        }
-
-        $checkSlot = $schedule->events()->overlappingWithTimeSlot($data);
-        $weekly = (clone $checkSlot)->weekly();
-        $biWeekly = (clone $checkSlot)->biWeekly();
-        $monthly = (clone $checkSlot)->monthly();
+        $weeklyExists = $weekly->exists();
+        $biWeeklyExists = $biWeekly->exists();
+        $monthlyExists = $monthly->exists();
 
         if (isset($data['uniqueId'])) {
-            $checkSlot = $checkSlot->where('unique_id', '!=', $data['uniqueId']);
+            $events = $events->where('unique_id', '!=', $data['uniqueId']);
         }
 
-        if ($weekly->exists()) {
+        if ($weeklyExists) {
             return response()->json([
                 'status' => true,
                 'message' => 'This therapist already has a weekly appointment at this time'
             ]);
         }
 
+        $isSlotAvailable = false;
+
         if ($data['type'] == 'therapist') {
-            switch ($data['frequencyRepeat']) {
+            switch ($freqRepeat) {
                 case 'Weekly':
-                    if ($biWeekly->exists() || $monthly->exists()) {
-                        $checkSlot = true;
+                    if ($biWeeklyExists || $monthlyExists) {
+                        $isSlotAvailable = true;
                     }
                 break;
                 case 'Bi-weekly':
-                    $checkFirstWeek = (clone $monthly)->where('frequency_repeat_at', 'Week 2')->orWhere('frequency_repeat_at', 'Week 4')->exists();
-                    $checkSecondWeek = (clone $monthly)->where('frequency_repeat_at', 'Week 1')->orWhere('frequency_repeat_at', 'Week 3')->exists();
-                    if ($freqRepeatAt == 'Week 1' && $checkFirstWeek) {
-                        $checkSlot = true;
-                    } else if ($freqRepeatAt == 'Week 2' && $checkSecondWeek) {
-                        $checkSlot = true;
+                    $checkFirstWeek = (clone $monthly)->whereIn('frequency_repeat_at', ['Week 1', 'Week 3'])->exists();
+                    $checkSecondWeek = (clone $monthly)->whereIn('frequency_repeat_at', ['Week 2', 'Week 4'])->exists();
+
+                    if (($freqRepeatAt == 'Week 1' && $checkFirstWeek) || ($freqRepeatAt == 'Week 2' && $checkSecondWeek)) {
+                        $isSlotAvailable = true;
                     } else {
-                        $checkSlot = $biWeekly->where('frequency_repeat_at', $freqRepeatAt)->exists();
+                        $isSlotAvailable = $biWeekly->where('frequency_repeat_at', $freqRepeatAt)->exists();
                     }
                 break;
                 case 'Monthly':
-                    $biWeeklySlot = '';
-                    if ($freqRepeatAt == 'Week 1') $biWeeklySlot = 'Week 1';
-                    if ($freqRepeatAt == 'Week 2') $biWeeklySlot = 'Week 2';
-                    if ($freqRepeatAt == 'Week 3') $biWeeklySlot = 'Week 1';
-                    if ($freqRepeatAt == 'Week 4') $biWeeklySlot = 'Week 2';
-
+                    $biWeeklySlotMap = ['Week 1' => 'Week 1', 'Week 2' => 'Week 2', 'Week 3' => 'Week 1', 'Week 4' => 'Week 2'];
+                    $biWeeklySlot = $biWeeklySlotMap[$freqRepeatAt] ?? '';
                     if (!empty($biWeeklySlot) && $biWeekly->where('frequency_repeat_at', $biWeeklySlot)->exists()) {
-                        $checkSlot = true;
+                        $isSlotAvailable = true;
                     } else {
-                        $checkSlot = $monthly->where('frequency_repeat_at', $freqRepeatAt)->exists();
+                        $isSlotAvailable = $monthly->where('frequency_repeat_at', $freqRepeatAt)->exists();
                     }
                 break;
             }
+
+            return response()->json([
+                'status' => $isSlotAvailable,
+                'message' => 'This therapist already has a weekly appointment at this time'
+            ]);
         }
 
         if ($data['type'] == 'children') {
-            $checkSlot = $checkSlot->whereHas('childrens', function ($query) use ($data) {
+            $events = $schedule->events()->overlappingWithTimeSlot($data);
+            $events = $events->whereHas('childrens', function ($query) use ($data) {
                 $query->where('children_id', $data['id']);
             });
-        }
 
-        return response()->json([
-            'status' => $checkSlot,
-            'message' => $checkSlot ? 'This '.$data['type'].' already has a weekly appointment at this time' : ''
-        ]);
+            return response()->json([
+                'status' => $events->exists(),
+                'message' => 'This children already has a weekly appointment at this time'
+            ]);
+        }
     }
 
     public function hourSummary(Request $request)
     {
         $associations = Association::whereIn('name', ['Matia', 'Tabam'])->with('staffKindergarten:user_id,association_id')->get()->keyBy('name');
-        $matiaTherapistIds = $associations['Matia']->staffKindergarten->pluck('user_id')->toArray();
-        $tabamTherapistIds = $associations['Tabam']->staffKindergarten->pluck('user_id')->toArray();
+        $matiaTherapistIds = (clone $associations['Matia']->staffKindergarten)->pluck('user_id')->toArray();
+        $tabamTherapistIds = (clone $associations['Tabam']->staffKindergarten)->pluck('user_id')->toArray();
         $childrens = Children::select('id', 'name', 'kindergarten_id')->where('kindergarten_id', $request->kindergarten_id)->get()->toArray();
-        $schedule = Schedule::where('status', 'published')->first();
+        $schedule = Schedule::filter(['status' => 'published'])->first();
         $childrenSummary = '';
         $staffSummary = '';
-        if ($schedule && $schedule->events() !== null) {
+        if ($schedule && (clone $schedule)->events() !== null) {
             foreach ($childrens as $children) {
-                $tabamScheduls = $schedule->events()->whereIn('therapist_id', array_unique($tabamTherapistIds))->whereHas('childrens', function ($query) use ($children) {
+                $tabamScheduls = (clone $schedule)->events()->whereIn('therapist_id', array_unique($tabamTherapistIds))->whereHas('childrens', function ($query) use ($children) {
                         $query->where('children_id', $children['id']);
                     })->get();
-                $matiaScheduls = $schedule->events()->whereIn('therapist_id', array_unique($matiaTherapistIds))->whereHas('childrens', function ($query) use ($children) {
+                $matiaScheduls = (clone $schedule)->events()->whereIn('therapist_id', array_unique($matiaTherapistIds))->whereHas('childrens', function ($query) use ($children) {
                         $query->where('children_id', $children['id']);
                     })->get();
                 $summary = [
@@ -317,7 +318,7 @@ class ScheduleController extends Controller
                         $query->where('kindergarten_id', $request->kindergarten_id);
                     })->get();
             foreach ($users as $user) {
-                $staffScheduls = $schedule->events()->where('therapist_id', $user->id)->get();
+                $staffScheduls = (clone $schedule)->events()->where('therapist_id', $user->id)->get();
                 $summary = [
                     'individual' => $staffScheduls->where('type', 'individual')->count(),
                     'group' => $staffScheduls->where('type', 'group')->count(),
