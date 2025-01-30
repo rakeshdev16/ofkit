@@ -208,7 +208,7 @@ class ScheduleController extends Controller
         if ($weeklyExists) {
             return response()->json([
                 'status' => true,
-                'message' => 'This ' . $data['type'] . ' already has a weekly appointment at this time'
+                'message' => 'This ' . $data['type'] . ' already has a booked appointment at this time'
             ]);
         }
 
