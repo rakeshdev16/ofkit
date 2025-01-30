@@ -181,132 +181,69 @@ class ScheduleController extends Controller
         $data = $request->all();
         $freqRepeat = $data['frequencyRepeat'];
         $freqRepeatAt = $data['frequencyRepeatAt'];
+
         if (!Schedule::where('status', $data['status'])->exists()) {
             return response()->json(['status' => false, 'message' => '']);
         }
-        $schedule = isset($data['schedule_id']) ? Schedule::find($data['schedule_id']) : Schedule::where('status', $data['status'])->first();
-        $events = $schedule->events()->overlappingWithTimeSlot($data)->where('therapist_id', $data['id']);
-        $weekly = (clone $events)->weekly();
-        $biWeekly = (clone $events)->biWeekly();
-        $monthly = (clone $events)->monthly();
 
-        $weeklyExists = $weekly->exists();
-        $biWeeklyExists = $biWeekly->exists();
-        $monthlyExists = $monthly->exists();
+        $schedule = isset($data['schedule_id']) ? Schedule::find($data['schedule_id']) : Schedule::where('status', $data['status'])->first();
+        $events = $schedule->events()->overlappingWithTimeSlot($data);
+
+        if ($data['type'] == 'therapist') {
+            $events = $events->where('therapist_id', $data['id']);
+        } elseif ($data['type'] == 'children') {
+            $events = $events->whereHas('childrens', function ($query) use ($data) {
+                $query->where('children_id', $data['id']);
+            });
+        }
 
         if (isset($data['uniqueId'])) {
             $events = $events->where('unique_id', '!=', $data['uniqueId']);
         }
 
+        $weeklyExists = (clone $events)->weekly()->exists();
+        $biWeeklyExists = (clone $events)->biWeekly()->exists();
+        $monthlyExists = (clone $events)->monthly()->exists();
+
         if ($weeklyExists) {
             return response()->json([
                 'status' => true,
-                'message' => 'This therapist already has a weekly appointment at this time'
+                'message' => 'This ' . $data['type'] . ' already has a weekly appointment at this time'
             ]);
         }
 
-        $isUserAvailable = false;
+        $isSlotAvailable = false;
 
-        if ($data['type'] == 'therapist') {
-            switch ($freqRepeat) {
-                case 'Weekly':
-                    if ($biWeeklyExists || $monthlyExists) {
-                        $isUserAvailable = true;
-                    }
-                break;
-                case 'Bi-weekly':
-                    $checkFirstWeek = (clone $monthly)->whereIn('frequency_repeat_at', ['Week 1', 'Week 3'])->exists();
-                    $checkSecondWeek = (clone $monthly)->whereIn('frequency_repeat_at', ['Week 2', 'Week 4'])->exists();
-
-                    if (($freqRepeatAt == 'Week 1' && $checkFirstWeek) || ($freqRepeatAt == 'Week 2' && $checkSecondWeek)) {
-                        $isUserAvailable = true;
-                    } else {
-                        $isUserAvailable = $biWeekly->where('frequency_repeat_at', $freqRepeatAt)->exists();
-                    }
-                break;
-                case 'Monthly':
-                    $biWeeklySlotMap = ['Week 1' => 'Week 1', 'Week 2' => 'Week 2', 'Week 3' => 'Week 1', 'Week 4' => 'Week 2'];
-                    $biWeeklySlot = $biWeeklySlotMap[$freqRepeatAt] ?? '';
-                    if (!empty($biWeeklySlot) && $biWeekly->where('frequency_repeat_at', $biWeeklySlot)->exists()) {
-                        $isUserAvailable = true;
-                    } else {
-                        $isUserAvailable = $monthly->where('frequency_repeat_at', $freqRepeatAt)->exists();
-                    }
-                break;
-            }
-
-            return response()->json([
-                'status' => $isUserAvailable,
-                'message' => 'This therapist already has a weekly appointment at this time'
-            ]);
+        switch ($freqRepeat) {
+            case 'Weekly':
+                if ($biWeeklyExists || $monthlyExists) {
+                    $isSlotAvailable = true;
+                }
+            break;
+            case 'Bi-weekly':
+                $checkFirstWeek = (clone $events)->monthly()->whereIn('frequency_repeat_at', ['Week 1', 'Week 3'])->exists();
+                $checkSecondWeek = (clone $events)->monthly()->whereIn('frequency_repeat_at', ['Week 2', 'Week 4'])->exists();
+                if (($freqRepeatAt == 'Week 1' && $checkFirstWeek) || ($freqRepeatAt == 'Week 2' && $checkSecondWeek)) {
+                    $isSlotAvailable = true;
+                } else {
+                    $isSlotAvailable = (clone $events)->biWeekly()->where('frequency_repeat_at', $freqRepeatAt)->exists();
+                }
+            break;
+            case 'Monthly':
+                $biWeeklySlotMap = ['Week 1' => 'Week 1', 'Week 2' => 'Week 2', 'Week 3' => 'Week 1', 'Week 4' => 'Week 2'];
+                $biWeeklySlot = $biWeeklySlotMap[$freqRepeatAt] ?? '';
+                if (!empty($biWeeklySlot) && (clone $events)->biWeekly()->where('frequency_repeat_at', $biWeeklySlot)->exists()) {
+                    $isSlotAvailable = true;
+                } else {
+                    $isSlotAvailable = (clone $events)->monthly()->where('frequency_repeat_at', $freqRepeatAt)->exists();
+                }
+            break;
         }
 
-        // if ($data['type'] == 'children') {
-        //     $events = $schedule->events()->overlappingWithTimeSlot($data);
-        //     $events = $events->whereHas('childrens', function ($query) use ($data) {
-        //         $query->where('children_id', $data['id']);
-        //     });
-
-        //     return response()->json([
-        //         'status' => $events->exists(),
-        //         'message' => 'This children already has a weekly appointment at this time'
-        //     ]);
-        // }
-
-        if ($data['type'] == 'children') {
-            $events = $schedule->events()->overlappingWithTimeSlot($data)->whereHas('childrens', function ($query) use ($data) {
-                $query->where('children_id', $data['id']);
-            });
-
-            $weekly = (clone $events)->weekly();
-            $biWeekly = (clone $events)->biWeekly();
-            $monthly = (clone $events)->monthly();
-
-            $weeklyExists = $weekly->exists();
-            $biWeeklyExists = $biWeekly->exists();
-            $monthlyExists = $monthly->exists();
-
-            if ($weeklyExists) {
-                return response()->json([
-                    'status' => true,
-                    'message' => 'This child already has a weekly appointment at this time'
-                ]);
-            }
-
-            $isChildAvailable = false;
-
-            switch ($freqRepeat) {
-                case 'Weekly':
-                    if ($biWeeklyExists || $monthlyExists) {
-                        $isChildAvailable = true;
-                    }
-                break;
-                case 'Bi-weekly':
-                    $checkFirstWeek = (clone $monthly)->whereIn('frequency_repeat_at', ['Week 1', 'Week 3'])->exists();
-                    $checkSecondWeek = (clone $monthly)->whereIn('frequency_repeat_at', ['Week 2', 'Week 4'])->exists();
-
-                    if (($freqRepeatAt == 'Week 1' && $checkFirstWeek) || ($freqRepeatAt == 'Week 2' && $checkSecondWeek)) {
-                        $isChildAvailable = true;
-                    } else {
-                        $isChildAvailable = $biWeekly->where('frequency_repeat_at', $freqRepeatAt)->exists();
-                    }
-                break;
-                case 'Monthly':
-                    $biWeeklySlotMap = ['Week 1' => 'Week 1', 'Week 2' => 'Week 2', 'Week 3' => 'Week 1', 'Week 4' => 'Week 2'];
-                    $biWeeklySlot = $biWeeklySlotMap[$freqRepeatAt] ?? '';
-                    if (!empty($biWeeklySlot) && $biWeekly->where('frequency_repeat_at', $biWeeklySlot)->exists()) {
-                        $isChildAvailable = true;
-                    } else {
-                        $isChildAvailable = $monthly->where('frequency_repeat_at', $freqRepeatAt)->exists();
-                    }
-                break;
-            }
-
-            return response()->json([
-                'status' => $isChildAvailable,
-                'message' => $isChildAvailable ? 'This child already has an appointment at this time' : ''
-            ]);
-        }
+        return response()->json([
+            'status' => $isSlotAvailable,
+            'message' => 'This ' . $data['type'] . ' already has an appointment at this time'
+        ]);
     }
 
     public function hourSummary(Request $request)
