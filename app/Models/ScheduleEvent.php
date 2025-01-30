@@ -112,4 +112,29 @@ class ScheduleEvent extends Model
 
         return '<div>'.ucfirst(str_replace('-', ' ', $this->type)).'</div>';
     }
+
+    public function scopeOverlappingWithTimeSlot($query, $data)
+    {
+        $startTime = $data['startTime'];
+        $endTime = $data['endTime'];
+        return $query->where('day', $data['day'])->where('therapist_id', $data['id'])
+            ->where(function ($query) use ($startTime, $endTime) {
+                $query->whereTime('start_time', '<', $endTime . ':00')->whereTime('end_time', '>', $startTime . ':00');
+            });
+    }
+
+    public function scopeWeekly($query)
+    {
+        return $query->where('frequency_repeat', 'Weekly');
+    }
+
+    public function scopeBiWeekly($query)
+    {
+        return $query->where('frequency_repeat', 'Bi-weekly');
+    }
+
+    public function scopeMonthly($query)
+    {
+        return $query->where('frequency_repeat', 'Monthly');
+    }
 }

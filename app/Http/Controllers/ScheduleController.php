@@ -209,95 +209,73 @@ class ScheduleController extends Controller
     public function checkTimeSlot(Request $request)
     {
         $data = $request->all();
+        $freqRepeat = $data['frequencyRepeat'];
+        $freqRepeatAt = $data['frequencyRepeatAt'];
         if (!Schedule::where('status', $data['status'])->exists()) {
             return response()->json(['status' => false, 'message' => '']);
         }
 
         $schedule = Schedule::where('status', $data['status'])->first();
-        $checkSlot = $schedule->events()
-            ->where('day', $data['day'])
-            ->where(function ($query) use ($data) {
-                $query->whereTime('start_time', '<', $data['endTime'].':00')->whereTime('end_time', '>', $data['startTime'].':00');
-            });
+        $checkSlot = $schedule->events()->overlappingWithTimeSlot($data);
+        $weekly = (clone $checkSlot)->weekly();
+        $biWeekly = (clone $checkSlot)->biWeekly();
+        $monthly = (clone $checkSlot)->monthly();
 
         if (isset($data['uniqueId'])) {
-            $checkSlot = $checkSlot->whereNot('unique_id', $data['uniqueId']);
+            $checkSlot = $checkSlot->where('unique_id', '!=', $data['uniqueId']);
         }
 
-        if ($data['type'] == 'therapist') return $this->checkUserSlot($data, $checkSlot);
-        if ($data['type'] == 'children') return $this->checkChildrenSlot($data, $checkSlot);
-
-        return response()->json(['status' => false, 'message' => '']);
-    }
-
-    private function checkUserSlot($data, $query)
-    {
-        $freqRepeat = $data['frequencyRepeat'];
-        $freqRepeatAt = $data['frequencyRepeatAt'];
-        $checkSlot = $query->where('therapist_id', $data['id']);
-        $checkBiWeeklySlot = clone $checkSlot;
-        $checkBiWeeklySlot = $checkBiWeeklySlot->where('frequency_repeat', 'Bi-weekly');
-        $checkMonthlySlot = clone $checkSlot;
-        $checkMonthlySlot = $checkMonthlySlot->where('frequency_repeat', 'Monthly');
-
-        $weeklyCheck = clone $checkSlot;
-        if ($weeklyCheck->where('frequency_repeat', 'Weekly')->exists()) {
+        if ($weekly->exists()) {
             return response()->json([
                 'status' => true,
                 'message' => 'This therapist already has a weekly appointment at this time'
             ]);
         }
 
-        if ($freqRepeat === 'Weekly' && ($checkBiWeeklySlot->exists() || $checkMonthlySlot->exists())) {
-            $checkSlot = true;
-        }
+        if ($data['type'] == 'therapist') {
+            switch ($data['frequencyRepeat']) {
+                case 'Weekly':
+                    if ($biWeekly->exists() || $monthly->exists()) {
+                        $checkSlot = true;
+                    }
+                break;
+                case 'Bi-weekly':
+                    $checkFirstWeek = (clone $monthly)->where('frequency_repeat_at', 'Week 2')->orWhere('frequency_repeat_at', 'Week 4')->exists();
+                    $checkSecondWeek = (clone $monthly)->where('frequency_repeat_at', 'Week 1')->orWhere('frequency_repeat_at', 'Week 3')->exists();
+                    if ($freqRepeatAt == 'Week 1' && $checkFirstWeek) {
+                        $checkSlot = true;
+                    } else if ($freqRepeatAt == 'Week 2' && $checkSecondWeek) {
+                        $checkSlot = true;
+                    } else {
+                        $checkSlot = $biWeekly->where('frequency_repeat_at', $freqRepeatAt)->exists();
+                    }
+                break;
+                case 'Monthly':
+                    $biWeeklySlot = '';
+                    if ($freqRepeatAt == 'Week 1') $biWeeklySlot = 'Week 2';
+                    if ($freqRepeatAt == 'Week 2') $biWeeklySlot = 'Week 1';
+                    if ($freqRepeatAt == 'Week 3') $biWeeklySlot = 'Week 2';
+                    if ($freqRepeatAt == 'Week 4') $biWeeklySlot = 'Week 1';
 
-        if ($freqRepeat === 'Bi-weekly') {
-            switch ($freqRepeatAt) {
-                case 'Week 1':
-                    $checkSlot = $checkMonthlySlot->where('frequency_repeat_at', 'Week 2')->orWhere('frequency_repeat_at', 'Week 4')->exists();
-                break;
-                case 'Week 2':
-                    $checkSlot = $checkMonthlySlot->where('frequency_repeat_at', 'Week 1')->orWhere('frequency_repeat_at', 'Week 3')->exists();
-                break;
-                default:
-                    $checkSlot = $checkBiWeeklySlot->where('frequency_repeat_at', $freqRepeatAt)->exists();
+                    if (!empty($biWeeklySlot) && $biWeekly->where('frequency_repeat_at', $biWeeklySlot)->exists()) {
+                        $checkSlot = true;
+                    } else {
+                        $checkSlot = $monthly->where('frequency_repeat_at', $freqRepeatAt)->exists();
+                    }
                 break;
             }
         }
 
-        if ($freqRepeat === 'Monthly') {
-            $biWeeklySlot = '';
-            if ($freqRepeatAt == 'Week 1') $biWeeklySlot = 'Week 2';
-            if ($freqRepeatAt == 'Week 2') $biWeeklySlot = 'Week 1';
-            if ($freqRepeatAt == 'Week 3') $biWeeklySlot = 'Week 2';
-            if ($freqRepeatAt == 'Week 4') $biWeeklySlot = 'Week 1';
-
-            if (!empty($biWeeklySlot) && $checkBiWeeklySlot->where('frequency_repeat_at', $biWeeklySlot)->exists()) {
-                $checkSlot = true;
-            } else {
-                $checkSlot = $checkMonthlySlot->where('frequency_repeat_at', $freqRepeatAt)->exists();
-            }
+        if ($data['type'] == 'children') {
+            $checkSlot = $checkSlot->whereHas('childrens', function ($query) use ($data) {
+                $query->where('children_id', $data['id']);
+            });
         }
 
         return response()->json([
             'status' => $checkSlot,
-            'message' => $checkSlot ? 'This therapist already has a weekly appointment at this time' : ''
+            'message' => $checkSlot ? 'This '.$data['type'].' already has a weekly appointment at this time' : ''
         ]);
-    }
-
-    private function checkChildrenSlot($data, $checkSlot)
-    {
-        $checkSlot = $checkSlot->whereHas('childrens', function ($query) use ($data) {
-            $query->where('children_id', $data['id']);
-        });
-
-        if ($checkSlot->exists()) {
-            return response()->json([
-                'status' => true,
-                'message' => 'This child has a conflicting schedule.'
-            ]);
-        }
     }
 
     public function hourSummary(Request $request)
