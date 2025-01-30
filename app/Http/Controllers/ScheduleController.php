@@ -215,7 +215,12 @@ class ScheduleController extends Controller
             return response()->json(['status' => false, 'message' => '']);
         }
 
-        $schedule = Schedule::where('status', $data['status'])->first();
+        if (isset($data['schedule_id'])) {
+            $schedule = Schedule::where('id', $data['schedule_id'])->first();
+        } else {
+            $schedule = Schedule::where('status', $data['status'])->first();
+        }
+
         $checkSlot = $schedule->events()->overlappingWithTimeSlot($data);
         $weekly = (clone $checkSlot)->weekly();
         $biWeekly = (clone $checkSlot)->biWeekly();
