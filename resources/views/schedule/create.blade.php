@@ -158,6 +158,8 @@
             eventData.type = type;
             eventData.startTime = $('#startTime').val();
             eventData.endTime = $('#endTime').val();
+            eventData.therapistIds = [];
+            eventData.childrenId = [];
             if (day) {
                 filterFormData();
             }
