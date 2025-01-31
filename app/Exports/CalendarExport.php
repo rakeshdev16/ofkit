@@ -11,12 +11,14 @@ class CalendarExport implements FromView, ShouldAutoSize
     protected $days;
     protected $timeSlots;
     protected $daySchedules;
+    protected $events;
 
-    public function __construct($days, $timeSlots, $daySchedules)
+    public function __construct($days, $timeSlots, $daySchedules, $events)
     {
         $this->days = $days;
         $this->timeSlots = $timeSlots;
         $this->daySchedules = $daySchedules;
+        $this->events = $events;
     }
 
     public function view(): View
@@ -25,6 +27,7 @@ class CalendarExport implements FromView, ShouldAutoSize
             'days' => $this->days,
             'timeSlots' => $this->timeSlots,
             'daySchedules' => $this->daySchedules,
+            'events' => $this->events,
         ]);
     }
 }

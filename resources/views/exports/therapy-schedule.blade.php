@@ -3,13 +3,13 @@
         <tr>
             <th rowspan="2" style="vertical-align: middle; text-align: center; background-color: #095f59; color: #ffffff;">Time</th>
             @foreach ($days as $day)
-                <th colspan="{{ isset($daySchedules[strtolower($day)]) ? count($daySchedules[strtolower($day)]) : 0 }}" style="text-align: center; background-color: #095f59; color: #ffffff;">{{ $day }}</th>
+                <th colspan="{{ isset($staffSchedules[strtolower($day)]) ? count($staffSchedules[strtolower($day)]) : 0 }}" style="text-align: center; background-color: #095f59; color: #ffffff;">{{ $day }}</th>
             @endforeach
         </tr>
         <tr>
             @foreach ($days as $day)
-                @if (isset($daySchedules[strtolower($day)]))
-                    @foreach ($daySchedules[strtolower($day)] as $user)
+                @if (isset($staffSchedules[strtolower($day)]))
+                    @foreach ($staffSchedules[strtolower($day)] as $user)
                         <th style="text-align: center; background-color: #095f59; color: #ffffff;">{{ $user->user->name }}</th>
                     @endforeach
                 @endif
@@ -22,8 +22,10 @@
                 <td>{{ $timeSlot }}</td>
                 @foreach ($days as $day)
                     <td>
-                        @if (isset($daySchedules[strtolower($day)]) && isset($daySchedules[strtolower($day)][$timeSlot]))
-                            {{ $daySchedules[strtolower($day)][$timeSlot]->pluck('name')->implode(', ') ?? '' }}
+                        @if (isset($events[$day]))
+                            @for ($i = 0; $i < count($events[$day]); $i++)
+                                {{ $events[$day][$i]['type'] ?? '-' }}
+                            @endfor
                         @endif
                     </td>
                 @endforeach

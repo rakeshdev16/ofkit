@@ -315,9 +315,12 @@ class ScheduleController extends Controller
             '16:00', '16:15', '16:30', '16:45',
         ]; // Example time slots
         // Fetch schedules for each day and time slot
-        $daySchedules = [];
-        $daySchedules = StaffSchedule::with('user')->whereIn('day', $days)->get()->groupBy('day');
+        $staffSchedules = [];
+        $staffSchedules = StaffSchedule::with('user')->whereIn('day', $days)->get()->groupBy('day');
+        $schedule = Schedule::filter(['status' => 'published'])->first();
+        $events = ScheduleEvent::where('schedule_id', $schedule->id)->get()->groupBy('day');
+        // echo '<pre>'; print_r($events['Sunday'][0]); die;
 
-        return Excel::download(new CalendarExport($days, $timeSlots, $daySchedules), 'Calendar_Export.xlsx');
+        return Excel::download(new CalendarExport($days, $timeSlots, $staffSchedules, $events), 'Calendar_Export.xlsx');
     }
 }
