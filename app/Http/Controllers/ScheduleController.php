@@ -197,10 +197,10 @@ class ScheduleController extends Controller
         $events = $schedule->events()->overlappingWithTimeSlot($data);
 
         if ($data['type'] == 'therapist') {
-            $events = $events->where('therapist_id', $data['id']);
+            $events = $events->where('therapist_id', @$data['id']);
         } elseif ($data['type'] == 'children') {
             $events = $events->whereHas('childrens', function ($query) use ($data) {
-                $query->where('children_id', $data['id']);
+                $query->where('children_id', @$data['id']);
             });
         }
 
