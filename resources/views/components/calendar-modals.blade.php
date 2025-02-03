@@ -28,7 +28,7 @@
                                 <thead>
                                     <tr>
                                         <th colspan="3" class="text-center">Children</th>
-                                        <th colspan="3" class="text-center">Total Hours</th>
+                                        <th colspan="3" class="text-center">Total Appointments</th>
                                         <th colspan="3" class="text-center">Matia</th>
                                         <th colspan="3" class="text-center">Tabam</th>
                                     </tr>
