@@ -8,14 +8,13 @@
     'options' => $kindergartens,
 ])
 @if (Route::currentRouteName() == 'schedule.index')
-    <div id="childrenFilter"></div>
-    <div id="staffFilter"></div>
     @include('components.select-input', [
         'name' => '',
-        'id' => 'childrenFilter',
         'icon' => 'buildings',
         'value' => request('status'),
         'onchange' => "filterCalendar({ 'status': this.value })",
         'options' => [['key' => 'published', 'value' => 'Published'], ['key' => 'draft', 'value' => 'Saved as Draft']],
     ])
+    <div id="childrenFilter"></div>
+    <div id="staffFilter"></div>
 @endif

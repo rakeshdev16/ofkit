@@ -9,7 +9,7 @@
 @endpush
 @section('section')
 
-<div class="container-fluid" style="margin-top: 130px; height: 500px">
+<div class="container-fluid" style="margin-top: 148px; height: 500px">
     <h3>Weekly Therapy Schedule</h3>
     @php
         // $status = @json_decode(request('event')['status'])[0] ?? 'published';

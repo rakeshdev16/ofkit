@@ -70,7 +70,7 @@
 @endpush
 @section('section')
 
-<div class="container-fluid" style="margin-top: 130px;">
+<div class="container-fluid" style="margin-top: 148px;">
     <h3>Create New Schedule</h3>
     <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between my-3">
         <div class="filters d-flex flex-wrap  gap-3">
