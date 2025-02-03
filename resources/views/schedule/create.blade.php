@@ -178,8 +178,12 @@
                 $('#createEventModal').modal('toggle');
                 setTimeout(() => {
                     const dropdown = $('#therapist');
-                    const id = dropdown.val()[0];
-                    checkTimeSlot('therapist', id, dropdown);
+                    const values = dropdown.val(); // Get selected values
+
+                    if (values && values.length > 0) {
+                        const id = values[0]; // Access first selected value safely
+                        checkTimeSlot('therapist', id, dropdown);
+                    }
                 }, 1000);
             });
         });
