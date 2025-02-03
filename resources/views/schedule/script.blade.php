@@ -120,6 +120,7 @@
         timeSlotData.day = $('#day').val();
         timeSlotData.uniqueId = $('#uniqueId').val();
         timeSlotData.status = getQueryParam('status');
+        timeSlotData.scheduleId = getQueryParam('schedule_id') ?? '';
         timeSlotData.kindergartenId = $('#kindergartenFilter').val();
         fetch("{{ route('schedule.time-slot') }}", {
             headers: {
