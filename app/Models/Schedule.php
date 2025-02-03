@@ -20,7 +20,7 @@ class Schedule extends Model
         if (isset($data['status'])) {
             $query->where('status', $data['status']);
             if ($data['status'] == 'published') {
-                $query->whereDate('start_date', '<=', date('Y-m-d'))->whereDate('end_date', '>=', date('Y-m-d'));
+                $query->whereDate('start_date', '<=', date('Y-m-d').' 00:00:00')->whereDate('end_date', '>=', date('Y-m-d').' 00:00:00');
             }
         }
 

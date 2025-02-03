@@ -24,7 +24,7 @@ class ScheduleController extends Controller
     public function index(Request $request)
     {
         $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
-        $schedule = Schedule::where('status', 'published')->first();
+        $schedule = Schedule::filter($request->all())->first();
         return view('schedule.index', compact('kindergartens', 'schedule'));
     }
 
@@ -81,6 +81,17 @@ class ScheduleController extends Controller
 
     public function update(Request $request)
     {
+        $existsSchedule = Schedule::where('status', 'published')
+            ->where(function ($query) use ($request) {
+                $query->where(function ($q) use ($request) {
+                    $q->whereDate('start_date', '<=', $request->end_date)->whereDate('end_date', '>=', $request->start_date);
+                });
+            })->exists();
+
+        if ($existsSchedule) {
+            return response()->json(['status' => false, 'message' => 'A published event already exists between the entered date range!']);
+        }
+
         $schedule = Schedule::where('status', 'draft');
         if ($schedule->exists() && $schedule->update([
             'start_date' => $request->start_date,
