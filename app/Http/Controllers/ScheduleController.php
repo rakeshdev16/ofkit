@@ -128,7 +128,7 @@ class ScheduleController extends Controller
             ];
         }
 
-        $schedule = Schedule::filter($filter)->first();
+        $schedule = isset($filter['schedule_id']) ? Schedule::find($filter['schedule_id']) : Schedule::filter($filter)->first();
         $events = !empty($schedule) ? scheduleResponse($schedule->events) : [];
         $userIds = StaffKindergarten::where('kindergarten_id', $filter['kindergarten_id'])->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
         $users = User::whereIn('id', $userIds)->select('id as key', 'name as value')->get()->toArray();
@@ -314,11 +314,12 @@ class ScheduleController extends Controller
             '15:00', '15:15', '15:30', '15:45',
             '16:00', '16:15', '16:30', '16:45',
         ]; // Example time slots
-        // Fetch schedules for each day and time slot
         $staffSchedules = [];
         $staffSchedules = StaffSchedule::with('user')->whereIn('day', $days)->get()->groupBy('day');
         $schedule = Schedule::filter(['status' => 'published'])->first();
         $events = ScheduleEvent::where('schedule_id', $schedule->id)->get()->groupBy('day');
+        return view('exports.therapy-schedule', compact('days', 'timeSlots', 'staffSchedules', 'schedule'));
+        // Fetch schedules for each day and time slot
         // echo '<pre>'; print_r($events['Sunday'][0]); die;
 
         return Excel::download(new CalendarExport($days, $timeSlots, $staffSchedules, $events), 'Calendar_Export.xlsx');
