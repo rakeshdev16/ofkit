@@ -255,12 +255,7 @@ class ScheduleController extends Controller
 
     public function hourSummary(Request $request)
     {
-        $kindergartenId = $request->kindergarten_id;
-        $associations = Association::whereIn('name', ['Matia', 'Tabam'])
-            ->with('staffKindergarten:user_id,association_id,kindergarten_id,id')
-            ->get()
-            ->keyBy('name');
-
+        $associations = Association::whereIn('name', ['Matia', 'Tabam'])->with('staffKindergarten:user_id,association_id,kindergarten_id,id')->get()->keyBy('name');
         $matiaTherapistIds = (clone $associations['Matia'])->staffKindergarten->where('kindergarten_id', $request->kindergarten_id)->pluck('user_id')->toArray();
         $tabamTherapistIds = (clone $associations['Tabam'])->staffKindergarten->where('kindergarten_id', $request->kindergarten_id)->pluck('user_id')->toArray();
         $childrens = Children::select('id', 'name', 'kindergarten_id')->where('kindergarten_id', $request->kindergarten_id)->get()->toArray();
