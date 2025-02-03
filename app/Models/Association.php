@@ -38,6 +38,6 @@ class Association extends Model
 
     public function staffKindergarten()
     {
-        return $this->hasMany(StaffKindergarten::class);
+        return $this->hasMany(StaffKindergarten::class, 'association_id');
     }
 }
