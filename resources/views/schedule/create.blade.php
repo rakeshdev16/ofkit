@@ -184,13 +184,13 @@
             });
         });
 
-        $(document).on('change', '#appointmentFrequency', function() {
-            var frequency = $(this).val();
-            if (frequency) {
-                $('#Monthly, #Bi-weekly').attr('name', '').hide();
-                $('#'+frequency).attr('name', 'start').show();
-            }
-        });
+        // $(document).on('change', '#appointmentFrequency', function() {
+        //     var frequency = $(this).val();
+        //     if (frequency) {
+        //         $('#Monthly, #Bi-weekly').attr('name', '').hide();
+        //         $('#'+frequency).attr('name', 'start').show();
+        //     }
+        // });
 
         $("#addEventForm").validate({
             rules: {
