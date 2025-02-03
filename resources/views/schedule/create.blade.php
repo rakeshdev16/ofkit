@@ -140,8 +140,8 @@
             });
         });
 
-        $(document).on('click', '#appointmentType', function() {
-            var type = $(this).val();
+        $(document).on('change', '#appointmentType', function() {
+            var type = $('#appointmentType').val();
             selectVisibility(type);
         });
 
@@ -178,12 +178,8 @@
                 $('#createEventModal').modal('toggle');
                 setTimeout(() => {
                     const dropdown = $('#therapist');
-                    const values = dropdown.val(); // Get selected values
-
-                    if (values && values.length > 0) {
-                        const id = values[0]; // Access first selected value safely
-                        checkTimeSlot('therapist', id, dropdown);
-                    }
+                    const id = dropdown.val()[0];
+                    checkTimeSlot('therapist', id, dropdown);
                 }, 1000);
             });
         });
