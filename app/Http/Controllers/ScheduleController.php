@@ -81,13 +81,9 @@ class ScheduleController extends Controller
 
     public function update(Request $request)
     {
-        $existsSchedule = Schedule::where('status', 'published')
-            ->where(function ($query) use ($request) {
-                $query->where(function ($q) use ($request) {
-                    $q->whereDate('start_date', '<=', $request->end_date)->whereDate('end_date', '>=', $request->start_date);
-                });
-            })->exists();
-
+        $existsSchedule = Schedule::where('status', 'published')->where(function ($query) use ($request) {
+            $query->whereDate('start_date', '<=', $request->end_date)->whereDate('end_date', '>=', $request->start_date);
+        })->exists();
         if ($existsSchedule) {
             return response()->json(['status' => false, 'message' => 'A published event already exists between the entered date range!']);
         }
