@@ -69,33 +69,30 @@
     </style>
 @endpush
 @section('section')
-
-<div class="container-fluid" style="margin-top: 148px;">
-    <h3>Create New Schedule</h3>
-    <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between my-3">
-        <div class="filters d-flex flex-wrap  gap-3">
-            @include('components.schedule-filter', ['kindergartens' => $kindergartens])
+<div class="page-wrapper">
+    <div class="page-content">
+        <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between my-3">
+            <div>
+                <h3>Create New Schedule</h3>
+                <div class="filters d-flex flex-wrap  gap-3">
+                     @include('components.schedule-filter', ['kindergartens' => $kindergartens])
+                 </div>
+            </div>
+            <div class="">
+                <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="deleteEvent({{ $createdEventIds }})">Delete All</button>
+                @if (!request('schedule_id'))
+                    <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer updateEventStatus" data-status="published">Publish</button>
+                @endif
+                <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="newAppointment">New Appointment</button>
+                <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="appointmentSummary($('#kindergartenFilter').val());">Appointment Summary</span>
+            </div>
         </div>
-        <div class="d-flex flex-wrap gap-3">
-            <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="deleteEvent({{ $createdEventIds }})">Delete All</button>
-            @if (!request('schedule_id'))
-                <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer updateEventStatus" data-status="published">Publish</button>
-            @endif
-            <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="newAppointment">New Appointment</button>
-            <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="appointmentSummary($('#kindergartenFilter').val());">Appointment Summary</span>
+        <div class="mb-5" id="calender-view">
+            <div id="scheduleCalendar"></div>
         </div>
     </div>
-    <div class="page-loader">
-        <div class="spinner"></div>
-    </div>
-    <div class="mb-5" id="calender-view">
-        <div id="scheduleCalendar"></div>
-    </div>
-    <input type="hidden" id="createdEventIds" value="{{ $createdEventIds }}">
 </div>
-
 @include('components.calendar-modals')
-
 @endsection
 @push('customScript')
     <script type="text/javascript" src="{{ asset('assets/js/jquery.validate.js') }}"></script>

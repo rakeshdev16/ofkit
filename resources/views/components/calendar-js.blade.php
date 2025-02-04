@@ -61,11 +61,11 @@
     }
 
     function calendar(events = '', list) {
-        let currentWindowWidth = window.screen.width;
-        let columCount = list.map((item) => (Array.isArray(item.children) ? item.children.length : 1)).reduce((sum, count) => sum + count, 0);
+        let windowWidth = window.screen.width;
+        let columsCount = list.map((item) => (Array.isArray(item.children) ? item.children.length : 1)).reduce((sum, count) => sum + count, 0);
         let columnWidth = "100";
-        if (columCount*100 < currentWindowWidth) {
-            columnWidth = (currentWindowWidth-100)/columCount;
+        if (columsCount*100 < windowWidth) {
+            columnWidth = (windowWidth-100)/columsCount;
         }
         let headerLevel = "{{ Route::currentRouteName() }}" == 'therapy-schedule.index' ? "1" : "4";
         if (window.dp) {
