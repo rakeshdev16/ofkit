@@ -36,7 +36,7 @@ class ChildrenScheduleController extends Controller
                 ->map(function ($schedule) use ($day, $request) {
                     $f_name = $schedule->user->family_name;
                     return [
-                        'id' => $request['children_id'].''.strtolower($day),
+                        'id' => $schedule->user->id.''.strtolower($day),
                         'user_id' => $schedule->user->id,
                         'name' => $schedule->user->name ?? 'N/A',
                         'first_name' => $schedule->user->first_name ?? 'N/A',

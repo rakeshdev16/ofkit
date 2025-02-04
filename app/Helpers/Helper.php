@@ -246,7 +246,7 @@ function scheduleResponse($schedules, $childId = null)
             'id' => $schedule->id,
             'start' => date('Y-m-d').' '.$schedule->start_time,
             'end' => date('Y-m-d').' '.$schedule->end_time,
-            'resource' => ($childId ?? $schedule->therapist_id) . strtolower($schedule->day),
+            'resource' => ($schedule->therapist_id) . strtolower($schedule->day),
             'eventSlotHtml' => view('components.event-html', ['data' => $schedule])->render(),
             'eventDetailSlotHtml' => view('components.event-detail-html', ['data' => $schedule])->render(),
         ];
