@@ -67,7 +67,7 @@
         if (columsCount*100 < windowWidth) {
             columnWidth = (windowWidth-100)/columsCount;
         }
-        let headerLevel = "{{ Route::currentRouteName() }}" == 'therapy-schedule.index' ? "1" : "4";
+        let headerLevel = "{{ in_array(Route::currentRouteName() , ['children-schedule.index', 'therapy-schedule.index']) }}" ? "1" : "4";
         if (window.dp) {
             window.dp.dispose();
         }
