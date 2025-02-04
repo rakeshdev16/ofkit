@@ -22,13 +22,16 @@ class TherapyScheduleController extends Controller
     public function index(Request $request)
     {
         $therapist = Auth::user();
-        $kindergartens = Kindergarten::select('id as key', 'name as value')->get();
+        $kindergartens = Kindergarten::select('id as key', 'name as value')->whereHas('staffKindergartens', function ($query) {
+            $query->where('user_id', Auth::id());
+        })->get();
         return view('therapy-schedule.index', compact('therapist', 'kindergartens'));
     }
 
     public function calendar(Request $request)
     {
         $filter = $request->all();
+        $userKindergartenIds = Auth::user()->staffKindergartens()->pluck('kindergarten_id');
         $header = [
             ['name' => 'Sunday', 'id' => Auth::id().'sunday'],
             ['name' => 'Monday', 'id' => Auth::id().'monday'],

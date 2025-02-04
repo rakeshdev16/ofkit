@@ -61,6 +61,12 @@
     }
 
     function calendar(events = '', list) {
+        let currentWindowWidth = window.screen.width;
+        let columCount = list.map((item) => (Array.isArray(item.children) ? item.children.length : 1)).reduce((sum, count) => sum + count, 0);
+        let columnWidth = "100";
+        if (columCount*100 < currentWindowWidth) {
+            columnWidth = (currentWindowWidth-80)/columCount;
+        }
         let headerLevel = "{{ Route::currentRouteName() }}" == 'therapy-schedule.index' ? "1" : "4";
         if (window.dp) {
             window.dp.dispose();
@@ -75,7 +81,7 @@
             headerLevelHeights: [ 40, 40 ],
             heightSpec: "BusinessHoursNoScroll",
             height: 500,
-            columnWidth: 100,
+            columnWidth: columnWidth,
             businessBeginsHour: 7,
             businessEndsHour: 17,
             timeHeaderCellDuration: 15,

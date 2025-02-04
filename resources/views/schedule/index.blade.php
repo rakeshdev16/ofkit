@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="mb-5" id="calender-view">
-        <div id="scheduleCalendar" style="height: 30% !important;"></div>
+        <div id="scheduleCalendar"></div>
     </div>
     {{-- <div class="mb-5" id="export-calender">
         <div class="d-flex gap-2 pb-3" id="exportBtns" style="display: none !important;">

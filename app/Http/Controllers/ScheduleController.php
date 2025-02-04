@@ -113,7 +113,7 @@ class ScheduleController extends Controller
         $filter = $request->all();
         $event = $request->input('event');
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        $header = []; 
+        $header = [];
         foreach ($days as $day) {
             $schedules = StaffSchedule::filter($filter)->with('user')->where('day', $day)->get()
                 ->map(function ($schedule) use ($day, $request) {

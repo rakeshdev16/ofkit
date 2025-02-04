@@ -149,21 +149,21 @@
             $('#therapist, #children').val(null).trigger('change');
         });
 
-        $(document).on('change', '#day, #appointmentFrequency', function() {
-            var type = $('#appointmentType').val();
-            var appointmentFrequency = $('#appointmentFrequency').val();
-            var day = $('#day').val();
-            eventData.day = day;
-            eventData.frequencyRepeat = appointmentFrequency;
-            eventData.type = type;
-            eventData.startTime = $('#startTime').val();
-            eventData.endTime = $('#endTime').val();
-            eventData.therapistIds = [];
-            eventData.childrenId = [];
-            if (day) {
-                filterFormData();
-            }
-        });
+        // $(document).on('change', '#day, #appointmentFrequency', function() {
+        //     var type = $('#appointmentType').val();
+        //     var appointmentFrequency = $('#appointmentFrequency').val();
+        //     var day = $('#day').val();
+        //     eventData.day = day;
+        //     eventData.frequencyRepeat = appointmentFrequency;
+        //     eventData.type = type;
+        //     eventData.startTime = $('#startTime').val();
+        //     eventData.endTime = $('#endTime').val();
+        //     eventData.therapistIds = [];
+        //     eventData.childrenId = [];
+        //     if (day) {
+        //         filterFormData();
+        //     }
+        // });
 
         $(document).on('click', '#newAppointment', function() {
             Object.keys(eventData).forEach(key => delete eventData[key]);
@@ -184,13 +184,14 @@
             });
         });
 
-        // $(document).on('change', '#appointmentFrequency', function() {
-        //     var frequency = $(this).val();
-        //     if (frequency) {
-        //         $('#Monthly, #Bi-weekly').attr('name', '').hide();
-        //         $('#'+frequency).attr('name', 'start').show();
-        //     }
-        // });
+        $(document).on('change', '#appointmentFrequency', function() {
+            var frequency = $(this).val();
+            if (frequency) {
+                $('#Monthly, #Bi-weekly').attr('name', '').hide();
+                $('#'+frequency).attr('name', 'frequency_repeat_at').show();
+            }
+            $('#therapist, #children').val(null).trigger('change');
+        });
 
         $("#addEventForm").validate({
             rules: {
