@@ -111,7 +111,6 @@ class ScheduleController extends Controller
     public function calendar(Request $request)
     {
         $filter = $request->all();
-        $event = $request->input('event');
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         $header = [];
         foreach ($days as $day) {

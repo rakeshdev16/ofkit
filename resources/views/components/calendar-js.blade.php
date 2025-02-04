@@ -63,7 +63,7 @@
     function calendar(events = '', list) {
         let windowWidth = window.screen.width;
         let columsCount = list.map((item) => (Array.isArray(item.children) ? item.children.length : 1)).reduce((sum, count) => sum + count, 0);
-        let columnWidth = "100";
+        let columnWidth = 100;
         if (columsCount*100 < windowWidth) {
             columnWidth = (windowWidth-100)/columsCount;
         }
