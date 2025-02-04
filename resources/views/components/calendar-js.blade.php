@@ -65,7 +65,7 @@
         let columCount = list.map((item) => (Array.isArray(item.children) ? item.children.length : 1)).reduce((sum, count) => sum + count, 0);
         let columnWidth = "100";
         if (columCount*100 < currentWindowWidth) {
-            columnWidth = (currentWindowWidth-80)/columCount;
+            columnWidth = (currentWindowWidth-100)/columCount;
         }
         let headerLevel = "{{ Route::currentRouteName() }}" == 'therapy-schedule.index' ? "1" : "4";
         if (window.dp) {
