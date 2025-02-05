@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamp('start_date')->nullable();
             $table->timestamp('end_date')->nullable();
             $table->enum('status', ['published', 'draft'])->default('draft');
+            $table->integer('published_by')->default(0);
             $table->timestamps();
         });
     }

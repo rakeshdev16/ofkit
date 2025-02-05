@@ -131,10 +131,13 @@
             body: JSON.stringify(timeSlotData)
         }).then(response => response.json()).then(data => {
             if (data.status == true) {
-                const selectedOptions = dropdown.val();
-                const updatedOptions = selectedOptions.filter(option => option !== id);
-                dropdown.val(updatedOptions).trigger('change');
+                // const selectedOptions = dropdown.val();
+                // const updatedOptions = selectedOptions.filter(option => option !== id);
+                // dropdown.val(updatedOptions).trigger('change');
+                $('#createEventModalBtn').attr('disabled', true);
                 toastr.error(data.message);
+            } else {
+                $('#createEventModalBtn').attr('disabled', false);
             }
         });
     }

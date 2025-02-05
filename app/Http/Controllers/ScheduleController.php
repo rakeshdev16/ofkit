@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Children;
 use App\Models\StaffSchedule;
-use App\Models\TherapySchedule;
 use App\Models\ScheduleEvent;
 use App\Models\User;
 use App\Models\Schedule;
 use App\Models\Kindergarten;
 use App\Models\StaffKindergarten;
-use App\Models\TherapyScheduleChildren;
 use App\Models\Association;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -31,9 +29,7 @@ class ScheduleController extends Controller
     public function create()
     {
         $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
-        $createdEventIds = TherapySchedule::where('status', 'draft')->pluck('unique_id')->toArray();
-        $createdEventIds = count($createdEventIds) > 0 ? json_encode($createdEventIds) : null;
-        return view('schedule.create', compact('kindergartens', 'createdEventIds'));
+        return view('schedule.create', compact('kindergartens'));
     }
 
     public function store(Request $request)
@@ -81,22 +77,56 @@ class ScheduleController extends Controller
 
     public function update(Request $request)
     {
-        $existsSchedule = Schedule::where('status', 'published')->where(function ($query) use ($request) {
-            $query->whereDate('start_date', '<=', $request->end_date)->whereDate('end_date', '>=', $request->start_date);
-        })->exists();
-        if ($existsSchedule) {
-            return response()->json(['status' => false, 'message' => 'A published event already exists between the entered date range!']);
-        }
+        DB::beginTransaction();
+        try {
+            $request->merge(['_is_cloning' => true]);
+            $existsSchedule = Schedule::where('status', 'published')->where(function ($query) use ($request) {
+                $query->whereDate('start_date', '<=', $request->end_date)->whereDate('end_date', '>=', $request->start_date);
+            })->exists();
+            if ($existsSchedule) {
+                return response()->json(['status' => false, 'message' => 'A published event already exists between the entered date range!']);
+            }
 
-        $schedule = Schedule::where('status', 'draft');
-        if ($schedule->exists() && $schedule->update([
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'status' => 'published',
-        ])) {
-            return response()->json(['status' => true, 'message' => 'Event detail has been successfully published!']);
+            $draftSchedule = Schedule::where('status', 'draft')->first();
+            $publishedSchedule = Schedule::create([
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'status' => 'published',
+                'published_by' => $draftSchedule->id,
+            ]);
+
+            if ($publishedSchedule) {
+                $draftScheduleEvents = $draftSchedule->events()->get();
+                foreach ($draftScheduleEvents as $event) {
+                    $publishedScheduleEvent = $publishedSchedule->events()->create([
+                        'kindergarten_id' => $event->kindergarten_id,
+                        'therapist_id' => $event->therapist_id,
+                        'type' => $event->type,
+                        'day' => $event->day,
+                        'frequency_repeat' => $event->frequency_repeat,
+                        'frequency_repeat_at' => $event->frequency_repeat_at,
+                        'group_name' => $event->group_name,
+                        'description' => $event->description,
+                        'file' => $event->file,
+                        'start_time' => $event->start_time,
+                        'end_time' => $event->end_time,
+                        'color' => json_encode($event->color),
+                        'unique_id' => $event->unique_id,
+                    ]);
+                    if ($event->childrens()->exists()) {
+                        foreach ($event->childrens()->get() as $children) {
+                            $publishedScheduleEvent->childrens()->create(['children_id' => $children->children_id]);
+                        }
+                    }
+                }
+            }
+
+            DB::commit();
+            return response()->json(['status' => true, 'message' => 'Event details and associated events have been successfully published!']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['status' => false, 'message' => $e->getMessage()]);
         }
-        return response()->json(['status' => false, 'message' => 'Something went wrong please try again!']);
     }
     
     public function delete(Request $request)
@@ -106,6 +136,14 @@ class ScheduleController extends Controller
             return response()->json(['status' => true, 'message' => 'Event detail has been successfully deleted!', 'ids' => $ids]);
         }
         return response()->json(['status' => false, 'message' => 'Something went wrong please try again!']);
+    }
+
+    public function deleteDraftSchedule(Request $request)
+    {
+        if (Schedule::where('status', 'draft')->delete()) {
+            return response()->json(['status' => true]);
+        }
+        return response()->json(['status' => false]);
     }
 
     public function calendar(Request $request)
@@ -214,7 +252,7 @@ class ScheduleController extends Controller
         if ($weeklyExists) {
             return response()->json([
                 'status' => true,
-                'message' => 'This ' . $data['type'] . ' already has a booked appointment at this time'
+                'message' => ucfirst($data['type']) . ' is not available'
             ]);
         }
 
@@ -248,7 +286,7 @@ class ScheduleController extends Controller
 
         return response()->json([
             'status' => $isSlotAvailable,
-            'message' => 'This ' . $data['type'] . ' already has an appointment at this time'
+            'message' => ucfirst($data['type']) . ' is not available'
         ]);
     }
 

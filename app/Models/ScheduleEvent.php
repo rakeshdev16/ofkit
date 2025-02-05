@@ -31,6 +31,7 @@ class ScheduleEvent extends Model
     protected static function booted()
     {
         static::creating(function ($schedule) {
+            if (request()->has('_is_cloning')) return;
             $childrenIds = request()->children_ids;
             if ($schedule->type === 'staff-meeting') {
                 $color = json_encode(["background-color: #095F59;", "color: #fff;"]);

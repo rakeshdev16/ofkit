@@ -21,7 +21,7 @@
                 {{-- <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="export">Export</button> --}}
                 <a href="/schedule-history" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">History</a>
                 <button id="editEvents" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Edit</button>
-                <a href="{{ route('schedule.create') }}?status=draft" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Create New</a>
+                <button class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="createNewEvents">Create New</button>
                 <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="appointmentSummary($('#kindergartenFilter').val());">Appointment Summary</span>
             </div>
         </div>
@@ -36,10 +36,35 @@
     <script type="text/javascript">
         const status = "published";
         const scheduleId = "{{ @$schedule->id }}";
+        $(document).on('click', '#createNewEvents', function() {
+            Swal.fire({
+                title: confirmMsgTitle,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it",
+                html: "Tt will delete the existing draft",
+                cancelButtonText: cancelButtonText
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch("{{ route('draft-schedule.delete') }}", {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                            'Content-Type': 'application/json',
+                        },
+                    }).then(response => response.json()).then(data => {
+                        window.location.href = "{{ route('schedule.create') }}?status=draft";
+                    }).catch(error => toastr.error('An error occurred while processing the request.'));
+                }
+            });
+        });
         $(document).on('click', '#editEvents', function() {
             var kindergartenId = getQueryParam('kindergarten_id');
             var status = getQueryParam('status');
-            var url = "{{ route('schedule.create') }}?schedule_id="+scheduleId+"&kindergarten_id="+kindergartenId+"&status="+status;
+            var query = status == 'published' ? "&status=published" : "&status=draft"
+            var url = "{{ route('schedule.create') }}?kindergarten_id="+kindergartenId+"&edit=true"+query;
             window.location.href = url;
         });
         $('#exportPDF').on('click', function () {

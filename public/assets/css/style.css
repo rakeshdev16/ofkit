@@ -692,6 +692,11 @@ button.accordion-button.accordion-screen.collapsed {
     padding-right: 15px !important;
 }
 
+.modal_default_main {
+    border: none !important;
+    border-radius: 0.5rem;
+}
+
 .modal_default_buttons button {
     background-color: #FFD681;
     border-color: #FFD681;

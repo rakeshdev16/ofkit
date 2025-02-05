@@ -73,18 +73,22 @@
     <div class="page-content">
         <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between my-3">
             <div>
-                <h3>Create New Schedule</h3>
+                @if (request('edit') == true)
+                    <h3>Editing Kindergarten Weekly Schedule</h3>
+                @else
+                    <h3>New Kindergarten Weekly Schedule</h3>
+                @endif
                 <div class="filters d-flex flex-wrap  gap-3">
                      @include('components.schedule-filter', ['kindergartens' => $kindergartens])
-                 </div>
+                </div>
             </div>
             <div class="">
-                <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="deleteEvent({{ $createdEventIds }})">Delete All</button>
-                @if (!request('schedule_id'))
+                @if (request('status') == 'draft')
                     <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer updateEventStatus" data-status="published">Publish</button>
                 @endif
                 <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="newAppointment">New Appointment</button>
                 <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="appointmentSummary($('#kindergartenFilter').val());">Appointment Summary</span>
+                <a href="{{ route('schedule.index') }}" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Exit</a>
             </div>
         </div>
         <div class="mb-5" id="calender-view">
@@ -99,7 +103,6 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript">
-        // const status = "{{ request('edit') }}" == 'true' ? ["published", "draft"] : ["draft"];
         const status = "{{ request('status') }}";
         let eventData = {};
         let timeSlotData = {};
@@ -146,21 +149,31 @@
             $('#therapist, #children').val(null).trigger('change');
         });
 
-        // $(document).on('change', '#day, #appointmentFrequency', function() {
-        //     var type = $('#appointmentType').val();
-        //     var appointmentFrequency = $('#appointmentFrequency').val();
-        //     var day = $('#day').val();
-        //     eventData.day = day;
-        //     eventData.frequencyRepeat = appointmentFrequency;
-        //     eventData.type = type;
-        //     eventData.startTime = $('#startTime').val();
-        //     eventData.endTime = $('#endTime').val();
-        //     eventData.therapistIds = [];
-        //     eventData.childrenId = [];
-        //     if (day) {
-        //         filterFormData();
-        //     }
-        // });
+        $(document).on('change', '#day', function() {
+            var day = $('#day').val();
+            eventData.day = day;
+            eventData.therapistIds = [];
+            eventData.childrenId = [];
+            if (day) {
+                filterFormData();
+            }
+        })
+        $(document).on('change', '#appointmentFrequency, #Bi-weekly, #Monthly', function() {
+            var type = $('#appointmentType').val();
+            var appointmentFrequency = $('#appointmentFrequency').val();
+            eventData.frequencyRepeat = appointmentFrequency;
+            eventData.type = type;
+            eventData.startTime = $('#startTime').val();
+            eventData.endTime = $('#endTime').val();
+            if (appointmentFrequency) {
+                $('#Monthly, #Bi-weekly').attr('name', '').hide();
+                $('#'+appointmentFrequency).attr('name', 'frequency_repeat_at').show();
+            }
+            let therapist = $('#therapist');
+            let children = $('#children');
+            checkTimeSlot(therapist.attr('id'), therapist.val(), therapist);
+            checkTimeSlot(children.attr('id'), children.val(), children);
+        });
 
         $(document).on('click', '#newAppointment', function() {
             Object.keys(eventData).forEach(key => delete eventData[key]);
@@ -181,14 +194,14 @@
             });
         });
 
-        $(document).on('change', '#appointmentFrequency', function() {
-            var frequency = $(this).val();
-            if (frequency) {
-                $('#Monthly, #Bi-weekly').attr('name', '').hide();
-                $('#'+frequency).attr('name', 'frequency_repeat_at').show();
-            }
-            $('#therapist, #children').val(null).trigger('change');
-        });
+        // $(document).on('change', '#appointmentFrequency', function() {
+        //     var frequency = $(this).val();
+        //     if (frequency) {
+        //         $('#Monthly, #Bi-weekly').attr('name', '').hide();
+        //         $('#'+frequency).attr('name', 'frequency_repeat_at').show();
+        //     }
+        //     $('#therapist, #children').val(null).trigger('change');
+        // });
 
         $("#addEventForm").validate({
             rules: {
@@ -278,11 +291,11 @@
         
         $(document).on('click', '.updateEventStatus', function() {
             $('#createEventModalBtn').html('Processing').attr('disabled', true);
-            var ids = $('#eventIds').val();
-            if (ids == '' || ids == null) {
-                toastr.error('There are not any created event');
-                return true;
-            }            
+            // var ids = $('#eventIds').val();
+            // if (ids == '' || ids == null) {
+            //     toastr.error('There are not any created event');
+            //     return true;
+            // }
             $('#eventDateModal').modal('toggle');
         });
 

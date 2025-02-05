@@ -6,10 +6,8 @@
             url = url+"?"+queryParam(params);
         }
         fetch(url).then((response) => response.json()).then((data) => {
-            if ("{{ Route::currentRouteName() }}" == 'schedule.index') {
-                $('#childrenFilter').html(data.childrens);
-                $('#staffFilter').html(data.users);
-            }            
+            $('#childrenFilter').html(data.childrens);
+            $('#staffFilter').html(data.users);
             calendar(data.calenderEvents, data.calenderHeader);
             $(window).scrollTop(scrollingPosition);
             setTimeout(() => {

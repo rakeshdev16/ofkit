@@ -24,7 +24,7 @@
                 {!! $data->cell_title !!}
             </div>
         @endif
-        @if ((request('status') == 'draft' || request('schedule_id') !== null) && $data['eventCount'] !== 3 && $data->event_time != 30)
+        @if ((request('edit') && request('edit') == true) && $data['eventCount'] !== 3 && $data->event_time != 30)
             <div class="d-flex justify-content-start mt-auto" style="position: relative; bottom: 0;">
                 <i class="fa fa-edit" onclick='event.stopPropagation(); editEvent({{$data}})'></i>&nbsp;
                 <i class="fa fa-trash" onclick='event.stopPropagation(); deleteEvent(["{{ $data["unique_id"]}}"])'></i>&nbsp;
