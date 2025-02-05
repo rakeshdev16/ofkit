@@ -44,7 +44,7 @@
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, delete it",
-                html: "Tt will delete the existing draft",
+                html: "It will delete the existing draft",
                 cancelButtonText: cancelButtonText
             }).then((result) => {
                 if (result.isConfirmed) {
