@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\ActivityLog;
 use App\Models\StaffSchedule;
 use App\Models\Schedule;
+use App\Models\ScheduleEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
@@ -234,21 +235,29 @@ function appointmentIcon($icon)
     return $icons[$icon];
 }
 
-function scheduleResponse($schedules, $childId = null)
+function scheduleResponse($events, $schedule, $childId = null)
 {
-    return $schedules->map(function ($schedule) use($schedules, $childId) {
-        $therapistIds = $schedules->where('unique_id', $schedule->unique_id)->pluck('therapist_id')->toArray();
-        $schedule->eventCount = $schedule->sameTimeEvents($schedule->id)->count();
-        $schedule->last_id = $schedule->sameTimeEvents($schedule->id)->orderBy('id', 'DESC')->pluck('id')->first();
-        $schedule->therapistIds = $therapistIds;
-        $schedule->childrenId = $schedule->childrens->pluck('children_id')->toArray();
+    return $events->map(function ($event) use($events, $schedule, $childId) {
+
+        $findEvent = ScheduleEvent::where([
+            'schedule_id' => $schedule->id,
+            'therapist_id' => $event->therapist_id,
+            'day' => $event->day,
+            'start_time' => $event->start_time
+        ]);
+
+        $therapistIds = $events->where('unique_id', $event->unique_id)->pluck('therapist_id')->toArray();
+        $event->eventCount = $findEvent->count();
+        $event->last_id = $findEvent->orderBy('id', 'DESC')->pluck('id')->first();
+        $event->therapistIds = $therapistIds;
+        $event->childrenId = $event->childrens->pluck('children_id')->toArray();
         return [
-            'id' => $schedule->id,
-            'start' => date('Y-m-d').' '.$schedule->start_time,
-            'end' => date('Y-m-d').' '.$schedule->end_time,
-            'resource' => ($childId ?? $schedule->therapist_id) . strtolower($schedule->day),
-            'eventSlotHtml' => view('components.event-html', ['data' => $schedule])->render(),
-            'eventDetailSlotHtml' => view('components.event-detail-html', ['data' => $schedule])->render(),
+            'id' => $event->id,
+            'start' => date('Y-m-d').' '.$event->start_time,
+            'end' => date('Y-m-d').' '.$event->end_time,
+            'resource' => ($childId ?? $event->therapist_id) . strtolower($event->day),
+            'eventSlotHtml' => view('components.event-html', ['data' => $event])->render(),
+            'eventDetailSlotHtml' => view('components.event-detail-html', ['data' => $event])->render(),
         ];
     });
 }

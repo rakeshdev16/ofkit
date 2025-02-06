@@ -59,8 +59,8 @@ class ScheduleController extends Controller
                     }
                 }
             }
-            $schedules = $schedule->events()->where('unique_id', $request->unique_id)->get();
-            $event = scheduleResponse($schedules);
+            $events = $schedule->events()->where('unique_id', $request->unique_id)->get();
+            $event = scheduleResponse($events, $schedule);
             DB::commit();
             return response()->json(['status' => true, 'message' => 'Event detail has been successfully saved as draft!', 'event' => $event, 'deletedIds' => $deletedIds]);
         } catch (\Exception $e) {
@@ -167,7 +167,7 @@ class ScheduleController extends Controller
         }
 
         $schedule = Schedule::filter($filter)->first();
-        $events = !empty($schedule) ? scheduleResponse($schedule->events) : [];
+        $events = !empty($schedule) ? scheduleResponse($schedule->events, $schedule) : [];
         $userIds = StaffKindergarten::where('kindergarten_id', $filter['kindergarten_id'])->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
         $users = User::whereIn('id', $userIds)->select('id as key', 'name as value')->get()->toArray();
         $childrens = Children::select('id as key', 'name as value')->where('kindergarten_id', $filter['kindergarten_id'])->orderBy('name')->get()->toArray();

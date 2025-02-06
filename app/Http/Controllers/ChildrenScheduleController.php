@@ -68,7 +68,7 @@ class ChildrenScheduleController extends Controller
             $scheduleEvents = $schedule->events()->whereHas('childrens', function($query) use ($filter) {
                 $query->where('children_id', $filter['children_id']);
             })->get();
-            $events = scheduleResponse($scheduleEvents,  $filter['children_id']);
+            $events = scheduleResponse($scheduleEvents, $schedule, $filter['children_id']);
         }
 
         return response()->json([

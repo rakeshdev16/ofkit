@@ -1,5 +1,5 @@
  <div class="p-1 event-box d-flex flex-column justify-content-between" style="{{ $data->color[0] }}; {{ $data->color[1] }}">
-    @if ($data['eventCount'] >= 3)
+    @if ($data['eventCount'] >= 2)
         @php
             $id = $data->id;
             $lastId = $data->last_id;
@@ -19,7 +19,7 @@
         </div>
     @endif
     @if ($data->event_time !== 15)
-        @if ($data['eventCount'] < 3)
+        @if ($data['eventCount'] <= 1)
             <div class="d-flex align-items-center justify-content-center h-100" style="font-size: 12px; text-align: center;">
                 {!! $data->cell_title !!}
             </div>

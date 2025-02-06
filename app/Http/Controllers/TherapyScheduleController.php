@@ -46,7 +46,7 @@ class TherapyScheduleController extends Controller
         $schedule = Schedule::filter($filter)->where('status', 'published')->first();
         if (!empty($schedule) && $schedule->events() !== null) {
             $scheduleEvents = $schedule->events()->where('therapist_id', Auth::id())->get();
-            $events = scheduleResponse($scheduleEvents);
+            $events = scheduleResponse($scheduleEvents, $schedule);
         }
 
         return response()->json([

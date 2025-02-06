@@ -107,16 +107,11 @@ class ScheduleEvent extends Model
         })->take(2)->join(' ');
 
         if ($this->type == 'staff-meeting') return '<div style="'.$isBold.'">Staff Metting: <br>'.$title.'</div>';
-        if ($this->type == 'group') return '<div style="font-size: 14px;""><div style="'.$isBold.'">'.$this->group_name.':</div>'.$title.'</div>';
+        if ($this->type == 'group') return '<div style="font-size: 16px;""><div style="'.$isBold.'">'.$this->group_name.':</div>'.$title.'</div>';
         if ($this->type == 'individual') return '<div style="'.$isBold.'">'.$title.'</div>';
         if ($this->type == 'parental-guidance') return '<div style="'.$isBold.'">'.$title.'</div>';
 
         return '<div>'.ucfirst(str_replace('-', ' ', $this->type)).'</div>';
-    }
-
-    public function scopeSameTimeEvents($query, $scheduleId)
-    {
-        return $query->where(['schedule_id' => $scheduleId, 'therapist_id' => $this->therapist_id, 'day' => $this->day, 'start_time' => $this->start_time]);
     }
 
     public function scopeOverlappingWithTimeSlot($query, $data)
