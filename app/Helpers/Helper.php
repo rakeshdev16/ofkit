@@ -8,7 +8,7 @@ use App\Models\StaffKindergarten;
 use App\Models\User;
 use App\Models\ActivityLog;
 use App\Models\StaffSchedule;
-use App\Models\TherapySchedule;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
@@ -238,8 +238,8 @@ function scheduleResponse($schedules, $childId = null)
 {
     return $schedules->map(function ($schedule) use($schedules, $childId) {
         $therapistIds = $schedules->where('unique_id', $schedule->unique_id)->pluck('therapist_id')->toArray();
-        $schedule->eventCount = $schedule->sameTimeEvents()->count();
-        $schedule->last_id = $schedule->sameTimeEvents()->orderBy('id', 'DESC')->pluck('id')->first();
+        $schedule->eventCount = $schedule->sameTimeEvents($schedule->id)->count();
+        $schedule->last_id = $schedule->sameTimeEvents($schedule->id)->orderBy('id', 'DESC')->pluck('id')->first();
         $schedule->therapistIds = $therapistIds;
         $schedule->childrenId = $schedule->childrens->pluck('children_id')->toArray();
         return [

@@ -121,7 +121,7 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
         Route::get('schedule/create','create')->name('schedule.create');
         Route::post('schedule/status', 'update')->name('schedule.update');
         Route::post('schedule/delete', 'delete')->name('schedule.delete');
-        Route::post('draft-schedule/delete', 'deleteDraftSchedule')->name('draft-schedule.delete');
+        Route::post('delete-schedule', 'deleteSchedule')->name('delete.schedule');
         Route::post('schedule/filter-form-data', 'filterFormData')->name('schedule.filter-form-data');
         Route::post('schedule/time-slot', 'checkTimeSlot')->name('schedule.time-slot');
         Route::get('schedule/hour-summary', 'hourSummary')->name('schedule.hour-summary');

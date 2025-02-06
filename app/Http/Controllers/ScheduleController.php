@@ -23,6 +23,7 @@ class ScheduleController extends Controller
     {
         $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
         $schedule = Schedule::filter($request->all())->first();
+        // echo '<pre>'; print_r(scheduleResponse($schedule->events)); die;
         return view('schedule.index', compact('kindergartens', 'schedule'));
     }
 
@@ -43,11 +44,11 @@ class ScheduleController extends Controller
                 $request['file'] = $request->old_image;
             }
 
-            if ($request->schedule_id == 'null') {
+            // if (isset($request->edit) && $request->edit == 'true') {
+            //     $schedule = Schedule::filter(['status' => 'published'])->first();
+            // } else {
                 $schedule = Schedule::firstOrCreate(['status' => 'draft']);
-            } else {
-                $schedule = Schedule::where('id', $request->schedule_id)->first();
-            }
+            // }
 
             $deletedIds = $schedule->events()->removeUnselectedUser($request->all());
             $request['unique_id'] = $request->unique_id ? $request->unique_id : Str::uuid();
@@ -79,25 +80,30 @@ class ScheduleController extends Controller
     {
         DB::beginTransaction();
         try {
+
             $request->merge(['_is_cloning' => true]);
-            $existsSchedule = Schedule::where('status', 'published')->where(function ($query) use ($request) {
-                $query->whereDate('start_date', '<=', $request->end_date)->whereDate('end_date', '>=', $request->start_date);
-            })->exists();
-            if ($existsSchedule) {
-                return response()->json(['status' => false, 'message' => 'A published event already exists between the entered date range!']);
+            if ($request->isAgree == 'false') {
+                $existsSchedule = Schedule::where('status', 'published')->where(function ($query) use ($request) {
+                    $query->whereDate('start_date', '<=', $request->end_date)->whereDate('end_date', '>=', $request->start_date);
+                })->exists();
+                if ($existsSchedule) {
+                    return response()->json(['status' => false, 'message' => 'A published event already exists between the entered date range!']);
+                }
+            } else {
+                Schedule::filter(['status' => 'published'])->first()->delete();
             }
 
-            $draftSchedule = Schedule::where('status', 'draft')->first();
+            $schedule = Schedule::firstOrCreate(['status' => 'draft']);
             $publishedSchedule = Schedule::create([
                 'start_date' => $request->start_date,
                 'end_date' => $request->end_date,
                 'status' => 'published',
-                'published_by' => $draftSchedule->id,
+                'published_by' => $schedule->id,
             ]);
 
             if ($publishedSchedule) {
-                $draftScheduleEvents = $draftSchedule->events()->get();
-                foreach ($draftScheduleEvents as $event) {
+                $scheduleEvents = $schedule->events()->get();
+                foreach ($scheduleEvents as $event) {
                     $publishedScheduleEvent = $publishedSchedule->events()->create([
                         'kindergarten_id' => $event->kindergarten_id,
                         'therapist_id' => $event->therapist_id,
@@ -138,12 +144,23 @@ class ScheduleController extends Controller
         return response()->json(['status' => false, 'message' => 'Something went wrong please try again!']);
     }
 
-    public function deleteDraftSchedule(Request $request)
+    public function deleteSchedule(Request $request)
     {
-        if (Schedule::where('status', 'draft')->delete()) {
+        DB::beginTransaction();
+        try {
+
+            Schedule::where('status', 'draft')->delete();
+            if (isset($request->scheduleId)) {
+                Schedule::where('id', $request->scheduleId)->update(['status' => 'draft']);
+            }
+
+            DB::commit();
             return response()->json(['status' => true]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['status' => false, 'message' => $e->getMessage()]);
         }
-        return response()->json(['status' => false]);
     }
 
     public function calendar(Request $request)
@@ -172,7 +189,7 @@ class ScheduleController extends Controller
             ];
         }
 
-        $schedule = isset($filter['schedule_id']) ? Schedule::find($filter['schedule_id']) : Schedule::filter($filter)->first();
+        $schedule = Schedule::filter($filter)->first();
         $events = !empty($schedule) ? scheduleResponse($schedule->events) : [];
         $userIds = StaffKindergarten::where('kindergarten_id', $filter['kindergarten_id'])->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
         $users = User::whereIn('id', $userIds)->select('id as key', 'name as value')->get()->toArray();

@@ -168,9 +168,11 @@
                     <div class="mb-3">
                         <input type="date" name="end_date" id="publishEndDate" placeholder="End Date" class="w-100 mb-3 form-control border-1">
                     </div>
-                    <input type="hidden" name="status" value="published">
+                    {{-- <input type="hidden" name="status" value="published"> --}}
                     <input type="hidden" name="ids" id="eventIds" value="{{ @$createdEventIds }}">
                     <input type="hidden" name="kindergarten_id" id="associatedKindergartenId">
+                    <input type="hidden" name="isAgree" id="isAgree" value="false"  >
+                    <div class="text-center mb-3 text-danger" id="isAgreeMsg" style="display: none;">If you continue it will replace the existing published event</div>
                     <div class="d-flex gap-3">
                         <button class="button p-2 px-4 rounded-pill border-0" id="publishEventFormBtn">Save</button>
                         <button class="button p-2 px-4 rounded-pill border-0">Cancel</button>

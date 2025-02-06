@@ -20,8 +20,8 @@
             <div class="">
                 {{-- <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="export">Export</button> --}}
                 <a href="/schedule-history" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">History</a>
-                <button id="editEvents" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Edit</button>
-                <button class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="createNewEvents">Create New</button>
+                <button class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="deleteSchedule" data-status="published" data-schedule-id="{{ @$schedule->id }}">Edit</button>
+                <button class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="deleteSchedule" data-status="draft" data-schedule-id="">Create New</button>
                 <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="appointmentSummary($('#kindergartenFilter').val());">Appointment Summary</span>
             </div>
         </div>
@@ -36,7 +36,12 @@
     <script type="text/javascript">
         const status = "published";
         const scheduleId = "{{ @$schedule->id }}";
-        $(document).on('click', '#createNewEvents', function() {
+        $(document).on('click', '#deleteSchedule', function() {
+            const scheduleStatus = $(this).data('status');
+            const scheduleId = $(this).data('schedule-id');
+            // alert(scheduleStatus); return;
+            let kindergartenId = getQueryParam('kindergarten_id');
+            let query = scheduleStatus == 'published' ? "&edit=true&kindergarten_id="+kindergartenId : "";
             Swal.fire({
                 title: confirmMsgTitle,
                 icon: "warning",
@@ -44,18 +49,19 @@
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, delete it",
-                html: "It will delete the existing draft",
+                html: "It will delete the existing draft schedule",
                 cancelButtonText: cancelButtonText
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch("{{ route('draft-schedule.delete') }}", {
+                    fetch("{{ route('delete.schedule') }}", {
                         method: 'POST',
                         headers: {
                             'X-CSRF-TOKEN': "{{ csrf_token() }}",
                             'Content-Type': 'application/json',
                         },
+                        body: JSON.stringify({ scheduleId: scheduleId })
                     }).then(response => response.json()).then(data => {
-                        window.location.href = "{{ route('schedule.create') }}?status=draft";
+                        window.location.href = "{{ route('schedule.create') }}?status=draft"+query;
                     }).catch(error => toastr.error('An error occurred while processing the request.'));
                 }
             });
@@ -63,7 +69,7 @@
         $(document).on('click', '#editEvents', function() {
             var kindergartenId = getQueryParam('kindergarten_id');
             var status = getQueryParam('status');
-            var query = status == 'published' ? "&status=published" : "&status=draft"
+            var query = status == 'published' ? "&status=published" : "&status=draft";
             var url = "{{ route('schedule.create') }}?kindergarten_id="+kindergartenId+"&edit=true"+query;
             window.location.href = url;
         });

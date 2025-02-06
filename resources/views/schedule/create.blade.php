@@ -83,9 +83,7 @@
                 </div>
             </div>
             <div class="">
-                @if (request('status') == 'draft')
-                    <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer updateEventStatus" data-status="published">Publish</button>
-                @endif
+                <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer updateEventStatus" data-status="published">Publish</button>
                 <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="newAppointment">New Appointment</button>
                 <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="appointmentSummary($('#kindergartenFilter').val());">Appointment Summary</span>
                 <a href="{{ route('schedule.index') }}" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">Exit</a>
@@ -171,8 +169,8 @@
             }
             let therapist = $('#therapist');
             let children = $('#children');
-            checkTimeSlot(therapist.attr('id'), therapist.val(), therapist);
-            checkTimeSlot(children.attr('id'), children.val(), children);
+            therapist.val().length > 0 ? checkTimeSlot(therapist.attr('id'), therapist.val(), therapist) : '';
+            children.val().length > 0 ? checkTimeSlot(children.attr('id'), children.val(), children) : '';
         });
 
         $(document).on('click', '#newAppointment', function() {
@@ -193,15 +191,6 @@
                 }, 1000);
             });
         });
-
-        // $(document).on('change', '#appointmentFrequency', function() {
-        //     var frequency = $(this).val();
-        //     if (frequency) {
-        //         $('#Monthly, #Bi-weekly').attr('name', '').hide();
-        //         $('#'+frequency).attr('name', 'frequency_repeat_at').show();
-        //     }
-        //     $('#therapist, #children').val(null).trigger('change');
-        // });
 
         $("#addEventForm").validate({
             rules: {
@@ -311,6 +300,7 @@
             submitHandler: function (form, e) {  
                 e.preventDefault();
                 var formData = new FormData(form);
+                formData.append('status', getQueryParam('status'));
                 $('#publishEventFormBtn').html('Processing');
 
                 fetch("{{ route('schedule.update') }}", {
@@ -329,6 +319,9 @@
                         filterCalendar({'status': status});
                         $('#eventIds').val('');
                     } else {
+                        $('#isAgree').val(true);
+                        $('#isAgreeMsg').show();
+                        $('#publishEventFormBtn').removeClass('button').addClass('btn-danger').html('Continue');
                         toastr.error(data.message);
                     }
                 }).catch(error => {
@@ -351,6 +344,9 @@
 
         $(document).on('change', '#publishStartDate', function() {
             $('#publishEndDate').val('').attr('min', $(this).val());
+            $('#isAgree').val('false');
+            $('#isAgreeMsg').hide();
+            $('#publishEventFormBtn').removeClass('btn-danger').addClass('button').html('Save');
         });
         
     </script>
