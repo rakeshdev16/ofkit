@@ -18,11 +18,29 @@
                  </div>
             </div>
             <div class="">
-                {{-- <button class="btn badge button rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="export">Export</button> --}}
-                <a href="/schedule-history" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">History</a>
-                <button class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="deleteSchedule" data-status="published" data-schedule-id="{{ @$schedule->id }}">Edit</button>
-                <button class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="deleteSchedule" data-status="draft" data-schedule-id="">Create New</button>
-                <span class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" onclick="appointmentSummary($('#kindergartenFilter').val());">Appointment Summary</span>
+                {{-- <a href="/schedule-history" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">History</a> --}}
+                <button
+                    class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer"
+                    id="deleteSchedule"
+                    data-btn="edit"
+                    data-schedule-id="{{ @$schedule->published_by }}"
+                >
+                    Edit
+                </button>
+                <button
+                    class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer"
+                    id="deleteSchedule"
+                    data-btn="create"
+                    data-schedule-id=""
+                >
+                    Create New
+                </button>
+                <buttn
+                    class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer"
+                    onclick="appointmentSummary($('#kindergartenFilter').val());"
+                >
+                    Appointment Summary
+                </span>
             </div>
         </div>
         <div class="mb-5" id="calender-view">
@@ -36,12 +54,27 @@
     <script type="text/javascript">
         const status = "published";
         const scheduleId = "{{ @$schedule->id }}";
+        $(document).ready(function() {
+            var kindergartenId = $('#kindergartenFilter').val();
+            var params = {
+                'status': 'published',
+                'kindergarten_id': kindergartenId,
+                "mode": "{{ explode('.', Route::currentRouteName())[1] }}"
+            };
+            filterCalendar(params);
+        })
         $(document).on('click', '#deleteSchedule', function() {
-            const scheduleStatus = $(this).data('status');
+            const btn = $(this).data('btn');
             const scheduleId = $(this).data('schedule-id');
-            // alert(scheduleStatus); return;
             let kindergartenId = getQueryParam('kindergarten_id');
-            let query = scheduleStatus == 'published' ? "&edit=true&kindergarten_id="+kindergartenId : "";
+
+            let url = "{{ route('schedule.create') }}?status=draft&kindergarten_id="+kindergartenId;
+            if (btn == 'edit') url += "&edit=true";
+            if (getQueryParam('status') == 'draft') {
+                return window.location.href = url;
+            }
+
+            let query = btn == 'edit' ?? "edit=true";
             Swal.fire({
                 title: confirmMsgTitle,
                 icon: "warning",
@@ -59,9 +92,12 @@
                             'X-CSRF-TOKEN': "{{ csrf_token() }}",
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ scheduleId: scheduleId })
+                        body: JSON.stringify({
+                            scheduleId: scheduleId,
+                            type: btn
+                        })
                     }).then(response => response.json()).then(data => {
-                        window.location.href = "{{ route('schedule.create') }}?status=draft"+query;
+                        window.location.href = url;
                     }).catch(error => toastr.error('An error occurred while processing the request.'));
                 }
             });

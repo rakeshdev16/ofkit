@@ -23,7 +23,6 @@ class ScheduleController extends Controller
     {
         $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
         $schedule = Schedule::filter($request->all())->first();
-        // echo '<pre>'; print_r(scheduleResponse($schedule->events)); die;
         return view('schedule.index', compact('kindergartens', 'schedule'));
     }
 
@@ -44,12 +43,7 @@ class ScheduleController extends Controller
                 $request['file'] = $request->old_image;
             }
 
-            // if (isset($request->edit) && $request->edit == 'true') {
-            //     $schedule = Schedule::filter(['status' => 'published'])->first();
-            // } else {
-                $schedule = Schedule::firstOrCreate(['status' => 'draft']);
-            // }
-
+            $schedule = Schedule::firstOrCreate(['status' => 'draft']);
             $deletedIds = $schedule->events()->removeUnselectedUser($request->all());
             $request['unique_id'] = $request->unique_id ? $request->unique_id : Str::uuid();
             foreach ($request->therapist_ids as $key => $therapistId) {
@@ -81,7 +75,6 @@ class ScheduleController extends Controller
         DB::beginTransaction();
         try {
 
-            $request->merge(['_is_cloning' => true]);
             if ($request->isAgree == 'false') {
                 $existsSchedule = Schedule::where('status', 'published')->where(function ($query) use ($request) {
                     $query->whereDate('start_date', '<=', $request->end_date)->whereDate('end_date', '>=', $request->start_date);
@@ -93,39 +86,14 @@ class ScheduleController extends Controller
                 Schedule::filter(['status' => 'published'])->first()->delete();
             }
 
-            $schedule = Schedule::firstOrCreate(['status' => 'draft']);
-            $publishedSchedule = Schedule::create([
+            $schedule = Schedule::where('status', 'draft')->first();
+            $clonedSchedule = Schedule::create([
                 'start_date' => $request->start_date,
                 'end_date' => $request->end_date,
                 'status' => 'published',
                 'published_by' => $schedule->id,
             ]);
-
-            if ($publishedSchedule) {
-                $scheduleEvents = $schedule->events()->get();
-                foreach ($scheduleEvents as $event) {
-                    $publishedScheduleEvent = $publishedSchedule->events()->create([
-                        'kindergarten_id' => $event->kindergarten_id,
-                        'therapist_id' => $event->therapist_id,
-                        'type' => $event->type,
-                        'day' => $event->day,
-                        'frequency_repeat' => $event->frequency_repeat,
-                        'frequency_repeat_at' => $event->frequency_repeat_at,
-                        'group_name' => $event->group_name,
-                        'description' => $event->description,
-                        'file' => $event->file,
-                        'start_time' => $event->start_time,
-                        'end_time' => $event->end_time,
-                        'color' => json_encode($event->color),
-                        'unique_id' => $event->unique_id,
-                    ]);
-                    if ($event->childrens()->exists()) {
-                        foreach ($event->childrens()->get() as $children) {
-                            $publishedScheduleEvent->childrens()->create(['children_id' => $children->children_id]);
-                        }
-                    }
-                }
-            }
+            $this->cloneSchedule($schedule, $clonedSchedule);
 
             DB::commit();
             return response()->json(['status' => true, 'message' => 'Event details and associated events have been successfully published!']);
@@ -149,9 +117,18 @@ class ScheduleController extends Controller
         DB::beginTransaction();
         try {
 
-            Schedule::where('status', 'draft')->delete();
-            if (isset($request->scheduleId)) {
-                Schedule::where('id', $request->scheduleId)->update(['status' => 'draft']);
+            switch ($request->type) {
+                case 'edit':
+                    Schedule::where('status', 'draft')->delete();
+                    if (!Schedule::where('id', $request->scheduleId)->exists()) {
+                        $schedule = Schedule::where('published_by', $request->scheduleId)->first();
+                        $clonedSchedule = Schedule::create(['status' => 'draft']);
+                        $this->cloneSchedule($schedule, $clonedSchedule);
+                    }
+                break;
+                case 'create':
+                    Schedule::where('status', 'draft')->delete();
+                break;
             }
 
             DB::commit();
@@ -384,5 +361,34 @@ class ScheduleController extends Controller
         // echo '<pre>'; print_r($events['Sunday'][0]); die;
 
         return Excel::download(new CalendarExport($days, $timeSlots, $staffSchedules, $events), 'Calendar_Export.xlsx');
+    }
+
+    private function cloneSchedule($schedule, $clonedSchedule)
+    {
+        request()->merge(['_is_cloning' => true]);
+        if ($schedule) {
+            foreach ($schedule->events()->get() as $event) {
+                $clonedSchedules = $clonedSchedule->events()->create([
+                    'kindergarten_id' => $event->kindergarten_id,
+                    'therapist_id' => $event->therapist_id,
+                    'type' => $event->type,
+                    'day' => $event->day,
+                    'frequency_repeat' => $event->frequency_repeat,
+                    'frequency_repeat_at' => $event->frequency_repeat_at,
+                    'group_name' => $event->group_name,
+                    'description' => $event->description,
+                    'file' => $event->file,
+                    'start_time' => $event->start_time,
+                    'end_time' => $event->end_time,
+                    'color' => json_encode($event->color),
+                    'unique_id' => $event->unique_id,
+                ]);
+                if ($event->childrens()->exists()) {
+                    foreach ($event->childrens()->get() as $children) {
+                        $clonedSchedules->childrens()->create(['children_id' => $children->children_id]);
+                    }
+                }
+            }
+        }
     }
 }

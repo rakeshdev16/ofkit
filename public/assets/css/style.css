@@ -671,6 +671,11 @@ button.accordion-button.accordion-screen.collapsed {
 
 /* event template */
 
+.disbale-btn {
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 .calender-view {
     max-height: 500px !important;
     overflow: hidden !important;

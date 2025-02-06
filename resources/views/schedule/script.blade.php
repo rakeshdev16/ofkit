@@ -1,16 +1,10 @@
 <script>
     let scrollingPosition = 0;
     $(document).ready(function () {
-        var kindergartenId = $('#kindergartenFilter').val();
-        var params = {
-            'status': status,
-            'kindergarten_id': kindergartenId,
-        };
         $('.page-loader').fadeOut('slow');
         window.addEventListener('scroll', function() {
             scrollingPosition = this.scrollY;
         });
-        filterCalendar(params);
     });
 
     function editEvent(data) {

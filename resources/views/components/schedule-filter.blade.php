@@ -6,7 +6,7 @@
     'value' => request('kindergarten_id'),
     'onchange' => "filterCalendar({ 'kindergarten_id': this.value })",
     'options' => $kindergartens,
-    'disabled' => request('edit') == true ? 'disabled' : '',
+    'disabled' => request('mode') == 'create' ? 'disabled' : '',
 ])
 @if (Route::currentRouteName() == 'schedule.index')
     @include('components.select-input', [

@@ -107,6 +107,13 @@
         let container = '';
 
         $(document).ready(function () {
+            var params = {
+                'status': getQueryParam('status'),
+                'kindergarten_id': getQueryParam('kindergarten_id'),
+                "mode": "{{ explode('.', Route::currentRouteName())[1] }}"
+            };
+            filterCalendar(params);
+
             $.validator.addMethod(
                 "minChildren",
                 function (value, element) {
@@ -300,6 +307,7 @@
             submitHandler: function (form, e) {  
                 e.preventDefault();
                 var formData = new FormData(form);
+                formData.append('kindergarten_id', getQueryParam('kindergarten_id'));
                 formData.append('status', getQueryParam('status'));
                 $('#publishEventFormBtn').html('Processing');
 
