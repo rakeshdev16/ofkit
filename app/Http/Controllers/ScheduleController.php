@@ -96,7 +96,7 @@ class ScheduleController extends Controller
             $this->cloneSchedule($schedule, $clonedSchedule);
 
             DB::commit();
-            return response()->json(['status' => true, 'message' => 'Event details and associated events have been successfully published!']);
+            return response()->json(['status' => true, 'message' => 'Schedule and associated events have been successfully published!']);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['status' => false, 'message' => $e->getMessage()]);
@@ -120,7 +120,7 @@ class ScheduleController extends Controller
             Schedule::where('status', 'draft')->delete();
             if ($request->type == 'edit') {
                 if (!Schedule::where('id', $request->scheduleId)->exists()) {
-                    $schedule = Schedule::where('published_by', $request->scheduleId)->first();
+                    $schedule = Schedule::where('published_by', $request->scheduleId)->orderBy('id', 'DESC')->first();
                     $clonedSchedule = Schedule::create(['status' => 'draft']);
                     $this->cloneSchedule($schedule, $clonedSchedule);
                 }
