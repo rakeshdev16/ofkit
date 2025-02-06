@@ -117,18 +117,13 @@ class ScheduleController extends Controller
         DB::beginTransaction();
         try {
 
-            switch ($request->type) {
-                case 'edit':
-                    Schedule::where('status', 'draft')->delete();
-                    if (!Schedule::where('id', $request->scheduleId)->exists()) {
-                        $schedule = Schedule::where('published_by', $request->scheduleId)->first();
-                        $clonedSchedule = Schedule::create(['status' => 'draft']);
-                        $this->cloneSchedule($schedule, $clonedSchedule);
-                    }
-                break;
-                case 'create':
-                    Schedule::where('status', 'draft')->delete();
-                break;
+            Schedule::where('status', 'draft')->delete();
+            if ($request->type == 'edit') {
+                if (!Schedule::where('id', $request->scheduleId)->exists()) {
+                    $schedule = Schedule::where('published_by', $request->scheduleId)->first();
+                    $clonedSchedule = Schedule::create(['status' => 'draft']);
+                    $this->cloneSchedule($schedule, $clonedSchedule);
+                }
             }
 
             DB::commit();
