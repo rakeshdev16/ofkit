@@ -124,7 +124,7 @@
                     eventData.startTime = args.start.value.split("T")[1].slice(0, 5);
                     eventData.endTime = args.end.value.split("T")[1].slice(0, 5);
                     eventData.therapistIds = [resource[1]];
-                    eventData.mode = 'create';
+                    // eventData.mode = 'create';
                     $('#eventTypeModal').modal('toggle');
                 }
             },
