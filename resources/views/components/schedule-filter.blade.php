@@ -1,4 +1,7 @@
 
+@php
+    $route = Route::currentRouteName();
+@endphp
 @include('components.select-input', [
     'name' => '',
     'id' => 'kindergartenFilter',
@@ -6,9 +9,9 @@
     'value' => request('kindergarten_id'),
     'onchange' => "filterCalendar({ 'kindergarten_id': this.value })",
     'options' => $kindergartens,
-    'disabled' => request('mode') == 'create' ? 'disabled' : '',
+    'disabled' => $route == 'schedule.create' ? 'disabled' : '',
 ])
-@if (Route::currentRouteName() == 'schedule.index')
+@if ($route == 'schedule.index')
     @include('components.select-input', [
         'name' => '',
         'icon' => 'buildings',
