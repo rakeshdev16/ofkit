@@ -138,4 +138,11 @@ class ScheduleEvent extends Model
     {
         return $query->where('frequency_repeat', 'Monthly');
     }
+
+    public function getWeightedCount()
+    {
+        return $this->frequency_repeat === 'Weekly' ? 1 :
+            ($this->frequency_repeat === 'Bi-weekly' ? 0.5 :
+            ($this->frequency_repeat === 'Monthly' ? 0.25 : 0));
+    }
 }

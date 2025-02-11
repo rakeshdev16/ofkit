@@ -163,14 +163,14 @@
             <div class="modal-body">
                 <form action="" id="publishEventForm" enctype="multipart/form-data">
                     <div class="mb-3">
+                        <label for="input16" class="form-label fw-bold">Start Date</label>
                         <input type="date" name="start_date" id="publishStartDate" placeholder="Start Date" class="w-100 form-control border-1" min="{{ date('Y-m-d') }}">
                     </div>
                     <div class="mb-3">
-                        <input type="date" name="end_date" id="publishEndDate" placeholder="End Date" class="w-100 mb-3 form-control border-1">
+                        <label for="input16" class="form-label fw-bold">End Date</label>
+                        <input type="date" name="end_date" id="publishEndDate" placeholder="End Date" class="w-100 form-control border-1">
                     </div>
-                    {{-- <input type="hidden" name="status" value="published"> --}}
                     <input type="hidden" name="ids" id="eventIds" value="{{ @$createdEventIds }}">
-                    {{-- <input type="hidden" name="kindergarten_id" id="associatedKindergartenId"> --}}
                     <input type="hidden" name="isAgree" id="isAgree" value="false"  >
                     <div class="text-center mb-3 text-danger" id="isAgreeMsg" style="display: none;">If you continue it will replace the existing published event</div>
                     <div class="d-flex gap-3">

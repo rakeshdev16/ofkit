@@ -186,7 +186,7 @@
     }
     
     function appointmentSummary(kindergartenId) {
-        const url = "{{ route('schedule.hour-summary') }}?kindergarten_id="+kindergartenId;
+        const url = "{{ route('schedule.hour-summary') }}?kindergarten_id="+kindergartenId+"&status="+getQueryParam('status');
         fetch(url).then((response) => response.json()).then((data) => {
             $('#childrenSummary').html(data.childrenSummary);
             $('#staffHours').html(data.staffSummary);

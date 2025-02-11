@@ -306,7 +306,7 @@ class ScheduleController extends Controller
         $matiaTherapistIds = (clone $associations['Matia'])->staffKindergarten->where('kindergarten_id', $request->kindergarten_id)->pluck('user_id')->toArray();
         $tabamTherapistIds = (clone $associations['Tabam'])->staffKindergarten->where('kindergarten_id', $request->kindergarten_id)->pluck('user_id')->toArray();
         $childrens = Children::select('id', 'name', 'kindergarten_id')->where('kindergarten_id', $request->kindergarten_id)->get()->toArray();
-        $schedule = Schedule::filter(['status' => 'published'])->first();
+        $schedule = Schedule::filter(['status' => $request->status])->first();
         $childrenSummary = '';
         $staffSummary = '';
         if ($schedule && (clone $schedule)->events() !== null) {
@@ -319,12 +319,12 @@ class ScheduleController extends Controller
                     })->get();
                 $summary = [
                     'tabam' => [
-                        'individual' => $tabamScheduls->where('type', 'individual')->count(),
-                        'group' => $tabamScheduls->where('type', 'group')->count(),
+                        'individual' => $tabamScheduls->where('type', 'individual')->sum->getWeightedCount(),
+                        'group' => $tabamScheduls->where('type', 'group')->sum->getWeightedCount(),
                     ],
                     'matia' => [
-                        'individual' => $matiaScheduls->where('type', 'individual')->count(),
-                        'group' => $matiaScheduls->where('type', 'group')->count(),
+                        'individual' => $matiaScheduls->where('type', 'individual')->sum->getWeightedCount(),
+                        'group' => $matiaScheduls->where('type', 'group')->sum->getWeightedCount(),
                     ]
                 ];
                 $childrenSummary .= view('components.children-hour-summary', ['children' => $children, 'summary' => $summary]);
@@ -336,12 +336,12 @@ class ScheduleController extends Controller
             foreach ($users as $user) {
                 $staffScheduls = (clone $schedule)->events()->where('therapist_id', $user->id)->get();
                 $summary = [
-                    'individual' => $staffScheduls->where('type', 'individual')->count(),
-                    'group' => $staffScheduls->where('type', 'group')->count(),
-                    'staff-meeting' => $staffScheduls->where('type', 'staff-meeting')->count(),
-                    'tutorial' => $staffScheduls->where('type', 'tutorial')->count(),
-                    'preparation' => $staffScheduls->where('type', 'preparation')->count(),
-                    'other' => $staffScheduls->where('type', 'other')->count(),
+                    'individual' => $staffScheduls->where('type', 'individual')->sum->getWeightedCount(),
+                    'group' => $staffScheduls->where('type', 'group')->sum->getWeightedCount(),
+                    'staff-meeting' => $staffScheduls->where('type', 'staff-meeting')->sum->getWeightedCount(),
+                    'tutorial' => $staffScheduls->where('type', 'tutorial')->sum->getWeightedCount(),
+                    'preparation' => $staffScheduls->where('type', 'preparation')->sum->getWeightedCount(),
+                    'other' => $staffScheduls->where('type', 'other')->sum->getWeightedCount(),
                 ];
                 $staffSummary .= view('components.staff-hour-summary', ['user' => $user, 'summary' => $summary]);
             }
