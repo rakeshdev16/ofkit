@@ -55,7 +55,7 @@
         let windowWidth = window.screen.width;
         let columsCount = list.map((item) => (Array.isArray(item.children) ? item.children.length : 1)).reduce((sum, count) => sum + count, 0);
         let columnWidth = 100;
-        if (columsCount == 0) {
+        if (columsCount == 0 || columsCount <= 7) {
             columnWidth = (windowWidth-100)/7;
         } else if (columsCount*100 < windowWidth) {
             columnWidth = (windowWidth-100)/columsCount;
