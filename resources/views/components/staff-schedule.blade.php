@@ -5,11 +5,11 @@
         <input type="hidden" name="schedule[{{ $day }}][{{ $index }}][id]" value="{{ @$data['id'] }}">
     </td>
     <td>
-        <input type="time" name="schedule[{{ $day }}][{{ $index }}][start_time]" class="form-control time-picker startTime" value="{{ @$data['start_time'] }}" data-index="{{ $index }}" value="">
+        <input type="text" name="schedule[{{ $day }}][{{ $index }}][start_time]" class="form-control time-picker startTime" value="{{ @$data['start_time'] }}" data-index="{{ $index }}" value="">
         <span id="schedule[{{ $day }}][{{ $index }}][start_time]"></span>
     </td>
     <td>
-        <input type="time" name="schedule[{{ $day }}][{{ $index }}][end_time]" class="form-control time-picker endTime{{ $index }}" value="{{ @$data['end_time'] }}" data-index="{{ $index }}" value="">
+        <input type="text" name="schedule[{{ $day }}][{{ $index }}][end_time]" class="form-control time-picker endTime{{ $index }}" value="{{ @$data['end_time'] }}" data-index="{{ $index }}" value="">
         <span id="schedule[{{ $day }}][{{ $index }}][end_time]"></span>
     </td>
 </tr>

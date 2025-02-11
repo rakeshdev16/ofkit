@@ -59,6 +59,7 @@
                                 window.dp.events.remove(existEvent);
                             }
                         });
+                        setCalendar();
                         toastr.success(data.message);
                     } else {
                         toastr.error(data.message);
@@ -128,10 +129,12 @@
                 // const selectedOptions = dropdown.val();
                 // const updatedOptions = selectedOptions.filter(option => option !== id);
                 // dropdown.val(updatedOptions).trigger('change');
-                $('#createEventModalBtn').attr('disabled', true);
+                if (type == 'therapist') $("#children").prop("disabled", true);
+                $('#createEventModalBtn').attr('disabled', true).attr('title', 'This selected therapist or child not exists').tooltip({ trigger: 'hover' });
                 toastr.error(data.message);
             } else {
-                $('#createEventModalBtn').attr('disabled', false);
+                $("#children").prop("disabled", false);
+                $('#createEventModalBtn').attr('disabled', false).removeAttr('title').tooltip('dispose');
             }
         });
     }

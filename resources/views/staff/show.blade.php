@@ -165,8 +165,8 @@
                                                                 <tr>
                                                                     <td><h6 class="pt-2">{{ __('staff.' . $data['day']) }}</h6></td>
                                                                     <td><div>{{ @getKindergartenNameById($data['kindergarten_id']) ?? '-' }}</div></td>
-                                                                    <td><div><input type="time" class="form-control" value="{{ @$data['start_time'] }}" disabled></div></td>
-                                                                    <td><div><input type="time" class="form-control" value="{{ @$data['end_time'] }}" disabled></div></td>
+                                                                    <td><div><input type="text" class="form-control" value="{{ date('H:i', strtotime(@$data['start_time'])) }}" disabled></div></td>
+                                                                    <td><div><input type="text" class="form-control" value="{{ date('H:i', strtotime(@$data['end_time'])) }}" disabled></div></td>
                                                                 </tr>
                                                             @endforeach
                                                         </tbody>

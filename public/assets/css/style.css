@@ -700,6 +700,8 @@ button.accordion-button.accordion-screen.collapsed {
 .modal_default_main {
     border: none !important;
     border-radius: 0.5rem;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
 }
 
 .modal_default_buttons button {
@@ -715,6 +717,14 @@ button.accordion-button.accordion-screen.collapsed {
 .event-box {
 
     height: 100%;
+}
+
+button:disabled,
+button[disabled] {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
 }
 
 .calendar_default_event_inner {

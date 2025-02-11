@@ -200,7 +200,6 @@
         return false;
     }
 
-
     $('.selectChildrens').select2({
         dropdownParent: $("#createEventModal"),
         placeholder: "Select Children",
@@ -224,5 +223,4 @@
             }
         }
     });
-
 </script>

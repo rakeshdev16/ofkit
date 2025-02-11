@@ -59,10 +59,20 @@ class ScheduleController extends Controller
                     }
                 }
             }
-            $events = $schedule->events()->where('unique_id', $request->unique_id)->get();
+            // $events = $schedule->events()->where('unique_id', $request->unique_id)->get();
+            $events = $schedule->events()->whereIn('therapist_id', $request->therapist_ids)->where([
+                    'day' => $request->day,
+                    'start_time' => $request->start_time
+                ])->get();
             $event = scheduleResponse($events, $schedule);
             DB::commit();
-            return response()->json(['status' => true, 'message' => 'Event detail has been successfully saved as draft!', 'event' => $event, 'deletedIds' => $deletedIds]);
+            return response()->json([
+                'status' => true,
+                'message' => 'Event detail has been successfully saved as draft!',
+                'event' => $event,
+                'deletedIds' => $deletedIds
+            ]);
+
         } catch (\Exception $e) {
             echo '<pre>'; print_r($e->getMessage()); die;
             DB::rollback();
@@ -223,6 +233,17 @@ class ScheduleController extends Controller
         $events = $schedule->events()->overlappingWithTimeSlot($data);
 
         if ($data['type'] == 'therapist') {
+            $staffAvailability = StaffSchedule::where([
+                    'user_id' => $data['id'],
+                    'day' => strtolower($data['day']),
+                    'kindergarten_id' => $data['kindergartenId']
+                ])->where('start_time', '<=', $data['startTime'])->where('end_time', '>=', $data['endTime'])->exists();
+            if (!$staffAvailability) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'The event time is outside the staff availability range.'
+                ]);
+            }
             $events = $events->where('therapist_id', @$data['id']);
         } elseif ($data['type'] == 'children') {
             $events = $events->whereHas('childrens', function ($query) use ($data) {

@@ -175,7 +175,7 @@
                     <div class="text-center mb-3 text-danger" id="isAgreeMsg" style="display: none;">If you continue it will replace the existing published event</div>
                     <div class="d-flex gap-3">
                         <button class="button p-2 px-4 rounded-pill border-0" id="publishEventFormBtn">Save</button>
-                        <button class="button p-2 px-4 rounded-pill border-0">Cancel</button>
+                        <button type="button" class="button p-2 px-4 rounded-pill border-0" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>

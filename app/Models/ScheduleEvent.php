@@ -34,15 +34,15 @@ class ScheduleEvent extends Model
             if (request()->has('_is_cloning')) return;
             $childrenIds = request()->children_ids;
             if ($schedule->type === 'staff-meeting') {
-                $color = json_encode(["background-color: #095F59;", "color: #fff;"]);
+                $color = json_encode(["background-color: #2c3e50;", "color: #ffffff;"]);
             } elseif (!empty($childrenIds)) {
                 $color = json_encode(Children::where('id', $childrenIds[0] ?? null)->pluck('color')->first());
             } else {
                 $colors = [
-                    'documentation-break' => json_encode(["background-color: #8a8584;", "color: #0a0100;"]),
-                    'preparation' => json_encode(["background-color: #c20c06;", "color: #fcfcfc;"]),
-                    'tutorial' => json_encode(["background-color: #f2fa05;", "color: #0a0100;"]),
-                    'other' => json_encode(["background-color: #05fa94;", "color: #0a0100;"]),
+                    'documentation-break' => json_encode(["background-color: #b0bec5;", "color: #000000;"]),
+                    'preparation' => json_encode(["background-color: #7e57c2;", "color: #ffffff;"]),
+                    'tutorial' => json_encode(["background-color: #006d77;", "color: #ffffff;"]),
+                    'other' => json_encode(["background-color: #d9a300;", "color: #000000;"]),
                     'no-child' => json_encode(["background-color:rgb(250, 5, 176);", "color: #0a0100;"]),
                 ];
 

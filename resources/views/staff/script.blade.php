@@ -1,5 +1,6 @@
 <script>
     $(document).ready(function() {
+        timePicker(0);
         $('.kindergarten').select2();
         $('.scheduleKindergarten').select2();
 
@@ -262,6 +263,9 @@
             'name' => '${name}',
             'data' => ['start_time' => '', 'end_time' => '']
         ])`);
+        setTimeout(() => {
+            timePicker(index)
+        }, 100);
         section.show();
         scheduleValidationRules(day, index);
     });
@@ -312,5 +316,75 @@
                 required: "Please enter end time."
             }
         });
+    }
+
+    function timePicker(index) {
+        flatpickr(`.startTime[data-index="${index}"]`, {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            time_24hr: true,
+            minuteIncrement: 15,
+            allowInput: true,
+            onClose: function (selectedDates, dateStr, instance) {
+                const isValid = validateTime(dateStr);
+                if (!isValid) {
+                    toastr.error("Please enter a valid time in the format HH:mm. Minutes should be 00, 15, 30, or 45.");
+                    instance.clear();
+                }
+                const endTime = document.querySelector(`.endTime${index}`);
+                const endTimeValue = endTime.value;
+                if (endTimeValue && !isEndTimeAfterStartTime(dateStr, endTimeValue)) {
+                    endTime.value = '';
+                }
+            }
+        });
+
+        flatpickr(`.endTime${index}`, {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            time_24hr: true,
+            minuteIncrement: 15,
+            allowInput: true,
+            onClose: function (selectedDates, dateStr, instance) {
+                const isValid = validateTime(dateStr);
+                if (!isValid) {
+                    toastr.error("Please enter a valid time in the format HH:mm. Minutes should be 00, 15, 30, or 45.");
+                    instance.clear();
+                    return;
+                }
+                const startTime = document.querySelector(`.startTime[data-index="${index}"]`).value;
+                if (startTime && !isEndTimeAfterStartTime(startTime, dateStr)) {
+                    toastr.error("End time cannot be earlier than or equal to the start time.");
+                    instance.clear();
+                }
+            }
+        });
+
+        function validateTime(timeStr) {
+            const timeRegex = /^([01]?\d|2[0-3]):([0-5]\d)$/;
+            if (timeRegex.test(timeStr)) {
+                const [hours, minutes] = timeStr.split(":").map(Number);
+                const validMinutes = [0, 15, 30, 45];
+                if (validMinutes.includes(minutes)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        function isEndTimeAfterStartTime(startTime, endTime) {
+            const [startHours, startMinutes] = startTime.split(":").map(Number);
+            const [endHours, endMinutes] = endTime.split(":").map(Number);
+            if (endHours > startHours) {
+                return true;
+            } else if (endHours === startHours && endMinutes > startMinutes) {
+                return true;
+            }
+            return false;
+        }
     }
 </script>

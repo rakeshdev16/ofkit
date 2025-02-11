@@ -71,7 +71,7 @@
 @section('section')
 <div class="page-wrapper">
     <div class="page-content">
-        <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between my-3">
+        <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between mb-3">
             <div>
                 @if (request('edit') == true)
                     <h3>Editing Kindergarten Weekly Schedule</h3>
@@ -273,6 +273,7 @@
                             currentIds = [...new Set([...currentIds, item.uniqueId])];
                             hiddenInput.val(JSON.stringify(currentIds));
                         });
+                        setCalendar();
                         dp.clearSelection();
                         $('#createEventModal').modal('toggle');
 
@@ -302,8 +303,8 @@
                 end_date: { required: true },
             },
             messages: {
-                start_date: { required: "Please chode start date!" },
-                end_date: { required: "Please chode start date!" },
+                start_date: { required: "Please select start date!" },
+                end_date: { required: "Please select start date!" },
             },
             submitHandler: function (form, e) {  
                 e.preventDefault();

@@ -10,7 +10,7 @@
 @section('section')
 <div class="page-wrapper">
     <div class="page-content">
-        <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between my-3">
+        <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between mb-3">
             <div>
                 <h3>Weekly Therapy Schedule</h3>
                 <div class="filters d-flex flex-wrap  gap-3">

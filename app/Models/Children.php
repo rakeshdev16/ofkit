@@ -65,11 +65,6 @@ class Children extends Model
             Session::forget('children_kindergarten');
         }
 
-        // if (request('status')) {
-        //     $query->where('status', request('status'));
-        // }else{
-        //     $query->where('status', 'active');
-        // }
         if (request('status') == 'inactive') {
             $query->whereIn('childrens.status', ['active', 'inactive']);
         }else{
@@ -108,13 +103,6 @@ class Children extends Model
         return isset($this->attributes['service_start_date']) ? @date('d/m/Y', strtotime($this->attributes['service_start_date'])) : NULL;
     }
 
-    // public function setDobAttribute($value)
-    // {
-    //     if (is_string($value)) {
-    //         $value = Carbon::createFromFormat('d/m/Y', $value);
-    //         $this->attributes['dob'] = $value->format('Y-m-d');
-    //     }
-    // }
     public function setDobAttribute($value)
     {
         if (!empty($value)) {
@@ -131,26 +119,21 @@ class Children extends Model
 
         static::creating(function ($model) {
             $colors = [
-                json_encode(["background-color: #a7a7a7;", "color: #ffffff;"]),
-                json_encode(["background-color: #ff5733;", "color: #ffffff;"]),
-                json_encode(["background-color: #33c4ff;", "color: #000000;"]),
-                json_encode(["background-color: #f9c50b;", "color: #000000;"]),
-                json_encode(["background-color: #7d33ff;", "color: #ffffff;"]),
-                json_encode(["background-color: #ff33b5;", "color: #000000;"]),
-                json_encode(["background-color: #33ff8a;", "color: #000000;"]),
-                json_encode(["background-color: #c70039;", "color: #ffffff;"]),
-                json_encode(["background-color: #ffc300;", "color: #000000;"]),
-                json_encode(["background-color: #900c3f;", "color: #ffffff;"]),
-                json_encode(["background-color: #1d8348;", "color: #ffffff;"]),
-                json_encode(["background-color: #2874a6;", "color: #ffffff;"]),
-                json_encode(["background-color: #fffcf1;", "color: #000000;"]),
-                json_encode(["background-color: #76448a;", "color: #ffffff;"]),
-                json_encode(["background-color: #af7ac5;", "color: #000000;"]),
-                json_encode(["background-color: #e74c3c;", "color: #ffffff;"]),
-                json_encode(["background-color: #16a085;", "color: #ffffff;"]),
-                json_encode(["background-color: #2ecc71;", "color: #000000;"]),
-                json_encode(["background-color: #3498db;", "color: #ffffff;"]),
-                json_encode(["background-color: #9b59b6;", "color: #ffffff;"]),
+                json_encode(["background-color: #43a047;", "color: #000000;"]),
+                json_encode(["background-color: #2a9d8f;", "color: #000000;"]),
+                json_encode(["background-color: #5fc89c;", "color: #000000;"]),
+                json_encode(["background-color: #9ccc65;", "color: #000000;"]),
+                json_encode(["background-color: #f8e16c;", "color: #000000;"]),
+                json_encode(["background-color: #ffb39a;", "color: #000000;"]),
+                json_encode(["background-color: #f4a261;", "color: #000000;"]),
+                json_encode(["background-color: #d68c45;", "color: #000000;"]),
+                json_encode(["background-color: #e76f51;", "color: #000000;"]),
+                json_encode(["background-color: #4a90e2;", "color: #000000;"]),
+                json_encode(["background-color: #56c8d8;", "color: #000000;"]),
+                json_encode(["background-color: #a48ddb;", "color: #000000;"]),
+                json_encode(["background-color: #ede0d4;", "color: #000000;"]),
+                json_encode(["background-color: #ff6392;", "color: #000000;"]),
+                json_encode(["background-color: #c07f8a;", "color: #000000;"]),
             ];
             $lastRecord = self::latest('id')->first();
             $lastIndex = 0;
@@ -225,9 +208,4 @@ class Children extends Model
     {
         return $this->hasMany(FamilyLanguage::class);
     }
-
-    // public function kinderGarten()
-    // {
-    //     return $this->belongsTo(Kindergarten::class, 'kindergarten_id');
-    // }
 }

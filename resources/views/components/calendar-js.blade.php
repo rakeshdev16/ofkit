@@ -1,6 +1,7 @@
 <script>
     function filterCalendar(params = {}) {
         var url = "{{ $filterRoute }}";
+        let scrollingPosition = 0;
         var paramLength = Object.keys(params).length;        
         if (paramLength > 0) {
             url = url+"?"+queryParam(params);
@@ -11,15 +12,7 @@
             calendar(data.calenderEvents, data.calenderHeader);
             $(window).scrollTop(scrollingPosition);
             setTimeout(() => {
-                $('.calendar_default_scroll > div > div:nth-of-type(2)').css('height', '500px');
-                $('.calendar_default_scroll > div > div:nth-of-type(1)').css('height', '500px');
-                $('.calendar_default_scroll').css('height', '500px');
-                const targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0];
-                $(window).keyup(function (e) {
-                    var key = e.which;
-                    if(key == 13 || key == 39) targetElement.scrollLeft += 200;
-                    if(key == 37) targetElement.scrollLeft -= 200;
-                });
+                setCalendar();
                 // $('#export').on('click', function() {
                 //     $(this).attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
                 //     let div = $('#scheduleCalendar')[0];
@@ -62,7 +55,9 @@
         let windowWidth = window.screen.width;
         let columsCount = list.map((item) => (Array.isArray(item.children) ? item.children.length : 1)).reduce((sum, count) => sum + count, 0);
         let columnWidth = 100;
-        if (columsCount*100 < windowWidth) {
+        if (columsCount == 0) {
+            columnWidth = (windowWidth-100)/7;
+        } else if (columsCount*100 < windowWidth) {
             columnWidth = (windowWidth-100)/columsCount;
         }
         let headerLevel = "{{ in_array(Route::currentRouteName() , ['children-schedule.index', 'therapy-schedule.index']) }}" ? "1" : "4";
@@ -167,4 +162,15 @@
         return currentUrl.get(query);
     }
 
+    function setCalendar() {
+        $('.calendar_default_scroll > div > div:nth-of-type(2)').css('height', '500px');
+        $('.calendar_default_scroll > div > div:nth-of-type(1)').css('height', '500px');
+        $('.calendar_default_scroll').css('height', '500px');
+        const targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0];
+        $(window).keyup(function (e) {
+            var key = e.which;
+            if (key == 13 || key == 39) targetElement.scrollLeft += 200;
+            if (key == 37) targetElement.scrollLeft -= 200;
+        });
+    }
 </script>
