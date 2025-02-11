@@ -85,9 +85,11 @@ class ScheduleController extends Controller
         DB::beginTransaction();
         try {
 
+            $startDate = Carbon::createFromFormat('d/m/Y', $request->start_date)->format('Y-m-d');
+            $endDate = Carbon::createFromFormat('d/m/Y', $request->end_date)->format('Y-m-d');
             if ($request->isAgree == 'false') {
-                $existsSchedule = Schedule::where('status', 'published')->where(function ($query) use ($request) {
-                    $query->whereDate('start_date', '<=', $request->end_date)->whereDate('end_date', '>=', $request->start_date);
+                $existsSchedule = Schedule::where('status', 'published')->where(function ($query) use ($startDate, $endDate) {
+                    $query->whereDate('start_date', '<=', $endDate)->whereDate('end_date', '>=', $startDate);
                 })->exists();
                 if ($existsSchedule) {
                     return response()->json(['status' => false, 'message' => 'A published event already exists between the entered date range!']);
@@ -98,8 +100,8 @@ class ScheduleController extends Controller
 
             $schedule = Schedule::where('status', 'draft')->first();
             $clonedSchedule = Schedule::create([
-                'start_date' => $request->start_date,
-                'end_date' => $request->end_date,
+                'start_date' => $startDate,
+                'end_date' => $endDate,
                 'status' => 'published',
                 'published_by' => $schedule->id,
             ]);

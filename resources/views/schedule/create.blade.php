@@ -352,12 +352,18 @@
             $('#eventFile').val('');
             $('.event-file').html('');
         }
-        $("#publishStartDate").flatpickr({
+        var endPicker = flatpickr("#publishEndDate", {
             dateFormat: "d/m/Y",
         });
-        $("#publishEndDate").flatpickr({
+
+        var startPicker = flatpickr("#publishStartDate", {
             dateFormat: "d/m/Y",
+            onChange: function(selectedDates, dateStr, instance) {
+                // Update minDate of endPicker when a start date is selected
+                endPicker.set('minDate', dateStr);
+            }
         });
+
 
         $(document).on('change', '#publishStartDate', function() {
             $('#publishEndDate').val('').attr('min', $(this).val());
