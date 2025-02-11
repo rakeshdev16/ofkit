@@ -164,11 +164,11 @@
                 <form action="" id="publishEventForm" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="input16" class="form-label fw-bold">Start Date</label>
-                        <input type="date" name="start_date" id="publishStartDate" placeholder="Start Date" class="w-100 form-control border-1" min="{{ date('Y-m-d') }}">
+                        <input type="text" name="start_date" id="publishStartDate" placeholder="Start Date" class="w-100 form-control border-1">
                     </div>
                     <div class="mb-3">
                         <label for="input16" class="form-label fw-bold">End Date</label>
-                        <input type="date" name="end_date" id="publishEndDate" placeholder="End Date" class="w-100 form-control border-1">
+                        <input type="text" name="end_date" id="publishEndDate" placeholder="End Date" class="w-100 form-control border-1">
                     </div>
                     <input type="hidden" name="ids" id="eventIds" value="{{ @$createdEventIds }}">
                     <input type="hidden" name="isAgree" id="isAgree" value="false"  >

@@ -148,6 +148,7 @@
         $(document).on('change', '#appointmentType', function() {
             var type = $('#appointmentType').val();
             selectVisibility(type);
+            $('#therapist, #children').val(null).trigger('change');
         });
 
         $(document).on('change', '.event-time', function() {
@@ -351,6 +352,12 @@
             $('#eventFile').val('');
             $('.event-file').html('');
         }
+        $("#publishStartDate").flatpickr({
+            dateFormat: "d/m/Y",
+        });
+        $("#publishEndDate").flatpickr({
+            dateFormat: "d/m/Y",
+        });
 
         $(document).on('change', '#publishStartDate', function() {
             $('#publishEndDate').val('').attr('min', $(this).val());
