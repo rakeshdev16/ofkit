@@ -177,7 +177,7 @@
                                     'icon' => 'fi_16650601.png',
                                     'active' => in_array($currentRoute, ['schedule.index']) ? 'active-menu' : '',
                                 ];
-                                if (Auth::user()->hasRole('admin')) {
+                                if (Auth::user()->hasRole(['admin', 'manager'])) {
                                     $data['route'] = route('schedule.index');
                                 } else {
                                     $data['route'] = route('therapy-schedule.index');
