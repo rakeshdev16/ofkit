@@ -1,4 +1,4 @@
- <div class="p-1 event-box d-flex flex-column justify-content-between" style="{{ $data->color[0] }}; {{ $data->color[1] }}">
+ <div class="p-1 event-box d-flex flex-column justify-content-between" style="{{ @$data->color[0] }}; {{ @$data->color[1] }}">
     @if ($data['eventCount'] >= 2)
         @php
             $id = $data->id;

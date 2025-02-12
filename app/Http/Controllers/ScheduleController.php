@@ -246,10 +246,10 @@ class ScheduleController extends Controller
                     'message' => 'The event time is outside the staff availability range.'
                 ]);
             }
-            $events = $events->where('therapist_id', @$data['id']);
+            $events = $events->whereIn('therapist_id', @$data['id']);
         } elseif ($data['type'] == 'children') {
             $events = $events->whereHas('childrens', function ($query) use ($data) {
-                $query->where('children_id', @$data['id']);
+                $query->whereIn('children_id', @$data['id']);
             });
         }
 
