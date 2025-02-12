@@ -12,7 +12,7 @@
     </select>
 </div>
 <div class="d-flex mb-3">
-    <div class="w-100">
+    <div class="w-50">
         <select id="day" name="day" class="form-control border-1">
             <option value="">Select Day</option>
             <option {{ @$data['day'] == 'Sunday' ? 'selected' : '' }} value="Sunday">Sunday</option>
@@ -24,25 +24,11 @@
             <option {{ @$data['day'] == 'Saturday' ? 'selected' : '' }} value="Saturday">Saturday</option>
         </select>
     </div>
-    <div>
-        <input
-            type="text"
-            class="form-control event-time"
-            name="start_time"
-            id="startTime"
-            placeholder="Start Time"
-            value="{{ @$data['startTime'] }}"
-        >
+    <div class="w-50">
+        @include('components.time-picker', ['name' => 'start_time', 'label' => 'Start time'])
     </div>
-    <div>
-        <input
-            type="text"
-            class="form-control event-time"
-            name="end_time"
-            id="endTime"
-            placeholder="End Time"
-            value="{{ @$data['endTime'] }}"
-        >
+    <div class="w-50">
+        @include('components.time-picker', ['name' => 'end_time', 'label' => 'End time'])
     </div>
 </div>
 <div class="mb-3">
@@ -132,73 +118,18 @@
 <script>    
     var type = $('#appointmentType').val();
     var isMultiple = (type === 'group' || type === 'staff-meeting');
-    flatpickr("#startTime", {
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-        time_24hr: true,
-        minuteIncrement: 15,
-        allowInput: true,
-        onClose: function (selectedDates, dateStr, instance) {
-            const isValid = validateTime(dateStr);
-            if (!isValid) {
-                toastr.error("Please enter a valid time in the format HH:mm. Minutes should be 00, 15, 30, or 45.");
-                instance.clear();
-            }
-            const endTime = document.querySelector("#endTime");
-            const endTimeValue = endTime.value;
-            if (endTimeValue && !isEndTimeAfterStartTime(dateStr, endTimeValue)) {
-                endTime.value = '';
-            }
-        }
-    });
-
-    flatpickr("#endTime", {
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-        time_24hr: true,
-        minuteIncrement: 15,
-        allowInput: true,
-        onClose: function (selectedDates, dateStr, instance) {
-            const isValid = validateTime(dateStr);
-            if (!isValid) {
-                toastr.error("Please enter a valid time in the format HH:mm. Minutes should be 00, 15, 30, or 45.");
-                instance.clear();
-                return;
-            }
-            const startTime = document.querySelector("#startTime").value;
-            if (startTime && !isEndTimeAfterStartTime(startTime, dateStr)) {
-                toastr.error("End time cannot be earlier than or equal to the start time.");
-                instance.clear();
-            }
-        }
-    });
-
-    function validateTime(timeStr) {
-        const timeRegex = /^([01]?\d|2[0-3]):([0-5]\d)$/;
-        if (timeRegex.test(timeStr)) {
-            const [hours, minutes] = timeStr.split(":").map(Number);
-            const validMinutes = [0, 15, 30, 45];
-            if (validMinutes.includes(minutes)) {
-                return true;
+    const startTimeSelect = document.querySelector('select[name="start_time"]');
+    const endTimeSelect = document.querySelector('select[name="end_time"]');
+    startTimeSelect.addEventListener("change", function () {
+        let startTime = startTimeSelect.value;
+        Array.from(endTimeSelect.options).forEach((option) => {
+            if (option.value && option.value <= startTime) {
+                option.disabled = true;
             } else {
-                return false;
+                option.disabled = false;
             }
-        }
-        return false;
-    }
-
-    function isEndTimeAfterStartTime(startTime, endTime) {
-        const [startHours, startMinutes] = startTime.split(":").map(Number);
-        const [endHours, endMinutes] = endTime.split(":").map(Number);
-        if (endHours > startHours) {
-            return true;
-        } else if (endHours === startHours && endMinutes > startMinutes) {
-            return true;
-        }
-        return false;
-    }
+        });
+    });
 
     $('.selectChildrens').select2({
         dropdownParent: $("#createEventModal"),

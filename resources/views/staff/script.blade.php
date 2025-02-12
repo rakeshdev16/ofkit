@@ -319,72 +319,16 @@
     }
 
     function timePicker(index) {
-        flatpickr(`.startTime[data-index="${index}"]`, {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-            time_24hr: true,
-            minuteIncrement: 15,
-            allowInput: true,
-            onClose: function (selectedDates, dateStr, instance) {
-                const isValid = validateTime(dateStr);
-                if (!isValid) {
-                    toastr.error("Please enter a valid time in the format HH:mm. Minutes should be 00, 15, 30, or 45.");
-                    instance.clear();
-                }
-                const endTime = document.querySelector(`.endTime${index}`);
-                const endTimeValue = endTime.value;
-                if (endTimeValue && !isEndTimeAfterStartTime(dateStr, endTimeValue)) {
-                    endTime.value = '';
-                }
-            }
-        });
-
-        flatpickr(`.endTime${index}`, {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-            time_24hr: true,
-            minuteIncrement: 15,
-            allowInput: true,
-            onClose: function (selectedDates, dateStr, instance) {
-                const isValid = validateTime(dateStr);
-                if (!isValid) {
-                    toastr.error("Please enter a valid time in the format HH:mm. Minutes should be 00, 15, 30, or 45.");
-                    instance.clear();
-                    return;
-                }
-                const startTime = document.querySelector(`.startTime[data-index="${index}"]`).value;
-                if (startTime && !isEndTimeAfterStartTime(startTime, dateStr)) {
-                    toastr.error("End time cannot be earlier than or equal to the start time.");
-                    instance.clear();
-                }
-            }
-        });
-
-        function validateTime(timeStr) {
-            const timeRegex = /^([01]?\d|2[0-3]):([0-5]\d)$/;
-            if (timeRegex.test(timeStr)) {
-                const [hours, minutes] = timeStr.split(":").map(Number);
-                const validMinutes = [0, 15, 30, 45];
-                if (validMinutes.includes(minutes)) {
-                    return true;
+        $(document).on('change', '.startTime', function() {
+            const endTimeSelect = document.querySelector('.endTime'+index);
+            let startTime = $(this).val();
+            Array.from(endTimeSelect.options).forEach((option) => {
+                if (option.value && option.value <= startTime) {
+                    option.disabled = true;
                 } else {
-                    return false;
+                    option.disabled = false;
                 }
-            }
-            return false;
-        }
-
-        function isEndTimeAfterStartTime(startTime, endTime) {
-            const [startHours, startMinutes] = startTime.split(":").map(Number);
-            const [endHours, endMinutes] = endTime.split(":").map(Number);
-            if (endHours > startHours) {
-                return true;
-            } else if (endHours === startHours && endMinutes > startMinutes) {
-                return true;
-            }
-            return false;
-        }
+            });
+        })
     }
 </script>
