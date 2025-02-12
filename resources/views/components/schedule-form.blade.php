@@ -25,10 +25,10 @@
         </select>
     </div>
     <div class="w-50">
-        @include('components.time-picker', ['name' => 'start_time', 'label' => 'Start time', 'value' => @$data['startTime'].':00'])
+        @include('components.time-picker', ['name' => 'start_time', 'class' => 'statTime', 'label' => 'Start time', 'value' => @$data['startTime'].':00'])
     </div>
     <div class="w-50">
-        @include('components.time-picker', ['name' => 'end_time', 'label' => 'End time', 'value' => @$data['endTime'].':00'])
+        @include('components.time-picker', ['name' => 'end_time', 'class' => 'endTime', 'label' => 'End time', 'value' => @$data['endTime'].':00'])
     </div>
 </div>
 <div class="mb-3">
@@ -118,10 +118,12 @@
 <script>    
     var type = $('#appointmentType').val();
     var isMultiple = (type === 'group' || type === 'staff-meeting');
-    const startTimeSelect = document.querySelector('select[name="start_time"]');
-    const endTimeSelect = document.querySelector('select[name="end_time"]');
-    startTimeSelect.addEventListener("change", function () {
+
+    $(document).on('change', '.statTime', function() {
+        const startTimeSelect = document.querySelector('select[name="start_time"]');
+        const endTimeSelect = document.querySelector('select[name="end_time"]');
         let startTime = startTimeSelect.value;
+        endTimeSelect.value = '';
         Array.from(endTimeSelect.options).forEach((option) => {
             if (option.value && option.value <= startTime) {
                 option.disabled = true;
@@ -129,7 +131,7 @@
                 option.disabled = false;
             }
         });
-    });
+    })
 
     $('.selectChildrens').select2({
         dropdownParent: $("#createEventModal"),
