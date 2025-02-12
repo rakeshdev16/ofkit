@@ -238,7 +238,7 @@ class ScheduleController extends Controller
             $staffAvailability = StaffSchedule::whereIn('user_id', $data['id'])->where([
                     'day' => strtolower($data['day']),
                     'kindergarten_id' => $data['kindergartenId']
-                ])->where('start_time', '<=', $data['startTime'])->where('end_time', '>=', $data['endTime'])->exixts();
+                ])->where('start_time', '<=', $data['startTime'])->where('end_time', '>=', $data['endTime'])->exists();
             if (!$staffAvailability) {
                 return response()->json([
                     'status' => true,
