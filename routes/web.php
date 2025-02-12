@@ -125,6 +125,7 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
         Route::post('schedule/filter-form-data', 'filterFormData')->name('schedule.filter-form-data');
         Route::post('schedule/time-slot', 'checkTimeSlot')->name('schedule.time-slot');
         Route::get('schedule/hour-summary', 'hourSummary')->name('schedule.hour-summary');
+        Route::get('get-therapist-time', 'getTherapistTime')->name('get-therapist-time');
         Route::get('schedule/export', 'export')->name('schedule.export');
 
     });

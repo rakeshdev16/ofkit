@@ -114,8 +114,8 @@ class ScheduleEvent extends Model
 
     public function scopeOverlappingWithTimeSlot($query, $data)
     {
-        $startTime = $data['startTime'];
-        $endTime = $data['endTime'];
+        $startTime = @$data['startTime'];
+        $endTime = @$data['endTime'];
         return $query->where('day', $data['day'])->where('kindergarten_id', $data['kindergartenId'])
             ->where(function ($query) use ($startTime, $endTime) {
                 $query->whereTime('start_time', '<', $endTime . ':00')->whereTime('end_time', '>', $startTime . ':00');

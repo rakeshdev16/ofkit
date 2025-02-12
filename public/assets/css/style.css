@@ -727,6 +727,11 @@ button[disabled] {
     cursor: not-allowed;
 }
 
+.available-cell .calendar_default_cell_inner {
+    background-color: #7c777714 !important;
+    border: 1px solid #80808038;
+}
+
 .calendar_default_event_inner {
     padding: 0 !important;
     color: #000 !important;

@@ -355,6 +355,18 @@ class ScheduleController extends Controller
         ]);
     }
 
+    public function getTherapistTime(Request $request)
+    {
+        $staffSchedule = StaffSchedule::select('user_id', 'day', 'start_time', 'end_time')->get()->map(function ($schedule) {
+            return [
+                'resource' => $schedule->user_id.''.$schedule->day,
+                'startHour' => date('H', strtotime($schedule->start_time)),
+                'endHour' => date('H', strtotime($schedule->end_time)),
+            ];
+        });
+        return response()->json($staffSchedule);
+    }
+
     public function export(Request $request)
     {
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
