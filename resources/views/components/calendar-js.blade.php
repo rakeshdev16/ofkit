@@ -138,7 +138,7 @@
             onBeforeCellRender: function(args) {
                 if (availableTime.length > 0) {
                     let event = availableTime.find(e => e.resource === args.cell.resource);
-                    if (event.resource === args.cell.resource) {
+                    if (event && event.resource === args.cell.resource) {
                         var startHour = parseInt(event.startHour);
                         var endHour = parseInt(event.endHour);
                         var hour = args.cell.start.getHours();
