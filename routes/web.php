@@ -174,18 +174,30 @@ Route::get('migrate-refresh', function (Request $request) {
     ]);
 });
 
-
 Route::get('update-child-color', function (Request $request) {
+    Children::whereNotNull('color')->update(['color' => NULL]);
+    $colors = [
+        json_encode(["background-color: #43a047;", "color: #000000;"]),
+        json_encode(["background-color: #2a9d8f;", "color: #000000;"]),
+        json_encode(["background-color: #5fc89c;", "color: #000000;"]),
+        json_encode(["background-color: #9ccc65;", "color: #000000;"]),
+        json_encode(["background-color: #f8e16c;", "color: #000000;"]),
+        json_encode(["background-color: #ffb39a;", "color: #000000;"]),
+        json_encode(["background-color: #e76f51;", "color: #000000;"]),
+        json_encode(["background-color: #56c8d8;", "color: #000000;"]),
+        json_encode(["background-color: #ff6392;", "color: #000000;"]),
+        json_encode(["background-color: #c07f8a;", "color: #000000;"]),
+    ];
+
+    $lastRecord = Children::latest('updated_at')->first();
+    $lastColor = $lastRecord?->color ?? null;
+    $lastIndex = $lastColor ? array_search($lastColor, $colors, true) : false;
+    $nextIndex = ($lastIndex === false) ? 0 : ($lastIndex + 1) % count($colors);
+
     foreach (Children::get() as $children) {
-        $backgroundColor = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
-        $rgb = sscanf($backgroundColor, "#%02x%02x%02x");
-        $luminance = (0.299 * $rgb[0] + 0.587 * $rgb[1] + 0.114 * $rgb[2]) / 255;
-        $textColor = $luminance > 0.5 ? '#000000' : '#FFFFFF';
         $children->update([
-            'color' => json_encode([
-                "background-color: $backgroundColor",
-                "color: $textColor"
-            ])
+            'color' => $colors[$nextIndex]
         ]);
+        $nextIndex = ($nextIndex + 1) % count($colors);
     }
 });

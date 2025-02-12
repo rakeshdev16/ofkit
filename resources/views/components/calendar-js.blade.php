@@ -136,6 +136,17 @@
             onBeforeEventRender: function(args) {
                 args.data.html = `${args.data.eventSlotHtml}`;
             },
+            // onBeforeCellRender: function(args) {
+            //     console.log("args.cell", args.cell);
+            //     if (args.cell.resource === "202sunday") {
+            //         var hour = args.cell.start.getHours();
+            //         if (08 <= hour && hour < 10) {
+            //             args.cell.business = false;
+            //         } else {
+            //             args.cell.business = true;
+            //         }
+            //     }
+            // },
             headerHeightAutoFit: true,
             showCurrentTime: false
         });

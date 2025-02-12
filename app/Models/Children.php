@@ -117,36 +117,40 @@ class Children extends Model
     {
         parent::boot();
 
-        static::creating(function ($model) {
-            $colors = [
-                json_encode(["background-color: #43a047;", "color: #000000;"]),
-                json_encode(["background-color: #2a9d8f;", "color: #000000;"]),
-                json_encode(["background-color: #5fc89c;", "color: #000000;"]),
-                json_encode(["background-color: #9ccc65;", "color: #000000;"]),
-                json_encode(["background-color: #f8e16c;", "color: #000000;"]),
-                json_encode(["background-color: #ffb39a;", "color: #000000;"]),
-                json_encode(["background-color: #f4a261;", "color: #000000;"]),
-                json_encode(["background-color: #d68c45;", "color: #000000;"]),
-                json_encode(["background-color: #e76f51;", "color: #000000;"]),
-                json_encode(["background-color: #4a90e2;", "color: #000000;"]),
-                json_encode(["background-color: #56c8d8;", "color: #000000;"]),
-                json_encode(["background-color: #a48ddb;", "color: #000000;"]),
-                json_encode(["background-color: #ede0d4;", "color: #000000;"]),
-                json_encode(["background-color: #ff6392;", "color: #000000;"]),
-                json_encode(["background-color: #c07f8a;", "color: #000000;"]),
-            ];
-            $lastRecord = self::latest('id')->first();
-            $lastIndex = 0;
-            if ($lastRecord && $lastRecord->color) {
-                $lastColor = $lastRecord->color;
-                $lastIndex = array_search(json_encode($lastColor), $colors);
-                $lastIndex = $lastIndex === false ? 0 : $lastIndex;
+        $colors = [
+            json_encode(["background-color: #43a047;", "color: #000000;"]),
+            json_encode(["background-color: #2a9d8f;", "color: #000000;"]),
+            json_encode(["background-color: #5fc89c;", "color: #000000;"]),
+            json_encode(["background-color: #9ccc65;", "color: #000000;"]),
+            json_encode(["background-color: #f8e16c;", "color: #000000;"]),
+            json_encode(["background-color: #ffb39a;", "color: #000000;"]),
+            json_encode(["background-color: #e76f51;", "color: #000000;"]),
+            json_encode(["background-color: #56c8d8;", "color: #000000;"]),
+            json_encode(["background-color: #ff6392;", "color: #000000;"]),
+            json_encode(["background-color: #c07f8a;", "color: #000000;"]),
+        ];
+
+        // Get last record's color
+        $lastRecord = self::latest('id')->first();
+        $lastColor = $lastRecord?->color ?? null;
+        $lastIndex = $lastColor ? array_search($lastColor, $colors, true) : false;
+
+        // Determine the next color index
+        $nextIndex = ($lastIndex === false) ? 0 : ($lastIndex + 1) % count($colors);
+        $nextColor = $colors[$nextIndex];
+
+        static::creating(function ($model) use ($nextColor) {
+            if (!$model->color) {
+                $model->color = $nextColor;
             }
-            $nextIndex = ($lastIndex + 1) % count($colors);
-            $model->color = $colors[$nextIndex];
+        });
+
+        static::updating(function ($model) {
+            if (!$model->isDirty('color')) {
+                return;
+            }
         });
     }
-
 
     public function getColorAttribute($value)
     {
