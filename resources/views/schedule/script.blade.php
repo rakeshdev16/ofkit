@@ -108,8 +108,8 @@
         let frequencyRepeatAt = frequencyRepeat == 'Bi-weekly' ? $('#Bi-weekly').val() : $('#Monthly').val();
         timeSlotData.id = id;
         timeSlotData.type = type;
-        timeSlotData.startTime = $('#startTime').val();
-        timeSlotData.endTime = $('#endTime').val();
+        timeSlotData.startTime = $('.startTime').val();
+        timeSlotData.endTime = $('.endTime').val();
         timeSlotData.frequencyRepeat = frequencyRepeat;
         timeSlotData.frequencyRepeatAt = frequencyRepeatAt;
         timeSlotData.day = $('#day').val();
