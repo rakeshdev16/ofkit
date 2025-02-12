@@ -1,8 +1,16 @@
 <script>
     let availableTime = null;
-    fetch("{{ route('get-therapist-time') }}").then(response => response.json()).then(data => {
+    fetch("{{ route('get-therapist-time') }}", {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}",
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ kindergarten_id: getQueryParam('kindergarten_id') })
+    }).then(response => response.json()).then(data => {
         availableTime = data;
     });
+
     function filterCalendar(params = {}) {
         var url = "{{ $filterRoute }}";
         let scrollingPosition = 0;
@@ -140,16 +148,18 @@
                 args.data.html = `${args.data.eventSlotHtml}`;
             },
             onBeforeCellRender: function(args) {
-                let event = availableTime.find(e => e.resource === args.cell.resource);
-                if (event.resource === args.cell.resource) {
-                    var startHour = parseInt(event.startHour);
-                    var endHour = parseInt(event.endHour);
-                    var hour = args.cell.start.getHours();
-                    if (startHour <= hour && hour < endHour) {
-                        args.cell.business = false;
-                        args.cell.cssClass = "available-cell";
-                    } else {
-                        args.cell.business = true;
+                if (availableTime.length > 0) {
+                    let event = availableTime.find(e => e.resource === args.cell.resource);
+                    if (event.resource === args.cell.resource) {
+                        var startHour = parseInt(event.startHour);
+                        var endHour = parseInt(event.endHour);
+                        var hour = args.cell.start.getHours();
+                        if (startHour <= hour && hour < endHour) {
+                            args.cell.business = false;
+                            args.cell.cssClass = "available-cell";
+                        } else {
+                            args.cell.business = true;
+                        }
                     }
                 }
             },

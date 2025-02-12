@@ -356,7 +356,7 @@ class ScheduleController extends Controller
 
     public function getTherapistTime(Request $request)
     {
-        $staffSchedule = StaffSchedule::select('user_id', 'day', 'start_time', 'end_time')->get()->map(function ($schedule) {
+        $staffSchedule = StaffSchedule::where('kindergarten_id', $request->kindergarten_id)->get()->map(function ($schedule) {
             return [
                 'resource' => $schedule->user_id.''.$schedule->day,
                 'startHour' => date('H', strtotime($schedule->start_time)),
