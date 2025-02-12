@@ -197,9 +197,18 @@ class ScheduleController extends Controller
             'options' => $users,
         ])->render();
 
+        $staffTimeSlots = StaffSchedule::where('kindergarten_id', $request->kindergarten_id)->get()->map(function ($schedule) {
+            return [
+                'resource' => $schedule->user_id.''.$schedule->day,
+                'startHour' => date('H', strtotime($schedule->start_time)),
+                'endHour' => date('H', strtotime($schedule->end_time)),
+            ];
+        });
+
         return response()->json([
             'calenderHeader' => $header,
             'calenderEvents' => $events,
+            'staffTimeSlots' => $staffTimeSlots,
             'childrens' => $childrens,
             'users' => $users,
         ]);
@@ -352,18 +361,6 @@ class ScheduleController extends Controller
             'childrenSummary' => $childrenSummary,
             'staffSummary' => $staffSummary,
         ]);
-    }
-
-    public function getTherapistTime(Request $request)
-    {
-        $staffSchedule = StaffSchedule::where('kindergarten_id', $request->kindergarten_id)->get()->map(function ($schedule) {
-            return [
-                'resource' => $schedule->user_id.''.$schedule->day,
-                'startHour' => date('H', strtotime($schedule->start_time)),
-                'endHour' => date('H', strtotime($schedule->end_time)),
-            ];
-        });
-        return response()->json($staffSchedule);
     }
 
     public function export(Request $request)

@@ -1,8 +1,4 @@
 <script>
-    let availableTime = null;
-    fetch("{{ route('get-therapist-time') }}?kindergarten_id="+getQueryParam('kindergarten_id')).then(response => response.json()).then(data => {
-        availableTime = data;
-    });
     function filterCalendar(params = {}) {
         var url = "{{ $filterRoute }}";
         let scrollingPosition = 0;
@@ -13,7 +9,7 @@
         fetch(url).then((response) => response.json()).then((data) => {
             $('#childrenFilter').html(data.childrens);
             $('#staffFilter').html(data.users);
-            calendar(data.calenderEvents, data.calenderHeader);
+            calendar(data.calenderEvents, data.calenderHeader, data.staffTimeSlots);
             $(window).scrollTop(scrollingPosition);
             setTimeout(() => {
                 setCalendar();
@@ -55,7 +51,7 @@
         });
     }
 
-    function calendar(events = '', list) {
+    function calendar(events = '', list, availableTime = []) {
         let windowWidth = window.screen.width;
         let columsCount = list.map((item) => (Array.isArray(item.children) ? item.children.length : 1)).reduce((sum, count) => sum + count, 0);
         let columnWidth = 100;
@@ -140,7 +136,6 @@
                 args.data.html = `${args.data.eventSlotHtml}`;
             },
             onBeforeCellRender: function(args) {
-                // console.log("availableTime", availableTime);
                 if (availableTime.length > 0) {
                     let event = availableTime.find(e => e.resource === args.cell.resource);
                     if (event.resource === args.cell.resource) {
