@@ -25,10 +25,10 @@
         </select>
     </div>
     <div class="w-50">
-        @include('components.time-picker', ['name' => 'start_time', 'class' => 'startTime', 'label' => 'Start time', 'value' => @$data['startTime'].':00'])
+        @include('components.time-picker', ['name' => 'start_time', 'class' => 'startTime event-time', 'label' => 'Start time', 'value' => @$data['startTime'].':00'])
     </div>
     <div class="w-50">
-        @include('components.time-picker', ['name' => 'end_time', 'class' => 'endTime', 'label' => 'End time', 'value' => @$data['endTime'].':00'])
+        @include('components.time-picker', ['name' => 'end_time', 'class' => 'endTime event-time', 'label' => 'End time', 'value' => @$data['endTime'].':00'])
     </div>
 </div>
 <div class="mb-3">
