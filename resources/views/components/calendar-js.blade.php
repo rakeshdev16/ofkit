@@ -116,8 +116,8 @@
                     Object.keys(eventData).forEach(key => delete eventData[key]);
                     eventData.day = resource[2].charAt(0).toUpperCase() + resource[2].slice(1);
                     eventData.resource = args.resource;
-                    eventData.startTime = args.start.value.split("T")[1].slice(0, 5);
-                    eventData.endTime = args.end.value.split("T")[1].slice(0, 5);
+                    eventData.startTime = args.start.value.split("T")[1].slice(0, 8);
+                    eventData.endTime = args.end.value.split("T")[1].slice(0, 8);
                     eventData.therapistIds = [resource[1]];
                     // eventData.mode = 'create';
                     $('#eventTypeModal').modal('toggle');
@@ -137,16 +137,23 @@
                 args.data.html = `${args.data.eventSlotHtml}`;
             },
             // onBeforeCellRender: function(args) {
-            //     console.log("args.cell", args.cell);
-            //     if (args.cell.resource === "202sunday") {
-            //         var hour = args.cell.start.getHours();
-            //         if (08 <= hour && hour < 10) {
-            //             args.cell.business = false;
-            //         } else {
-            //             args.cell.business = true;
-            //         }
-            //     }
+            //     // let event = events.find((event) => event.resource == args.cell.resource);
+            //     // console.log("event", event);
+            //     // Find the event associated with this cell
+            //     // let event = scheduler.list.find(e => e.resource === args.cell.resource);
+            //     // console.log("event", event);
+            //     // if (event) {
+            //         // var startHour = parseInt(event.startHour); // Ensure it's a number
+            //         // var endHour = parseInt(event.endHour);
+            //         // var hour = args.cell.start.getHours();
+            //         // if (startHour <= hour && hour < endHour) {
+            //         //     args.cell.business = false;
+            //         // } else {
+            //         //     args.cell.business = true;
+            //         // }
+            //     // }
             // },
+
             headerHeightAutoFit: true,
             showCurrentTime: false
         });
