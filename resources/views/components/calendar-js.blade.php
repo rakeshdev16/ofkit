@@ -148,7 +148,7 @@
                 args.data.html = `${args.data.eventSlotHtml}`;
             },
             onBeforeCellRender: function(args) {
-                if (availableTime.length > 0) {
+                // if (availableTime.length > 0) {
                     let event = availableTime.find(e => e.resource === args.cell.resource);
                     if (event.resource === args.cell.resource) {
                         var startHour = parseInt(event.startHour);
@@ -161,7 +161,7 @@
                             args.cell.business = true;
                         }
                     }
-                }
+                // }
             },
             headerHeightAutoFit: true,
             showCurrentTime: false
