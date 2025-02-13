@@ -200,8 +200,8 @@ class ScheduleController extends Controller
         $staffTimeSlots = StaffSchedule::where('kindergarten_id', $request->kindergarten_id)->get()->map(function ($schedule) {
             return [
                 'resource' => $schedule->user_id.''.$schedule->day,
-                'startHour' => $schedule->start_time,
-                'endHour' => $schedule->end_time,
+                'startTime' => $schedule->start_time,
+                'endEnd' => $schedule->end_time,
             ];
         });
 

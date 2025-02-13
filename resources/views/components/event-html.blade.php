@@ -1,3 +1,15 @@
+{{-- @php
+    if ($data['eventCount'] > 0) {
+        $width = 100/$data['eventCount'].'% !important';
+    } else {
+        $width = 100% !important;
+    }
+@endphp
+<style>
+    .calendar_default_event:has(.event-box) {
+        width: {{ $width }}
+    }
+</style> --}}
  <div class="p-1 event-box d-flex flex-column justify-content-between" style="{{ @$data->color[0] }}; {{ @$data->color[1] }}">
     @if ($data['eventCount'] >= 2)
         @php

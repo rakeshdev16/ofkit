@@ -714,6 +714,26 @@ button.accordion-button.accordion-screen.collapsed {
     outline: none;
 }
 
+.five-event {
+    width: 20% !important;
+}
+
+.four-event {
+    width: 25% !important;
+}
+
+.three-event {
+    width: 33.33% !important;
+}
+
+.two-event {
+    width: 50% !important;
+}
+
+.single-event {
+    width: 100% !important;
+}
+
 .event-box {
 
     height: 100%;
