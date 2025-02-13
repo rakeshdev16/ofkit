@@ -133,6 +133,22 @@
                 DayPilot.Modal.alert(event.eventDetailSlotHtml);
             },
             onBeforeEventRender: function(args) {
+                let customClass = '';
+                let startTime = args.data.start;
+                let resource = args.data.resource;
+                let startTimeFormatted = new Date(startTime).toISOString().substring(11, 16);
+                let count = events.filter(event => {
+                    let eventStartFormatted = new Date(event.start).toISOString().substring(11, 16);
+                    return eventStartFormatted === startTimeFormatted && event.resource === resource;
+                }).length;
+
+                if (count == 5) customClass = 'five-event';
+                if (count == 4) customClass = 'four-event';
+                if (count == 3) customClass = 'three-event';
+                if (count == 2) customClass = 'two-event';
+                if (count == 1) customClass = 'single-event';
+
+                args.data.cssClass = customClass;
                 args.data.html = `${args.data.eventSlotHtml}`;
             },
             onBeforeCellRender: function(args) {
