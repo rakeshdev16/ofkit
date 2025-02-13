@@ -200,8 +200,8 @@ class ScheduleController extends Controller
         $staffTimeSlots = StaffSchedule::where('kindergarten_id', $request->kindergarten_id)->get()->map(function ($schedule) {
             return [
                 'resource' => $schedule->user_id.''.$schedule->day,
-                'startHour' => date('H', strtotime($schedule->start_time)),
-                'endHour' => date('H', strtotime($schedule->end_time)),
+                'startHour' => $schedule->start_time,
+                'endHour' => $schedule->end_time,
             ];
         });
 
@@ -233,6 +233,24 @@ class ScheduleController extends Controller
     public function checkTimeSlot(Request $request)
     {
         $data = $request->all();
+        if ($data['type'] == 'therapist') {
+            $unavailableUsers = collect($data['id'])->filter(function ($userId) use ($data) {
+                return !StaffSchedule::where('user_id', $userId)
+                    ->where('day', strtolower($data['day']))
+                    ->where('kindergarten_id', $data['kindergartenId'])
+                    ->where('start_time', '<=', $data['startTime'])
+                    ->where('end_time', '>=', $data['endTime'])
+                    ->exists();
+            });
+
+            if ($unavailableUsers->isNotEmpty()) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'The event time is outside the staff availability range for some users.'
+                ]);
+            }
+        }
+
         $freqRepeat = $data['frequencyRepeat'];
         $freqRepeatAt = $data['frequencyRepeatAt'];
 
@@ -244,16 +262,6 @@ class ScheduleController extends Controller
         $events = $schedule->events()->overlappingWithTimeSlot($data);
 
         if ($data['type'] == 'therapist') {
-            $staffAvailability = StaffSchedule::whereIn('user_id', $data['id'])->where([
-                    'day' => strtolower($data['day']),
-                    'kindergarten_id' => $data['kindergartenId']
-                ])->where('start_time', '<=', $data['startTime'])->where('end_time', '>=', $data['endTime'])->exists();
-            if (!$staffAvailability) {
-                return response()->json([
-                    'status' => true,
-                    'message' => 'The event time is outside the staff availability range.'
-                ]);
-            }
             $events = $events->whereIn('therapist_id', @$data['id']);
         } elseif ($data['type'] == 'children') {
             $events = $events->whereHas('childrens', function ($query) use ($data) {

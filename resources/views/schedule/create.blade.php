@@ -194,7 +194,7 @@
                 $('#createEventModal').modal('toggle');
                 setTimeout(() => {
                     const dropdown = $('#therapist');
-                    const id = dropdown.val()[0];
+                    const id = dropdown.val();
                     checkTimeSlot('therapist', id, dropdown);
                 }, 1000);
             });

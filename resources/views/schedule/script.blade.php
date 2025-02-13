@@ -85,12 +85,12 @@
                 $('#appointmentFormDiv').html(data);
                 $('#formLoader').hide();
                 $('#appointmentFormDiv').off('select2:select', '#therapist, #children');
-                $('#appointmentFormDiv').on('select2:select', '#therapist, #children', function(e) {
+                $('#appointmentFormDiv').on('select2:select select2:unselect', '#therapist, #children', function(e) {
                     const selectedOption = e.params.data;
                     // const selectedId = selectedOption.id;
                     const selectedId = $('#therapist').val();
                     const selectedElementId = $(this).attr('id');
-                    if ($('#startTime').val() == '' || $('#endTime').val() == ''  || $('#day').val() == '') {
+                    if ($('.startTime').val() == '' || $('.endTime').val() == ''  || $('#day').val() == '') {
                         $(this).val(null).trigger('change');
                         return toastr.error('Please select day, start time and end time first for checking time slot');
                     }

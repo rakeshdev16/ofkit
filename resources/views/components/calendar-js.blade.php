@@ -139,10 +139,11 @@
                 if (availableTime.length > 0) {
                     let event = availableTime.find(e => e.resource === args.cell.resource);
                     if (event && event.resource === args.cell.resource) {
-                        var startHour = parseInt(event.startHour);
-                        var endHour = parseInt(event.endHour);
-                        var hour = args.cell.start.getHours();
-                        if (startHour <= hour && hour < endHour) {
+                        var startHour = event.startHour;
+                        var endHour = event.endHour;
+                        // var hour = args.cell.start.getHours();
+                        let cellTime = args.cell.start.value.split('T')[1].substring(0, 8);
+                        if (startHour <= cellTime && cellTime < endHour) {
                             args.cell.business = false;
                             args.cell.cssClass = "available-cell";
                         } else {
