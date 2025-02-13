@@ -237,56 +237,75 @@
             },
             submitHandler: function (form, e) {
                 e.preventDefault();
-                var kindergartenId = getQueryParam('kindergarten_id');
-                var formData = new FormData(form);
-                formData.append('kindergarten_id', kindergartenId);
-                formData.append('schedule_id', getQueryParam('schedule_id'));
-                formData.append('edit', getQueryParam('edit'));
-                formData.append('mode', 'create');
-                $('#createEventModalBtn').html('Processing');
-                fetch("{{ route('schedule.store') }}", {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                    },
-                    body: formData
-                }).then(response => response.json()).then(data => {
-                    $('#createEventModalBtn').html('Save');
-                    if (data.status == true) {
-                        toastr.success(data.message);
-                        const hiddenInput = $('#eventIds');
-                        if (data.deletedIds) {
-                            data.deletedIds.map((id, index) => {
-                                let existEvent = window.dp.events.find(id);
+                let isContinue = $('#isContinue').val();
+                // console.log("isContinue", isContinue);
+                // return;
+                var submitForm = function() {
+                    var kindergartenId = getQueryParam('kindergarten_id');
+                    var formData = new FormData(form);
+                    formData.append('kindergarten_id', kindergartenId);
+                    formData.append('schedule_id', getQueryParam('schedule_id'));
+                    formData.append('edit', getQueryParam('edit'));
+                    formData.append('mode', 'create');
+                    $('#createEventModalBtn').html('Processing');
+                    fetch("{{ route('schedule.store') }}", {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                        },
+                        body: formData
+                    }).then(response => response.json()).then(data => {
+                        $('#createEventModalBtn').html('Save');
+                        if (data.status == true) {
+                            toastr.success(data.message);
+                            const hiddenInput = $('#eventIds');
+                            if (data.deletedIds) {
+                                data.deletedIds.map((id, index) => {
+                                    let existEvent = window.dp.events.find(id);
+                                    if (existEvent) {
+                                        window.dp.events.remove(existEvent);
+                                    }
+                                });
+                            }
+                            data.event.map((item, index) => {
+                                let existEvent = window.dp.events.find(item.id);
                                 if (existEvent) {
                                     window.dp.events.remove(existEvent);
                                 }
+                                window.dp.events.add(item);
+                                let currentIds = hiddenInput.val() ? JSON.parse(hiddenInput.val()) : [];
+                                currentIds = [...new Set([...currentIds, item.uniqueId])];
+                                hiddenInput.val(JSON.stringify(currentIds));
                             });
+                            setCalendar();
+                            dp.clearSelection();
+                            $('#createEventModal').modal('toggle');
+                        } else {
+                            toastr.error(data.message);
                         }
-                        data.event.map((item, index) => {
-                            let existEvent = window.dp.events.find(item.id);
-                            if (existEvent) {
-                                window.dp.events.remove(existEvent);
-                            }
-                            window.dp.events.add(item);
-                            
-                            let currentIds = hiddenInput.val() ? JSON.parse(hiddenInput.val()) : [];
-                            currentIds = [...new Set([...currentIds, item.uniqueId])];
-                            hiddenInput.val(JSON.stringify(currentIds));
-                        });
-                        setCalendar();
-                        dp.clearSelection();
-                        $('#createEventModal').modal('toggle');
+                    }).catch(error => toastr.error('An error occurred while processing the request.'));
+                };
 
-                        
-                        
-                    } else {
-                        toastr.error(data.message);
-                    }
-                }).catch(error => toastr.error('An error occurred while processing the request.'));
+                if (isContinue == 'true') {
+                    Swal.fire({
+                        title: confirmMsgTitle,
+                        text: "The event time is outside the staff availability range",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, continue it",
+                        cancelButtonText: cancelButtonText
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            submitForm();
+                        }
+                    });
+                } else {
+                    submitForm();
+                }
             }
         });
-
         
         $(document).on('click', '.updateEventStatus', function() {
             $('#createEventModalBtn').html('Processing').attr('disabled', true);

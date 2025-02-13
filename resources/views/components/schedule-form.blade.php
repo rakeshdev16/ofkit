@@ -111,6 +111,7 @@
 <input type="hidden" name="resource" id="resource" value="{{ @$data['resource'] }}">
 <input type="hidden" name="unique_id" id="uniqueId" value="{{ @$data['uniqueId'] }}">
 <input type="hidden" name="color" value="{{ @json_encode($data['color']) }}">
+<input type="hidden" name="is_continue" id="isContinue" value="false">
 <div class="d-flex gap-3">
     <button type="submit" class="button p-2 px-4 rounded-pill border-0" id="createEventModalBtn">Save</button>
     <button type="button" class="button p-2 px-4 rounded-pill border-0" id="cancelEventModalBtn">Cancel</button>

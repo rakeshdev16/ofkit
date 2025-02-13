@@ -246,7 +246,8 @@ class ScheduleController extends Controller
             if ($unavailableUsers->isNotEmpty()) {
                 return response()->json([
                     'status' => true,
-                    'message' => 'The event time is outside the staff availability range for some users.'
+                    'isTimeOutSide' => true,
+                    'message' => 'The event time is outside the staff availability range'
                 ]);
             }
         }
@@ -280,6 +281,7 @@ class ScheduleController extends Controller
         if ($weeklyExists) {
             return response()->json([
                 'status' => true,
+                'isTimeOutSide' => false,
                 'message' => ucfirst($data['type']) . ' is not available'
             ]);
         }
@@ -314,6 +316,7 @@ class ScheduleController extends Controller
 
         return response()->json([
             'status' => $isSlotAvailable,
+            'isTimeOutSide' => false,
             'message' => ucfirst($data['type']) . ' is not available'
         ]);
     }
