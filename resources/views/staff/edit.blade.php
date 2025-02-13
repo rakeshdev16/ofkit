@@ -32,7 +32,7 @@
                             <div class="card">
                                 <div class="card-body p-4">
                                     <h5 class="mb-4">{{ __('staff.editStaffDetail') }}</h5>
-                                    <form class="row g-3" id="addStaffForm" action="{{ route('staff.update', $staff->id) }}" method="POST" enctype="multipart/form-data">
+                                    <form class="row g-3" id="updateStaffForm" action="{{ route('staff.update', $staff->id) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
                                         @include('components.upload-profile', [
@@ -356,7 +356,7 @@
                                                 <input type="hidden" name="deleted_document_ids" id="deletedDocumentIds">
                                                 <input type="hidden" name="unselected_kindergarten" id="unselectedKindergarten">
                                                 <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">
-                                                <button type="submit" class="btn button px-4">{{ __('staff.updateBtnText') }}</button>
+                                                <button type="submit" id="updateStaffFormBtn" class="btn button px-4">{{ __('staff.updateBtnText') }}</button>
                                             </div>
                                         </div>
                                     </form>
@@ -379,6 +379,34 @@
         @include('staff.script')
         <script>
             var ids = [];
+            let isTimeChanged = false;
+            $(document).on('click', '.time-picker', function() {
+                isTimeChanged = true;
+            });
+
+            $(document).on('click', '#updateStaffFormBtn', function(e) {
+                e.preventDefault();
+                console.log("time-picker", isTimeChanged);
+                if (isTimeChanged) {
+                    Swal.fire({
+                        title: confirmMsgTitle,
+                        text: "Appointment may exists for this therapist outside of working hours. Do you still want to continue?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, continue it",
+                        cancelButtonText: cancelButtonText
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $('#updateStaffForm').submit();
+                        }
+                    });
+                } else {
+                    $('#updateStaffForm').submit();
+                }
+            });
+
             $(document).on('click', '.removeStaffDocument', function() {
                 var id = $(this).data('id');
                 if (id) {

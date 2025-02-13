@@ -238,8 +238,6 @@
             submitHandler: function (form, e) {
                 e.preventDefault();
                 let isContinue = $('#isContinue').val();
-                // console.log("isContinue", isContinue);
-                // return;
                 var submitForm = function() {
                     var kindergartenId = getQueryParam('kindergarten_id');
                     var formData = new FormData(form);
