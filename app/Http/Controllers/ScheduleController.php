@@ -21,7 +21,13 @@ class ScheduleController extends Controller
 {
     public function index(Request $request)
     {
-        $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
+        $kindergartens = Kindergarten::select('id as key', 'name as value');
+        if (Auth::user()->hasRole('manager')) {
+            $kindergartens->whereHas('staffKindergartens', function($query) {
+                $query->where('user_id', Auth::id());
+            });
+        }
+        $kindergartens = $kindergartens->get()->toArray();
         $schedule = Schedule::filter($request->all())->first();
         return view('schedule.index', compact('kindergartens', 'schedule'));
     }
