@@ -29,7 +29,6 @@
                     <ul class="child-info">
                         <li><label>First Name: </label><b>{{ $therapist->first_name }}</b></li>
                         <li><label>Last Name: </label><b>{{ $therapist->family_name }}</b></li>
-                        <li><label>ID: </label><b>{{ $therapist->identification }}</b></li>
                         <li><label>Profession: </label><b>{{ @$therapist->profession->name }}</b></li>
                     </ul>
                     <ul class="child-info">

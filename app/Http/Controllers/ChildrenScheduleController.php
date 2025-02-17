@@ -63,7 +63,7 @@ class ChildrenScheduleController extends Controller
         ];
 
         $events = [];
-        $schedule = Schedule::where('status', 'published')->first();
+        $schedule = Schedule::filter(['status' => 'published'])->first();
         if (!empty($schedule) && $schedule->events() !== null) {
             $scheduleEvents = $schedule->events()->whereHas('childrens', function($query) use ($filter) {
                 $query->where('children_id', $filter['children_id']);
