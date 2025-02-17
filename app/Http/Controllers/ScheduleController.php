@@ -239,22 +239,18 @@ class ScheduleController extends Controller
     public function checkTimeSlot(Request $request)
     {
         $data = $request->all();
+        $isTimeOutSide = false;
         if ($data['type'] == 'therapist') {
             $unavailableUsers = collect($data['id'])->filter(function ($userId) use ($data) {
                 return !StaffSchedule::where('user_id', $userId)
-                    ->where('day', strtolower($data['day']))
-                    ->where('kindergarten_id', $data['kindergartenId'])
-                    ->where('start_time', '<=', $data['startTime'])
-                    ->where('end_time', '>=', $data['endTime'])
-                    ->exists();
+                ->where('day', strtolower($data['day']))
+                ->where('kindergarten_id', $data['kindergartenId'])
+                ->where('start_time', '<=', $data['startTime'])
+                ->where('end_time', '>=', $data['endTime'])
+                ->exists();
             });
-
             if ($unavailableUsers->isNotEmpty()) {
-                return response()->json([
-                    'status' => true,
-                    'isTimeOutSide' => true,
-                    'message' => 'The event time is outside the staff availability range'
-                ]);
+                $isTimeOutSide = true;
             }
         }
 
@@ -287,7 +283,7 @@ class ScheduleController extends Controller
         if ($weeklyExists) {
             return response()->json([
                 'status' => true,
-                'isTimeOutSide' => false,
+                'isTimeOutSide' => $isTimeOutSide,
                 'message' => ucfirst($data['type']) . ' is not available'
             ]);
         }
@@ -322,7 +318,7 @@ class ScheduleController extends Controller
 
         return response()->json([
             'status' => $isSlotAvailable,
-            'isTimeOutSide' => false,
+            'isTimeOutSide' => $isTimeOutSide,
             'message' => ucfirst($data['type']) . ' is not available'
         ]);
     }

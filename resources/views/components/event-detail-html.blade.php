@@ -1,7 +1,7 @@
 <div style="word-wrap: break-word; white-space: normal; direction: rtl; text-align: right;">
     <div class="row mb-2 fs-6 text-dark">
         <div class="col-md-1"><i class="fa fa-info fa-lg" style="margin-right: 5px"></i></div>
-        <div class="col-md-9"><div>{{ ucfirst(str_replace('-', ' ', $data->type)) }}</div></div>
+        <div class="col-md-9"><div>{{ ucfirst(str_replace('-', ' ', $data->type)) }} {{ $data->type == 'group' ? '('.$data->group_name.')' : '' }}</div></div>
         <div class="col-md-2">
             @if (request('mode') && request('mode') == 'create')
                 <div class="d-flex gap-2 justify-content-end">

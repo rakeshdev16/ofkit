@@ -237,7 +237,7 @@
             },
             submitHandler: function (form, e) {
                 e.preventDefault();
-                let isContinue = $('#isContinue').val();
+                let isTimeOutSide = $('#isTimeOutSide').val();
                 var submitForm = function() {
                     var kindergartenId = getQueryParam('kindergarten_id');
                     var formData = new FormData(form);
@@ -284,24 +284,23 @@
                     }).catch(error => toastr.error('An error occurred while processing the request.'));
                 };
 
-                if (isContinue == 'true') {
-                    Swal.fire({
-                        title: confirmMsgTitle,
-                        text: "The event time is outside the staff availability range",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "Yes, continue it",
-                        cancelButtonText: cancelButtonText
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            submitForm();
-                        }
-                    });
-                } else {
-                    submitForm();
-                }
+                let confirmMsg = isTimeOutSide == 'true' ?
+                                    "This appointment is outside the therapist's availability hours. Are you sure you want to add this appointment?" :
+                                    "Are you sure you want to add this appointment?";
+                Swal.fire({
+                    title: confirmMsgTitle,
+                    text: confirmMsg,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, continue it",
+                    cancelButtonText: cancelButtonText
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        submitForm();
+                    }
+                });
             }
         });
         
