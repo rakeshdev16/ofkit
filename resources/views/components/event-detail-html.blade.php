@@ -13,7 +13,7 @@
             @if (request('mode') && request('mode') == 'create')
                 <div class="d-flex gap-2 justify-content-end">
                     <i class="fa fa-edit" onclick="window.handleAction('edit', {{ $data }})" style="cursor: pointer;"></i>
-                    <i class="fa fa-trash" onclick="window.handleAction('delete', '{{ $data['unique_id']}}')" style="cursor: pointer;"></i>
+                    <i class="fa fa-trash" onclick="window.handleAction('delete', '{{ json_encode(['schedule_id' => $data['schedule_id'], 'unique_id' => $data['unique_id']]) }}')" style="cursor: pointer;"></i>
                 </div>
             @endif
         </div>

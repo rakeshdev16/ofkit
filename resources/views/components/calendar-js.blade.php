@@ -127,7 +127,7 @@
                 const handleAction = (type, data) => {
                     DayPilot.Modal.close();
                     if (type == 'edit') editEvent(data);
-                    if (type == 'delete') deleteEvent([data]);
+                    if (type == 'delete') deleteEvent(data);
                 };
                 window.handleAction = handleAction;
                 DayPilot.Modal.alert(event.eventDetailSlotHtml);

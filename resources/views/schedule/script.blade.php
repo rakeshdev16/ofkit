@@ -29,8 +29,8 @@
         });
     }
     
-    function deleteEvent(ids) {
-        if (ids == '' || ids == null) {
+    function deleteEvent(data) {
+        if (data == '' || data == null) {
             toastr.error('There are not any created events');
             return true;
         }
@@ -50,7 +50,7 @@
                         'X-CSRF-TOKEN': "{{ csrf_token() }}",
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ ids: ids })
+                    body: JSON.stringify({ data })
                 }).then(response => response.json()).then(data => {
                     if (data.status == true) {
                         data.ids.map((id) => {

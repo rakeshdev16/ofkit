@@ -126,8 +126,9 @@ class ScheduleController extends Controller
     
     public function delete(Request $request)
     {
-        $ids = ScheduleEvent::whereIn('unique_id', $request->ids)->pluck('id')->toArray();
-        if (ScheduleEvent::whereIn('unique_id', $request->ids)->delete()) {
+        $data = json_decode($request['data']);
+        $ids = ScheduleEvent::where(['schedule_id' => $data->schedule_id, 'unique_id' => $data->unique_id])->pluck('id')->toArray();
+        if (ScheduleEvent::where(['schedule_id' => $data->schedule_id, 'unique_id' => $data->unique_id])->delete()) {
             return response()->json(['status' => true, 'message' => 'Event detail has been successfully deleted!', 'ids' => $ids]);
         }
         return response()->json(['status' => false, 'message' => 'Something went wrong please try again!']);

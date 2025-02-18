@@ -27,7 +27,7 @@
         @if ((request('mode') && request('mode') == 'create') && $data['eventCount'] <= 2 && $data->event_time != 30)
             <div class="d-flex justify-content-start mt-auto" style="position: relative; bottom: 0;">
                 <i class="fa fa-edit" onclick='event.stopPropagation(); editEvent({{$data}})'></i>&nbsp;
-                <i class="fa fa-trash" onclick='event.stopPropagation(); deleteEvent(["{{ $data["unique_id"]}}"])'></i>&nbsp;
+                <i class="fa fa-trash" onclick="event.stopPropagation(); deleteEvent('{{ json_encode(['schedule_id' => $data['schedule_id'], 'unique_id' => $data['unique_id']]) }}')"></i>
             </div>
         @endif
     @endif
