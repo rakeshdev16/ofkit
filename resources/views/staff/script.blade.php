@@ -320,7 +320,9 @@
 
     function timePicker(index) {
         $(document).on('change', '.startTime', function() {
-            const endTimeSelect = document.querySelector('.endTime'+index);
+            // const endTimeSelect = document.querySelector('.endTime'+index);
+            const endTime = $(this).data('index');
+            const endTimeSelect = document.querySelector('.'+endTime);
             let startTime = $(this).val();
             Array.from(endTimeSelect.options).forEach((option) => {
                 if (option.value && option.value <= startTime) {
