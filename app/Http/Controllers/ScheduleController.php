@@ -243,6 +243,7 @@ class ScheduleController extends Controller
     public function checkTimeSlot(Request $request)
     {
         $data = $request->all();
+        unset($data['kindergartenId']);
         $isTimeOutSide = false;
         if ($data['type'] == 'therapist') {
             $unavailableUsers = collect($data['id'])->filter(function ($userId) use ($data) {
