@@ -138,7 +138,7 @@ class ScheduleController extends Controller
             Schedule::where('status', 'draft')->delete();
             if ($request->type == 'edit') {
                 if (!Schedule::where('id', $request->scheduleId)->exists()) {
-                    $schedule = Schedule::where('published_by', $request->scheduleId)->orderBy('id', 'DESC')->first();
+                    $schedule = Schedule::where('status', 'published')->orderBy('id', 'DESC')->first();
                     $clonedSchedule = Schedule::create(['status' => 'draft']);
                     $this->cloneSchedule($schedule, $clonedSchedule);
                 }
