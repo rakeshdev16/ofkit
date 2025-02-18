@@ -7,6 +7,10 @@
     <script src="{{ asset('assets/js/daypilot/daypilot-all.min.js')}}"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script> --}}
+    {{-- <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" /> --}}
+    <link href="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.css" rel="stylesheet" type="text/css" />
+    {{-- <script src="https://code.jquery.com/jquery-2.1.4.js"></script> --}}
+    <script src="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.js"></script>
     <style>
         .select2-container[dir="rtl"] .select2-selection--single .select2-selection__rendered {
             padding-right: 20px;
@@ -311,6 +315,8 @@
             //     toastr.error('There are not any created event');
             //     return true;
             // }
+            $('#publishEventForm').trigger("reset");
+            $('#publishEventFormBtn').addClass('button').removeClass('btn-danger').html('Submit');
             $('#eventDateModal').modal('toggle');
         });
 
@@ -323,37 +329,68 @@
                 start_date: { required: "Please select start date!" },
                 end_date: { required: "Please select start date!" },
             },
-            submitHandler: function (form, e) {  
+            submitHandler: function (form, e) {
                 e.preventDefault();
-                var formData = new FormData(form);
-                formData.append('kindergarten_id', getQueryParam('kindergarten_id'));
-                formData.append('status', getQueryParam('status'));
-                $('#publishEventFormBtn').html('Processing');
+                var isAgree = $('#isAgree').val();
+                var submitForm = function() {
+                    var formData = new FormData(form);
+                    formData.append('kindergarten_id', getQueryParam('kindergarten_id'));
+                    formData.append('status', getQueryParam('status'));
+                    $('#publishEventFormBtn').html('Processing');
+                    fetch("{{ route('schedule.update') }}", {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                        },
+                        body: formData
+                    }).then(response => response.json()).then(data => {
+                        $('#createEventModalBtn').html('Save');
+                        $('#publishEventFormBtn').html('Save').attr('disabled', false);
+                        if (data.status == true) {
+                            toastr.success(data.message);
+                            $('#publishEventForm').trigger("reset");
+                            $('#eventDateModal').modal('toggle');
+                            filterCalendar({'status': status});
+                            $('#eventIds').val('');
+                        } else {
+                            $('#isAgree').val(true);
+                            // $('#isAgreeMsg').show();
+                            // $('#publishEventFormBtn').removeClass('button').addClass('btn-danger').html('Continue');
+                            // toastr.error(data.message);
+                            Swal.fire({
+                                title: confirmMsgTitle,
+                                text: "If you continue it will replace the existing published event",
+                                icon: "question",
+                                showCancelButton: true,
+                                confirmButtonColor: "#3085d6",
+                                cancelButtonColor: "#d33",
+                                confirmButtonText: "Yes, continue it",
+                                cancelButtonText: cancelButtonText
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    submitForm();
+                                }
+                            });
+                        }
+                    }).catch(error => {
+                        $('#publishEventFormBtn').html('Save').attr('disabled', false);
+                        toastr.error('An error occurred. Please try again.');
+                    });
+                }
 
-                fetch("{{ route('schedule.update') }}", {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                    },
-                    body: formData
-                }).then(response => response.json()).then(data => {
-                    $('#createEventModalBtn').html('Save');
-                    $('#publishEventFormBtn').html('Save').attr('disabled', false);
-                    if (data.status == true) {
-                        toastr.success(data.message);
-                        $('#publishEventForm').trigger("reset");
-                        $('#eventDateModal').modal('toggle');
-                        filterCalendar({'status': status});
-                        $('#eventIds').val('');
-                    } else {
-                        $('#isAgree').val(true);
-                        $('#isAgreeMsg').show();
-                        $('#publishEventFormBtn').removeClass('button').addClass('btn-danger').html('Continue');
-                        toastr.error(data.message);
+                Swal.fire({
+                    title: confirmMsgTitle,
+                    text: "Are you sure you want to publish this event?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, continue it",
+                    cancelButtonText: cancelButtonText
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        submitForm();
                     }
-                }).catch(error => {
-                    $('#publishEventFormBtn').html('Save').attr('disabled', false);
-                    toastr.error('An error occurred. Please try again.');
                 });
             }
         });
@@ -368,23 +405,59 @@
             $('#eventFile').val('');
             $('.event-file').html('');
         }
-        var endPicker = flatpickr("#publishEndDate", {
-            dateFormat: "d/m/Y",
-        });
 
-        var startPicker = flatpickr("#publishStartDate", {
-            dateFormat: "d/m/Y",
-            onChange: function(selectedDates, dateStr, instance) {
-                endPicker.set('minDate', dateStr);
+        $('#publishStartDate').calendar({
+            type: 'date',
+            minDate: new Date(),
+            formatter: {
+                date: function (date, settings) {
+                    if (!date) return '';
+                    let day = ('0' + date.getDate()).slice(-2);
+                    let month = ('0' + (date.getMonth() + 1)).slice(-2);
+                    let year = date.getFullYear();
+                    return `${day}/${month}/${year}`;
+                }
+            },
+            onChange: function(date, text) {
+                if (date) {
+                    $('#publishEndDate').calendar('setting', 'minDate', date);
+                }
             }
         });
 
-        $(document).on('change', '#publishStartDate', function() {
-            $('#publishEndDate').val('').attr('min', $(this).val());
-            $('#isAgree').val('false');
-            $('#isAgreeMsg').hide();
-            $('#publishEventFormBtn').removeClass('btn-danger').addClass('button').html('Save');
+        $('#publishEndDate').calendar({
+            type: 'date',
+            minDate: new Date(),
+            formatter: {
+                date: function (date, settings) {
+                    if (!date) return '';
+                    let day = ('0' + date.getDate()).slice(-2);
+                    let month = ('0' + (date.getMonth() + 1)).slice(-2);
+                    let year = date.getFullYear();
+                    return `${day}/${month}/${year}`;
+                }
+            }
         });
+
+        $('#publishStartDate input, #publishEndDate input').attr('autocomplete', 'off').attr('readonly', true);
+
+        // var endPicker = flatpickr("#publishEndDate", {
+        //     dateFormat: "d/m/Y",
+        // });
+
+        // var startPicker = flatpickr("#publishStartDate", {
+        //     dateFormat: "d/m/Y",
+        //     onChange: function(selectedDates, dateStr, instance) {
+        //         endPicker.set('minDate', dateStr);
+        //     }
+        // });
+
+        // $(document).on('change', '#publishStartDate', function() {
+        //     $('#publishEndDate').val('').attr('min', $(this).val());
+        //     $('#isAgree').val('false');
+        //     $('#isAgreeMsg').hide();
+        //     $('#publishEventFormBtn').removeClass('btn-danger').addClass('button').html('Save');
+        // });
         
     </script>
     @include('components.calendar-js', ['type' => 'create', 'filterRoute' => route('schedule.calendar')])

@@ -164,15 +164,24 @@
                 <form action="" id="publishEventForm" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="input16" class="form-label fw-bold">Start Date</label>
-                        <input type="text" name="start_date" id="publishStartDate" placeholder="Start Date" class="w-100 form-control border-1">
+                        <div class="ui calendar" id="publishStartDate" dir="rtl">
+                            <div class="ui input right icon" style="width: 100% !important;">
+                                <i class="calendar icon"></i>
+                                <input type="text" name="start_date" placeholder="Start Date" class="form-control" style="text-align: right">
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="input16" class="form-label fw-bold">End Date</label>
-                        <input type="text" name="end_date" id="publishEndDate" placeholder="End Date" class="w-100 form-control border-1">
+                        <div class="ui calendar" id="publishEndDate" dir="rtl">
+                            <div class="ui input right icon" style="width: 100% !important;">
+                                <i class="calendar icon"></i>
+                                <input type="text" name="end_date" placeholder="End Date" class="form-control" style="text-align: right">
+                            </div>
+                        </div>
                     </div>
                     <input type="hidden" name="ids" id="eventIds" value="{{ @$createdEventIds }}">
                     <input type="hidden" name="isAgree" id="isAgree" value="false"  >
-                    <div class="text-center mb-3 text-danger" id="isAgreeMsg" style="display: none;">If you continue it will replace the existing published event</div>
                     <div class="d-flex gap-3">
                         <button class="button p-2 px-4 rounded-pill border-0" id="publishEventFormBtn">Save</button>
                         <button type="button" class="button p-2 px-4 rounded-pill border-0" data-bs-dismiss="modal">Cancel</button>
