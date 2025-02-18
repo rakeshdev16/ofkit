@@ -1,6 +1,9 @@
 <script>
     $(document).ready(function() {
-        timePicker(0);
+        $('.startTime').each(function() {
+            updateEndTimeOptions(this, false);
+        });
+        updateEndTimeOptions(0);
         $('.kindergarten').select2();
         $('.scheduleKindergarten').select2();
 
@@ -263,9 +266,9 @@
             'name' => '${name}',
             'data' => ['start_time' => '', 'end_time' => '']
         ])`);
-        setTimeout(() => {
-            timePicker(index)
-        }, 100);
+        // setTimeout(() => {
+        //     updateEndTimeOptions(index)
+        // }, 100);
         section.show();
         scheduleValidationRules(day, index);
     });
@@ -318,12 +321,14 @@
         });
     }
 
-    function timePicker(index) {
-        $(document).on('change', '.startTime', function() {
-            // const endTimeSelect = document.querySelector('.endTime'+index);
-            const endTime = $(this).data('index');
-            const endTimeSelect = document.querySelector('.'+endTime);
-            let startTime = $(this).val();
+    function updateEndTimeOptions(startTimeElement, shouldClearEndTime) {
+        const endTime = $(startTimeElement).data('index');
+        const endTimeSelect = document.querySelector('.' + endTime);
+        let startTime = $(startTimeElement).val();
+        if (endTimeSelect) {
+            if (shouldClearEndTime) {
+                endTimeSelect.value = "";
+            }
             Array.from(endTimeSelect.options).forEach((option) => {
                 if (option.value && option.value <= startTime) {
                     option.disabled = true;
@@ -331,6 +336,10 @@
                     option.disabled = false;
                 }
             });
-        })
+        }
     }
+
+    $(document).on('change', '.startTime', function() {
+        updateEndTimeOptions(this, true);
+    });
 </script>
