@@ -109,6 +109,7 @@
         let eventData = {};
         let timeSlotData = {};
         let container = '';
+        let isTimeOutSide = false;
 
         $(document).ready(function () {
             var params = {
@@ -241,7 +242,6 @@
             },
             submitHandler: function (form, e) {
                 e.preventDefault();
-                let isTimeOutSide = $('#isTimeOutSide').val();
                 var submitForm = function() {
                     var kindergartenId = getQueryParam('kindergarten_id');
                     var formData = new FormData(form);
@@ -288,9 +288,10 @@
                     }).catch(error => toastr.error('An error occurred while processing the request.'));
                 };
 
-                let confirmMsg = isTimeOutSide == 'true' ?
+                let confirmMsg = isTimeOutSide == true ?
                                     "This appointment is outside the therapist's availability hours. Are you sure you want to add this appointment?" :
                                     "Are you sure you want to add this appointment?";
+
                 Swal.fire({
                     title: confirmMsgTitle,
                     text: confirmMsg,

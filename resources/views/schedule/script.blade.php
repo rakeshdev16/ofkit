@@ -126,7 +126,9 @@
             method: 'POST',
             body: JSON.stringify(timeSlotData)
         }).then(response => response.json()).then(data => {
-            $('#isTimeOutSide').val(data.isTimeOutSide);
+            if (type == 'therapist') {
+                isTimeOutSide = data.isTimeOutSide;
+            }
             if (data.status == true) {
                 // const selectedOptions = dropdown.val();
                 // const updatedOptions = selectedOptions.filter(option => option !== id);
