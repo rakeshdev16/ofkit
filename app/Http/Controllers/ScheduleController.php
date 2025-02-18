@@ -101,7 +101,10 @@ class ScheduleController extends Controller
                     return response()->json(['status' => false, 'message' => 'A published event already exists between the entered date range!']);
                 }
             } else {
-                Schedule::filter(['status' => 'published'])->first()->delete();
+                $schedule = Schedule::filter(['status' => 'published'])->first();
+                if ($schedule) {
+                    $schedule->delete();
+                }
             }
 
             $schedule = Schedule::where('status', 'draft')->first();
