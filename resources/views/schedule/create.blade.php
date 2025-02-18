@@ -7,10 +7,9 @@
     <script src="{{ asset('assets/js/daypilot/daypilot-all.min.js')}}"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script> --}}
-    {{-- <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" /> --}}
-    {{-- <link href="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.css" rel="stylesheet" type="text/css" /> --}}
-    {{-- <script src="https://code.jquery.com/jquery-2.1.4.js"></script> --}}
-    <script src="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css">
     <style>
         .select2-container[dir="rtl"] .select2-selection--single .select2-selection__rendered {
             padding-right: 20px;
@@ -407,40 +406,29 @@
             $('.event-file').html('');
         }
 
-        $('#publishStartDate').calendar({
-            type: 'date',
-            minDate: new Date(),
-            formatter: {
-                date: function (date, settings) {
-                    if (!date) return '';
-                    let day = ('0' + date.getDate()).slice(-2);
-                    let month = ('0' + (date.getMonth() + 1)).slice(-2);
-                    let year = date.getFullYear();
-                    return `${day}/${month}/${year}`;
-                }
-            },
-            onChange: function(date, text) {
-                if (date) {
-                    $('#publishEndDate').calendar('setting', 'minDate', date);
+        $("#publishStartDate").datepicker({
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            minDate: 0,
+            onSelect: function (selectedDate) {
+                let startDate = $(this).datepicker("getDate");
+                if (startDate) {
+                    $("#publishEndDate").datepicker("option", "minDate", startDate);
                 }
             }
         });
 
-        $('#publishEndDate').calendar({
-            type: 'date',
-            minDate: new Date(),
-            formatter: {
-                date: function (date, settings) {
-                    if (!date) return '';
-                    let day = ('0' + date.getDate()).slice(-2);
-                    let month = ('0' + (date.getMonth() + 1)).slice(-2);
-                    let year = date.getFullYear();
-                    return `${day}/${month}/${year}`;
-                }
-            }
+        $("#publishEndDate").datepicker({
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            minDate: 0,
         });
 
-        $('#publishStartDate input, #publishEndDate input').attr('autocomplete', 'off').attr('readonly', true);
+        $("#publishStartDate, #publishEndDate").attr("autocomplete", "off").attr("readonly", true);
 
         // var endPicker = flatpickr("#publishEndDate", {
         //     dateFormat: "d/m/Y",

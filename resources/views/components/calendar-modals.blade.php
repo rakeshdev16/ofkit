@@ -164,21 +164,11 @@
                 <form action="" id="publishEventForm" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="input16" class="form-label fw-bold">Start Date</label>
-                        <div class="ui calendar" id="publishStartDate" dir="rtl">
-                            <div class="ui input right icon" style="width: 100% !important;">
-                                <i class="calendar icon"></i>
-                                <input type="text" name="start_date" placeholder="Start Date" class="form-control" style="text-align: right">
-                            </div>
-                        </div>
+                        <input type="text" name="start_date" id="publishStartDate" placeholder="Start Date" class="w-100 form-control border-1">
                     </div>
                     <div class="mb-3">
                         <label for="input16" class="form-label fw-bold">End Date</label>
-                        <div class="ui calendar" id="publishEndDate" dir="rtl">
-                            <div class="ui input right icon" style="width: 100% !important;">
-                                <i class="calendar icon"></i>
-                                <input type="text" name="end_date" placeholder="End Date" class="form-control" style="text-align: right">
-                            </div>
-                        </div>
+                        <input type="text" name="end_date" id="publishEndDate" placeholder="End Date" class="w-100 form-control border-1">
                     </div>
                     <input type="hidden" name="ids" id="eventIds" value="{{ @$createdEventIds }}">
                     <input type="hidden" name="isAgree" id="isAgree" value="false"  >
