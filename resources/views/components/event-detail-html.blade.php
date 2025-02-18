@@ -4,6 +4,7 @@
         <div class="col-md-9">
             <div>
                 {{ ucfirst(str_replace('-', ' ', $data->type)) }}
+                {{ getKindergartenNameById($data->kindergarten_id) }}
                 @if(!empty($data->group_name) && $data->type == 'group')
                     ({{ $data->group_name }})
                 @endif
