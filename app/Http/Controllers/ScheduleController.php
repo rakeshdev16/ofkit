@@ -49,7 +49,7 @@ class ScheduleController extends Controller
                 $request['file'] = $request->old_image;
             }
 
-            $schedule = Schedule::firstOrCreate(['status' => 'draft']);
+            $schedule = Schedule::firstOrCreate(['status' => 'draft', 'kindergarten_id' => $request->kindergarten_id]);
             $deletedIds = $schedule->events()->removeUnselectedUser($request->all());
             $request['unique_id'] = $request->unique_id ? $request->unique_id : Str::uuid();
             foreach ($request->therapist_ids as $key => $therapistId) {
@@ -94,21 +94,22 @@ class ScheduleController extends Controller
             $startDate = Carbon::createFromFormat('d/m/Y', $request->start_date)->format('Y-m-d');
             $endDate = Carbon::createFromFormat('d/m/Y', $request->end_date)->format('Y-m-d');
             if ($request->isAgree == 'false') {
-                $existsSchedule = Schedule::where('status', 'published')->where(function ($query) use ($startDate, $endDate) {
+                $existsSchedule = Schedule::where('status', 'published')->where('kindergarten_id', $request->kindergarten_id)->where(function ($query) use ($startDate, $endDate) {
                     $query->whereDate('start_date', '<=', $endDate)->whereDate('end_date', '>=', $startDate);
                 })->exists();
                 if ($existsSchedule) {
                     return response()->json(['status' => false, 'message' => 'A published event already exists between the entered date range!']);
                 }
             } else {
-                $schedule = Schedule::filter(['status' => 'published'])->first();
+                $schedule = Schedule::filter(['status' => 'published', 'kindergarten_id' => $request->kindergarten_id])->first();
                 if ($schedule) {
                     $schedule->delete();
                 }
             }
 
-            $schedule = Schedule::where('status', 'draft')->first();
+            $schedule = Schedule::where('status', 'draft')->where('kindergarten_id', $request->kindergarten_id)->first();
             $clonedSchedule = Schedule::create([
+                'kindergarten_id' => $request->kindergarten_id,
                 'start_date' => $startDate,
                 'end_date' => $endDate,
                 'status' => 'published',
@@ -139,11 +140,11 @@ class ScheduleController extends Controller
         DB::beginTransaction();
         try {
 
-            Schedule::where('status', 'draft')->delete();
+            Schedule::where('status', 'draft')->where('kindergarten_id', $request->kindergarten_id)->delete();
             if ($request->type == 'edit') {
-                $schedule = Schedule::filter(['status' => 'published'])->first();
+                $schedule = Schedule::filter(['status' => 'published', 'kindergarten_id' => $request->kindergarten_id])->first();
                 if (!Schedule::where('id', $request->scheduleId)->exists()) {
-                    $clonedSchedule = Schedule::create(['status' => 'draft']);
+                    $clonedSchedule = Schedule::create(['status' => 'draft', 'kindergarten_id' => $request->kindergarten_id]);
                     $this->cloneSchedule($schedule, $clonedSchedule);
                 }
             }
@@ -265,7 +266,7 @@ class ScheduleController extends Controller
             return response()->json(['status' => false, 'message' => '']);
         }
 
-        $schedule = isset($data['schedule_id']) ? Schedule::find($data['schedule_id']) : Schedule::where('status', $data['status'])->first();
+        $schedule = isset($data['schedule_id']) ? Schedule::find($data['schedule_id']) : Schedule::filter(['status' => $data['status'], 'kindergarten_id' => $data['kindergartenId']])->first();
         $events = $schedule->events()->overlappingWithTimeSlot($data);
 
         if ($data['type'] == 'therapist') {
@@ -333,7 +334,7 @@ class ScheduleController extends Controller
         $matiaTherapistIds = (clone $associations['Matia'])->staffKindergarten->where('kindergarten_id', $request->kindergarten_id)->pluck('user_id')->toArray();
         $tabamTherapistIds = (clone $associations['Tabam'])->staffKindergarten->where('kindergarten_id', $request->kindergarten_id)->pluck('user_id')->toArray();
         $childrens = Children::select('id', 'name', 'kindergarten_id')->where('kindergarten_id', $request->kindergarten_id)->get()->toArray();
-        $schedule = Schedule::filter(['status' => $request->status])->first();
+        $schedule = Schedule::filter(['status' => $request->status, 'kindergarten_id' => $request->kindergarten_id])->first();
         $childrenSummary = '';
         $staffSummary = '';
         if ($schedule && (clone $schedule)->events() !== null) {
@@ -397,7 +398,7 @@ class ScheduleController extends Controller
         ]; // Example time slots
         $staffSchedules = [];
         $staffSchedules = StaffSchedule::with('user')->whereIn('day', $days)->get()->groupBy('day');
-        $schedule = Schedule::filter(['status' => 'published'])->first();
+        $schedule = Schedule::filter(['status' => 'published', 'kindergarten_id' => $request->kindergarten_id])->first();
         $events = ScheduleEvent::where('schedule_id', $schedule->id)->get()->groupBy('day');
         return view('exports.therapy-schedule', compact('days', 'timeSlots', 'staffSchedules', 'schedule'));
         // Fetch schedules for each day and time slot

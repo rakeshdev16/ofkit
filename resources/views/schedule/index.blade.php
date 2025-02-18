@@ -94,7 +94,8 @@
                         },
                         body: JSON.stringify({
                             scheduleId: scheduleId,
-                            type: btn
+                            type: btn,
+                            kindergarten_id: kindergartenId,
                         })
                     }).then(response => response.json()).then(data => {
                         window.location.href = url;
