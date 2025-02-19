@@ -238,7 +238,8 @@ function appointmentIcon($icon)
 function scheduleResponse($events, $schedule = null, $childId = null)
 {
     return $events->map(function ($event) use($events, $schedule, $childId) {
-        $scheduleId = $schedule->id ?? $event->schedule();
+
+        $scheduleId = $schedule->id ?? optional($event->schedule())->id;
         $findEvent = ScheduleEvent::where([
             'schedule_id' => $scheduleId,
             'therapist_id' => $event->therapist_id,

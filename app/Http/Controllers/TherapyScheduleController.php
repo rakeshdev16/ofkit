@@ -42,7 +42,7 @@ class TherapyScheduleController extends Controller
         } else {
             $kindergartenId[] = $request->kindergarten_id;
             $schedule = Schedule::filter(['status' => 'published'])->where('kindergarten_id', $request->kindergarten_id)->first();
-            $scheduleEvents = !empty($schedule) ? $schedule->events()->where('therapist_id', Auth::id())->get() : [];
+            $scheduleEvents = !empty($schedule) ? collect($schedule->events()->where('therapist_id', Auth::id())->get()) : collect([]);
         }
         $header = [
             ['name' => 'Sunday', 'id' => Auth::id().'sunday'],
