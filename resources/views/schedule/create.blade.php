@@ -315,6 +315,9 @@
             //     toastr.error('There are not any created event');
             //     return true;
             // }
+            $('#publishEventForm').find('.is-invalid').removeClass('is-invalid');
+            $('#publishEventForm').find('input').removeClass('error');
+            $('#publishEventForm').find('label.error').remove();
             $('#publishEventForm').trigger("reset");
             $('#publishEventFormBtn').addClass('button').removeClass('btn-danger').html('Submit');
             $('#eventDateModal').modal('toggle');
