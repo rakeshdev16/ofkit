@@ -67,13 +67,7 @@
             const btn = $(this).data('btn');
             const scheduleId = $(this).data('schedule-id');
             let kindergartenId = getQueryParam('kindergarten_id');
-
             let url = "{{ route('schedule.create') }}?status=draft&kindergarten_id="+kindergartenId;
-            if (btn == 'edit') url += "&edit=true";
-            if (getQueryParam('status') == 'draft') {
-                return window.location.href = url;
-            }
-
             let query = btn == 'edit' ?? "edit=true";
             Swal.fire({
                 title: confirmMsgTitle,
