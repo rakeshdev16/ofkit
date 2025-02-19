@@ -186,9 +186,9 @@ class ScheduleController extends Controller
 
         $schedule = Schedule::filter($filter)->first();
         $events = !empty($schedule) ? scheduleResponse($schedule->events, $schedule) : [];
-        $userIds = StaffKindergarten::where('kindergarten_id', $filter['kindergarten_id'])->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
+        $userIds = StaffKindergarten::where('kindergarten_id', @$filter['kindergarten_id'])->where('user_id', '!=', Auth::id())->pluck('user_id')->toArray();
         $users = User::whereIn('id', $userIds)->select('id as key', 'name as value')->get()->toArray();
-        $childrens = Children::select('id as key', 'name as value')->where('kindergarten_id', $filter['kindergarten_id'])->orderBy('name')->get()->toArray();
+        $childrens = Children::select('id as key', 'name as value')->where('kindergarten_id', @$filter['kindergarten_id'])->orderBy('name')->get()->toArray();
         $childrens = view('components.select-input', [
             'name' => '',
             'id' => 'childrenFilter',
