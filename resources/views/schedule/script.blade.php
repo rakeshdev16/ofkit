@@ -84,7 +84,7 @@
             setTimeout(() => {
                 $('#appointmentFormDiv').html(data);
                 $('#formLoader').hide();
-                $('#appointmentFormDiv').off('select2:select', '#therapist, #children');
+                $('#appointmentFormDiv').off('select2:select select2:unselect', '#therapist, #children');
                 $('#appointmentFormDiv').on('select2:select select2:unselect', '#therapist, #children', function(e) {
                     const selectedOption = e.params.data;
                     // const selectedId = selectedOption.id;
