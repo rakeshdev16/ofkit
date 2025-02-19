@@ -239,7 +239,7 @@ function scheduleResponse($events, $schedule = null, $childId = null)
 {
     return $events->map(function ($event) use($events, $schedule, $childId) {
 
-        $scheduleId = !empty($schedule) ? $schedule->id : optional($event->schedule())->id;
+        $scheduleId = !empty($schedule) ? $schedule->id : optional($event->schedule)->id;
         $findEvent = ScheduleEvent::where([
             'schedule_id' => $scheduleId,
             'therapist_id' => $event->therapist_id,
