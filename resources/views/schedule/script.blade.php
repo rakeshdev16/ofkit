@@ -129,16 +129,12 @@
             if (type == 'therapist') {
                 isTimeOutSide = data.isTimeOutSide;
             }
+            $("#children").prop("disabled", false);
+            $('#createEventModalBtn').attr('disabled', false).removeAttr('title').tooltip('dispose');
             if (data.status == true) {
-                // const selectedOptions = dropdown.val();
-                // const updatedOptions = selectedOptions.filter(option => option !== id);
-                // dropdown.val(updatedOptions).trigger('change');
                 if (type == 'therapist') $("#children").prop("disabled", true);
                 $('#createEventModalBtn').attr('disabled', true).attr('title', 'This selected therapist or child not available at this time').tooltip({ trigger: 'hover' });
                 toastr.error(data.message);
-            } else {
-                $("#children").prop("disabled", false);
-                $('#createEventModalBtn').attr('disabled', false).removeAttr('title').tooltip('dispose');
             }
         });
     }

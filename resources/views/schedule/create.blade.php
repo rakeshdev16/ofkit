@@ -182,7 +182,7 @@
             let therapist = $('#therapist');
             let children = $('#children');
             therapist.val().length > 0 ? checkTimeSlot(therapist.attr('id'), therapist.val(), therapist) : '';
-            children.val().length > 0 ? checkTimeSlot(children.attr('id'), children.val(), children) : '';
+            // children.val().length > 0 ? checkTimeSlot(children.attr('id'), children.val(), children) : '';
         });
 
         $(document).on('click', '#newAppointment', function() {
