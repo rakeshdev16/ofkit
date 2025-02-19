@@ -347,11 +347,11 @@ class ScheduleController extends Controller
                     })->get();
                 $summary = [
                     'tabam' => [
-                        'individual' => $tabamScheduls->where('type', 'individual')->sum->getWeightedCount(),
+                        'individual' => $tabamScheduls->whereIn('type', ['individual', 'parental-guidance'])->sum->getWeightedCount(),
                         'group' => $tabamScheduls->where('type', 'group')->sum->getWeightedCount(),
                     ],
                     'matia' => [
-                        'individual' => $matiaScheduls->where('type', 'individual')->sum->getWeightedCount(),
+                        'individual' => $matiaScheduls->whereIn('type', ['individual', 'parental-guidance'])->sum->getWeightedCount(),
                         'group' => $matiaScheduls->where('type', 'group')->sum->getWeightedCount(),
                     ]
                 ];
@@ -364,7 +364,7 @@ class ScheduleController extends Controller
             foreach ($users as $user) {
                 $staffScheduls = (clone $schedule)->events()->where('therapist_id', $user->id)->get();
                 $summary = [
-                    'individual' => $staffScheduls->where('type', 'individual')->sum->getWeightedCount(),
+                    'individual' => $staffScheduls->whereIn('type', ['individual', 'parental-guidance'])->sum->getWeightedCount(),
                     'group' => $staffScheduls->where('type', 'group')->sum->getWeightedCount(),
                     'staff-meeting' => $staffScheduls->where('type', 'staff-meeting')->sum->getWeightedCount(),
                     'tutorial' => $staffScheduls->where('type', 'tutorial')->sum->getWeightedCount(),

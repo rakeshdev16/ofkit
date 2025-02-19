@@ -34,6 +34,16 @@ class TherapyScheduleController extends Controller
 
     public function calendar(Request $request)
     {
+        $header = [
+            ['name' => 'Sunday', 'id' => Auth::id().'sunday'],
+            ['name' => 'Monday', 'id' => Auth::id().'monday'],
+            ['name' => 'Tuesday', 'id' => Auth::id().'tuesday'],
+            ['name' => 'Wednesday', 'id' => Auth::id().'wednesday'],
+            ['name' => 'Thursday', 'id' => Auth::id().'thursday'],
+            ['name' => 'Friday', 'id' => Auth::id().'friday'],
+            ['name' => 'Saturday', 'id' => Auth::id().'saturday'],
+        ];
+
         if ($request->kindergarten_id == 'personal') {
             $kindergartenId = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
             $scheduleIds = Schedule::filter(['status' => 'published'])->whereIn('kindergarten_id', $kindergartenId)->pluck('id');
@@ -44,15 +54,6 @@ class TherapyScheduleController extends Controller
             $schedule = Schedule::filter(['status' => 'published'])->where('kindergarten_id', $request->kindergarten_id)->first();
             $scheduleEvents = !empty($schedule) ? collect($schedule->events()->where('therapist_id', Auth::id())->get()) : collect([]);
         }
-        $header = [
-            ['name' => 'Sunday', 'id' => Auth::id().'sunday'],
-            ['name' => 'Monday', 'id' => Auth::id().'monday'],
-            ['name' => 'Tuesday', 'id' => Auth::id().'tuesday'],
-            ['name' => 'Wednesday', 'id' => Auth::id().'wednesday'],
-            ['name' => 'Thursday', 'id' => Auth::id().'thursday'],
-            ['name' => 'Friday', 'id' => Auth::id().'friday'],
-            ['name' => 'Saturday', 'id' => Auth::id().'saturday'],
-        ];
 
         $events = [];
         if ($scheduleEvents !== null) {
