@@ -61,6 +61,9 @@
             columnWidth = (windowWidth-100)/columsCount;
         }
         let headerLevel = "{{ in_array(Route::currentRouteName() , ['children-schedule.index']) }}" ? "1" : "4";
+        if (getQueryParam('kindergarten_id') === 'personal') {
+            headerLevel = "1";
+        }
         if (window.dp) {
             window.dp.dispose();
         }

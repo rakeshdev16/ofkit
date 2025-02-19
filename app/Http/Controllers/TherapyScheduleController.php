@@ -34,33 +34,35 @@ class TherapyScheduleController extends Controller
 
     public function calendar(Request $request)
     {
-        // $header = [
-        //     ['name' => 'Sunday', 'id' => Auth::id().'sunday'],
-        //     ['name' => 'Monday', 'id' => Auth::id().'monday'],
-        //     ['name' => 'Tuesday', 'id' => Auth::id().'tuesday'],
-        //     ['name' => 'Wednesday', 'id' => Auth::id().'wednesday'],
-        //     ['name' => 'Thursday', 'id' => Auth::id().'thursday'],
-        //     ['name' => 'Friday', 'id' => Auth::id().'friday'],
-        //     ['name' => 'Saturday', 'id' => Auth::id().'saturday'],
-        // ];
         $filter = $request->all();
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         $header = [];
 
         if ($request->kindergarten_id == 'personal') {
             $kindergartenId = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
+            $schedule = Schedule::filter(['status' => 'published'])->first();
+            $scheduleEvents = !empty($schedule) ? collect($schedule->events()->where('therapist_id', Auth::id())->get()) : collect([]);
+        } else {
+            $kindergartenId[] = $request->kindergarten_id;
             $scheduleIds = Schedule::filter(['status' => 'published'])->whereIn('kindergarten_id', $kindergartenId)->pluck('id');
             $scheduleEvents = ScheduleEvent::whereIn('schedule_id', $scheduleIds)->where('therapist_id', Auth::id())->get();
             $schedule = '';
-        } else {
-            $kindergartenId[] = $request->kindergarten_id;
-            $schedule = Schedule::filter(['status' => 'published'])->where('kindergarten_id', $request->kindergarten_id)->first();
-            $scheduleEvents = !empty($schedule) ? collect($schedule->events()->where('therapist_id', Auth::id())->get()) : collect([]);
         }
-
         foreach ($days as $day) {
-            $schedules = StaffSchedule::whereIn('kindergarten_id', $kindergartenId)->with('user')->where('day', $day)->get()
-                ->map(function ($schedule) use ($day, $request) {
+            if ($request->kindergarten_id == 'personal') {
+                $header = [
+                    ['name' => 'Sunday', 'id' => Auth::id().'sunday'],
+                    ['name' => 'Monday', 'id' => Auth::id().'monday'],
+                    ['name' => 'Tuesday', 'id' => Auth::id().'tuesday'],
+                    ['name' => 'Wednesday', 'id' => Auth::id().'wednesday'],
+                    ['name' => 'Thursday', 'id' => Auth::id().'thursday'],
+                    ['name' => 'Friday', 'id' => Auth::id().'friday'],
+                    ['name' => 'Saturday', 'id' => Auth::id().'saturday'],
+                ];
+                $staffSchedule = StaffSchedule::whereIn('kindergarten_id', $kindergartenId)->where('user_id', Auth::id())->with('user')->where('day', $day)->get();
+            } else {
+                $staffSchedule = StaffSchedule::whereIn('kindergarten_id', $kindergartenId)->with('user')->where('day', $day)->get();
+                $staffSchedule = $staffSchedule->map(function ($schedule) use ($day, $request) {
                     $f_name = $schedule->user->family_name;
                     return [
                         'id' => $schedule->user->id.''.strtolower($day),
@@ -72,11 +74,11 @@ class TherapyScheduleController extends Controller
                         'profession' => @StaffKindergarten::where(['user_id' => $schedule->user_id, 'kindergarten_id' => $schedule->kindergarten_id])->first()->profession->acronyms,
                     ];
                 })->unique('id')->values()->toArray();
-
-            $header[] = [
-                'name' => $day,
-                'children' => $schedules,
-            ];
+                $header[] = [
+                    'name' => $day,
+                    'children' => $staffSchedule,
+                ];
+            }
         }
 
         $events = [];
