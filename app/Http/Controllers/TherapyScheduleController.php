@@ -9,6 +9,7 @@ use App\Models\Kindergarten;
 use App\Models\StaffKindergarten;
 use App\Models\StaffSchedule;
 use App\Models\Schedule;
+use App\Models\ScheduleEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -35,8 +36,13 @@ class TherapyScheduleController extends Controller
     {
         if ($request->kindergarten_id == 'personal') {
             $kindergartenId = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
+            $scheduleIds = Schedule::filter(['status' => 'published'])->whereIn('kindergarten_id', $kindergartenId)->pluck('id');
+            $scheduleEvents = ScheduleEvent::whereIn('schedule_id', $scheduleIds)->where('therapist_id', Auth::id())->get();
+            $schedule = '';
         } else {
             $kindergartenId[] = $request->kindergarten_id;
+            $schedule = Schedule::filter(['status' => 'published'])->where('kindergarten_id', $request->kindergarten_id)->first();
+            $scheduleEvents = !empty($schedule) ? $schedule->events()->where('therapist_id', Auth::id())->get() : [];
         }
         $header = [
             ['name' => 'Sunday', 'id' => Auth::id().'sunday'],
@@ -49,9 +55,7 @@ class TherapyScheduleController extends Controller
         ];
 
         $events = [];
-        $schedule = Schedule::filter(['status' => 'published'])->first();
-        if (!empty($schedule) && $schedule->events() !== null) {
-            $scheduleEvents = $schedule->events()->where('therapist_id', Auth::id())->whereIn('kindergarten_id', $kindergartenId)->get();
+        if ($scheduleEvents !== null) {
             $events = scheduleResponse($scheduleEvents, $schedule);
         }
 

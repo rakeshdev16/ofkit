@@ -235,18 +235,18 @@ function appointmentIcon($icon)
     return $icons[$icon];
 }
 
-function scheduleResponse($events, $schedule, $childId = null)
+function scheduleResponse($events, $schedule = null, $childId = null)
 {
     return $events->map(function ($event) use($events, $schedule, $childId) {
-
+        $scheduleId = $schedule->id ?? $event->schedule();
         $findEvent = ScheduleEvent::where([
-            'schedule_id' => $schedule->id,
+            'schedule_id' => $scheduleId,
             'therapist_id' => $event->therapist_id,
             'day' => $event->day,
             'start_time' => $event->start_time
         ]);
 
-        $therapistIds = $events->where('schedule_id', $schedule->id)->where('unique_id', $event->unique_id)->pluck('therapist_id')->toArray();
+        $therapistIds = $events->where('schedule_id', $scheduleId)->where('unique_id', $event->unique_id)->pluck('therapist_id')->toArray();
         $event->eventCount = $findEvent->count();
         $event->last_id = $findEvent->orderBy('id', 'DESC')->pluck('id')->first();
         $event->therapistIds = $therapistIds;

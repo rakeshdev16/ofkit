@@ -58,6 +58,11 @@ class ScheduleEvent extends Model
         });
     }
 
+    public function schedule()
+    {
+        return $this->belongsTo(Schedule::class);
+    }
+
     public function scopeRemoveUnselectedUser($query, $data)
     {
         $deletedIds = '';
