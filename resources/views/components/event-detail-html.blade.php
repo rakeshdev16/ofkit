@@ -4,7 +4,6 @@
         <div class="col-md-9">
             <div>
                 {{ ucfirst(str_replace('-', ' ', $data->type)) }}
-                {{ getKindergartenNameById($data->kindergarten_id) }}
                 @if(!empty($data->group_name) && $data->type == 'group')
                     ({{ $data->group_name }})
                 @endif
@@ -40,7 +39,7 @@
     </div>
     <div class="row mb-2 fs-6 text-dark">
         <div class="col-md-1"><i class="fa fa-users"></i></div>
-        <div class="col-md-11">{{ getUserNameByIds($data->where('unique_id', $data->unique_id)->pluck('therapist_id')->toArray())}}</div>
+        <div class="col-md-11">{{ getUserNameByIds($data->therapistIds)}}</div>
     </div>
     <div class="row mb-2 fs-6 text-dark">
         <div class="col-md-1"><i class="fa fa-align-justify"></i></div>

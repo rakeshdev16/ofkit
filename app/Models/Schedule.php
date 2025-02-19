@@ -29,9 +29,6 @@ class Schedule extends Model
 
         if (isset($data['kindergarten_id'])) {
             $query->where('kindergarten_id', $data['kindergarten_id']);
-            // $query->whereHas('events', function ($q) use ($data) {
-            //     $q->where('kindergarten_id', $data['kindergarten_id']);
-            // });
         }
 
         if (isset($data['children_id'])) {
