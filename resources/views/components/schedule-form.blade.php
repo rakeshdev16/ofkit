@@ -105,7 +105,7 @@
     <div class="mb-3">
         <input type="file" id="eventFile" name="image" class="form-control" onchange="selectedEventFile(this)">
         <input type="hidden" id="eventOldFile" name="old_image" class="form-control">
-        <div class="event-file" style="display: {{ isset($data['file']) ? 'block' : none }}">
+        <div class="event-file" style="display: {{ isset($data['file']) ? 'block' : 'none' }}">
             <div class="document my-1">{{ explode("therapy-schedule/", $data['file'])[1] }}<i class="bx bx-x" onclick="removeEventFile()" data-file-name="" data-id=""></i></div>
         </div>
     </div>
