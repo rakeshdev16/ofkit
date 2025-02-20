@@ -21,6 +21,7 @@
         eventData.therapistIds = data.therapistIds;
         eventData.childrenId = data.childrenId;
         eventData.description = data.description;
+        eventData.file = data.file;
         eventData.uniqueId = data.unique_id;
         eventData.color = data.color;
         eventData.mode = 'edit';
@@ -130,7 +131,7 @@
                 isTimeOutSide = data.isTimeOutSide;
             }
             $("#children").prop("disabled", false);
-            $('#createEventModalBtn').attr('disabled', false).removeAttr('title').tooltip('dispose');
+            $('#createEventModalBtn').attr('disabled', false).removeAttr('data-bs-original-title').tooltip('dispose');
             if (data.status == true) {
                 if (type == 'therapist') $("#children").prop("disabled", true);
                 $('#createEventModalBtn').attr('disabled', true).attr('title', 'This selected therapist or child not available at this time').tooltip({ trigger: 'hover' });

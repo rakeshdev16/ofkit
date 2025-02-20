@@ -398,11 +398,11 @@
             }
         });
 
-        $('#eventFile').change(function(event) {
-            $('.event-file').show();
+        function selectedEventFile(params) {
+             $('.event-file').show();
             const files = event.target.files;
             $('.event-file').html(`<div class="document my-1">${files[0].name}<i class="bx bx-x" onclick="removeEventFile()" data-file-name="" data-id=""></i></div>`);
-        });
+        }
 
         function removeEventFile() {
             $('#eventFile').val('');
