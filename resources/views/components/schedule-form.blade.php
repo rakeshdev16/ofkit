@@ -25,12 +25,12 @@
         </select>
     </div>
     <div class="w-50">
-        <input type="text" name="start_time" class="form-control startTime event-time" id="" value="{{ @$data['startTime'] }}">
-        {{-- @include('components.time-picker', ['name' => 'start_time', 'class' => 'startTime event-time', 'label' => 'Start time', 'value' => @$data['startTime']]) --}}
+        {{-- <input type="text" name="start_time" class="form-control startTime event-time" id="" value="{{ @$data['startTime'] }}"> --}}
+        @include('components.time-picker', ['name' => 'start_time', 'class' => 'startTime event-time', 'label' => 'Start time', 'value' => @$data['startTime']])
     </div>
     <div class="w-50">
-        <input type="text" name="end_time" class="form-control endTime event-time" id="" value="{{ @$data['endTime'] }}">
-        {{-- @include('components.time-picker', ['name' => 'end_time', 'class' => 'endTime event-time', 'label' => 'End time', 'value' => @$data['endTime']]) --}}
+        {{-- <input type="text" name="end_time" class="form-control endTime event-time" id="" value="{{ @$data['endTime'] }}"> --}}
+        @include('components.time-picker', ['name' => 'end_time', 'class' => 'endTime event-time', 'label' => 'End time', 'value' => @$data['endTime']])
     </div>
 </div>
 <div class="mb-3">
@@ -125,19 +125,19 @@
 <script>    
     var type = $('#appointmentType').val();
     var isMultiple = (type === 'group' || type === 'staff-meeting');
-    // $(document).on('change', '.startTime', function() {
-    //     const startTimeSelect = document.querySelector('select[name="start_time"]');
-    //     const endTimeSelect = document.querySelector('select[name="end_time"]');
-    //     let startTime = startTimeSelect.value;
-    //     endTimeSelect.value = '';
-    //     Array.from(endTimeSelect.options).forEach((option) => {
-    //         if (option.value && option.value <= startTime) {
-    //             option.disabled = true;
-    //         } else {
-    //             option.disabled = false;
-    //         }
-    //     });
-    // })
+    $(document).on('change', '.startTime', function() {
+        const startTimeSelect = document.querySelector('select[name="start_time"]');
+        const endTimeSelect = document.querySelector('select[name="end_time"]');
+        let startTime = startTimeSelect.value;
+        endTimeSelect.value = '';
+        Array.from(endTimeSelect.options).forEach((option) => {
+            if (option.value && option.value <= startTime) {
+                option.disabled = true;
+            } else {
+                option.disabled = false;
+            }
+        });
+    })
 
     $('.selectChildrens').select2({
         dropdownParent: $("#createEventModal"),
@@ -163,47 +163,41 @@
         }
     });
 
-    $('.startTime').timepicker({
-        timeFormat: 'HH:mm',
-        interval: 60,
-        minTime: '07:00',
-        maxTime: '17:00',
-        defaultTime: "{{ @$data['startTime'] }}" || "07:00",
-        startTime: '07:00',
-        dynamic: false,
-        dropdown: true,
-        scrollbar: true,
-        zindex: 9999999,
-        interval: 15,
-        change: function(time) {
-            if (time) {
-                let selectedStartTime = $(this).val();
-                let startTime = new Date("1970-01-01T" + selectedStartTime);
-                let endTime = new Date(startTime.getTime() + 15 * 60000);
-                let formattedEndTime = endTime.toTimeString().substring(0, 5);
-                $('.endTime').timepicker('option', 'minTime', selectedStartTime);
-                $('.endTime').val(formattedEndTime);
-                $('#therapist, #children').val(null).trigger('change');
-            }
-        }
-    });
+    // $('.startTime').timepicker({
+    //     timeFormat: 'HH:mm',
+    //     interval: 60,
+    //     minTime: '07:00',
+    //     maxTime: '17:00',
+    //     defaultTime: "{{ @$data['startTime'] }}" || "07:00",
+    //     startTime: '07:00',
+    //     dynamic: false,
+    //     dropdown: true,
+    //     scrollbar: true,
+    //     zindex: 9999999,
+    //     interval: 15,
+    //     change: function(time) {
+    //         if (time) {
+    //             let selectedStartTime = $(this).val();
+    //             let startTime = new Date("1970-01-01T" + selectedStartTime);
+    //             let endTime = new Date(startTime.getTime() + 15 * 60000);
+    //             let formattedEndTime = endTime.toTimeString().substring(0, 5);
+    //             $('.endTime').timepicker('option', 'minTime', selectedStartTime);
+    //             $('.endTime').val(formattedEndTime);
+    //         }
+    //     }
+    // });
 
-    $('.endTime').timepicker({
-        timeFormat: 'HH:mm',
-        interval: 60,
-        minTime: '07:00',
-        maxTime: '17:00',
-        defaultTime: "{{ @$data['endTime'] }}" || "07:15",
-        startTime: '07:00',
-        dynamic: false,
-        dropdown: true,
-        scrollbar: true,
-        zindex: 9999999,
-        interval: 15,
-        change: function(time) {
-            if (time) {
-                $('#therapist, #children').val(null).trigger('change');
-            }
-        }
-    });
+    // $('.endTime').timepicker({
+    //     timeFormat: 'HH:mm',
+    //     interval: 60,
+    //     minTime: '07:00',
+    //     maxTime: '17:00',
+    //     defaultTime: "{{ @$data['endTime'] }}" || "07:15",
+    //     startTime: '07:00',
+    //     dynamic: false,
+    //     dropdown: true,
+    //     scrollbar: true,
+    //     zindex: 9999999,
+    //     interval: 15
+    // });
 </script>
