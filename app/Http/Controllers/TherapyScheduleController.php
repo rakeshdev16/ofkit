@@ -24,6 +24,9 @@ class TherapyScheduleController extends Controller
 {
     public function index(Request $request)
     {
+        if (Auth::user()->hasRole('manager')) {
+            return redirect()->route('schedule.index');
+        }
         $therapist = Auth::user();
         $kindergartens = Kindergarten::select('id as key', 'name as value')->whereHas('staffKindergartens', function ($query) {
             $query->where('user_id', Auth::id());

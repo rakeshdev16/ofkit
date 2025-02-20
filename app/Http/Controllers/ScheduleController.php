@@ -21,6 +21,9 @@ class ScheduleController extends Controller
 {
     public function index(Request $request)
     {
+        if (Auth::user()->hasRole('therapist')) {
+            return redirect()->route('therapy-schedule.index');
+        }
         $kindergartens = Kindergarten::select('id as key', 'name as value');
         if (Auth::user()->hasRole('manager')) {
             $kindergartens->whereHas('staffKindergartens', function($query) {
@@ -180,7 +183,7 @@ class ScheduleController extends Controller
 
             $header[] = [
                 'name' => $day,
-                'children' => $schedules,
+                'children' => isset($request->kindergarten_id) ? $schedules : [],
             ];
         }
 
@@ -218,7 +221,7 @@ class ScheduleController extends Controller
 
         return response()->json([
             'calenderHeader' => $header,
-            'calenderEvents' => $events,
+            'calenderEvents' => isset($request->kindergarten_id) ? $events : [],
             'staffTimeSlots' => $staffTimeSlots,
             'childrens' => $childrens,
             'users' => $users,

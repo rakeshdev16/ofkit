@@ -9,6 +9,15 @@ class ScheduleEventChildren extends Model
 {
     use HasFactory;
 
-        protected $fillable = ['schedule_event_id', 'children_id'];
+    protected $fillable = ['schedule_event_id', 'children_id'];
 
+    public function event()
+    {
+        return $this->belongsTo(ScheduleEvent::class, 'schedule_event_id');
+    }
+
+    public function child()
+    {
+        return $this->belongsTo(Children::class, 'children_id');
+    }
 }

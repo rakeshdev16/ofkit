@@ -32,8 +32,10 @@ class Schedule extends Model
         }
 
         if (isset($data['children_id'])) {
-            $query->whereHas('events.childrens', function ($q) use ($data) {
-                $q->where('children_id', $data['children_id']);
+            $query->with('events', function ($q) use ($data) {
+                $q->whereHas('childrens', function ($qq) use ($data) {
+                    $qq->where('children_id', $data['children_id']);
+                });
             });
         }
 
