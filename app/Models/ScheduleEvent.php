@@ -30,33 +30,60 @@ class ScheduleEvent extends Model
 
     protected static function booted()
     {
-        $childrenIds = request()->children_ids;
-        if (request()->type == 'individual' & !empty($childrenIds)) {
-            $color = json_encode(Children::where('id', $childrenIds[0] ?? null)->pluck('color')->first());
-        } else {
-            $colors = [
-                'group' => json_encode(["background-color: #ede0d4;", "color: #000000;"]),
-                'staff-meeting' => json_encode(["background-color: #2c3e50;", "color: #ffffff;"]),
-                'documentation-break' => json_encode(["background-color: #b0bec5;", "color: #000000;"]),
-                'preparation' => json_encode(["background-color: #7e57c2;", "color: #ffffff;"]),
-                'tutorial' => json_encode(["background-color: #006d77;", "color: #ffffff;"]),
-                'other' => json_encode(["background-color: #d9a300;", "color: #000000;"]),
-            ];
-            $color = $colors[request()->type] ?? NULL;
-        }
-        static::creating(function ($schedule) use($color) {
-            if (!request()->has('_is_cloning')) $schedule->color = $color;
-        });
+        // $childrenIds = request()->children_ids;
+        // if (request()->type == 'individual' & !empty($childrenIds)) {
+        //     $color = json_encode(Children::where('id', $childrenIds[0] ?? null)->pluck('color')->first());
+        // } else {
+        //     $colors = [
+        //         'group' => json_encode(["background-color: #ede0d4;", "color: #000000;"]),
+        //         'staff-meeting' => json_encode(["background-color: #2c3e50;", "color: #ffffff;"]),
+        //         'documentation-break' => json_encode(["background-color: #b0bec5;", "color: #000000;"]),
+        //         'preparation' => json_encode(["background-color: #7e57c2;", "color: #ffffff;"]),
+        //         'tutorial' => json_encode(["background-color: #006d77;", "color: #ffffff;"]),
+        //         'other' => json_encode(["background-color: #d9a300;", "color: #000000;"]),
+        //     ];
+        //     $color = $colors[request()->type] ?? NULL;
+        // }
+        // static::creating(function ($schedule) use($color) {
+        //     if (!request()->has('_is_cloning')) {
+        //         $schedule->color = static::getColorFromRequest();
+        //     }
+        // });
 
-        static::updating(function ($schedule) use($color) {
+        static::updating(function ($schedule) {
             if (in_array($schedule->type, ['documentation-break', 'preparation', 'tutorial', 'other'])) {
                 $schedule->group_name = NULL;
                 $schedule->description = NULL;
                 $schedule->file = NULL;
             }
-            if (!request()->has('_is_cloning')) $schedule->color = $color;
+            // if (!request()->has('_is_cloning')) {
+            //     $schedule->color = static::getColorFromRequest();
+            // }
         });
     }
+
+    public function setColorAttribute()
+    {
+        $this->attributes['color'] = static::getColorFromRequest();
+    }
+
+    protected static function getColorFromRequest()
+    {
+        $childrenIds = request()->children_ids;
+        if ((request()->type == 'individual' || request()->type == 'parental-guidance') && !empty($childrenIds)) {
+            return json_encode(Children::where('id', $childrenIds[0] ?? null)->pluck('color')->first());
+        }
+        $colors = [
+            'group' => json_encode(["background-color: #ede0d4;", "color: #000000;"]),
+            'staff-meeting' => json_encode(["background-color: #2c3e50;", "color: #ffffff;"]),
+            'documentation-break' => json_encode(["background-color: #b0bec5;", "color: #000000;"]),
+            'preparation' => json_encode(["background-color: #7e57c2;", "color: #ffffff;"]),
+            'tutorial' => json_encode(["background-color: #006d77;", "color: #ffffff;"]),
+            'other' => json_encode(["background-color: #d9a300;", "color: #000000;"]),
+        ];
+        return $colors[request()->type] ?? null;
+    }
+
 
     public function schedule()
     {
