@@ -267,6 +267,13 @@ class ScheduleController extends Controller
         }
 
         $schedule = isset($data['schedule_id']) ? Schedule::find($data['schedule_id']) : Schedule::filter(['status' => $data['status'], 'kindergarten_id' => $data['kindergartenId']])->first();
+        if (empty($schedule)) {
+            return response()->json([
+                'status' => false,
+                'isTimeOutSide' => $isTimeOutSide,
+                'message' => ''
+            ]);
+        }
         $events = $schedule->events()->overlappingWithTimeSlot($data);
 
         if ($data['type'] == 'therapist') {
