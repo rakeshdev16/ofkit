@@ -63,13 +63,20 @@ class ChildrenScheduleController extends Controller
         ];
 
         $events = [];
-        $schedule = Schedule::filter(['status' => 'published'])->first();
-        if (!empty($schedule) && $schedule->events() !== null) {
-            $scheduleEvents = $schedule->events()->whereHas('childrens', function($query) use ($filter) {
+        $schedule = '';
+        $scheduleIds = Schedule::filter(['status' => 'published'])->pluck('id');
+        $scheduleEvents = ScheduleEvent::whereIn('schedule_id', $scheduleIds)->whereHas('childrens', function($query) use ($filter) {
                 $query->where('children_id', $filter['children_id']);
             })->get();
-            $events = scheduleResponse($scheduleEvents, $schedule, $filter['children_id']);
-        }
+        // echo '<pre>'; print_r($schedule); die;
+        // if (!empty($schedule) && $schedule->events() !== null) {
+        //     $scheduleEvents = $schedule->events()->whereHas('childrens', function($query) use ($filter) {
+        //         $query->where('children_id', $filter['children_id']);
+        //     })->get();
+        //     $events = scheduleResponse($scheduleEvents, $schedule, $filter['children_id']);
+        // }
+
+        $events = scheduleResponse($scheduleEvents, $schedule, $filter['children_id']);
 
         return response()->json([
             'calenderHeader' => $header,
