@@ -183,6 +183,7 @@
                 let formattedEndTime = endTime.toTimeString().substring(0, 5);
                 $('.endTime').timepicker('option', 'minTime', selectedStartTime);
                 $('.endTime').val(formattedEndTime);
+                $('#therapist, #children').val(null).trigger('change');
             }
         }
     });
@@ -198,6 +199,11 @@
         dropdown: true,
         scrollbar: true,
         zindex: 9999999,
-        interval: 15
+        interval: 15,
+        change: function(time) {
+            if (time) {
+                $('#therapist, #children').val(null).trigger('change');
+            }
+        }
     });
 </script>
