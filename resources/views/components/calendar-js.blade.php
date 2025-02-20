@@ -108,19 +108,22 @@
                 args.header.html = hour.toString("HH:mm");
             },
             onTimeRangeSelected: async args => {
+                let isTimeOutSide = true;
                 if (Array.isArray(availableTime) && availableTime.length > 0) {
                     let isAvailableTime = availableTime.find(e => e.resource === args.resource);
-                    if (isAvailableTime) {
+                    if (isAvailableTime && isAvailableTime.startTime && isAvailableTime.endEnd) {
                         let availableStart = isAvailableTime.startTime.substring(0, 5);
                         let availableEnd = isAvailableTime.endEnd.substring(0, 5);
                         let selectedStart = args.start.toString("HH:mm");
                         let selectedEnd = args.end.toString("HH:mm");
                         if (selectedStart >= availableStart && selectedEnd <= availableEnd) {
                             isTimeOutSide = false;
-                        } else {
-                            isTimeOutSide = true;
                         }
+                    } else {
+                        console.log("No available time found for this resource.");
                     }
+                } else {
+                    console.log("No available time slots exist.");
                 }
 
                 if (type == 'view') {
