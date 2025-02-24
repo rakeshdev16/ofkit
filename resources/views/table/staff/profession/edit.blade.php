@@ -42,6 +42,9 @@
                                                 'value' => $profession->name,
                                             ])
                                         </div>
+                                        <div class="col-md-12">
+                                            @include('components.text-input', ['label' => __('tables.acronyms'), 'name' => 'acronyms', 'icon' => 'user', 'value' => $profession->acronyms])
+                                        </div>
                                         @include('components.active-inactive-toggle',['statusCheck' => @$profession, 'dataName' => $profession->is_assign ? $profession->name.' has assigned to staff members' : ''])
                                         <div class="col-md-6">
                                             <div class="d-md-flex d-grid align-items-center gap-3">

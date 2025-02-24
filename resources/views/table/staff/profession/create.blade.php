@@ -36,6 +36,9 @@
                                         <div class="col-md-12">
                                             @include('components.text-input', ['label' => __('tables.profession'), 'name' => 'name', 'icon' => 'user-circle'])
                                         </div>
+                                        <div class="col-md-12">
+                                            @include('components.text-input', ['label' => __('tables.acronyms'), 'name' => 'acronyms', 'icon' => 'user'])
+                                        </div>
                                         <div class="col-md-6">
                                             <div class="d-md-flex d-grid align-items-center gap-3">
                                                 <input type="hidden" name="type" value="profession">

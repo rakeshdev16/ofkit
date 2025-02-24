@@ -177,7 +177,7 @@ class ScheduleController extends Controller
                         'first_name' => $schedule->user->first_name ?? 'N/A',
                         'family_name' => $f_name ? mb_substr($f_name, 0, 1) . '.' : '',
                         'association' => @StaffKindergarten::where(['user_id' => $schedule->user_id, 'kindergarten_id' => $request->kindergarten_id])->first()->association->name,
-                        'profession' => @StaffKindergarten::where(['user_id' => $schedule->user_id, 'kindergarten_id' => $request->kindergarten_id])->first()->profession->acronyms,
+                        'profession' => @$schedule->user->profession->acronyms,
                     ];
                 })->unique('id')->values()->toArray();
 
@@ -273,6 +273,7 @@ class ScheduleController extends Controller
         if (empty($schedule)) {
             return response()->json([
                 'status' => false,
+                'type' => $data['type'],
                 'isTimeOutSide' => $isTimeOutSide,
                 'message' => ''
             ]);
@@ -298,6 +299,7 @@ class ScheduleController extends Controller
         if ($weeklyExists) {
             return response()->json([
                 'status' => true,
+                'type' => $data['type'],
                 'isTimeOutSide' => $isTimeOutSide,
                 'message' => ucfirst($data['type']) . ' is not available'
             ]);
@@ -333,6 +335,7 @@ class ScheduleController extends Controller
 
         return response()->json([
             'status' => $isSlotAvailable,
+            'type' => $data['type'],
             'isTimeOutSide' => $isTimeOutSide,
             'message' => ucfirst($data['type']) . ' is not available'
         ]);
@@ -358,11 +361,11 @@ class ScheduleController extends Controller
                 $summary = [
                     'tabam' => [
                         'individual' => $tabamScheduls->whereIn('type', ['individual', 'parental-guidance'])->sum->getWeightedCount(),
-                        'group' => $tabamScheduls->where('type', 'group')->sum->getWeightedCount(),
+                        'group' => $tabamScheduls->where('type', 'group')->groupBy('schedule_id')->map->first()->sum->getWeightedCount(),
                     ],
                     'matia' => [
                         'individual' => $matiaScheduls->whereIn('type', ['individual', 'parental-guidance'])->sum->getWeightedCount(),
-                        'group' => $matiaScheduls->where('type', 'group')->sum->getWeightedCount(),
+                        'group' => $matiaScheduls->where('type', 'group')->groupBy('schedule_id')->map->first()->sum->getWeightedCount(),
                     ]
                 ];
                 $childrenSummary .= view('components.children-hour-summary', ['children' => $children, 'summary' => $summary]);

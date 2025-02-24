@@ -14,8 +14,8 @@ class StaffSchedule extends Model
     public function scopeFilter($query, $data)
     {
         if (isset($data['kindergarten_id'])) {
-            $userIds = Kindergarten::findOrFail($data['kindergarten_id'])->staffKindergartens->pluck('user_id');
-            $query->whereIn('user_id', $userIds);
+            $userIds = StaffKindergarten::where('kindergarten_id', $data['kindergarten_id'])->pluck('user_id')->toArray();
+            $query->whereIn('user_id', $userIds)->where('kindergarten_id', $data['kindergarten_id']);
         }
         if (isset($data['user_id'])) {
             $query->where('user_id', $data['user_id']);

@@ -89,11 +89,14 @@
                 $('#appointmentFormDiv').on('select2:select select2:unselect', '#therapist, #children', function(e) {
                     const selectedOption = e.params.data;
                     // const selectedId = selectedOption.id;
-                    const selectedId = $('#therapist').val();
+                    const selectedId = $(this).val();
                     const selectedElementId = $(this).attr('id');
                     if ($('.startTime').val() == '' || $('.endTime').val() == ''  || $('#day').val() == '') {
                         $(this).val(null).trigger('change');
                         return toastr.error('Please select day, start time and end time first for checking time slot');
+                    }
+                    if (selectedElementId == 'therapist') {
+                        $('#children').val(null).trigger('change');
                     }
                     Object.keys(timeSlotData).forEach(key => delete timeSlotData[key]);
                     checkTimeSlot(selectedElementId, selectedId, $(this));
@@ -130,13 +133,13 @@
             if (type == 'therapist') {
                 isTimeOutSide = data.isTimeOutSide;
             }
-            $("#children").prop("disabled", false);
-            $('#createEventModalBtn').attr('disabled', false).removeAttr('data-bs-original-title').tooltip('dispose');
+            isTherapistAvailable = false;
+            isChildrenAvailable = false;
             if (data.status == true) {
-                if (type == 'therapist') $("#children").prop("disabled", true);
-                $('#createEventModalBtn').attr('disabled', true).attr('title', 'This selected therapist or child not available at this time').tooltip({ trigger: 'hover' });
-                toastr.error(data.message);
+                if (data.type == 'therapist') isTherapistAvailable = true;
+                if (data.type == 'children') isChildrenAvailable = true;
             }
+            submitIfAvailable(data);
         });
     }
 
@@ -193,6 +196,16 @@
             $('#staffHours').html(data.staffSummary);
             $('#scoreSummary').modal('toggle');
         });
+    }
+
+    function submitIfAvailable(data) {
+        $("#children").prop("disabled", false);
+        $('#createEventModalBtn').attr('disabled', false).removeAttr('data-bs-original-title').tooltip('dispose');
+        if (isTherapistAvailable == true || isChildrenAvailable == true) {
+            if (data.type == 'therapist') $("#children").prop("disabled", true);
+            $('#createEventModalBtn').attr('disabled', true).attr('title', 'This selected therapist or child not available at this time').tooltip({ trigger: 'hover' });
+            toastr.error(data.message);
+        }
     }
 
 </script>
