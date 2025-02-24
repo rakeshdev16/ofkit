@@ -27,19 +27,19 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th colspan="3" class="text-center">Children</th>
-                                        <th colspan="3" class="text-center">Total Appointments</th>
-                                        <th colspan="3" class="text-center">Matia</th>
+                                        <th colspan="4" class="text-center">Children</th>
+                                        <th colspan="3" class="text-center total-hours-bg">Total Appointments</th>
+                                        <th colspan="3" class="text-center tabam-bg">Matia</th>
                                         <th colspan="3" class="text-center">Tabam</th>
                                     </tr>
                                     <tr>
-                                        <th class="text-center" colspan="3"></th>
-                                        <th class="text-center">Grp</th>
-                                        <th class="text-center">Indv</th>
-                                        <th class="text-center">Total</th>
-                                        <th class="text-center">Grp</th>
-                                        <th class="text-center">Indv</th>
-                                        <th class="text-center">Total</th>
+                                        <th class="text-center" colspan="4"></th>
+                                        <th class="text-center total-hours-bg">Grp</th>
+                                        <th class="text-center total-hours-bg">Indv</th>
+                                        <th class="text-center total-hours-bg">Total</th>
+                                        <th class="text-center tabam-bg">Grp</th>
+                                        <th class="text-center tabam-bg">Indv</th>
+                                        <th class="text-center tabam-bg">Total</th>
                                         <th class="text-center">Grp</th>
                                         <th class="text-center">Indv</th>
                                         <th class="text-center">Total</th>

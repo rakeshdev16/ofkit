@@ -11,6 +11,7 @@
             $('#staffFilter').html(data.users);
             calendar(data.calenderEvents, data.calenderHeader, data.staffTimeSlots);
             $(window).scrollTop(scrollingPosition);
+            $("#kindergartenFilter").blur();
             setTimeout(() => {
                 setCalendar();
                 // $('#export').on('click', function() {

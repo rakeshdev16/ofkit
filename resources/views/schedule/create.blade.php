@@ -289,24 +289,26 @@
                     }).catch(error => toastr.error('An error occurred while processing the request.'));
                 };
 
-                let confirmMsg = isTimeOutSide == true ?
-                                    "This appointment is outside the therapist's availability hours. Are you sure you want to add this appointment?" :
-                                    "Are you sure you want to add this appointment?";
+                // let confirmMsg = isTimeOutSide == true ?
+                //                     "This appointment is outside the therapist's availability hours. Are you sure you want to add this appointment?" :
+                //                     "Are you sure you want to add this appointment?";
 
-                Swal.fire({
-                    title: confirmMsgTitle,
-                    text: confirmMsg,
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, continue it",
-                    cancelButtonText: cancelButtonText
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        submitForm();
-                    }
-                });
+                if (isTimeOutSide == true) {
+                    Swal.fire({
+                        title: confirmMsgTitle,
+                        text: "This appointment is outside the therapist's availability hours. Are you sure you want to add this appointment?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, continue it",
+                        cancelButtonText: cancelButtonText
+                    }).then((result) => {
+                        if (result.isConfirmed) submitForm();
+                    });
+                } else {
+                    submitForm();
+                }
             }
         });
         

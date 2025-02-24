@@ -351,6 +351,7 @@ class ScheduleController extends Controller
         $childrenSummary = '';
         $staffSummary = '';
         if ($schedule && (clone $schedule)->events() !== null) {
+            $loopIteration = 1;
             foreach ($childrens as $children) {
                 $tabamScheduls = (clone $schedule)->events()->whereIn('therapist_id', array_unique($tabamTherapistIds))->whereHas('childrens', function ($query) use ($children) {
                         $query->where('children_id', $children['id']);
@@ -368,7 +369,8 @@ class ScheduleController extends Controller
                         'group' => $matiaScheduls->where('type', 'group')->groupBy('schedule_id')->map->first()->sum->getWeightedCount(),
                     ]
                 ];
-                $childrenSummary .= view('components.children-hour-summary', ['children' => $children, 'summary' => $summary]);
+                $childrenSummary .= view('components.children-hour-summary', ['children' => $children, 'loopIteration' => $loopIteration, 'summary' => $summary]);
+                $loopIteration++;
             }
 
             $users = User::select('id', 'name')->whereHas('staffKindergartens', function ($query) use ($request) {
