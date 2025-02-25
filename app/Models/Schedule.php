@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Session;
 
 class Schedule extends Model
 {
@@ -28,6 +29,7 @@ class Schedule extends Model
         }
 
         if (isset($data['kindergarten_id'])) {
+            Session::put('kindergarten_id', $data['kindergarten_id']);
             $query->where('kindergarten_id', $data['kindergarten_id']);
         }
 

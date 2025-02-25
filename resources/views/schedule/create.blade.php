@@ -78,6 +78,8 @@
             <div>
                 @if (request('edit') == true)
                     <h3>Editing Kindergarten Weekly Schedule</h3>
+                @elseif (request('is_draft_edited') == true)
+                    <h3>Editing Draft Kindergarten Weekly Schedule</h3>
                 @else
                     <h3>New Kindergarten Weekly Schedule</h3>
                 @endif

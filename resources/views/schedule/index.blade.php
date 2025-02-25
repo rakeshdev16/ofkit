@@ -71,6 +71,7 @@
             let url = "{{ route('schedule.create') }}?status=draft&kindergarten_id="+kindergartenId;
             // if (btn == 'create') url += "&edit=true";
             if (getQueryParam('status') == 'draft') {
+                url = url + '&is_draft_edited=true'
                 return window.location.href = url;
             }
 

@@ -6,7 +6,7 @@
     'name' => '',
     'id' => 'kindergartenFilter',
     'icon' => 'buildings',
-    'value' => request('kindergarten_id'),
+    'value' => Session::get('kindergarten_id') ?? request('kindergarten_id'),
     'onchange' => "filterCalendar({ 'kindergarten_id': this.value })",
     'options' => $kindergartens,
     'disabled' => $route == 'schedule.create' ? 'disabled' : '',
