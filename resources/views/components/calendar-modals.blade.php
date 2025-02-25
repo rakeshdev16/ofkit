@@ -29,8 +29,8 @@
                                     <tr>
                                         <th colspan="4" class="text-center">Children</th>
                                         <th colspan="3" class="text-center total-hours-bg">Total Appointments</th>
-                                        <th colspan="3" class="text-center tabam-bg">Matia</th>
-                                        <th colspan="3" class="text-center">Tabam</th>
+                                        <th colspan="3" class="text-center tabam-bg">Tabam</th>
+                                        <th colspan="3" class="text-center">Matia</th>
                                     </tr>
                                     <tr>
                                         <th class="text-center" colspan="4"></th>
