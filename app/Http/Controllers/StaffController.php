@@ -180,11 +180,13 @@ class StaffController extends Controller
             }
 
             if (isset($request->schedule) && count($request->schedule)) {
-                // $user->days()->createMany($request->schedule);
                 foreach ($request->schedule as $day => $schedule) {
-                    foreach ($schedule as $data) {
+                    foreach ($schedule as $kindergartenId => $data) {
                         $data['day'] = $day;
-                        $user->days()->create($data);
+                        $data['kindergarten_id'] = $kindergartenId;
+                        if (!empty($data['start_time']) && !empty($data['end_time'])) {
+                            $user->days()->create($data);
+                        }
                     }
                 }
             }
@@ -193,6 +195,7 @@ class StaffController extends Controller
             DB::commit();
             return redirect()->route('staff.index');
         } catch (\Exception $e) {
+            echo '<pre>'; print_r($e->getMessage()); die;
             DB::rollback();
             return redirect()->back();
         }
@@ -336,17 +339,32 @@ class StaffController extends Controller
                 foreach ($request->schedule as $day => $schedule) {
                     // $user->days()->updateOrCreate(['id' => $schedule['id']], $schedule);
 
-                    foreach ($schedule as $data) {
+                    foreach ($schedule as  $kindergartenId => $data) {
                         $data['day'] = $day;
-                        $user->days()->updateOrCreate(['id' => $data['id']], $data);
+                        $data['kindergarten_id'] = $kindergartenId;
+                        if (!empty($data['start_time']) && !empty($data['end_time'])) {
+                            $user->days()->updateOrCreate(['id' => $data['id']], $data);
+                        }
                     }
                 }
             }
+            // if (isset($request->schedule) && count($request->schedule)) {
+            //     foreach ($request->schedule as $day => $schedule) {
+            //         foreach ($schedule as $kindergartenId => $data) {
+            //             $data['day'] = $day;
+            //             $data['kindergarten_id'] = $kindergartenId;
+            //             if (!empty($data['start_time']) && !empty($data['end_time'])) {
+            //                 $user->days()->create($data);
+            //             }
+            //         }
+            //     }
+            // }
             Session::forget('kindergartenIds');
 
             DB::commit();
             return redirect()->route('staff.show', ['staff' => $id, 'kindergarten_id' => $request->query_string]);
         } catch (\Exception $e) {
+            echo '<pre>'; print_r($e->getMessage()); die;
             DB::rollback();
             return redirect()->back();
         }
@@ -387,6 +405,7 @@ class StaffController extends Controller
             'associations' => $associations,
             'memberRoles' => $memberRoles,
             'data' => getStaffKindergarten($request->user_id, $request->id),
+            'isRendring' => true,
         ])->render();
         return response()->json(['status' => true, 'data' => $row]);
     }
@@ -410,5 +429,13 @@ class StaffController extends Controller
     {
         $row = view('components.staff-schedule', ['id' => $request->id, 'index' => $request->index])->render();
         return response()->json(['status' => true, 'data' => $row]);
+    }
+
+    public function checkStaffSlot(Request $request)
+    {
+        if (StaffSchedule::where('user_id', $request->user_id)->where('day', $request->day)) {
+            # code...
+        }
+        return response()->json(['status' => false]);
     }
 }

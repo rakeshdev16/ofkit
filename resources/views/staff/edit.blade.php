@@ -32,7 +32,7 @@
                             <div class="card">
                                 <div class="card-body p-4">
                                     <h5 class="mb-4">{{ __('staff.editStaffDetail') }}</h5>
-                                    <form class="row g-3" id="updateStaffForm" action="{{ route('staff.update', $staff->id) }}" method="POST" enctype="multipart/form-data">
+                                    <form class="row g-3" id="addStaffForm" action="{{ route('staff.update', $staff->id) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
                                         @include('components.upload-profile', [
@@ -208,16 +208,16 @@
                                         <div class="col-md-12 kindergarten-section" style="display: {{ old('kindergarten_id') || count($staff->staffKindergartens) > 0 ? '' : 'none' }}">
                                             <div class="time-table">
                                                 <h4 class="text-center">{{ __('staff.kindergartenTh') }}</h4>
-                                                <div class="table-responsive" style="display: block !important;">
-                                                    <table class="table table-borderd" style="width:100%;">
-                                                        <thead>
+                                                <div class="table-responsive selected-kindergarten" style="display: block !important;">
+                                                    {{-- <table class="table table-borderd" style="width:100%;"> --}}
+                                                        {{-- <thead>
                                                             <tr>
                                                                 <th>{{ __('staff.name') }}</th>
                                                                 <th>{{ __('staff.professionalRole') }}</th>
                                                                 <th>{{ __('staff.association') }}</th>
                                                             </tr>
-                                                        </thead>
-                                                        <tbody class="selected-kindergarten">
+                                                        </thead> --}}
+                                                        {{-- <tbody class="selected-kindergarten"> --}}
 
                                                             @if (count(old('kindergarten_id', @$staffKindergartens ?? [])) > 0)
                                                                 @foreach (old('kindergarten', @$staffKindergartens ?? []) as $data)
@@ -227,6 +227,7 @@
                                                                         'professions' => $professions,
                                                                         'memberRoles' => $memberRoles,
                                                                         'data' => getStaffKindergarten($staff->id, @$data),
+                                                                        'schedule' => $staff->days
                                                                     ])
                                                                 @endforeach
                                                             @else
@@ -237,21 +238,22 @@
                                                                         'professions' => $professions,
                                                                         'memberRoles' => $memberRoles,
                                                                         'data' => $kindergarten,
+                                                                        'schedule' => $staff->days
                                                                     ])
                                                                 @endforeach
                                                             @endif
-                                                        </tbody>
-                                                    </table>
+                                                        {{-- </tbody> --}}
+                                                    {{-- </table> --}}
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="time-table">
-                                                <h4 class="text-center">{{ __('staff.scheduleHeading') }}</h4>
-                                                @php
+                                        {{-- <div class="col-md-12">
+                                            <div class="time-table"> --}}
+                                                {{-- <h4 class="text-center">{{ __('staff.scheduleHeading') }}</h4> --}}
+                                                {{-- @php
                                                     $days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-                                                @endphp
-                                                <div class="bg-white p-2">
+                                                @endphp --}}
+                                                {{-- <div class="bg-white p-2">
                                                     <div class="row">
                                                         <div class="col-md-2"><h5>Day</h5></div>
                                                         <div class="col-md-10"><h5>Kindergarten</h5></div>
@@ -307,7 +309,7 @@
                                                             </div>
                                                         </div>
                                                     @endforeach
-                                                </div>
+                                                </div> --}}
                                                 {{-- <div class="table-responsive" style="display: block !important;">
                                                     <table class="table table-borderd" style="width:100%;">
                                                         <tr>
@@ -347,8 +349,8 @@
                                                         @endforeach
                                                     </table>
                                                 </div> --}}
-                                            </div>
-                                        </div>
+                                            {{-- </div>
+                                        </div> --}}
                                         @include('components.active-inactive-toggle', ['statusCheck' => @$staff, 'dataName' => $staff->is_assign ? $staff->first_name . ' has assigned to kindergarten or cluster' : '' ])
                                         <input type="hidden" name="query_string" value="{{ request()->kindergarten_id }}">
                                         <div class="col-md-6">
@@ -379,33 +381,29 @@
         @include('staff.script')
         <script>
             var ids = [];
-            let isTimeChanged = false;
-            $(document).on('click', '.time-picker', function() {
-                isTimeChanged = true;
-            });
 
-            $(document).on('click', '#updateStaffFormBtn', function(e) {
-                e.preventDefault();
-                console.log("time-picker", isTimeChanged);
-                if (isTimeChanged) {
-                    Swal.fire({
-                        title: confirmMsgTitle,
-                        text: "Appointment may exists for this therapist outside of working hours. Do you still want to continue?",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "Yes, continue it",
-                        cancelButtonText: cancelButtonText
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $('#updateStaffForm').submit();
-                        }
-                    });
-                } else {
-                    $('#updateStaffForm').submit();
-                }
-            });
+            // $(document).on('click', '#updateStaffFormBtn', function(e) {
+            //     e.preventDefault();
+            //     console.log("time-picker", isTimeChanged);
+            //     if (isTimeChanged) {
+            //         Swal.fire({
+            //             title: confirmMsgTitle,
+            //             text: "Appointment may exists for this therapist outside of working hours. Do you still want to continue?",
+            //             icon: "warning",
+            //             showCancelButton: true,
+            //             confirmButtonColor: "#3085d6",
+            //             cancelButtonColor: "#d33",
+            //             confirmButtonText: "Yes, continue it",
+            //             cancelButtonText: cancelButtonText
+            //         }).then((result) => {
+            //             if (result.isConfirmed) {
+            //                 $('#updateStaffForm').submit();
+            //             }
+            //         });
+            //     } else {
+            //         $('#updateStaffForm').submit();
+            //     }
+            // });
 
             $(document).on('click', '.removeStaffDocument', function() {
                 var id = $(this).data('id');

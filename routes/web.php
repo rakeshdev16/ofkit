@@ -88,6 +88,7 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
         Route::get('send-message', 'sendMessage')->name('sendMessage');
         Route::get('schedule-time-row', 'scheduleTimeRow')->name('scheduleTimeRow');
         Route::post('validate-staff-field', 'validateField')->name('validate.staff.field');
+        Route::post('check-staff-slot', 'checkStaffSlot')->name('check.staff-slot');
     });
     Route::controller(ChildrenController::class)->group(function () {
         Route::post('upload-children-profile', 'uploadProfile')->name('uploadChildrenProfile');

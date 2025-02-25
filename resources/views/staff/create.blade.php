@@ -155,9 +155,9 @@
                                         <div class="col-md-12 kindergarten-section" style="display: {{ @$kindergartenCount > 0 ? 'block' : 'none' }}">
                                             <div class="time-table">
                                                 <h4 class="text-center">{{ __('staff.kindergartenTh') }}</h4>
-                                                <div class="table-responsive" style="display: block !important;">
-                                                    <table class="table table-borderd" style="width:100%;">
-                                                        <thead>
+                                                <div class="table-responsive selected-kindergarten" style="display: block !important;">
+                                                    {{-- <table class="table table-borderd" style="width:100%;"> --}}
+                                                        {{-- <thead>
                                                             <tr>
                                                                 <th>{{ __('staff.name') }}</th>
                                                                 <th>{{ __('staff.professionalRole') }}</th>
@@ -175,12 +175,12 @@
                                                                     ])
                                                                 @endfor
                                                             @endif
-                                                        </tbody>
-                                                    </table>
+                                                        </tbody> --}}
+                                                    {{-- </table> --}}
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
+                                        {{-- <div class="col-md-12">
                                             <div class="time-table">
                                                 <h4 class="text-center">{{ __('staff.scheduleHeading') }}</h4>
                                                 @php
@@ -222,14 +222,6 @@
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody class="{{ $day }}-body">
-                                                                                    {{-- @if ($kindergartenCount > 0)
-                                                                                        @for ($i = 0; $i < $kindergartenCount; $i++)
-                                                                                            @include('components.staff-schedule', [
-                                                                                                'id' => @old('kindergarten_id', [])[$i],
-                                                                                                'index' => $i,
-                                                                                            ])
-                                                                                        @endfor
-                                                                                    @endif --}}
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
@@ -239,48 +231,8 @@
                                                         </div>
                                                     @endforeach
                                                 </div>
-
-                                                {{-- <div class="table-responsive" style="display: block !important;">
-                                                    <table class="table table-borderd weekly-schedule" style="width:100%;">
-                                                        <tr>
-                                                            <th>{{ __('staff.day') }}</th>
-                                                            <th>{{ __('staff.start') }}</th>
-                                                            <th>{{ __('staff.end') }}</th>
-                                                            <th>Kindergarten</th>
-                                                        </tr>
-                                                        @foreach ($days as $day)
-                                                            @php
-                                                                $index = $loop->index;
-                                                                $startTime = 'schedule.' . $index . '.start_time';
-                                                                $endTime = 'schedule.' . $index . '.end_time';
-                                                            @endphp
-                                                            <tr>
-                                                                <td>
-                                                                    <h6 class="pt-2">{{ __('staff.' . $day) }}</h6>
-                                                                    <input type="hidden" name="schedule[{{ $loop->index }}][day]" value="{{ $day }}">
-                                                                </td>
-                                                                <td>
-                                                                    <input type="time" name="schedule[{{ $loop->index }}][start_time]" class="form-control time-picker startTime" data-index="{{ $index }}" value="{{ old($startTime) }}">
-                                                                    @error($startTime)
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </td>
-                                                                <td>
-                                                                    <input type="time" name="schedule[{{ $loop->index }}][end_time]" class="form-control time-picker endTime{{ $index }}" data-index="{{ $index }}" value="{{ old($endTime) }}">
-                                                                    @error($endTime)
-                                                                        <span class="invalid-feedback" role="alert">
-                                                                            <strong>{{ $message }}</strong>
-                                                                        </span>
-                                                                    @enderror
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </table>
-                                                </div> --}}
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="col-md-12">
                                             <div class="d-md-flex d-grid align-items-center gap-3">
                                                 <input type="hidden" name="form_changed" id="formChanged" value="{{ old('form_changed') }}">
@@ -305,6 +257,5 @@
         @include('components.cropper-script')
         @include('staff.script')
         <script>
-
         </script>
     @endpush

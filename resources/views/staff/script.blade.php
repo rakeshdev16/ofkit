@@ -1,18 +1,23 @@
 <script>
     $(document).ready(function() {
-        $('.startTime').each(function() {
-            updateEndTimeOptions(this, false);
-        });
-        updateEndTimeOptions(0);
+        let isTimeChanged = false;
+        // $(document).on('change', '.timepicker', function() {
+        //     isTimeChanged = true;
+        // });
+        // $('.startTime').each(function() {
+        //     updateEndTimeOptions(this, false);
+        // });
         $('.kindergarten').select2();
         $('.scheduleKindergarten').select2();
 
         var selectedKindergartenOptions = $('.kindergarten').select2('data');
-        selectedKindergartenOptions.forEach(function(option, index) {
-            var id = option.id;
-            var name = option.text;
-            weeklyKindergartenOptions(id, name);
-        });
+        if (selectedKindergartenOptions) {
+            selectedKindergartenOptions.forEach(function(option, index) {
+                var id = option.id;
+                var name = option.text;
+                weeklyKindergartenOptions(id, name);
+            });
+        }
 
         $.validator.addMethod("regex", function (value, element, param) {
             if (this.optional(element)) {
@@ -111,7 +116,25 @@
                 }
             },
             submitHandler: function (form) {
-                form.submit();
+                let route = "{{ Route::currentRouteName(); }}"
+                if (isTimeChanged) {
+                    Swal.fire({
+                        title: confirmMsgTitle,
+                        text: "Appointment may exists for this therapist outside of working hours. Do you still want to continue?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, continue it",
+                        cancelButtonText: cancelButtonText
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                } else {
+                    form.submit();
+                }
             }
         });
 
@@ -175,32 +198,32 @@
         var id = e.params.data.id;
         var name = e.params.data.text;
         var user_id = $('#userId').val();
-        var index = $('.selected-kindergarten tr').length;
+        var index = $('.selected-kindergarten table').length;
         getKindergaternRow(id, user_id, index);
-        weeklyKindergartenOptions(id, name);
-        setTimeout(() => {
-            kindergartenValidationRules(index);
-        }, 100);
+        // weeklyKindergartenOptions(id, name);
+        // setTimeout(() => {
+        //     kindergartenValidationRules(index);
+        // }, 100);
     });
 
     var unselectedKindergarten = [];
     $('.kindergarten').on('select2:unselect', function(e) {
         var id = e.params.data.id;
-        const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-        days.map((day) => {
-            console.log(day);
-            $('.scheduleKindergarten').find('option[value="' + id + '"]').remove();
-            $('.' + day + '-tr-' + id).remove();
-            if ($('.'+day).length == 0) {
-                $('.'+day+'-section').hide();
-            }
-        });
+        // const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        // days.map((day) => {
+        //     console.log(day);
+        //     $('.scheduleKindergarten').find('option[value="' + id + '"]').remove();
+        //     $('.' + day + '-tr-' + id).remove();
+        //     if ($('.'+day).length == 0) {
+        //         $('.'+day+'-section').hide();
+        //     }
+        // });
         if (id) {
             unselectedKindergarten.push(id);
         }
         $('#unselectedKindergarten').val(unselectedKindergarten);
-        $('.tr-' + id).remove();
-        if ($('.selected-kindergarten tr').length === 0) {
+        $('.table-' + id).remove();
+        if ($('.selected-kindergarten table').length === 0) {
             $('.kindergarten-section').hide();
         }
         updateIndexes();
@@ -224,7 +247,7 @@
             },
             success: function(data) {
                 if (data.status == true) {
-                    if ($('.tr-' + id).length == 0) {
+                    if ($('.table-' + id).length == 0) {
                         $('.selected-kindergarten').append(data.data);
                         updateIndexes();
                     }
@@ -238,7 +261,7 @@
     }
 
     function updateIndexes() {
-        $('.selected-kindergarten tr').each(function(index, element) {
+        $('.selected-kindergarten table').each(function(index, element) {
             $(this).find('input[name^="kindergarten"]').each(function() {
                 var name = $(this).attr('name').replace(/\[\d+\]/, '[' + index + ']');
                 $(this).attr('name', name);
@@ -266,11 +289,11 @@
             'name' => '${name}',
             'data' => ['start_time' => '', 'end_time' => '']
         ])`);
-        // setTimeout(() => {
-        //     updateEndTimeOptions(index)
-        // }, 100);
         section.show();
-        scheduleValidationRules(day, index);
+        setTimeout(() => {
+            // updateEndTimeOptions(index)
+            scheduleValidationRules(day, index);
+        }, 1000);
     });
 
     $('.scheduleKindergarten').on('select2:unselect', function(e) {
@@ -322,12 +345,22 @@
     }
 
     function updateEndTimeOptions(startTimeElement, shouldClearEndTime) {
-        const endTime = $(startTimeElement).data('index');
-        const endTimeSelect = document.querySelector('.' + endTime);
+        const endTimeClass = $(startTimeElement).data('index');
+        const endTimeSelect = document.querySelector('.' + endTimeClass);
         let startTime = $(startTimeElement).val();
-        if (endTimeSelect) {
+        if (endTimeSelect !== null) {
             if (shouldClearEndTime) {
                 endTimeSelect.value = "";
+
+                 $(endTimeSelect).rules("add", {
+                    required: function () {
+                        return startTime !== "";
+                    },
+                    messages: {
+                        required: "End time is required if start time is selected.",
+                    }
+                });
+                $(endTimeSelect).valid();
             }
             Array.from(endTimeSelect.options).forEach((option) => {
                 if (option.value && option.value <= startTime) {
@@ -342,4 +375,5 @@
     $(document).on('change', '.startTime', function() {
         updateEndTimeOptions(this, true);
     });
+
 </script>

@@ -118,15 +118,15 @@
                                         <div class="col-md-12 kindergarten-section">
                                             <div class="time-table table-responsive" style="display: block !important;">
                                                 <h4 class="text-center">{{ __('staff.kindergartenTh') }}</h4>
-                                                <table class="table table-borderd" style="width:100%">
-                                                    <thead>
+                                                <table class="table table-borderd selected-kindergarten" style="width:100%">
+                                                    {{-- <thead>
                                                         <tr>
                                                             <th>{{ __('staff.name') }}</th>
                                                             <th>{{ __('staff.professionalRole') }}</th>
                                                             <th>{{ __('staff.association') }}</th>
                                                         </tr>
-                                                    </thead>
-                                                    <tbody class="selected-kindergarten">
+                                                    </thead> --}}
+                                                    {{-- <tbody class="selected-kindergarten"> --}}
                                                         @forelse ($staffKindergartens as $kindergarten)
                                                             @include('components.kindergarten-tr', [
                                                                 'id' => @$kindergarten['kindergarten_id'],
@@ -134,23 +134,24 @@
                                                                 'professions' => $professions,
                                                                 'roles' => $memberRoles,
                                                                 'data' => $kindergarten,
+                                                                'schedule' => $staff->days
                                                             ])
                                                         @empty
                                                             <tr class="text-center">
                                                                 <td colspan="3">{{ __('comon.emptyTableMsg') }}</td>
                                                             </tr>
                                                         @endforelse
-                                                    </tbody>
-                                                </table>
+                                                    {{-- </tbody>
+                                                </table> --}}
                                             </div>
                                         </div>
                                         <div class="col-md-12 mt-4">
-                                            <div class="time-table">
-                                                <h4 class="text-center">{{ __('staff.scheduleHeading') }}</h4>
+                                            {{-- <div class="time-table"> --}}
+                                                {{-- <h4 class="text-center">{{ __('staff.scheduleHeading') }}</h4>
                                                 @php
                                                     $days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-                                                @endphp
-                                                <div class="table-responsive" style="display: block !important;">
+                                                @endphp --}}
+                                                {{-- <div class="table-responsive" style="display: block !important;">
                                                     <table class="table table-borderd" style="width:100%;">
                                                         <thead>
                                                             <tr>
@@ -171,7 +172,7 @@
                                                             @endforeach
                                                         </tbody>
                                                     </table>
-                                                </div>
+                                                </div> --}}
                                                 {{-- <div class="table-responsive" style="display: block !important;">
                                                     <table class="table table-borderd" style="width:100%;">
                                                         <thead>
@@ -201,7 +202,7 @@
                                                         </tbody>
                                                     </table>
                                                 </div> --}}
-                                            </div>
+                                            {{-- </div> --}}
                                         </div>
                                         @if (isset($staff->documents) && count($staff->documents) > 0)
                                             {{-- <div class="col-md-12">
