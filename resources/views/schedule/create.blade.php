@@ -77,9 +77,7 @@
         <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between mb-3">
             <div>
                 @if (request('edit') == true)
-                    <h3>Editing Kindergarten Weekly Schedule</h3>
-                @elseif (request('is_draft_edited') == true)
-                    <h3>Editing Draft Kindergarten Weekly Schedule</h3>
+                    <h3>Edit Draft Kindergarten Weekly Schedule</h3>
                 @else
                     <h3>New Kindergarten Weekly Schedule</h3>
                 @endif
@@ -186,7 +184,7 @@
             let therapist = $('#therapist');
             let children = $('#children');
             therapist.val().length > 0 ? checkTimeSlot(therapist.attr('id'), therapist.val(), therapist) : '';
-            // children.val().length > 0 ? checkTimeSlot(children.attr('id'), children.val(), children) : '';
+            children.val().length > 0 ? checkTimeSlot(children.attr('id'), children.val(), children) : '';
         });
 
         $(document).on('click', '#newAppointment', function() {
