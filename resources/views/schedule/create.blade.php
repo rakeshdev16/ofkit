@@ -353,10 +353,11 @@
                         $('#publishEventFormBtn').html('Save').attr('disabled', false);
                         if (data.status == true) {
                             toastr.success(data.message);
-                            $('#publishEventForm').trigger("reset");
-                            $('#eventDateModal').modal('toggle');
-                            filterCalendar({'status': status});
-                            $('#eventIds').val('');
+                            window.location.href = "{{ route('schedule.index') }}";
+                            // $('#publishEventForm').trigger("reset");
+                            // $('#eventDateModal').modal('toggle');
+                            // filterCalendar({'status': status});
+                            // $('#eventIds').val('');
                         } else {
                             $('#isAgree').val(true);
                             // $('#isAgreeMsg').show();
