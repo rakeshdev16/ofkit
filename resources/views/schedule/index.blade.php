@@ -69,14 +69,14 @@
             let kindergartenId = getQueryParam('kindergarten_id');
 
             let url = "{{ route('schedule.create') }}?status=draft&kindergarten_id="+kindergartenId;
+            if (btn == 'edit') {
+                url = url + '&edit=true';
+            }
             // if (btn == 'create') url += "&edit=true";
             if (getQueryParam('status') == 'draft') {
                 return window.location.href = url;
             }
 
-            if (btn == 'edit') {
-                url = url + '&edit=true';
-            }
 
             let query = btn == 'edit' ?? "edit=true";
             Swal.fire({
