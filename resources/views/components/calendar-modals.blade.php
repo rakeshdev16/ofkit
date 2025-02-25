@@ -34,14 +34,14 @@
                                     </tr>
                                     <tr>
                                         <th class="text-center" colspan="4"></th>
-                                        <th class="text-center total-hours-bg">Grp</th>
                                         <th class="text-center total-hours-bg">Indv</th>
+                                        <th class="text-center total-hours-bg">Grp</th>
                                         <th class="text-center total-hours-bg">Total</th>
-                                        <th class="text-center tabam-bg">Grp</th>
                                         <th class="text-center tabam-bg">Indv</th>
+                                        <th class="text-center tabam-bg">Grp</th>
                                         <th class="text-center tabam-bg">Total</th>
-                                        <th class="text-center">Grp</th>
                                         <th class="text-center">Indv</th>
+                                        <th class="text-center">Grp</th>
                                         <th class="text-center">Total</th>
                                     </tr>
                                 </thead>
