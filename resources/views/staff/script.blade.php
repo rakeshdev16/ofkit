@@ -1,4 +1,5 @@
 <script>
+    let timeSlots = [];
     $(document).ready(function() {
         let isTimeChanged = false;
         // $(document).on('change', '.timepicker', function() {
@@ -252,6 +253,7 @@
                         updateIndexes();
                     }
                     $('.kindergarten-section').show();
+                    inilizeTimePicker();
                 } else {
                     $('.selected-kindergarten').html('');
                     $('.kindergarten-section').hide();
@@ -376,4 +378,203 @@
         updateEndTimeOptions(this, true);
     });
 
+
+    function inilizeTimePicker() {
+        let isRendering = true;
+        $(".timepicker").each(function () {
+            var $this = $(this);
+            var existingStartTime = $this.val();
+            $this.timepicker({
+                timeFormat: "H:mm",
+                interval: 15,
+                minTime: "07",
+                maxTime: "23:00",
+                defaultTime: existingStartTime ? existingStartTime : null,
+                startTime: null,
+                dynamic: true,
+                dropdown: true,
+                scrollbar: false,
+                change: function () {
+                    if (isRendering) return;
+                    let day = $(this).data('day');
+                    let key = $(this).data('index');
+                    var selectedTime = $this.val();
+                    if (!isRendering) {
+                        deleteSlot(key);
+                    };
+                    // var endTimeClass = $this.attr("data-index");
+                    var $endTimePicker = $(this).parent().siblings().find(".end-timepicker");
+                    // var $endTimePicker = $("." + endTimeClass);
+                    if (selectedTime == '') {
+                        $endTimePicker.val('');
+                    }
+                    console.log("slots", timeSlots);
+                    if (isTimeOverlapping(day, selectedTime, null)) {
+                        $(this).val('');
+                        toastr.error("This time slot not available");
+                    }
+                    if ($endTimePicker.length) {
+                        var existingEndTime = $endTimePicker.data("end-time");
+                        var minEndTime = addMinutes(selectedTime, 15);
+                        $endTimePicker.timepicker("option", "minTime", minEndTime);
+                        if (existingEndTime) {
+                            $endTimePicker.val(existingEndTime);
+                        } else {
+                            $endTimePicker.val("").prop("required", true);;
+                        }
+                    }
+                }
+            });
+
+            if (existingStartTime) {
+                $this.val(existingStartTime);
+            }
+        });
+
+        function addMinutes(time, minutes) {
+            var [hour, min] = time.split(":").map(Number);
+            var date = new Date();
+            date.setHours(hour);
+            date.setMinutes(min + minutes);
+            return date.getHours().toString().padStart(2, '0') + ":" + date.getMinutes().toString().padStart(2, '0');
+        }
+
+        setTimeout(() => {
+            isRendering = false;
+        }, 500);
+
+
+        $(".end-timepicker").each(function () {
+            var $this = $(this);
+            var existingEndTime = $this.val();
+            $this.timepicker({
+                timeFormat: "H:mm",
+                interval: 15,
+                minTime: "07:15",
+                maxTime: "23:00",
+                defaultTime: existingEndTime ? existingEndTime : "07",
+                startTime: "01:00",
+                dynamic: true,
+                dropdown: true,
+                scrollbar: false,
+                change: function() {
+                    let startTime = $(this).parent().parent().find('.timepicker').val();
+                    let endTime = $(this).val();
+                    let day = $(this).data('day');
+                    let key = $(this).data('index');
+                    if (!isRendering) {
+                        deleteSlot(key);
+                    };
+                    if (isTimeOverlapping(day, startTime, endTime)) {
+                        $(this).val('');
+                        toastr.error("This time slot is not available");
+                        return true;
+                    }
+                    if (startTime && endTime && day) {
+                        addSlot(key, day, startTime, endTime);
+                        console.log("staffTimeSlot", timeSlots);
+                    }
+                }
+            });
+
+            $this.on("keyup", function () {
+                let endTime = $(this).val();
+                let key = $(this).data('index');
+                if (endTime == '') {
+                    deleteSlot(key);
+                }
+            });
+
+            if (existingEndTime) {
+                $this.val(existingEndTime);
+            }
+        });
+
+        function addSlot(key, day, startTime, endTime) {
+            startTime = startTime.replace(':', '');
+            endTime = endTime.replace(':', '');
+
+            const existingIndex = timeSlots.findIndex(slot => slot.id === key);
+
+            if (existingIndex !== -1) {
+                timeSlots[existingIndex] = { id: key, name: day, startTime, endTime };
+                console.log("Slot updated successfully!", timeSlots);
+            } else {
+                timeSlots.push({ id: key, name: day, startTime, endTime });
+                console.log("Slot added successfully!", timeSlots);
+            }
+        }
+
+        function deleteSlot(key) {
+            timeSlots = timeSlots.filter(slot => !(slot.id === key));
+            console.log("Slot deleted successfully!", timeSlots);
+        }
+
+        function isTimeOverlapping(day, startTime, endTime) {
+            if (startTime) {
+                startTime = startTime.replace(':', '');
+                endTime = endTime ? endTime.replace(':', '') : null;
+
+                return timeSlots.some(slot => {
+                    if (slot.name !== day) return false;
+                    let existingStart = parseInt(slot.startTime, 10);
+                    let existingEnd = parseInt(slot.endTime, 10);
+                    let newStart = parseInt(startTime, 10);
+                    let newEnd = endTime ? parseInt(endTime, 10) : null;
+
+                    if (!newEnd) {
+                        return (newStart >= existingStart && newStart < existingEnd);
+                    }
+
+                    return (
+                        (newStart >= existingStart && newStart < existingEnd) || // New start falls inside an existing slot
+                        (newEnd > existingStart && newEnd <= existingEnd) || // New end falls inside an existing slot
+                        (newStart <= existingStart && newEnd >= existingEnd) // New slot completely covers an existing slot
+                    );
+                });
+            }
+
+            return false; // Default case if no valid startTime or endTime is provided
+        }
+
+
+    };
+
+    function addMoreTime(element, day) {
+        let id = $(element).data('id');
+        let key = $(element).data('key');
+        let index = $('tr.'+day+id).length;
+        let parentElement = $(element).closest("tr");
+        let clonedElement = parentElement.clone();
+        // $('.'+day+''+id).find('.form-control').addClass('no-click').attr('readonly', true);
+        clonedElement.find(".form-control").val("");
+        clonedElement.find("input").each(function () {
+            // $(this).attr("data-index", id+day+(key+1));
+            let nameAttr = $(this).attr("name");
+            if (nameAttr) {
+                nameAttr = nameAttr.replace(/\[(\d+)\]\[([^\]]+)\]\[(\d+)\]/, function(match, firstIndex, day, thirdIndex) {
+                    return `[${firstIndex}][${day}][${index}]`; // Increment third index
+                });
+                $(this).attr("name", nameAttr);
+                $(this).attr("data-index", id+day+(index+1));
+                if ($(this).attr("type") === 'hidden') {
+                    $(this).val('');
+                }
+            }
+        });
+        clonedElement.find("button").replaceWith(`
+            <button type="button" class="btn btn-danger" onclick="removeDay(this);" data-id="${key+index}">
+                <i class="fa fa-minus"></i>
+            </button>
+        `);
+
+        $('.'+day+''+id).parent().parent().last().after(clonedElement);
+        inilizeTimePicker();
+    }
+
+    function removeDay(element) {
+        let key = $(element).data('id');
+        $(element).closest("tr").remove();
+        timeSlots = timeSlots.filter(slot => !(slot.id === key));
+    }
 </script>

@@ -828,6 +828,12 @@ button[disabled] {
     }
 }
 
+.no-click {
+    pointer-events: none;
+    background-color: #e9ecef;
+    /* Light gray background to indicate it's disabled */
+}
+
 .green-light {
     color: #00AEA7;
 }

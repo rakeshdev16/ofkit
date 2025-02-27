@@ -178,14 +178,15 @@ class StaffController extends Controller
                     ]);
                 }
             }
-
             if (isset($request->schedule) && count($request->schedule)) {
-                foreach ($request->schedule as $day => $schedule) {
-                    foreach ($schedule as $kindergartenId => $data) {
-                        $data['day'] = $day;
-                        $data['kindergarten_id'] = $kindergartenId;
-                        if (!empty($data['start_time']) && !empty($data['end_time'])) {
-                            $user->days()->create($data);
+                foreach ($request->schedule as $kindergartenId => $schedule) {
+                    foreach ($schedule as $day => $data) {
+                        foreach ($data as $time) {
+                            $time['day'] = $day;
+                            $time['kindergarten_id'] = $kindergartenId;
+                            if (!empty($time['start_time']) && !empty($time['end_time'])) {
+                                $user->days()->create($time);
+                            }
                         }
                     }
                 }
@@ -336,14 +337,15 @@ class StaffController extends Controller
             }
             $user->days()->delete();
             if (isset($request->schedule) && count($request->schedule)) {
-                foreach ($request->schedule as $day => $schedule) {
+                foreach ($request->schedule as $kindergartenId => $schedule) {
                     // $user->days()->updateOrCreate(['id' => $schedule['id']], $schedule);
-
-                    foreach ($schedule as  $kindergartenId => $data) {
-                        $data['day'] = $day;
-                        $data['kindergarten_id'] = $kindergartenId;
-                        if (!empty($data['start_time']) && !empty($data['end_time'])) {
-                            $user->days()->updateOrCreate(['id' => $data['id']], $data);
+                    foreach ($schedule as $day => $data) {
+                        foreach ($data as $time) {
+                            $time['day'] = $day;
+                            $time['kindergarten_id'] = $kindergartenId;
+                            if (!empty($time['start_time']) && !empty($time['end_time'])) {
+                                $user->days()->updateOrCreate(['id' => $time['id']], $time);
+                            }
                         }
                     }
                 }

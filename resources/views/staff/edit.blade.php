@@ -381,6 +381,7 @@
         @include('staff.script')
         <script>
             var ids = [];
+            inilizeTimePicker();
 
             // $(document).on('click', '#updateStaffFormBtn', function(e) {
             //     e.preventDefault();

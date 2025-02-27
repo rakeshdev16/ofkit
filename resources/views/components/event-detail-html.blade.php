@@ -26,7 +26,7 @@
     @endif
     <div class="row mb-2 fs-6 text-dark">
         <div class="col-md-1"><i class="fa fa-calendar"></i></div>
-        <div class="col-md-11">{{ date('H:i', strtotime($data->start_time)) }} - {{ date('H:i', strtotime($data->end_time)) }}</div>
+        <div class="col-md-11">({{ $data->day }}) {{ date('H:i', strtotime($data->start_time)) }} - {{ date('H:i', strtotime($data->end_time)) }}</div>
     </div>
     <div class="row mb-2 fs-6 text-dark">
         <div class="col-md-1"><i class="fa fa-clock-o"></i></div>
