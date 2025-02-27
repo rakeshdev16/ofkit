@@ -117,7 +117,7 @@ class Children extends Model
     {
         if (request()->kindergarten_id) {
             $colors = json_decode(Kindergarten::where('id', request()->kindergarten_id)->pluck('color')->first());
-            $query = self::where('kindergarten_id', request()->kindergarten_id)->latest('id');
+            $query = self::where('kindergarten_id', request()->kindergarten_id)->whereNotNull('color')->orderBy('updated_at', 'DESC');
             if (request()->has('updating') && $this->id) {
                 $query->where('id', '!=', $this->id);
             }

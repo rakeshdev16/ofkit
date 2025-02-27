@@ -240,8 +240,10 @@ class ChildrenController extends Controller
 
         try {
 
-            request()->merge(['updating' => true]);
             $children = Children::findOrFail($id);
+            if ($request->kindergarten_id !== $children->kindergarten_id) {
+                request()->merge(['updating' => true]);
+            }
             $children->update([
                 'user_id' => Auth::id(),
                 'kindergarten_id' => $request->kindergarten_id,
@@ -302,6 +304,7 @@ class ChildrenController extends Controller
             DB::commit();
             return redirect()->route('children.show', ['child' => $id, 'kindergarten_id' => $request->query_string]);
         } catch (\Exception $e) {
+            echo '<pre>'; print_r($e->getMessage()); die;
             DB::rollback();
             return redirect()->back();
         }
