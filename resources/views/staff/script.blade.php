@@ -402,9 +402,7 @@
                     if (!isRendering) {
                         deleteSlot(key);
                     };
-                    // var endTimeClass = $this.attr("data-index");
                     var $endTimePicker = $(this).parent().siblings().find(".end-timepicker");
-                    // var $endTimePicker = $("." + endTimeClass);
                     if (selectedTime == '') {
                         $endTimePicker.val('');
                     }
@@ -426,12 +424,26 @@
                 }
             });
 
-            $this.on("keyup", function () {
+            $this.on("blur", function () {
+                var $input = $(this);
+                var timeValue = $input.val().trim();
+
+                if (timeValue === "") return;
+
+                var timeFormat = /^([0-9]|[01][0-9]|2[0-3]):[0-5][0-9]$/;
+
+                if (!timeFormat.test(timeValue)) {
+                    $input.val("");
+                    toastr.error("Invalid time format. Please enter in HH:mm format.");
+                }
+
                 var $endTimePicker = $(this).parent().siblings().find(".end-timepicker");
-                if ($(this).val() == '') {
+                if (timeValue === '') {
                     $endTimePicker.val("").prop("required", false);
                 }
             });
+
+
 
             if (existingStartTime) {
                 $this.val(existingStartTime);
@@ -486,10 +498,17 @@
                 }
             });
 
-            $this.on("keyup", function () {
-                let endTime = $(this).val();
+            $this.on("blur", function () {
                 let key = $(this).data('index');
-                if (endTime == '') {
+                var $input = $(this);
+                var timeValue = $input.val().trim();
+                if (timeValue === "") return;
+                var timeFormat = /^([0-9]|[01][0-9]|2[0-3]):[0-5][0-9]$/;
+                if (!timeFormat.test(timeValue)) {
+                    $input.val("");
+                    toastr.error("Invalid time format. Please enter in HH:mm format.");
+                }
+                if (timeValue == '') {
                     deleteSlot(key);
                 }
             });
@@ -545,8 +564,6 @@
 
             return false; // Default case if no valid startTime or endTime is provided
         }
-
-
     };
 
     function addMoreTime(element, day) {
@@ -558,7 +575,6 @@
         // $('.'+day+''+id).find('.form-control').addClass('no-click').attr('readonly', true);
         clonedElement.find(".form-control").val("");
         clonedElement.find("input").each(function () {
-            // $(this).attr("data-index", id+day+(key+1));
             let nameAttr = $(this).attr("name");
             if (nameAttr) {
                 nameAttr = nameAttr.replace(/\[(\d+)\]\[([^\]]+)\]\[(\d+)\]/, function(match, firstIndex, day, thirdIndex) {
