@@ -173,15 +173,30 @@
                 args.data.cssClass = customClass;
                 args.data.html = `${args.data.eventSlotHtml}`;
             },
+            // onBeforeCellRender: function(args) {
+            //     if (availableTime.length > 0) {
+            //         let event = availableTime.find(e => e.resource === args.cell.resource);
+            //         if (event && event.resource === args.cell.resource) {
+            //             var startTime = event.startTime;
+            //             var endEnd = event.endEnd;
+            //             // var hour = args.cell.start.getHours();
+            //             let cellTime = args.cell.start.value.split('T')[1].substring(0, 8);
+            //             if (startTime <= cellTime && cellTime < endEnd) {
+            //                 args.cell.business = false;
+            //                 args.cell.cssClass = "available-cell";
+            //             } else {
+            //                 args.cell.business = true;
+            //             }
+            //         }
+            //     }
+            // },
             onBeforeCellRender: function(args) {
                 if (availableTime.length > 0) {
-                    let event = availableTime.find(e => e.resource === args.cell.resource);
-                    if (event && event.resource === args.cell.resource) {
-                        var startTime = event.startTime;
-                        var endEnd = event.endEnd;
-                        // var hour = args.cell.start.getHours();
+                    let events = availableTime.filter(e => e.resource === args.cell.resource);
+                    if (events.length > 0) {
                         let cellTime = args.cell.start.value.split('T')[1].substring(0, 8);
-                        if (startTime <= cellTime && cellTime < endEnd) {
+                        let isAvailable = events.some(event => event.startTime <= cellTime && cellTime < event.endEnd);
+                        if (isAvailable) {
                             args.cell.business = false;
                             args.cell.cssClass = "available-cell";
                         } else {
@@ -190,6 +205,7 @@
                     }
                 }
             },
+
             headerHeightAutoFit: true,
             showCurrentTime: false
         });
