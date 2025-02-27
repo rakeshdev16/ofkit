@@ -9,7 +9,7 @@ class Kindergarten extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cluster_id', 'name', 'symbol', 'framework_type_id', 'kindergarten_type_id', 'address', 'telephone', 'status'];
+    protected $fillable = ['cluster_id', 'name', 'symbol', 'framework_type_id', 'kindergarten_type_id', 'address', 'telephone', 'status', 'color'];
 
     protected $appends = ['framework_type', 'kindergarten_type', 'is_assign'];
 
@@ -39,11 +39,6 @@ class Kindergarten extends Model
         if (request('search')) {
             $query->where('name', 'like', '%'.request('search').'%');
         }
-        // if (request('status')) {
-        //     $query->where('status', request('status'));
-        // }else{
-        //     $query->where('status', 'active');
-        // }
         if (request('status') == 'inactive') {
             $query->whereIn('kindergartens.status', ['active', 'inactive']);
         } else {
@@ -52,13 +47,33 @@ class Kindergarten extends Model
         return $query;
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+        $colors = [
+            json_encode(["background-color: #43a047;", "color: #000000;"]),
+            json_encode(["background-color: #2a9d8f;", "color: #000000;"]),
+            json_encode(["background-color: #5fc89c;", "color: #000000;"]),
+            json_encode(["background-color: #9ccc65;", "color: #000000;"]),
+            json_encode(["background-color: #f8e16c;", "color: #000000;"]),
+            json_encode(["background-color: #ffb39a;", "color: #000000;"]),
+            json_encode(["background-color: #e76f51;", "color: #000000;"]),
+            json_encode(["background-color: #56c8d8;", "color: #000000;"]),
+            json_encode(["background-color: #ff6392;", "color: #000000;"]),
+            json_encode(["background-color: #c07f8a;", "color: #000000;"]),
+        ];
+        static::creating(function ($model) use ($colors) {
+            $model->color = json_encode($colors);
+        });
+    }
+
     public function getIsAssignAttribute()
-{
-    return Children::where('kindergarten_id', @$this->attributes['id'])->where('status', 'active')->exists() ||
-            StaffKindergarten::where('kindergarten_id', @$this->attributes['id'])->whereHas('user', function ($query) {
-                $query->where('status', 'active');
-            })->exists();
-}
+    {
+        return Children::where('kindergarten_id', @$this->attributes['id'])->where('status', 'active')->exists() ||
+                StaffKindergarten::where('kindergarten_id', @$this->attributes['id'])->whereHas('user', function ($query) {
+                    $query->where('status', 'active');
+                })->exists();
+    }
 
     public function getFrameworkTypeAttribute()
     {

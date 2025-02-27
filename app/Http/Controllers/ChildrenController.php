@@ -125,6 +125,7 @@ class ChildrenController extends Controller
                 'service_start_date' => $request->service_start_date,
                 'hmo_id' => $request->hmo_id,
                 'photo' => $photo,
+                'color' => NULL,
             ]);
             if (isset($request->diagnosis_id) && count($request->diagnosis_id) > 0) {
                 foreach ($request->diagnosis_id as $diagnosisId) {
@@ -239,6 +240,7 @@ class ChildrenController extends Controller
 
         try {
 
+            request()->merge(['updating' => true]);
             $children = Children::findOrFail($id);
             $children->update([
                 'user_id' => Auth::id(),
@@ -256,6 +258,7 @@ class ChildrenController extends Controller
                 'hmo_id' => $request->hmo_id,
                 'status' => $request->status ?? 'inactive',
                 'updated_at' => now(),
+                'color' => NULL,
             ]);
             $children->diagnosis()->delete();
             if (isset($request->diagnosis_id) && count($request->diagnosis_id) > 0) {

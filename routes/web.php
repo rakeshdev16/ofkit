@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use \Illuminate\Http\Request;
 use App\Models\Children;
+use App\Models\Kindergarten;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -175,7 +176,7 @@ Route::get('migrate-refresh', function (Request $request) {
     ]);
 });
 
-Route::get('update-child-color', function (Request $request) {
+Route::get('update-color', function (Request $request) {
     Children::whereNotNull('color')->update(['color' => NULL]);
     $colors = [
         json_encode(["background-color: #43a047;", "color: #000000;"]),
@@ -190,15 +191,13 @@ Route::get('update-child-color', function (Request $request) {
         json_encode(["background-color: #c07f8a;", "color: #000000;"]),
     ];
 
-    $lastRecord = Children::latest('updated_at')->first();
-    $lastColor = $lastRecord?->color ?? null;
-    $lastIndex = $lastColor ? array_search($lastColor, $colors, true) : false;
-    $nextIndex = ($lastIndex === false) ? 0 : ($lastIndex + 1) % count($colors);
+    foreach (Kindergarten::get() as $kindergarten) {
+        $kindergarten->update(['color' => $colors]);
+    }
 
     foreach (Children::get() as $children) {
-        $children->update([
-            'color' => $colors[$nextIndex]
-        ]);
-        $nextIndex = ($nextIndex + 1) % count($colors);
+        request()->merge(['kindergarten_id' => $children->kindergarten_id]);
+        request()->merge(['updating' => true]);
+        $children->update(['color' => NULL]);
     }
 });

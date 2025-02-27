@@ -113,43 +113,22 @@ class Children extends Model
         }
     }
 
-    protected static function boot()
+    public function setColorAttribute($value)
     {
-        parent::boot();
-
-        $colors = [
-            json_encode(["background-color: #43a047;", "color: #000000;"]),
-            json_encode(["background-color: #2a9d8f;", "color: #000000;"]),
-            json_encode(["background-color: #5fc89c;", "color: #000000;"]),
-            json_encode(["background-color: #9ccc65;", "color: #000000;"]),
-            json_encode(["background-color: #f8e16c;", "color: #000000;"]),
-            json_encode(["background-color: #ffb39a;", "color: #000000;"]),
-            json_encode(["background-color: #e76f51;", "color: #000000;"]),
-            json_encode(["background-color: #56c8d8;", "color: #000000;"]),
-            json_encode(["background-color: #ff6392;", "color: #000000;"]),
-            json_encode(["background-color: #c07f8a;", "color: #000000;"]),
-        ];
-
-        // Get last record's color
-        $lastRecord = self::latest('id')->first();
-        $lastColor = $lastRecord?->color ?? null;
-        $lastIndex = $lastColor ? array_search($lastColor, $colors, true) : false;
-
-        // Determine the next color index
-        $nextIndex = ($lastIndex === false) ? 0 : ($lastIndex + 1) % count($colors);
-        $nextColor = $colors[$nextIndex];
-
-        static::creating(function ($model) use ($nextColor) {
-            if (!$model->color) {
-                $model->color = $nextColor;
+        if (request()->kindergarten_id) {
+            $colors = json_decode(Kindergarten::where('id', request()->kindergarten_id)->pluck('color')->first());
+            $query = self::where('kindergarten_id', request()->kindergarten_id)->latest('id');
+            if (request()->has('updating') && $this->id) {
+                $query->where('id', '!=', $this->id);
             }
-        });
-
-        static::updating(function ($model) {
-            if (!$model->isDirty('color')) {
-                return;
-            }
-        });
+            $lastRecord = $query->first();
+            $lastColor = $lastRecord?->color ? json_encode($lastRecord->color, true) : null;
+            $lastIndex = $lastColor ? array_search($lastColor, $colors) : false;
+            $nextIndex = ($lastIndex === false) ? 0 : ($lastIndex + 1) % count($colors);
+            $nextColor = $colors[$nextIndex];
+            return $this->attributes['color'] = $nextColor;
+        }
+        $this->attributes['color'] = $value;
     }
 
     public function getColorAttribute($value)
