@@ -420,9 +420,16 @@
                         if (existingEndTime) {
                             $endTimePicker.val(existingEndTime);
                         } else {
-                            $endTimePicker.val("").prop("required", true);;
+                            if (selectedTime) $endTimePicker.val("").prop("required", true);
                         }
                     }
+                }
+            });
+
+            $this.on("keyup", function () {
+                var $endTimePicker = $(this).parent().siblings().find(".end-timepicker");
+                if ($(this).val() == '') {
+                    $endTimePicker.val("").prop("required", false);
                 }
             });
 
@@ -432,11 +439,13 @@
         });
 
         function addMinutes(time, minutes) {
-            var [hour, min] = time.split(":").map(Number);
-            var date = new Date();
-            date.setHours(hour);
-            date.setMinutes(min + minutes);
-            return date.getHours().toString().padStart(2, '0') + ":" + date.getMinutes().toString().padStart(2, '0');
+            if (time) {
+                var [hour, min] = time.split(":").map(Number);
+                var date = new Date();
+                date.setHours(hour);
+                date.setMinutes(min + minutes);
+                return date.getHours().toString().padStart(2, '0') + ":" + date.getMinutes().toString().padStart(2, '0');
+            }
         }
 
         setTimeout(() => {
