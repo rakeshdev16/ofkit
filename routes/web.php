@@ -195,9 +195,15 @@ Route::get('update-color', function (Request $request) {
         $kindergarten->update(['color' => $colors]);
     }
 
-    foreach (Children::get() as $children) {
-        request()->merge(['kindergarten_id' => $children->kindergarten_id]);
-        request()->merge(['updating' => true]);
-        $children->update(['color' => NULL]);
+    foreach (Children::get()->groupBy('kindergarten_id') as $childrens) {
+        $index = 0;
+        foreach ($childrens as $key => $children) {
+            if ($index > 9) {
+                $index = 0;
+            }
+            $nextColor = $colors[$index];
+            $children->update(['color' => $nextColor]);
+            $index++;
+        }
     }
 });
