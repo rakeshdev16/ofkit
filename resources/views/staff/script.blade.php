@@ -310,8 +310,6 @@
     function kindergartenValidationRules(index) {
         var professionalRole = `kindergarten[${index}][role_id]`;
         var association = `kindergarten[${index}][association_id]`;
-        console.log(professionalRole);
-        console.log(association);
         $(`[name="${professionalRole}"]`).rules("add", {
             required: true,
             messages: {
@@ -406,7 +404,6 @@
                     if (selectedTime == '') {
                         $endTimePicker.val('');
                     }
-                    console.log("slots", timeSlots);
                     if (isTimeOverlapping(day, selectedTime, null)) {
                         $(this).val('');
                         toastr.error("This time slot not available");
@@ -487,7 +484,6 @@
                     }
                     if (startTime && endTime && day) {
                         addSlot(key, day, startTime, endTime);
-                        console.log("staffTimeSlot", timeSlots);
                     }
                 }
             });
@@ -538,16 +534,13 @@
 
             if (existingIndex !== -1) {
                 timeSlots[existingIndex] = { id: key, name: day, startTime, endTime };
-                console.log("Slot updated successfully!", timeSlots);
             } else {
                 timeSlots.push({ id: key, name: day, startTime, endTime });
-                console.log("Slot added successfully!", timeSlots);
             }
         }
 
         function deleteSlot(key) {
             timeSlots = timeSlots.filter(slot => !(slot.id === key));
-            console.log("Slot deleted successfully!", timeSlots);
         }
 
         function isTimeOverlapping(day, startTime, endTime) {
