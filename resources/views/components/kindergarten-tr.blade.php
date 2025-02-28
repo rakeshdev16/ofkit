@@ -1,4 +1,4 @@
-<table class="table table-{{ $id }} table-borderd" style="width:100%;"  data-index="{{ $index }}">
+<table class="table table-{{ @$id }} table-borderd" style="width:100%;"  data-index="{{ @$index }}">
     @php
         $route = Route::currentRouteName();
         $sunday = isset($schedule) ? (clone $schedule)->where('day', 'sunday')->where('kindergarten_id', $id) : [];
