@@ -20,7 +20,7 @@
         <tr>
             <td colspan="{{ $route == 'staff.show' ? '' : '2' }}">
                 <h6 class="pt-2">{{ getKindergartenNameById($id) }}</h6>
-                <input type="hidden" name="kindergarten[{{ $index }}][kindergarten_id]" value="{{ $id }}">
+                <input type="hidden" name="kindergarten[{{ @$index }}][kindergarten_id]" value="{{ @$id }}">
             </td>
             <td>
                 @if (Auth::user()->hasRole('admin'))
@@ -34,7 +34,7 @@
                 @else
                     @php
                         $keys = array_column($memberRoles, 'key');
-                        $index = array_search(@$data['role_id'], $keys);
+                        // $index = array_search(@$data['role_id'], $keys);
                     @endphp
                     <div class="position-relative input-icon">
                         <input type="text" class="form-control" value="{{ $index !== false ? $memberRoles[$index]['value'] : '' }}" readonly="">
@@ -63,7 +63,7 @@
                 @else
                     @php
                         $keys = array_column($associations, 'key');
-                        $index = array_search(@$data['association_id'], $keys);
+                        // $index = array_search(@$data['association_id'], $keys);
                     @endphp
                     <div class="position-relative input-icon">
                         <input type="text" class="form-control" value="{{ $index !== false ? $associations[$index]['value'] : '' }}" readonly="">
