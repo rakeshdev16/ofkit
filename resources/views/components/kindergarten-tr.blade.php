@@ -34,10 +34,10 @@
                 @else
                     @php
                         $keys = array_column($memberRoles, 'key');
-                        // $index = array_search(@$data['role_id'], $keys);
+                        $roleIndex = array_search(@$data['role_id'], $keys);
                     @endphp
                     <div class="position-relative input-icon">
-                        <input type="text" class="form-control" value="{{ $index !== false ? $memberRoles[$index]['value'] : '' }}" readonly="">
+                        <input type="text" class="form-control" value="{{ $roleIndex !== false ? $memberRoles[$roleIndex]['value'] : '' }}" readonly="">
                         <span class="position-absolute top-50 translate-middle-y">
                             <i class="bx bx-buildings"></i>
                         </span>
@@ -63,10 +63,10 @@
                 @else
                     @php
                         $keys = array_column($associations, 'key');
-                        // $index = array_search(@$data['association_id'], $keys);
+                        $associationIndex = array_search(@$data['association_id'], $keys);
                     @endphp
                     <div class="position-relative input-icon">
-                        <input type="text" class="form-control" value="{{ $index !== false ? $associations[$index]['value'] : '' }}" readonly="">
+                        <input type="text" class="form-control" value="{{ $associationIndex !== false ? $associations[$associationIndex]['value'] : '' }}" readonly="">
                         <span class="position-absolute top-50 translate-middle-y">
                             <i class="bx bx-buildings"></i>
                         </span>
