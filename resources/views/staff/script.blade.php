@@ -390,10 +390,10 @@
                 minTime: "07",
                 maxTime: "17:00",
                 defaultTime: existingStartTime ? existingStartTime : null,
-                startTime: null,
-                dynamic: true,
+                startTime: "07:00",
+                dynamic: false,
                 dropdown: true,
-                scrollbar: false,
+                scrollbar: true,
                 change: function () {
                     if (isRendering) return;
                     let day = $(this).data('day');
@@ -427,23 +427,17 @@
             $this.on("blur", function () {
                 var $input = $(this);
                 var timeValue = $input.val().trim();
-
                 if (timeValue === "") return;
-
                 var timeFormat = /^([0-9]|[01][0-9]|2[0-3]):[0-5][0-9]$/;
-
                 if (!timeFormat.test(timeValue)) {
                     $input.val("");
                     toastr.error("Invalid time format. Please enter in HH:mm format.");
                 }
-
                 var $endTimePicker = $(this).parent().siblings().find(".end-timepicker");
                 if (timeValue === '') {
                     $endTimePicker.val("").prop("required", false);
                 }
             });
-
-
 
             if (existingStartTime) {
                 $this.val(existingStartTime);
@@ -475,9 +469,9 @@
                 maxTime: "17:00",
                 defaultTime: existingEndTime ? existingEndTime : "07",
                 startTime: "01:00",
-                dynamic: true,
+                dynamic: false,
                 dropdown: true,
-                scrollbar: false,
+                scrollbar: true,
                 change: function() {
                     let startTime = $(this).parent().parent().find('.timepicker').val();
                     let endTime = $(this).val();
@@ -508,6 +502,12 @@
                     $input.val("");
                     toastr.error("Invalid time format. Please enter in HH:mm format.");
                 }
+                let startTime = $(this).parent().parent().find('.timepicker').val();
+                if (startTime && compareTimes(timeValue, startTime) <= 0) {
+                    toastr.error("End time must be greater than start time.");
+                    $input.val("");
+                    return;
+                }
                 if (timeValue == '') {
                     deleteSlot(key);
                 }
@@ -517,6 +517,18 @@
                 $this.val(existingEndTime);
             }
         });
+
+        function compareTimes(time1, time2) {
+            var t1 = time1.split(":").map(Number);
+            var t2 = time2.split(":").map(Number);
+            if (t1[0] > t2[0] || (t1[0] === t2[0] && t1[1] > t2[1])) {
+                return 1;
+            } else if (t1[0] === t2[0] && t1[1] === t2[1]) {
+                return 0;
+            } else {
+                return -1;
+            }
+        }
 
         function addSlot(key, day, startTime, endTime) {
             startTime = startTime.replace(':', '');
