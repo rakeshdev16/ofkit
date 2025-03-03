@@ -188,7 +188,6 @@
                     }
                 }
             },
-
             headerHeightAutoFit: true,
             showCurrentTime: false
         });

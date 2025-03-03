@@ -158,7 +158,14 @@
         });
 
         $(document).on('change', '.event-time', function() {
-            $('#therapist, #children').val(null).trigger('change');
+            let therapist = $('#therapist');
+            let children = $('#children');
+            if (therapist.val() && $(this).attr('name') == 'end_time') {
+                therapist.val().length > 0 ? checkTimeSlot(therapist.attr('id'), therapist.val(), therapist) : '';
+                children.val().length > 0 ? checkTimeSlot(children.attr('id'), children.val(), children) : '';
+                // children.val(null).trigger('change');
+            }
+            // $('#therapist, #children').val(null).trigger('change');
         });
 
         $(document).on('change', '#day', function() {
