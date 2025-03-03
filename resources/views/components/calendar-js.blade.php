@@ -55,6 +55,7 @@
     function calendar(events = '', list, availableTime = []) {
         let windowWidth = window.screen.width;
         let columsCount = list.map((item) => (Array.isArray(item.children) ? item.children.length : 1)).reduce((sum, count) => sum + count, 0);
+        const route = "{{ Route::currentRouteName() }}";
         let columnWidth = 100;
         // if (columsCount == 0 || columsCount <= 7) {
         //     columnWidth = (windowWidth-100)/7;
@@ -62,8 +63,9 @@
         //     columnWidth = (windowWidth-100)/columsCount;
         // }
         let headerLevel = "{{ in_array(Route::currentRouteName() , ['children-schedule.index']) }}" ? "1" : "4";
-        if (getQueryParam('kindergarten_id') === 'personal') {
+        if (getQueryParam('kindergarten_id') === 'personal' || route == 'children-schedule.index') {
             headerLevel = "1";
+            columnWidth = (windowWidth-140)/7;
         }
         if (window.dp) {
             window.dp.dispose();

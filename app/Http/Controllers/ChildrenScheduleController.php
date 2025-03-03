@@ -7,6 +7,7 @@ use App\Models\TherapyScheduleChildren;
 use App\Models\TherapySchedule;
 use App\Models\Schedule;
 use App\Models\ScheduleEvent;
+use App\Models\ScheduleEventChildren;
 use App\Models\StaffSchedule;
 use App\Models\StaffKindergarten;
 use Illuminate\Http\Request;
@@ -65,10 +66,19 @@ class ChildrenScheduleController extends Controller
 
         $events = [];
         $schedule = '';
+
         $scheduleIds = Schedule::filter(['status' => 'published'])->pluck('id');
-        $scheduleEvents = ScheduleEvent::whereIn('schedule_id', $scheduleIds)->whereHas('childrens', function($query) use ($filter) {
+        $scheduleEvents = ScheduleEvent::whereIn('schedule_id', $scheduleIds)
+            ->whereHas('childrens', function ($query) use ($filter) {
                 $query->where('children_id', $filter['children_id']);
-            })->get();
+            })
+            ->get()
+            ->when(true, function ($collection) {
+                $groups = $collection->where('type', 'group')->unique('unique_id');
+                $others = $collection->where('type', '!=', 'group');
+                return $groups->merge($others);
+            });
+
         // echo '<pre>'; print_r($schedule); die;
         // if (!empty($schedule) && $schedule->events() !== null) {
         //     $scheduleEvents = $schedule->events()->whereHas('childrens', function($query) use ($filter) {

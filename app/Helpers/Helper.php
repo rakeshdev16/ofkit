@@ -247,7 +247,7 @@ function scheduleResponse($events, $schedule = null, $childId = null)
             'start_time' => $event->start_time
         ]);
 
-        $therapistIds = $events->where('schedule_id', $scheduleId)->where('unique_id', $event->unique_id)->pluck('therapist_id')->toArray();
+        $therapistIds = ScheduleEvent::where('schedule_id', $scheduleId)->where('unique_id', $event->unique_id)->pluck('therapist_id')->toArray();
         $event->eventCount = $findEvent->count();
         $event->last_id = $findEvent->orderBy('id', 'DESC')->pluck('id')->first();
         $event->therapistIds = $therapistIds;

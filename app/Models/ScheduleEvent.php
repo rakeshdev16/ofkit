@@ -113,12 +113,21 @@ class ScheduleEvent extends Model
             return $firstName . ' ' . $lastInitial;
         })->take(2)->join(' ');
 
+        if (\Route::currentRouteName() == 'children-schedule.calendar') {
+            $therapistName = getUserNameById($this->therapist_id);
+            $profession = User::where('id', $this->therapist_id)->first()->profession->acronyms;
+            if (($this->type == 'group')) {
+                return '<div style="'.$isBold.'"><div style="'.$isBold.'">'.$this->group_name.':</div>'.$title.'<br>'.$therapistName.'<br>'.$profession.'</div>';
+            }
+            return '<div style="'.$isBold.'">'.$therapistName.'<br>'.$profession.'</div>';
+        }
         if ($this->type == 'staff-meeting') return '<div style="'.$isBold.'">Staff Metting: <br>'.$title.'</div>';
         if ($this->type == 'group') return '<div style="font-size: 16px;""><div style="'.$isBold.'">'.$this->group_name.':</div>'.$title.'</div>';
         if ($this->type == 'individual') return '<div style="'.$isBold.'">'.$title.'</div>';
         if ($this->type == 'parental-guidance') return '<div style="'.$isBold.'">'.$title.'</div>';
 
         return '<div>'.ucfirst(str_replace('-', ' ', $this->type)).'</div>';
+
     }
 
     public function scopeOverlappingWithTimeSlot($query, $data)

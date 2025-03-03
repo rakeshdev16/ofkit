@@ -95,11 +95,12 @@
                         $(this).val(null).trigger('change');
                         return toastr.error('Please select day, start time and end time first for checking time slot');
                     }
-                    if (selectedElementId == 'therapist') {
-                        $('#children').val(null).trigger('change');
-                    }
                     Object.keys(timeSlotData).forEach(key => delete timeSlotData[key]);
                     checkTimeSlot(selectedElementId, selectedId, $(this));
+                    if (selectedElementId == 'therapist' && $('#children').val() > 0) {
+                        checkTimeSlot('children', $('#children').val(), $('#children'));
+                        // $('#children').val(null).trigger('change');
+                    }
                 });
             }, 500);
         });

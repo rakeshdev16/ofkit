@@ -29,8 +29,12 @@ class Schedule extends Model
         }
 
         if (isset($data['kindergarten_id'])) {
-            Session::put('kindergarten_id', $data['kindergarten_id']);
-            $query->where('kindergarten_id', $data['kindergarten_id']);
+            if (is_array($data['kindergarten_id'])) {
+                $query->whereIn('kindergarten_id', $data['kindergarten_id']);
+            } else {
+                Session::put('kindergarten_id', $data['kindergarten_id']);
+                $query->where('kindergarten_id', $data['kindergarten_id']);
+            }
         }
 
         if (isset($data['children_id'])) {

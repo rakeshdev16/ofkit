@@ -30,7 +30,10 @@ class ScheduleController extends Controller
                 $query->where('user_id', Auth::id());
             });
         }
-        $kindergartens = $kindergartens->get()->toArray();
+        $kindergartens = $kindergartens->get();
+        if (Auth::user()->hasRole('manager')) {
+            $kindergartens->push(['key' => 'personal', 'value' => 'Personal']);
+        }
         $schedule = Schedule::filter($request->all())->first();
         return view('schedule.index', compact('kindergartens', 'schedule'));
     }
@@ -166,20 +169,39 @@ class ScheduleController extends Controller
         $filter = $request->all();
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         $header = [];
+        if (Auth::user()->hasRole('manager') && $request->kindergarten_id == 'personal') {
+            $kindergartenId = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
+            $filter['kindergarten_id'] = $kindergartenId;
+        } else {
+            $kindergartenId[] = $request->kindergarten_id;
+        }
         foreach ($days as $day) {
-            $schedules = StaffSchedule::filter($filter)->with('user')->where('day', $day)->get()
-                ->map(function ($schedule) use ($day, $request) {
-                    $f_name = $schedule->user->family_name;
-                    return [
-                        'id' => $schedule->user->id.''.strtolower($day),
-                        'user_id' => $schedule->user->id,
-                        'name' => $schedule->user->name ?? 'N/A',
-                        'first_name' => $schedule->user->first_name ?? 'N/A',
-                        'family_name' => $f_name ? mb_substr($f_name, 0, 1) . '.' : '',
-                        'association' => @StaffKindergarten::where(['user_id' => $schedule->user_id, 'kindergarten_id' => $request->kindergarten_id])->first()->association->name,
-                        'profession' => @$schedule->user->profession->acronyms,
-                    ];
-                })->unique('id')->values()->toArray();
+            if ($request->kindergarten_id == 'personal') {
+                $header = [
+                    ['name' => 'Sunday', 'id' => Auth::id().'sunday'],
+                    ['name' => 'Monday', 'id' => Auth::id().'monday'],
+                    ['name' => 'Tuesday', 'id' => Auth::id().'tuesday'],
+                    ['name' => 'Wednesday', 'id' => Auth::id().'wednesday'],
+                    ['name' => 'Thursday', 'id' => Auth::id().'thursday'],
+                    ['name' => 'Friday', 'id' => Auth::id().'friday'],
+                    ['name' => 'Saturday', 'id' => Auth::id().'saturday'],
+                ];
+                $schedules = StaffSchedule::whereIn('kindergarten_id', $kindergartenId)->where('user_id', Auth::id())->with('user')->where('day', $day)->get();
+            } else {
+                $schedules = StaffSchedule::filter($filter)->with('user')->where('day', $day)->get()
+                    ->map(function ($schedule) use ($day, $request) {
+                        $f_name = $schedule->user->family_name;
+                        return [
+                            'id' => $schedule->user->id.''.strtolower($day),
+                            'user_id' => $schedule->user->id,
+                            'name' => $schedule->user->name ?? 'N/A',
+                            'first_name' => $schedule->user->first_name ?? 'N/A',
+                            'family_name' => $f_name ? mb_substr($f_name, 0, 1) . '.' : '',
+                            'association' => @StaffKindergarten::where(['user_id' => $schedule->user_id, 'kindergarten_id' => $request->kindergarten_id])->first()->association->name,
+                            'profession' => @$schedule->user->profession->acronyms,
+                        ];
+                    })->unique('id')->values()->toArray();
+            }
 
             $header[] = [
                 'name' => $day,
