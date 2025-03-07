@@ -13,7 +13,7 @@ use App\Models\Association;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use DB, Auth, DateTime;
+use DB, Auth, DateTime, Session;
 use App\Exports\CalendarExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -40,7 +40,16 @@ class ScheduleController extends Controller
 
     public function create()
     {
-        $kindergartens = Kindergarten::select('id as key', 'name as value')->get()->toArray();
+        $kindergartens = Kindergarten::select('id as key', 'name as value');
+        if (Auth::user()->hasRole('manager')) {
+            $kindergartens->whereHas('staffKindergartens', function($query) {
+                $query->where('user_id', Auth::id());
+            });
+        }
+        $kindergartens = $kindergartens->get();
+        if (Auth::user()->hasRole('manager')) {
+            $kindergartens->push(['key' => 'personal', 'value' => 'Personal']);
+        }
         return view('schedule.create', compact('kindergartens'));
     }
 
@@ -170,6 +179,7 @@ class ScheduleController extends Controller
         $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         $header = [];
         if (Auth::user()->hasRole('manager') && $request->kindergarten_id == 'personal') {
+            Session::put('kindergarten_id', 'personal');
             $kindergartenId = StaffKindergarten::where('user_id', Auth::id())->pluck('kindergarten_id')->toArray();
             $filter['kindergarten_id'] = $kindergartenId;
         } else {
