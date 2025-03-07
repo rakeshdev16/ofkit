@@ -134,13 +134,16 @@
             if (type == 'therapist') {
                 isTimeOutSide = data.isTimeOutSide;
             }
-            isTherapistAvailable = false;
-            isChildrenAvailable = false;
+            // isTherapistAvailable = true;
+            // isChildrenAvailable = true;
             if (data.status == true) {
-                if (data.type == 'therapist') isTherapistAvailable = true;
-                if (data.type == 'children') isChildrenAvailable = true;
+                if (data.type == 'therapist' && !isAvailableArray.includes('therapist')) isAvailableArray.push('therapist');
+                if (data.type == 'children' && !isAvailableArray.includes('children')) isAvailableArray.push('children');
+            } else {
+                isAvailableArray = isAvailableArray.filter(item => item !== data.type);
             }
             submitIfAvailable(data);
+
         });
     }
 
@@ -207,10 +210,11 @@
     function submitIfAvailable(data) {
         $("#children").prop("disabled", false);
         $('#createEventModalBtn').attr('disabled', false).removeAttr('data-bs-original-title').tooltip('dispose');
-        if (isTherapistAvailable == true || isChildrenAvailable == true) {
+        // if (!isTherapistAvailable || !isChildrenAvailable) {
+        if (isAvailableArray.length > 0) {
             if (data.type == 'therapist') $("#children").prop("disabled", true);
             $('#createEventModalBtn').attr('disabled', true).attr('title', 'This selected therapist or child not available at this time').tooltip({ trigger: 'hover' });
-            toastr.error(data.message);
+            if (data.status == true) toastr.error(data.message);
         }
     }
 

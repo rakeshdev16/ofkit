@@ -109,8 +109,9 @@
         let timeSlotData = {};
         let container = '';
         let isTimeOutSide = false;
-        let isTherapistAvailable = false;
-        let isChildrenAvailable = false;
+        let isTherapistAvailable = true;
+        let isChildrenAvailable = true;
+        let isAvailableArray = [];
 
         $(document).ready(function () {
             var params = {
