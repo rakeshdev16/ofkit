@@ -217,6 +217,7 @@
     }
 
     function setCalendar() {
+        // const screenHeight = window.screen.height - 200;
         $('.calendar_default_scroll > div > div:nth-of-type(2)').css('height', '500px');
         $('.calendar_default_scroll > div > div:nth-of-type(1)').css('height', '500px');
         $('.calendar_default_scroll').css('height', '500px');

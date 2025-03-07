@@ -407,6 +407,9 @@
                     if (isTimeOverlapping(day, selectedTime, null)) {
                         $(this).val('');
                         toastr.error("This time slot not available");
+                        $endTimePicker.prop('disabled', true);
+                    } else {
+                        $endTimePicker.prop('disabled', false);
                     }
                     if ($endTimePicker.length) {
                         var existingEndTime = $endTimePicker.data("end-time");
@@ -421,6 +424,15 @@
                 }
             });
 
+            $this.on("change", function () {
+                var $input = $(this);
+                var timeValue = $input.val().trim();
+                var $endTimePicker = $(this).parent().siblings().find(".end-timepicker");
+                if (timeValue === '') {
+                    $endTimePicker.prop('disabled', true);
+                    $endTimePicker.val("").prop("required", false);
+                }
+            });
             $this.on("blur", function () {
                 var $input = $(this);
                 var timeValue = $input.val().trim();
@@ -589,6 +601,9 @@
                 $(this).attr("data-index", id+day+(index+1));
                 if ($(this).attr("type") === 'hidden') {
                     $(this).val('');
+                }
+                if ($(this).attr("placeholder") === 'Enter End Time') {
+                    $(this).prop('disabled', true);
                 }
             }
         });

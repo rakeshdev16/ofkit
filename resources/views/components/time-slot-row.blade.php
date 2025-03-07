@@ -56,7 +56,7 @@
             data-day="{{ $key }}"
             placeholder="Enter End Time"
             autocomplete="off"
-            {{ $route == 'staff.show' ? 'disabled' : '' }}
+            disabled
         >
         <input type="hidden" name="schedule[{{ $id }}][{{ $key }}][{{ $index }}][id]" value="{{ @$day->id }}">
     </td>
