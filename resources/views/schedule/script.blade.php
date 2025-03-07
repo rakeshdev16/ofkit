@@ -139,8 +139,8 @@
             if (data.status == true) {
                 if (data.type == 'therapist') isTherapistAvailable = true;
                 if (data.type == 'children') isChildrenAvailable = true;
-                submitIfAvailable(data);
             }
+            submitIfAvailable(data);
         });
     }
 
