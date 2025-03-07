@@ -20,7 +20,7 @@
             <div class="">
                 {{-- <a href="/schedule-history" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">History</a> --}}
                 <button
-                    class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer"
+                    class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer create-edit"
                     id="deleteSchedule"
                     data-btn="edit"
                     data-schedule-id="{{ @$schedule->published_by }}"
@@ -28,7 +28,7 @@
                     Edit
                 </button>
                 <button
-                    class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer"
+                    class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer create-edit"
                     id="deleteSchedule"
                     data-btn="create"
                     data-schedule-id=""
@@ -56,6 +56,11 @@
         const scheduleId = "{{ @$schedule->id }}";
         $(document).ready(function() {
             var kindergartenId = $('#kindergartenFilter').val();
+            if (kindergartenId == 'personal') {
+                $('.create-edit').attr('disabled', true);
+            } else {
+                $('.create-edit').attr('disabled', false);
+            }
             var params = {
                 'status': 'published',
                 'kindergarten_id': kindergartenId,

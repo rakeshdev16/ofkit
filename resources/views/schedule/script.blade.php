@@ -148,6 +148,11 @@
         let url = new URL(window.location.href);
         url.searchParams.delete('user_id');
         url.searchParams.delete('children_id');
+        if ($(this).val() == 'personal') {
+            $('.create-edit').attr('disabled', true);
+        } else {
+            $('.create-edit').attr('disabled', false);
+        }
         return history.replaceState(null, '', url.toString());
     });
 
