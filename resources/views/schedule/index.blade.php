@@ -35,12 +35,12 @@
                 >
                     Create New
                 </button>
-                <buttn
+                <button
                     class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer"
                     onclick="appointmentSummary($('#kindergartenFilter').val());"
                 >
                     Appointment Summary
-                </span>
+                </button>
             </div>
         </div>
         <div class="mb-5" id="calender-view">
