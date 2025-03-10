@@ -430,6 +430,7 @@
                 let startDate = $(this).datepicker("getDate");
                 if (startDate) {
                     $("#publishEndDate").datepicker("option", "minDate", startDate);
+                    $("#isAgree").val("false");
                 }
             }
         });
@@ -440,6 +441,12 @@
             changeYear: true,
             showButtonPanel: true,
             minDate: 0,
+            onSelect: function (selectedDate) {
+                let endDate = $(this).datepicker("getDate");
+                if (endDate) {
+                    $("#isAgree").val("false");
+                }
+            }
         });
 
         $("#publishStartDate, #publishEndDate").attr("autocomplete", "off").attr("readonly", true);
