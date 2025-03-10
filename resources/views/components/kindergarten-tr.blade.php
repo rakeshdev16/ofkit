@@ -51,20 +51,24 @@
                 @enderror
             </td>
             <td>
+                @php
+                    $keys = array_column($associations, 'key');
+                    $associationIndex = array_search(@$data['association_id'], $keys);
+                @endphp
                 @if (Auth::user()->hasRole('admin'))
-                    @include('components.select-input', [
-                        'name' => "kindergarten[$index][association_id]",
-                        'icon' => 'buildings',
-                        'options' => $associations,
-                        'value' => @$data['association_id'],
-                        'disabled' => Route::currentRouteName() == 'staff.show' ? 'disabled' : '',
-                        'value' => old('kindergarten.' . $index . '.association_id') ?? @$data['association_id'],
-                    ])
+                    @if (Route::currentRouteName() == 'staff.show')
+                        <input type="text" class="form-control" value="{{ $associationIndex !== false ? $associations[$associationIndex]['value'] : '-' }}" disabled="">
+                    @else
+                        @include('components.select-input', [
+                            'name' => "kindergarten[$index][association_id]",
+                            'icon' => 'buildings',
+                            'options' => $associations,
+                            'value' => @$data['association_id'],
+                            // 'disabled' => Route::currentRouteName() == 'staff.show' ? 'disabled' : '',
+                            'value' => old('kindergarten.' . $index . '.association_id') ?? @$data['association_id'],
+                        ])
+                    @endif
                 @else
-                    @php
-                        $keys = array_column($associations, 'key');
-                        $associationIndex = array_search(@$data['association_id'], $keys);
-                    @endphp
                     <div class="position-relative input-icon">
                         <input type="text" class="form-control" value="{{ $associationIndex !== false ? $associations[$associationIndex]['value'] : '' }}" readonly="">
                         <span class="position-absolute top-50 translate-middle-y">
