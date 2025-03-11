@@ -424,7 +424,7 @@ class ChildrenController extends Controller
                     ->map(function ($user) {
                         return [
                             'key' => $user->id,
-                            'value' => $user->name . ' (' . ($user->profession->acronyms ?? '') . ')',
+                            'value' => $user->name . ' ' . ($user->profession->acronyms ?? ''),
                         ];
                     });
                 // $therapist = User::whereIn('id', $userIds)->role(['therapist', 'manager'])->select('id as key', 'name as value')->get();

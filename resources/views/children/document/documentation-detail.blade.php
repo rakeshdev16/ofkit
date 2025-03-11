@@ -269,7 +269,7 @@
                                                             @forelse ($document->staffMeetingTherapist as $therapist)
                                                                 <div class="document mt-1 doc14">
                                                                     <a href="{{ route('staff.show', $therapist->therapist_id) }}" target="_blank" rel="noopener noreferrer">
-                                                                        {{ @$therapist->therapist->name.' ('.(@$therapist->therapist->profession->acronyms).')' }}
+                                                                        {{ @$therapist->therapist->name.' '.(@$therapist->therapist->profession->acronyms) }}
                                                                     </a>
                                                                 </div>
                                                             @empty
