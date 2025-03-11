@@ -15,7 +15,7 @@ class StaffMeetingTherapist extends Model
 
     public function getTherapistAttribute()
     {
-        return User::where('id', $this->attributes['therapist_id'])->pluck('name')->first();
+        return User::where('id', $this->attributes['therapist_id'])->first();
     }
 
 }

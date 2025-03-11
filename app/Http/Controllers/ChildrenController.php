@@ -417,7 +417,17 @@ class ChildrenController extends Controller
                 return view('children.document.parental-guidance', compact('allTherapists', 'children', 'user', 'document', 'childrens', 'kindergartens'));
                 break;
             case 'staff-meeting':
-                $therapist = User::whereIn('id', $userIds)->role(['therapist', 'manager'])->select('id as key', 'name as value')->get();
+                $therapist = User::whereIn('id', $userIds)
+                    ->role(['therapist', 'manager'])
+                    ->with('profession')
+                    ->get()
+                    ->map(function ($user) {
+                        return [
+                            'key' => $user->id,
+                            'value' => $user->name . ' (' . ($user->profession->acronyms ?? '') . ')',
+                        ];
+                    });
+                // $therapist = User::whereIn('id', $userIds)->role(['therapist', 'manager'])->select('id as key', 'name as value')->get();
                 return view('children.document.staff-meeting', compact('allTherapists', 'children', 'user', 'document', 'childrens', 'therapist'));
                 break;
             case 'initial-evaluation':
