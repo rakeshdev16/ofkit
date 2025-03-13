@@ -257,6 +257,8 @@ function scheduleResponse($events, $schedule = null, $childId = null)
             'start' => date('Y-m-d').' '.$event->start_time,
             'end' => date('Y-m-d').' '.$event->end_time,
             'resource' => ($childId ?? $event->therapist_id) . strtolower($event->day),
+            'data' => ($event),
+            'form' => view('components.event-status-form', ['data' => $event])->render(),
             'eventSlotHtml' => view('components.event-html', ['data' => $event])->render(),
             'eventDetailSlotHtml' => view('components.event-detail-html', ['data' => $event])->render(),
         ];

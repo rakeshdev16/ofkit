@@ -18,6 +18,9 @@
             <span><i class="fa fa-{{ appointmentIcon($data->type) }}"></i></span>
         </div>
     @endif
+    @if (Route::currentRouteName() == 'documentation.calendar')
+        <div style="text-align: left; height:5px;"><span class="event-status"></span></div>
+    @endif
     @if ($data->event_time !== 15)
         @if ($data['eventCount'] <= 1)
             <div class="d-flex align-items-center justify-content-center h-100" style="font-size: 12px; text-align: center;">

@@ -834,6 +834,13 @@ button[disabled] {
     /* Light gray background to indicate it's disabled */
 }
 
+.event-status {
+    display: inline-block;
+    background: red;
+    padding: 4px;
+    border-radius: 50px;
+}
+
 .green-light {
     color: #00AEA7;
 }

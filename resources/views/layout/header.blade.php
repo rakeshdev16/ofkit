@@ -189,7 +189,7 @@
                         @if ($user->hasAnyPermission(['dashboard']))
                             @include('components.menu', [
                                 'name' => __('menu.documentation'),
-                                'route' => route('dashboard'),
+                                'route' => route('documentation.index'),
                                 'icon' => 'fi_2991112.png',
                                 'active' => $currentRoute == 'dashboard' ? 'active-menu' : '',
                             ])

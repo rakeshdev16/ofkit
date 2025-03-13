@@ -15,6 +15,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ChildrenScheduleController;
 use App\Http\Controllers\TherapyScheduleController;
+use App\Http\Controllers\DocumentationController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -139,6 +140,11 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
     Route::controller(TherapyScheduleController::class)->group(function (){
         Route::get('therapy-schedule', 'index')->name('therapy-schedule.index');
         Route::get('therapy-schedule-calendar', 'calendar')->name('therapy-schedule.calendar');
+    });
+
+    Route::controller(DocumentationController::class)->group(function (){
+        Route::get('documentation', 'index')->name('documentation.index');
+        Route::get('documentation/calendar', 'calendar')->name('documentation.calendar');
     });
 
     Route::controller(UserController::class)->group(function () {
