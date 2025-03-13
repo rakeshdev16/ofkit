@@ -67,6 +67,11 @@ class Kindergarten extends Model
         });
     }
 
+    public function getColorAttribute()
+    {
+        return json_decode($this->attributes['color']);
+    }
+
     public function getIsAssignAttribute()
     {
         return Children::where('kindergarten_id', @$this->attributes['id'])->where('status', 'active')->exists() ||

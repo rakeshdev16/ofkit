@@ -13,14 +13,14 @@
         <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between mb-3">
             <div>
                 <h3>Weekly Therapy Schedule</h3>
-                <div class="filters d-flex flex-wrap  gap-3">
+                <div class="filters d-flex flex-wrap  gap-2">
                      @include('components.schedule-filter', ['kindergartens' => $kindergartens])
                  </div>
             </div>
             <div class="">
                 {{-- <a href="/schedule-history" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">History</a> --}}
                 <button
-                    class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer create-edit"
+                    class="badge button btn rounded-pill p-2 m-1 px-4 fs-6 fw-normal cursor-pointer create-edit"
                     id="deleteSchedule"
                     data-btn="edit"
                     data-schedule-id="{{ @$schedule->published_by }}"
@@ -28,7 +28,7 @@
                     Edit
                 </button>
                 <button
-                    class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer create-edit"
+                    class="badge button btn rounded-pill p-2 m-1 px-4 fs-6 fw-normal cursor-pointer create-edit"
                     id="deleteSchedule"
                     data-btn="create"
                     data-schedule-id=""
@@ -36,7 +36,7 @@
                     Create New
                 </button>
                 <button
-                    class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer"
+                    class="badge button btn rounded-pill p-2 m-1 px-4 fs-6 fw-normal cursor-pointer"
                     onclick="appointmentSummary($('#kindergartenFilter').val());"
                 >
                     Appointment Summary

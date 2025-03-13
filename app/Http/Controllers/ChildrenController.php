@@ -447,13 +447,6 @@ class ChildrenController extends Controller
     {
         $request['children_id'] = $id;
         $request['type'] = $type;
-        // $request['therapist_id'] = Auth::id();
-        // if ($request['occured'] == 0) {
-        //     $request['occured_description'] = '';
-        // }
-        // if ($request['occured'] == 1) {
-        //     $request['occured_reason'] = '';
-        // }
         if ($request->has('child_file')) {
             $request['file'] = uploadFile($request->child_file, 'public/child-document');
         }

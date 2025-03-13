@@ -109,16 +109,16 @@ class ScheduleController extends Controller
             $startDate = Carbon::createFromFormat('d/m/Y', $request->start_date)->format('Y-m-d');
             $endDate = Carbon::createFromFormat('d/m/Y', $request->end_date)->format('Y-m-d');
             if ($request->isAgree == 'false') {
-                $existsSchedule = Schedule::where('status', 'published')->where('kindergarten_id', $request->kindergarten_id)->where(function ($query) use ($startDate, $endDate) {
+                $existsScheduleIds = Schedule::where('status', 'published')->where('kindergarten_id', $request->kindergarten_id)->where(function ($query) use ($startDate, $endDate) {
                     $query->whereDate('start_date', '<=', $endDate)->whereDate('end_date', '>=', $startDate);
-                })->exists();
-                if ($existsSchedule) {
-                    return response()->json(['status' => false, 'message' => 'A published event already exists between the entered date range!']);
+                })->pluck('id');
+                if ($existsScheduleIds) {
+                    return response()->json(['status' => false, 'message' => 'A published event already exists between the entered date range!', 'ids' => $existsScheduleIds]);
                 }
             } else {
-                $schedule = Schedule::filter(['status' => 'published', 'kindergarten_id' => $request->kindergarten_id])->first();
-                if ($schedule) {
-                    $schedule->delete();
+                if (isset($request->scheduleIds)) {
+                    $ids = json_decode($request->scheduleIds);
+                    Schedule::whereIn('id', $ids)->delete();
                 }
             }
 
@@ -230,7 +230,7 @@ class ScheduleController extends Controller
             'icon' => 'buildings',
             'value' => @$filter['children_id'],
             'onchange' => "filterCalendar({ 'children_id': this.value })",
-            'isSelectOption' => 'Select Children',
+            'isSelectOption' => 'Select Child',
             'options' => $childrens,
         ])->render();
         $users = view('components.select-input', [

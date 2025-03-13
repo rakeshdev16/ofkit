@@ -256,6 +256,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/cropper.min.css') }}" />
         @include('components.cropper-script')
         @include('staff.script')
+        @include('components.time-range-js')
         <script>
         </script>
     @endpush

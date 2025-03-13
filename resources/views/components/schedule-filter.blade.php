@@ -21,5 +21,7 @@
     ])
 @endif
 <span style="border: 2px solid #80808094"></span>
-<div id="childrenFilter"></div>
-<div id="staffFilter"></div>
+<div class="d-flex gap-2">
+    <div id="childrenFilter"></div>
+    <div id="staffFilter"></div>
+</div>

@@ -81,6 +81,7 @@
         var halfYear = "{{__('children.halfYear')}}";
         var activeMsg = "{{__('comon.activeMsg')}}";
         var inactiveMsg = "{{__('comon.inactiveMsg')}}";
+        const screenHeight = window.screen.height;
         $(document).on('click', '.toggle-text', function() {
             var status = $(this).data('status');
 

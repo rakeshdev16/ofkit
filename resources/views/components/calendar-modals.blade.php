@@ -153,6 +153,14 @@
     </div>
 </div>
 
+<div class="modal fade" id="eventStatusModal" tabindex="-1" aria-labelledby="eventStatusModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" id="eventStatusForm">
+
+        </div>
+    </div>
+</div>
+
 <div class="modal" id="eventDateModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -171,7 +179,8 @@
                         <input type="text" name="end_date" id="publishEndDate" placeholder="End Date" class="w-100 form-control border-1">
                     </div>
                     <input type="hidden" name="ids" id="eventIds" value="{{ @$createdEventIds }}">
-                    <input type="hidden" name="isAgree" id="isAgree" value="false"  >
+                    <input type="hidden" name="isAgree" id="isAgree" value="false">
+                    <input type="hidden" name="scheduleIds" id="scheduleIds">
                     <div class="d-flex gap-3">
                         <button class="button p-2 px-4 rounded-pill border-0" id="publishEventFormBtn">Save</button>
                         <button type="button" class="button p-2 px-4 rounded-pill border-0" data-bs-dismiss="modal">Cancel</button>
