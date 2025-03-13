@@ -247,10 +247,17 @@
     }
 
     function setCalendar() {
-        // const screenHeight = window.screen.height - 200;
-        $('.calendar_default_scroll > div > div:nth-of-type(2)').css('height', '500px');
-        $('.calendar_default_scroll > div > div:nth-of-type(1)').css('height', '500px');
-        $('.calendar_default_scroll').css('height', '500px');
+        let screenWidth = window.innerWidth;
+        const cssByWidth = {
+            1920: { 'documentation.index': 70, 'schedule.index': 52, 'schedule.create': 52 },
+            2133: { 'documentation.index': 73, 'schedule.index': 57, 'schedule.create': 57 },
+            2400: { 'documentation.index': 76, 'schedule.index': 62, 'schedule.create': 62 },
+            2560: { 'documentation.index': 77, 'schedule.index': 64, 'schedule.create': 64 }
+        };
+        let height = cssByWidth[screenWidth][route];
+        $('.calendar_default_scroll > div > div:nth-of-type(2)').css('height', height+'vh');
+        $('.calendar_default_scroll > div > div:nth-of-type(1)').css('height', height+'vh');
+        $('.calendar_default_scroll').css('height', height+'vh');
         const targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0];
         $(window).keyup(function (e) {
             var key = e.which;
@@ -439,11 +446,11 @@
     }
 
     function submitIfAvailable(data) {
-        $("#children").prop("disabled", false);
+        // $("#children").prop("disabled", false);
         $('#createEventModalBtn').attr('disabled', false).removeAttr('data-bs-original-title').tooltip('dispose');
         // if (!isTherapistAvailable || !isChildrenAvailable) {
         if (isAvailableArray.length > 0) {
-            if (data.type == 'therapist') $("#children").prop("disabled", true);
+            // if (data.type == 'therapist') $("#children").prop("disabled", true);
             $('#createEventModalBtn').attr('disabled', true).attr('title', 'This selected therapist or child not available at this time').tooltip({ trigger: 'hover' });
             if (data.status == true) toastr.error(data.message);
         }

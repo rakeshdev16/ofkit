@@ -8,7 +8,7 @@
 @section('section')
 <div class="page-wrapper">
     <div class="page-content">
-        <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between my-3">
+        <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between">
             <div>
                <h3>Child Schedule</h3>
             </div>

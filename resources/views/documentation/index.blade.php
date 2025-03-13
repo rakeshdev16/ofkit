@@ -1,17 +1,19 @@
 @extends('layout.master')
 @push('customLink')
     <link href="{{ asset('assets/css/main.css')}}" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <link href="{{ asset('assets/js/daypilot/helpers/v2/main.css') }}" type="text/css" rel="stylesheet" />
     <script src="{{ asset('assets/js/daypilot/daypilot-all.min.js')}}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script> --}}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 @endpush
 @section('section')
 <div class="page-wrapper">
     <div class="page-content">
-        <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between mb-3">
+        <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between mb-3 calendar-header">
             <div>
                 <div class="filters d-flex justify-content-between flex-wrap  gap-3">
                     <div class="d-flex">
@@ -70,6 +72,8 @@
 @include('components.calendar-modals')
 @endsection
 @push('customScript')
+    <script type="text/javascript" src="{{ asset('assets/js/jquery.validate.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
