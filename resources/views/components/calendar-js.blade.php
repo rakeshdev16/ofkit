@@ -249,12 +249,13 @@
     function setCalendar() {
         let screenWidth = window.innerWidth;
         const cssByWidth = {
-            1920: { 'documentation.index': 70, 'schedule.index': 52, 'schedule.create': 52 },
-            2133: { 'documentation.index': 73, 'schedule.index': 57, 'schedule.create': 57 },
-            2400: { 'documentation.index': 76, 'schedule.index': 62, 'schedule.create': 62 },
-            2560: { 'documentation.index': 77, 'schedule.index': 64, 'schedule.create': 64 }
+            1920: { 'documentation.index': 70, 'schedule.index': 52, 'schedule.create': 52, 'children-schedule.index': 52 },
+            2133: { 'documentation.index': 73, 'schedule.index': 57, 'schedule.create': 57, 'children-schedule.index': 57 },
+            2400: { 'documentation.index': 76, 'schedule.index': 62, 'schedule.create': 62, 'children-schedule.index': 62 },
+            2560: { 'documentation.index': 77, 'schedule.index': 64, 'schedule.create': 64, 'children-schedule.index': 64 }
         };
-        let height = cssByWidth[screenWidth][route];
+        let height = cssByWidth[1920][route];
+        if (cssByWidth[screenWidth][route]) height = cssByWidth[screenWidth][route];
         $('.calendar_default_scroll > div > div:nth-of-type(2)').css('height', height+'vh');
         $('.calendar_default_scroll > div > div:nth-of-type(1)').css('height', height+'vh');
         $('.calendar_default_scroll').css('height', height+'vh');
