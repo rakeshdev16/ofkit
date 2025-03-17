@@ -59,7 +59,7 @@
                                         <th class="text-center">Staff Metting</th>
                                         <th class="text-center">Tutorial</th>
                                         <th class="text-center">Prep</th>
-                                        <th class="text-center">Other</th>
+                                        <th class="text-center">Documentation Break</th>
                                     </tr>
                                 </thead>
                                 <tbody id="staffHours"></tbody>

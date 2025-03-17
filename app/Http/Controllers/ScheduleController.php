@@ -394,12 +394,12 @@ class ScheduleController extends Controller
                     })->get();
                 $summary = [
                     'tabam' => [
-                        'individual' => $tabamScheduls->whereIn('type', ['individual', 'parental-guidance'])->sum->getWeightedCount(),
-                        'group' => $tabamScheduls->where('type', 'group')->groupBy('schedule_id')->map->first()->sum->getWeightedCount(),
+                        'individual' => $tabamScheduls->whereIn('type', ['individual', 'parental-guidance'])->sum->getWeightedCount('children'),
+                        'group' => $tabamScheduls->where('type', 'group')->groupBy('schedule_id')->map->first()->sum->getWeightedCount('children'),
                     ],
                     'matia' => [
-                        'individual' => $matiaScheduls->whereIn('type', ['individual', 'parental-guidance'])->sum->getWeightedCount(),
-                        'group' => $matiaScheduls->where('type', 'group')->groupBy('schedule_id')->map->first()->sum->getWeightedCount(),
+                        'individual' => $matiaScheduls->whereIn('type', ['individual', 'parental-guidance'])->sum->getWeightedCount('children'),
+                        'group' => $matiaScheduls->where('type', 'group')->groupBy('schedule_id')->map->first()->sum->getWeightedCount('children'),
                     ]
                 ];
                 $childrenSummary .= view('components.children-hour-summary', ['children' => $children, 'loopIteration' => $loopIteration, 'summary' => $summary]);
@@ -412,12 +412,12 @@ class ScheduleController extends Controller
             foreach ($users as $user) {
                 $staffScheduls = (clone $schedule)->events()->where('therapist_id', $user->id)->get();
                 $summary = [
-                    'individual' => $staffScheduls->whereIn('type', ['individual', 'parental-guidance'])->sum->getWeightedCount(),
-                    'group' => $staffScheduls->where('type', 'group')->sum->getWeightedCount(),
-                    'staff-meeting' => $staffScheduls->where('type', 'staff-meeting')->sum->getWeightedCount(),
-                    'tutorial' => $staffScheduls->where('type', 'tutorial')->sum->getWeightedCount(),
-                    'preparation' => $staffScheduls->where('type', 'preparation')->sum->getWeightedCount(),
-                    'other' => $staffScheduls->where('type', 'other')->sum->getWeightedCount(),
+                    'individual' => $staffScheduls->whereIn('type', ['individual', 'parental-guidance'])->sum->getWeightedCount('staff'),
+                    'group' => $staffScheduls->where('type', 'group')->sum->getWeightedCount('staff'),
+                    'staff-meeting' => $staffScheduls->where('type', 'staff-meeting')->sum->getWeightedCount('staff'),
+                    'tutorial' => $staffScheduls->where('type', 'tutorial')->sum->getWeightedCount('staff'),
+                    'preparation' => $staffScheduls->where('type', 'preparation')->sum->getWeightedCount('staff'),
+                    'documentation-break' => $staffScheduls->where('type', 'documentation-break')->sum->getWeightedCount('staff'),
                 ];
                 $staffSummary .= view('components.staff-hour-summary', ['user' => $user, 'summary' => $summary]);
             }

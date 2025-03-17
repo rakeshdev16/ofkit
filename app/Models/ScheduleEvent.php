@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class ScheduleEvent extends Model
 {
@@ -155,10 +156,30 @@ class ScheduleEvent extends Model
         return $query->where('frequency_repeat', 'Monthly');
     }
 
-    public function getWeightedCount()
+    // public function getWeightedCount()
+    // {
+    //     return $this->frequency_repeat === 'Weekly' ? 1 :
+    //         ($this->frequency_repeat === 'Bi-weekly' ? 0.5 :
+    //         ($this->frequency_repeat === 'Monthly' ? 0.25 : 0));
+    // }
+
+    public function getWeightedCount($type)
     {
-        return $this->frequency_repeat === 'Weekly' ? 1 :
-            ($this->frequency_repeat === 'Bi-weekly' ? 0.5 :
-            ($this->frequency_repeat === 'Monthly' ? 0.25 : 0));
+        $start = Carbon::parse($this->start_time);
+        $end = Carbon::parse($this->end_time);
+        $duration = $start->diffInMinutes($end);
+
+        $children = 0;
+        $staff = 0;
+
+        if ($duration <= 30) $children = 0.5;
+        if ($duration > 30 && $duration <= 60) $children = 1;
+        if ($duration == 75) $children = 1.5;
+        if ($duration == 90) $children = 2;
+
+        $staff = $duration / 60 * 1;
+
+        if ($type == 'children') return $children;
+        if ($type == 'staff') return $staff;
     }
 }
