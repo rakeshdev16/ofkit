@@ -10,12 +10,13 @@ use App\Models\Schedule;
 use App\Models\Kindergarten;
 use App\Models\StaffKindergarten;
 use App\Models\Association;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use DB, Auth, DateTime, Session;
 use App\Exports\CalendarExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 
 class DocumentationController extends Controller
 {
@@ -30,38 +31,43 @@ class DocumentationController extends Controller
     public function calendar(Request $request)
     {
         $filter = $request->all();
+        $yearMonth = explode('-', $filter['month']);
+        $dates = $this->getWeekStartEndDate($yearMonth[0], $yearMonth[1], $filter['week']);
+        $startDate = Carbon::parse($dates['start']);
+        $endDate = Carbon::parse($dates['end']);
+        $week = CarbonPeriod::create($startDate, $endDate);
         $day = request('day', 'All Days');
-        $today = date('d');
         $header = [];
 
         if ($day == 'All Days') {
-            for ($i = 0; $i < 7; $i++) {
-                $date = date('d', strtotime("last Sunday +{$i} days"));
-                $dayName = date('l', strtotime("last Sunday +{$i} days"));
-                $todayClass = ($date == $today) ? ' today' : '';
+            foreach ($week as $date) {
+                $parseDate = Carbon::parse($date);
+                $day = $parseDate->format('l');
+                $dateNumber = $parseDate->format('d');
                 $header[] = [
-                    'name' => '<div class="' . $todayClass . '">' . $dayName . '<br>' . $date . '</div>',
-                    'id' => Auth::id() . strtolower($dayName)
+                    'name' => '<div>' . $day . '<br>' . $dateNumber . '</div>',
+                    'id' => Auth::id() . strtolower($day)
                 ];
             }
         } else {
-            $date = date('d', strtotime("last $day"));
-            $dayName = date('l', strtotime("last Sunday $day"));
-            $todayClass = ($date == $today) ? ' today' : '';
+            $specificDate = Carbon::parse($startDate)->next($day);
+            if ($specificDate->greaterThan($endDate)) {
+                $specificDate = $startDate;
+            }
+            $dayName = $specificDate->format('l');
+            $dateNumber = $specificDate->format('d');
             $header[] = [
-                'name' => '<div class="' . $todayClass . '">' . $day . '<br>' . $date . '</div>',
+                'name' => '<div>' . $dayName . '<br>' . $dateNumber . '</div>',
                 'id' => Auth::id() . strtolower($dayName)
             ];
         }
 
-        $yearMonth = explode('-', $filter['month']);
-        $date = $this->getWeekStartEndDate($yearMonth[0], $yearMonth[1], $filter['week']);
         $events = [];
         $schedule = '';
         $scheduleIds = Schedule::where('status', 'published')
-            ->where('start_date', '<=', $date['end'])
-            ->where('end_date', '>=', $date['start'])
-            ->where('end_date', '<=', $date['end'])
+            ->where('start_date', '<=', $dates['end'])
+            ->where('end_date', '>=', $dates['start'])
+            ->where('end_date', '<=', $dates['end'])
             ->pluck('id');
 
         $scheduleEvents = ScheduleEvent::whereIn('schedule_id', $scheduleIds)->where('therapist_id', Auth::id())

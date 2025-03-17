@@ -239,6 +239,7 @@ function scheduleResponse($events, $schedule = null, $childId = null)
 {
     return $events->map(function ($event) use($events, $schedule, $childId) {
 
+        $kindergartenId = !empty($schedule) ? $schedule->kindergarten_id : optional($event->schedule)->kindergarten_id;
         $scheduleId = !empty($schedule) ? $schedule->id : optional($event->schedule)->id;
         $findEvent = ScheduleEvent::where([
             'schedule_id' => $scheduleId,
@@ -252,6 +253,16 @@ function scheduleResponse($events, $schedule = null, $childId = null)
         $event->last_id = $findEvent->orderBy('id', 'DESC')->pluck('id')->first();
         $event->therapistIds = $therapistIds;
         $event->childrenId = $event->childrens->pluck('children_id')->toArray();
+        if (Route::currentRouteName() == 'documentation.calendar') {
+            $event->allChildrens = Children::select('id as key', DB::raw('CONCAT(name, " ", family_name) as value'))->where('kindergarten_id', $kindergartenId)->orderBy('name')->get()->toArray();
+            $event->allTherapists = StaffSchedule::filter(['kindergarten_id' => $kindergartenId])->with('user')->select('user_id')->distinct('user_id')->get()
+                ->map(function ($schedule) {
+                    return [
+                        'key' => $schedule->user_id,
+                        'value' => $schedule->user->name ?? 'N/A',
+                    ];
+                })->toArray();
+        }
         return [
             'id' => $event->id,
             'start' => date('Y-m-d').' '.$event->start_time,

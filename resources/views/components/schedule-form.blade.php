@@ -25,11 +25,9 @@
         </select>
     </div>
     <div class="w-50">
-        {{-- <input type="text" name="start_time" class="form-control startTime event-time" id="" value="{{ @$data['startTime'] }}"> --}}
         @include('components.time-picker', ['name' => 'start_time', 'class' => 'startTime event-time', 'label' => 'Start time', 'value' => @$data['startTime']])
     </div>
     <div class="w-50">
-        {{-- <input type="text" name="end_time" class="form-control endTime event-time" id="" value="{{ @$data['endTime'] }}"> --}}
         @include('components.time-picker', ['name' => 'end_time', 'class' => 'endTime event-time', 'label' => 'End time', 'value' => @$data['endTime']])
     </div>
 </div>

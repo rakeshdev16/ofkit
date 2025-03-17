@@ -176,6 +176,8 @@
                 if (route === 'documentation.index') {
                     $('#eventStatusForm').html(event.form);
                     $('#eventStatusModal').modal('toggle');
+                    let data = event.data;
+                    selectVisibility(data.type, data.childrenId, data.therapistIds);
                 } else {
                     const handleAction = (type, data) => {
                         DayPilot.Modal.close();
@@ -407,7 +409,46 @@
         });
     }
 
-    function selectVisibility(type) {
+    // function selectVisibility(type) {
+    //     var isMultiple = (type === 'group' || type === 'staff-meeting');
+    //     if (type === 'group') {
+    //         $('#groupName').show();
+    //     } else {
+    //         $('#groupName').hide();
+    //     }
+
+    //     if (['individual', 'group', 'parental-guidance', 'staff-meeting', ''].includes(type)) {
+    //         $('#otherFields').show();
+    //     } else {
+    //         $('#otherFields').hide();
+    //     }
+
+    //     $('.selectChildrens').select2({
+    //         dropdownParent: $("#createEventModal"),
+    //         placeholder: "Select Children",
+    //         allowClear: true,
+    //         maximumSelectionLength: !isMultiple ?? 1,
+    //         language: {
+    //             maximumSelected: function (args) {
+    //                 return "You can only select one children";
+    //             }
+    //         }
+    //     });
+
+    //     $('.selectTherapist').select2({
+    //         dropdownParent: $("#createEventModal"),
+    //         placeholder: "Select Therapist",
+    //         allowClear: true,
+    //         maximumSelectionLength: !isMultiple ?? 1,
+    //         language: {
+    //             maximumSelected: function (args) {
+    //                 return "You can only select one therapist";
+    //             }
+    //         }
+    //     });
+    // }
+
+    function selectVisibility(type, selectedChildrens = [], selectedTherapist = []) {
         var isMultiple = (type === 'group' || type === 'staff-meeting');
         if (type === 'group') {
             $('#groupName').show();
@@ -421,29 +462,57 @@
             $('#otherFields').hide();
         }
 
-        $('.selectChildrens').select2({
-            dropdownParent: $("#createEventModal"),
+        $(".selectChildrens").select2({
+            dropdownParent: $("#createEventModal, #eventStatusModal"),
             placeholder: "Select Children",
             allowClear: true,
             maximumSelectionLength: !isMultiple ?? 1,
             language: {
-                maximumSelected: function (args) {
-                    return "You can only select one children";
+                maximumSelected: function () {
+                    return "You can only select one child";
                 }
+            },
+            templateSelection: function (selected) {
+                if (selectedChildrens.includes(Number(selected.id))) {
+                    return $('<span class="locked-option">' + selected.text + '</span>');
+                }
+                return selected.text;
             }
         });
 
-        $('.selectTherapist').select2({
-            dropdownParent: $("#createEventModal"),
+        $(".selectChildrens").on("select2:unselecting", function (e) {
+            if (selectedChildrens.includes(Number(e.params.args.data.id))) {
+                e.preventDefault();
+            }
+        });
+
+        $(".selectTherapist").select2({
+            dropdownParent: $("#createEventModal, #eventStatusModal"),
             placeholder: "Select Therapist",
             allowClear: true,
             maximumSelectionLength: !isMultiple ?? 1,
             language: {
-                maximumSelected: function (args) {
+                maximumSelected: function () {
                     return "You can only select one therapist";
                 }
+            },
+            templateSelection: function (selected) {
+                if (selectedTherapist.includes(Number(selected.id))) {
+                    return $('<span class="locked-option">' + selected.text + '</span>');
+                }
+                return selected.text;
             }
         });
+
+        $(".selectTherapist").on("select2:unselecting", function (e) {
+            if (selectedTherapist.includes(Number(e.params.args.data.id))) {
+                e.preventDefault();
+            }
+        });
+
+        setTimeout(() => {
+            $(".locked-option").parent().find(".select2-selection__choice__remove").remove();
+        }, 100);
     }
 
     function submitIfAvailable(data) {
