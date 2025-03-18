@@ -405,7 +405,6 @@
                 isAvailableArray = isAvailableArray.filter(item => item !== data.type);
             }
             submitIfAvailable(data);
-
         });
     }
 
@@ -471,19 +470,19 @@
                 maximumSelected: function () {
                     return "You can only select one child";
                 }
-            },
-            templateSelection: function (selected) {
-                if (selectedChildrens.includes(Number(selected.id))) {
-                    return $('<span class="locked-option">' + selected.text + '</span>');
-                }
-                return selected.text;
             }
         });
 
+        $(".selectChildrens").on("select2:select", function (e) {
+            let data = e.params.data;
+            let attendenceForm = `@include('components.attendece-form', ['id' => '${data.id}', 'type' => 'children', 'name' => '${data.text}'])`;
+            $('.children-attendance').append(attendenceForm);
+        });
+
         $(".selectChildrens").on("select2:unselecting", function (e) {
-            if (selectedChildrens.includes(Number(e.params.args.data.id))) {
-                e.preventDefault();
-            }
+            let id = e.params.args.data.id;
+            $('.form'+id).remove();
+            if (selectedChildrens.includes(Number(id))) e.preventDefault();
         });
 
         $(".selectTherapist").select2({
@@ -495,19 +494,19 @@
                 maximumSelected: function () {
                     return "You can only select one therapist";
                 }
-            },
-            templateSelection: function (selected) {
-                if (selectedTherapist.includes(Number(selected.id))) {
-                    return $('<span class="locked-option">' + selected.text + '</span>');
-                }
-                return selected.text;
             }
         });
 
+        $(".selectTherapist").on("select2:select", function (e) {
+            let data = e.params.data;
+            let attendenceForm = `@include('components.attendece-form', ['id' => '${data.id}', 'type' => 'therapist', 'name' => '${data.text}'])`;
+            $('.therapist-attendance').append(attendenceForm);
+        });
+
         $(".selectTherapist").on("select2:unselecting", function (e) {
-            if (selectedTherapist.includes(Number(e.params.args.data.id))) {
-                e.preventDefault();
-            }
+            let id = e.params.args.data.id;
+            $('.form'+id).remove();
+            if (selectedTherapist.includes(Number(id))) e.preventDefault();
         });
 
         setTimeout(() => {

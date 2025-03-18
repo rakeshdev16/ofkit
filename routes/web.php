@@ -145,6 +145,7 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
     Route::controller(DocumentationController::class)->group(function (){
         Route::get('documentation', 'index')->name('documentation.index');
         Route::get('documentation/calendar', 'calendar')->name('documentation.calendar');
+        Route::post('documentation/form-data', 'formData')->name('documentation.form-data');
     });
 
     Route::controller(UserController::class)->group(function () {

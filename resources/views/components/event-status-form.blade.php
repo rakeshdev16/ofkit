@@ -79,39 +79,21 @@
                 'icon' => 'buildings',
                 'options' => @$data['allTherapists'],
                 'value' => @$data['therapistIds'],
-                'disabled' => !in_array(@$data['type'], ['group', 'staff-meeting']) ? 'disabled' : ''
             ])
         </div>
         <span class="therapists"></span>
-        @if ($data['type'] == 'group' || $data['type'] == 'staff-meeting')
-            <div class="mt-3">
-                <strong>General Occurred?</strong>
-                <div class="d-flex align-items-center gap-3 mt-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="general_occurred" id="generalOccurredYes">
-                        <label class="form-check-label" for="generalOccurredYes">Yes</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="general_occurred" id="generalOccurredNo">
-                        <label class="form-check-label" for="generalOccurredNo">No</label>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-3">
-                <div class="d-flex align-items-center gap-3 mt-2">
-                    <select class="form-select w-100">
-                        <option selected>Reason</option>
-                        <option value="Child Absent">Child Absent</option>
-                        <option value="Therapist Absent">Therapist Absent</option>
-                        <option value="Kindergarten Closed">Kindergarten Closed</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-            </div>
-            <div class="mt-3">
-                <textarea class="form-control" rows="3" placeholder="Description Add"></textarea>
-            </div>
-        @endif
+        <div class="therapist-attendance">
+            @if (isset($data['therapistIds']))
+                @foreach ($data['therapistIds'] as $therapistId)
+                    @include('components.attendece-form', [
+                        'id' => $therapistId,
+                        'type' => 'therapist',
+                        'name' => getUserNameById($therapistId),
+                        'data' => $data
+                    ])
+                @endforeach
+            @endif
+        </div>
         @if (!in_array(@$data['type'], ['documentation-break', 'preparation', 'tutorial', 'other']))
             <div class="mt-3">
                 @include('components.multi-select-input', [
@@ -121,36 +103,20 @@
                     'icon' => 'buildings',
                     'options' => @$data['allChildrens'],
                     'value' => @$data['childrenId'],
-                    'disabled' => !in_array(@$data['type'], ['group', 'staff-meeting']) ? 'disabled' : ''
                 ])
             </div>
             <span class="childrens mb-3"></span>
-            <div class="mt-3">
-                <strong>{{ $data['type'] == 'group' ? 'Participated' : 'Occurred' }}?</strong>
-                <div class="d-flex align-items-center gap-3 mt-2">
-                    <div class="form-check">
-                        <input class="form-check-input" name="occurred" type="radio" id="occurredYes">
-                        <label class="form-check-label" for="occurredYes">Yes</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" name="occurred" type="radio" id="occurredNo">
-                        <label class="form-check-label" for="occurredNo">No</label>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-3">
-                <div class="d-flex align-items-center gap-3 mt-2">
-                    <select class="form-select w-100">
-                        <option selected>Reason</option>
-                        <option value="Child Absent">Child Absent</option>
-                        <option value="Therapist Absent">Therapist Absent</option>
-                        <option value="Kindergarten Closed">Kindergarten Closed</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-            </div>
-            <div class="mt-3">
-                <textarea class="form-control" rows="3" placeholder="Description Add"></textarea>
+            <div class="children-attendance">
+                @if (isset($data['childrenId']))
+                    @foreach ($data['childrenId'] as $childrenId)
+                        @include('components.attendece-form', [
+                            'id' => $childrenId,
+                            'type' => 'children',
+                            'name' => getChildrenNameById($childrenId),
+                            'data' => $data
+                        ])
+                    @endforeach
+                @endif
             </div>
             <div class="mt-3 d-flex align-items-center">
                 <input type="file" class="form-control" name="" id="">

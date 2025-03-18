@@ -52,14 +52,14 @@
                 <div class="dropdown">
                     <button class="btn button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">New Documentation</button>
                     <ul class="dropdown-menu" style="">
-                        <li><a class="dropdown-item eventType" data-type="individual" href="#">Individual</a></li>
-                        <li><a class="dropdown-item eventType" data-type="group" href="#">Group</a></li>
-                        <li><a class="dropdown-item eventType" data-type="parental-guidance" href="#">Parental Guidance</a></li>
-                        <li><a class="dropdown-item eventType" data-type="staff-meeting" href="#">Staff Meeting</a></li>
-                        <li><a class="dropdown-item eventType" data-type="documentation-break" href="#">Documentation/break</a></li>
-                        <li><a class="dropdown-item eventType" data-type="preparation" href="#">Preparation</a></li>
-                        <li><a class="dropdown-item eventType" data-type="tutorial" href="#">Tutorial</a></li>
-                        <li><a class="dropdown-item eventType" data-type="other" href="#">Other</a></li>
+                        <li><a class="dropdown-item newEvent" data-type="individual" href="#">Individual</a></li>
+                        <li><a class="dropdown-item newEvent" data-type="group" href="#">Group</a></li>
+                        <li><a class="dropdown-item newEvent" data-type="parental-guidance" href="#">Parental Guidance</a></li>
+                        <li><a class="dropdown-item newEvent" data-type="staff-meeting" href="#">Staff Meeting</a></li>
+                        <li><a class="dropdown-item newEvent" data-type="documentation-break" href="#">Documentation/break</a></li>
+                        <li><a class="dropdown-item newEvent" data-type="preparation" href="#">Preparation</a></li>
+                        <li><a class="dropdown-item newEvent" data-type="tutorial" href="#">Tutorial</a></li>
+                        <li><a class="dropdown-item newEvent" data-type="other" href="#">Other</a></li>
                     </ul>
                 </div>
             </div>
@@ -101,6 +101,23 @@
                 if (id === "decreaseDay") currentIndex = (currentIndex - 1 + days.length) % days.length;
                 dayPicker.value = days[currentIndex];
                 getEvents();
+            });
+        });
+
+        $(document).on('click', '.newEvent', function () {
+            let type = $(this).data('type');
+            let data = { 'type': type, 'kindergarten_id': "{{ $kindergartens[0]->id }}" };
+            fetch("{{ route('documentation.form-data') }}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            }).then((response) => response.json()).then((data) => {
+                $('#eventStatusForm').html(data.data);
+                $('#eventStatusModal').modal('toggle');
+                selectVisibility(type);
             });
         });
 

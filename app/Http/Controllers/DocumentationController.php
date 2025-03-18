@@ -28,6 +28,49 @@ class DocumentationController extends Controller
         return view('documentation.index', compact('kindergartens'));
     }
 
+    public function store(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            if ($request->hasFile('image')) {
+                $request['file'] = uploadFile($request->image, 'public/therapy-schedule');
+            } else {
+                $request['file'] = $request->old_image;
+            }
+
+            $schedule = Schedule::find($request->schedule_id);
+            $request['unique_id'] = $request->unique_id ? $request->unique_id : Str::uuid();
+            if ($request->new_therapist_ids && count($request->new_therapist_ids) > 0) {
+                foreach ($request->new_therapist_ids as $key => $therapistId) {
+                    $request['therapist_id'] = $therapistId;
+                    $event = $schedule->events()->create($request->except('schedule_id'));
+                    $event->childrens()->delete();
+                    if (isset($request->children_ids) && count($request->children_ids) > 0) {
+                        foreach ($request->children_ids as $childrenId) {
+                            $event->childrens()->create(['children_id' => $childrenId]);
+                        }
+                    }
+                }
+            }
+            $events = $schedule->events()->whereIn('therapist_id', $request->therapist_ids)->where([
+                    'day' => $request->day,
+                    'start_time' => $request->start_time
+                ])->get();
+            $event = scheduleResponse($events, $schedule);
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => 'Event detail has been successfully saved as draft!',
+                'event' => $event,
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['status' => false, 'message' => $e->getMessage()]);
+        }
+    }
+
     public function calendar(Request $request)
     {
         $filter = $request->all();
@@ -107,5 +150,28 @@ class DocumentationController extends Controller
             'start' => $weekStart->format('Y-m-d').' 00:00:00',
             'end' => $weekEnd->format('Y-m-d').' 00:00:00'
         ];
+    }
+
+    public function formData(Request $request)
+    {
+        $data = $request->all();
+        $data['allChildrens'] = Children::select('id as key', DB::raw('CONCAT(name, " ", family_name) as value'))
+            ->where('kindergarten_id', $data['kindergarten_id'])
+            ->orderBy('name')
+            ->get()
+            ->toArray();
+        $data['allTherapists'] = StaffSchedule::filter(['kindergarten_id' => $data['kindergarten_id']])
+            ->with('user')
+            ->select('user_id')
+            ->distinct('user_id')
+            ->get()
+            ->map(function ($schedule) {
+                return [
+                    'key' => $schedule->user_id,
+                    'value' => $schedule->user->name ?? 'N/A',
+                ];
+            })->toArray();
+        $form = view('components.event-status-form', ['data' => $data])->render();
+        return response()->json(['status' => true, 'data' => $form]);
     }
 }
