@@ -106,7 +106,7 @@
 
         $(document).on('click', '.newEvent', function () {
             let type = $(this).data('type');
-            let data = { 'type': type, 'kindergarten_id': "{{ $kindergartens[0]->id }}" };
+            let data = { 'type': type, 'kindergarten_id': "{{ @$kindergartens[0]->id }}" };
             fetch("{{ route('documentation.form-data') }}", {
                 method: 'POST',
                 headers: {
