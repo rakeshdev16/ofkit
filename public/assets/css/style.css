@@ -836,7 +836,7 @@ button[disabled] {
 
 .event-status {
     display: inline-block;
-    background: red;
+    /* background: red; */
     padding: 4px;
     border-radius: 50px;
 }

@@ -19,7 +19,30 @@
         </div>
     @endif
     @if (Route::currentRouteName() == 'documentation.calendar')
-        <div style="text-align: left; height:5px;"><span class="event-status"></span></div>
+        @php
+            $color = 'red';
+            switch (@$data['type']) {
+                case 'individual':
+                    $color = 'red';
+                break;
+                case 'group':
+                    $color = 'gray';
+                break;
+                case 'parental-guidance':
+                    $color = 'black';
+                break;
+                case 'staff-meeting':
+                    $color = 'red';
+                break;
+                case 'documentation-break':
+                    $color = 'gray';
+                break;
+                case 'preparation':
+                    $color = 'black';
+                break;
+            }
+        @endphp
+        <div style="text-align: left; height:5px;"><span class="event-status" style="background: {{ $color }}"></span></div>
     @endif
     @if ($data->event_time !== 15)
         @if ($data['eventCount'] <= 1)
