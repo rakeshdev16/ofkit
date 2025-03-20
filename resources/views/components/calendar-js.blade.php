@@ -575,7 +575,7 @@
         if (day) {
             filterFormData();
         }
-    })
+    });
     $(document).on('change', '#appointmentFrequency, #Bi-weekly, #Monthly', function() {
         var type = $('#appointmentType').val();
         var appointmentFrequency = $('#appointmentFrequency').val();

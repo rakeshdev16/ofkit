@@ -50,7 +50,7 @@
             <div class="d-flex gap-1">
                 <button class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="today">Today</button>
                 <div class="dropdown">
-                    <button class="btn button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Calendar</button>
+                    <button class="btn button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">New Documentation</button>
                     <ul class="dropdown-menu" style="">
                         <li><a class="dropdown-item newEvent" data-type="individual" href="#">Individual</a></li>
                         <li><a class="dropdown-item newEvent" data-type="group" href="#">Group</a></li>

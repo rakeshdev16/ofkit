@@ -404,7 +404,12 @@ class ChildrenController extends Controller
             ->get();
         $user = Auth::user();
         $userIds = StaffKindergarten::where('kindergarten_id', $children->kindergarten_id)->pluck('user_id')->toArray();
-        $allTherapists = User::whereIn('id', $userIds)->role(['manager', 'therapist'])->where('status', 'active')->select('id as key', 'name as value')->get();
+        $allTherapists = User::whereIn('id', $userIds)->role(['manager', 'therapist'])->where('status', 'active')->get()->map(function ($user) {
+                        return [
+                            'key' => $user->id,
+                            'value' => $user->name . ' ' . ($user->profession->acronyms ?? ''),
+                        ];
+                    });
         switch ($type) {
             case 'individual':
                 return view('children.document.individual', compact('allTherapists', 'children', 'user', 'document'));

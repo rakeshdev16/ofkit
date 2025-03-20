@@ -100,6 +100,7 @@
                                             @include('components.date-input', [
                                                 'label' => __('staff.birthDateTh'),
                                                 'name' => 'dob',
+                                                'class' => 'date-of-birth',
                                             ])
                                         </div>
                                         <div class="col-md-6">
@@ -116,6 +117,7 @@
                                             @include('components.date-input', [
                                                 'label' => __('staff.workStartDate'),
                                                 'name' => 'work_start_date',
+                                                'class' => 'datepicker',
                                             ])
                                         </div>
                                         <div class="col-md-6">

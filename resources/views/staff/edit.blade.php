@@ -123,6 +123,7 @@
                                             @include('components.date-input', [
                                                 'label' => __('staff.birthDateTh'),
                                                 'name' => 'dob',
+                                                'class' => 'date-of-birth',
                                                 'value' => $staff->date_of_birth ?? '',
                                                 'readonly' => Auth::user()->hasRole('admin') ? '' : true,
                                             ])
@@ -151,6 +152,7 @@
                                             @include('components.date-input', [
                                                 'label' => __('staff.workStartDate'),
                                                 'name' => 'work_start_date',
+                                                'class' => 'datepicker',
                                                 'value' => $staff->work_start_date ?? '',
                                             ])
                                         </div>
