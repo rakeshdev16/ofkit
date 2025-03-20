@@ -691,8 +691,9 @@
                         $('#createEventModal').modal('toggle');
                     } else {
                         toastr.error(data.message);
+                        $('#createEventModal').modal('toggle');
                     }
-                }).catch(error => toastr.error('An error occurred while processing the request.'));
+                });
             };
 
             let confirmMsg = isTimeOutSide == true ?
