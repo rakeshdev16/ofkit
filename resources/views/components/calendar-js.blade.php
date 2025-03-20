@@ -139,19 +139,19 @@
                 args.header.html = hour.toString("HH:mm");
             },
             onTimeRangeSelected: async args => {
-                let isTimeOutSide = true;
-                if (Array.isArray(availableTime) && availableTime.length > 0) {
-                    let isAvailableTime = availableTime.find(e => e.resource === args.resource);
-                    if (isAvailableTime && isAvailableTime.startTime && isAvailableTime.endEnd) {
-                        let availableStart = isAvailableTime.startTime.substring(0, 5);
-                        let availableEnd = isAvailableTime.endEnd.substring(0, 5);
-                        let selectedStart = args.start.toString("HH:mm");
-                        let selectedEnd = args.end.toString("HH:mm");
-                        if (selectedStart >= availableStart && selectedEnd <= availableEnd) {
-                            isTimeOutSide = false;
-                        }
-                    }
-                }
+                // let isTimeOutSide = true;
+                // if (Array.isArray(availableTime) && availableTime.length > 0) {
+                //     let isAvailableTime = availableTime.find(e => e.resource === args.resource);
+                //     if (isAvailableTime && isAvailableTime.startTime && isAvailableTime.endEnd) {
+                //         let availableStart = isAvailableTime.startTime.substring(0, 5);
+                //         let availableEnd = isAvailableTime.endEnd.substring(0, 5);
+                //         let selectedStart = args.start.toString("HH:mm");
+                //         let selectedEnd = args.end.toString("HH:mm");
+                //         if (selectedStart >= availableStart && selectedEnd <= availableEnd) {
+                //             isTimeOutSide = false;
+                //         }
+                //     }
+                // }
 
                 if (type == 'view') {
                     dp.clearSelection();
@@ -475,13 +475,13 @@
 
         $(".selectChildrens").on("select2:select", function (e) {
             let data = e.params.data;
-            let attendenceForm = `@include('components.attendece-form', ['id' => '${data.id}', 'type' => 'children', 'name' => '${data.text}'])`;
+            let attendenceForm = `@include('components.children-participated', ['index' => '${data.id}', 'name' => '${data.text}', 'child_id' => '${data.id}'])`;
             $('.children-attendance').append(attendenceForm);
         });
 
         $(".selectChildrens").on("select2:unselecting", function (e) {
             let id = e.params.args.data.id;
-            $('.form'+id).remove();
+            $('.fileSec'+id).remove();
             if (selectedChildrens.includes(Number(id))) e.preventDefault();
         });
 
@@ -499,13 +499,20 @@
 
         $(".selectTherapist").on("select2:select", function (e) {
             let data = e.params.data;
-            let attendenceForm = `@include('components.attendece-form', ['id' => '${data.id}', 'type' => 'therapist', 'name' => '${data.text}'])`;
-            $('.therapist-attendance').append(attendenceForm);
+            $('.therapist-attendance').removeClass('d-none').addClass('d-flex');
+            $('.therapist-attendance').append(`<div class="therapist-${data.id} mx-1">
+                <label for="therapist-${data.id}">${data.text}</label>
+                <input type="checkbox" name="" id="therapist-${data.id}">
+            </div>`);
+            let length = $('.therapist-attendance > div').length;
+            console.log("length", length);
         });
 
         $(".selectTherapist").on("select2:unselecting", function (e) {
             let id = e.params.args.data.id;
-            $('.form'+id).remove();
+            $('.therapist-'+id).remove();
+            let length = $('.therapist-attendance > div').length;
+            if (length === 0) $('.therapist-attendance').removeClass('d-flex').addClass('d-none');
             if (selectedTherapist.includes(Number(id))) e.preventDefault();
         });
 
@@ -543,8 +550,10 @@
 
     $(document).on('change', '#appointmentType', function() {
         var type = $('#appointmentType').val();
-        selectVisibility(type);
-        $('#therapist, #children').val(null).trigger('change');
+        // $('#therapist, #children').val(null).trigger('change');
+        eventData.type = type;
+        filterFormData();
+        // selectVisibility(type);
     });
 
     $(document).on('change', '.event-time', function() {
