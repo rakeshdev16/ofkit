@@ -38,7 +38,7 @@
             data-index="{{ $id.$key.$index }}"
             data-user-id="{{ @$data['user_id'] }}"
             data-key="0"
-            data-day="{{ $key }}"
+            data-day="{{ $key.$id }}"
             value="{{ @$day->start_time }}"
             placeholder="Enter Start Time"
             autocomplete="off"
@@ -53,7 +53,7 @@
             data-index="{{ $id.$key.$index }}"
             data-key="0"
             value="{{ @$day->end_time }}"
-            data-day="{{ $key }}"
+            data-day="{{ $key.$id }}"
             placeholder="Enter End Time"
             autocomplete="off"
             {{ ($route == 'staff.show' | empty($day->end_time)) ? 'disabled' : '' }}
