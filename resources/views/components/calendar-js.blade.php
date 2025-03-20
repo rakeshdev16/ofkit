@@ -322,7 +322,7 @@
                                 window.dp.events.remove(existEvent);
                             }
                         });
-                        setCalendar();
+                        // setCalendar();
                         toastr.success(data.message);
                     } else {
                         toastr.error(data.message);
