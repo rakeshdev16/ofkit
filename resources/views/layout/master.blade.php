@@ -238,6 +238,11 @@
                 dateFormat: "d/m/Y",
             });
 
+            $(".date-of-birth").flatpickr({
+                dateFormat: "d/m/Y",
+                maxDate: "today",
+            });
+
             $(".filterDateRange").flatpickr({
                 dateFormat: "Y/m/d",
             });

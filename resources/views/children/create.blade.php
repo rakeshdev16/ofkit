@@ -84,6 +84,7 @@
                                                                 'label' => __('children.dob'),
                                                                 'name' => 'dob',
                                                                 'class' => 'date-of-birth',
+                                                                'max' => date('d/m/Y')
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">
@@ -149,6 +150,7 @@
                                                             @include('components.date-input', [
                                                                 'label' => __('children.tabamServicesStart'),
                                                                 'name' => 'service_start_date',
+                                                                'class' => 'datepicker',
                                                             ])
                                                         </div>
                                                         <div class="col-md-6">

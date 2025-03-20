@@ -81,6 +81,7 @@
                                                         @include('components.date-input', [
                                                             'label' => __('children.date'),
                                                             'name' => 'date',
+                                                            'class' => 'datepicker',
                                                             'value' => @$document->date,
                                                         ])
                                                     </div>

@@ -167,6 +167,7 @@
                                                             @include('components.date-input', [
                                                                 'label' => __('children.tabamServicesStart'),
                                                                 'name' => 'service_start_date',
+                                                                'class' => 'datepicker',
                                                                 'value' => $children->service_start_date,
                                                             ])
                                                         </div>
