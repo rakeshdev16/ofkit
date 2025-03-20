@@ -686,8 +686,8 @@
                             currentIds = [...new Set([...currentIds, item.uniqueId])];
                             hiddenInput.val(JSON.stringify(currentIds));
                         });
-                        setCalendar();
-                        window.dp.clearSelection();
+                        // setCalendar();
+                        // window.dp.clearSelection();
                         $('#createEventModal').modal('toggle');
                     } else {
                         toastr.error(data.message);
