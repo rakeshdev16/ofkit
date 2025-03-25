@@ -253,7 +253,7 @@ function scheduleResponse($events, $schedule = null, $childId = null)
         break;
     }
     return $rows->map( function ($row) use ($events, $schedule, $childId) {
-        $event = $events->where('id', $row->schedule_event_id)->first();
+        $event = $events->find($row->schedule_event_id);
         $kindergartenId = !empty($schedule) ? $schedule->kindergarten_id : optional($event->schedule)->kindergarten_id;
         $scheduleId = !empty($schedule) ? $schedule->id : optional($event->schedule)->id;
         $findEvent = ScheduleEvent::whereHas('therapists', function ($query) use ($row) {
@@ -269,6 +269,15 @@ function scheduleResponse($events, $schedule = null, $childId = null)
         $event->last_id = $findEvent->orderBy('id', 'DESC')->pluck('id')->first();
         $event->therapistIds = $therapistIds;
         $event->childrenId = $event->childrens->pluck('children_id')->toArray();
+        $response = [
+            'id' => $row->id,
+            'start' => date('Y-m-d').' '.$event->start_time,
+            'end' => date('Y-m-d').' '.$event->end_time,
+            'resource' => ($childId ?? $row->therapist_id) . strtolower($event->day),
+            'data' => ($event),
+            'eventSlotHtml' => view('components.event-html', ['data' => $event])->render(),
+            'eventDetailSlotHtml' => view('components.event-detail-html', ['data' => $event])->render(),
+        ];
         if (Route::currentRouteName() == 'documentation.calendar') {
             $event->allChildrens = Children::select('id as key', DB::raw('CONCAT(name, " ", family_name) as value'))->where('kindergarten_id', $kindergartenId)->orderBy('name')->get()->toArray();
             $event->allTherapists = StaffSchedule::filter(['kindergarten_id' => $kindergartenId])->with('user')->select('user_id')->distinct('user_id')->get()
@@ -279,17 +288,9 @@ function scheduleResponse($events, $schedule = null, $childId = null)
                     ];
                 })->toArray();
             $event->form_type = 'edit';
+            $response['form'] = view('components.event-status-form', ['data' => $event])->render();
         }
-        return [
-            'id' => $row->id,
-            'start' => date('Y-m-d').' '.$event->start_time,
-            'end' => date('Y-m-d').' '.$event->end_time,
-            'resource' => ($childId ?? $row->therapist_id) . strtolower($event->day),
-            'data' => ($event),
-            'form' => view('components.event-status-form', ['data' => $event])->render(),
-            'eventSlotHtml' => view('components.event-html', ['data' => $event])->render(),
-            'eventDetailSlotHtml' => view('components.event-detail-html', ['data' => $event])->render(),
-        ];
+        return $response;
     });
 
     // return $events->map(function ($event) use($events, $schedule, $childId) {

@@ -13,8 +13,6 @@ class ScheduleEvent extends Model
 
     protected $fillable = [
         'schedule_id',
-        // 'kindergarten_id',
-        // 'therapist_id',
         'type',
         'day',
         'frequency_repeat',
@@ -24,8 +22,6 @@ class ScheduleEvent extends Model
         'file',
         'start_time',
         'end_time',
-        // 'color',
-        // 'unique_id',
         'added_by',
     ];
 
@@ -35,7 +31,7 @@ class ScheduleEvent extends Model
     {
         static::saving(function ($scheduleEvent) {
             if (!request()->has('_is_cloning')) {
-                $scheduleEvent->color = static::getColorFromRequest();
+                // $scheduleEvent->color = static::getColorFromRequest();
                 $scheduleEvent->added_by = Auth::id();
             }
         });
@@ -49,22 +45,22 @@ class ScheduleEvent extends Model
         });
     }
 
-    protected static function getColorFromRequest()
-    {
-        $childrenIds = request()->children_ids;
-        if ((request()->type == 'individual' || request()->type == 'parental-guidance') && !empty($childrenIds)) {
-            return json_encode(Children::where('id', $childrenIds[0] ?? null)->pluck('color')->first());
-        }
-        $colors = [
-            'group' => json_encode(["background-color: #ede0d4;", "color: #000000;"]),
-            'staff-meeting' => json_encode(["background-color: #2c3e50;", "color: #ffffff;"]),
-            'documentation-break' => json_encode(["background-color: #b0bec5;", "color: #000000;"]),
-            'preparation' => json_encode(["background-color: #7e57c2;", "color: #ffffff;"]),
-            'tutorial' => json_encode(["background-color: #006d77;", "color: #ffffff;"]),
-            'other' => json_encode(["background-color: #d9a300;", "color: #000000;"]),
-        ];
-        return $colors[request()->type] ?? null;
-    }
+    // protected static function getColorFromRequest()
+    // {
+    //     $childrenIds = request()->children_ids;
+    //     if ((request()->type == 'individual' || request()->type == 'parental-guidance') && !empty($childrenIds)) {
+    //         return json_encode(Children::where('id', $childrenIds[0] ?? null)->pluck('color')->first());
+    //     }
+    //     $colors = [
+    //         'group' => json_encode(["background-color: #ede0d4;", "color: #000000;"]),
+    //         'staff-meeting' => json_encode(["background-color: #2c3e50;", "color: #ffffff;"]),
+    //         'documentation-break' => json_encode(["background-color: #b0bec5;", "color: #000000;"]),
+    //         'preparation' => json_encode(["background-color: #7e57c2;", "color: #ffffff;"]),
+    //         'tutorial' => json_encode(["background-color: #006d77;", "color: #ffffff;"]),
+    //         'other' => json_encode(["background-color: #d9a300;", "color: #000000;"]),
+    //     ];
+    //     return $colors[request()->type] ?? null;
+    // }
 
     public function schedule()
     {
@@ -101,18 +97,17 @@ class ScheduleEvent extends Model
 
     public function getColorAttribute($value)
     {
+        $childColor = $this->childrens[0]->children->color;
         $colors = [
+            'individual' => $childColor,
             'group' => ["background-color: #ede0d4;", "color: #000000;"],
+            'parental-guidance' => $childColor,
             'staff-meeting' => ["background-color: #2c3e50;", "color: #ffffff;"],
             'documentation-break' => ["background-color: #b0bec5;", "color: #000000;"],
             'preparation' => ["background-color: #7e57c2;", "color: #ffffff;"],
             'tutorial' => ["background-color: #006d77;", "color: #ffffff;"],
             'other' => ["background-color: #d9a300;", "color: #000000;"],
         ];
-        // return json_decode($value);
-        if (($this->type == 'individual' || $this->type == 'parental-guidance')) {
-            return $this->childrens[0]->children->color;
-        }
         return $colors[$this->type];
     }
 

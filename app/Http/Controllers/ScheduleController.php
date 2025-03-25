@@ -220,7 +220,6 @@ class ScheduleController extends Controller
                     ['name' => 'Friday', 'id' => Auth::id().'friday'],
                     ['name' => 'Saturday', 'id' => Auth::id().'saturday'],
                 ];
-                $schedules = StaffSchedule::whereIn('kindergarten_id', $kindergartenId)->where('user_id', Auth::id())->with('user')->where('day', $day)->get();
             } else {
                 $schedules = StaffSchedule::filter($filter)->with('user')->where('day', $day)->get()
                     ->map(function ($schedule) use ($day, $request) {
@@ -490,20 +489,9 @@ class ScheduleController extends Controller
         request()->merge(['_is_cloning' => true]);
         if ($schedule) {
             foreach ($schedule->events()->get() as $event) {
-                $clonedSchedules = $clonedSchedule->events()->create([
-                    'kindergarten_id' => $event->kindergarten_id,
-                    'therapist_id' => $event->therapist_id,
-                    'type' => $event->type,
-                    'day' => $event->day,
-                    'frequency_repeat' => $event->frequency_repeat,
-                    'frequency_repeat_at' => $event->frequency_repeat_at,
-                    'group_name' => $event->group_name,
-                    'description' => $event->description,
-                    'file' => $event->file,
-                    'start_time' => $event->start_time,
-                    'end_time' => $event->end_time,
-                    'color' => json_encode($event->color),
-                ]);
+                $clonedSchedules = $clonedSchedule->events()->create($event->only([
+                    'type', 'day', 'frequency_repeat', 'frequency_repeat_at', 'group_name', 'description', 'file', 'start_time', 'end_time', 'added_by'
+                ]));
                 if ($event->therapists()->exists()) {
                     foreach ($event->therapists()->get() as $therapist) {
                         $clonedSchedules->therapists()->create(['therapist_id' => $therapist->therapist_id]);

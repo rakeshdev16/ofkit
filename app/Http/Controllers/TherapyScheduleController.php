@@ -62,7 +62,6 @@ class TherapyScheduleController extends Controller
                     ['name' => 'Friday', 'id' => Auth::id().'friday'],
                     ['name' => 'Saturday', 'id' => Auth::id().'saturday'],
                 ];
-                $staffSchedule = StaffSchedule::whereIn('kindergarten_id', $kindergartenId)->where('user_id', Auth::id())->with('user')->where('day', $day)->get();
             } else {
                 $staffSchedule = StaffSchedule::whereIn('kindergarten_id', $kindergartenId)->with('user')->where('day', $day)->get();
                 $staffSchedule = $staffSchedule->map(function ($schedule) use ($day, $request) {
