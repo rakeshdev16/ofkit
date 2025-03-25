@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('professions', function (Blueprint $table) {
-            $table->string('acronyms')->nullable();
+        Schema::table('schedule_events', function (Blueprint $table) {
+            $table->integer('added_by')->nullable();
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('professions', function (Blueprint $table) {
+        Schema::table('schedule_events', function (Blueprint $table) {
             //
         });
     }

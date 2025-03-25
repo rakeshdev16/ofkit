@@ -65,23 +65,43 @@ class ScheduleController extends Controller
             }
 
             $schedule = Schedule::firstOrCreate(['status' => 'draft', 'kindergarten_id' => $request->kindergarten_id]);
-            $deletedIds = $schedule->events()->removeUnselectedUser($request->all());
-            $request['unique_id'] = $request->unique_id ? $request->unique_id : Str::uuid();
-            foreach ($request->therapist_ids as $key => $therapistId) {
-                $request['therapist_id'] = $therapistId;
-                $event = $schedule->events()->updateOrCreate(
-                    ['therapist_id' => $therapistId, 'unique_id' => $request->unique_id],
-                    $request->except('mode', 'schedule_id')
-                );
-                $event->childrens()->delete();
-                if (isset($request->children_ids) && count($request->children_ids) > 0) {
-                    foreach ($request->children_ids as $childrenId) {
-                        $event->childrens()->create(['children_id' => $childrenId]);
-                    }
+            $deletedIds = isset($request->event_id) ? ScheduleEvent::find($request->event_id)->therapists->pluck('id')->toArray() : [];
+            // $deletedIds = $schedule->events()->removeUnselectedUser($request->all());
+            // $request['unique_id'] = $request->unique_id ? $request->unique_id : Str::uuid();
+            // foreach ($request->therapist_ids as $key => $therapistId) {
+            //     $request['therapist_id'] = $therapistId;
+            //     $event = $schedule->events()->updateOrCreate(
+            //         ['therapist_id' => $therapistId, 'unique_id' => $request->unique_id],
+            //         $request->except('mode', 'schedule_id')
+            //     );
+            //     $event->childrens()->delete();
+            //     if (isset($request->children_ids) && count($request->children_ids) > 0) {
+            //         foreach ($request->children_ids as $childrenId) {
+            //             $event->childrens()->create(['children_id' => $childrenId]);
+            //         }
+            //     }
+            // }
+
+            $event = $schedule->events()->updateOrCreate(
+                ['id' => $request->event_id],
+                $request->except('mode', 'schedule_id', 'therapist_id')
+            );
+            $event->therapists()->delete();
+            if (isset($request->therapist_ids) && count($request->therapist_ids) > 0) {
+                foreach ($request->therapist_ids as $therapistId) {
+                    $event->therapists()->create(['therapist_id' => $therapistId]);
                 }
             }
-            // $events = $schedule->events()->where('unique_id', $request->unique_id)->get();
-            $events = $schedule->events()->whereIn('therapist_id', $request->therapist_ids)->where([
+            $event->childrens()->delete();
+            if (isset($request->children_ids) && count($request->children_ids) > 0) {
+                foreach ($request->children_ids as $childrenId) {
+                    $event->childrens()->create(['children_id' => $childrenId]);
+                }
+            }
+            // $events = $schedule->events()->where('therapist_id', $request->therapist_ids)->where([
+            $events = $schedule->events()->whereHas('therapists', function ($query) use ($request) {
+                    $query->whereIn('therapist_id', $request->therapist_ids);
+                })->where([
                     'day' => $request->day,
                     'start_time' => $request->start_time
                 ])->get();
@@ -143,8 +163,12 @@ class ScheduleController extends Controller
     public function delete(Request $request)
     {
         $data = json_decode($request['data']);
-        $ids = ScheduleEvent::where(['schedule_id' => $data->schedule_id, 'unique_id' => $data->unique_id])->pluck('id')->toArray();
-        if (ScheduleEvent::where(['schedule_id' => $data->schedule_id, 'unique_id' => $data->unique_id])->delete()) {
+        // $ids = ScheduleEvent::where(['schedule_id' => $data->schedule_id, 'unique_id' => $data->unique_id])->pluck('id')->toArray();
+        // if (ScheduleEvent::where(['schedule_id' => $data->schedule_id, 'unique_id' => $data->unique_id])->delete()) {
+        //     return response()->json(['status' => true, 'message' => 'Event detail has been successfully deleted!', 'ids' => $ids]);
+        // }
+        $ids = ScheduleEvent::where('id', $data->event_id)->first()->therapists->pluck('id');
+        if (ScheduleEvent::where('id', $data->event_id)->delete()) {
             return response()->json(['status' => true, 'message' => 'Event detail has been successfully deleted!', 'ids' => $ids]);
         }
         return response()->json(['status' => false, 'message' => 'Something went wrong please try again!']);
@@ -211,12 +235,11 @@ class ScheduleController extends Controller
                             'profession' => @$schedule->user->profession->acronyms,
                         ];
                     })->unique('id')->values()->toArray();
+                $header[] = [
+                    'name' => $day,
+                    'children' => isset($request->kindergarten_id) ? $schedules : [],
+                ];
             }
-
-            $header[] = [
-                'name' => $day,
-                'children' => isset($request->kindergarten_id) ? $schedules : [],
-            ];
         }
 
         $schedule = Schedule::filter($filter)->first();
@@ -293,7 +316,6 @@ class ScheduleController extends Controller
                 $isTimeOutSide = true;
             }
         }
-
         $freqRepeat = $data['frequencyRepeat'];
         $freqRepeatAt = $data['frequencyRepeatAt'];
 
@@ -313,15 +335,17 @@ class ScheduleController extends Controller
         $events = $schedule->events()->overlappingWithTimeSlot($data);
 
         if ($data['type'] == 'therapist') {
-            $events = $events->whereIn('therapist_id', @$data['id']);
+            $events = $events->whereHas('therapists', function ($query) use ($data) {
+                $query->whereIn('therapist_id', @$data['id']);
+            });
         } elseif ($data['type'] == 'children') {
             $events = $events->whereHas('childrens', function ($query) use ($data) {
                 $query->whereIn('children_id', @$data['id']);
             });
         }
 
-        if (isset($data['uniqueId'])) {
-            $events = $events->where('unique_id', '!=', $data['uniqueId']);
+        if (isset($data['eventId'])) {
+            $events = $events->where('id', '!=', $data['eventId']);
         }
 
         $weeklyExists = (clone $events)->weekly()->exists();
@@ -386,10 +410,14 @@ class ScheduleController extends Controller
         if ($schedule && (clone $schedule)->events() !== null) {
             $loopIteration = 1;
             foreach ($childrens as $children) {
-                $tabamScheduls = (clone $schedule)->events()->whereIn('therapist_id', array_unique($tabamTherapistIds))->whereHas('childrens', function ($query) use ($children) {
+                $tabamScheduls = (clone $schedule)->events()->whereHas('therapists', function ($query) use ($tabamTherapistIds) {
+                        $query->whereIn('therapist_id', array_unique($tabamTherapistIds));
+                    })->whereHas('childrens', function ($query) use ($children) {
                         $query->where('children_id', $children['id']);
                     })->get();
-                $matiaScheduls = (clone $schedule)->events()->whereIn('therapist_id', array_unique($matiaTherapistIds))->whereHas('childrens', function ($query) use ($children) {
+                $matiaScheduls = (clone $schedule)->events()->whereHas('therapists', function($query) use ($matiaTherapistIds) {
+                        $query->whereIn('therapist_id', array_unique($matiaTherapistIds));
+                    })->whereHas('childrens', function ($query) use ($children) {
                         $query->where('children_id', $children['id']);
                     })->get();
                 $summary = [
@@ -410,7 +438,9 @@ class ScheduleController extends Controller
                         $query->where('kindergarten_id', $request->kindergarten_id);
                     })->get();
             foreach ($users as $user) {
-                $staffScheduls = (clone $schedule)->events()->where('therapist_id', $user->id)->get();
+                $staffScheduls = (clone $schedule)->events()->whereHas('therapists', function ($query) use ($user) {
+                    $query->where('therapist_id', $user->id);
+                })->get();
                 $summary = [
                     'individual' => $staffScheduls->whereIn('type', ['individual', 'parental-guidance'])->sum->getWeightedCount('staff'),
                     'group' => $staffScheduls->where('type', 'group')->sum->getWeightedCount('staff'),
@@ -473,8 +503,12 @@ class ScheduleController extends Controller
                     'start_time' => $event->start_time,
                     'end_time' => $event->end_time,
                     'color' => json_encode($event->color),
-                    'unique_id' => $event->unique_id,
                 ]);
+                if ($event->therapists()->exists()) {
+                    foreach ($event->therapists()->get() as $therapist) {
+                        $clonedSchedules->therapists()->create(['therapist_id' => $therapist->therapist_id]);
+                    }
+                }
                 if ($event->childrens()->exists()) {
                     foreach ($event->childrens()->get() as $children) {
                         $clonedSchedules->childrens()->create(['children_id' => $children->children_id]);

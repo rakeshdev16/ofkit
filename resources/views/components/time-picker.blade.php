@@ -1,4 +1,4 @@
-<select class="form-control {{ @$class }}" name="{{ $name }}" id="" data-index="{{ @$index }}">
+<select class="form-control {{ @$class }}" name="{{ $name }}" id="" data-index="{{ @$index }}" {{ @$disabled }}>
     <option value="">{{ $label }}</option>
     <option {{ @$value == '07:00:00' ? 'selected' : '' }} value="07:00:00">07:00</option>
     <option {{ @$value == '07:15:00' ? 'selected' : '' }} value="07:15:00">07:15</option>

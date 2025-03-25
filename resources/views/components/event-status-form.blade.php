@@ -1,24 +1,33 @@
+@php
+    $isDisbale = isset($data['form_type']) && $data['form_type'] == 'edit' ? 'disbaled' : '';
+@endphp
 <div class="modal-header">
-    <h5 class="modal-title form-heading" style="text-transform: capitalize;">{{ str_replace('-', ' ', $data['type']) }}</h5>
+    <h5 class="modal-title form-heading" style="text-transform: capitalize;">{{ isset($data['type']) ? str_replace('-', ' ', $data['type']) : '' }}</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 <div class="modal-body">
-    <form action="" enctype="multipart/form-data">
+    <form action="{{ route('documentation.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
         <div class="d-flex mb-3">
             <div class="w-100">
-                <select name="kindergarten_id" class="form-control border-1" id="kindergartenFilter">
+                <select name="kindergarten_id" class="form-control border-1 {{ $isDisbale }}" id="kindergartenFilter">
                     @foreach (Auth::user()->staffKindergartens as $kindergarten)
                         @php
                             $kindergarten = $kindergarten->kindergartens;
                         @endphp
-                        <option {{ @$data['day'] == 'Sunday' ? 'selected' : '' }} value="{{ $kindergarten['id'] }}<">{{ $kindergarten['name'] }}</option>
+                        <option
+                            {{ @$data['kindergarten_id'] == $kindergarten['id'] ? 'selected' : '' }}
+                            value="{{ $kindergarten['id'] }}"
+                        >
+                            {{ $kindergarten['name'] }}
+                        </option>
                     @endforeach
                 </select>
             </div>
         </div>
-        <div class="d-flex mb-3">
+        <div class="d-flex mb-3 gap-1">
             <div class="w-50">
-                <select id="day" name="day" class="form-control border-1">
+                <select name="day" class="form-control border-1 day {{ $isDisbale }}">
                     <option value="">Select Day</option>
                     <option {{ @$data['day'] == 'Sunday' ? 'selected' : '' }} value="Sunday">Sunday</option>
                     <option {{ @$data['day'] == 'Monday' ? 'selected' : '' }} value="Monday">Monday</option>
@@ -30,17 +39,27 @@
                 </select>
             </div>
             <div class="w-50">
-                @include('components.time-picker', ['name' => 'start_time', 'class' => 'startTime event-time', 'label' => 'Start time', 'value' => @$data['start_time']])
+                @include('components.time-picker', [
+                    'name' => 'start_time',
+                    'class' => "startTime event-time $isDisbale",
+                    'label' => 'Start time',
+                    'value' => @$data['start_time'],
+                ])
             </div>
             <div class="w-50">
-                @include('components.time-picker', ['name' => 'end_time', 'class' => 'endTime event-time', 'label' => 'End time', 'value' => @$data['end_time']])
+                @include('components.time-picker', [
+                    'name' => 'end_time',
+                    'class' => "endTime event-time $isDisbale",
+                    'label' => 'End time',
+                    'value' => @$data['end_time'],
+                ])
             </div>
         </div>
         <div class="mb-3">
             <select
                 id="appointmentFrequency"
                 name="frequency_repeat"
-                class="form-control"
+                class="form-control {{ $isDisbale }}"
             >
                 <option {{ @$data['frequencyRepeat'] == 'Weekly' ? 'selected' : '' }} value="Weekly">Weekly</option>
                 <option {{ @$data['frequencyRepeat'] == 'Bi-weekly' ? 'selected' : '' }} value="Bi-weekly">Bi-weekly</option>
@@ -51,7 +70,7 @@
             <select
                 id="Monthly"
                 name="{{ @$data['frequencyRepeat'] == 'Monthly' ? 'frequency_repeat_at' : '' }}"
-                class="form-control"
+                class="form-control {{ $isDisbale }}"
                 style="display: {{ @$data['frequencyRepeat'] == 'Monthly' ? 'block' : 'none' }}"
             >
                 <option {{ @$data['frequencyRepeatAt'] == 'Week 1' ? 'selected' : '' }} value="Week 1">{{ __('schedule.monthly1') }}</option>
@@ -64,7 +83,7 @@
             <select
                 id="Bi-weekly"
                 name="{{ @$data['frequencyRepeat'] == 'Bi-weekly' ? 'frequency_repeat_at' : '' }}"
-                class="form-control"
+                class="form-control {{ $isDisbale }}"
                 style="display: {{ @$data['frequencyRepeat'] == 'Bi-weekly' ? 'block' : 'none' }}"
             >
                 <option {{ @$data['frequencyRepeatAt'] == 'Week 1' ? 'selected' : '' }} value="Week 1">{{ __('schedule.biweekly1') }}</option>
@@ -82,16 +101,15 @@
             ])
         </div>
         <span class="therapists"></span>
-        <div class="therapist-attendance">
-            @if (isset($data['therapistIds']))
-                @foreach ($data['therapistIds'] as $therapistId)
-                    @include('components.attendece-form', [
-                        'id' => $therapistId,
-                        'type' => 'therapist',
-                        'name' => getUserNameById($therapistId),
-                        'data' => $data
-                    ])
-                @endforeach
+        <div class="therapist-attendance border py-1 pl-2 {{ isset($data['therapistIds']) ? 'd-flex' : 'd-none' }}">
+            @if (in_array(@$data['type'], ['group', 'staff-meeting']))
+                @if (isset($data['therapistIds']))
+                    @foreach ($data['therapistIds'] as $therapistId)
+                        <x-is-user-attended id="{{ $therapistId }}" name="{{ getUserNameById($therapistId) }}" />
+                    @endforeach
+                @endif
+            @else
+                <x-is-user-attended id="{{ $data['type'] }}" name="Participated?" />
             @endif
         </div>
         @if (!in_array(@$data['type'], ['documentation-break', 'preparation', 'tutorial', 'other']))
@@ -109,11 +127,11 @@
             <div class="children-attendance">
                 @if (isset($data['childrenId']))
                     @foreach ($data['childrenId'] as $childrenId)
-                        @include('components.attendece-form', [
-                            'id' => $childrenId,
-                            'type' => 'children',
+                        @include('components.children-participated', [
+                            'index' => $loop->iteration,
                             'name' => getChildrenNameById($childrenId),
-                            'data' => $data
+                            'data' => @$groupChildrens,
+                            'childrenId' => @$childrenId,
                         ])
                     @endforeach
                 @endif
@@ -122,9 +140,41 @@
                 <input type="file" class="form-control" name="" id="">
             </div>
         @endif
+        <input type="hidden" name="schedule_id" value="{{ @$data['schedule_id'] }}">
+        <input type="hidden" name="event_id" value="{{ @$data['id'] }}">
+        <input type="hidden" name="unique_id" value="{{ @$data['unique_id'] }}">
+        <input type="hidden" name="type" id="type" value="{{ @$data['type'] }}">
+        <input type="hidden" name="color" value="{{ @json_encode($data['color']) }}">
         <div class=" mt-4">
-            <button type="submit" class="btn button">Save</button>
+            <button type="submit" class="btn button" id="createEventModalBtn">Save</button>
             <button type="button" class="btn button me-2" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
         </div>
     </form>
 </div>
+<script>
+    var type = $('#appointmentType').val();
+    var isMultiple = (type === 'group' || type === 'staff-meeting');
+    $('.selectChildrens').select2({
+        dropdownParent: $("#createEventModal"),
+        placeholder: "Select Children",
+        allowClear: true,
+        maximumSelectionLength: !isMultiple ?? 1,
+        language: {
+            maximumSelected: function (args) {
+                return "You can only select one children";
+            }
+        }
+    });
+
+    $('.selectTherapist').select2({
+        dropdownParent: $("#createEventModal"),
+        placeholder: "Select Therapist",
+        allowClear: true,
+        maximumSelectionLength: !isMultiple ?? 1,
+        language: {
+            maximumSelected: function (args) {
+                return "You can only select one therapist";
+            }
+        }
+    });
+</script>

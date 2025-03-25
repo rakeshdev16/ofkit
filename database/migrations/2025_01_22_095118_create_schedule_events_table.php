@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('schedule_events', function (Blueprint $table) {
             $table->id();
             $table->foreignId('schedule_id')->constrained('schedules')->onDelete('cascade');
-            $table->foreignId('kindergarten_id')->constrained('kindergartens')->onDelete('cascade');
-            $table->foreignId('therapist_id')->constrained('users')->onDelete('cascade');
             $table->string('type');
             $table->string('day');
             $table->string('frequency_repeat')->nullable();

@@ -10,8 +10,11 @@ use App\Models\Schedule;
 use App\Models\Kindergarten;
 use App\Models\StaffKindergarten;
 use App\Models\Association;
+use App\Models\ScheduleEventTherapistOccurred;
+use App\Models\ScheduleEventChildrenOccurred;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use DB, Auth, DateTime, Session;
 use App\Exports\CalendarExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -30,6 +33,7 @@ class DocumentationController extends Controller
 
     public function store(Request $request)
     {
+        // echo '<pre>'; print_r($request->all()); die;
         DB::beginTransaction();
         try {
 
@@ -40,16 +44,28 @@ class DocumentationController extends Controller
             }
 
             $schedule = Schedule::find($request->schedule_id);
-            $request['unique_id'] = $request->unique_id ? $request->unique_id : Str::uuid();
-            if ($request->new_therapist_ids && count($request->new_therapist_ids) > 0) {
-                foreach ($request->new_therapist_ids as $key => $therapistId) {
+            $schedule->events()->removeUnselectedUser($request->all());
+
+            // $request['unique_id'] = $request->unique_id ? $request->unique_id : Str::uuid();
+            if (isset($request->therapist_ids) && count($request->therapist_ids) > 0) {
+                foreach ($request->therapist_ids as $key => $therapistId) {
                     $request['therapist_id'] = $therapistId;
-                    $event = $schedule->events()->create($request->except('schedule_id'));
-                    $event->childrens()->delete();
-                    if (isset($request->children_ids) && count($request->children_ids) > 0) {
-                        foreach ($request->children_ids as $childrenId) {
-                            $event->childrens()->create(['children_id' => $childrenId]);
-                        }
+                    $scheduleEvent = ScheduleEvent::updateOrCreate([
+                        'schedule_id' => $request->schedule_id,
+                        'therapist_id' => $therapistId,
+                        // 'unique_id' => $request->unique_id
+                    ],
+                        $request->all()
+                    );
+                    Log::info('ScheduleEvent', ['scheduleEvent' => $scheduleEvent]);
+                }
+                if (isset($request->therapist_occurred)) {
+                    foreach ($request->therapist_occurred as $therapistId => $value) {
+                        $scheduleEventId = $schedule->events()->where(['unique_id' => $request->unique_id, 'therapist_id' => $therapistId])->pluck('id')->first();
+                        ScheduleEventTherapistOccurred::create([
+                            'schedule_event_id' => $request->event_id, 
+                            'therapist_id' => $therapistId,
+                        ]);
                     }
                 }
             }
@@ -113,7 +129,9 @@ class DocumentationController extends Controller
             ->where('end_date', '<=', $dates['end'])
             ->pluck('id');
 
-        $scheduleEvents = ScheduleEvent::whereIn('schedule_id', $scheduleIds)->where('therapist_id', Auth::id())
+        $scheduleEvents = ScheduleEvent::whereIn('schedule_id', $scheduleIds)->whereHas('therapists', function ($query) {
+                $query->where('therapist_id', Auth::id());
+            })
             ->get()
             ->when(true, function ($collection) {
                 $groups = $collection->where('type', 'group')->unique('unique_id');
@@ -155,22 +173,28 @@ class DocumentationController extends Controller
     public function formData(Request $request)
     {
         $data = $request->all();
-        $data['allChildrens'] = Children::select('id as key', DB::raw('CONCAT(name, " ", family_name) as value'))
-            ->where('kindergarten_id', $data['kindergarten_id'])
-            ->orderBy('name')
-            ->get()
-            ->toArray();
-        $data['allTherapists'] = StaffSchedule::filter(['kindergarten_id' => $data['kindergarten_id']])
-            ->with('user')
-            ->select('user_id')
-            ->distinct('user_id')
-            ->get()
-            ->map(function ($schedule) {
-                return [
-                    'key' => $schedule->user_id,
-                    'value' => $schedule->user->name ?? 'N/A',
-                ];
-            })->toArray();
+        $allChildrens = [];
+        $allTherapists = [];
+        if (isset($data['kindergarten_id']) && isset($data['day'])) {
+            $allChildrens = Children::select('id as key', DB::raw('CONCAT(name, " ", family_name) as value'))
+                ->where('kindergarten_id', $data['kindergarten_id'])
+                ->orderBy('name')
+                ->get()
+                ->toArray();
+            $allTherapists = StaffSchedule::filter($data)
+                ->with('user')
+                ->select('user_id')
+                ->distinct('user_id')
+                ->get()
+                ->map(function ($schedule) {
+                    return [
+                        'key' => $schedule->user_id,
+                        'value' => $schedule->user->name ?? 'N/A',
+                    ];
+                })->toArray();
+        }
+        $data['allChildrens'] = $allChildrens;
+        $data['allTherapists'] = $allTherapists;
         $form = view('components.event-status-form', ['data' => $data])->render();
         return response()->json(['status' => true, 'data' => $form]);
     }

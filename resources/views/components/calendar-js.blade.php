@@ -284,7 +284,7 @@
         eventData.childrenId = data.childrenId;
         eventData.description = data.description;
         eventData.file = data.file;
-        eventData.uniqueId = data.unique_id;
+        eventData.eventId = data.event_id;
         eventData.color = data.color;
         eventData.mode = 'edit';
         filterFormData(function() {
@@ -380,9 +380,10 @@
         timeSlotData.endTime = $('.endTime').val().slice(0, 5);
         timeSlotData.frequencyRepeat = frequencyRepeat;
         timeSlotData.frequencyRepeatAt = frequencyRepeatAt;
-        timeSlotData.day = $('#day').val();
+        timeSlotData.day = $("select[name='day']").val();
         timeSlotData.uniqueId = $('#uniqueId').val();
-        timeSlotData.status = getQueryParam('status');
+        timeSlotData.eventId = $('#eventId').val();
+        timeSlotData.status = getQueryParam('status') ?? 'published';
         timeSlotData.scheduleId = getQueryParam('schedule_id') ?? '';
         timeSlotData.kindergartenId = $('#kindergartenFilter').val();
         fetch("{{ route('schedule.time-slot') }}", {
@@ -475,14 +476,18 @@
 
         $(".selectChildrens").on("select2:select", function (e) {
             let data = e.params.data;
-            let attendenceForm = `@include('components.children-participated', ['index' => '${data.id}', 'name' => '${data.text}', 'child_id' => '${data.id}'])`;
-            $('.children-attendance').append(attendenceForm);
+            let attendenceForm = `<x-children-participated index='${data.id}' name='${data.text}' childrenId='${data.id}' />`;
+            if ($('.fileSec'+data.id).length === 0) $('.children-attendance').append(attendenceForm);
         });
 
         $(".selectChildrens").on("select2:unselecting", function (e) {
             let id = e.params.args.data.id;
-            $('.fileSec'+id).remove();
-            if (selectedChildrens.includes(Number(id))) e.preventDefault();
+            let length = $('.children-attendance > div').length;
+            if (selectedChildrens.includes(Number(id))) {
+                e.preventDefault();
+            } else {
+                $('.fileSec'+id).remove();
+            }
         });
 
         $(".selectTherapist").select2({
@@ -500,12 +505,8 @@
         $(".selectTherapist").on("select2:select", function (e) {
             let data = e.params.data;
             $('.therapist-attendance').removeClass('d-none').addClass('d-flex');
-            $('.therapist-attendance').append(`<div class="therapist-${data.id} mx-1">
-                <label for="therapist-${data.id}">${data.text}</label>
-                <input type="checkbox" name="" id="therapist-${data.id}">
-            </div>`);
+            $('.therapist-attendance').append(`<x-is-user-attended id="${data.id}" name="${data.text}" />`);
             let length = $('.therapist-attendance > div').length;
-            console.log("length", length);
         });
 
         $(".selectTherapist").on("select2:unselecting", function (e) {
@@ -576,6 +577,7 @@
             filterFormData();
         }
     });
+
     $(document).on('change', '#appointmentFrequency, #Bi-weekly, #Monthly', function() {
         var type = $('#appointmentType').val();
         var appointmentFrequency = $('#appointmentFrequency').val();
@@ -682,9 +684,9 @@
                                 window.dp.events.remove(existEvent);
                             }
                             window.dp.events.add(item);
-                            let currentIds = hiddenInput.val() ? JSON.parse(hiddenInput.val()) : [];
-                            currentIds = [...new Set([...currentIds, item.uniqueId])];
-                            hiddenInput.val(JSON.stringify(currentIds));
+                            // let currentIds = hiddenInput.val() ? JSON.parse(hiddenInput.val()) : [];
+                            // currentIds = [...new Set([...currentIds, item.uniqueId])];
+                            // hiddenInput.val(JSON.stringify(currentIds));
                         });
                         // setCalendar();
                         // window.dp.clearSelection();

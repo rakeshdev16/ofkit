@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Auth;
 
 class ScheduleEvent extends Model
 {
@@ -12,8 +13,8 @@ class ScheduleEvent extends Model
 
     protected $fillable = [
         'schedule_id',
-        'kindergarten_id',
-        'therapist_id',
+        // 'kindergarten_id',
+        // 'therapist_id',
         'type',
         'day',
         'frequency_repeat',
@@ -24,7 +25,8 @@ class ScheduleEvent extends Model
         'start_time',
         'end_time',
         'color',
-        'unique_id',
+        // 'unique_id',
+        'added_by',
     ];
 
     protected $appends = ['cell_title', 'event_time'];
@@ -34,6 +36,7 @@ class ScheduleEvent extends Model
         static::saving(function ($scheduleEvent) {
             if (!request()->has('_is_cloning')) {
                 $scheduleEvent->color = static::getColorFromRequest();
+                $scheduleEvent->added_by = Auth::id();
             }
         });
 
@@ -68,25 +71,33 @@ class ScheduleEvent extends Model
         return $this->belongsTo(Schedule::class);
     }
 
-    public function scopeRemoveUnselectedUser($query, $data)
-    {
-        $deletedIds = '';
-        if (($data['type'] == 'group' || $data['type'] == 'staff-meeting') && !empty($data['unique_id'])) {
-            $scheduleTherapistIds = $query->where('unique_id', $data['unique_id'])->pluck('therapist_id')->toArray();
-            $therapistGoingToBeDelete = array_diff($scheduleTherapistIds, $data['therapist_ids'] ?? []);
-            if (!empty($therapistGoingToBeDelete)) {
-                $deletedIds = $query->whereIn('therapist_id', $therapistGoingToBeDelete)->where('unique_id', $data['unique_id'])->pluck('id')->toArray();
-                $query->whereIn('therapist_id', $therapistGoingToBeDelete)->where('unique_id', $data['unique_id'])->delete();
-            }
-        }
+    // public function scopeRemoveUnselectedUser($query, $data)
+    // {
+    //     $deletedIds = '';
+    //     if (($data['type'] == 'group' || $data['type'] == 'staff-meeting') && !empty($data['event_id'])) {
+    //         $scheduleTherapistIds = $this->where('id', $data['event_id'])->first()->therapists->pluck('therapist_id')->toArray();
+    //         $therapistGoingToBeDelete = array_diff($scheduleTherapistIds, $data['therapist_ids'] ?? []);
+    //         if (!empty($therapistGoingToBeDelete)) {
+    //             $deletedIds = $query->whereHas('therapists', function ($query) use ($data, $therapistGoingToBeDelete) {
+    //                 $query->whereIn('therapist_id', $therapistGoingToBeDelete);
+    //             })->where('id', $data['event_id'])->pluck('id')->toArray();
+    //             $query->whereHas('therapists', function ($query) use ($data, $therapistGoingToBeDelete) {
+    //                 $query->whereIn('therapist_id', $therapistGoingToBeDelete);
+    //             })->where('id', $data['event_id'])->delete();
+    //         }
+    //     }
         
-        if (in_array($data['type'], ['individual', 'parental-guidance', 'documentation-break', 'preparation', 'tutorial', 'other']) && !empty($data['unique_id'])) {
-            $deletedIds = $query->whereNotIn('therapist_id', $data['therapist_ids'])->where('unique_id', $data['unique_id'])->pluck('id')->toArray();
-            $query->whereNotIn('therapist_id', $data['therapist_ids'])->where('unique_id', $data['unique_id'])->delete();
-        }
+    //     if (in_array($data['type'], ['individual', 'parental-guidance', 'documentation-break', 'preparation', 'tutorial', 'other']) && !empty($data['event_id'])) {
+    //         $deletedIds = $query->whereHas('therapists', function ($query) use ($data) {
+    //                 $query->whereNotIn('therapist_id', $data['therapist_ids']);
+    //             })->where('id', $data['event_id'])->pluck('id')->toArray();
+    //         $query->whereHas('therapists', function ($query) use ($data) {
+    //                 $query->whereNotIn('therapist_id', $data['therapist_ids']);
+    //             })->where('id', $data['event_id'])->delete();
+    //     }
 
-        return $deletedIds;
-    }
+    //     return $deletedIds;
+    // }
 
     public function getColorAttribute($value)
     {
@@ -96,6 +107,11 @@ class ScheduleEvent extends Model
     public function getEventTimeAttribute()
     {
         return (strtotime($this->end_time) - strtotime($this->start_time)) / 60;
+    }
+
+    public function therapists()
+    {
+        return $this->hasMany(ScheduleEventTherapist::class, 'schedule_event_id');
     }
 
     public function childrens()
@@ -115,8 +131,8 @@ class ScheduleEvent extends Model
         })->take(2)->join(' ');
 
         if (\Route::currentRouteName() == 'children-schedule.calendar') {
-            $therapistName = getUserNameById($this->therapist_id);
-            $profession = User::where('id', $this->therapist_id)->first()->profession->acronyms;
+            $therapistName = getUserNameById($this->therapists[0]->therapist_id);
+            $profession = User::where('id', $this->therapists[0]->therapist_id)->first()->profession->acronyms;
             if (($this->type == 'group')) {
                 return '<div style="'.$isBold.'"><div style="'.$isBold.'">'.$this->group_name.':</div>'.$title.'<br>'.$therapistName.'<br>'.$profession.'</div>';
             }
@@ -135,8 +151,9 @@ class ScheduleEvent extends Model
     {
         $startTime = @$data['startTime'];
         $endTime = @$data['endTime'];
-        return $query->where('day', $data['day'])->where('kindergarten_id', $data['kindergartenId'])
-            ->where(function ($query) use ($startTime, $endTime) {
+        return $query->where('day', $data['day'])->whereHas('schedule', function ($query) use ($data) {
+                $query->where('kindergarten_id', $data['kindergartenId']);
+            })->where(function ($query) use ($startTime, $endTime) {
                 $query->whereTime('start_time', '<', $endTime . ':00')->whereTime('end_time', '>', $startTime . ':00');
             });
     }

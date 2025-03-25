@@ -210,7 +210,7 @@
                                                                 'index' => 0,
                                                                 'name' => @getChildrenNameById($children->id),
                                                                 'data' => $groupChildrens,
-                                                                'child_id' => $children->id,
+                                                                'childrenId' => $children->id,
                                                             ])
                                                         @endif
                                                         @if (old('children_ids'))
@@ -226,7 +226,7 @@
                                                                 @include('components.children-participated', [
                                                                     'index' => $loop->index,
                                                                     'name' => @getChildrenNameById($id),
-                                                                    'child_id' => $id,
+                                                                    'childrenId' => $id,
                                                                     'data' => getGroupChildrens(Request::segment(4), $children->id),
                                                                 ])
                                                             @endforeach
@@ -237,7 +237,7 @@
                                                                     'name' => @getChildrenNameById($data['children_id']),
                                                                     'id' => $data['id'],
                                                                     'data' => $data,
-                                                                    'child_id' => $data['children_id'],
+                                                                    'childrenId' => $data['children_id'],
                                                                 ])
                                                             @endforeach
                                                         @endif
@@ -331,7 +331,7 @@
                         $('.childrenSec').append(`@include('components.children-participated', [
                             'index' => 0,
                             'name' => @getChildrenNameById($children->id),
-                            'child_id' => $children->id,
+                            'childrenId' => $children->id,
                         ])`);
                     }
                     // $('.childrens').attr('disabled', false);
@@ -367,7 +367,7 @@
                     'index' => '${index}',
                     'name' => '${name}',
                     'id' => '${id}',
-                    'child_id' => '${id}',
+                    'childrenId' => '${id}',
                 ])`;
                 var $component = $(html);
                 setInputsValEmpty($component);

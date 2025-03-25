@@ -1,4 +1,4 @@
-<div class="accordion my-2 fileSec{{ @$child_id }}" id="accordionExample{{ $index }}">
+<div class="accordion my-2 fileSec{{ @$childrenId }}" id="accordionExample{{ $index }}">
     @php
         $error = false;
         if ($errors->has('participated.' . $index . '.participated') || $errors->has('participated.' . $index . '.reason') || $errors->has('participated.' . $index . '.description') || $errors->has('participated.' . $index . '.child_file')) {
@@ -92,7 +92,7 @@
                                 @endif
                             @endif
                         </div>
-                        <input type="hidden" name="participated[{{ $index }}][children_id]" value="{{ @$child_id }}">
+                        <input type="hidden" name="participated[{{ $index }}][children_id]" value="{{ @$childrenId }}">
                         @error('participated.' . $index . '.child_file')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

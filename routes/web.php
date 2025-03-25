@@ -16,6 +16,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ChildrenScheduleController;
 use App\Http\Controllers\TherapyScheduleController;
 use App\Http\Controllers\DocumentationController;
+use App\Http\Controllers\ScheduleHistoryController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -132,18 +133,24 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
 
     });
 
-    Route::controller(ChildrenScheduleController::class)->group(function (){
+    Route::controller(ScheduleHistoryController::class)->group(function () {
+        Route::get('schedule/history', 'index')->name('schedule-history.index');
+        Route::get('schedule/history-detail/{id}', 'show')->name('schedule-history.show');
+    });
+
+    Route::controller(ChildrenScheduleController::class)->group(function () {
         Route::get('children-schedule/{id}', 'index')->name('children-schedule.index');
         Route::get('children-schedule', 'calendar')->name('children-schedule.calendar');
     });
 
-    Route::controller(TherapyScheduleController::class)->group(function (){
+    Route::controller(TherapyScheduleController::class)->group(function () {
         Route::get('therapy-schedule', 'index')->name('therapy-schedule.index');
         Route::get('therapy-schedule-calendar', 'calendar')->name('therapy-schedule.calendar');
     });
 
-    Route::controller(DocumentationController::class)->group(function (){
+    Route::controller(DocumentationController::class)->group(function () {
         Route::get('documentation', 'index')->name('documentation.index');
+        Route::post('documentation', 'store')->name('documentation.store');
         Route::get('documentation/calendar', 'calendar')->name('documentation.calendar');
         Route::post('documentation/form-data', 'formData')->name('documentation.form-data');
     });

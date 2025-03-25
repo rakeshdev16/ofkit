@@ -72,12 +72,12 @@ class ChildrenScheduleController extends Controller
             ->whereHas('childrens', function ($query) use ($filter) {
                 $query->where('children_id', $filter['children_id']);
             })
-            ->get()
-            ->when(true, function ($collection) {
-                $groups = $collection->where('type', 'group')->unique('unique_id');
-                $others = $collection->where('type', '!=', 'group');
-                return $groups->merge($others);
-            });
+            ->get();
+            // ->when(true, function ($collection) {
+            //     $groups = $collection->where('type', 'group')->unique('unique_id');
+            //     $others = $collection->where('type', '!=', 'group');
+            //     return $groups->merge($others);
+            // });
 
         // echo '<pre>'; print_r($schedule); die;
         // if (!empty($schedule) && $schedule->events() !== null) {

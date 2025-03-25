@@ -48,7 +48,9 @@ class TherapyScheduleController extends Controller
         }
 
         $scheduleIds = Schedule::filter(['status' => 'published'])->whereIn('kindergarten_id', $kindergartenId)->pluck('id');
-        $scheduleEvents = ScheduleEvent::whereIn('schedule_id', $scheduleIds)->where('therapist_id', Auth::id())->get();
+        $scheduleEvents = ScheduleEvent::whereIn('schedule_id', $scheduleIds)->whereHas('therapists', function ($query) {
+            $query->where('therapist_id', Auth::id());
+        })->get();
         foreach ($days as $day) {
             if ($request->kindergarten_id == 'personal') {
                 $header = [

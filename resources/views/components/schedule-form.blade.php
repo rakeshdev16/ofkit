@@ -113,7 +113,7 @@
     </div>
 </div>
 <input type="hidden" name="resource" id="resource" value="{{ @$data['resource'] }}">
-<input type="hidden" name="unique_id" id="uniqueId" value="{{ @$data['uniqueId'] }}">
+<input type="hidden" name="event_id" id="eventId" value="{{ @$data['id'] }}">
 <input type="hidden" name="color" value="{{ @json_encode($data['color']) }}">
 <input type="hidden" name="is_continue" id="isTimeOutSide" value="false">
 <div class="d-flex gap-3">
@@ -160,42 +160,4 @@
             }
         }
     });
-
-    // $('.startTime').timepicker({
-    //     timeFormat: 'HH:mm',
-    //     interval: 60,
-    //     minTime: '07:00',
-    //     maxTime: '17:00',
-    //     defaultTime: "{{ @$data['startTime'] }}" || "07:00",
-    //     startTime: '07:00',
-    //     dynamic: false,
-    //     dropdown: true,
-    //     scrollbar: true,
-    //     zindex: 9999999,
-    //     interval: 15,
-    //     change: function(time) {
-    //         if (time) {
-    //             let selectedStartTime = $(this).val();
-    //             let startTime = new Date("1970-01-01T" + selectedStartTime);
-    //             let endTime = new Date(startTime.getTime() + 15 * 60000);
-    //             let formattedEndTime = endTime.toTimeString().substring(0, 5);
-    //             $('.endTime').timepicker('option', 'minTime', selectedStartTime);
-    //             $('.endTime').val(formattedEndTime);
-    //         }
-    //     }
-    // });
-
-    // $('.endTime').timepicker({
-    //     timeFormat: 'HH:mm',
-    //     interval: 60,
-    //     minTime: '07:00',
-    //     maxTime: '17:00',
-    //     defaultTime: "{{ @$data['endTime'] }}" || "07:15",
-    //     startTime: '07:00',
-    //     dynamic: false,
-    //     dropdown: true,
-    //     scrollbar: true,
-    //     zindex: 9999999,
-    //     interval: 15
-    // });
 </script>

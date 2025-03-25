@@ -76,6 +76,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript">
+        let data = { 'kindergarten_id': "{{ @$kindergartens[0]->id }}" };
         $(document).ready(function() {
             getEvents();
             let week = getQueryParam('week');
@@ -106,19 +107,32 @@
 
         $(document).on('click', '.newEvent', function () {
             let type = $(this).data('type');
-            let data = { 'type': type, 'kindergarten_id': "{{ @$kindergartens[0]->id }}" };
-            fetch("{{ route('documentation.form-data') }}", {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': "{{ csrf_token() }}",
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            }).then((response) => response.json()).then((data) => {
-                $('#eventStatusForm').html(data.data);
+            data.type = type;
+            filterForm(data);
+            setTimeout(() => {
                 $('#eventStatusModal').modal('toggle');
-                selectVisibility(type);
-            });
+                selectVisibility(data.type);
+            }, 500);
+        });
+
+        $(document).on('change', '.day', function () {
+            data.day = $(this).val();
+            filterForm(data);
+            setTimeout(() => {
+                selectVisibility(data.type);
+            }, 500);
+            $('.event-time').val(null);
+            $('#therapist, #children').val(null).trigger('change');
+        });
+
+        $(document).on('change', '#kindergartenFilter', function () {
+            data.kindergarten_id = $(this).val();
+            filterForm(data);
+            setTimeout(() => {
+                selectVisibility(data.type);
+            }, 500);
+            $('.event-time').val(null);
+            $('#therapist, #children').val(null).trigger('change');
         });
 
         $(document).on('click', '#today', function () {
@@ -148,6 +162,54 @@
                 "day": $('#dayPicker').val()
             };
             filterCalendar(params);
+        }
+
+        function filterForm(data, callback) {
+            $('#eventStatusForm').html('');
+            fetch("{{ route('documentation.form-data') }}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            }).then((response) => response.json()).then((data) => {
+                $('#eventStatusForm').html(data.data);
+                setTimeout(() => {
+                    $('#eventStatusForm').off('select2:select select2:unselect', '#therapist, #children');
+                    $('#eventStatusForm').on('select2:select select2:unselect', '#therapist, #children', function(e) {
+                        const selectedOption = e.params.data;
+                        const selectedId = $(this).val();
+                        const selectedElementId = $(this).attr('id');
+                        if ($('.startTime').val() == '' || $('.endTime').val() == ''  || $('#day').val() == '') {
+                            $(this).val(null).trigger('change');
+                            return toastr.error('Please select day, start time and end time first for checking time slot');
+                        }
+                        Object.keys(timeSlotData).forEach(key => delete timeSlotData[key]);
+                        checkTimeSlot(selectedElementId, selectedId, $(this));
+                        if (selectedElementId == 'therapist' && $('#children').val() > 0) {
+                            checkTimeSlot('children', $('#children').val(), $('#children'));
+                        }
+                    });
+                }, 500);
+            });
+
+            if (callback) callback();
+        }
+
+        function childParticipated(radio) {
+            const row = $(radio).closest('.row');
+            const reasonSelect = row.find('.participatedReason select');
+            const descriptionTextarea = row.find('.participatedDescription textarea');
+            if (radio.value === '0') {
+                reasonSelect.val('');
+                reasonSelect.closest('.col-md-12').show();
+                descriptionTextarea.closest('.col-md-12').hide();
+            } else {
+                descriptionTextarea.val('');
+                descriptionTextarea.closest('.col-md-12').show();
+                reasonSelect.closest('.col-md-12').hide();
+            }
         }
     </script>
     @include('components.calendar-js', ['type' => 'view', 'filterRoute' => route('documentation.calendar')])
