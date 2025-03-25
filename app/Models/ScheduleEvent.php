@@ -24,12 +24,12 @@ class ScheduleEvent extends Model
         'file',
         'start_time',
         'end_time',
-        'color',
+        // 'color',
         // 'unique_id',
         'added_by',
     ];
 
-    protected $appends = ['cell_title', 'event_time'];
+    protected $appends = ['cell_title', 'event_time', 'color'];
 
     protected static function booted()
     {
@@ -101,11 +101,19 @@ class ScheduleEvent extends Model
 
     public function getColorAttribute($value)
     {
+        $colors = [
+            'group' => ["background-color: #ede0d4;", "color: #000000;"],
+            'staff-meeting' => ["background-color: #2c3e50;", "color: #ffffff;"],
+            'documentation-break' => ["background-color: #b0bec5;", "color: #000000;"],
+            'preparation' => ["background-color: #7e57c2;", "color: #ffffff;"],
+            'tutorial' => ["background-color: #006d77;", "color: #ffffff;"],
+            'other' => ["background-color: #d9a300;", "color: #000000;"],
+        ];
         // return json_decode($value);
         if (($this->type == 'individual' || $this->type == 'parental-guidance')) {
             return $this->childrens[0]->children->color;
         }
-        return json_decode($value);
+        return $colors[$this->type];
     }
 
     public function getEventTimeAttribute()

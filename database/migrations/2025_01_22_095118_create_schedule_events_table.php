@@ -23,8 +23,6 @@ return new class extends Migration
             $table->string('file')->nullable();
             $table->time('start_time')->nullable();
             $table->time('end_time')->nullable();
-            $table->string('color')->nullable();
-            $table->uuid('unique_id');
             $table->timestamps();
         });
     }
