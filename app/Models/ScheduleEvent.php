@@ -101,6 +101,10 @@ class ScheduleEvent extends Model
 
     public function getColorAttribute($value)
     {
+        // return json_decode($value);
+        if (($this->type == 'individual' || $this->type == 'parental-guidance')) {
+            return $this->childrens[0]->children->color;
+        }
         return json_decode($value);
     }
 

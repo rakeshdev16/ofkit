@@ -84,7 +84,7 @@ class ScheduleController extends Controller
 
             $event = $schedule->events()->updateOrCreate(
                 ['id' => $request->event_id],
-                $request->except('mode', 'schedule_id', 'therapist_id')
+                $request->except('mode', 'schedule_id', 'therapist_id', 'kindergarten_id')
             );
             $event->therapists()->delete();
             if (isset($request->therapist_ids) && count($request->therapist_ids) > 0) {
@@ -167,7 +167,7 @@ class ScheduleController extends Controller
         // if (ScheduleEvent::where(['schedule_id' => $data->schedule_id, 'unique_id' => $data->unique_id])->delete()) {
         //     return response()->json(['status' => true, 'message' => 'Event detail has been successfully deleted!', 'ids' => $ids]);
         // }
-        $ids = ScheduleEvent::where('id', $data->event_id)->first()->therapists->pluck('id');
+        $ids = ScheduleEvent::find($data->event_id)->therapists->pluck('id');
         if (ScheduleEvent::where('id', $data->event_id)->delete()) {
             return response()->json(['status' => true, 'message' => 'Event detail has been successfully deleted!', 'ids' => $ids]);
         }

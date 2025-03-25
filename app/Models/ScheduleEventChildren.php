@@ -11,6 +11,11 @@ class ScheduleEventChildren extends Model
 
     protected $fillable = ['schedule_event_id', 'children_id'];
 
+    public function children()
+    {
+        return $this->HasOne(Children::class, 'id', 'children_id');
+    }
+
     public function event()
     {
         return $this->belongsTo(ScheduleEvent::class, 'schedule_event_id');
