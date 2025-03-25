@@ -97,7 +97,7 @@ class ScheduleEvent extends Model
 
     public function getColorAttribute($value)
     {
-        $childColor = $this->childrens[0]->children->color;
+        $childColor = isset($this->childrens) ? $this->childrens[0]->children->color : [];
         $colors = [
             'individual' => $childColor,
             'group' => ["background-color: #ede0d4;", "color: #000000;"],
