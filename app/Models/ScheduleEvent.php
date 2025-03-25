@@ -13,8 +13,6 @@ class ScheduleEvent extends Model
 
     protected $fillable = [
         'schedule_id',
-        // 'kindergarten_id',
-        // 'therapist_id',
         'type',
         'day',
         'frequency_repeat',
@@ -24,8 +22,6 @@ class ScheduleEvent extends Model
         'file',
         'start_time',
         'end_time',
-        // 'color',
-        // 'unique_id',
         'added_by',
     ];
 
@@ -101,20 +97,17 @@ class ScheduleEvent extends Model
 
     public function getColorAttribute($value)
     {
+        $childColor = @$this->childrens[0]->children->color;
         $colors = [
-            'individual' => ["background-color: #ede0d4;", "color: #000000;"],
+            'individual' => $childColor,
             'group' => ["background-color: #ede0d4;", "color: #000000;"],
-            'parental-guidance' => ["background-color: #ede0d4;", "color: #000000;"],
+            'parental-guidance' => $childColor,
             'staff-meeting' => ["background-color: #2c3e50;", "color: #ffffff;"],
             'documentation-break' => ["background-color: #b0bec5;", "color: #000000;"],
             'preparation' => ["background-color: #7e57c2;", "color: #ffffff;"],
             'tutorial' => ["background-color: #006d77;", "color: #ffffff;"],
             'other' => ["background-color: #d9a300;", "color: #000000;"],
         ];
-        // return json_decode($value);
-        if (($this->type == 'individual' || $this->type == 'parental-guidance')) {
-            return $this->childrens[0]->children->color;
-        }
         return $colors[$this->type];
     }
 
