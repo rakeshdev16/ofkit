@@ -142,9 +142,7 @@
         @endif
         <input type="hidden" name="schedule_id" value="{{ @$data['schedule_id'] }}">
         <input type="hidden" name="event_id" value="{{ @$data['id'] }}">
-        <input type="hidden" name="unique_id" value="{{ @$data['unique_id'] }}">
         <input type="hidden" name="type" id="type" value="{{ @$data['type'] }}">
-        <input type="hidden" name="color" value="{{ @json_encode($data['color']) }}">
         <div class=" mt-4">
             <button type="submit" class="btn button" id="createEventModalBtn">Save</button>
             <button type="button" class="btn button me-2" data-bs-dismiss="modal" aria-label="Close">Cancel</button>

@@ -114,7 +114,6 @@
 </div>
 <input type="hidden" name="resource" id="resource" value="{{ @$data['resource'] }}">
 <input type="hidden" name="event_id" id="eventId" value="{{ @$data['id'] }}">
-<input type="hidden" name="color" value="{{ @json_encode($data['color']) }}">
 <input type="hidden" name="is_continue" id="isTimeOutSide" value="false">
 <div class="d-flex gap-3">
     <button type="submit" class="button p-2 px-4 rounded-pill border-0" id="createEventModalBtn">Save</button>
