@@ -50,7 +50,7 @@
             <div class="d-flex gap-1">
                 <div style="text-align: left; height:5px;"><span class="event-status" style="background: red"></span> Missing documentation</div>&nbsp;&nbsp;
                 <div style="text-align: left; height:5px;"><span class="event-status" style="background: rgb(5, 5, 5)"></span> Documented and occurred</div>&nbsp;&nbsp;
-                <div style="text-align: left; height:5px;"><span class="event-status" style="background: rgb(148, 145, 145)"></span> Documented but did not occur</div>
+                <div style="text-align: left; height:5px;"><span class="event-status" style="background: rgb(148, 145, 145)"></span> Documented but did not occur</div>&nbsp;&nbsp;
                 <button class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="today">Today</button>
                 <div class="dropdown">
                     <button class="btn button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">New Documentation</button>
