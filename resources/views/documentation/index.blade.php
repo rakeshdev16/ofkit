@@ -29,17 +29,17 @@
                     </div>
                     <div class="d-flex gap-2">
                         <div class="d-flex">
-                            <button class="btn btn-secondary day" id="increaseDay"><i class="fa fa-angle-right"></i></button>
-                            <input type="text" class="form-control text-center" id="dayPicker" value="{{ request('day', 'All Days') }}" readonly style="width: 110px;">
                             <button class="btn btn-secondary day" id="decreaseDay"><i class="fa fa-angle-left"></i></button>
+                            <input type="text" class="form-control text-center" id="dayPicker" value="{{ request('day', 'All Days') }}" readonly style="width: 110px;">
+                            <button class="btn btn-secondary day" id="increaseDay"><i class="fa fa-angle-right"></i></button>
                         </div>
                         <div class="d-flex">
                             @php
                                 $weekOfMonth = Carbon\Carbon::today()->weekOfMonth;
                             @endphp
-                            <button class="btn btn-secondary week" id="increaseWeek"><i class="fa fa-angle-right"></i></button>
-                            <input type="text" class="form-control text-center" id="weekPicker" value="{{ request('week', 'Week '.$weekOfMonth) }}" readonly style="width: 80px;">
                             <button class="btn btn-secondary week" id="decreaseWeek"><i class="fa fa-angle-left"></i></button>
+                            <input type="text" class="form-control text-center" id="weekPicker" value="{{ request('week', 'Week '.$weekOfMonth) }}" readonly style="width: 80px;">
+                            <button class="btn btn-secondary week" id="increaseWeek"><i class="fa fa-angle-right"></i></button>
                         </div>
                     </div>
                     <div>
