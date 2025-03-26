@@ -1,15 +1,31 @@
 <table id="staffTable" class="table table-style table-bordered" style="width:100%">
     <thead>
+        @php
+            $date = ['label' => __('children.date')];
+            $therapist = ['label' => __('children.therapist')];
+            $profession = ['label' => __('children.profession')];
+            $intervention = ['label' => __('children.intervention')];
+            $occurred = ['label' => __('children.occurred')];
+            $description = ['label' => __('children.description')];
+            $attactedFile = ['label' => __('children.attactedFile'), 'width' => '20px'];
+            $action = ['label' => __('comon.action'), 'width' => '20px'];
+            if (Auth::user()->hasRole('admin')) {
+                $date['key'] = 'date';
+                $therapist['key'] = 'therapist_id';
+                $intervention['key'] = 'type';
+                $occurred['key'] = 'occured';
+            }
+        @endphp
         <tr>
             <th><input type="checkbox" class="mainCheckbox"></th>
-            @include('components.table-heading', ['label' => __('children.date'), 'key' => 'date'])
-            @include('components.table-heading', ['label' => __('children.therapist'), 'key' => 'therapist_id'])
-            @include('components.table-heading', ['label' => __('children.profession')])
-            @include('components.table-heading', ['label' => __('children.intervention'), 'key' => 'type'])
-            @include('components.table-heading', ['label' => __('children.occurred'), 'key' => 'occured'])
-            @include('components.table-heading', ['label' => __('children.description'),])
-            @include('components.table-heading', ['label' => __('children.attactedFile'), 'width' => '20px'])
-            @include('components.table-heading', ['label' => __('comon.action'), 'width' => '20px'])
+            @include('components.table-heading', $date)
+            @include('components.table-heading', $therapist)
+            @include('components.table-heading', $profession)
+            @include('components.table-heading', $intervention)
+            @include('components.table-heading', $occurred)
+            @include('components.table-heading', $description)
+            @include('components.table-heading', $attactedFile)
+            @include('components.table-heading', $action)
         </tr>
     </thead>
     <tbody>

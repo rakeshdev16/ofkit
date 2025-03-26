@@ -10,8 +10,6 @@
             @include('components.table-heading', ['label' => __('staff.emailTh'), 'key' => 'email', 'width' => '13.44%'])
             @include('components.table-heading', ['label' => __('staff.professionTh'), 'key' => 'profession_id', 'width' => '13.44%'])
             @include('components.table-heading', ['label' => __('staff.kindergartenTh'), 'width' => '13.44%'])
-            {{-- @include('components.table-heading', ['label' => __('staff.createdOn'), 'key' => 'created_at', 'width' => '13.44%'])
-            @include('components.table-heading', ['label' => __('staff.updatedOn'), 'key' => 'updated_at', 'width' => '13.44%']) --}}
             @include('components.table-heading', ['label' => __('comon.action'), 'width' => '4%'])
         </tr>
     </thead>
@@ -21,7 +19,6 @@
                 @if (Auth::user()->hasRole('admin'))
                     <td>
                         <input type="checkbox" name="id[]" value="{{ $member->id }}" class="checkbox check-{{ $member->id }}" data-class="check-{{ $member->id }}" data-name="{{ $member->is_assign ? $member->first_name . ' has assigned to kindergarten or cluster' : '' }}">
-                        {{-- <input type="checkbox" name="id[]" value="{{ $member->id }}" class="checkbox check-{{ $member->id }}" data-class="check-{{ $member->id }}"> --}}
                     </td>
                 @endif
                 <td>{{ $member->first_name ?? '-' }}</td>
@@ -39,8 +36,6 @@
                         -
                     @endif
                 </td>
-                {{-- <td>{{ date('d/m/Y', strtotime($member->created_at)) }}</td>
-                <td>{{ date('d/m/Y', strtotime($member->updated_at)) }}</td> --}}
                 <td>
                     {{-- <a
                         href="{{ route('staff.edit', $member->id) }}?kindergarten_id={{ request()->kindergarten_id }}"
@@ -50,9 +45,11 @@
                     >
                         <i class="bx bx-edit icon"></i>
                     </a> --}}
-                    <a href="{{ route('staff.show', $member->id) }}?kindergarten_id={{ request()->kindergarten_id }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('comon.view') }}">
-                        <i class="bx bx-show icon"></i>
-                    </a>
+                    @if (Auth::user()->hasRole(['admin', 'manager']))
+                        <a href="{{ route('staff.show', $member->id) }}?kindergarten_id={{ request()->kindergarten_id }}" data-toggle="tooltip" data-placement="bottom" title="{{ __('comon.view') }}">
+                            <i class="bx bx-show icon"></i>
+                        </a>
+                    @endif
                 </td>
             </tr>
         @empty

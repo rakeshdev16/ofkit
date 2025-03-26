@@ -237,22 +237,22 @@ function appointmentIcon($icon)
     return $icons[$icon];
 }
 
-function scheduleResponse($events, $schedule = null, $childId = null)
+function scheduleResponse($events, $schedule = null, $resourceId = null)
 {
     $route = Route::currentRouteName();
     $eventIds = $events->pluck('id');
     switch ($route) {
         case 'children-schedule.calendar':
-            $rows = ScheduleEventChildren::whereIn('schedule_event_id', $eventIds)->where('children_id', $childId)->get();
+            $rows = ScheduleEventChildren::whereIn('schedule_event_id', $eventIds)->where('children_id', $resourceId)->get();
         break;
         case 'documentation.calendar':
-            $rows = ScheduleEventTherapist::whereIn('schedule_event_id', $eventIds)->get()->unique('schedule_event_id');
+            $rows = ScheduleEventTherapist::whereIn('schedule_event_id', $eventIds)->where('therapist_id', $resourceId)->get();
         break;
         default:
             $rows = ScheduleEventTherapist::whereIn('schedule_event_id', $eventIds)->get();
         break;
     }
-    return $rows->map( function ($row) use ($events, $schedule, $childId) {
+    return $rows->map( function ($row) use ($events, $schedule, $resourceId) {
         $event = $events->find($row->schedule_event_id);
         $kindergartenId = !empty($schedule) ? $schedule->kindergarten_id : optional($event->schedule)->kindergarten_id;
         $scheduleId = !empty($schedule) ? $schedule->id : optional($event->schedule)->id;
@@ -273,7 +273,7 @@ function scheduleResponse($events, $schedule = null, $childId = null)
             'id' => $row->id,
             'start' => date('Y-m-d').' '.$event->start_time,
             'end' => date('Y-m-d').' '.$event->end_time,
-            'resource' => ($childId ?? $row->therapist_id) . strtolower($event->day),
+            'resource' => ($resourceId ?? $row->therapist_id) . strtolower($event->day),
             'data' => ($event),
             'eventSlotHtml' => view('components.event-html', ['data' => $event])->render(),
             'eventDetailSlotHtml' => view('components.event-detail-html', ['data' => $event])->render(),
