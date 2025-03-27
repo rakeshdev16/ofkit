@@ -23,7 +23,12 @@
                         </div>
                         <div class="ms-auto">
                             <div class="">
-                                <button data-url="{{ route('children-documentations.get', $mainChildren->id) }}" class="btn button exit">{{ __('comon.back') }}</button>
+                                <button
+                                    data-url="{{ route('children-documentations.get', $mainChildren->id) }}?sort={{ Session::get('doc_sort') }}&sorting={{ Session::get('doc_sorting') }}&page={{ Session::get('doc_page') }}&date={{ Session::get('doc_date') }}&role={{ Session::get('doc_role') }}&therapist_id={{ Session::get('doc_therapist_id') }}&type={{ Session::get('doc_type') }}&status={{ Session::get('doc_status') }}"
+                                    class="btn button exit"
+                                >
+                                    {{ __('comon.back') }}
+                                </button>
                                 {{-- <a href="{!! URL::previous() !!}" class="btn button">{{ __('comon.back') }}</a> --}}
                             </div>
                         </div>

@@ -335,6 +335,7 @@ class ChildrenController extends Controller
 
     public function documentations(Request $request, $id)
     {
+        Session::put('doc_page', request('page'));
         $children = Children::findOrFail($id);
         // $roles = Role::get();
         $roles = Profession::where('status', 'active')->orderBy('name')->get();

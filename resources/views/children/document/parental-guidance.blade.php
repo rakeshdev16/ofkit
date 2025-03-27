@@ -29,7 +29,7 @@
                                 // } else {
                                 // $back = route('children.show', Request::segment(3));
                                 if (Request::segment(4)) {
-                                    $back = route('children-documentations.get', Request::segment(3));
+                                    $back = route('children-documentations.get', Request::segment(3)).'?sort='.Session::get('doc_sort').'&sorting='.Session::get('doc_sorting').'&page='.Session::get('doc_page').'&date='.Session::get('doc_date').'&role='.Session::get('doc_role').'&therapist_id='.Session::get('doc_therapist_id').'&type='.Session::get('doc_type').'&status='.Session::get('doc_status');
                                 } else {
                                     $back = route('children.show', $children->id);
                                 }

@@ -57,7 +57,7 @@
                     @if (!empty($documentation->group_name))
                         @php
                             if (isset($groupChildDetail) && isset($groupChildDetail->participated) && $groupChildDetail->participated == 1 || $documentation->occured_description) {
-                                $description = $groupChildDetail->description ? $groupChildDetail->description : $documentation->occured_description;
+                                $description = @$groupChildDetail->description ? @$groupChildDetail->description : $documentation->occured_description;
                             } else {
                                 $description = @$groupChildDetail->reason;
                             }
