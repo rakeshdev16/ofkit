@@ -789,6 +789,11 @@ button[disabled] {
     }
 }
 
+.hour-summary-table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 .table-container table {
     margin: 20px 0;
     border-radius: 20px;
@@ -952,5 +957,15 @@ span.event-dropdown-class {
     } */
     .calendar_default_cell_inner {
         width: 500px !important;
+    }
+
+    #scoreSummary>div {
+        max-width: 90% !important;
+    }
+
+    .modal-dialog {
+        margin: 10% auto !important;
+        /* Adjust vertical centering */
+        transform: translate(0, 0) !important;
     }
 }

@@ -1,6 +1,6 @@
 <!-- Modal: Hours Summary -->
 <div class="modal fade" id="scoreSummary" tabindex="-1" aria-labelledby="scoreSummaryLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 70%">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="scoreSummaryLabel">Appointment Summary</h4>
@@ -21,7 +21,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="table-responsive">
+                <div class="hour-summary-table">
                     <div class="tab-content">
                         <div class="tab-pane fade active show" id="childrenHoursTab" role="tabpanel">
                             <table class="table table-bordered">
