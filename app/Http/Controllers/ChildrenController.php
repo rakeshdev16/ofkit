@@ -408,7 +408,7 @@ class ChildrenController extends Controller
         $allTherapists = User::whereIn('id', $userIds)->role(['manager', 'therapist'])->where('status', 'active')->get()->map(function ($user) {
                         return [
                             'key' => $user->id,
-                            'value' => $user->name . ' ' . ($user->profession->acronyms ?? ''),
+                            'value' => $user->name . ' - ' . ($user->profession->acronyms ?? ''),
                         ];
                     });
         switch ($type) {
@@ -430,7 +430,7 @@ class ChildrenController extends Controller
                     ->map(function ($user) {
                         return [
                             'key' => $user->id,
-                            'value' => $user->name . ' ' . ($user->profession->acronyms ?? ''),
+                            'value' => $user->name . ' - ' . ($user->profession->acronyms ?? ''),
                         ];
                     });
                 // $therapist = User::whereIn('id', $userIds)->role(['therapist', 'manager'])->select('id as key', 'name as value')->get();

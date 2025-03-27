@@ -156,9 +156,6 @@
                                                                         @else
                                                                             {{ $child->reason }}
                                                                         @endif
-                                                                        {{-- <span class="wrap-desc" style="width: 500px; display: inline-block; white-space: normal;">
-                                                                            {{ $child->description ?? $child->reason }}
-                                                                        </span> --}}
                                                                     </td>
                                                                     <td>
                                                                         @if (!empty($child->file))
@@ -180,19 +177,6 @@
                                     @endif
                                     @if ($document->type == 'staff-meeting')
                                         <ul class="list-group list-group-flush" style="border-top: 1px solid #dfd8d8">
-                                            {{-- <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0">{{ __('children.topic') }}</h6>
-                                                <span class="text-secondary doc-desc">{{ @$document->staffMeeting->topic ?? '-' }}</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0">{{ __('children.discussion') }}</h6>
-                                                <span class="text-secondary doc-desc">{{ @$document->staffMeeting->discussion ?? '-' }}</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0">{{ __('children.decisions') }}</h6>
-                                                <span class="text-secondary doc-desc">{{ @$document->staffMeeting->decisions ?? '-' }}</span>
-                                            </li> --}}
-
                                             <div class="col-md-12 kindergarten-section">
                                                 <div class="time-table">
                                                     <h4 class="text-center">{{ __('children.children') }}</h4>
@@ -211,11 +195,6 @@
                                                                     <td class="text-center" colspan="5">{{ __('children.noChildrenFound') }}</td>
                                                                 @else
                                                                     @foreach ($document->staffMeeting as $staffMeeting)
-                                                                        {{-- @php
-                                                                            $truncatedTopic = \Str::limit($staffMeeting->topic, 30, '...');
-                                                                            $truncatedDesc = \Str::limit($staffMeeting->discussion, 30, '...');
-                                                                            $truncatedDec = \Str::limit($staffMeeting->decisions, 30, '...');
-                                                                        @endphp --}}
                                                                         <tr>
                                                                             <td>{{ getChildrenNameById($staffMeeting->children_id) ?? '-' }}</td>
                                                                             <td class="address-column">
@@ -248,24 +227,6 @@
                                                 </div>
                                             </div>
 
-                                            {{-- <div class="col-md-12">
-                                                <div class="time-table">
-                                                    <h4 class="text-center">{{ __('children.children') }}</h4>
-                                                    <div class="table-responsive" style="display: block !important;">
-                                                        <div class="d-flex choosenDocument" style="flex-wrap: wrap;">
-                                                            @if ($document->staffMeetingChildren->isEmpty())
-                                                                {{ __('children.noChildrenFound') }}
-                                                            @else
-                                                                @foreach ($document->staffMeetingChildren as $child)
-                                                                    <div class="document mt-1 doc14">
-                                                                        {{ $child->child->name }}
-                                                                    </div>
-                                                                @endforeach
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> --}}
                                             <div class="col-md-12">
                                                 <div class="time-table">
                                                     <h4 class="text-center">{{ __('children.participant') }}</h4>
@@ -274,11 +235,11 @@
                                                             @forelse ($document->staffMeetingTherapist as $therapist)
                                                                 <div class="document mt-1 doc14">
                                                                     <a href="{{ route('staff.show', $therapist->therapist_id) }}" target="_blank" rel="noopener noreferrer">
-                                                                        {{ @$therapist->therapist->name.' '.(@$therapist->therapist->profession->acronyms) }}
+                                                                        {{ @$therapist->therapist->name.' - '.(@$therapist->therapist->profession->acronyms) }}
                                                                     </a>
                                                                 </div>
                                                             @empty
-                                                                {{ __('therapist.noTherapistsFound') }}
+                                                                {{ __('children.noTherapistsFound') }}
                                                             @endforelse
                                                         </div>
                                                     </div>
