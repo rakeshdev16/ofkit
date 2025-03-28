@@ -157,7 +157,7 @@ class DocumentationController extends Controller
         $events = scheduleResponse($scheduleEvents, '', Auth::id());
         $staffTimeSlots = [];
         if (!$schedules->isEmpty()) {
-            $staffTimeSlots = StaffSchedule::where('user_id', Auth::id())->where('kindergarten_id', $schedules->pluck('kindergarten_id'))
+            $staffTimeSlots = StaffSchedule::where('user_id', Auth::id())->whereIn('kindergarten_id', $schedules->pluck('kindergarten_id'))
                 ->get()->map(function ($schedule) {
                     return [
                         'resource' => $schedule->user_id.''.$schedule->day,
