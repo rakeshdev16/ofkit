@@ -139,12 +139,12 @@ class DocumentationController extends Controller
         }
 
         $events = [];
-        $schedule = Schedule::where('status', 'published')
+        $schedules = Schedule::where('status', 'published')
             ->where('start_date', '<=', $dates['end'])
             ->where('end_date', '>=', $dates['start'])
-            ->where('end_date', '<=', $dates['end']);
+            ->where('end_date', '<=', $dates['end'])->get();
 
-        $scheduleEvents = ScheduleEvent::whereIn('schedule_id', $schedule->pluck('id'))->whereHas('therapists', function ($query) {
+        $scheduleEvents = ScheduleEvent::whereIn('schedule_id', $schedules->pluck('id'))->whereHas('therapists', function ($query) {
                 $query->where('therapist_id', Auth::id());
             })
             ->get()
@@ -154,15 +154,18 @@ class DocumentationController extends Controller
                 return $groups->merge($others);
             });
 
-        $events = scheduleResponse($scheduleEvents, $schedule->first(), Auth::id());
-        $staffTimeSlots = StaffSchedule::where('user_id', Auth::id())->where('kindergarten_id', $schedule->pluck('kindergarten_id'))
-            ->get()->map(function ($schedule) {
-                return [
-                    'resource' => $schedule->user_id.''.$schedule->day,
-                    'startTime' => $schedule->start_time,
-                    'endEnd' => $schedule->end_time,
-                ];
-            });
+        $events = scheduleResponse($scheduleEvents, '', Auth::id());
+        $staffTimeSlots = [];
+        if (!$schedules->isEmpty()) {
+            $staffTimeSlots = StaffSchedule::where('user_id', Auth::id())->where('kindergarten_id', $schedules->pluck('kindergarten_id'))
+                ->get()->map(function ($schedule) {
+                    return [
+                        'resource' => $schedule->user_id.''.$schedule->day,
+                        'startTime' => $schedule->start_time,
+                        'endEnd' => $schedule->end_time,
+                    ];
+                });
+        }
 
         return response()->json([
             'calenderHeader' => $header,
