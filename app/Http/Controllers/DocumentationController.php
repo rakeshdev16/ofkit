@@ -144,7 +144,8 @@ class DocumentationController extends Controller
             ->where('end_date', '>=', $dates['start'])
             ->where('end_date', '<=', $dates['end'])->get();
 
-        $scheduleEvents = ScheduleEvent::whereIn('schedule_id', $schedules->pluck('id'))->whereHas('therapists', function ($query) {
+        $scheduleEvents = ScheduleEvent::whereIn('schedule_id', $schedules->pluck('id'))
+            ->whereHas('therapists', function ($query) {
                 $query->where('therapist_id', Auth::id());
             })
             ->get()
@@ -156,7 +157,7 @@ class DocumentationController extends Controller
 
         $events = scheduleResponse($scheduleEvents, '', Auth::id());
         $staffTimeSlots = [];
-        if (!$schedules->isEmpty()) {
+        if ($schedules->isNotEmpty()) {
             $staffTimeSlots = StaffSchedule::where('user_id', Auth::id())->whereIn('kindergarten_id', $schedules->pluck('kindergarten_id'))
                 ->get()->map(function ($schedule) {
                     return [
