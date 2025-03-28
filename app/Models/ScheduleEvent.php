@@ -126,6 +126,16 @@ class ScheduleEvent extends Model
         return $this->hasMany(ScheduleEventChildren::class, 'schedule_event_id');
     }
 
+    public function therapistOccurred()
+    {
+        return $this->hasOne(ScheduleEventTherapistOccurred::class, 'schedule_event_id', 'id');
+    }
+
+    public function childrenOccurred()
+    {
+        return $this->hasMany(ScheduleEventChildrenOccurred::class, 'schedule_event_id', 'id');
+    }
+
     public function getCellTitleAttribute()
     {
         $isBold = $this->event_time >= 30 ? "font-weight: bold;" : "";

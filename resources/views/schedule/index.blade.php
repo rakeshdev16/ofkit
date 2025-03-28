@@ -18,7 +18,7 @@
                  </div>
             </div>
             <div class="">
-                {{-- <a href="/schedule-history" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">History</a> --}}
+                {{-- <a href="{{ route('schedule-history.index') }}" class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer">History</a> --}}
                 <button
                     class="badge button btn rounded-pill p-2 m-1 px-4 fs-6 fw-normal cursor-pointer create-edit"
                     id="deleteSchedule"

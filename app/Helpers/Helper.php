@@ -12,6 +12,8 @@ use App\Models\Schedule;
 use App\Models\ScheduleEvent;
 use App\Models\ScheduleEventTherapist;
 use App\Models\ScheduleEventChildren;
+use App\Models\ScheduleEventTherapistOccurred;
+use App\Models\ScheduleEventChildrenOccurred;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
@@ -240,19 +242,16 @@ function appointmentIcon($icon)
 function scheduleResponse($events, $schedule = null, $resourceId = null)
 {
     $route = Route::currentRouteName();
-    $eventIds = $events->pluck('id');
-    switch ($route) {
-        case 'children-schedule.calendar':
-            $rows = ScheduleEventChildren::whereIn('schedule_event_id', $eventIds)->where('children_id', $resourceId)->get();
-        break;
-        case 'documentation.calendar':
-            $rows = ScheduleEventTherapist::whereIn('schedule_event_id', $eventIds)->where('therapist_id', $resourceId)->get();
-        break;
-        default:
-            $rows = ScheduleEventTherapist::whereIn('schedule_event_id', $eventIds)->get();
-        break;
-    }
-    return $rows->map( function ($row) use ($events, $schedule, $resourceId) {
+    $eventIds = $events->pluck('id')->toArray();
+    $queryMap = [
+        'children-schedule.calendar' => ScheduleEventChildren::where('children_id', $resourceId),
+        'documentation.calendar' => ScheduleEventTherapist::where('therapist_id', $resourceId),
+        'documentation.store' => ScheduleEventTherapist::where('therapist_id', $resourceId),
+    ];
+    $baseQuery = ScheduleEventTherapist::query();
+    $rows = ($queryMap[$route] ?? $baseQuery)->whereIn('schedule_event_id', $eventIds)->get();
+
+    return $rows->map( function ($row) use ($events, $schedule, $resourceId, $route) {
         $event = $events->find($row->schedule_event_id);
         $kindergartenId = !empty($schedule) ? $schedule->kindergarten_id : optional($event->schedule)->kindergarten_id;
         $scheduleId = !empty($schedule) ? $schedule->id : optional($event->schedule)->id;
@@ -278,7 +277,7 @@ function scheduleResponse($events, $schedule = null, $resourceId = null)
             'eventSlotHtml' => view('components.event-html', ['data' => $event])->render(),
             'eventDetailSlotHtml' => view('components.event-detail-html', ['data' => $event])->render(),
         ];
-        if (Route::currentRouteName() == 'documentation.calendar') {
+        if (in_array($route, ['documentation.calendar', 'documentation.store'])) {
             $event->allChildrens = Children::select('id as key', DB::raw('CONCAT(name, " ", family_name) as value'))->where('kindergarten_id', $kindergartenId)->orderBy('name')->get()->toArray();
             $event->allTherapists = StaffSchedule::filter(['kindergarten_id' => $kindergartenId])->with('user')->select('user_id')->distinct('user_id')->get()
                 ->map(function ($schedule) {
@@ -332,4 +331,22 @@ function scheduleResponse($events, $schedule = null, $resourceId = null)
     //         'eventDetailSlotHtml' => view('components.event-detail-html', ['data' => $event])->render(),
     //     ];
     // });
+}
+
+function isTherapistAttended($therapistId, $eventId)
+{
+    return ScheduleEventTherapistOccurred::where([
+        'schedule_event_id' => $eventId,
+        'therapist_id' => $therapistId,
+        'submitted_by' => Auth::id()
+    ])->exists();
+}
+
+function isChildrenAttended($childrenId, $eventId)
+{
+    return ScheduleEventChildrenOccurred::where([
+        'schedule_event_id' => $eventId,
+        'children_id' => $childrenId,
+        'submitted_by' => Auth::id()
+    ])->first();
 }

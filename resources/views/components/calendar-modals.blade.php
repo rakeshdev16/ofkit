@@ -155,9 +155,7 @@
 
 <div class="modal fade" id="eventStatusModal" tabindex="-1" aria-labelledby="eventStatusModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" id="eventStatusForm">
-
-        </div>
+        <div class="modal-content eventStatusForm"></div>
     </div>
 </div>
 

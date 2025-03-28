@@ -168,7 +168,7 @@
         }
 
         function filterForm(data, callback) {
-            $('#eventStatusForm').html('');
+            $('.eventStatusForm').html('<div class="card form-loader"><div class="card-body text-center"><div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"> <span class="visually-hidden">Loading...</span></div></div></div>');
             fetch("{{ route('documentation.form-data') }}", {
                 method: 'POST',
                 headers: {
@@ -177,10 +177,10 @@
                 },
                 body: JSON.stringify(data)
             }).then((response) => response.json()).then((data) => {
-                $('#eventStatusForm').html(data.data);
+                $('.eventStatusForm').html(data.data);
                 setTimeout(() => {
-                    $('#eventStatusForm').off('select2:select select2:unselect', '#therapist, #children');
-                    $('#eventStatusForm').on('select2:select select2:unselect', '#therapist, #children', function(e) {
+                    $('.eventStatusForm').off('select2:select select2:unselect', '#therapist, #children');
+                    $('.eventStatusForm').on('select2:select select2:unselect', '#therapist, #children', function(e) {
                         const selectedOption = e.params.data;
                         const selectedId = $(this).val();
                         const selectedElementId = $(this).attr('id');

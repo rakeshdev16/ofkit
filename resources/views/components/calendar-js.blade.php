@@ -174,7 +174,7 @@
             onEventClicked: (args) => {
                 let event = args.e.data;
                 if (route === 'documentation.index') {
-                    $('#eventStatusForm').html(event.form);
+                    $('.eventStatusForm').html(event.form);
                     $('#eventStatusModal').modal('toggle');
                     let data = event.data;
                     selectVisibility(data.type, data.childrenId, data.therapistIds);
@@ -475,9 +475,12 @@
         });
 
         $(".selectChildrens").on("select2:select", function (e) {
-            let data = e.params.data;
-            let attendenceForm = `<x-children-participated index='${data.id}' name='${data.text}' childrenId='${data.id}' />`;
-            if ($('.fileSec'+data.id).length === 0) $('.children-attendance').append(attendenceForm);
+            let type = $('#type').val();
+            if (['group', 'staff-meeting'].includes(type)) {
+                let data = e.params.data;
+                let attendenceForm = `<x-children-participated index='${data.id}' name='${data.text}' childrenId='${data.id}' />`;
+                if ($('.fileSec'+data.id).length === 0) $('.children-attendance').append(attendenceForm);
+            }
         });
 
         $(".selectChildrens").on("select2:unselecting", function (e) {
@@ -503,10 +506,13 @@
         });
 
         $(".selectTherapist").on("select2:select", function (e) {
-            let data = e.params.data;
-            $('.therapist-attendance').removeClass('d-none').addClass('d-flex');
-            $('.therapist-attendance').append(`<x-is-user-attended id="${data.id}" name="${data.text}" />`);
-            let length = $('.therapist-attendance > div').length;
+            let type = $('#type').val();
+            if (['group', 'staff-meeting'].includes(type)) {
+                let data = e.params.data;
+                $('.therapist-attendance').removeClass('d-none').addClass('d-flex');
+                $('.therapist-attendance').append(`<x-is-user-attended id="${data.id}" name="${data.text}" />`);
+                let length = $('.therapist-attendance > div').length;
+            }
         });
 
         $(".selectTherapist").on("select2:unselecting", function (e) {
@@ -524,11 +530,11 @@
 
     function submitIfAvailable(data) {
         // $("#children").prop("disabled", false);
-        $('#createEventModalBtn').attr('disabled', false).removeAttr('data-bs-original-title').tooltip('dispose');
+        $('#createEventModalBtn, #eventModalBtn').attr('disabled', false).removeAttr('data-bs-original-title').tooltip('dispose');
         // if (!isTherapistAvailable || !isChildrenAvailable) {
         if (isAvailableArray.length > 0) {
             // if (data.type == 'therapist') $("#children").prop("disabled", true);
-            $('#createEventModalBtn').attr('disabled', true).attr('title', 'This selected therapist or child not available at this time').tooltip({ trigger: 'hover' });
+            $('#createEventModalBtn, #eventModalBtn').attr('disabled', true).attr('title', 'This selected therapist or child not available at this time').tooltip({ trigger: 'hover' });
             if (data.status == true) toastr.error(data.message);
         }
     }

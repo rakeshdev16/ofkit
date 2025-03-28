@@ -43,42 +43,59 @@ class DocumentationController extends Controller
                 $request['file'] = $request->old_image;
             }
 
-            $schedule = Schedule::find($request->schedule_id);
-            $schedule->events()->removeUnselectedUser($request->all());
+            if (isset($request->schedule_id)) {
+                $schedule = Schedule::find($request->schedule_id);
+            } else {
+                $yearMonth = explode('-', $request->month);
+                $dates = $this->getWeekStartEndDate($yearMonth[0], $yearMonth[1], $request->week);
+                $schedule = Schedule::where('status', 'published')
+                    ->where('start_date', '<=', $dates['end'])
+                    ->where('end_date', '>=', $dates['start'])
+                    ->where('end_date', '<=', $dates['end'])
+                    ->first();
+                $request['schedule_id'] = $schedule->id;
+            }
 
-            // $request['unique_id'] = $request->unique_id ? $request->unique_id : Str::uuid();
+            $event = ScheduleEvent::firstOrCreate(['id' => $request->event_id, 'schedule_id' => $schedule->id], $request->all());
+            $deletedIds = $event->therapists()->exists() ? $event->therapists()->pluck('id') : collect();
+            $event->therapists()->delete();
             if (isset($request->therapist_ids) && count($request->therapist_ids) > 0) {
-                foreach ($request->therapist_ids as $key => $therapistId) {
-                    $request['therapist_id'] = $therapistId;
-                    $scheduleEvent = ScheduleEvent::updateOrCreate([
-                        'schedule_id' => $request->schedule_id,
-                        'therapist_id' => $therapistId,
-                        // 'unique_id' => $request->unique_id
-                    ],
-                        $request->all()
-                    );
-                    Log::info('ScheduleEvent', ['scheduleEvent' => $scheduleEvent]);
-                }
-                if (isset($request->therapist_occurred)) {
-                    foreach ($request->therapist_occurred as $therapistId => $value) {
-                        $scheduleEventId = $schedule->events()->where(['unique_id' => $request->unique_id, 'therapist_id' => $therapistId])->pluck('id')->first();
-                        ScheduleEventTherapistOccurred::create([
-                            'schedule_event_id' => $request->event_id, 
-                            'therapist_id' => $therapistId,
-                        ]);
-                    }
+                foreach ($request->therapist_ids as $therapistId) {
+                    $event->therapists()->create(['therapist_id' => $therapistId]);
                 }
             }
-            $events = $schedule->events()->whereIn('therapist_id', $request->therapist_ids)->where([
-                    'day' => $request->day,
-                    'start_time' => $request->start_time
-                ])->get();
-            $event = scheduleResponse($events, $schedule);
+            $event->childrens()->delete();
+            if (isset($request->children_ids) && count($request->children_ids) > 0) {
+                foreach ($request->children_ids as $childrenId) {
+                    $event->childrens()->create(['children_id' => $childrenId]);
+                }
+            }
+
+            $event->therapistOccurred()->delete();
+            if (isset($request->therapist_occurred) && count($request->therapist_occurred) > 0) {
+                foreach ($request->therapist_occurred as $therapistId) {
+                    $event->therapistOccurred()->create(['therapist_id' => $therapistId]);
+                }
+            }
+
+            if (isset($request->participated) && count($request->participated) > 0) {
+                foreach ($request->participated as $key => $participated) {
+                    $participated['schedule_event_id'] = $event->id;
+                    $participated['file'] = isset($participated['child_file']) ? uploadFile($participated['child_file'], 'public/child-document') : @$participated['file'];
+                    ScheduleEventChildrenOccurred::updateOrCreate(['id' => $participated['id']], $participated);
+                }
+            }
+
+            $events = $schedule->events()->whereHas('therapists', function ($query) use ($request) {
+                        $query->where('therapist_id', Auth::id());
+                    })->where(['day' => $request->day, 'start_time' => $request->start_time])->get();
+            $event = scheduleResponse($events, $schedule, Auth::id());
             DB::commit();
             return response()->json([
                 'status' => true,
-                'message' => 'Event detail has been successfully saved as draft!',
+                'message' => 'Event detail has been successfully saved!',
                 'event' => $event,
+                'deletedIds' => $deletedIds
             ]);
 
         } catch (\Exception $e) {
@@ -122,14 +139,12 @@ class DocumentationController extends Controller
         }
 
         $events = [];
-        $schedule = '';
-        $scheduleIds = Schedule::where('status', 'published')
+        $schedule = Schedule::where('status', 'published')
             ->where('start_date', '<=', $dates['end'])
             ->where('end_date', '>=', $dates['start'])
-            ->where('end_date', '<=', $dates['end'])
-            ->pluck('id');
+            ->where('end_date', '<=', $dates['end']);
 
-        $scheduleEvents = ScheduleEvent::whereIn('schedule_id', $scheduleIds)->whereHas('therapists', function ($query) {
+        $scheduleEvents = ScheduleEvent::whereIn('schedule_id', $schedule->pluck('id'))->whereHas('therapists', function ($query) {
                 $query->where('therapist_id', Auth::id());
             })
             ->get()
@@ -139,11 +154,20 @@ class DocumentationController extends Controller
                 return $groups->merge($others);
             });
 
-        $events = scheduleResponse($scheduleEvents, $schedule, Auth::id());
+        $events = scheduleResponse($scheduleEvents, $schedule->first(), Auth::id());
+        $staffTimeSlots = StaffSchedule::where('user_id', Auth::id())->where('kindergarten_id', $schedule->pluck('kindergarten_id'))
+            ->get()->map(function ($schedule) {
+                return [
+                    'resource' => $schedule->user_id.''.$schedule->day,
+                    'startTime' => $schedule->start_time,
+                    'endEnd' => $schedule->end_time,
+                ];
+            });
 
         return response()->json([
             'calenderHeader' => $header,
             'calenderEvents' => $events,
+            'staffTimeSlots' => $staffTimeSlots,
         ]);
     }
 

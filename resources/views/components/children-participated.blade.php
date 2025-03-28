@@ -85,7 +85,7 @@
                             @else
                                 @if (isset($data['file']) && $data['file'] != null)
                                     <div class="document mt-1">
-                                        <a href="{{ $file }}" target="_blank" rel="noopener noreferrer">{{ explode('child-document/', $data['file'])[1] }}</a>
+                                        <a href="{{ $file }}" target="_blank" rel="noopener noreferrer">{{ @explode('child-document/', $data['file'])[1] }}</a>
                                         <i class="bx bx-x childDocFile" data-file-name="{{ $file }}"></i>
                                     </div>
                                     <input type="hidden" name="participated[{{ $index }}][file]" value="{{ @$data['file'] }}">
@@ -100,7 +100,7 @@
                         @enderror
                     </div>
                 </div>
-                <input type="hidden" name="participated[{{ $index }}][id]" id="{{ @$id }}">
+                <input type="hidden" name="participated[{{ $index }}][id]" value="{{ @$id }}">
             </div>
         </div>
     </div>
