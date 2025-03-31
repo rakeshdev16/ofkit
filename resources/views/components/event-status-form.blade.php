@@ -160,6 +160,7 @@
         dropdownParent: $("#createEventModal"),
         placeholder: "Select Children",
         allowClear: true,
+        closeOnSelect: false,
         maximumSelectionLength: !isMultiple ?? 1,
         language: {
             maximumSelected: function (args) {
@@ -172,6 +173,7 @@
         dropdownParent: $("#createEventModal"),
         placeholder: "Select Therapist",
         allowClear: true,
+        closeOnSelect: false,
         maximumSelectionLength: !isMultiple ?? 1,
         language: {
             maximumSelected: function (args) {
