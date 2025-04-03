@@ -87,7 +87,7 @@
         let headerLevel = "{{ in_array(Route::currentRouteName() , ['children-schedule.index']) }}" ? "1" : "4";
         if (getQueryParam('kindergarten_id') === 'personal' || route == 'children-schedule.index'|| route == 'documentation.index') {
             headerLevel = "1";
-            if (getQueryParam('day') && getQueryParam('day') !== 'All Days') {
+            if (getQueryParam('filter-type') && getQueryParam('filter-type') === 'days') {
                 columnWidth = (windowWidth-140);
             } else if (screen.width < 768) {
                 columnWidth = 100;

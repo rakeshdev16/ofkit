@@ -222,7 +222,8 @@
             var submitForm = function() {
                 var formData = new FormData(form);
                 formData.append('month', getQueryParam('month'));
-                formData.append('week', getQueryParam('week'));
+                formData.append('filter_type', getQueryParam('filter-type'));
+                formData.append('filter_type_num', getQueryParam('filter-type-num'));
                 $('#eventModalBtn').html('Processing');
                 fetch("{{ route('documentation.store') }}", {
                     method: 'POST',

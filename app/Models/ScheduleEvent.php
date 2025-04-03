@@ -128,12 +128,12 @@ class ScheduleEvent extends Model
 
     public function therapistOccurred()
     {
-        return $this->hasOne(ScheduleEventTherapistOccurred::class, 'schedule_event_id', 'id');
+        return $this->hasOne(ScheduleEventTherapistOccurred::class, 'schedule_event_id', 'id')->where('submitted_by', Auth::id());
     }
 
     public function childrenOccurred()
     {
-        return $this->hasMany(ScheduleEventChildrenOccurred::class, 'schedule_event_id', 'id');
+        return $this->hasMany(ScheduleEventChildrenOccurred::class, 'schedule_event_id', 'id')->where('submitted_by', Auth::id());
     }
 
     public function getCellTitleAttribute()

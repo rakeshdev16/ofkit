@@ -92,8 +92,6 @@ class StaffController extends Controller
         return response()->json(['message' => 'Invalid field'], 422);
     }
 
-
-
     public function store(Request $request)
     {
         $rules = [
@@ -170,7 +168,7 @@ class StaffController extends Controller
                 $user->staffKindergartens()->createMany($request->kindergarten);
             }
 
-            if($request->kindergarten){
+            if ($request->kindergarten) {
                 foreach ($request->kindergarten as $kindergarten) {
                     KindergartenUser::updateOrCreate([
                         'kindergarten_id' => $kindergarten['kindergarten_id'],

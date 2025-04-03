@@ -6,7 +6,6 @@
     <link href="{{ asset('assets/js/daypilot/helpers/v2/main.css') }}" type="text/css" rel="stylesheet" />
     <script src="{{ asset('assets/js/daypilot/daypilot-all.min.js')}}"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script> --}}
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 @endpush
@@ -14,8 +13,8 @@
 <div class="page-wrapper">
     <div class="page-content">
         <div class="d-flex flex-wrap gap-3 lg:flex-row justify-content-between mb-3 calendar-header">
-            <div>
-                <div class="filters d-flex justify-content-between flex-wrap  gap-3">
+            <div class="">
+                <div class="filters d-flex justify-content-right flex-wrap gap-1">
                     <div class="d-flex">
                         @foreach ($kindergartens as $kindergarten)
                             @php
@@ -28,31 +27,39 @@
                         @endforeach
                     </div>
                     <div class="d-flex gap-2">
-                        <div class="d-flex">
-                            <button class="btn btn-secondary day" id="decreaseDay"><i class="fa fa-angle-left"></i></button>
-                            <input type="text" class="form-control text-center" id="dayPicker" value="{{ request('day', 'All Days') }}" readonly style="width: 110px;">
-                            <button class="btn btn-secondary day" id="increaseDay"><i class="fa fa-angle-right"></i></button>
+                        <div class="d-flex gap-1">
+                            <button class="btn btn-secondary nextPrev" id="decrease">Prev</button>
+                            <button class="btn btn-secondary nextPrev" id="increase">Next</button>
                         </div>
                         <div class="d-flex">
                             @php
                                 $weekOfMonth = Carbon\Carbon::today()->weekOfMonth;
                             @endphp
-                            <button class="btn btn-secondary week" id="decreaseWeek"><i class="fa fa-angle-left"></i></button>
-                            <input type="text" class="form-control text-center" id="weekPicker" value="{{ request('week', 'Week '.$weekOfMonth) }}" readonly style="width: 80px;">
-                            <button class="btn btn-secondary week" id="increaseWeek"><i class="fa fa-angle-right"></i></button>
+                            <select name="" class="form-control" id="weekDays">
+                                <option value="week">Week</option>
+                                <option value="days">Days</option>
+                            </select>
                         </div>
                     </div>
                     <div>
-                        <input type="month" class="form-control w-100" value="{{ date('Y-m') }}" onchange="getEvents();" id="monthPicker">
+                        <input
+                            type="month"
+                            class="form-control"
+                            value="{{ date('Y-m') }}"
+                            onchange="filterCalendar({ 'month': this.value, 'filter-type': 'week', 'filter-type-num': 1 });"
+                            id="monthPicker"
+                        >
                     </div>
                 </div>
+                <div class="d-flex flex-wrap gap-1 mt-2">
+                    <div class="mx-2"><span class="event-status" style="background: red"></span> Missing documentation</div>
+                    <div class="mx-2"><span class="event-status" style="background: rgb(5, 5, 5)"></span> Documented and occurred</div>
+                    <div class="mx-2"><span class="event-status" style="background: rgb(148, 145, 145)"></span> Documented but did not occur</div>
+                </div>
             </div>
-            <div class="d-flex gap-1">
-                <div style="text-align: left; height:5px;"><span class="event-status" style="background: red"></span> Missing documentation</div>&nbsp;&nbsp;
-                <div style="text-align: left; height:5px;"><span class="event-status" style="background: rgb(5, 5, 5)"></span> Documented and occurred</div>&nbsp;&nbsp;
-                <div style="text-align: left; height:5px;"><span class="event-status" style="background: rgb(148, 145, 145)"></span> Documented but did not occur</div>&nbsp;&nbsp;
-                <button class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="today">Today</button>
-                <div class="dropdown">
+            <div class="d-flex">
+                <div class="dropdown gap-1">
+                    <button class="badge button btn rounded-pill p-2 px-4 fs-6 fw-normal cursor-pointer" id="today">Today</button>
                     <button class="btn button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">New Documentation</button>
                     <ul class="dropdown-menu" style="">
                         <li><a class="dropdown-item newEvent" data-type="individual" href="#">Individual</a></li>
@@ -81,30 +88,33 @@
     <script type="text/javascript">
         let data = { 'kindergarten_id': "{{ @$kindergartens[0]->id }}" };
         $(document).ready(function() {
-            getEvents();
-            let week = getQueryParam('week');
-            let weekNumber = week ? parseInt(week.replace('Week ', '')) : 1;
+            let month = $('#monthPicker').val();
+            filterCalendar({
+                'month': month,
+                'filter-type': getQueryParam('filter-type') ?? 'week',
+                'filter-type-num': getQueryParam('filter-type-num') ?? 1
+            });
             const minWeek = 1;
             const maxWeek = 4;
-            const weekPicker = document.getElementById("weekPicker");
-            $(".week").on("click", function () {
-                let id = $(this).attr("id");
-                if (id === "increaseWeek" && weekNumber < maxWeek) weekNumber++;
-                if (id === "decreaseWeek" && weekNumber > minWeek) weekNumber--;
-                weekPicker.value = "Week " + weekNumber;
-                getEvents();
+            $("#weekDays").on("click", function () {
+                let type = $(this).val();
+                filterCalendar({ 'month': month, 'filter-type': type, 'filter-type-num': 1 });
             });
-
-            const dayPicker = document.getElementById("dayPicker");
-            $(".day").on("click", function () {
-                let days = ["All Days", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-                let selectedDay = getQueryParam('day');  
-                let currentIndex = selectedDay ? days.indexOf(selectedDay) : 0;
+            $(".nextPrev").on("click", function () {
+                let filterNum = parseInt(getQueryParam('filter-type-num'));
+                let filterType = getQueryParam('filter-type');
                 let id = $(this).attr("id");
-                if (id === "increaseDay") currentIndex = (currentIndex + 1) % days.length;
-                if (id === "decreaseDay") currentIndex = (currentIndex - 1 + days.length) % days.length;
-                dayPicker.value = days[currentIndex];
-                getEvents();
+                let weekDays = $('#weekDays').val();
+                if (filterType == 'week') {
+                    if (id === "decrease" && filterNum > minWeek) filterNum--;
+                    if (id === "increase" && filterNum < maxWeek) filterNum++;
+                } else {
+                    let ym = month.split('-');
+                    let lastDay = new Date(ym[0], ym[1], 0).getDate();
+                    if (id === "decrease" && filterNum > 1) filterNum--;
+                    if (id === "increase" && filterNum < lastDay) filterNum++;
+                }
+                filterCalendar({ 'month': month, 'filter-type': filterType, 'filter-type-num': filterNum });
             });
         });
 
@@ -139,33 +149,19 @@
         });
 
         $(document).on('click', '#today', function () {
-            const date = new Date();
-            const year = date.getFullYear();
-            const month = (date.getMonth() + 1).toString().padStart(2, '0');
-
-            const getWeekOfMonth = (date) => {
-                const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-                const firstMonday = firstDayOfMonth.getDay() === 1 ? 1 : (firstDayOfMonth.getDay() === 0 ? 2 : (8 - firstDayOfMonth.getDay())); 
-                return Math.ceil((date.getDate() - firstMonday + 1) / 7);
-            };
-
-            const weekOfMonth = getWeekOfMonth(date);
-            const dayName = date.toLocaleString('en-us', { weekday: 'long' });            
-           
-            $('#monthPicker').val(year + '-' + month);
-            $('#weekPicker').val('Week ' + weekOfMonth);
-            $('#dayPicker').val('All Days');
-            getEvents();
+            let today = new Date();
+            let year = today.getFullYear();
+            let month = String(today.getMonth() + 1).padStart(2, '0');
+            let firstDayOfMonth = new Date(year, today.getMonth(), 1);
+            let currentWeek = Math.ceil((today.getDate() + firstDayOfMonth.getDay()) / 7);
+            $('#monthPicker').val(year+'-'+month);
+            $('#weekDays').val('week');
+            filterCalendar({
+                'month': year+'-'+month,
+                'filter-type': 'week',
+                'filter-type-num': currentWeek
+            });
         });
-
-        function getEvents() {
-            var params = {
-                'month': $('#monthPicker').val(),
-                "week": $('#weekPicker').val(),
-                "day": $('#dayPicker').val()
-            };
-            filterCalendar(params);
-        }
 
         function filterForm(data, callback) {
             $('.eventStatusForm').html('<div class="card form-loader"><div class="card-body text-center"><div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"> <span class="visually-hidden">Loading...</span></div></div></div>');

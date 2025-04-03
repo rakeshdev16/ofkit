@@ -33,7 +33,6 @@ class DocumentationController extends Controller
 
     public function store(Request $request)
     {
-        // echo '<pre>'; print_r($request->all()); die;
         DB::beginTransaction();
         try {
 
@@ -46,14 +45,28 @@ class DocumentationController extends Controller
             if (isset($request->schedule_id)) {
                 $schedule = Schedule::find($request->schedule_id);
             } else {
-                $yearMonth = explode('-', $request->month);
-                $dates = $this->getWeekStartEndDate($yearMonth[0], $yearMonth[1], $request->week);
-                $schedule = Schedule::where('status', 'published')
-                    ->where('start_date', '<=', $dates['end'])
-                    ->where('end_date', '>=', $dates['start'])
-                    ->where('end_date', '<=', $dates['end'])
-                    ->first();
-                $request['schedule_id'] = $schedule->id;
+                if ($request->filter_type === 'week') {
+                    $yearMonth = explode('-', $request->month);
+                    $dates = $this->getSpecificWeekStartEnd($yearMonth[0], $yearMonth[1], $request->filter_type_num);
+                    $startDate = Carbon::parse($dates['start']);
+                    $endDate = Carbon::parse($dates['end']);
+                    $schedule = Schedule::where('status', 'published')
+                        ->where('kindergarten_id', $request->kindergarten_id)
+                        ->where(function ($query) use ($startDate, $endDate) {
+                            $query->whereBetween('start_date', [$startDate, $endDate])
+                                ->orWhereBetween('end_date', [$startDate, $endDate])
+                                ->orWhere(function ($query) use ($startDate, $endDate) {
+                                    $query->where('start_date', '<=', $startDate)->where('end_date', '>=', $endDate);
+                                });
+                        })->first();
+                } else {
+                    $schedule = Schedule::where('start_date', '<=', $date)->where('end_date', '>=', $date)->orderBy('id', 'DESC')->first();
+                }
+                if (isset($schedule->id)) {
+                    $request['schedule_id'] = $schedule->id;
+                } else {
+                    return response()->json(['status' => false, 'message' => "The selected kindergarten dosen't have any published schedule"]);
+                }
             }
 
             $event = ScheduleEvent::firstOrCreate(['id' => $request->event_id, 'schedule_id' => $schedule->id], $request->all());
@@ -107,15 +120,23 @@ class DocumentationController extends Controller
     public function calendar(Request $request)
     {
         $filter = $request->all();
-        $yearMonth = explode('-', $filter['month']);
-        $dates = $this->getWeekStartEndDate($yearMonth[0], $yearMonth[1], $filter['week']);
-        $startDate = Carbon::parse($dates['start']);
-        $endDate = Carbon::parse($dates['end']);
-        $week = CarbonPeriod::create($startDate, $endDate);
-        $day = request('day', 'All Days');
         $header = [];
-
-        if ($day == 'All Days') {
+        $schedules = Schedule::where('status', 'published')->whereIn('kindergarten_id', Auth::user()->staffKindergartens->pluck('kindergarten_id'));
+        if ($filter['filter-type'] == 'days') {
+            $day = $filter['filter-type-num'];
+            $dayName = date('l', strtotime($filter['month'].'-'.$day));
+            $date = $filter['month'].'-'.$day;
+            $header[] = [
+                'name' => '<div>' . $dayName . '<br>' . $day . '</div>',
+                'id' => Auth::id() . strtolower($dayName)
+            ];
+            $schedules = $schedules->where('start_date', '<=', $date)->where('end_date', '>=', $date)->get();
+        } else {
+            $yearMonth = explode('-', $filter['month']);
+            $dates = $this->getSpecificWeekStartEnd($yearMonth[0], $yearMonth[1], $filter['filter-type-num']);
+            $startDate = Carbon::parse($dates['start']);
+            $endDate = Carbon::parse($dates['end']);
+            $week = CarbonPeriod::create($startDate, $endDate);
             foreach ($week as $date) {
                 $parseDate = Carbon::parse($date);
                 $day = $parseDate->format('l');
@@ -125,25 +146,16 @@ class DocumentationController extends Controller
                     'id' => Auth::id() . strtolower($day)
                 ];
             }
-        } else {
-            $specificDate = Carbon::parse($startDate)->next($day);
-            if ($specificDate->greaterThan($endDate)) {
-                $specificDate = $startDate;
-            }
-            $dayName = $specificDate->format('l');
-            $dateNumber = $specificDate->format('d');
-            $header[] = [
-                'name' => '<div>' . $dayName . '<br>' . $dateNumber . '</div>',
-                'id' => Auth::id() . strtolower($dayName)
-            ];
+            $schedules = $schedules->where(function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('start_date', [$startDate, $endDate])
+                    ->orWhereBetween('end_date', [$startDate, $endDate])
+                    ->orWhere(function ($query) use ($startDate, $endDate) {
+                        $query->where('start_date', '<=', $startDate)->where('end_date', '>=', $endDate);
+                    });
+            })->get();
         }
 
         $events = [];
-        $schedules = Schedule::where('status', 'published')
-            ->where('start_date', '<=', $dates['end'])
-            ->where('end_date', '>=', $dates['start'])
-            ->where('end_date', '<=', $dates['end'])->get();
-
         $scheduleEvents = ScheduleEvent::whereIn('schedule_id', $schedules->pluck('id'))
             ->whereHas('therapists', function ($query) {
                 $query->where('therapist_id', Auth::id());
@@ -175,9 +187,21 @@ class DocumentationController extends Controller
         ]);
     }
 
+    function getSpecificWeekStartEnd($year, $month, $weekNumber)
+    {
+        $firstDayOfMonth = Carbon::create($year, $month, 1);
+        $firstSunday = $firstDayOfMonth->copy()->previous(Carbon::SUNDAY);
+        $weekStart = $firstSunday->copy()->addWeeks($weekNumber - 1);
+        $weekEnd = $weekStart->copy()->addDays(6);
+        return [
+            'start' => $weekStart->format('Y-m-d 00:00:00'),
+            'end' => $weekEnd->format('Y-m-d 23:59:59'),
+        ];
+    }
+
     function getWeekStartEndDate($year, $month, $week)
     {
-        $week = @explode('Week ', $week)[1];
+        // $week = @explode('Week ', $week)[1];
         $firstDayOfMonth = new DateTime("$year-$month-01");
         $firstSunday = clone $firstDayOfMonth;
         if ($firstSunday->format('N') != 7) {

@@ -144,7 +144,7 @@
                                                             'value' => @$document->occured,
                                                         ])
                                                     </div>
-                                                    <div class="col-md-12 occuredReason" style="{{old('occured',@$document->occured) ?? '1' == '1' ? 'display: none' : 'display: block' }}">
+                                                    <div class="col-md-12 occuredReason" style="display: {{ old('occured',@$document->occured) ?? '1' == '1' ? 'none' : 'block' }}">
                                                         @include('components.select-input', [
                                                             'label' => __('children.occuredReason'),
                                                             'name' => 'occured_reason',

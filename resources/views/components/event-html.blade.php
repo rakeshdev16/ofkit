@@ -20,26 +20,14 @@
     @endif
     @if (Route::currentRouteName() == 'documentation.calendar')
         @php
-            $color = 'red';
-            switch (@$data['type']) {
-                case 'individual':
-                    $color = 'red';
-                break;
-                case 'group':
-                    $color = 'gray';
-                break;
-                case 'parental-guidance':
-                    $color = 'black';
-                break;
-                case 'staff-meeting':
-                    $color = 'red';
-                break;
-                case 'documentation-break':
-                    $color = 'gray';
-                break;
-                case 'preparation':
-                    $color = 'black';
-                break;
+            if (empty($data->therapistOccurred) && (count($data->childrenOccurred) == 0) && ($data['day'] !== date('l'))) {
+                $color = 'red'; // Missing
+            } elseif ($data->therapistOccurred && $data->childrenOccurred) {
+                $color = 'black'; // Documented and occurred
+            } elseif (count($data->childrenOccurred) > 0 && empty($data->therapistOccurred)) {
+                $color = 'gray'; // Documented but did not occured
+            } else {
+                $color = '';
             }
         @endphp
         <div style="text-align: left; height:5px;"><span class="event-status" style="background: {{ $color }}"></span></div>
