@@ -96,7 +96,7 @@
             });
             const minWeek = 1;
             const maxWeek = 4;
-            $("#weekDays").on("click", function () {
+            $("#weekDays").on("change", function () {
                 let type = $(this).val();
                 filterCalendar({ 'month': month, 'filter-type': type, 'filter-type-num': 1 });
             });
