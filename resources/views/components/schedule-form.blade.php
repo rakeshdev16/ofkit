@@ -119,14 +119,23 @@
     <button type="submit" class="button p-2 px-4 rounded-pill border-0" id="createEventModalBtn">Save</button>
     <button type="button" class="button p-2 px-4 rounded-pill border-0" id="cancelEventModalBtn">Cancel</button>
 </div>
-<script>    
+<script>
     var type = $('#appointmentType').val();
     var isMultiple = (type === 'group' || type === 'staff-meeting');
+    setEndTime();
+
     $(document).on('change', '.startTime', function() {
+        $('.endTime').val('');
+        setEndTime();
+    });
+
+    function setEndTime() {
         const startTimeSelect = document.querySelector('select[name="start_time"]');
         const endTimeSelect = document.querySelector('select[name="end_time"]');
         let startTime = startTimeSelect.value;
-        endTimeSelect.value = '';
+        if (endTimeSelect.value == '') {
+            endTimeSelect.value = '';
+        }
         Array.from(endTimeSelect.options).forEach((option) => {
             if (option.value && option.value <= startTime) {
                 option.disabled = true;
@@ -134,7 +143,7 @@
                 option.disabled = false;
             }
         });
-    })
+    }
 
     $('.selectChildrens').select2({
         dropdownParent: $("#createEventModal"),

@@ -156,6 +156,28 @@
 <script>
     var type = $('#appointmentType').val();
     var isMultiple = (type === 'group' || type === 'staff-meeting');
+
+    $(document).on('change', '.startTime', function() {
+        $('.endTime').val('');
+        setEndTime();
+    });
+
+    function setEndTime() {
+        const startTimeSelect = document.querySelector('select[name="start_time"]');
+        const endTimeSelect = document.querySelector('select[name="end_time"]');
+        let startTime = startTimeSelect.value;
+        if (endTimeSelect.value == '') {
+            endTimeSelect.value = '';
+        }
+        Array.from(endTimeSelect.options).forEach((option) => {
+            if (option.value && option.value <= startTime) {
+                option.disabled = true;
+            } else {
+                option.disabled = false;
+            }
+        });
+    }
+
     $('.selectChildrens').select2({
         dropdownParent: $("#createEventModal"),
         placeholder: "Select Children",
