@@ -27,8 +27,10 @@ class DocumentationController extends Controller
     {
         $kindergartens = Kindergarten::whereHas('staffKindergartens', function ($query) {
             $query->where('user_id', Auth::id());
-        })->get();
-        return view('documentation.index', compact('kindergartens'));
+        })->orderBy('id', 'DESC')->get();
+        $allKindergartens = Kindergarten::select('id', 'name')->get();
+        $allUsers = User::orderBy('id', 'DESC')->select('id', 'name')->get();
+        return view('documentation.index', compact('kindergartens', 'allKindergartens', 'allUsers'));
     }
 
     public function store(Request $request)
@@ -121,7 +123,12 @@ class DocumentationController extends Controller
     {
         $filter = $request->all();
         $header = [];
-        $schedules = Schedule::where('status', 'published')->whereIn('kindergarten_id', Auth::user()->staffKindergartens->pluck('kindergarten_id'));
+        $schedules = Schedule::where('status', 'published');
+        if (Auth::user()->hasRole('therapist')) {
+            $schedules = $schedules->whereIn('kindergarten_id', Auth::user()->staffKindergartens->pluck('kindergarten_id'));
+        } else {
+            $schedules = $schedules->where('kindergarten_id', $request->kindergarten_id);
+        }
         if ($filter['filter-type'] == 'days') {
             $day = $filter['filter-type-num'];
             $dayName = date('l', strtotime($filter['month'].'-'.$day));
@@ -152,7 +159,7 @@ class DocumentationController extends Controller
                     ->orWhere(function ($query) use ($startDate, $endDate) {
                         $query->where('start_date', '<=', $startDate)->where('end_date', '>=', $endDate);
                     });
-            })->get();
+                })->get();
         }
 
         $events = [];
@@ -161,6 +168,11 @@ class DocumentationController extends Controller
                 $query->where('therapist_id', Auth::id());
             })
             ->get()
+            ->when(true, function ($collection) use ($request) {
+                if (isset($request->user_id)) {
+                    return $collection->where('added_by', $request->user_id);
+                }
+            })
             ->when(true, function ($collection) {
                 $groups = $collection->where('type', 'group')->unique('unique_id');
                 $others = $collection->where('type', '!=', 'group');
@@ -249,5 +261,27 @@ class DocumentationController extends Controller
         $data['allTherapists'] = $allTherapists;
         $form = view('components.event-status-form', ['data' => $data])->render();
         return response()->json(['status' => true, 'data' => $form]);
+    }
+
+    public function kindergartenUsers(Request $request)
+    {
+        $users = StaffKindergarten::with('user')
+            ->where('kindergarten_id', $request->kindergarten_id)
+            ->get()
+            ->map(function ($staff) {
+                return [
+                    'key' => $staff->user->id,
+                    'value' => $staff->user->name
+                ];
+            })->toArray();
+
+        $data = view('components.select-input', [
+            'name' => '',
+            'options' => $users,
+            'icon' => 'buildings',
+            'id' => 'users',
+            'onchange' => 'userEvents(this.value)',
+        ])->render();
+        return response()->json(['status' => true, 'data' => $data]);
     }
 }

@@ -26,10 +26,26 @@
                             </div>
                         @endforeach
                     </div>
+                    @if (Auth::user()->hasRole(['admin', 'manager']))
+                        <div class="d-flex gap-2">
+                            <div>
+                                <select name="" class="form-control" id="kindergarten">
+                                    @foreach ($allKindergartens as $kindergarten)
+                                        <option value="{{ $kindergarten->id }}">{{ $kindergarten->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div id="userFilter">
+                                <select name="" class="form-control" id="users">
+                                    <option value="">Select User</option>
+                                </select>
+                            </div>
+                        </div>
+                    @endif
                     <div class="d-flex gap-2">
                         <div class="d-flex gap-1">
-                            <button class="btn btn-secondary nextPrev" id="decrease">Prev</button>
-                            <button class="btn btn-secondary nextPrev" id="increase">Next</button>
+                            <button class="btn btn-secondary nextPrev" id="decrease"><i class="fa fa-angle-right"></i></button>
+                            <button class="btn btn-secondary nextPrev" id="increase"><i class="fa fa-angle-left"></i></button>
                         </div>
                         <div class="d-flex">
                             @php
@@ -89,11 +105,16 @@
         let data = { 'kindergarten_id': "{{ @$kindergartens[0]->id }}" };
         $(document).ready(function() {
             let month = $('#monthPicker').val();
-            filterCalendar({
-                'month': month,
-                'filter-type': getQueryParam('filter-type') ?? 'week',
-                'filter-type-num': getQueryParam('filter-type-num') ?? 1
-            });
+            getKindergartenUsers($('#kindergarten').val());
+            // setTimeout(() => {
+            //     filterCalendar({
+            //         'month': month,
+            //         'filter-type': getQueryParam('filter-type') ?? 'week',
+            //         'filter-type-num': getQueryParam('filter-type-num') ?? 1,
+            //         'kindergarten_id': $('#kindergarten').val(),
+            //         'user_id': $('#users').val(),
+            //     });
+            // }, 100);
             const minWeek = 1;
             const maxWeek = 4;
             $("#weekDays").on("change", function () {
@@ -117,6 +138,35 @@
                 filterCalendar({ 'month': month, 'filter-type': filterType, 'filter-type-num': filterNum });
             });
         });
+
+        $(document).on('change', '#kindergarten', function () {
+            let kindergarten_id = $(this).val();
+            getKindergartenUsers(kindergarten_id);
+            setTimeout(() => {
+                userEvents($('#users').val());
+            }, 100);
+        });
+
+        function getKindergartenUsers(id) {
+            fetch("{{ route('documentation.kindergarten-users') }}?kindergarten_id="+id)
+                .then((response) => response.json())
+                .then((data) => {
+                    $('#userFilter').html(data.data);
+                });
+                setTimeout(() => {
+                    userEvents($('#users').val());
+                }, 200);
+        }
+
+        function userEvents(id) {
+            filterCalendar({
+                'month': $('#monthPicker').val(),
+                'filter-type': getQueryParam('filter-type') ?? 'week',
+                'filter-type-num': getQueryParam('filter-type-num') ?? 1,
+                'kindergarten_id': $('#kindergarten').val(),
+                'user_id': id,
+            });
+        }
 
         $(document).on('click', '.newEvent', function () {
             let type = $(this).data('type');

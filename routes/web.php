@@ -153,6 +153,7 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
         Route::post('documentation', 'store')->name('documentation.store');
         Route::get('documentation/calendar', 'calendar')->name('documentation.calendar');
         Route::post('documentation/form-data', 'formData')->name('documentation.form-data');
+        Route::get('documentation/kindergarten-users', 'kindergartenUsers')->name('documentation.kindergarten-users');
     });
 
     Route::controller(UserController::class)->group(function () {

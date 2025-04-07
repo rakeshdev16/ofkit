@@ -213,7 +213,20 @@ class ScheduleEvent extends Model
 
         $staff = $duration / 60 * 1;
 
-        if ($type == 'children') return $children;
-        if ($type == 'staff') return $staff;
+        // if ($type == 'children') return $children;
+        // if ($type == 'staff') return $staff;
+
+        // Frequency multiplier
+        $multiplier = match ($this->frequency_repeat) {
+            'Weekly' => 1,
+            'Bi-Weekly' => 0.5,
+            'Monthly' => 0.25,
+            default => 1, // fallback if frequency not defined
+        };
+
+        $children *= $multiplier;
+        $staff *= $multiplier;
+
+        return $type === 'children' ? $children : ($type === 'staff' ? $staff : null);
     }
 }
