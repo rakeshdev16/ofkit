@@ -176,6 +176,10 @@
                         <label for="input16" class="form-label fw-bold">End Date</label>
                         <input type="text" name="end_date" id="publishEndDate" placeholder="End Date" class="w-100 form-control border-1">
                     </div>
+                    <div class="mb-3">
+                        <label for="input16" class="form-label fw-bold">Description</label>
+                        <textarea name="description" class="w-100 form-control border-1" cols="30" rows="5"></textarea>
+                    </div>
                     <input type="hidden" name="ids" id="eventIds" value="{{ @$createdEventIds }}">
                     <input type="hidden" name="isAgree" id="isAgree" value="false">
                     <input type="hidden" name="scheduleIds" id="scheduleIds">
@@ -190,7 +194,6 @@
 </div>
 
 <!-- draft list -->
-
 <div class="modal" id="draft">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

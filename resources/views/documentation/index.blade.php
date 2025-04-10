@@ -31,7 +31,12 @@
                             <div>
                                 <select name="" class="form-control" id="kindergarten">
                                     @foreach ($allKindergartens as $kindergarten)
-                                        <option value="{{ $kindergarten->id }}">{{ $kindergarten->name }}</option>
+                                        <option
+                                            {{ request('kindergarten_id') == $kindergarten->id ? 'selected' : '' }}
+                                            value="{{ $kindergarten->id }}"
+                                        >
+                                            {{ $kindergarten->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -105,16 +110,8 @@
         let data = { 'kindergarten_id': "{{ @$kindergartens[0]->id }}" };
         $(document).ready(function() {
             let month = $('#monthPicker').val();
-            getKindergartenUsers($('#kindergarten').val());
-            // setTimeout(() => {
-            //     filterCalendar({
-            //         'month': month,
-            //         'filter-type': getQueryParam('filter-type') ?? 'week',
-            //         'filter-type-num': getQueryParam('filter-type-num') ?? 1,
-            //         'kindergarten_id': $('#kindergarten').val(),
-            //         'user_id': $('#users').val(),
-            //     });
-            // }, 100);
+            let kindergartenId = getQueryParam('kindergarten_id') ?? $('#kindergarten').val();
+            getKindergartenUsers(kindergartenId);
             const minWeek = 1;
             const maxWeek = 4;
             $("#weekDays").on("change", function () {

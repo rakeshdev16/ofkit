@@ -17,6 +17,7 @@ class Schedule extends Model
         'end_date',
         'status',
         'published_by',
+        'description',
     ];
 
     public function scopeFilter($query, $data)

@@ -45,6 +45,12 @@ Route::middleware(['lang'])->group(function () {
     });
 });
 Route::get('/page-expired', fn() => view('errors.419'))->name('page.expired');
+Route::get('/canendar-view', function(Request $request) {
+    $controller = new ScheduleController();
+    $data = $controller->calendar($request);
+    return view('schedule.pdf', compact('data'));
+});
+
 Route::get('/check-session', function () {
     if (auth()->check() && Auth::user()->last_activity_at) {
         $lastActivityTime = Carbon::parse(Auth::user()->last_activity_at);
@@ -130,7 +136,6 @@ Route::middleware(['auth', 'lang', 'last.activity', 'disableBackBtnAfterLogout']
         Route::post('schedule/time-slot', 'checkTimeSlot')->name('schedule.time-slot');
         Route::get('schedule/hour-summary', 'hourSummary')->name('schedule.hour-summary');
         Route::get('schedule/export', 'export')->name('schedule.export');
-
     });
 
     Route::controller(ScheduleHistoryController::class)->group(function () {

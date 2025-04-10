@@ -245,9 +245,11 @@ function scheduleResponse($events, $schedule = null, $resourceId = null)
     $eventIds = $events->pluck('id')->toArray();
     $queryMap = [
         'children-schedule.calendar' => ScheduleEventChildren::where('children_id', $resourceId),
-        'documentation.calendar' => ScheduleEventTherapist::where('therapist_id', $resourceId),
         'documentation.store' => ScheduleEventTherapist::where('therapist_id', $resourceId),
     ];
+    if (Auth::user()->hasRole('therapist')) {
+        $queryMap['documentation.calendar'] = ScheduleEventTherapist::where('therapist_id', $resourceId);
+    }
     $baseQuery = ScheduleEventTherapist::query();
     $rows = ($queryMap[$route] ?? $baseQuery)->whereIn('schedule_event_id', $eventIds)->get();
 

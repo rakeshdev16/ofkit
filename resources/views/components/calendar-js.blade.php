@@ -37,37 +37,36 @@
             $("#kindergartenFilter").blur();
             setTimeout(() => {
                 setCalendar();
-                // $('#export').on('click', function() {
+
+                // $('#export').on('click', function () {
                 //     $(this).attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
                 //     let div = $('#scheduleCalendar')[0];
-                //     let targetElement = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0];
-                //     html2canvas(div, {
+                //     let scrollContent = $('.calendar_default_scroll > div > div:nth-of-type(2)')[0];
+                //     let clone = div.cloneNode(true);
+                //     // Apply styles to force full scrollable size
+                //     clone.style.width = scrollContent.scrollWidth + 'px';
+                //     clone.style.height = scrollContent.scrollHeight + div.offsetTop + 'px'; // height includes header
+                //     clone.style.overflow = 'visible';
+                //     clone.style.position = 'absolute';
+                //     clone.style.top = '-9999px';
+                //     clone.style.left = '-9999px';
+                //     document.body.appendChild(clone);
+                //     html2canvas(clone, {
                 //         useCORS: true,
-                //         scrollX: -window.scrollX,
-                //         scrollY: -window.scrollY,
                 //         allowTaint: true,
-                //         logging: true,
-                //         width: targetElement.scrollWidth + 30,
-                //         height: targetElement.scrollHeight + 110,
-                //         windowWidth: targetElement.scrollWidth + 60,
-                //         windowHeight: targetElement.scrollHeight,
-                //     }).then(function(canvas) {
-                //         $('#output').empty();
-                //         let containerWidth = $('#output').width();
-                //         let aspectRatio = canvas.width / canvas.height;
-                //         let newWidth = containerWidth;
-                //         let newHeight = newWidth / aspectRatio;
-                //         let resizedCanvas = document.createElement('canvas');
-                //         let ctx = resizedCanvas.getContext('2d');
-                //         resizedCanvas.width = newWidth;
-                //         resizedCanvas.height = newHeight;
-                //         ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, newWidth, newHeight);
-                //         $('#output')[0].appendChild(resizedCanvas);
+                //         scrollX: 0,
+                //         scrollY: 0,
+                //         width: scrollContent.scrollWidth,
+                //         height: scrollContent.scrollHeight + div.offsetTop + 50,
+                //         windowWidth: clone.scrollWidth,
+                //         windowHeight: clone.scrollHeight,
+                //         scale: 1
+                //     }).then(function (canvas) {
+                //         document.body.removeChild(clone); // Clean up clone
+                //         $('#output').empty().append(canvas);
                 //         $('#export').attr('disabled', false).html('Export');
-                //         $('#exportBtns').show();
-                //         $('html, body').animate({
-                //             scrollTop: $("#output").offset().top
-                //         }, 500);
+                //         const modal = new bootstrap.Modal(document.getElementById('exportModal'));
+                //         modal.show();
                 //     });
                 // });
 
